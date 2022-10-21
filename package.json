@@ -1,0 +1,32 @@
+{
+  "pathalias": {
+    "ysrc": "${cwd}/src"
+  },
+  "name": "complatfrom",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite --open",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ant-design-vue": "^3.0.0-alpha.3",
+    "@ventose/ui": "0.0.3",
+    "axios": "^0.26.0",
+    "dayjs": "^1.10.7",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
+    "vue-router": "^4.0.11",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "vite": "^3.1.0",
+    "vite-plugin-html": "^2.1.2",
+    "@vitejs/plugin-vue-jsx": "^2.0.1",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "sass": "^1.52.2",
+    "less": "^4.1.2"
+  }
+}
