@@ -1,6 +1,6 @@
 import { Form, Input, Select, Button } from "ant-design-vue";
 
-import constants from "ysrc/utils/variable";
+import constants from "@/utils/variable";
 import { handleApiPath, nameLengthLimit } from "../../../../common.js";
 const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);

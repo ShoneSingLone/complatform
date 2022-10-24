@@ -13,7 +13,7 @@ import {
 } from "ant-design-vue";
 const FormItem = Form.Item;
 const Option = Select.Option;
-import constants from "ysrc/utils/variable";
+import constants from "@/utils/variable";
 
 const initMap = {
 	header: [

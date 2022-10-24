@@ -1,7 +1,7 @@
 import { reactive, watch, computed } from "vue";
 import { lStorage, setCSSVariables, UI, _, State_UI } from "@ventose/ui";
-import { API } from "ysrc/api";
-import { router } from "ysrc/router/router";
+import { API } from "@/api";
+import { router } from "@/router/router";
 
 const { $t } = State_UI;
 
@@ -49,6 +49,15 @@ export const State_App = reactive({
 		}
 	},
 	group: {
+		groupList: [],
+		currGroup: {
+			group_name: "",
+			group_desc: "",
+			custom_field1: {
+				name: "",
+				enable: false
+			}
+		},
 		field: {
 			name: "",
 			enable: false
@@ -114,9 +123,11 @@ export const Methods_App = {
 			if (!_.isNumber(groupId)) {
 				throw new Error("miss groupId");
 			}
-			const { data } = await API.group.getMyGroupBy(groupId);
-			group = data;
+		} else {
+			groupId = group._id;
 		}
+		const { data } = await API.group.getMyGroupBy(groupId);
+		group = data;
 		State_App.currGroup = _.merge({}, State_App.currGroup, group);
 		Methods_App.setUser({
 			role: group.role,
@@ -190,8 +201,11 @@ export const Methods_App = {
 	async changeMenuItem() {},
 	async loginActions() {},
 	async loginLdapActions() {},
-	async fetchGroupMemberList() {},
-
+	async fetchGroupMemberList(groupId) {
+		const { data: member } = await API.group.getMemberListBy(groupId);
+		State_App.group.member = member;
+		return member;
+	},
 	async addMember() {},
 	async delMember() {},
 	async changeMemberRole() {},

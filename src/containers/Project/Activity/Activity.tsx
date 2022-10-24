@@ -1,6 +1,6 @@
 import "./Activity.scss";
 
-import TimeTree from "ysrc/components/TimeLine/ATimeline";
+import TimeTree from "@/components/TimeLine/ATimeline";
 
 import { Button } from "ant-design-vue";
 @connect(state => {

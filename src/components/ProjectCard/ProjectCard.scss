@@ -5,6 +5,10 @@
 	user-select: none;
 	transition: all 0.2s;
 
+	& + .card-container {
+		margin-left: 20px;
+	}
+
 	.m-card,
 	.card-btns {
 		transform: translateY(0);
@@ -13,7 +17,7 @@
 
 	// 覆盖 card 组件 hover 状态的默认阴影样式
 	.ant-card:not(.ant-card-no-hovering):hover {
-		box-shadow: none;
+		box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 	}
 
 	// 卡片右上角按钮
@@ -27,6 +31,7 @@
 
 		span {
 			display: none;
+
 			&:hover {
 				color: #2395f1;
 			}
@@ -55,7 +60,6 @@
 		padding-top: 0.24rem + 0.16rem + 1rem;
 		box-shadow: 0 4px 6px rgba(255, 255, 255, 0.11),
 			0 1px 3px rgba(255, 255, 255, 0.08);
-		// box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
 		transition: all 0.2s;
 	}
 

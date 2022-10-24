@@ -1,6 +1,6 @@
-import { ErrMsg } from "ysrc/components/ErrMsg/ErrMsg";
-import UsernameAutoComplete from "ysrc/components/UsernameAutoComplete/UsernameAutoComplete";
-import { State_App } from "ysrc/state/State_App";
+import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
+import UsernameAutoComplete from "@/components/UsernameAutoComplete/UsernameAutoComplete";
+import { State_App, Methods_App } from "@/state/State_App";
 import { defineComponent } from "vue";
 import "./MemberList.scss";
 import { RouterLink } from "vue-router";
@@ -25,6 +25,9 @@ export default defineComponent({
 		"changeMemberRole",
 		"role"
 	],
+	setup() {
+		return { State_App };
+	},
 	data() {
 		return {
 			state: {
@@ -37,35 +40,27 @@ export default defineComponent({
 			}
 		};
 	},
-
-	mounted() {
-		const currGroupId = (this._groupId = this.props.currGroup._id);
-		this.props.setCurrGroup(currGroupId).then(res => {
-			this.setState({
-				role: res.payload.data.data.role
-			});
-		});
-		this.props.fetchGroupMemberList(currGroupId).then(res => {
-			this.setState({
-				userInfo: arrayAddKey(res.payload.data.data)
-			});
-		});
+	async mounted() {
+		await Methods_App.setCurrGroup(this.State_App.currGroup._id);
+		await this.fetchList();
 
 		this.$watch(
 			() => {
-				return this._groupId + this.props.currGroup._id;
+				return this._groupId + this.State_App.currGroup._id;
 			},
 			() => {
 				if (this._groupId !== this._groupId) {
 					return null;
 				}
-				if (this.props.currGroup._id !== nextProps.currGroup._id) {
-					this.props.fetchGroupMemberList(nextProps.currGroup._id).then(res => {
-						this.setState({
-							userInfo: arrayAddKey(res.payload.data.data)
-						});
-					});
-					this.props.setCurrGroup(nextProps.currGroup._id).then(res => {
+				if (this.State_App.currGroup._id !== nextProps.currGroup._id) {
+					Methods_App.fetchGroupMemberList(nextProps.currGroup._id).then(
+						res => {
+							this.setState({
+								userInfo: arrayAddKey(res.payload.data.data)
+							});
+						}
+					);
+					Methods_App.setCurrGroup(nextProps.currGroup._id).then(res => {
 						this.setState({
 							role: res.payload.data.data.role
 						});
@@ -82,41 +77,35 @@ export default defineComponent({
 		},
 
 		// 重新获取列表
-		reFetchList() {
-			this.props
-				.fetchGroupMemberList(this.State_App.currGroup._id)
-				.then(res => {
-					this.setState({
-						userInfo: arrayAddKey(res.payload.data.data),
-						visible: false
-					});
-				});
+		async fetchList() {
+			const menber = await Methods_App.fetchGroupMemberList(
+				this.State_App.currGroup._id
+			);
+			this.state.userInfo = arrayAddKey(menber);
 		},
 
 		// 增 - 添加成员
 
 		handleOk() {
-			this.props
-				.addMember({
-					id: this.props.currGroup._id,
-					member_uids: this.state.inputUids,
-					role: this.state.inputRole
-				})
-				.then(res => {
-					if (!res.payload.data.errcode) {
-						const { add_members, exist_members } = res.payload.data.data;
-						const addLength = add_members.length;
-						const existLength = exist_members.length;
-						this.setState({
-							inputRole: "dev",
-							inputUids: []
-						});
-						message.success(
-							`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`
-						);
-						this.reFetchList(); // 添加成功后重新获取分组成员列表
-					}
-				});
+			Methods_App.addMember({
+				id: this.State_App.currGroup._id,
+				member_uids: this.state.inputUids,
+				role: this.state.inputRole
+			}).then(res => {
+				if (!res.payload.data.errcode) {
+					const { add_members, exist_members } = res.payload.data.data;
+					const addLength = add_members.length;
+					const existLength = exist_members.length;
+					this.setState({
+						inputRole: "dev",
+						inputUids: []
+					});
+					message.success(
+						`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`
+					);
+					this.fetchList(); // 添加成功后重新获取分组成员列表
+				}
+			});
 		},
 		// 添加成员时 选择新增成员权限
 
@@ -130,11 +119,11 @@ export default defineComponent({
 
 		deleteConfirm(member_uid) {
 			return () => {
-				const id = this.props.currGroup._id;
-				this.props.delMember({ id, member_uid }).then(res => {
+				const id = this.State_App.currGroup._id;
+				Methods_App.delMember({ id, member_uid }).then(res => {
 					if (!res.payload.data.errcode) {
 						message.success(res.payload.data.errmsg);
-						this.reFetchList(); // 添加成功后重新获取分组成员列表
+						this.fetchList(); // 添加成功后重新获取分组成员列表
 					}
 				});
 			};
@@ -142,13 +131,13 @@ export default defineComponent({
 
 		// 改 - 修改成员权限
 		changeUserRole(e) {
-			const id = this.props.currGroup._id;
+			const id = this.State_App.currGroup._id;
 			const role = e.split("-")[0];
 			const member_uid = e.split("-")[1];
-			this.props.changeMemberRole({ id, member_uid, role }).then(res => {
+			Methods_App.changeMemberRole({ id, member_uid, role }).then(res => {
 				if (!res.payload.data.errcode) {
 					message.success(res.payload.data.errmsg);
-					this.reFetchList(); // 添加成功后重新获取分组成员列表
+					this.fetchList(); // 添加成功后重新获取分组成员列表
 				}
 			});
 		},
@@ -171,7 +160,7 @@ export default defineComponent({
 		const columns = [
 			{
 				title:
-					this.props.currGroup.group_name +
+					this.State_App.currGroup.group_name +
 					" 分组成员 (" +
 					this.state.userInfo.length +
 					") 人",
@@ -279,7 +268,7 @@ export default defineComponent({
 						onCancel={this.handleCancel}>
 						<aRow gutter={6} class="modal-input">
 							<aCol span="5">
-								<div class="label usernamelabel">用户名: </div>
+								<div class="label usernamelabel">用户名:</div>
 							</aCol>
 							<aCol span="15">
 								<UsernameAutoComplete callbackState={this.onUserSelect} />
@@ -287,7 +276,7 @@ export default defineComponent({
 						</aRow>
 						<aRow gutter={6} class="modal-input">
 							<aCol span="5">
-								<div class="label usernameauth">权限: </div>
+								<div class="label usernameauth">权限:</div>
 							</aCol>
 							<aCol span="15">
 								<aSelect

@@ -1,11 +1,11 @@
 import "./ProjectCard.scss";
 import { Card, Tooltip, Modal, Alert, Input, message } from "ant-design-vue";
-import constants from "ysrc/utils/variable";
+import constants from "@/utils/variable";
 import produce from "immer";
 import { defineComponent } from "vue";
 import { _ } from "@ventose/ui";
-import { State_App } from "ysrc/state/State_App";
-import { API } from "ysrc/api";
+import { State_App } from "@/state/State_App";
+import { API } from "@/api";
 
 const confirm = Modal.confirm;
 
@@ -88,7 +88,7 @@ export default defineComponent({
 		})();
 
 		return (
-			<div class="card-container">
+			<div class="card-container" style={"width:200px;"}>
 				<aCard
 					hoverable
 					class="m-card"

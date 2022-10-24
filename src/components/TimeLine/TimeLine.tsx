@@ -1,6 +1,6 @@
-import { showDiffMsg } from "ysrc/utils/diff-view";
-import variable from "ysrc/utils/variable";
-import { ErrMsg } from "ysrc/components/ErrMsg/ErrMsg";
+import { showDiffMsg } from "@/utils/diff-view";
+import variable from "@/utils/variable";
+import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 import "jsondiffpatch/dist/formatters-styles/annotated.css";
 import "jsondiffpatch/dist/formatters-styles/html.css";
 import "./TimeLine.scss";
@@ -8,7 +8,7 @@ import "./TimeLine.scss";
 import * as jsondiffpatch from "jsondiffpatch";
 const formattersHtml = jsondiffpatch.formatters.html;
 import { defineComponent } from "vue";
-import { State_App } from "ysrc/state/State_App";
+import { State_App } from "@/state/State_App";
 import { _ } from "@ventose/ui";
 
 const AddDiffView = props => {

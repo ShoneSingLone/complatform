@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { API } from "ysrc/api";
+import { API } from "@/api";
 import { _ } from "@ventose/ui";
 
 /**

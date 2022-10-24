@@ -1,2 +1,7 @@
 node_modules
 dist
+.idea
+.idea/.gitignore
+.idea/complatform.iml
+.idea/modules.xml
+.idea/vcs.xml

@@ -1,14 +1,14 @@
 <script lang="jsx">
 import GroupList from "./GroupList/GroupList";
 import ProjectList from "./ProjectList/ProjectList";
-/*
 import MemberList from "./MemberList/MemberList";
+/*
 import GroupLog from "./GroupLog/GroupLog";
 import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 import "./Group.scss";
-import { API } from "ysrc/api";
+import { API } from "@/api";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "ysrc/state/State_App";
+import { Methods_App, State_App } from "@/state/State_App";
 
 export default defineComponent({
 	setup() {
@@ -51,6 +51,22 @@ export default defineComponent({
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 
+		const ProjectTab = null; /*<aTabPane tab="项目列表" key="1">
+      <ProjectList/>
+    </aTabPane>;*/
+
+		const MenberTab = (() => {
+			if (this.State_App.currGroup.type === "public") {
+				return (
+					<aTabPane tab="成员列表" key="2">
+						<MemberList />
+					</aTabPane>
+				);
+			} else {
+				return null;
+			}
+		})();
+
 		return (
 			<aLayout
 				style={{
@@ -70,9 +86,8 @@ export default defineComponent({
 							backgroundColor: "#fff"
 						}}>
 						<aTabs type="card" class="m-tab tabs-large height100">
-							<aTabPane tab="项目列表" key="1">
-								<ProjectList />
-							</aTabPane>
+							{ProjectTab}
+							{MenberTab}
 						</aTabs>
 					</aLayoutContent>
 				</aLayout>
@@ -100,11 +115,6 @@ export default defineComponent({
 							<aTabPane tab="项目列表" key="1">
 								<ProjectList />
 							</aTabPane>
-							{this.State_App.currGroup.type === "public" ? (
-								<aTabPane tab="成员列表" key="2">
-									<MemberList />
-								</aTabPane>
-							) : null}
 							{["admin", "owner", "guest", "dev"].indexOf(
 								this.props.curUserRoleInGroup
 							) > -1 || this.props.curUserRole === "admin" ? (

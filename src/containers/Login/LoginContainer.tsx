@@ -1,5 +1,5 @@
 import LoginWrap from "./LoginWrap";
-import { LogoSVG } from "ysrc/components/LogoSVG";
+import { LogoSVG } from "@/components/LogoSVG";
 import { defineComponent } from "vue";
 
 export default defineComponent({

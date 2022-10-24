@@ -1,5 +1,5 @@
-import constants from "ysrc/utils/variable";
-import { handlePath, pickRandomProperty } from "ysrc/utils/common";
+import constants from "@/utils/variable";
+import { handlePath, pickRandomProperty } from "@/utils/common";
 
 import "./Addproject.scss";
 import { defineComponent } from "vue";
@@ -12,8 +12,8 @@ import {
 	validateForm,
 	_
 } from "@ventose/ui";
-import { State_App } from "ysrc/state/State_App";
-import { Methods_App } from "ysrc/state/State_App";
+import { State_App } from "@/state/State_App";
+import { Methods_App } from "@/state/State_App";
 import { API } from "../../api/index";
 
 const formItemLayout = {

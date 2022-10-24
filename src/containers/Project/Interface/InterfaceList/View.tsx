@@ -14,7 +14,7 @@ import AceEditor from "client/components/AceEditor/AceEditor";
 import { formatTime, safeArray } from "../../../../common.js";
 import ErrMsg from "../../../../components/ErrMsg/ErrMsg.js";
 import variable from "../../../../constants/variable";
-import constants from "ysrc/utils/variable";
+import constants from "@/utils/variable";
 import copy from "copy-to-clipboard";
 import SchemaTable from "../../../../components/SchemaTable/SchemaTable.js";
 import _ from "lodash";

@@ -1,4 +1,4 @@
-import { ajax } from "ysrc/api/ajax";
+import { ajax } from "@/api/ajax";
 
 export const project = {
 	addFollow(data) {

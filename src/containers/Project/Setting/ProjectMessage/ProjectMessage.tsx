@@ -31,7 +31,7 @@ const { TextArea } = Input;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
-import constants from "ysrc/utils/variable";
+import constants from "@/utils/variable";
 const confirm = Modal.confirm;
 import { nameLengthLimit, entries, trim, htmlFilter } from "../../../../common";
 import "../Setting.scss";

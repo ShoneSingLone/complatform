@@ -20,7 +20,7 @@ export default defineConfig({
 				changeOrigin: true,
 				secure: false,
 				rewrite: path => path.replace(/^\/devyapi/, "")
-			} 
+			}
 		}
 	},
   plugins: [useVue(), useVueJsx(),injectHtml({
@@ -34,7 +34,7 @@ export default defineConfig({
   resolve: {
     alias: {
       vue: "vue/dist/vue.esm-bundler.js",
-      "ysrc": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 })

@@ -30,7 +30,7 @@
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { Methods_App } from "ysrc/state/State_App";
+import { Methods_App } from "@/state/State_App";
 import {
 	defItem,
 	EVENT_TYPE,
@@ -40,8 +40,8 @@ import {
 	validateForm,
 	FormRules
 } from "@ventose/ui";
-import { API } from "ysrc/api";
-import { router } from "ysrc/router/router";
+import { API } from "@/api";
+import { router } from "@/router/router";
 
 const { $t } = State_UI;
 

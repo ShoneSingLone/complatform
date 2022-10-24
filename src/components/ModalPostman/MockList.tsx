@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Row, Input } from "ant-design-vue";
-import constants from "ysrc/utils/variable";
+import constants from "@/utils/variable";
 const wordList = constants.MOCK_SOURCE;
 const Search = Input.Search;
 

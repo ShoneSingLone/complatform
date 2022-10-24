@@ -14,7 +14,7 @@ import {
 	Col,
 	Alert
 } from "ant-design-vue";
-import constants from "ysrc/utils/variable";
+import constants from "@/utils/variable";
 import AceEditor from "client/components/AceEditor/AceEditor";
 import { _ } from "@ventose/ui";
 import { isJson, deepCopyJson, json5_parse } from "../../common.js";

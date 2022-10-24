@@ -1,4 +1,4 @@
-import { ajax } from "ysrc/api/ajax";
+import { ajax } from "@/api/ajax";
 
 export const group = {
 	getMyGroup() {
@@ -31,6 +31,15 @@ export const group = {
 		return ajax({
 			method: "get",
 			url: "/api/group/get",
+			params: {
+				id: groupId
+			}
+		});
+	},
+	getMemberListBy(groupId) {
+		return ajax({
+			method: "get",
+			url: "/api/group/get_member_list",
 			params: {
 				id: groupId
 			}

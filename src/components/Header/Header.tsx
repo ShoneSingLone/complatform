@@ -1,11 +1,11 @@
 import "./Header.scss";
 
 import Srch from "./Search/Search";
-import { LogoSVG } from "ysrc/components/LogoSVG/index";
+import { LogoSVG } from "@/components/LogoSVG/index";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import GuideBtns from "../GuideBtns/GuideBtns";
 import { defineComponent, VNode } from "vue";
-import { Methods_App, State_App } from "ysrc/state/State_App";
+import { Methods_App, State_App } from "@/state/State_App";
 import { UI, _ } from "@ventose/ui";
 
 const tipFollow = (

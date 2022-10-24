@@ -1,7 +1,7 @@
 // progress bar
 import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
 import { createRouter, createWebHashHistory } from "vue-router";
-import { Methods_App, State_App } from "ysrc/state/State_App";
+import { Methods_App, State_App } from "@/state/State_App";
 
 const { $t } = State_UI;
 
@@ -26,12 +26,12 @@ const routes = [
 	{
 		path: "/dev",
 		name: "home",
-		component: () => import("ysrc/containers/Dev.vue")
+		component: () => import("@/containers/Dev.vue")
 	},
 	{
 		path: `/login`,
 		name: "login",
-		component: () => import("ysrc/containers/Login/LoginContainer"),
+		component: () => import("@/containers/Login/LoginContainer"),
 		meta: {
 			title: $t("用户登录").label
 		}
@@ -39,12 +39,12 @@ const routes = [
 	{
 		path: `/group`,
 		name: "group",
-		component: () => import("ysrc/containers/Group/Group.vue")
+		component: () => import("@/containers/Group/Group.vue")
 	},
 	{
 		path: `/group/:groupId`,
 		name: "groupView",
-		component: () => import("ysrc/containers/Group/Group.vue")
+		component: () => import("@/containers/Group/Group.vue")
 	},
 	/* 404兜底 */
 	{

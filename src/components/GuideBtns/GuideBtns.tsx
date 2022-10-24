@@ -1,6 +1,6 @@
 import { Button } from "ant-design-vue";
 import { defineComponent } from "vue";
-import { Methods_App } from "ysrc/state/State_App";
+import { Methods_App } from "@/state/State_App";
 
 export default defineComponent({
 	props: ["isLast"],

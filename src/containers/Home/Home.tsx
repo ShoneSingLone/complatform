@@ -1,6 +1,6 @@
-import { LogoSVG } from "ysrc/components/LogoSVG";
+import { LogoSVG } from "@/components/LogoSVG";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "ysrc/state/State_App";
+import { Methods_App, State_App } from "@/state/State_App";
 import { $ } from "@ventose/ui";
 import { RouterLink } from "vue-router";
 

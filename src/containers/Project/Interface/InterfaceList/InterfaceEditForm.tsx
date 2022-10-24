@@ -1,5 +1,5 @@
 import { _ } from "@ventose/ui";
-import constants from "ysrc/utils/variable";
+import constants from "@/utils/variable";
 import { handlePath, nameLengthLimit } from "../../../../common.js";
 import { changeEditStatus } from "../../../../reducer/modules/interface.js";
 import json5 from "json5";
@@ -8,7 +8,7 @@ import EasyDragSort from "../../../../components/EasyDragSort/EasyDragSort.js";
 import mockEditor from "client/components/AceEditor/mockEditor";
 import AceEditor from "client/components/AceEditor/AceEditor";
 import axios from "axios";
-import { MOCK_SOURCE } from "ysrc/utils/variable";
+import { MOCK_SOURCE } from "@/utils/variable";
 import Editor from "common/tui-editor/dist/tui-editor-Editor-all.min.js";
 const jSchema = require("json-schema-editor-visual");
 const ResBodySchema = jSchema({ lang: "zh_CN", mock: MOCK_SOURCE });

@@ -14,7 +14,7 @@
 <script lang="jsx">
 import { defineComponent } from "vue";
 import { _, defItem, State_UI, FormRules } from "@ventose/ui";
-import { xItemUAC } from "ysrc/components/xItemRender/xItemUAC";
+import { xItemUAC } from "@/components/xItemRender/xItemUAC";
 
 const { $t } = State_UI;
 

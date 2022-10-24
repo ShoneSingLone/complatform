@@ -4,7 +4,7 @@ import "./Search.scss";
 import axios from "axios";
 
 import { defineComponent } from "vue";
-import { Methods_App } from "ysrc/state/State_App";
+import { Methods_App } from "@/state/State_App";
 const Option = AutoComplete.Option;
 
 /* @connect(

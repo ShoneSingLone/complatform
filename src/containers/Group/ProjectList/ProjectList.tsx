@@ -1,10 +1,10 @@
-import ProjectCard from "ysrc/components/ProjectCard/ProjectCard";
-import ViewAddProject from "ysrc/containers/AddProject/ViewAddProject";
-import { ErrMsg } from "ysrc/components/ErrMsg/ErrMsg";
+import ProjectCard from "@/components/ProjectCard/ProjectCard";
+import ViewAddProject from "@/containers/AddProject/ViewAddProject";
+import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 
 import "./ProjectList.scss";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "ysrc/state/State_App";
+import { Methods_App, State_App } from "@/state/State_App";
 import { AllWasWell, pickValueFrom, UI, validateForm, _ } from "@ventose/ui";
 
 export default defineComponent({
@@ -16,7 +16,6 @@ export default defineComponent({
 		"projectList",
 		"userInfo",
 		"tableLoading",
-		"currGroup",
 		"setBreadcrumb",
 		"currPage",
 		"studyTip",
@@ -27,11 +26,11 @@ export default defineComponent({
 	},
 	data() {
 		const vm = this;
-
 		vm.fetchProjectList = _.debounce(async function () {
 			await Methods_App.fetchProjectList(vm.$route.params.groupId);
 			vm.isLoading = false;
 		});
+
 		vm.updateProjectList = () => {
 			vm.isLoading = true;
 			vm.fetchProjectList();
@@ -51,7 +50,13 @@ export default defineComponent({
 			return this.State_App.project.projectList;
 		},
 		isShow() {
-			return /(admin)|(owner)|(dev)/.test(this.State_App.user.role);
+			const _isShow = ["admin", "owner", "dev"].includes(
+				this.State_App.user.role
+			);
+			if (!_isShow) {
+				debugger;
+			}
+			return _isShow;
 		}
 	},
 	watch: {
@@ -64,6 +69,22 @@ export default defineComponent({
 		}
 	},
 	methods: {
+		genProjectCard(projectItems, isShow = false) {
+			return (
+				<div class="flex">
+					{_.map(projectItems, (item, index) => {
+						return (
+							<ProjectCard
+								isShow={isShow}
+								index={index}
+								projectData={item}
+								callbackResult={this.updateProjectList}
+							/>
+						);
+					})}
+				</div>
+			);
+		},
 		openAddProjectDialog() {
 			const vm = this;
 			UI.dialog.component({
@@ -113,20 +134,10 @@ export default defineComponent({
 		const Follow = () => {
 			if (followProject.length) {
 				return (
-					<aRow
-						style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
+					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
 						<h3 class="owner-type">我的关注</h3>
-						{_.map(followProject, (item, index) => {
-							return (
-								<aCol xs={8} lg={6} xxl={4} key={index}>
-									<ProjectCard
-										projectData={item}
-										callbackResult={this.updateProjectList}
-									/>
-								</aCol>
-							);
-						})}
-					</aRow>
+						{this.genProjectCard(followProject)}
+					</div>
 				);
 			}
 			return null;
@@ -134,21 +145,10 @@ export default defineComponent({
 		const NoFollow = () => {
 			if (noFollow.length) {
 				return (
-					<aRow
-						style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
+					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
 						<h3 class="owner-type">我的项目</h3>
-						{_.map(noFollow, (item, index) => {
-							return (
-								<aCol xs={8} lg={6} xxl={4} key={index}>
-									<ProjectCard
-										projectData={item}
-										callbackResult={this.updateProjectList}
-										isShow={this.isShow}
-									/>
-								</aCol>
-							);
-						})}
-					</aRow>
+						{this.genProjectCard(noFollow, this.isShow)}
+					</div>
 				);
 			}
 
@@ -184,6 +184,25 @@ export default defineComponent({
 			}
 		})();
 
+		const SpaceProject = (() => {
+			if (this.State_App.currGroup.type === "private") {
+				/*私有项目*/
+				return <OwnerSpace />;
+			} else {
+				if (projectData.length) {
+					/*一般项目*/
+					return this.genProjectCard(projectData, this.isShow);
+				} else {
+					/*无项目*/
+					return (
+						<div class="flex center width100">
+							<ErrMsg type="noProject" />
+						</div>
+					);
+				}
+			}
+		})();
+
 		return (
 			<div
 				v-loading={this.isLoading}
@@ -202,27 +221,7 @@ export default defineComponent({
 						{addProjectButton}
 					</aCol>
 				</aRow>
-				<aRow>
-					{this.State_App.currGroup.type === "private" ? (
-						<OwnerSpace />
-					) : projectData.length ? (
-						projectData.map((item, index) => {
-							return (
-								<aCol xs={8} lg={6} xxl={4} key={index}>
-									<ProjectCard
-										projectData={item}
-										callbackResult={this.updateProjectList}
-										isShow={this.isShow}
-									/>
-								</aCol>
-							);
-						})
-					) : (
-						<div class="flex center width100">
-							<ErrMsg type="noProject" />
-						</div>
-					)}
-				</aRow>
+				{SpaceProject}
 			</div>
 		);
 	}
