@@ -12,9 +12,6 @@ export default defineComponent({
 		form: {
 			type: Object
 		},
-		loginWrapActiveKey: {
-			type: String
-		},
 		canRegister: {
 			type: Boolean
 		}

@@ -1,4 +1,7 @@
 import { _, $, VentoseUIWithInstall, State_UI } from "@ventose/ui";
+import "@ventose/ui/dist/style.css";
+// import { _, $, VentoseUIWithInstall, State_UI } from "/Users/shone/workspace/Github/my-lib/packages/ventose-ui/dist/VentoseUi.es.js";
+// import { _, $, VentoseUIWithInstall, State_UI } from "/Users/shone/workspace/Github/my-lib/packages/ventose-ui/src/ui/index";
 import { router } from "ysrc/router/router";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
@@ -24,7 +27,7 @@ export const appPlugins = {
 			install: (app, { watch } = {}) => {
 				//注册i8n实例并引入语言文件
 				app.config.globalProperties.$t = State_UI.$t;
-				State_UI.assetsSvgPath = `${__URL_STATIC_DIR}assets/svg`;
+				State_UI.assetsSvgPath = `${__URL_STATIC_DIR}assets/img/svg`;
 				$("html").attr("lang", State_UI.language);
 				watch && watch();
 			}

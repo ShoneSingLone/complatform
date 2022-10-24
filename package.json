@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "ant-design-vue": "^3.0.0-alpha.3",
-    "@ventose/ui": "0.0.3",
+    "@ventose/ui": "0.0.5",
     "axios": "^0.26.0",
     "dayjs": "^1.10.7",
     "jquery": "^3.6.0",
