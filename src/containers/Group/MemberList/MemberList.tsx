@@ -85,7 +85,6 @@ export default defineComponent({
 		},
 
 		// 增 - 添加成员
-
 		handleOk() {
 			Methods_App.addMember({
 				id: this.State_App.currGroup._id,
@@ -159,11 +158,7 @@ export default defineComponent({
 	render() {
 		const columns = [
 			{
-				title:
-					this.State_App.currGroup.group_name +
-					" 分组成员 (" +
-					this.state.userInfo.length +
-					") 人",
+				title: `${this.State_App.currGroup.group_name} 分组成员 (${this.state.userInfo.length}) 人`,
 				dataIndex: "username",
 				key: "username",
 				render: (text, record) => {
