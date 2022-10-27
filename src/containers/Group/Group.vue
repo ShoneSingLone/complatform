@@ -51,9 +51,11 @@ export default defineComponent({
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 
-		const ProjectTab = <aTabPane tab="项目列表" key="1">
-			<ProjectList />
-		</aTabPane>;
+		const ProjectTab = (
+			<aTabPane tab="项目列表" key="1">
+				<ProjectList />
+			</aTabPane>
+		);
 
 		const MenberTab = (() => {
 			if (this.State_App.currGroup.type === "public") {
@@ -126,7 +128,7 @@ export default defineComponent({
 							)}
 							{(this.props.curUserRole === "admin" ||
 								this.props.curUserRoleInGroup === "owner") &&
-								this.State_App.currGroup.type !== "private" ? (
+							this.State_App.currGroup.type !== "private" ? (
 								<aTabPane tab="分组设置" key="4">
 									<GroupSetting />
 								</aTabPane>
@@ -140,6 +142,4 @@ export default defineComponent({
 });
 </script>
 
-<style>
-
-</style>
+<style></style>

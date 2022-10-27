@@ -54,7 +54,7 @@ export default defineComponent({
 				this.State_App.user.role
 			);
 			if (!_isShow) {
-				debugger;
+				console.error(this.State_App.user.role);
 			}
 			return _isShow;
 		}
