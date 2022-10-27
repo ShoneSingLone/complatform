@@ -200,7 +200,7 @@ export default defineComponent({
 							}
 							return (
 								<aMenuItem key={`${group._id}`} class="group-item flex">
-									<div class="flex">
+									<div class="flex middle">
 										<xIcon icon={icon} style="width:16px;" />
 										<span>{group.group_name}</span>
 									</div>

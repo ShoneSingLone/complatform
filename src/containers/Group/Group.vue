@@ -51,9 +51,11 @@ export default defineComponent({
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 
-		const ProjectTab = null; /*<aTabPane tab="项目列表" key="1">
-      <ProjectList/>
-    </aTabPane>;*/
+		const ProjectTab = (
+			<aTabPane tab="项目列表" key="1">
+				<ProjectList />
+			</aTabPane>
+		);
 
 		const MenberTab = (() => {
 			if (this.State_App.currGroup.type === "public") {

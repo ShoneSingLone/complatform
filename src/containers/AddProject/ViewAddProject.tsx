@@ -119,7 +119,7 @@ export default defineComponent({
 					]
 				}),
 				...defItem({
-					value: "",
+					value: "/",
 					prop: "basepath",
 					label: defItem.labelWithTips({
 						label: "基本路径",

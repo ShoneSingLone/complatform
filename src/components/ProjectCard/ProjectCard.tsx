@@ -69,7 +69,7 @@ export default defineComponent({
 		const followIcon = (
 			<span class="pointer" onClick={this.followIconClickHandler}>
 				<aTooltip placement="rightTop" title={this.followIconTitle}>
-					<xIcon icon={this.followIconIcon} />
+					<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
 				</aTooltip>
 			</span>
 		);
@@ -79,7 +79,7 @@ export default defineComponent({
 				return (
 					<span class="pointer" onClick={this.showConfirm}>
 						<aTooltip placement="rightTop" title="复制项目">
-							<xIcon icon="copy" />
+							<xIcon icon="copy" style={{ color: "#eceef1" }} />
 						</aTooltip>
 					</span>
 				);
@@ -98,9 +98,10 @@ export default defineComponent({
 						})
 					}>
 					<xIcon
-						icon={projectData.icon || "star-o"}
+						icon={projectData.icon}
 						class="ui-logo"
 						style={{
+							color: "white",
 							backgroundColor:
 								constants.PROJECT_COLOR[projectData.color] ||
 								constants.PROJECT_COLOR.blue
