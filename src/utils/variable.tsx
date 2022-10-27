@@ -32,6 +32,7 @@ export default {
 		}
 	},
 	PROJECT_COLOR: {
+		notice: "#faad14",
 		blue: "#2395f1",
 		green: "#00a854",
 		yellow: "#ffbf00",
