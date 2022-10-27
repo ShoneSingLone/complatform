@@ -1,7 +1,5 @@
 import { _, $, VentoseUIWithInstall, State_UI } from "@ventose/ui";
 import "@ventose/ui/dist/style.css";
-// import { _, $, VentoseUIWithInstall, State_UI } from "/Users/shone/workspace/Github/my-lib/packages/ventose-ui/dist/VentoseUi.es.js";
-// import { _, $, VentoseUIWithInstall, State_UI } from "/Users/shone/workspace/Github/my-lib/packages/ventose-ui/src/ui/index";
 import { router } from "@/router/router";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";

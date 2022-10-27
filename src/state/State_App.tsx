@@ -222,3 +222,8 @@ export const Methods_App = {
 	copyProjectMsg() {},
 	loginTypeAction() {}
 };
+
+
+watch(State_App,_.debounce(function(){
+	debugger;
+}),600)
