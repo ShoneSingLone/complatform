@@ -69,7 +69,7 @@ export default defineComponent({
 		const followIcon = (
 			<span class="pointer" onClick={this.followIconClickHandler}>
 				<aTooltip placement="rightTop" title={this.followIconTitle}>
-					<xIcon icon={this.followIconIcon} />
+					<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
 				</aTooltip>
 			</span>
 		);
@@ -97,10 +97,12 @@ export default defineComponent({
 							path: "/project/" + (projectData.projectid || projectData._id)
 						})
 					}>
+					{projectData.icon}
 					<xIcon
-						icon={projectData.icon || "star-o"}
+						icon={"github"}
 						class="ui-logo"
 						style={{
+							color: "white",
 							backgroundColor:
 								constants.PROJECT_COLOR[projectData.color] ||
 								constants.PROJECT_COLOR.blue
