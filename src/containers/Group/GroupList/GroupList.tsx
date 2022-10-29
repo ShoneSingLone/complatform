@@ -185,9 +185,11 @@ export default defineComponent({
 
 					<div class="group-operate">
 						<div class="search">
+							{/* 搜索框 */}
 							<xItem configs={this.configsSearch} />
 						</div>
 					</div>
+					{/* 左侧 分组列表 leftside  */}
 					<aMenu
 						class="group-list"
 						mode="inline"

@@ -71,23 +71,27 @@ export default defineComponent({
 
 		return (
 			<aLayout
+				id="GroupView"
 				style={{
 					marginLeft: "24px",
 					marginTop: "24px"
 				}}>
 				<aLayoutSider width={300} class="flex vertical height100">
-					<div class="logo">Logo</div>
 					<GroupList />
 				</aLayoutSider>
 				<aLayout>
 					<aLayoutContent
+						data-app-position="Group-layout-content"
 						style={{
 							height: "100%",
 							margin: "0 24px 0 16px",
 							overflow: "initial",
 							backgroundColor: "#fff"
 						}}>
-						<aTabs type="card" class="m-tab tabs-large height100">
+						<aTabs
+							id="Group-layout-content-tabs"
+							type="card"
+							class="m-tab tabs-large height100">
 							{ProjectTab}
 							{MenberTab}
 						</aTabs>
@@ -114,9 +118,6 @@ export default defineComponent({
 							type="card"
 							className="m-tab tabs-large"
 							style={{ height: "100%" }}>
-							<aTabPane tab="项目列表" key="1">
-								<ProjectList />
-							</aTabPane>
 							{["admin", "owner", "guest", "dev"].indexOf(
 								this.props.curUserRoleInGroup
 							) > -1 || this.props.curUserRole === "admin" ? (
@@ -142,4 +143,19 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="less">
+#GroupView {
+	#Group-layout-content-tabs {
+		display: flex;
+		flex-flow: column nowrap;
+		.ant-tabs-content {
+			height: 100%;
+			div[id^="Group-layout-content-tabs-panel"] {
+				height: 100%;
+				display: flex;
+				flex-flow: column nowrap;
+			}
+		}
+	}
+}
+</style>

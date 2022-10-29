@@ -170,7 +170,7 @@ export default defineComponent({
 					text: "创建项目",
 					type: "primary",
 					icon: <xIcon icon="add" />,
-					async onClick() {}
+					async onClick() { }
 				}
 			},
 			state: {

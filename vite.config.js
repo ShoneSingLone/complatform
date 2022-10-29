@@ -2,7 +2,7 @@ import { defineConfig, searchForWorkspaceRoot } from "vite";
 import useVue from "@vitejs/plugin-vue";
 import useVueJsx from "@vitejs/plugin-vue-jsx";
 import { injectHtml } from "vite-plugin-html";
-import path from "path"
+import path from "path";
 
 const __APP_VERSION = Date.now().toString();
 
@@ -16,11 +16,17 @@ export default defineConfig({
 		},
 		proxy: {
 			"^/devyapi": {
-				target: "http://localhost:3001/",
+				target: `http://10.143.133.216:3001/`,
 				changeOrigin: true,
 				secure: false,
 				rewrite: path => path.replace(/^\/devyapi/, "")
-			}
+			},
+			"^/api": {
+				target: `http://10.143.133.216:3001/`,
+				changeOrigin: true,
+				secure: false,
+				rewrite: path => path.replace(/^\/api/, "/api")
+			},
 		}
 	},
   plugins: [useVue(), useVueJsx(),injectHtml({

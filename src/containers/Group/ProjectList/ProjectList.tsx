@@ -157,7 +157,7 @@ export default defineComponent({
 
 		const OwnerSpace = () => {
 			return projectData.length ? (
-				<div>
+				<div class="flex1 height100 overflow-auto">
 					<NoFollow />
 					<Follow />
 				</div>
@@ -207,9 +207,9 @@ export default defineComponent({
 			<div
 				v-loading={this.isLoading}
 				style={{ paddingTop: "24px" }}
-				class="m-panel card-panel card-panel-s project-list">
+				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
 				<aRow class="project-list-header">
-					<aCol span={16} style={{ textAlign: "left" }}>
+					<aCol span={16} style={{ textAlign: "left" }} >
 						<span> {this.$route.params}</span>
 						<span>{this.State_App.currGroup.group_name} </span>
 						<span>分组共</span>
@@ -217,7 +217,7 @@ export default defineComponent({
 						<span>个项目</span>
 						{/* {this.isShow ? JSON.stringify(this.State_App.currGroup, null, 2) : ""} */}
 					</aCol>
-					<aCol span={8} class="flex end">
+					<aCol span={8} class="flex end flex1">
 						{addProjectButton}
 					</aCol>
 				</aRow>
