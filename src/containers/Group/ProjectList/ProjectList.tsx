@@ -71,7 +71,7 @@ export default defineComponent({
 	methods: {
 		genProjectCard(projectItems, isShow = false) {
 			return (
-				<div class="flex">
+				<div class="flex like-float">
 					{_.map(projectItems, (item, index) => {
 						return (
 							<ProjectCard
@@ -209,7 +209,7 @@ export default defineComponent({
 				style={{ paddingTop: "24px" }}
 				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
 				<aRow class="project-list-header">
-					<aCol span={16} style={{ textAlign: "left" }} >
+					<aCol span={16} style={{ textAlign: "left" }}>
 						<span> {this.$route.params}</span>
 						<span>{this.State_App.currGroup.group_name} </span>
 						<span>分组共</span>

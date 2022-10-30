@@ -16,13 +16,13 @@ export default defineConfig({
 		},
 		proxy: {
 			"^/devyapi": {
-				target: `http://10.143.133.216:3001/`,
+				target: `http://localhost:3001/`,
 				changeOrigin: true,
 				secure: false,
 				rewrite: path => path.replace(/^\/devyapi/, "")
 			},
 			"^/api": {
-				target: `http://10.143.133.216:3001/`,
+				target: `http://localhost:3001/`,
 				changeOrigin: true,
 				secure: false,
 				rewrite: path => path.replace(/^\/api/, "/api")
