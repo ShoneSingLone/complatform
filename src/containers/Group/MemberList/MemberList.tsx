@@ -4,7 +4,7 @@ import { State_App, Methods_App } from "@/state/State_App";
 import { defineComponent } from "vue";
 import "./MemberList.scss";
 import { RouterLink } from "vue-router";
-import { defDataGridOption, defCol, State_UI, defItem } from "@ventose/ui";
+import { defDataGridOption, defCol, State_UI, UI, defItem } from "@ventose/ui";
 
 const { $t } = State_UI;
 
@@ -24,8 +24,6 @@ export default defineComponent({
 		"fetchGroupMemberList",
 		"setCurrGroup",
 		"addMember",
-		"delMember",
-		"changeMemberRole",
 		"role"
 	],
 	setup() {
@@ -106,7 +104,7 @@ export default defineComponent({
 								<RouterLink to={`/user/profile/${record.uid}`}>
 									<p class="m-user-name">
 										{text}
-										<span>{vm.state.role}</span>
+										<span>{vm.State_App.currGroup.role}</span>
 									</p>
 								</RouterLink>
 							</div>
@@ -116,7 +114,10 @@ export default defineComponent({
 				...defCol({
 					prop: "action",
 					label: (() => {
-						if (vm.state.role === "owner" || vm.state.role === "admin") {
+						if (
+							vm.State_App.currGroup.role === "owner" ||
+							vm.State_App.currGroup.role === "admin"
+						) {
 							return (
 								<div class="btn-container">
 									<aButton
@@ -132,46 +133,48 @@ export default defineComponent({
 						}
 					})(),
 					renderCell({ record }) {
-						console.log(vm.state.role);
-						if (vm.state.role === "owner" || vm.state.role === "admin") {
+						if (
+							vm.State_App.currGroup.role === "owner" ||
+							vm.State_App.currGroup.role === "admin"
+						) {
 							const configs = {
+								deleteBtn: {
+									text: "删除",
+									class: "btn-danger",
+									async onClick() {
+										try {
+											await UI.dialog.delete({
+												title: "删除确认",
+												content: "你确定要删除吗?"
+											});
+											vm.delMember(record.uid);
+										} catch (e) {
+											console.log("取消删除");
+										}
+									}
+								},
 								...defItem({
-									value: [],
+									value: record.role + "-" + record.uid,
 									prop: "AuthSelect",
-									label: $t("类型").label,
 									itemType: "Select",
 									options: [
 										{ label: "组长", value: "owner-" + record.uid },
 										{ label: "开发者", value: "dev-" + record.uid },
 										{ label: "访客", value: "guest-" + record.uid }
 									],
-									mode: "multiple",
-									maxTagCount: 1,
-									maxTagTextLength: 10,
-									style: { width: "200px" }
+									style: { width: "100px" },
+									onAfterValueChange(e) {
+										vm.changeUserRole(e);
+									}
 								})
 							};
-							debugger;
+
+							console.log(configs);
+
 							return (
-								<div>
+								<div class="flex">
 									<xItem configs={configs.AuthSelect} />
-									<aSelect
-										value={record.role + "-" + record.uid}
-										class="select"
-										onChange={vm.changeUserRole}>
-										<aOption value={"owner-" + record.uid}>组长</aOption>
-										<aOption value={"dev-" + record.uid}>开发者</aOption>
-										<aOption value={"guest-" + record.uid}>访客</aOption>
-									</aSelect>
-									<aPopconfirm
-										placement="topRight"
-										title="你确定要删除吗? "
-										onConfirm={vm.deleteConfirm(record.uid)}
-										okText="确定"
-										cancelText="">
-										<aButton type="danger" icon="delete" class="btn-danger" />
-										{/* <xIcon icon="delete" class="btn-danger"/> */}
-									</aPopconfirm>
+									<xButton configs={configs.deleteBtn} />
 								</div>
 							);
 						} else {
@@ -219,7 +222,7 @@ export default defineComponent({
 						inputRole: "dev",
 						inputUids: []
 					});
-					message.success(
+					UI.message.success(
 						`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`
 					);
 					this.fetchList(); // 添加成功后重新获取分组成员列表
@@ -237,29 +240,35 @@ export default defineComponent({
 
 		// 删 - 删除分组成员
 
-		deleteConfirm(member_uid) {
-			return () => {
-				const id = this.State_App.currGroup._id;
-				Methods_App.delMember({ id, member_uid }).then(res => {
-					if (!res.payload.data.errcode) {
-						message.success(res.payload.data.errmsg);
-						this.fetchList(); // 添加成功后重新获取分组成员列表
-					}
-				});
-			};
+		async delMember(member_uid) {
+			const id = this.State_App.currGroup._id;
+			const index = UI.layer.loading();
+			try {
+				await Methods_App.delMember({ id, member_uid });
+				UI.notification.success("修改成功");
+				this.fetchList(); // 添加成功后重新获取分组成员列表
+			} catch (e) {
+				console.error(e);
+			} finally {
+				UI.layer.loading(index);
+			}
 		},
 
 		// 改 - 修改成员权限
-		changeUserRole(e) {
+		async changeUserRole(e) {
 			const id = this.State_App.currGroup._id;
 			const role = e.split("-")[0];
 			const member_uid = e.split("-")[1];
-			Methods_App.changeMemberRole({ id, member_uid, role }).then(res => {
-				if (!res.payload.data.errcode) {
-					message.success(res.payload.data.errmsg);
-					this.fetchList(); // 添加成功后重新获取分组成员列表
-				}
-			});
+			const index = UI.layer.loading();
+			try {
+				await Methods_App.changeMemberRole({ id, member_uid, role });
+				UI.notification.success("修改成功");
+				this.fetchList(); // 添加成功后重新获取分组成员列表
+			} catch (e) {
+				console.error(e);
+			} finally {
+				UI.layer.loading(index);
+			}
 		},
 
 		// 关闭模态框

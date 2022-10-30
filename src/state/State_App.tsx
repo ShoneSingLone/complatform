@@ -209,9 +209,12 @@ export const Methods_App = {
 		return member;
 	},
 	async addMember() {},
-	async delMember() {},
-	async changeMemberRole() {},
-
+	async delMember(data) {
+		return API.group.delMember(data);
+	},
+	async changeMemberRole(data) {
+		return API.group.changeMemberRole(data);
+	},
 	async fetchMoreNews() {},
 	async fetchInterfaceList() {},
 
