@@ -8,8 +8,8 @@ import "./TimeLine.scss";
 import * as jsondiffpatch from "jsondiffpatch";
 const formattersHtml = jsondiffpatch.formatters.html;
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
 import { _ } from "@ventose/ui";
+import { State_App } from "@/state/State_App";
 
 const AddDiffView = props => {
 	const { title, content, className } = props;
@@ -37,6 +37,11 @@ export default defineComponent({
 		"type",
 		"fetchInterfaceList"
 	],
+
+	setup() {
+		return {State_App}
+	},
+
 	data() {
 		return {
 			curSelectValue: "",
@@ -71,7 +76,7 @@ export default defineComponent({
 					.then(function () {
 						that.setState({ loading: false });
 						if (
-							that.props.State_App.news.newsData.total ===
+							that.State_App.news.newsData.total ===
 							that.State_App.news.curpage
 						) {
 							that.setState({ bidden: "logbidden" });
@@ -115,6 +120,7 @@ export default defineComponent({
 		}
 	},
 	render() {
+		debugger;
 		let data = this.State_App.news.newsData
 			? this.State_App.news.newsData.list
 			: [];

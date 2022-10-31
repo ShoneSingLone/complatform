@@ -31,7 +31,7 @@ const confirm = Modal.confirm;
 		return {
 			groupList: state.group.groupList,
 			currGroup: state.group.currGroup,
-			curUserRole: state.user.role
+			State_App.user.role: state.user.role
 		};
 	},
 	{
@@ -59,7 +59,7 @@ class GroupSetting extends Component {
 
 	static propTypes = {
 		currGroup: PropTypes.object,
-		curUserRole: PropTypes.string,
+		State_App.user.role: PropTypes.string,
 		changeGroupMsg: PropTypes.func,
 		fetchGroupList: PropTypes.func,
 		setCurrGroup: PropTypes.func,
@@ -297,7 +297,7 @@ class GroupSetting extends Component {
 					</aCol>
 				</aRow>
 				{/* 只有超级管理员能删除分组 */}
-				{this.props.curUserRole === "admin" ? (
+				{this.props.State_App.user.role === "admin" ? (
 					<aRow type="flex" justify="center" class="danger-container">
 						<aCol span={24} class="title">
 							<h2 class="content">

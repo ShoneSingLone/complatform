@@ -9,6 +9,9 @@ const __APP_VERSION = Date.now().toString();
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	define:{
+		"process.env":{}
+	},
   server: {
 		https: false,
 		fs: {

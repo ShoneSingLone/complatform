@@ -2,8 +2,8 @@
 import GroupList from "./GroupList/GroupList";
 import ProjectList from "./ProjectList/ProjectList";
 import MemberList from "./MemberList/MemberList";
-/*
 import GroupLog from "./GroupLog/GroupLog";
+/*
 import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 import "./Group.scss";
 import { API } from "@/api";
@@ -12,8 +12,9 @@ import { Methods_App, State_App } from "@/state/State_App";
 
 const TAB_KEY_PROJECT_LIST = "项目列表";
 const TAB_KEY_MEMBER_LIST = "成员列表";
+const TAB_KEY_GROUP_LOG = "分组动态";
 
-const TAB_KEY_ARRAY = [TAB_KEY_PROJECT_LIST, TAB_KEY_MEMBER_LIST];
+const TAB_KEY_ARRAY = [TAB_KEY_PROJECT_LIST, TAB_KEY_MEMBER_LIST, TAB_KEY_GROUP_LOG];
 
 export default defineComponent({
 	setup() {
@@ -77,7 +78,7 @@ export default defineComponent({
 				}
 			}
 		},
-		MenberTab() {
+		TabMember() {
 			if (this.State_App.currGroup.type === "public") {
 				return (
 					/* "成员列表" */
@@ -88,7 +89,22 @@ export default defineComponent({
 			} else {
 				return null;
 			}
-		}
+		},
+		TabGroupLog() {
+			const isGroupRoleAuth = this.State_App.currGroup.role === "admin";
+			const isCurrentUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(this.State_App.user.role);
+
+			if (isGroupRoleAuth || isCurrentUserRoleAuth) {
+				return (
+					/* 分组动态 */
+					<aTabPane tab={TAB_KEY_GROUP_LOG} key={TAB_KEY_GROUP_LOG}>
+						<GroupLog />
+					</aTabPane>
+				);
+			} else {
+				return null;
+			}
+		},
 	},
 	render() {
 		if (!this.state.groupId) {
@@ -124,7 +140,8 @@ export default defineComponent({
 							<aTabPane tab={TAB_KEY_PROJECT_LIST} key={TAB_KEY_PROJECT_LIST}>
 								<ProjectList />
 							</aTabPane>
-							{this.MenberTab}
+							{this.TabMember}
+							{this.TabGroupLog}
 						</aTabs>
 					</aLayoutContent>
 				</aLayout>
@@ -150,17 +167,17 @@ export default defineComponent({
 							className="m-tab tabs-large"
 							style={{ height: "100%" }}>
 							{["admin", "owner", "guest", "dev"].indexOf(
-								this.props.curUserRoleInGroup
-							) > -1 || this.props.curUserRole === "admin" ? (
+								this.props.State_App.user.roleInGroup
+							) > -1 || this.State_App.user.role === "admin" ? (
 								<aTabPane tab="分组动态" key="3">
 									<GroupLog />
 								</aTabPane>
 							) : (
 								""
 							)}
-							{(this.props.curUserRole === "admin" ||
-								this.props.curUserRoleInGroup === "owner") &&
-							this.State_App.currGroup.type !== "private" ? (
+							{(this.props.State_App.user.role === "admin" ||
+								this.props.State_App.user.roleInGroup === "owner") &&
+								this.State_App.currGroup.type !== "private" ? (
 								<aTabPane tab="分组设置" key="4">
 									<GroupSetting />
 								</aTabPane>

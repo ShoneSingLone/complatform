@@ -12,7 +12,7 @@ const limit = 20;
 @connect(
 	state => {
 		return {
-			curUserRole: state.user.role
+			State_App.user.role: State_App.user.role
 		};
 	},
 	{
@@ -32,7 +32,7 @@ class List extends Component {
 	}
 	static propTypes = {
 		setBreadcrumb: PropTypes.func,
-		curUserRole: PropTypes.string
+		State_App.user.role: PropTypes.string
 	};
 	changePage = current => {
 		this.setState(
@@ -129,7 +129,7 @@ class List extends Component {
 	};
 
 	render() {
-		const role = this.props.curUserRole;
+		const role = this.props.State_App.user.role;
 		let data = [];
 		if (role === "admin") {
 			data = this.state.data;

@@ -6,7 +6,7 @@ import { UI, _ } from "@ventose/ui";
 export default defineComponent({
 	props: [
 		"currGroup",
-		"curUserRole",
+		"State_App.user.role",
 		"changeGroupMsg",
 		"fetchGroupList",
 		"setCurrGroup",
@@ -248,7 +248,7 @@ export default defineComponent({
 					</aCol>
 				</aRow>
 				{/* 只有超级管理员能删除分组 */}
-				{this.props.curUserRole === "admin" ? (
+				{this.props.State_App.user.role === "admin" ? (
 					<aRow type="flex" justify="center" class="danger-container">
 						<aCol span={24} class="title">
 							<h2 class="content">
