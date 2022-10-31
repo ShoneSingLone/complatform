@@ -1,13 +1,9 @@
 import "./ProjectCard.scss";
-import { Card, Tooltip, Modal, Alert, Input, message } from "ant-design-vue";
 import constants from "@/utils/variable";
-import produce from "immer";
 import { defineComponent } from "vue";
 import { _ } from "@ventose/ui";
 import { State_App } from "@/state/State_App";
 import { API } from "@/api";
-
-const confirm = Modal.confirm;
 
 export default defineComponent({
 	props: [
@@ -25,25 +21,36 @@ export default defineComponent({
 		return { State_App };
 	},
 	methods: {
+		goToProject() {
+			this.$router.push({
+				path: "/project/" + (this.projectData.projectid || this.projectData._id)
+			});
+		},
 		add: _.debounce(async function () {
-			const { projectData } = this;
-			const uid = this.State_App.user.uid;
-			const param = {
-				uid,
-				projectid: projectData._id,
-				projectname: projectData.name,
-				icon: projectData.icon || constants.PROJECT_ICON[0],
-				color: projectData.color || constants.PROJECT_COLOR.blue
-			};
-			const { data } = await API.project.addFollow(param);
-			if (data) {
+			try {
+				const { projectData } = this;
+				const uid = this.State_App.user.uid;
+				const param = {
+					uid,
+					projectid: projectData._id,
+					projectname: projectData.name,
+					icon: projectData.icon || constants.PROJECT_ICON[0],
+					color: projectData.color || constants.PROJECT_COLOR.blue
+				};
+				const { data } = await API.project.addFollow(param);
+			} catch (error) {
+				console.error(error);
+			} finally {
 				this.callbackResult();
 			}
 		}, 300),
 		del: _.debounce(async function () {
-			const id = this.projectData.projectid || this.projectData._id;
-			const { data } = await API.project.delFollow(id);
-			if (data) {
+			try {
+				const id = this.projectData.projectid || this.projectData._id;
+				await API.project.delFollow(id);
+			} catch (error) {
+				console.error(error);
+			} finally {
 				this.callbackResult();
 			}
 		}, 300)
@@ -89,14 +96,7 @@ export default defineComponent({
 
 		return (
 			<div class="card-container" style={"width:200px;"}>
-				<aCard
-					hoverable
-					class="m-card"
-					onClick={() =>
-						this.$router.push({
-							path: "/project/" + (projectData.projectid || projectData._id)
-						})
-					}>
+				<aCard hoverable class="m-card" onClick={this.goToProject}>
 					<xIcon
 						icon={projectData.icon}
 						class="ui-logo"

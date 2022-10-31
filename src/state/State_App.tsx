@@ -27,9 +27,9 @@ export const State_App = reactive(
 			study: false,
 			imageUrl: ""
 		},
+		projectList: [],
 		project: {
 			currPage: "",
-			projectList: [],
 			userInfo: "",
 			tableLoading: ""
 		},
@@ -50,15 +50,6 @@ export const State_App = reactive(
 			}
 		},
 		group: {
-			groupList: [],
-			currGroup: {
-				group_name: "",
-				group_desc: "",
-				custom_field1: {
-					name: "",
-					enable: false
-				}
-			},
 			field: {
 				name: "",
 				enable: false
@@ -197,8 +188,8 @@ export const Methods_App = {
 		if (!groupId) return;
 		groupId = Number(groupId);
 		const { data } = await API.project.list(groupId);
-		State_App.project.projectList = data.list;
-		console.log("State_App.project.projectList", State_App.project.projectList);
+		State_App.projectList = data.list;
+		console.log("State_App.projectList", State_App.projectList);
 	},
 	async changeMenuItem() {},
 	async loginActions() {},
@@ -208,24 +199,46 @@ export const Methods_App = {
 		State_App.group.member = member;
 		return member;
 	},
-	async addMember() {},
+	async addMember(data) {
+		return API.group.addMember(data);
+	},
 	async delMember(data) {
 		return API.group.delMember(data);
 	},
 	async changeMemberRole(data) {
 		return API.group.changeMemberRole(data);
 	},
-	async fetchMoreNews() {},
-	async fetchInterfaceList() {},
+	async fetchMoreNews() {
+		debugger;
+	},
+	async fetchInterfaceList() {
+		debugger;
+	},
 
-	async setGroupList() {},
-	async addProject() {},
-	async delProject() {},
-	async changeUpdateModal() {},
-	getProject() {},
-	checkProjectName() {},
-	copyProjectMsg() {},
-	loginTypeAction() {}
+	async setGroupList() {
+		debugger;
+	},
+	async addProject() {
+		debugger;
+	},
+	async delProject() {
+		debugger;
+	},
+	async changeUpdateModal() {
+		debugger;
+	},
+	getProject() {
+		debugger;
+	},
+	checkProjectName() {
+		debugger;
+	},
+	copyProjectMsg() {
+		debugger;
+	},
+	loginTypeAction() {
+		debugger;
+	}
 };
 
 watch(

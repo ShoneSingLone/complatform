@@ -10,6 +10,11 @@ import { API } from "@/api";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
 
+const TAB_KEY_PROJECT_LIST = "项目列表";
+const TAB_KEY_MEMBER_LIST = "成员列表";
+
+const TAB_KEY_ARRAY = [TAB_KEY_PROJECT_LIST, TAB_KEY_MEMBER_LIST];
+
 export default defineComponent({
 	setup() {
 		return {
@@ -46,28 +51,49 @@ export default defineComponent({
 			}
 		}
 	},
-	render() {
-		if (!this.state.groupId) {
-			return <aSpin class="flex vertical middle center height100" />;
-		}
-
-		const ProjectTab = (
-			<aTabPane tab="项目列表" key="1">
-				<ProjectList />
-			</aTabPane>
-		);
-
-		const MenberTab = (() => {
+	computed: {
+		tabActiveKey: {
+			set(group_tab) {
+				this.$router.push({
+					path: this.$route.path,
+					query: {
+						...this.$route.query,
+						group_tab
+					}
+				});
+			},
+			get() {
+				const { group_tab } = this.$route.query;
+				if (TAB_KEY_ARRAY.includes(group_tab)) {
+					return group_tab;
+				} else {
+					this.$router.push({
+						path: this.$route.path,
+						query: {
+							...this.$route.query,
+							group_tab: TAB_KEY_PROJECT_LIST
+						}
+					});
+				}
+			}
+		},
+		MenberTab() {
 			if (this.State_App.currGroup.type === "public") {
 				return (
-					<aTabPane tab="成员列表" key="2">
+					/* "成员列表" */
+					<aTabPane tab={TAB_KEY_MEMBER_LIST} key={TAB_KEY_MEMBER_LIST}>
 						<MemberList />
 					</aTabPane>
 				);
 			} else {
 				return null;
 			}
-		})();
+		}
+	},
+	render() {
+		if (!this.state.groupId) {
+			return <aSpin class="flex vertical middle center height100" />;
+		}
 
 		return (
 			<aLayout
@@ -90,10 +116,15 @@ export default defineComponent({
 						}}>
 						<aTabs
 							id="Group-layout-content-tabs"
+							activeKey={this.tabActiveKey}
+							onUpdate:activeKey={val => (this.tabActiveKey = val)}
 							type="card"
 							class="m-tab tabs-large height100">
-							{ProjectTab}
-							{MenberTab}
+							{/* 项目列表 */}
+							<aTabPane tab={TAB_KEY_PROJECT_LIST} key={TAB_KEY_PROJECT_LIST}>
+								<ProjectList />
+							</aTabPane>
+							{this.MenberTab}
 						</aTabs>
 					</aLayoutContent>
 				</aLayout>
@@ -148,8 +179,10 @@ export default defineComponent({
 	#Group-layout-content-tabs {
 		display: flex;
 		flex-flow: column nowrap;
+
 		.ant-tabs-content {
 			height: 100%;
+
 			div[id^="Group-layout-content-tabs-panel"] {
 				height: 100%;
 				display: flex;

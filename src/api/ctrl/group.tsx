@@ -14,6 +14,13 @@ export const group = {
 			data
 		});
 	},
+	addMember(data) {
+		return ajax({
+			method: "post",
+			url: "/api/group/add_member",
+			data
+		});
+	},
 	changeMemberRole(data) {
 		return ajax({
 			method: "post",

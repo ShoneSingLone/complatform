@@ -4,14 +4,14 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
 	props: ["match"],
+	setup() {
+		return { State_App };
+	},
 	render() {
 		return (
 			<div class="g-row">
 				<section class="news-box m-panel">
-					<TimeTree
-						type={"group"}
-						typeid={this.State_App.group.currGroup._id}
-					/>
+					<TimeTree type={"group"} typeid={this.State_App.currGroup._id} />
 				</section>
 			</div>
 		);

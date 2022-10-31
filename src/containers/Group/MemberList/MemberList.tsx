@@ -4,7 +4,18 @@ import { State_App, Methods_App } from "@/state/State_App";
 import { defineComponent } from "vue";
 import "./MemberList.scss";
 import { RouterLink } from "vue-router";
-import { defDataGridOption, defCol, State_UI, UI, defItem } from "@ventose/ui";
+import {
+	defDataGridOption,
+	defCol,
+	State_UI,
+	UI,
+	defItem,
+	_,
+	AllWasWell,
+	pickValueFrom,
+	validateForm
+} from "@ventose/ui";
+import ViewAddMember from "./ViewAddMember.vue";
 
 const { $t } = State_UI;
 
@@ -18,14 +29,7 @@ function arrayAddKey(arr) {
 }
 
 export default defineComponent({
-	props: [
-		"currGroup",
-		"uid",
-		"fetchGroupMemberList",
-		"setCurrGroup",
-		"addMember",
-		"role"
-	],
+	props: ["uid"],
 	setup() {
 		return { State_App };
 	},
@@ -34,11 +38,7 @@ export default defineComponent({
 		return {
 			state: {
 				userInfo: [],
-				role: "",
-				visible: false,
-				dataSource: [],
-				inputUids: [],
-				inputRole: "dev"
+				role: ""
 			},
 			configs_table: defDataGridOption({
 				async queryTableList(params) {},
@@ -87,24 +87,15 @@ export default defineComponent({
 					label: `${vm.State_App.currGroup.group_name} 分组成员 (${vm.state.userInfo.length}) 人`,
 					renderCell({ record }) {
 						const text = record.username;
+						const imgSrc = `${location.protocol}//${location.host}/api/user/avatar?uid=${record.uid}`;
 						return (
 							<div class="m-user">
 								<RouterLink to={`/user/profile/${record.uid}`}>
-									<img
-										src={
-											location.protocol +
-											"//" +
-											location.host +
-											"/api/user/avatar?uid=" +
-											record.uid
-										}
-										class="m-user-img"
-									/>
+									<img src={imgSrc} class="m-user-img" />
 								</RouterLink>
 								<RouterLink to={`/user/profile/${record.uid}`}>
 									<p class="m-user-name">
-										{text}
-										<span>{vm.State_App.currGroup.role}</span>
+										<span>{text}</span>
 									</p>
 								</RouterLink>
 							</div>
@@ -123,7 +114,7 @@ export default defineComponent({
 									<aButton
 										className="btn"
 										type="primary"
-										onClick={this.showAddMemberModal}>
+										onClick={vm.showAddMemberModal}>
 										添加成员
 									</aButton>
 								</div>
@@ -140,7 +131,7 @@ export default defineComponent({
 							const configs = {
 								deleteBtn: {
 									text: "删除",
-									class: "btn-danger",
+									class: "ml10",
 									async onClick() {
 										try {
 											await UI.dialog.delete({
@@ -194,8 +185,24 @@ export default defineComponent({
 			};
 		},
 		showAddMemberModal() {
-			this.setState({
-				visible: true
+			UI.dialog.component({
+				title: "添加成员",
+				component: ViewAddMember,
+				area: ["480px", "260px"],
+				onOk: async instance => {
+					const validateResults = await validateForm(instance.vm.formItems);
+					if (AllWasWell(validateResults)) {
+						const { member_uids, role } = pickValueFrom(instance.vm.formItems);
+						try {
+							await this.addMember({ member_uids, role });
+							instance.close();
+						} catch (error) {
+							UI.message.error("添加失败");
+						}
+					} else {
+						throw new Error("未通过验证");
+					}
+				}
 			});
 		},
 
@@ -208,38 +215,20 @@ export default defineComponent({
 		},
 
 		// 增 - 添加成员
-		handleOk() {
-			Methods_App.addMember({
+		async addMember({ member_uids, role }) {
+			const { data } = await Methods_App.addMember({
 				id: this.State_App.currGroup._id,
-				member_uids: this.state.inputUids,
-				role: this.state.inputRole
-			}).then(res => {
-				if (!res.payload.data.errcode) {
-					const { add_members, exist_members } = res.payload.data.data;
-					const addLength = add_members.length;
-					const existLength = exist_members.length;
-					this.setState({
-						inputRole: "dev",
-						inputUids: []
-					});
-					UI.message.success(
-						`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`
-					);
-					this.fetchList(); // 添加成功后重新获取分组成员列表
-				}
+				member_uids,
+				role
 			});
-		},
-		// 添加成员时 选择新增成员权限
 
-		changeNewMemberRole(value) {
-			debugger;
-			this.setState({
-				inputRole: value
-			});
+			const { add_members, exist_members } = data;
+			const addLength = add_members.length;
+			const existLength = exist_members.length;
+			UI.message.success(`新增 ${addLength} 人， ${existLength} 人已存在`);
+			this.fetchList(); // 添加成功后重新获取分组成员列表
 		},
-
 		// 删 - 删除分组成员
-
 		async delMember(member_uid) {
 			const id = this.State_App.currGroup._id;
 			const index = UI.layer.loading();
@@ -269,20 +258,6 @@ export default defineComponent({
 			} finally {
 				UI.layer.loading(index);
 			}
-		},
-
-		// 关闭模态框
-
-		handleCancel() {
-			this.setState({
-				visible: false
-			});
-		},
-
-		onUserSelect(uids) {
-			this.setState({
-				inputUids: uids
-			});
 		}
 	},
 	render() {
@@ -306,40 +281,6 @@ export default defineComponent({
 
 		return (
 			<div class="m-panel">
-				{this.state.visible ? (
-					<aModal
-						title="添加成员"
-						visible={this.state.visible}
-						onOk={this.handleOk}
-						onCancel={this.handleCancel}>
-						<aRow gutter={6} class="modal-input">
-							<aCol span="5">
-								<div class="label usernamelabel">用户名:</div>
-							</aCol>
-							<aCol span="15">
-								<UsernameAutoComplete callbackState={this.onUserSelect} />
-							</aCol>
-						</aRow>
-						<aRow gutter={6} class="modal-input">
-							<aCol span="5">
-								<div class="label usernameauth">权限:</div>
-							</aCol>
-							<aCol span="15">
-								<aSelect
-									defaultValue="dev"
-									class="select"
-									onChange={this.changeNewMemberRole}>
-									<aOption value="owner">组长</aOption>
-									<aOption value="dev">开发者</aOption>
-									<aOption value="guest">访客</aOption>
-								</aSelect>
-							</aCol>
-						</aRow>
-					</aModal>
-				) : (
-					""
-				)}
-				{/*<aTable columns={columns} dataSource={userinfo} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInGroup"/>}}/>*/}
 				<xDataGrid configs={this.configs_table} />
 			</div>
 		);

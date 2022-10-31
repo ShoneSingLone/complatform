@@ -146,7 +146,7 @@ export default defineComponent({
 					options: [
 						{
 							label: (
-								<span class="flex">
+								<span class="flex middle">
 									<xIcon icon="lockStrok" />
 									<span>私有</span>
 								</span>
@@ -155,7 +155,7 @@ export default defineComponent({
 						},
 						{
 							label: (
-								<span class="flex">
+								<span class="flex middle">
 									<xIcon icon="unlock" />
 									<span>公开</span>
 								</span>

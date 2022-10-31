@@ -47,7 +47,7 @@ export default defineComponent({
 	},
 	computed: {
 		projectData() {
-			return this.State_App.project.projectList;
+			return this.State_App.projectList;
 		},
 		isShow() {
 			const _isShow = ["admin", "owner", "dev"].includes(
@@ -213,7 +213,7 @@ export default defineComponent({
 						<span> {this.$route.params}</span>
 						<span>{this.State_App.currGroup.group_name} </span>
 						<span>分组共</span>
-						<span> ({this.State_App.project.projectList.length})</span>
+						<span> ({this.State_App.projectList.length})</span>
 						<span>个项目</span>
 						{/* {this.isShow ? JSON.stringify(this.State_App.currGroup, null, 2) : ""} */}
 					</aCol>
