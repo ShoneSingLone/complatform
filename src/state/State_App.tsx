@@ -183,7 +183,7 @@ export const Methods_App = {
 			console.error(error);
 		}
 	},
-	async fetchInterfaceListMenu() {},
+	async fetchInterfaceListMenu() { },
 	async fetchProjectList(groupId) {
 		if (!groupId) return;
 		groupId = Number(groupId);
@@ -191,9 +191,12 @@ export const Methods_App = {
 		State_App.projectList = data.list;
 		console.log("State_App.projectList", State_App.projectList);
 	},
-	async changeMenuItem() {},
-	async loginActions() {},
-	async loginLdapActions() {},
+	getProject() {
+		debugger;
+	},
+	async changeMenuItem() { },
+	async loginActions() { },
+	async loginLdapActions() { },
 	async fetchGroupMemberList(groupId) {
 		const { data: member } = await API.group.getMemberListBy(groupId);
 		State_App.group.member = member;
@@ -227,13 +230,7 @@ export const Methods_App = {
 	async changeUpdateModal() {
 		debugger;
 	},
-	getProject() {
-		debugger;
-	},
 	checkProjectName() {
-		debugger;
-	},
-	copyProjectMsg() {
 		debugger;
 	},
 	loginTypeAction() {

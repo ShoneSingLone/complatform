@@ -123,10 +123,10 @@ export default defineComponent({
 					prop: "basepath",
 					label: defItem.labelWithTips({
 						label: "基本路径",
-						tips: "接口基本路径，为空是根路径",
+						tips: "接口基本路径，默认是/",
 						icon: <xIcon icon="question" />
 					}),
-					placeholder: "接口基本路径，为空是根路径",
+					placeholder: "接口基本路径，默认是/",
 					rules: [FormRules.required("请输入项目基本路径!")]
 				}),
 				...defItem({
@@ -146,19 +146,23 @@ export default defineComponent({
 					options: [
 						{
 							label: (
-								<span class="flex middle">
-									<xIcon icon="lockStrok" />
-									<span>私有</span>
-								</span>
+								<aTooltip title="只有组长和项目开发者可以索引并查看项目信息">
+									<span class="flex middle" >
+										<xIcon icon="lockStrok" />
+										<span>私有</span>
+									</span>
+								</aTooltip>
 							),
 							value: "private"
 						},
 						{
 							label: (
-								<span class="flex middle">
-									<xIcon icon="unlock" />
-									<span>公开</span>
-								</span>
+								<aTooltip title="任何人都可以索引并查看项目信息">
+									<span class="flex middle">
+										<xIcon icon="unlock" />
+										<span>公开</span>
+									</span>
+								</aTooltip>
 							),
 							value: "public"
 						}
@@ -170,7 +174,7 @@ export default defineComponent({
 					text: "创建项目",
 					type: "primary",
 					icon: <xIcon icon="add" />,
-					async onClick() {}
+					async onClick() { }
 				}
 			},
 			state: {

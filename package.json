@@ -9,14 +9,16 @@
     "bs": "npm i",
     "start": "vite --open --host",
     "build": "vite build",
+    "genIconJSON": "node ./preprocess/genIconJSON.js",
     "lint": "prettier --write ./src",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ventose/ui": "0.0.9",
+    "@ventose/ui": "^0.0.10",
     "ant-design-vue": "^3.0.0-alpha.3",
     "axios": "^0.26.0",
     "dayjs": "^1.10.7",
+    "immer": "^9.0.16",
     "jquery": "^3.6.0",
     "json5": "^2.2.1",
     "jsondiffpatch": "^0.4.1",

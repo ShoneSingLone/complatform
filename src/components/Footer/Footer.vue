@@ -35,7 +35,7 @@ const FootItem = ({ linkList, title, iconType }) => {
 export default defineComponent({
 	data() {
 		return {
-			wrapperStyle: { height: "192px" },
+			isFold: true,
 			footList: [
 				{
 					title: "GitHub",
@@ -89,16 +89,41 @@ export default defineComponent({
 	},
 	mounted() {
 		$("#app").addClass("flex vertical");
-		setTimeout(() => {
-			this.wrapperStyle.height = 0;
-		}, 1000 * 10);
+		setTimeout(this.toggleFooter, 1000 * 3);
 	},
 	unmounted() {
 		$("#app").removeClass("flex vertical");
 	},
+	computed: {
+		wrapperStyle() {
+			if (this.isFold) {
+				return { height: "192px" };
+			} else {
+				return { height: "0" };
+			}
+		},
+		toggleText() {
+			if (this.isFold) {
+				return "折叠";
+			} else {
+				return "展开";
+			}
+		}
+	},
+	methods: {
+		toggleFooter() {
+			this.isFold = !this.isFold;
+		}
+	},
 	render() {
 		return (
 			<div class="footer-wrapper" style={this.wrapperStyle}>
+				<xButton
+					type="primary"
+					class={{ "footer-toggle": true, unfold: this.isFold }}
+					onClick={this.toggleFooter}>
+					{this.toggleText}
+				</xButton>
 				<aRow class="footer-container">
 					{this.footList.map((item, i) => {
 						return (
@@ -117,4 +142,19 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="scss">
+.ant-btn.x-button.footer-toggle {
+	position: absolute;
+	top: -32px;
+	left: 0;
+	opacity: 0.5;
+	overflow: hidden;
+	&.unfold {
+		top: 0;
+		opacity: 1;
+	}
+	&:hover {
+		opacity: 1;
+	}
+}
+</style>

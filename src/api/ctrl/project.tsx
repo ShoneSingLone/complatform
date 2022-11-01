@@ -24,6 +24,20 @@ export const project = {
 			data
 		});
 	},
+	getProjectById(id) {
+		return ajax({
+			method: "get",
+			url: '/api/project/get',
+			params: { id }
+		});
+	},
+	copyProjectMsg(data) {
+		return ajax({
+			method: "post",
+			url: '/api/project/copy',
+			data
+		});
+	},
 	/* {
 			group_id: 0,
 			page: 1,

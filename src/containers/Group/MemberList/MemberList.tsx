@@ -39,7 +39,7 @@ export default defineComponent({
 				role: ""
 			},
 			configs_table: defDataGridOption({
-				async queryTableList(params) {},
+				async queryTableList(params) { },
 				dataSource: [],
 				columns: {}
 			})

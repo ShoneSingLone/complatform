@@ -1,9 +1,12 @@
 import "./ProjectCard.scss";
 import constants from "@/utils/variable";
 import { defineComponent } from "vue";
-import { _ } from "@ventose/ui";
-import { State_App } from "@/state/State_App";
+import { State_App, Methods_App } from "@/state/State_App";
 import { API } from "@/api";
+import ViewCopyProject from "./ViewCopyProject.vue";
+import { _, UI, AllWasWell, pickValueFrom } from "@ventose/ui";
+import produce from 'immer';
+
 
 export default defineComponent({
 	props: [
@@ -14,13 +17,55 @@ export default defineComponent({
 		"isShow",
 		"getProject",
 		"checkProjectName",
-		"copyProjectMsg",
 		"currPage"
 	],
 	setup() {
 		return { State_App };
 	},
 	methods: {
+		openCopyProjectView() {
+			const vm = this;
+			UI.dialog.component({
+				title: `复制项目${this.projectData.name}`,
+				component: ViewCopyProject,
+				area: ["540px", "320px"],
+				okText: "复制",
+				projectName: this.projectData.name,
+				async onOk(dialog) {
+					try {
+						const validateResults = await validateForm(dialog.vm.formItems);
+						debugger;
+						if (AllWasWell(validateResults)) {
+							const { projectName } = pickValueFrom(dialog.vm.formItems);
+							try {
+								await this.copyProject({ projectName });
+								dialog.close();
+							} catch (error) {
+								UI.message.error("复制失败");
+							}
+						} else {
+							throw new Error("未通过验证");
+						}
+					} catch (error) {
+						debugger;
+
+					}
+				}
+			})
+
+		},
+		async copyProject({ projectName }) {
+			const id = this.projectData._id;
+			let { data } = await API.project.getProjectById(id);
+			let newData = produce(data, draftData => {
+				draftData.preName = draftData.name;
+				draftData.name = projectName;
+			});
+			debugger;
+			// await API.project.copyProjectMsg(newData);
+			UI.message.success('项目复制成功');
+			this.props.callbackResult();
+		},
 		goToProject() {
 			this.$router.push({
 				path: "/project/" + (this.projectData.projectid || this.projectData._id)
@@ -68,7 +113,7 @@ export default defineComponent({
 		copyIcon() {
 			if (this.isShow) {
 				return (
-					<span class="pointer" onClick={this.showConfirm}>
+					<span class="pointer" onClick={this.openCopyProjectView}>
 						<aTooltip placement="rightTop" title="复制项目">
 							<xIcon icon="copy" style={{ color: "#232426" }} />
 						</aTooltip>
