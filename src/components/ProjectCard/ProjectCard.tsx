@@ -37,7 +37,7 @@ export default defineComponent({
 					icon: projectData.icon || constants.PROJECT_ICON[0],
 					color: projectData.color || constants.PROJECT_COLOR.blue
 				};
-				const { data } = await API.project.addFollow(param);
+				await API.project.addFollow(param);
 			} catch (error) {
 				console.error(error);
 			} finally {
@@ -56,7 +56,38 @@ export default defineComponent({
 		}, 300)
 	},
 	computed: {
+		followIcon() {
+			return (
+				<span class="pointer" onClick={this.followIconClickHandler}>
+					<aTooltip placement="rightTop" title={this.followIconTitle}>
+						<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
+					</aTooltip>
+				</span>
+			);
+		},
+		copyIcon() {
+			if (this.isShow) {
+				return (
+					<span class="pointer" onClick={this.showConfirm}>
+						<aTooltip placement="rightTop" title="复制项目">
+							<xIcon icon="copy" style={{ color: "#232426" }} />
+						</aTooltip>
+					</span>
+				);
+			}
+			return null;
+		},
+		iconStyle() {
+			return {
+				color: "white",
+				borderRadius: "16px",
+				backgroundColor:
+					constants.PROJECT_COLOR[this.projectData.color] ||
+					constants.PROJECT_COLOR.blue
+			};
+		},
 		isFollowStatus() {
+			/* 处于follow页面全是已follow的 */
 			return Boolean(this.projectData.follow || this.inFollowPage);
 		},
 		followIconTitle() {
@@ -67,54 +98,35 @@ export default defineComponent({
 		},
 		followIconClickHandler() {
 			return this.isFollowStatus ? this.del : this.add;
+		},
+		logo() {
+			return (
+				<xIcon
+					class="ui-logo"
+					icon={this.projectData.icon}
+					style={this.iconStyle}
+				/>
+			);
+		},
+		title() {
+			return (
+				<h4 class="ui-title">
+					{this.projectData.name || this.projectData.projectname}
+				</h4>
+			);
 		}
 	},
 	render() {
-		const projectData = this.projectData;
-		const isShow = this.isShow;
-		/* 处于follow页面全是已follow的 */
-		const followIcon = (
-			<span class="pointer" onClick={this.followIconClickHandler}>
-				<aTooltip placement="rightTop" title={this.followIconTitle}>
-					<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
-				</aTooltip>
-			</span>
-		);
-
-		const copyIcon = (() => {
-			if (isShow) {
-				return (
-					<span class="pointer" onClick={this.showConfirm}>
-						<aTooltip placement="rightTop" title="复制项目">
-							<xIcon icon="copy" style={{ color: "#eceef1" }} />
-						</aTooltip>
-					</span>
-				);
-			}
-			return null;
-		})();
-
 		return (
 			<div class="card-container" style={"width:200px;"}>
 				<aCard hoverable class="m-card" onClick={this.goToProject}>
-					<xIcon
-						icon={projectData.icon}
-						class="ui-logo"
-						style={{
-							color: "white",
-							backgroundColor:
-								constants.PROJECT_COLOR[projectData.color] ||
-								constants.PROJECT_COLOR.blue
-						}}
-					/>
-					<h4 class="ui-title">
-						{projectData.name || projectData.projectname}
-					</h4>
+					{this.logo}
+					{this.title}
 				</aCard>
 				<div class="card-btns flex">
-					{copyIcon}
+					{this.copyIcon}
 					<xGap l="10" />
-					{followIcon}
+					{this.followIcon}
 				</div>
 			</div>
 		);

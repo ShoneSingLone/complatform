@@ -14,7 +14,11 @@ const TAB_KEY_PROJECT_LIST = "项目列表";
 const TAB_KEY_MEMBER_LIST = "成员列表";
 const TAB_KEY_GROUP_LOG = "分组动态";
 
-const TAB_KEY_ARRAY = [TAB_KEY_PROJECT_LIST, TAB_KEY_MEMBER_LIST, TAB_KEY_GROUP_LOG];
+const TAB_KEY_ARRAY = [
+	TAB_KEY_PROJECT_LIST,
+	TAB_KEY_MEMBER_LIST,
+	TAB_KEY_GROUP_LOG
+];
 
 export default defineComponent({
 	setup() {
@@ -92,7 +96,9 @@ export default defineComponent({
 		},
 		TabGroupLog() {
 			const isGroupRoleAuth = this.State_App.currGroup.role === "admin";
-			const isCurrentUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(this.State_App.user.role);
+			const isCurrentUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(
+				this.State_App.user.role
+			);
 
 			if (isGroupRoleAuth || isCurrentUserRoleAuth) {
 				return (
@@ -104,7 +110,7 @@ export default defineComponent({
 			} else {
 				return null;
 			}
-		},
+		}
 	},
 	render() {
 		if (!this.state.groupId) {
@@ -177,7 +183,7 @@ export default defineComponent({
 							)}
 							{(this.props.State_App.user.role === "admin" ||
 								this.props.State_App.user.roleInGroup === "owner") &&
-								this.State_App.currGroup.type !== "private" ? (
+							this.State_App.currGroup.type !== "private" ? (
 								<aTabPane tab="分组设置" key="4">
 									<GroupSetting />
 								</aTabPane>

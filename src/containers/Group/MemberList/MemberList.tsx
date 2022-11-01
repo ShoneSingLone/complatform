@@ -49,30 +49,14 @@ export default defineComponent({
 		const vm = this;
 		this.initTableColumns();
 		await Methods_App.setCurrGroup(this.State_App.currGroup._id);
-		await this.fetchList();
+		await this.fetchGroupMemberList();
 
 		this.$watch(
 			() => {
-				return this._groupId + this.State_App.currGroup._id;
+				return this.State_App.currGroup._id;
 			},
 			() => {
-				if (this._groupId !== this._groupId) {
-					return null;
-				}
-				if (this.State_App.currGroup._id !== nextProps.currGroup._id) {
-					Methods_App.fetchGroupMemberList(nextProps.currGroup._id).then(
-						res => {
-							this.setState({
-								userInfo: arrayAddKey(res.payload.data.data)
-							});
-						}
-					);
-					Methods_App.setCurrGroup(nextProps.currGroup._id).then(res => {
-						this.setState({
-							role: res.payload.data.data.role
-						});
-					});
-				}
+				this.fetchGroupMemberList();
 			}
 		);
 	},
@@ -205,7 +189,7 @@ export default defineComponent({
 		},
 
 		// 重新获取列表
-		async fetchList() {
+		async fetchGroupMemberList() {
 			const menber = await Methods_App.fetchGroupMemberList(
 				this.State_App.currGroup._id
 			);
@@ -224,7 +208,7 @@ export default defineComponent({
 			const addLength = add_members.length;
 			const existLength = exist_members.length;
 			UI.message.success(`新增 ${addLength} 人， ${existLength} 人已存在`);
-			this.fetchList(); // 添加成功后重新获取分组成员列表
+			this.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
 		},
 		// 删 - 删除分组成员
 		async delMember(member_uid) {
@@ -233,7 +217,7 @@ export default defineComponent({
 			try {
 				await Methods_App.delMember({ id, member_uid });
 				UI.notification.success("修改成功");
-				this.fetchList(); // 添加成功后重新获取分组成员列表
+				this.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -250,7 +234,7 @@ export default defineComponent({
 			try {
 				await Methods_App.changeMemberRole({ id, member_uid, role });
 				UI.notification.success("修改成功");
-				this.fetchList(); // 添加成功后重新获取分组成员列表
+				this.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
 			} catch (e) {
 				console.error(e);
 			} finally {

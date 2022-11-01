@@ -39,7 +39,7 @@ export default defineComponent({
 	],
 
 	setup() {
-		return {State_App}
+		return { State_App };
 	},
 
 	data() {
@@ -76,8 +76,7 @@ export default defineComponent({
 					.then(function () {
 						that.setState({ loading: false });
 						if (
-							that.State_App.news.newsData.total ===
-							that.State_App.news.curpage
+							that.State_App.news.newsData.total === that.State_App.news.curpage
 						) {
 							that.setState({ bidden: "logbidden" });
 						}
