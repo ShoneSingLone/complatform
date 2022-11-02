@@ -39,6 +39,7 @@ export default defineComponent({
 				role: ""
 			},
 			configs_table: defDataGridOption({
+				isHidePagination:true,
 				async queryTableList(params) { },
 				dataSource: [],
 				columns: {}

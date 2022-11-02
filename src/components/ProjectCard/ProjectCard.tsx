@@ -36,9 +36,9 @@ export default defineComponent({
                     try {
                         const validateResults = await validateForm(dialog.vm.formItems);
                         if (AllWasWell(validateResults)) {
-                            const { projectName, icon } = pickValueFrom(dialog.vm.formItems);
+                            const { name, icon } = pickValueFrom(dialog.vm.formItems);
                             try {
-                                await vm.copyProject({ projectName, icon });
+                                await vm.copyProject({ newProjectName: name, icon });
                                 dialog.close();
                             } catch (error) {
                                 console.error(error);
@@ -54,10 +54,10 @@ export default defineComponent({
             })
 
         },
-        async copyProject({ projectName, icon }) {
+        async copyProject({ newProjectName, icon }) {
             const id = this.projectData._id;
             let { data } = await API.project.getProjectById(id);
-            data = _.merge(data, { icon }, { name: projectName }, { preName: data.name })
+            data = _.merge(data, { icon }, { name: newProjectName }, { preName: data.name })
             await API.project.copyProjectMsg(data);
             UI.message.success('项目复制成功');
             this.callbackResult();
@@ -75,8 +75,8 @@ export default defineComponent({
                     uid,
                     projectid: projectData._id,
                     projectname: projectData.name,
-                    icon: projectData.icon || constants.PROJECT_ICON[0],
-                    color: projectData.color || constants.PROJECT_COLOR.blue
+                    icon: projectData.icon,
+                    color: projectData.color,
                 };
                 await API.project.addFollow(param);
             } catch (error) {
@@ -122,9 +122,7 @@ export default defineComponent({
             return {
                 color: "white",
                 borderRadius: "16px",
-                backgroundColor:
-                    constants.PROJECT_COLOR[this.projectData.color] ||
-                    constants.PROJECT_COLOR.blue
+                backgroundColor: this.projectData.color
             };
         },
         isFollowStatus() {
@@ -153,7 +151,8 @@ export default defineComponent({
         title() {
             return (
                 <h4 class="ui-title">
-                    {this.projectData.name || this.projectData.projectname}
+                    <span class="mr10">{this.projectData._id}</span>
+                    <span>{this.projectData.name || this.projectData.projectname}</span>
                 </h4>
             );
         }

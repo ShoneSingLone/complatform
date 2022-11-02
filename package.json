@@ -9,12 +9,15 @@
     "bs": "npm i",
     "start": "vite --open --host",
     "build": "vite build",
+    "genIconJSON_comment": "在public下的icon svg资源，获取文件名，用于系统图标的下拉选项 ",
     "genIconJSON": "node ./preprocess/genIconJSON.js",
     "lint": "prettier --write ./src",
+    "update:ui_comment": "更新UI库",
+    "update:ui": "npm uninstall @ventose/ui -S && npm i @ventose/ui -S",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ventose/ui": "^0.0.12",
+    "@ventose/ui": "^0.0.13",
     "ant-design-vue": "^3.0.0-alpha.3",
     "axios": "^0.26.0",
     "dayjs": "^1.10.7",

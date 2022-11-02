@@ -1,5 +1,5 @@
 import constants from "@/utils/variable";
-import { handlePath, pickRandomProperty } from "@/utils/common";
+import { handlePath, randomValueAndProp } from "@/utils/common";
 
 import "./Addproject.scss";
 import { defineComponent } from "vue";
@@ -10,11 +10,116 @@ import {
 	pickValueFrom,
 	UI,
 	validateForm,
-	_
+	_,
+	State_UI
 } from "@ventose/ui";
 import { State_App } from "@/state/State_App";
 import { Methods_App } from "@/state/State_App";
 import { API } from "../../api/index";
+import optionsXItem from "@/utils/common.options.xIcon";
+
+export const xItem_ProjectColor = (options: any = {}) => {
+	const [value] = randomValueAndProp(constants.PROJECT_COLOR);
+	return {
+		value,
+		prop: "color",
+		itemType: "Select",
+		label: State_UI.$t("icon背景颜色").label,
+		rules: [FormRules.required()],
+		options: _.map(constants.PROJECT_COLOR, (background) => {
+			return {
+				label: (
+					<span style={{ background, color: 'transparent' }} >
+						_______________
+					</span >
+				),
+				value: background
+			};
+		})
+	}
+};
+export const xItem_ProjectIcon = (options: any = {}) => {
+	const [value] = randomValueAndProp(optionsXItem);
+	return {
+		value,
+		prop: "icon",
+		itemType: "Select",
+		label: State_UI.$t("图标").label,
+		rules: [FormRules.required()],
+		options: _.map(optionsXItem, value => {
+			return {
+				label: (
+					<span>
+						<xIcon icon={value} />
+						<span class="ml10">{value}</span>
+					</span>
+				),
+				value
+			};
+		})
+	}
+};
+export const xItem_ProjectName = (options: any = {}) => {
+	const value = options.value || "";
+	const prop = options.prop || "name";
+	const appendRules = options.appendRules;
+
+
+	const rules = [
+		FormRules.required("请输入项目名称"),
+		FormRules.custom({
+			msg: "",
+			name: "",
+			trigger: "",
+			/* 可以根据校验修改提示信息 */
+			validator(value, { configs, rule }) {
+				const type = "项目";
+				// 返回字符串长度，汉字计数为2
+				const strLength = str => {
+					let length = 0;
+					for (let i = 0; i < str.length; i++) {
+						str.charCodeAt(i) > 255 ? (length += 2) : length++;
+					}
+					return length;
+				};
+
+				const len = value ? strLength(value) : 0;
+				if (len > constants.NAME_LIMIT) {
+					rule.msg =
+						"请输入" +
+						type +
+						"名称，长度不超过" +
+						constants.NAME_LIMIT +
+						"字符(中文算作2字符)!";
+					return FormRules.FAIL;
+				} else if (len === 0) {
+					rule.msg =
+						"请输入" +
+						type +
+						"名称，长度不超过" +
+						constants.NAME_LIMIT +
+						"字符(中文算作2字符)!";
+					return FormRules.FAIL;
+				} else {
+					return FormRules.SUCCESS;
+				}
+			}
+		})
+	];
+
+	if (_.isArray(appendRules)) {
+		rules.concat(appendRules);
+	}
+
+
+	return {
+		itemType: "Input",
+		label: "项目名称",
+		prop,
+		value,
+		rules
+	}
+};
 
 const formItemLayout = {
 	labelCol: {
@@ -71,53 +176,9 @@ export default defineComponent({
 						);
 					}
 				}),
-				...defItem({
-					itemType: "Input",
-					label: "项目名称",
-					prop: "name",
-					value: "",
-					rules: [
-						FormRules.required("请输入项目名称"),
-						FormRules.custom({
-							msg: "",
-							name: "",
-							trigger: "",
-							/* 可以根据校验修改提示信息 */
-							validator(value, { configs, rule }) {
-								const type = "项目";
-								// 返回字符串长度，汉字计数为2
-								const strLength = str => {
-									let length = 0;
-									for (let i = 0; i < str.length; i++) {
-										str.charCodeAt(i) > 255 ? (length += 2) : length++;
-									}
-									return length;
-								};
-
-								const len = value ? strLength(value) : 0;
-								if (len > constants.NAME_LIMIT) {
-									rule.msg =
-										"请输入" +
-										type +
-										"名称，长度不超过" +
-										constants.NAME_LIMIT +
-										"字符(中文算作2字符)!";
-									return FormRules.FAIL;
-								} else if (len === 0) {
-									rule.msg =
-										"请输入" +
-										type +
-										"名称，长度不超过" +
-										constants.NAME_LIMIT +
-										"字符(中文算作2字符)!";
-									return FormRules.FAIL;
-								} else {
-									return FormRules.SUCCESS;
-								}
-							}
-						})
-					]
-				}),
+				...defItem(xItem_ProjectName()),
+				...defItem(xItem_ProjectIcon()),
+				...defItem(xItem_ProjectColor()),
 				...defItem({
 					value: "/",
 					prop: "basepath",
@@ -204,8 +265,6 @@ export default defineComponent({
 				const validateResults = await validateForm(vm.dataXItem);
 				if (AllWasWell(validateResults)) {
 					const formData = pickValueFrom(vm.dataXItem);
-					formData.icon = constants.PROJECT_ICON[0];
-					formData.color = pickRandomProperty(constants.PROJECT_COLOR);
 					const { data } = await API.project.addProject(formData);
 					UI.notification.success("创建成功! ");
 					return true;

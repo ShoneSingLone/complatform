@@ -119,7 +119,6 @@ export default defineComponent({
 		}
 	},
 	render() {
-		debugger;
 		let data = this.State_App.news.newsData
 			? this.State_App.news.newsData.list
 			: [];
