@@ -46,13 +46,24 @@
 	}
 }
 
+.pointer.icon-copy {
+	&:hover {
+		cursor: copy;
+	}
+}
+
 .m-card {
-	cursor: pointer;
 	text-align: center;
 	margin-bottom: 0.16rem;
 	transition: all 0.4s;
 	position: relative;
 	border-radius: 16px;
+
+	&.ant-card-hoverable {
+		&:hover {
+			cursor: unset;
+		}
+	}
 
 	.ant-card-body {
 		background-color: transparent;
@@ -62,11 +73,6 @@
 		transition: all 0.2s;
 		border-radius: 16px;
 		overflow: hidden;
-
-		&:hover {
-			box-shadow: 0 6px 6px -3px #0003, 0 10px 14px 1px #00000024,
-				0 4px 18px 3px #0000001f !important;
-		}
 	}
 
 	.ui-logo {
@@ -79,7 +85,11 @@
 		font-size: 96px;
 		background-color: #2395f1;
 		line-height: 1rem;
-		box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+		&:hover {
+			box-shadow: 0 6px 6px -3px #0003, 0 10px 14px 1px #00000024,
+				0 4px 18px 3px #0000001f !important;
+			cursor: pointer;
+		}
 	}
 
 	.ui-title {

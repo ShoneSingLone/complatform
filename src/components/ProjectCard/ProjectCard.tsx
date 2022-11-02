@@ -1,10 +1,10 @@
 import "./ProjectCard.scss";
 import constants from "@/utils/variable";
-import {defineComponent} from "vue";
-import {State_App, Methods_App} from "@/state/State_App";
-import {API} from "@/api";
+import { defineComponent } from "vue";
+import { State_App, Methods_App } from "@/state/State_App";
+import { API } from "@/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
-import {_, UI, AllWasWell, pickValueFrom, validateForm} from "@ventose/ui/dist/VentoseUI.es";
+import { _, UI, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui/dist/VentoseUI.es";
 import produce from 'immer';
 
 
@@ -21,7 +21,7 @@ export default defineComponent({
     ],
     setup() {
         ``
-        return {State_App};
+        return { State_App };
     },
     methods: {
         openCopyProjectView() {
@@ -34,14 +34,14 @@ export default defineComponent({
                 projectName: this.projectData.name,
                 async onOk(dialog) {
                     try {
-                        debugger;
                         const validateResults = await validateForm(dialog.vm.formItems);
                         if (AllWasWell(validateResults)) {
-                            const {projectName} = pickValueFrom(dialog.vm.formItems);
+                            const { projectName, icon } = pickValueFrom(dialog.vm.formItems);
                             try {
-                                await this.copyProject({projectName});
+                                await vm.copyProject({ projectName, icon });
                                 dialog.close();
                             } catch (error) {
+                                console.error(error);
                                 UI.message.error("复制失败");
                             }
                         } else {
@@ -54,17 +54,13 @@ export default defineComponent({
             })
 
         },
-        async copyProject({projectName}) {
+        async copyProject({ projectName, icon }) {
             const id = this.projectData._id;
-            let {data} = await API.project.getProjectById(id);
-            let newData = produce(data, draftData => {
-                draftData.preName = draftData.name;
-                draftData.name = projectName;
-            });
-            debugger;
-            // await API.project.copyProjectMsg(newData);
+            let { data } = await API.project.getProjectById(id);
+            data = _.merge(data, { icon }, { name: projectName }, { preName: data.name })
+            await API.project.copyProjectMsg(data);
             UI.message.success('项目复制成功');
-            this.props.callbackResult();
+            this.callbackResult();
         },
         goToProject() {
             this.$router.push({
@@ -73,7 +69,7 @@ export default defineComponent({
         },
         add: _.debounce(async function () {
             try {
-                const {projectData} = this;
+                const { projectData } = this;
                 const uid = this.State_App.user.uid;
                 const param = {
                     uid,
@@ -104,20 +100,20 @@ export default defineComponent({
         followIcon() {
             return (
                 <span class="pointer" onClick={this.followIconClickHandler}>
-					<aTooltip placement="rightTop" title={this.followIconTitle}>
-						<xIcon icon={this.followIconIcon} style={{color: "#faad14"}}/>
-					</aTooltip>
-				</span>
+                    <aTooltip placement="rightTop" title={this.followIconTitle}>
+                        <xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
+                    </aTooltip>
+                </span>
             );
         },
         copyIcon() {
             if (this.isShow) {
                 return (
-                    <span class="pointer" onClick={this.openCopyProjectView}>
-						<aTooltip placement="rightTop" title="复制项目">
-							<xIcon icon="copy" style={{color: "#232426"}}/>
-						</aTooltip>
-					</span>
+                    <span class="pointer icon-copy" onClick={this.openCopyProjectView}>
+                        <aTooltip placement="rightTop" title="复制项目">
+                            <xIcon icon="copy" style={{ color: "#232426" }} />
+                        </aTooltip>
+                    </span>
                 );
             }
             return null;
@@ -150,6 +146,7 @@ export default defineComponent({
                     class="ui-logo"
                     icon={this.projectData.icon}
                     style={this.iconStyle}
+                    onClick={this.goToProject}
                 />
             );
         },
@@ -164,13 +161,13 @@ export default defineComponent({
     render() {
         return (
             <div class="card-container" style={"width:200px;"}>
-                <aCard hoverable class="m-card" onClick={this.goToProject}>
+                <aCard hoverable class="m-card">
                     {this.logo}
                     {this.title}
                 </aCard>
                 <div class="card-btns flex">
                     {this.copyIcon}
-                    <xGap l="10"/>
+                    <xGap l="10" />
                     {this.followIcon}
                 </div>
             </div>

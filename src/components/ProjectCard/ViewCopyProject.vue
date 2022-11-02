@@ -43,7 +43,6 @@ export default defineComponent({
             FormRules.custom({
               validator(value, {configs, rule}) {
                 if (value === vm.options.projectName) {
-                  debugger;
                   rule.msg = "不能与原项目名相同";
                   return FormRules.FAIL;
                 } else {
