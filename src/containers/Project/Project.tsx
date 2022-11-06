@@ -115,23 +115,6 @@ export default class Project extends Component {
 			}
 		}
 
-		// let subnavData = [{
-		//   name: routers.interface.name,
-		//   path: `/project/${match.params.id}/interface/api`
-		// }, {
-		//   name: routers.activity.name,
-		//   path: `/project/${match.params.id}/activity`
-		// }, {
-		//   name: routers.data.name,
-		//   path: `/project/${match.params.id}/data`
-		// }, {
-		//   name: routers.members.name,
-		//   path: `/project/${match.params.id}/members`
-		// }, {
-		//   name: routers.setting.name,
-		//   path: `/project/${match.params.id}/setting`
-		// }];
-
 		let subnavData = [];
 		Object.keys(routers).forEach(key => {
 			let item = routers[key];

@@ -2,6 +2,7 @@
 import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
 import { createRouter, createWebHashHistory } from "vue-router";
 import { Methods_App, State_App } from "@/state/State_App";
+import NotFound from "../components/NotFound.vue";
 
 const { $t } = State_UI;
 
@@ -22,7 +23,40 @@ export const routeNames = {
 
 const toPath = name => `/${name}`;
 
-const routes = [
+export const ProjectChildren = [
+	{
+		name: "ProjectInterface",
+		label: "接口",
+		path: "/project/interface",
+		component: NotFound
+	},
+	{
+		name: "ProjectActivity",
+		label: "动态",
+		path: "/project/activity",
+		component: NotFound
+	},
+	{
+		name: "ProjectData",
+		label: "数据管理",
+		path: "/project/data",
+		component: NotFound
+	},
+	{
+		name: "ProjectMembers",
+		label: "成员管理",
+		path: "/project/members",
+		component: NotFound
+	},
+	{
+		name: "ProjectSetting",
+		label: "设置",
+		path: "/project/setting",
+		component: NotFound
+	}
+];
+
+export const routes = [
 	{
 		path: "/dev",
 		name: "home",
@@ -38,19 +72,20 @@ const routes = [
 	},
 	{
 		path: `/group`,
-		name: "group",
+		name: "GroupView",
 		component: () => import("@/containers/Group/Group.vue")
 	},
 	{
-		path: `/group/:groupId`,
-		name: "groupView",
-		component: () => import("@/containers/Group/Group.vue")
+		path: `/project`,
+		name: "ProjectView",
+		component: () => import("@/containers/Project/Project.vue"),
+		children: ProjectChildren
 	},
 	/* 404兜底 */
 	{
 		path: "/:pathMatch(.*)*",
 		name: "404",
-		component: () => import("../components/NotFound.vue")
+		component: NotFound
 	},
 	{
 		path: "/",
