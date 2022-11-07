@@ -27,11 +27,8 @@ export default defineComponent({
 		};
 	},
 	data() {
-		const groupId = this.$route.params.groupId || false;
 		return {
-			state: {
-				groupId
-			}
+			state: {}
 		};
 	},
 	mounted() {
@@ -40,43 +37,47 @@ export default defineComponent({
 	methods: {
 		async ifUrlNoGroupIdGetAndAddIdToUrl() {
 			try {
-				let jump = () => null;
-				if (!this.state.groupId) {
+				if (!this.groupId) {
 					let { data: group } = await API.group.getMyGroup();
-					this.state.groupId = group._id;
-					jump = () =>
-						this.$router.push({ path: `/group/${this.state.groupId}` });
+					this.$router.push({
+						name: "GroupView", query: {
+							...this.$route.query,
+							groupId: group._id
+						}
+					});
+				} else {
+					await Methods_App.setCurrGroup(this.groupId);
 				}
-				await Methods_App.setCurrGroup(this.state.groupId);
-				jump();
 			} catch (e) {
 				console.error(e);
-				this.state.groupId = false;
 				this.ifUrlNoGroupIdGetAndAddIdToUrl();
 			}
 		}
 	},
 	computed: {
+		groupId() {
+			return this.$route.query.groupId || false;
+		},
 		tabActiveKey: {
-			set(group_tab) {
+			set(groupTab) {
 				this.$router.push({
 					path: this.$route.path,
 					query: {
 						...this.$route.query,
-						group_tab
+						groupTab
 					}
 				});
 			},
 			get() {
-				const { group_tab } = this.$route.query;
-				if (TAB_KEY_ARRAY.includes(group_tab)) {
-					return group_tab;
+				const { groupTab } = this.$route.query;
+				if (TAB_KEY_ARRAY.includes(groupTab)) {
+					return groupTab;
 				} else {
 					this.$router.push({
 						path: this.$route.path,
 						query: {
 							...this.$route.query,
-							group_tab: TAB_KEY_PROJECT_LIST
+							groupTab: TAB_KEY_PROJECT_LIST
 						}
 					});
 				}
@@ -113,7 +114,7 @@ export default defineComponent({
 		}
 	},
 	render() {
-		if (!this.state.groupId) {
+		if (!this.groupId) {
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 
@@ -183,7 +184,7 @@ export default defineComponent({
 							)}
 							{(this.props.State_App.user.role === "admin" ||
 								this.props.State_App.user.roleInGroup === "owner") &&
-							this.State_App.currGroup.type !== "private" ? (
+								this.State_App.currGroup.type !== "private" ? (
 								<aTabPane tab="分组设置" key="4">
 									<GroupSetting />
 								</aTabPane>
