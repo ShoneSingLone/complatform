@@ -40,8 +40,8 @@ export default defineComponent({
 				if (!this.groupId) {
 					let { data: group } = await API.group.getMyGroup();
 					this.$router.push({
-						name: "ViewGroupId",
-						params: {
+						name: "GroupView", query: {
+							...this.$route.query,
 							groupId: group._id
 						}
 					});
@@ -56,7 +56,7 @@ export default defineComponent({
 	},
 	computed: {
 		groupId() {
-			return this.$route.params.groupId || false;
+			return this.$route.query.groupId || false;
 		},
 		tabActiveKey: {
 			set(groupTab) {
@@ -129,8 +129,20 @@ export default defineComponent({
 					<GroupList />
 				</aLayoutSider>
 				<aLayout>
-					<aLayoutContent data-app-position="Group-layout-content" style={{ height: "100%", margin: "0 24px 0 16px", overflow: "initial", backgroundColor: "#fff" }}>
-						<aTabs id="Group-layout-content-tabs" activeKey={this.tabActiveKey} onUpdate:activeKey={val => (this.tabActiveKey = val)} type="card" class="m-tab tabs-large height100">
+					<aLayoutContent
+						data-app-position="Group-layout-content"
+						style={{
+							height: "100%",
+							margin: "0 24px 0 16px",
+							overflow: "initial",
+							backgroundColor: "#fff"
+						}}>
+						<aTabs
+							id="Group-layout-content-tabs"
+							activeKey={this.tabActiveKey}
+							onUpdate:activeKey={val => (this.tabActiveKey = val)}
+							type="card"
+							class="m-tab tabs-large height100">
 							{/* 项目列表 */}
 							<aTabPane tab={TAB_KEY_PROJECT_LIST} key={TAB_KEY_PROJECT_LIST}>
 								<ProjectList />
