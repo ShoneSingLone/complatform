@@ -25,7 +25,7 @@ const toPath = name => `/${name}`;
 const routes = [
 	{
 		path: "/dev",
-		name: "home",
+		name: "ViewDev",
 		component: () => import("@/containers/Dev.vue")
 	},
 	{
@@ -37,14 +37,9 @@ const routes = [
 		}
 	},
 	{
-		path: `/group`,
-		name: "group",
-		component: () => import("@/containers/Group/Group.vue")
-	},
-	{
-		path: `/group/:groupId`,
-		name: "groupView",
-		component: () => import("@/containers/Group/Group.vue")
+		path: "/complatform",
+		name: "complatform",
+		component: () => import("@/containers/Complatform.vue")
 	},
 	/* 404兜底 */
 	{
@@ -56,7 +51,7 @@ const routes = [
 		path: "/",
 		name: "home",
 		redirect: to => {
-			return { path: "/group" };
+			return { path: "/complatform" };
 		}
 	}
 ];

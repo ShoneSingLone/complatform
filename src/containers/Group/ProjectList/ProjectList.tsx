@@ -6,6 +6,7 @@ import "./ProjectList.scss";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
 import { AllWasWell, pickValueFrom, UI, validateForm, _ } from "@ventose/ui";
+import { useURL } from "../../../compositionAPI/useURL";
 
 export default defineComponent({
 	props: [
@@ -22,12 +23,13 @@ export default defineComponent({
 		"study"
 	],
 	setup() {
-		return { State_App };
+		const { Cpt_groupId } = useURL();
+		return { State_App, Cpt_groupId };
 	},
 	data() {
 		const vm = this;
 		vm.fetchProjectList = _.debounce(async function () {
-			await Methods_App.fetchProjectList(vm.$route.params.groupId);
+			await Methods_App.fetchProjectList(vm.Cpt_groupId);
 			vm.isLoading = false;
 		});
 
@@ -60,7 +62,7 @@ export default defineComponent({
 		}
 	},
 	watch: {
-		"$route.params.groupId": {
+		Cpt_groupId: {
 			immediate: true,
 			handler() {
 				this.isLoading = true;
@@ -92,7 +94,7 @@ export default defineComponent({
 				component: ViewAddProject,
 				area: ["840px", "550px"],
 				okText: "创建项目",
-				groupId: vm.$route.params.groupId,
+				groupId: vm.Cpt_groupId,
 				onOk: async dialog => {
 					const res = await dialog.vm.submit();
 					if (res) {
