@@ -101,4 +101,4 @@ router.beforeEach(async (to, from) => {
 	}
 });
 
-router.afterEach(() => {});
+router.afterEach(() => { });
