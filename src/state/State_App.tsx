@@ -1,7 +1,7 @@
 import { reactive, watch, computed } from "vue";
 import { lStorage, setCSSVariables, UI, _, State_UI } from "@ventose/ui";
-import { API } from "@/api";
-import { router } from "@/router/router";
+import { router } from "./../router/router";
+import { API } from "./../api";
 
 const { $t } = State_UI;
 
@@ -59,8 +59,6 @@ export const State_App = reactive(
 		}
 	}
 );
-
-window.State_App = State_App;
 
 export const Methods_App = {
 	setMenu(menu) {
@@ -183,7 +181,7 @@ export const Methods_App = {
 			console.error(error);
 		}
 	},
-	async fetchInterfaceListMenu() { },
+	async fetchInterfaceListMenu() {},
 	async fetchProjectList(groupId) {
 		if (!groupId) return;
 		groupId = Number(groupId);
@@ -194,9 +192,9 @@ export const Methods_App = {
 	getProject() {
 		debugger;
 	},
-	async changeMenuItem() { },
-	async loginActions() { },
-	async loginLdapActions() { },
+	async changeMenuItem() {},
+	async loginActions() {},
+	async loginLdapActions() {},
 	async fetchGroupMemberList(groupId) {
 		const { data: member } = await API.group.getMemberListBy(groupId);
 		State_App.group.member = member;

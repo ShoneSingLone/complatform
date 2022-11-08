@@ -3,6 +3,9 @@ import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
 import { createRouter, createWebHashHistory } from "vue-router";
 import { Methods_App, State_App } from "@/state/State_App";
 import NotFound from "../components/NotFound.vue";
+import LoginContainer from "@/containers/Login/LoginContainer";
+import Group from "@/containers/Group/Group.vue";
+import Project from "@/containers/Project/Project.vue";
 
 const { $t } = State_UI;
 
@@ -27,45 +30,40 @@ export const ProjectChildren = [
 	{
 		name: "ProjectInterface",
 		label: "接口",
-		path: "/project/interface",
+		path: "interface",
 		component: NotFound
 	},
 	{
 		name: "ProjectActivity",
 		label: "动态",
-		path: "/project/activity",
+		path: "activity",
 		component: NotFound
 	},
 	{
 		name: "ProjectData",
 		label: "数据管理",
-		path: "/project/data",
+		path: "data",
 		component: NotFound
 	},
 	{
 		name: "ProjectMembers",
 		label: "成员管理",
-		path: "/project/members",
+		path: "members",
 		component: NotFound
 	},
 	{
 		name: "ProjectSetting",
 		label: "设置",
-		path: "/project/setting",
+		path: "setting",
 		component: NotFound
 	}
 ];
 
 export const routes = [
 	{
-		path: "/dev",
-		name: "home",
-		component: () => import("@/containers/Dev.vue")
-	},
-	{
 		path: `/login`,
 		name: "login",
-		component: () => import("@/containers/Login/LoginContainer"),
+		component: LoginContainer,
 		meta: {
 			title: $t("用户登录").label
 		}
@@ -73,12 +71,17 @@ export const routes = [
 	{
 		path: `/group`,
 		name: "GroupView",
-		component: () => import("@/containers/Group/Group.vue")
+		component: Group
 	},
 	{
-		path: `/project`,
+		path: `/group/:groupId`,
+		name: "ViewGroupId",
+		component: Group
+	},
+	{
+		path: `/project/:projectId`,
 		name: "ProjectView",
-		component: () => import("@/containers/Project/Project.vue"),
+		component: Project,
 		children: ProjectChildren
 	},
 	/* 404兜底 */
@@ -136,4 +139,4 @@ router.beforeEach(async (to, from) => {
 	}
 });
 
-router.afterEach(() => { });
+router.afterEach(() => {});

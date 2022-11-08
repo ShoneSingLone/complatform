@@ -71,11 +71,13 @@ export default defineComponent({
 			this.callbackResult();
 		},
 		async goToProject() {
-			const navigationResult = await this.$router.push({
+			this.$router.push({
 				name: "ProjectInterface",
-				query: {
-					groupId: this.$route.query.groupId,
+				params: {
 					projectId: this.projectData.projectid || this.projectData._id
+				},
+				query: {
+					groupId: this.$route.params.groupId
 				}
 			});
 
