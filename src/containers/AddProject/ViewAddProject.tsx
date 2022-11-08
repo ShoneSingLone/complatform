@@ -26,17 +26,17 @@ export const xItem_ProjectColor = (options: any = {}) => {
 		itemType: "Select",
 		label: State_UI.$t("icon背景颜色").label,
 		rules: [FormRules.required()],
-		options: _.map(constants.PROJECT_COLOR, (background) => {
+		options: _.map(constants.PROJECT_COLOR, background => {
 			return {
 				label: (
-					<span style={{ background, color: 'transparent' }} >
+					<span style={{ background, color: "transparent" }}>
 						_______________
-					</span >
+					</span>
 				),
 				value: background
 			};
 		})
-	}
+	};
 };
 export const xItem_ProjectIcon = (options: any = {}) => {
 	const [value] = randomValueAndProp(optionsXItem);
@@ -57,13 +57,12 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 				value
 			};
 		})
-	}
+	};
 };
 export const xItem_ProjectName = (options: any = {}) => {
 	const value = options.value || "";
 	const prop = options.prop || "name";
 	const appendRules = options.appendRules;
-
 
 	const rules = [
 		FormRules.required("请输入项目名称"),
@@ -111,14 +110,13 @@ export const xItem_ProjectName = (options: any = {}) => {
 		rules.concat(appendRules);
 	}
 
-
 	return {
 		itemType: "Input",
 		label: "项目名称",
 		prop,
 		value,
 		rules
-	}
+	};
 };
 
 const formItemLayout = {
@@ -208,7 +206,7 @@ export default defineComponent({
 						{
 							label: (
 								<aTooltip title="只有组长和项目开发者可以索引并查看项目信息">
-									<span class="flex middle" >
+									<span class="flex middle">
 										<xIcon icon="lockStrok" />
 										<span>私有</span>
 									</span>
@@ -235,7 +233,7 @@ export default defineComponent({
 					text: "创建项目",
 					type: "primary",
 					icon: <xIcon icon="add" />,
-					async onClick() { }
+					async onClick() {}
 				}
 			},
 			state: {

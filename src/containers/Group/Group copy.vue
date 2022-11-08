@@ -40,7 +40,8 @@ export default defineComponent({
 				if (!this.groupId) {
 					let { data: group } = await API.group.getMyGroup();
 					this.$router.push({
-						name: "GroupView", query: {
+						name: "GroupView",
+						query: {
 							...this.$route.query,
 							groupId: group._id
 						}
@@ -184,7 +185,7 @@ export default defineComponent({
 							)}
 							{(this.props.State_App.user.role === "admin" ||
 								this.props.State_App.user.roleInGroup === "owner") &&
-								this.State_App.currGroup.type !== "private" ? (
+							this.State_App.currGroup.type !== "private" ? (
 								<aTabPane tab="分组设置" key="4">
 									<GroupSetting />
 								</aTabPane>

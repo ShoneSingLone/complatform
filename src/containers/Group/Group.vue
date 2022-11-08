@@ -129,8 +129,20 @@ export default defineComponent({
 					<GroupList />
 				</aLayoutSider>
 				<aLayout>
-					<aLayoutContent data-app-position="Group-layout-content" style={{ height: "100%", margin: "0 24px 0 16px", overflow: "initial", backgroundColor: "#fff" }}>
-						<aTabs id="Group-layout-content-tabs" activeKey={this.tabActiveKey} onUpdate:activeKey={val => (this.tabActiveKey = val)} type="card" class="m-tab tabs-large height100">
+					<aLayoutContent
+						data-app-position="Group-layout-content"
+						style={{
+							height: "100%",
+							margin: "0 24px 0 16px",
+							overflow: "initial",
+							backgroundColor: "#fff"
+						}}>
+						<aTabs
+							id="Group-layout-content-tabs"
+							activeKey={this.tabActiveKey}
+							onUpdate:activeKey={val => (this.tabActiveKey = val)}
+							type="card"
+							class="m-tab tabs-large height100">
 							{/* 项目列表 */}
 							<aTabPane tab={TAB_KEY_PROJECT_LIST} key={TAB_KEY_PROJECT_LIST}>
 								<ProjectList />
@@ -172,7 +184,7 @@ export default defineComponent({
 							)}
 							{(this.props.State_App.user.role === "admin" ||
 								this.props.State_App.user.roleInGroup === "owner") &&
-								this.State_App.currGroup.type !== "private" ? (
+							this.State_App.currGroup.type !== "private" ? (
 								<aTabPane tab="分组设置" key="4">
 									<GroupSetting />
 								</aTabPane>

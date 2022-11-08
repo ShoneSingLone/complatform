@@ -1,14 +1,11 @@
 <template>
-    <h1>project</h1>
-    <RouterView />
+	<h1>project</h1>
+	<RouterView />
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
-<style>
-
-</style>>
+<style></style>
+>

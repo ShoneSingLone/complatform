@@ -30,9 +30,5 @@ export default defineComponent({
 	<Footer />
 </template>
 
-<style lang="less" src="./styles/App.less">
-
-</style>
-<style lang="scss" src="./containers/Home/Home.scss">
-
-</style>
+<style lang="less" src="./styles/App.less"></style>
+<style lang="scss" src="./containers/Home/Home.scss"></style>

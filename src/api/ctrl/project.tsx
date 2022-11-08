@@ -27,14 +27,14 @@ export const project = {
 	getProjectById(id) {
 		return ajax({
 			method: "get",
-			url: '/api/project/get',
+			url: "/api/project/get",
 			params: { id }
 		});
 	},
 	copyProjectMsg(data) {
 		return ajax({
 			method: "post",
-			url: '/api/project/copy',
+			url: "/api/project/copy",
 			data
 		});
 	},

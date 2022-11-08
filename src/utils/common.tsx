@@ -6,7 +6,7 @@ import {
 } from "@ventose/ui/dist/VentoseUI.es";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
-import { router } from './../router/router';
+import { router } from "./../router/router";
 
 export { ITEM_OPTIONS } from "./common.options";
 export { STATIC_WORD } from "./common.words";
