@@ -2,6 +2,7 @@
 import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
 import { createRouter, createWebHashHistory } from "vue-router";
 import { Methods_App, State_App } from "@/state/State_App";
+import NotFound from "../components/NotFound.vue";
 
 const { $t } = State_UI;
 
@@ -25,7 +26,7 @@ const toPath = name => `/${name}`;
 const routes = [
 	{
 		path: "/dev",
-		name: "home",
+		name: "ViewDev",
 		component: () => import("@/containers/Dev.vue")
 	},
 	{
@@ -38,19 +39,20 @@ const routes = [
 	},
 	{
 		path: `/group`,
-		name: "group",
+		name: "ViewGroup",
 		component: () => import("@/containers/Group/Group.vue")
 	},
 	{
-		path: `/group/:groupId`,
-		name: "groupView",
-		component: () => import("@/containers/Group/Group.vue")
+		path: `/group2`,
+		name: "ViewProject",
+		component: () => import("@/containers/Group/Project.vue")
+		// component: () => import("@/containers/Project/Project.vue")
 	},
 	/* 404兜底 */
 	{
 		path: "/:pathMatch(.*)*",
 		name: "404",
-		component: () => import("../components/NotFound.vue")
+		component: NotFound
 	},
 	{
 		path: "/",
@@ -101,4 +103,4 @@ router.beforeEach(async (to, from) => {
 	}
 });
 
-router.afterEach(() => {});
+router.afterEach(() => { });

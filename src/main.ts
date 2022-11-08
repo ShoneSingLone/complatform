@@ -1,5 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+import Demo from "./Demo.vue";
+import { router } from "@/router/router";
 import { appPlugins } from "@/utils/common";
 import { State_App } from "@/state/State_App";
 
@@ -11,4 +13,12 @@ async function main() {
 		.mount("#app");
 }
 
-main();
+// main();
+
+function demo() {
+	createApp(Demo)
+		.use(router)
+		.mount("#app");
+}
+
+demo()

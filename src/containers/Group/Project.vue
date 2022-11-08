@@ -3,7 +3,7 @@ import GroupList from "./GroupList/GroupList";
 import ProjectList from "./ProjectList/ProjectList";
 import MemberList from "./MemberList/MemberList";
 import GroupLog from "./GroupLog/GroupLog";
-import ViewProject from "../Project/Project.vue"
+import ViewProject from "../Project/Project.vue";
 /*
 import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 import "./Group.scss";
@@ -22,6 +22,7 @@ const TAB_KEY_ARRAY = [
 ];
 
 export default defineComponent({
+	name: "ViewProject",
 	setup() {
 		return {
 			State_App
@@ -116,7 +117,6 @@ export default defineComponent({
 		}
 	},
 	render() {
-
 		if (!this.groupId) {
 			return <aSpin class="flex vertical middle center height100" />;
 		}

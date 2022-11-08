@@ -138,7 +138,11 @@ export default defineComponent({
 		async selectGroup({ key: groupId }) {
 			const currGroup = _.find(this.State_App.groupList, { _id: +groupId });
 			await Methods_App.setCurrGroup(currGroup);
-			this.$router.push({ path: `/group/${currGroup._id}` });
+			this.$router.push({
+				name: "ViewGroup", query: {
+					group_id: currGroup._id
+				}
+			});
 			await Methods_App.fetchNewsData(groupId, "group", 1, 10);
 		},
 
@@ -162,7 +166,7 @@ export default defineComponent({
 	render() {
 		const { currGroup } = this.State_App;
 		return (
-			<div class="m-group flex1 height100">
+			<div class="m-group flex1 height100" data-component-name="src/containers/Group/GroupList/GroupList.tsx">
 				<div
 					class="group-bar flex vertical"
 					v-loading={this.groupListForShow.length === 0}>

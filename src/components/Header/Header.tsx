@@ -51,7 +51,6 @@ export default defineComponent({
 		"uid",
 		"role",
 		"login",
-		"relieveLink",
 		"logoutActions",
 		"loginTypeAction",
 		"changeMenuItem",

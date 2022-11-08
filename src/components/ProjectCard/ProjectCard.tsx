@@ -64,7 +64,12 @@ export default defineComponent({
         },
         goToProject() {
             this.$router.push({
-                path: "/project/" + (this.projectData.projectid || this.projectData._id)
+                name: "ViewDev",
+                // name: "ViewProject",
+                query: {
+                    group_id: this.$route?.query?.group_id,
+                    project_id: this.projectData.projectid || this.projectData._id
+                }
             });
         },
         add: _.debounce(async function () {

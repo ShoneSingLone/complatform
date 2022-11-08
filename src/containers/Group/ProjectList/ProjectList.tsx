@@ -27,7 +27,7 @@ export default defineComponent({
 	data() {
 		const vm = this;
 		vm.fetchProjectList = _.debounce(async function () {
-			await Methods_App.fetchProjectList(vm.$route.params.groupId);
+			await Methods_App.fetchProjectList(vm.$route.query.group_id);
 			vm.isLoading = false;
 		});
 
@@ -60,7 +60,7 @@ export default defineComponent({
 		}
 	},
 	watch: {
-		"$route.params.groupId": {
+		"$route.query.group_id": {
 			immediate: true,
 			handler() {
 				this.isLoading = true;
@@ -92,7 +92,7 @@ export default defineComponent({
 				component: ViewAddProject,
 				area: ["840px", "550px"],
 				okText: "创建项目",
-				groupId: vm.$route.params.groupId,
+				groupId: vm.$route.query.group_id,
 				onOk: async dialog => {
 					const res = await dialog.vm.submit();
 					if (res) {
