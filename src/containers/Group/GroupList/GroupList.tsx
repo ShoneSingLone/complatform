@@ -1,17 +1,3 @@
-import {
-	Modal,
-	Input,
-	message,
-	Spin,
-	Row,
-	Menu,
-	Col,
-	Popover,
-	Tooltip
-} from "ant-design-vue";
-
-import axios from "axios";
-
 import GuideBtns from "@/components/GuideBtns/GuideBtns";
 import { _, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
 import "./GroupList.scss";
@@ -36,17 +22,13 @@ export default defineComponent({
 	props: [
 		"groupList",
 		"currGroup",
-		"fetchGroupList",
-		"setCurrGroup",
-		"setGroupList",
 		"match",
 		"history",
 		"State_App.user.role",
 		"State_App.user.roleInGroup",
 		"studyTip",
 		"study",
-		"fetchNewsData",
-		"setCurrGroup"
+		"fetchNewsData"
 	],
 	setup() {
 		return {
@@ -139,7 +121,8 @@ export default defineComponent({
 			const currGroup = _.find(this.State_App.groupList, { _id: +groupId });
 			await Methods_App.setCurrGroup(currGroup);
 			this.$router.push({
-				name: "ViewGroup", query: {
+				path: this.$route.path,
+				query: {
 					group_id: currGroup._id
 				}
 			});

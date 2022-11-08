@@ -10,6 +10,7 @@ import "./Group.scss";
 import { API } from "@/api";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
+import { useURL } from "../../compositionAPI/useURL";
 
 const TAB_KEY_PROJECT_LIST = "项目列表";
 const TAB_KEY_MEMBER_LIST = "成员列表";
@@ -23,8 +24,10 @@ const TAB_KEY_ARRAY = [
 
 export default defineComponent({
 	setup() {
+		const { Cpt_groupId } = useURL();
 		return {
-			State_App
+			State_App,
+			Cpt_groupId
 		};
 	},
 	data() {
@@ -36,23 +39,16 @@ export default defineComponent({
 	methods: {
 		async ifUrlNoGroupIdGetAndAddIdToUrl() {
 			try {
-				if (this.groupId) {
-					await Methods_App.setCurrGroup(this.groupId);
-				} else {
+				if (!this.Cpt_groupId) {
 					let { data: group } = await API.group.getMyGroup();
-					const groupId = group._id;
-					this.$router.push({
-						name: `ViewGroup`,
-						query: {
-							group_id: groupId
-						}
-					});
+					this.Cpt_groupId = group._id;
+				} else {
+					await Methods_App.setCurrGroup(this.Cpt_groupId);
 				}
 			} catch (e) {
 				console.error(e);
-				setTimeout(() => {
-					this.ifUrlNoGroupIdGetAndAddIdToUrl();
-				}, 1000);
+				this.Cpt_groupId = false;
+				this.ifUrlNoGroupIdGetAndAddIdToUrl();
 			}
 		}
 	},
@@ -116,8 +112,7 @@ export default defineComponent({
 		}
 	},
 	render() {
-
-		if (!this.groupId) {
+		if (!this.Cpt_groupId) {
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 
@@ -187,7 +182,7 @@ export default defineComponent({
 							)}
 							{(this.props.State_App.user.role === "admin" ||
 								this.props.State_App.user.roleInGroup === "owner") &&
-							this.State_App.currGroup.type !== "private" ? (
+								this.State_App.currGroup.type !== "private" ? (
 								<aTabPane tab="分组设置" key="4">
 									<GroupSetting />
 								</aTabPane>

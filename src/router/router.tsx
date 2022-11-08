@@ -38,15 +38,9 @@ const routes = [
 		}
 	},
 	{
-		path: `/group`,
-		name: "ViewGroup",
-		component: () => import("@/containers/Group/Group.vue")
-	},
-	{
-		path: `/group2`,
-		name: "ViewProject",
-		component: () => import("@/containers/Group/Project.vue")
-		// component: () => import("@/containers/Project/Project.vue")
+		path: "/complatform",
+		name: "complatform",
+		component: () => import("@/containers/Complatform.vue")
 	},
 	/* 404兜底 */
 	{
@@ -58,7 +52,7 @@ const routes = [
 		path: "/",
 		name: "home",
 		redirect: to => {
-			return { path: "/group" };
+			return { path: "/complatform" };
 		}
 	}
 ];

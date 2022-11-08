@@ -4,9 +4,14 @@ import { defineComponent } from "vue";
 import { State_App, Methods_App } from "@/state/State_App";
 import { API } from "@/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
-import { _, UI, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui/dist/VentoseUI.es";
-import produce from 'immer';
-
+import {
+	_,
+	UI,
+	AllWasWell,
+	pickValueFrom,
+	validateForm
+} from "@ventose/ui/dist/VentoseUI.es";
+import produce from "immer";
 
 export default defineComponent({
     props: [
@@ -64,12 +69,7 @@ export default defineComponent({
         },
         goToProject() {
             this.$router.push({
-                name: "ViewDev",
-                // name: "ViewProject",
-                query: {
-                    group_id: this.$route?.query?.group_id,
-                    project_id: this.projectData.projectid || this.projectData._id
-                }
+                path: "/project/" + (this.projectData.projectid || this.projectData._id)
             });
         },
         add: _.debounce(async function () {
