@@ -228,7 +228,10 @@ export default defineComponent({
 			<aLayoutHeader class="header-box m-header elevation-4">
 				<div class="content g-row flex middle">
 					<span onClick={this.setBreadcrumb} class="flex middle pointer">
-						<LogoSVG length="32px" onClick={() => this.Cpt_url.go("/group")} />
+						<LogoSVG
+							length="32px"
+							onClick={() => this.Cpt_url.go("/group", this.Cpt_url.query)}
+						/>
 					</span>
 					<BreadcrumbNavigation />
 					<span class="flex1"></span>
