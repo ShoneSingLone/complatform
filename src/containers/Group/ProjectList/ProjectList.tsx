@@ -6,6 +6,7 @@ import "./ProjectList.scss";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
 import { AllWasWell, pickValueFrom, UI, validateForm, _ } from "@ventose/ui";
+import { Cpt_url } from "./../../../state/State_App";
 
 export default defineComponent({
 	props: [
@@ -22,12 +23,12 @@ export default defineComponent({
 		"study"
 	],
 	setup() {
-		return { State_App };
+		return { State_App, Cpt_url };
 	},
 	data() {
 		const vm = this;
 		vm.fetchProjectList = _.debounce(async function () {
-			await Methods_App.fetchProjectList(vm.$route.params.groupId);
+			await Methods_App.fetchProjectList(vm.Cpt_url.query.group_id);
 			vm.isLoading = false;
 		});
 
@@ -60,7 +61,7 @@ export default defineComponent({
 		}
 	},
 	watch: {
-		"$route.params.groupId": {
+		"Cpt_url.query.group_id": {
 			immediate: true,
 			handler() {
 				this.isLoading = true;
@@ -92,7 +93,7 @@ export default defineComponent({
 				component: ViewAddProject,
 				area: ["840px", "550px"],
 				okText: "创建项目",
-				groupId: vm.$route.params.groupId,
+				groupId: vm.Cpt_url.query.group_id,
 				onOk: async dialog => {
 					const res = await dialog.vm.submit();
 					if (res) {
@@ -210,7 +211,6 @@ export default defineComponent({
 				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
 				<aRow class="project-list-header">
 					<aCol span={16} style={{ textAlign: "left" }}>
-						<span> {this.$route.params}</span>
 						<span>{this.State_App.currGroup.group_name} </span>
 						<span>分组共</span>
 						<span> ({this.State_App.projectList.length})</span>

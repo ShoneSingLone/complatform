@@ -5,8 +5,8 @@ import { LogoSVG } from "@/components/LogoSVG/index";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import GuideBtns from "../GuideBtns/GuideBtns";
 import { defineComponent, VNode } from "vue";
-import { Methods_App, State_App } from "@/state/State_App";
 import { UI, _ } from "@ventose/ui";
+import { Cpt_url, Methods_App, State_App } from "./../../state/State_App";
 
 const tipFollow = (
 	<div class="title-container">
@@ -62,7 +62,7 @@ export default defineComponent({
 		"imageUrl"
 	],
 	setup() {
-		return { State_App };
+		return { State_App, Cpt_url };
 	},
 	methods: {
 		setBreadcrumb() {
@@ -121,9 +121,11 @@ export default defineComponent({
 				const iconStyle = { fontSize: 16, color: "white" };
 				if (i.path) {
 					link = (
-						<RouterLink to={i.path}>
-							<xIcon icon={i.icon} style={iconStyle} />
-						</RouterLink>
+						<xIcon
+							icon={i.icon}
+							style={iconStyle}
+							onClick={() => this.Cpt_url.go(i.path)}
+						/>
 					);
 				}
 
@@ -225,10 +227,8 @@ export default defineComponent({
 		return (
 			<aLayoutHeader class="header-box m-header elevation-4">
 				<div class="content g-row flex middle">
-					<span onClick={this.setBreadcrumb}>
-						<RouterLink to="/" class="flex">
-							<LogoSVG length="32px" />
-						</RouterLink>
+					<span onClick={this.setBreadcrumb} class="flex middle pointer">
+						<LogoSVG length="32px" onClick={() => this.Cpt_url.go("/group")} />
 					</span>
 					<BreadcrumbNavigation />
 					<span class="flex1"></span>

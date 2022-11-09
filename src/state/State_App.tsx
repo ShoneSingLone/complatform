@@ -61,6 +61,8 @@ export const State_App = reactive(
     }
 );
 
+State_App.urlHash = window.location.hash;
+
 export const Methods_App = {
     setMenu(menu) {
         /* notice！！_.merge 空数组不会替换*/
@@ -249,49 +251,91 @@ watch(
     1000
 );
 
-window.addEventListener("hashchange", _.debounce(function () {
-    debugger;
-    State_App.urlHash = window.location.hash;
-}, 300))
+window.addEventListener(
+    "hashchange",
+    _.debounce(function () {
+        State_App.urlHash = window.location.hash;
+    }, 300)
+);
 
+type type_url = {
+    go: (path: string, query?: object) => null;
+    refresh: (query: object) => null;
+};
 
-export const Cpt_url = computed(() => {
+export const Cpt_url: type_url = computed(() => {
+
     const urlHash = State_App.urlHash || "/";
     const {origin} = location;
-    const _url = new URL(urlHash.replace("#", origin));
+
+    let _url = {};
+
+    try {
+        _url = new URL(urlHash.replace("#", ""), origin);
+    } catch (e) {
+        console.log(urlHash, origin);
+        console.error(e);
+    }
+
     let query = {};
+
     for (var pair of _url.searchParams.entries()) {
         query[pair[0]] = pair[1];
     }
+
     query = new Proxy(query, {
         get(obj, prop) {
-            return obj[prop]
+            return obj[prop];
         },
-        set(obj, prop, val) {
-            obj[prop] = val;
+        set(_query, prop, val) {
+            _query[prop] = val;
+            onlyModifyQuery(_.merge({}, _query))
             return true;
         }
-    })
+    });
 
-    function updateHash(path, query) {
 
-    }
-
-    return new Proxy(_url, {
+    const _Cpt_url = new Proxy(_url, {
         get(obj, prop) {
-            if (prop === 'query') {
-                debugger;
+            if (prop === "query") {
                 return query;
             }
-
-            if (prop === 'go') {
-                return updateHash;
+            if (prop === "go") {
+                return modifyPathname;
             }
-            return _url[prop]
+            if (prop === "refresh") {
+                return onlyModifyQuery;
+            }
+            return _url[prop];
         },
         set(obj, prop, val) {
-            if (prop === 'path')
-                return true;
+            if (prop === "path") return true;
         }
     });
+
+    return _Cpt_url;
 });
+
+/***
+ *  pathname search
+ * @param urlLike
+ * @param query
+ */
+function transToUrl(urlLike: string, query: any) {
+    const _url = new URL(String(urlLike).replace("#", ""), location.origin);
+    _url.search = new URLSearchParams(query).toString();
+    const {pathname, search} = _url;
+    return `${pathname}${search}`;
+}
+
+function modifyPathname(path, _query = {}) {
+    window.location.hash = transToUrl(path, _query);
+}
+
+/***
+ * query 会直接替换
+ * @param _query
+ */
+function onlyModifyQuery(_query) {
+    window.location.hash = transToUrl(location.hash, _query);
+}

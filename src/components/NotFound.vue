@@ -1,22 +1,34 @@
-<script setup>
-import { useRouter } from "vue-router";
+<script>
+import { Cpt_url } from "../state/State_App";
+import { defineComponent } from "vue";
 
-const router = useRouter();
-function go() {
-	router.push({ path: "/" });
-}
+
+export default defineComponent({
+  props: ['pathname'],
+  setup() {
+    return {
+      Cpt_url
+    };
+  }
+  ,
+  methods: {
+    goHome() {
+      this.Cpt_url.go("/group");
+    }
+  }
+});
 </script>
 
 <template>
-	<aResult
-		status="404"
-		title="404"
-		:sub-title="$t('notFoundTips').label"
-		class="flex1">
-		<template #extra>
-			<aButton type="primary" @click="go">
-				{{ $t("BackHome").label }}
-			</aButton>
-		</template>
-	</aResult>
+  <aResult
+    status="404"
+    title="404"
+    :sub-title="pathname"
+    class="flex1">
+    <template #extra>
+      <aButton type="primary" @click="goHome">
+        {{ $t("BackHome").label }}
+      </aButton>
+    </template>
+  </aResult>
 </template>
