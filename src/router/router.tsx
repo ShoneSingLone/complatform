@@ -112,7 +112,6 @@ router.beforeEach(async (to, from) => {
 			if (["/login"].includes(to.path)) {
 				return true;
 			}
-
 			router.push({ path: "/login" });
 			return false;
 		}
