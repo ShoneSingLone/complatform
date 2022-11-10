@@ -1,7 +1,6 @@
 import { State_App, Methods_App } from "@/state/State_App";
 import { defineComponent } from "vue";
 import "./MemberList.scss";
-import { RouterLink } from "vue-router";
 import {
 	defDataGridOption,
 	defCol,
@@ -50,16 +49,14 @@ export default defineComponent({
 		const vm = this;
 		this.initTableColumns();
 		await Methods_App.setCurrGroup(this.State_App.currGroup._id);
-		await this.fetchGroupMemberList();
-
-		this.$watch(
-			() => {
-				return this.State_App.currGroup._id;
-			},
-			() => {
+	},
+	watch: {
+		"State_App.currGroup._id": {
+			immediate: true,
+			handler() {
 				this.fetchGroupMemberList();
 			}
-		);
+		}
 	},
 	methods: {
 		initTableColumns() {
@@ -73,14 +70,14 @@ export default defineComponent({
 						const imgSrc = `${location.protocol}//${location.host}/api/user/avatar?uid=${record.uid}`;
 						return (
 							<div class="m-user">
-								<RouterLink to={`/user/profile/${record.uid}`}>
+								<div to={`/user/profile/${record.uid}`}>
 									<img src={imgSrc} class="m-user-img" />
-								</RouterLink>
-								<RouterLink to={`/user/profile/${record.uid}`}>
+								</div>
+								<div to={`/user/profile/${record.uid}`}>
 									<p class="m-user-name">
 										<span>{text}</span>
 									</p>
-								</RouterLink>
+								</div>
 							</div>
 						);
 					}

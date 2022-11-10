@@ -1,7 +1,7 @@
 import { defineComponent, inject, provide } from "vue";
 import { routes, Cpt_url } from "../../router/router";
 import { _ } from "@ventose/ui";
-import NotFound from "../../components/NotFound.vue";
+import { NotFound } from "../../components/NotFound";
 
 export const xRouterView = defineComponent({
 	name: "xRouterView",

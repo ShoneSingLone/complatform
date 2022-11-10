@@ -41,7 +41,7 @@ import {
 	FormRules
 } from "@ventose/ui";
 import { API } from "@/api";
-import { router } from "@/router/router";
+import { Cpt_url } from "@/router/router";
 
 const { $t } = State_UI;
 
@@ -75,6 +75,7 @@ export default defineComponent({
 	},
 	setup() {
 		return {
+			Cpt_url,
 			Methods_App
 		};
 	},
@@ -173,7 +174,8 @@ export default defineComponent({
 						if (AllWasWell(validateResults)) {
 							const res = await API.user.regActions(vm.data);
 							UI.notification.success("注册成功");
-							router.push({ path: "/group" });
+
+							this.Cpt_url.go("/group");
 						} else {
 							throw new Error("未通过验证");
 						}

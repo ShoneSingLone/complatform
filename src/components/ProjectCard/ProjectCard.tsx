@@ -1,5 +1,4 @@
 import "./ProjectCard.scss";
-import constants from "@/utils/variable";
 import { defineComponent } from "vue";
 import { State_App, Methods_App } from "@/state/State_App";
 import { API } from "@/api";

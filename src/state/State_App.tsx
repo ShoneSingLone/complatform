@@ -1,6 +1,6 @@
 import { reactive, watch, computed } from "vue";
 import { lStorage, setCSSVariables, UI, _, State_UI } from "@ventose/ui";
-import { router } from "./../router/router";
+import { Cpt_url } from "./../router/router";
 import { API } from "./../api";
 
 const { $t } = State_UI;
@@ -177,7 +177,7 @@ export const Methods_App = {
 				type: ""
 			});
 			if (data === "ok") {
-				router.push({ path: "/login" });
+				Cpt_url.value.go("/login");
 				UI.notification.success("退出成功! ");
 			}
 		} catch (error) {

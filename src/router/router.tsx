@@ -1,37 +1,18 @@
 // progress bar
 import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
-import { createRouter, createWebHashHistory } from "vue-router";
 import { Methods_App, State_App } from "@/state/State_App";
-import NotFound from "../components/NotFound.vue";
 import LoginContainer from "@/containers/Login/LoginContainer";
 import Group from "@/containers/Group/Group.vue";
 import Project from "../containers/Project/Project.vue";
+import { NotFound } from "../components/NotFound";
 import { ProjectInterface } from "../containers/Project/Interface/ProjectInterface";
-import { computed } from "vue";
+import { computed, ComputedRef } from "vue";
 
 const { $t } = State_UI;
-
-export const NewRoute = (name, component, options = {}) =>
-	_.merge(
-		{
-			name,
-			path: `/${name}`,
-			component
-		},
-		options
-	);
-
-export const routeNames = {
-	login: "login",
-	404: "404"
-};
-
-const toPath = name => `/${name}`;
 
 export const routes = [
 	{
 		path: `/login`,
-		name: "login",
 		component: LoginContainer,
 		meta: {
 			title: $t("用户登录").label
@@ -39,50 +20,64 @@ export const routes = [
 	},
 	{
 		path: `/group`,
-		name: "GroupView",
-		component: Group
+		component: Group,
+		meta: {
+			title: $t("分组").label
+		}
 	},
 	{
 		path: `/project`,
-		name: "ProjectView",
-		component: Project
+		component: Project,
+		meta: {
+			title: $t("项目").label
+		}
 	},
 	{
 		label: "接口",
 		path: "/project/interface",
-		component: ProjectInterface
+		component: ProjectInterface,
+		meta: {
+			title: $t("接口").label
+		}
 	},
 	{
 		label: "动态",
 		path: "/project/activity",
-		component: NotFound
+		component: NotFound,
+		meta: {
+			title: $t("动态").label
+		}
 	},
 	{
 		label: "数据管理",
 		path: "/project/data",
-		component: NotFound
+		component: NotFound,
+		meta: {
+			title: $t("数据管理").label
+		}
 	},
 	{
 		label: "成员管理",
 		path: "/project/members",
-		component: NotFound
+		component: NotFound,
+		meta: {
+			title: $t("成员管理").label
+		}
 	},
 	{
 		label: "设置",
 		path: "/project/setting",
-		component: NotFound
+		component: NotFound,
+		meta: {
+			title: $t("设置").label
+		}
 	},
-	/* 404兜底 */
 	{
+		/* 404兜底 */
 		path: "/:pathMatch(.*)*",
-		name: "404",
-		component: NotFound
-	},
-	{
-		path: "/",
-		name: "home",
-		redirect: to => {
-			return { path: "/group" };
+		component: NotFound,
+		meta: {
+			title: $t("NotFound").label
 		}
 	}
 ];
@@ -92,53 +87,12 @@ export const ProjectChildren = routes.filter(route => {
 	return res && res[1];
 });
 
-export const router = createRouter({
-	history: createWebHashHistory(),
-	routes
-});
-
-// no redirect allowList
-
-router.beforeEach(async (to, from) => {
-	try {
-		if (!(await Methods_App.checkLoginState())) {
-			if (["/login"].includes(to.path)) {
-				return true;
-			}
-			router.push({ path: "/login" });
-			return false;
-		}
-
-		if (State_App.user.isLogin) {
-			if (["/login"].includes(to.path)) {
-				setTimeout(() => {
-					router.push({ path: "/" });
-				}, 300);
-				return false;
-			}
-		}
-
-		return true;
-	} catch (error) {
-		console.error(error);
-		return false;
-	} finally {
-		if (to?.meta?.title) {
-			setDocumentTitle(to.meta.title);
-		} else {
-			setDocumentTitle("YApi-高效、易用、功能强大的可视化接口管理平台");
-		}
-	}
-});
-
-router.afterEach(() => {});
-
 type type_url = {
 	go: (path: string, query?: object) => null;
 	refresh: (query: object) => null;
 };
 
-export const Cpt_url: type_url = computed(() => {
+export const Cpt_url: ComputedRef<type_url> = computed(() => {
 	const urlHash = State_App.urlHash || "/";
 	const { origin } = location;
 

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 
 import { Row, Input } from "ant-design-vue";
-import constants from "@/utils/variable";
-const wordList = constants.MOCK_SOURCE;
+import { MOCK_SOURCE } from "../../utils/variable";
 const Search = Input.Search;
 
 class MockList extends Component {
@@ -21,12 +20,12 @@ class MockList extends Component {
 
 	componentDidMount() {
 		this.setState({
-			list: wordList
+			list: MOCK_SOURCE
 		});
 	}
 
 	onFilter = e => {
-		const list = wordList.filter(item => {
+		const list = MOCK_SOURCE.filter(item => {
 			return item.mock.indexOf(e.target.value) !== -1;
 		});
 		this.setState({

@@ -31,7 +31,7 @@ const { TextArea } = Input;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
-import constants from "@/utils/variable";
+import from "@/utils/variable";
 const confirm = Modal.confirm;
 import { nameLengthLimit, entries, trim, htmlFilter } from "../../../../common";
 import "../Setting.scss";
@@ -262,7 +262,7 @@ class ProjectMessage extends Component {
 			tag
 		};
 
-		const colorArr = entries(constants.PROJECT_COLOR);
+		const colorArr = entries(PROJECT_COLOR);
 		const colorSelector = (
 			<RadioGroup
 				onChange={this.changeProjectColor}
@@ -289,7 +289,7 @@ class ProjectMessage extends Component {
 				onChange={this.changeProjectIcon}
 				value={projectMsg.icon}
 				class="icon">
-				{constants.PROJECT_ICON.map(item => {
+				{PROJECT_ICON.map(item => {
 					return (
 						<RadioButton key={item} value={item} style={{ fontWeight: "bold" }}>
 							<aIcon type={item} />
@@ -316,8 +316,8 @@ class ProjectMessage extends Component {
 									class="ui-logo"
 									style={{
 										backgroundColor:
-											constants.PROJECT_COLOR[projectMsg.color] ||
-											constants.PROJECT_COLOR.blue
+											PROJECT_COLOR[projectMsg.color] ||
+											PROJECT_COLOR.blue
 									}}
 								/>
 							</Popover>

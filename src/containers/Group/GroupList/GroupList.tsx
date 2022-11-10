@@ -1,17 +1,3 @@
-import {
-	Modal,
-	Input,
-	message,
-	Spin,
-	Row,
-	Menu,
-	Col,
-	Popover,
-	Tooltip
-} from "ant-design-vue";
-
-import axios from "axios";
-
 import GuideBtns from "@/components/GuideBtns/GuideBtns";
 import { _, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
 import "./GroupList.scss";
@@ -20,6 +6,7 @@ import { UI } from "@ventose/ui";
 import ViewAddGroup from "./ViewAddGroup.vue";
 import { API } from "@/api";
 import { Methods_App, State_App } from "../../../state/State_App";
+import { Cpt_url } from "./../../../router/router";
 
 const tip = (
 	<div class="title-container">

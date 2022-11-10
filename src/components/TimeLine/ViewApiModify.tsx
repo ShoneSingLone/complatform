@@ -1,6 +1,4 @@
 import { handlePath, randomValueAndProp } from "@/utils/common";
-
-import "./Addproject.scss";
 import { defineComponent } from "vue";
 import {
 	AllWasWell,
@@ -12,10 +10,11 @@ import {
 	_,
 	State_UI
 } from "@ventose/ui";
+import { State_App } from "@/state/State_App";
+import { Methods_App } from "@/state/State_App";
 import { API } from "../../api/index";
 import optionsXItem from "@/utils/common.options.xIcon";
 import { NAME_LIMIT, PROJECT_COLOR } from "../../utils/variable";
-import { Methods_App, State_App } from "../../state/State_App";
 
 export const xItem_ProjectColor = (options: any = {}) => {
 	const [value] = randomValueAndProp(PROJECT_COLOR);
@@ -132,7 +131,7 @@ const formItemLayout = {
 	className: "form-item"
 };
 
-export default defineComponent({
+export const ViewApiModify = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
 		options: {
