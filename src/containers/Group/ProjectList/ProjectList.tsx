@@ -6,7 +6,7 @@ import "./ProjectList.scss";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
 import { AllWasWell, pickValueFrom, UI, validateForm, _ } from "@ventose/ui";
-import { Cpt_url } from "./../../../state/State_App";
+import { Cpt_url } from "../../../router/router";
 
 export default defineComponent({
 	props: [

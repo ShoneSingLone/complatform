@@ -6,7 +6,8 @@ import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import GuideBtns from "../GuideBtns/GuideBtns";
 import { defineComponent, VNode } from "vue";
 import { UI, _ } from "@ventose/ui";
-import { Cpt_url, Methods_App, State_App } from "./../../state/State_App";
+import { Methods_App, State_App } from "./../../state/State_App";
+import { Cpt_url } from "../../router/router";
 
 const tipFollow = (
 	<div class="title-container">

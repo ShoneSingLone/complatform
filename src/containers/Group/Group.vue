@@ -9,7 +9,7 @@ import "./Group.scss";
 import { API } from "@/api";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
-import { Cpt_url } from "../../state/State_App";
+import { Cpt_url } from "../../router/router";
 
 const TAB_KEY_PROJECT_LIST = "项目列表";
 const TAB_KEY_MEMBER_LIST = "成员列表";

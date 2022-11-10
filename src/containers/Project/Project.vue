@@ -8,9 +8,8 @@ import "../Group/Group.scss";
 import { API } from "@/api";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
-import { ProjectChildren } from "../../router/router";
+import { Cpt_url, ProjectChildren } from "../../router/router";
 import { _ } from "@ventose/ui";
-import { Cpt_url } from "../../state/State_App";
 
 export default defineComponent({
 	setup() {

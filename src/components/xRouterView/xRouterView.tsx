@@ -1,7 +1,6 @@
 import { defineComponent, inject, provide } from "vue";
-import { routes } from "../../router/router";
+import { routes, Cpt_url } from "../../router/router";
 import { _ } from "@ventose/ui";
-import { Cpt_url } from "../../state/State_App";
 import NotFound from "../../components/NotFound.vue";
 
 export const xRouterView = defineComponent({
@@ -11,8 +10,8 @@ export const xRouterView = defineComponent({
 		if (typeof ViewLength != "number") {
 			ViewLength = 2;
 		}
-        provide("ViewLength", ViewLength + 1);
-        
+		provide("ViewLength", ViewLength + 1);
+
 		return {
 			ViewLength
 		};

@@ -28,7 +28,7 @@ export const appPlugins = {
 		});
 		app.use({
 			install: (app, { watch } = {}) => {
-				app.component("xRouterView", xRouterView)
+				app.component("xRouterView", xRouterView);
 				//注册i8n实例并引入语言文件
 				app.config.globalProperties.$t = State_UI.$t;
 				State_UI.assetsSvgPath = `${__URL_STATIC_DIR}assets/img/svg`;
