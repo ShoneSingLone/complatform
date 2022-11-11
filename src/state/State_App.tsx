@@ -11,6 +11,7 @@ const MEMBER_STATUS = 2;
 
 export const State_App = reactive(
 	lStorage.State_App || {
+		isFooterFold: false,
 		urlHash: window.location.hash,
 		user: {
 			isLogin: false,
@@ -64,6 +65,9 @@ export const State_App = reactive(
 State_App.urlHash = window.location.hash;
 
 export const Methods_App = {
+	toggleFooterFold() {
+		State_App.isFooterFold = !State_App.isFooterFold;
+	},
 	setMenu(menu) {
 		/* notice！！_.merge 空数组不会替换*/
 		State_App.menu = Object.assign({}, State_App.menu, menu);
@@ -246,12 +250,12 @@ watch(
 	_.debounce(function () {
 		lStorage.State_App = State_App;
 	}),
-	1000
+	100
 );
 
 window.addEventListener(
 	"hashchange",
 	_.debounce(function () {
 		State_App.urlHash = window.location.hash;
-	}, 300)
+	}, 60)
 );

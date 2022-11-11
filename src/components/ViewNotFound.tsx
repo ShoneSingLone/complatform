@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { Cpt_url } from "../router/router";
 
-export const NotFound = defineComponent({
+export const ViewNotFound = defineComponent({
 	props: ["pathname"],
 	setup() {
 		return {
@@ -15,18 +15,15 @@ export const NotFound = defineComponent({
 	},
 	render() {
 		return (
-			<aResult
-				status="404"
-				title="404"
-				subTitle={this.pathname}
-				class="flex1"
-				v-slot={{
+			<aResult status="404" title="404" subTitle={this.pathname} class="flex1">
+				{{
 					extra: () => (
 						<aButton type="primary" onClick={this.goHome}>
 							{this.$t("BackHome").label}
 						</aButton>
 					)
-				}}></aResult>
+				}}
+			</aResult>
 		);
 	}
 });

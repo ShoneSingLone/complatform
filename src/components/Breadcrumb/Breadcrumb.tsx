@@ -16,7 +16,7 @@ export const BreadcrumbNavigation = defineComponent({
 				if (item.href) {
 					return (
 						<aBreadcrumbItem key={index}>
-							<RouterLink to={item.href}>{item.name}</RouterLink>
+							<a to={item.href}>{item.name}</a>
 						</aBreadcrumbItem>
 					);
 				} else {

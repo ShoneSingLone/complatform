@@ -25,7 +25,7 @@ function arrayAddKey(arr) {
 	});
 }
 
-export default defineComponent({
+export const GroupMemberList = defineComponent({
 	props: ["uid"],
 	setup() {
 		return { State_App };

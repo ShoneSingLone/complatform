@@ -7,6 +7,7 @@ import {
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { xRouterView } from "../components/xRouterView/xRouterView";
+import { ErrMsg } from "../components/ErrMsg/ErrMsg";
 
 export { ITEM_OPTIONS } from "./common.options";
 export { STATIC_WORD } from "./common.words";
@@ -28,6 +29,7 @@ export const appPlugins = {
 		app.use({
 			install: (app, { watch } = {}) => {
 				app.component("xRouterView", xRouterView);
+				app.component("ErrMsg", ErrMsg);
 				//注册i8n实例并引入语言文件
 				app.config.globalProperties.$t = State_UI.$t;
 				State_UI.assetsSvgPath = `${__URL_STATIC_DIR}assets/img/svg`;

@@ -209,9 +209,9 @@ export default defineComponent({
 							);
 
 							let menuLink = (
-								<RouterLink to={item.path || ""} class="flex horizon">
+								<a to={item.path || ""} class="flex horizon">
 									{menuContent}
-								</RouterLink>
+								</a>
 							);
 							if (key === "logout") {
 								let menuLink = <div class="flex horizon">{menuContent}</div>;

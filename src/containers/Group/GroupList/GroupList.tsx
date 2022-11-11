@@ -19,7 +19,7 @@ const tip = (
 	</div>
 );
 
-export default defineComponent({
+export const GroupList = defineComponent({
 	props: [
 		"groupList",
 		"currGroup",
@@ -44,10 +44,11 @@ export default defineComponent({
 	data() {
 		return {
 			configsSearch: {
-				isSearch: true,
+				isSearch: false,
 				value: "",
 				placeholder: "搜索分类",
-				onSearch: this.searchGroup
+				onAfterValueChange: this.searchGroup,
+				allowClear: true
 			},
 			groupListForShow: [],
 			state: {
@@ -147,57 +148,73 @@ export default defineComponent({
 			this.searchGroup();
 		}
 	},
+	computed: {
+		vDomCurrentGroupPanel() {
+			return (
+				<div class="curr-group">
+					<div class="curr-group-name">
+						<span class="name">{this.State_App.currGroup.group_name}</span>
+						<aTooltip title="添加分组">
+							<a class="editSet">
+								<xIcon
+									class="btn"
+									icon="addGroup"
+									onClick={this.openAddGroupDialog}
+									style="width:16px;"
+								/>
+							</a>
+						</aTooltip>
+					</div>
+					<div class="curr-group-desc">
+						简介: {this.State_App.currGroup.group_desc}
+					</div>
+				</div>
+			);
+		},
+		vDomSearchInput() {
+			return (
+				<div class="group-operate">
+					<div class="search">
+						{/* 搜索框 */}
+						<xItem configs={this.configsSearch} />
+					</div>
+				</div>
+			);
+		},
+		vDomGroupList() {
+			return (
+				<aMenu
+					class="group-list flex1"
+					mode="inline"
+					v-loading={this.groupListForShow.length === 0}
+					onClick={this.selectGroup}
+					selectedKeys={[`${this.State_App.currGroup._id}`]}>
+					{_.map(this.groupListForShow, group => {
+						let icon = "folderOpen";
+						if (group.type === "private") {
+							icon = "user";
+						}
+						return (
+							<aMenuItem key={`${group._id}`} class="group-item flex">
+								<div class="flex middle">
+									<xIcon icon={icon} style="width:16px;" />
+									<span>{group.group_name}</span>
+								</div>
+							</aMenuItem>
+						);
+					})}
+				</aMenu>
+			);
+		}
+	},
 	render() {
-		const { currGroup } = this.State_App;
 		return (
 			<div class="m-group flex1 height100">
-				<div
-					class="group-bar flex vertical"
-					v-loading={this.groupListForShow.length === 0}>
-					<div class="curr-group">
-						<div class="curr-group-name">
-							<span class="name">{currGroup.group_name}</span>
-							<aTooltip title="添加分组">
-								<a class="editSet">
-									<xIcon
-										class="btn"
-										icon="addGroup"
-										onClick={this.openAddGroupDialog}
-										style="width:16px;"
-									/>
-								</a>
-							</aTooltip>
-						</div>
-						<div class="curr-group-desc">简介: {currGroup.group_desc}</div>
-					</div>
-
-					<div class="group-operate">
-						<div class="search">
-							{/* 搜索框 */}
-							<xItem configs={this.configsSearch} />
-						</div>
-					</div>
+				<div class="group-bar flex vertical">
+					{this.vDomCurrentGroupPanel}
+					{this.vDomSearchInput}
 					{/* 左侧 分组列表 leftside  */}
-					<aMenu
-						class="group-list"
-						mode="inline"
-						onClick={this.selectGroup}
-						selectedKeys={[`${currGroup._id}`]}>
-						{this.groupListForShow.map(group => {
-							let icon = "folderOpen";
-							if (group.type === "private") {
-								icon = "user";
-							}
-							return (
-								<aMenuItem key={`${group._id}`} class="group-item flex">
-									<div class="flex middle">
-										<xIcon icon={icon} style="width:16px;" />
-										<span>{group.group_name}</span>
-									</div>
-								</aMenuItem>
-							);
-						})}
-					</aMenu>
+					{this.vDomGroupList}
 				</div>
 			</div>
 		);

@@ -27,9 +27,7 @@ class Subnav extends Component {
 						}
 						return (
 							<aMenuItem class="item" key={item.name.replace(" ", "")}>
-								<RouterLink to={item.path}>
-									{this.props.data[index].name}
-								</RouterLink>
+								<a to={item.path}>{this.props.data[index].name}</a>
 							</aMenuItem>
 						);
 					})}

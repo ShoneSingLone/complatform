@@ -4,7 +4,42 @@
 	@include row-width-limit;
 	margin: 0 auto 0.24rem;
 }
+
 .news-box .news-timeline .ant-timeline-item .ant-timeline-item-content {
 	min-width: 300px !important;
 	width: 75% !important;
+}
+
+#GroupView {
+	#Group-layout-content-tabs {
+		display: flex;
+		flex-flow: column nowrap;
+
+		.ant-tabs-content {
+			height: 100%;
+
+			div[id^="Group-layout-content-tabs-panel"] {
+				height: 100%;
+				display: flex;
+				flex-flow: column nowrap;
+				flex: 1;
+				overflow: auto;
+			}
+		}
+	}
+}
+
+#ViewGroup_sider {
+	background-color: white;
+	border-radius: 16px;
+	overflow: hidden;
+	//border-bottom-left-radius: unset;
+	//border-bottom-right-radius: unset;
+	height: calc(100% - 16px);
+	transform: translate(-10px, -32px);
+
+	&.footer-fold {
+		transform: translate(-6px, -6px);
+		height: calc(100% - 6px);
+	}
 }

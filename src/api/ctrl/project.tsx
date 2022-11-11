@@ -1,4 +1,5 @@
 import { ajax } from "@/api/ajax";
+import qs from "qs";
 
 export const project = {
 	addFollow(data) {
@@ -38,11 +39,17 @@ export const project = {
 			data
 		});
 	},
-	/* {
-			group_id: 0,
-			page: 1,
-			limit: 10
-		} */
+	fetchInterfaceList(params) {
+		return ajax({
+			method: "get",
+			url: "/api/interface/list",
+			params,
+			paramsSerializer: params => {
+				return qs.stringify(params, { indices: false });
+			}
+		});
+	},
+	/* { group_id: 0, page: 1, limit: 10 } */
 	list(groupId) {
 		return ajax({
 			method: "get",

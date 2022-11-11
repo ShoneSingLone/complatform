@@ -6,11 +6,8 @@
 		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 			"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
 			"Microsoft YaHei", SimSun, sans-serif;
-		background-color: $color-bg-dark;
-		color: $color-white;
 		padding: 0.24rem 0.24rem 0;
 		.curr-group-name {
-			color: $color-white;
 			font-size: 0.22rem;
 			display: flex;
 			justify-content: space-between;
@@ -59,7 +56,6 @@
 			}
 		}
 		.curr-group-desc {
-			color: $color-white-secondary;
 			font-size: 13px;
 			max-height: 54px;
 			margin-top: 0.16rem;
@@ -89,20 +85,8 @@
 		padding: 16px 24px;
 		display: flex;
 		justify-content: space-around;
-		background-color: $color-bg-dark;
 		.search {
 			flex-grow: 1;
-		}
-		.ant-input {
-			color: $color-white;
-			background-color: $color-bg-dark;
-		}
-		.ant-input::-webkit-input-placeholder {
-			/* Chrome/Opera/Safari */
-			color: $color-white-secondary;
-		}
-		.ant-input-suffix {
-			color: $color-white;
 		}
 	}
 	.group-list {

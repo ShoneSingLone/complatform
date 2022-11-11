@@ -1,15 +1,13 @@
-<script lang="jsx">
-import GroupList from "./GroupList/GroupList";
-import ProjectList from "./ProjectList/ProjectList";
-import MemberList from "./MemberList/MemberList";
-import GroupLog from "./GroupLog/GroupLog";
-/*
-import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 import "./Group.scss";
-import { API } from "@/api";
+import { GroupList } from "./GroupList/GroupList";
+import ProjectList from "./GroupProjectList/ProjectList";
+import GroupLog from "./GroupLog/GroupLog";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "@/state/State_App";
 import { Cpt_url } from "../../router/router";
+import { API } from "../../api";
+import { Methods_App, State_App } from "../../state/State_App";
+import { GroupMemberList } from "./GroupMemberList/GroupMemberList";
+/* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 
 const TAB_KEY_PROJECT_LIST = "项目列表";
 const TAB_KEY_MEMBER_LIST = "成员列表";
@@ -21,7 +19,7 @@ const TAB_KEY_ARRAY = [
 	TAB_KEY_GROUP_LOG
 ];
 
-export default defineComponent({
+export const ViewGroup = defineComponent({
 	setup() {
 		return {
 			Cpt_url,
@@ -73,7 +71,7 @@ export default defineComponent({
 				return (
 					/* "成员列表" */
 					<aTabPane tab={TAB_KEY_MEMBER_LIST} key={TAB_KEY_MEMBER_LIST}>
-						<MemberList />
+						<GroupMemberList />
 					</aTabPane>
 				);
 			} else {
@@ -96,6 +94,14 @@ export default defineComponent({
 			} else {
 				return null;
 			}
+		},
+		stylePanel() {
+			const isFooterFold = this.State_App.isFooterFold;
+			return {
+				"flex vertical": true,
+				"footer-fold elevation-4": isFooterFold,
+				"elevation-8": !isFooterFold
+			};
 		}
 	},
 	render() {
@@ -110,7 +116,7 @@ export default defineComponent({
 					marginLeft: "24px",
 					marginTop: "24px"
 				}}>
-				<aLayoutSider width={300} class="flex vertical height100">
+				<aLayoutSider id="ViewGroup_sider" class={this.stylePanel} width="300">
 					<GroupList />
 				</aLayoutSider>
 				<aLayout>
@@ -181,23 +187,3 @@ export default defineComponent({
 		);
 	}
 });
-</script>
-
-<style lang="less">
-#GroupView {
-	#Group-layout-content-tabs {
-		display: flex;
-		flex-flow: column nowrap;
-
-		.ant-tabs-content {
-			height: 100%;
-
-			div[id^="Group-layout-content-tabs-panel"] {
-				height: 100%;
-				display: flex;
-				flex-flow: column nowrap;
-			}
-		}
-	}
-}
-</style>

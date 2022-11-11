@@ -1,6 +1,5 @@
 import GroupList from "../../Group/GroupList/GroupList";
-import ProjectList from "../../Group/ProjectList/ProjectList";
-import MemberList from "../../Group/MemberList/MemberList";
+import ProjectList from "../../Group/GroupProjectList/ProjectList";
 import GroupLog from "../../Group/GroupLog/GroupLog";
 /*
 import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
@@ -9,6 +8,7 @@ import { defineComponent } from "vue";
 import { Methods_App, State_App } from "../../../state/State_App";
 import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
+import { GroupMemberList } from "../../Group/GroupMemberList/GroupMemberList";
 
 const TAB_KEY_PROJECT_LIST = "项目列表";
 const TAB_KEY_MEMBER_LIST = "成员列表";
@@ -72,7 +72,7 @@ export const ProjectInterface = defineComponent({
 				return (
 					/* "成员列表" */
 					<aTabPane tab={TAB_KEY_MEMBER_LIST} key={TAB_KEY_MEMBER_LIST}>
-						<MemberList />
+						<GroupMemberList />
 					</aTabPane>
 				);
 			} else {

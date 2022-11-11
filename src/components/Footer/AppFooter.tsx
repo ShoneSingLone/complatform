@@ -1,7 +1,7 @@
-<script lang="jsx">
 import "./Footer.scss";
 import { defineComponent } from "vue";
 import { $ } from "@ventose/ui";
+import { State_App, Methods_App } from "../../state/State_App";
 
 const version = Date.now();
 
@@ -32,10 +32,13 @@ const FootItem = ({ linkList, title, iconType }) => {
 	);
 };
 
-export default defineComponent({
+export const AppFooter = defineComponent({
+	setup() {
+		return { State_App };
+	},
 	data() {
 		return {
-			isFold: true,
+			isFooterFold: true,
 			footList: [
 				{
 					title: "GitHub",
@@ -89,39 +92,33 @@ export default defineComponent({
 	},
 	mounted() {
 		$("#app").addClass("flex vertical");
-		setTimeout(this.toggleFooter, 1000 * 3);
 	},
 	unmounted() {
 		$("#app").removeClass("flex vertical");
 	},
 	computed: {
 		wrapperStyle() {
-			if (this.isFold) {
+			if (this.State_App.isFooterFold) {
 				return { height: "192px" };
 			} else {
 				return { height: "0" };
 			}
 		},
 		toggleText() {
-			if (this.isFold) {
+			if (this.State_App.isFooterFold) {
 				return "折叠";
 			} else {
 				return "展开";
 			}
 		}
 	},
-	methods: {
-		toggleFooter() {
-			this.isFold = !this.isFold;
-		}
-	},
 	render() {
 		return (
-			<div class="footer-wrapper" style={this.wrapperStyle}>
+			<div class="footer-wrapper" style={this.wrapperStyle} id="ViewAppFooter">
 				<xButton
 					type="primary"
-					class={{ "footer-toggle": true, unfold: this.isFold }}
-					onClick={this.toggleFooter}>
+					class={{ "footer-toggle": true, unfold: this.State_App.isFooterFold }}
+					onClick={Methods_App.toggleFooterFold}>
 					{this.toggleText}
 				</xButton>
 				<aRow class="footer-container">
@@ -140,21 +137,3 @@ export default defineComponent({
 		);
 	}
 });
-</script>
-
-<style lang="scss">
-.ant-btn.x-button.footer-toggle {
-	position: absolute;
-	top: -32px;
-	left: 0;
-	opacity: 0.5;
-	overflow: hidden;
-	&.unfold {
-		top: 0;
-		opacity: 1;
-	}
-	&:hover {
-		opacity: 1;
-	}
-}
-</style>

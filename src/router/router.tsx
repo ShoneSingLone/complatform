@@ -2,11 +2,11 @@
 import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
 import { Methods_App, State_App } from "@/state/State_App";
 import LoginContainer from "@/containers/Login/LoginContainer";
-import Group from "@/containers/Group/Group.vue";
 import Project from "../containers/Project/Project.vue";
-import { NotFound } from "../components/NotFound";
+import { ViewNotFound } from "../components/ViewNotFound";
 import { ProjectInterface } from "../containers/Project/Interface/ProjectInterface";
 import { computed, ComputedRef } from "vue";
+import { ViewGroup } from "../containers/Group/Group";
 
 const { $t } = State_UI;
 
@@ -20,7 +20,7 @@ export const routes = [
 	},
 	{
 		path: `/group`,
-		component: Group,
+		component: ViewGroup,
 		meta: {
 			title: $t("分组").label
 		}
@@ -43,7 +43,7 @@ export const routes = [
 	{
 		label: "动态",
 		path: "/project/activity",
-		component: NotFound,
+		component: ViewNotFound,
 		meta: {
 			title: $t("动态").label
 		}
@@ -51,7 +51,7 @@ export const routes = [
 	{
 		label: "数据管理",
 		path: "/project/data",
-		component: NotFound,
+		component: ViewNotFound,
 		meta: {
 			title: $t("数据管理").label
 		}
@@ -59,7 +59,7 @@ export const routes = [
 	{
 		label: "成员管理",
 		path: "/project/members",
-		component: NotFound,
+		component: ViewNotFound,
 		meta: {
 			title: $t("成员管理").label
 		}
@@ -67,7 +67,7 @@ export const routes = [
 	{
 		label: "设置",
 		path: "/project/setting",
-		component: NotFound,
+		component: ViewNotFound,
 		meta: {
 			title: $t("设置").label
 		}
@@ -75,7 +75,7 @@ export const routes = [
 	{
 		/* 404兜底 */
 		path: "/:pathMatch(.*)*",
-		component: NotFound,
+		component: ViewNotFound,
 		meta: {
 			title: $t("NotFound").label
 		}

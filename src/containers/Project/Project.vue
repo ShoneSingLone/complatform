@@ -1,15 +1,10 @@
 <script lang="jsx">
-import GroupList from "../Group/GroupList/GroupList";
-import ProjectList from "../Group/ProjectList/ProjectList";
-import MemberList from "../Group/MemberList/MemberList";
-import GroupLog from "../Group/GroupLog/GroupLog";
-/* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 import "../Group/Group.scss";
-import { API } from "@/api";
-import { defineComponent } from "vue";
-import { Methods_App, State_App } from "@/state/State_App";
-import { Cpt_url, ProjectChildren } from "../../router/router";
 import { _ } from "@ventose/ui";
+import { defineComponent } from "vue";
+import { Cpt_url, ProjectChildren } from "../../router/router";
+import { State_App } from "../../state/State_App";
+import { API } from "../../api";
 
 export default defineComponent({
 	setup() {

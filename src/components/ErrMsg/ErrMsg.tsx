@@ -23,6 +23,7 @@ import { Cpt_url } from "./../../router/router";
  * @returns {object}
  */
 export const ErrMsg = defineComponent({
+	name: "ErrMsg",
 	props: ["type", "history", "title", "desc", "opration"],
 	render() {
 		let { type, title, desc, opration } = this;
