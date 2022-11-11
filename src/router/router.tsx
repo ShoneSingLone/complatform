@@ -4,7 +4,6 @@ import { ViewNotFound } from "../components/ViewNotFound";
 import { ViewGroup } from "../containers/Group/Group";
 import { ViewProject } from "../containers/Project/ViewProject";
 import { ProjectInterface } from "../containers/Project/Interface/ProjectInterface";
-import { LoginContainer } from "../containers/Login/LoginContainer";
 import { Methods_App, State_App } from "../state/State_App";
 
 const { $t } = State_UI;
@@ -12,7 +11,7 @@ const { $t } = State_UI;
 export const routes = [
 	{
 		path: `/login`,
-		component: LoginContainer,
+		component: () => import("../containers/Login/LoginContainer"),
 		meta: {
 			title: $t("用户登录").label
 		}
