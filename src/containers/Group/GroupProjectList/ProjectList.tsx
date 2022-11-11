@@ -1,5 +1,4 @@
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
-import ViewAddProject from "@/containers/AddProject/ViewAddProject";
 import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 
 import "./ProjectList.scss";
@@ -7,6 +6,7 @@ import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
 import { AllWasWell, pickValueFrom, UI, validateForm, _ } from "@ventose/ui";
 import { Cpt_url } from "../../../router/router";
+import { DialogAddProject } from "../AddProject/DialogAddProject";
 
 export default defineComponent({
 	props: [
@@ -90,11 +90,11 @@ export default defineComponent({
 			const vm = this;
 			UI.dialog.component({
 				title: "添加项目",
-				component: ViewAddProject,
+				component: DialogAddProject,
 				area: ["840px", "550px"],
 				okText: "创建项目",
 				groupId: vm.Cpt_url.query.group_id,
-				onOk: async dialog => {
+				async onOk(dialog) {
 					const res = await dialog.vm.submit();
 					if (res) {
 						dialog.close();

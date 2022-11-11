@@ -1,12 +1,11 @@
-// progress bar
-import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
-import { Methods_App, State_App } from "@/state/State_App";
-import LoginContainer from "@/containers/Login/LoginContainer";
-import Project from "../containers/Project/Project.vue";
-import { ViewNotFound } from "../components/ViewNotFound";
-import { ProjectInterface } from "../containers/Project/Interface/ProjectInterface";
 import { computed, ComputedRef } from "vue";
+import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
+import { ViewNotFound } from "../components/ViewNotFound";
 import { ViewGroup } from "../containers/Group/Group";
+import { ViewProject } from "../containers/Project/ViewProject";
+import { ProjectInterface } from "../containers/Project/Interface/ProjectInterface";
+import { LoginContainer } from "../containers/Login/LoginContainer";
+import { Methods_App, State_App } from "../state/State_App";
 
 const { $t } = State_UI;
 
@@ -27,13 +26,13 @@ export const routes = [
 	},
 	{
 		path: `/project`,
-		component: Project,
+		component: ViewProject,
 		meta: {
 			title: $t("项目").label
 		}
 	},
 	{
-		label: "接口",
+		label: $t("接口").label,
 		path: "/project/interface",
 		component: ProjectInterface,
 		meta: {
@@ -41,7 +40,15 @@ export const routes = [
 		}
 	},
 	{
-		label: "动态",
+		label: $t("自动化测试").label,
+		path: "/project/test_case",
+		component: ProjectInterface,
+		meta: {
+			title: $t("接口").label
+		}
+	},
+	{
+		label: $t("动态").label,
 		path: "/project/activity",
 		component: ViewNotFound,
 		meta: {
@@ -49,7 +56,7 @@ export const routes = [
 		}
 	},
 	{
-		label: "数据管理",
+		label: $t("数据管理").label,
 		path: "/project/data",
 		component: ViewNotFound,
 		meta: {
@@ -57,7 +64,7 @@ export const routes = [
 		}
 	},
 	{
-		label: "成员管理",
+		label: $t("成员管理").label,
 		path: "/project/members",
 		component: ViewNotFound,
 		meta: {
@@ -65,7 +72,7 @@ export const routes = [
 		}
 	},
 	{
-		label: "设置",
+		label: $t("设置").label,
 		path: "/project/setting",
 		component: ViewNotFound,
 		meta: {

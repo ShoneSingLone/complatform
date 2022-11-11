@@ -182,7 +182,7 @@ export const Methods_App = {
 			});
 			if (data === "ok") {
 				Cpt_url.value.go("/login");
-				UI.notification.success("退出成功! ");
+				UI.notification.success($t("退出成功! ").label);
 			}
 		} catch (error) {
 			console.error(error);
@@ -259,3 +259,14 @@ window.addEventListener(
 		State_App.urlHash = window.location.hash;
 	}, 60)
 );
+
+/**
+ * 如果url 有 project_id,且有当前分组的projectList
+ */
+export const Cpt_currProject = computed(() => {
+	const projectId = Cpt_url.value.query.project_id;
+	if (projectId && State_App.projectList.length > 0) {
+		return _.find(State_App.projectList, { _id: Number(projectId) });
+	}
+	return "";
+});

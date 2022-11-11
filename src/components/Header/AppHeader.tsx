@@ -44,7 +44,7 @@ const tipDoc = (
 		</p>
 	</div>
 );
-export default defineComponent({
+export const AppHeader = defineComponent({
 	props: [
 		"router",
 		"user",
@@ -66,8 +66,10 @@ export default defineComponent({
 		return { State_App, Cpt_url };
 	},
 	methods: {
-		setBreadcrumb() {
-			Methods_App.setBreadcrumb([]);
+		goToGroup() {
+			this.Cpt_url.go("/group", {
+				group_id: this.Cpt_url.query.group_id
+			});
 		},
 		linkTo(e) {
 			if (e.key != "/doc") {
@@ -90,6 +92,12 @@ export default defineComponent({
 		}
 	},
 	computed: {
+		icon() {
+			if (this.Cpt_url.pathname === "/group") {
+				return "yapi_logo";
+			}
+			return "back_group";
+		},
 		ToolUser() {
 			let {
 				imageUrl,
@@ -224,15 +232,20 @@ export default defineComponent({
 			);
 		}
 	},
+	data() {
+		return {
+			styleLogo: {
+				width: "32px",
+				height: "32px"
+			}
+		};
+	},
 	render() {
 		return (
 			<aLayoutHeader class="header-box m-header elevation-4">
 				<div class="content g-row flex middle">
-					<span onClick={this.setBreadcrumb} class="flex middle pointer">
-						<LogoSVG
-							length="32px"
-							onClick={() => this.Cpt_url.go("/group", this.Cpt_url.query)}
-						/>
+					<span onClick={this.goToGroup} class="flex middle pointer">
+						<xIcon icon={this.icon} style={this.styleLogo} />
 					</span>
 					<BreadcrumbNavigation />
 					<span class="flex1"></span>

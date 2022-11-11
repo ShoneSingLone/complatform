@@ -3,11 +3,11 @@
 import { defineComponent } from "vue";
 import { _ } from "@ventose/ui";
 import { AppFooter } from "./components/Footer/AppFooter";
-import Header from "@/components/Header/Header.tsx";
-import { Methods_App, State_App } from "@/state/State_App.tsx";
+import { AppHeader } from "./components/Header/AppHeader";
+import { State_App } from "@/state/State_App.tsx";
 
 export default defineComponent({
-	components: { AppFooter, Header },
+	components: { AppFooter, AppHeader },
 	setup() {
 		return {
 			State_App
@@ -25,7 +25,7 @@ export default defineComponent({
 });
 </script>
 <template>
-	<Header v-if="State_App.user.loginState !== 1" />
+	<AppHeader v-if="State_App.user.loginState !== 1" />
 	<xRouterView v-loading="isLoading" />
 	<AppFooter />
 </template>

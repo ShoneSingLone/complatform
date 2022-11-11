@@ -16,9 +16,9 @@
 import { defineComponent } from "vue";
 import { _, defItem, State_UI, FormRules } from "@ventose/ui";
 import {
-	xItem_ProjectName,
-	xItem_ProjectIcon
-} from "@/containers/AddProject/ViewAddProject.tsx";
+	xItem_ProjectIcon,
+	xItem_ProjectName
+} from "../../containers/Group/AddProject/DialogAddProject";
 
 export default defineComponent({
 	props: {
@@ -30,14 +30,19 @@ export default defineComponent({
 			}
 		}
 	},
+	computed: {
+		propProjectName() {
+			return String(this.options?.projectName || "");
+		}
+	},
 	data() {
 		const vm = this;
 		return {
-			alertMessage: `该操作将会复制 ${this.options.projectName} 下的所有接口集合，但不包括测试集合中的接口`,
+			alertMessage: `该操作将会复制 ${this.propProjectName} 下的所有接口集合，但不包括测试集合中的接口`,
 			formItems: {
 				...defItem(
 					xItem_ProjectName({
-						value: String(this.options.projectName),
+						value: this.propProjectName,
 						appendRules: [
 							FormRules.custom({
 								validator(value, { configs, rule }) {

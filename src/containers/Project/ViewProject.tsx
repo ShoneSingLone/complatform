@@ -1,16 +1,18 @@
-<script lang="jsx">
-import "../Group/Group.scss";
 import { _ } from "@ventose/ui";
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { Cpt_url, ProjectChildren } from "../../router/router";
 import { State_App } from "../../state/State_App";
 import { API } from "../../api";
+import { useProjectBasicProperties } from "../../compositions";
 
-export default defineComponent({
+export const ViewProject = defineComponent({
 	setup() {
+		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
 		return {
 			State_App,
-			Cpt_url
+			Cpt_url,
+			Cpt_currGroupId,
+			Cpt_currProjectId
 		};
 	},
 	data() {
@@ -19,43 +21,25 @@ export default defineComponent({
 			ProjectChildren
 		};
 	},
-	mounted() {
-		this.ifUrlNoProjectIdGetIt();
-	},
 	methods: {
-		async ifUrlNoProjectIdGetIt() {
-			try {
-				if (!this.projectId) {
-					let { data: group } = await API.group.getMyGroup();
-					this.Cpt_url.go("/group", { group_id: group._id });
-				}
-			} catch (e) {
-				console.error(e);
-				this.ifUrlNoProjectIdGetIt();
-			}
-		},
 		switchProjectSubOption({ key: path }) {
 			this.Cpt_url.go(path, this.Cpt_url.query);
 			this.currentViewKey = path;
 		}
 	},
-	computed: {
-		projectId() {
-			return this.Cpt_url.query.project_id || false;
-		}
-	},
+	computed: {},
 	render() {
 		/* 如果没有projectId 则重定向到group */
-		if (!this.projectId) {
+		if (!this.Cpt_currProjectId) {
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 		return (
-			<div id="ProjectView">
+			<div id="ProjectView" class="flex flex1 vertical">
 				<aMenu
 					onClick={this.switchProjectSubOption}
 					selectedKeys={[this.currentViewKey]}
 					mode="horizontal"
-					class="g-row m-subnav-menu">
+					class="">
 					{_.map(this.ProjectChildren, (item, index) => {
 						// 若导航标题为两个字，则自动在中间加个空格
 						if (item.label.length === 2) {
@@ -73,10 +57,3 @@ export default defineComponent({
 		);
 	}
 });
-</script>
-
-<style lang="less">
-#ProjectView {
-	flex: 1;
-}
-</style>

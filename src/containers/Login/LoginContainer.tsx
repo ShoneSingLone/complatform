@@ -2,7 +2,7 @@ import LoginWrap from "./LoginWrap";
 import { LogoSVG } from "@/components/LogoSVG";
 import { defineComponent } from "vue";
 
-export default defineComponent({
+export const LoginContainer = defineComponent({
 	render() {
 		return (
 			<div class="g-body login-body flex1">
