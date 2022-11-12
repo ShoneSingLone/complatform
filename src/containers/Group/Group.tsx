@@ -45,7 +45,9 @@ export const ViewGroup = defineComponent({
 				}
 			} catch (e) {
 				console.error(e);
-				this.ifUrlNoGroupIdGetAndAddIdToUrl();
+				setTimeout(() => {
+					this.ifUrlNoGroupIdGetAndAddIdToUrl();
+				}, 1000);
 			}
 		}
 	},

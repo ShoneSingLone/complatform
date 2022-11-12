@@ -5,13 +5,14 @@ import { ViewGroup } from "../containers/Group/Group";
 import { ViewProject } from "../containers/Project/ViewProject";
 import { ProjectInterface } from "../containers/Project/Interface/ProjectInterface";
 import { Methods_App, State_App } from "../state/State_App";
+import { LoginContainer } from "../containers/Login/LoginContainer";
 
 const { $t } = State_UI;
 
 export const routes = [
 	{
 		path: `/login`,
-		component: () => import("../containers/Login/LoginContainer"),
+		component: LoginContainer,
 		meta: {
 			title: $t("用户登录").label
 		}
@@ -167,13 +168,12 @@ function transToUrl(urlLike: string, query: any) {
 async function setLocationHash(href: string, url: URL) {
 	try {
 		/*如果已登录*/
-		if (await Methods_App.checkLoginState()) {
-			/*但是，非登陆页面则跳转到主页*/
-			if (["/login"].includes(url.pathname)) {
-				href = "/";
-			}
-		} else {
-			href = "/login";
+		if (!(await Methods_App.checkLoginState())) {
+			return;
+		}
+		/*但是，非登陆页面则跳转到主页*/
+		if (["/login"].includes(url.pathname)) {
+			href = "/";
 		}
 		const route = _.find(routes, { path: url.pathname });
 		if (route?.meta?.title) {

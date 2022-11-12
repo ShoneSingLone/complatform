@@ -2,6 +2,7 @@ import "./Footer.scss";
 import { defineComponent } from "vue";
 import { $ } from "@ventose/ui";
 import { State_App, Methods_App } from "../../state/State_App";
+import { Cpt_url } from "./../../router/router";
 
 const version = Date.now();
 
@@ -34,7 +35,7 @@ const FootItem = ({ linkList, title, iconType }) => {
 
 export const AppFooter = defineComponent({
 	setup() {
-		return { State_App };
+		return { State_App, Cpt_url };
 	},
 	data() {
 		return {
@@ -110,17 +111,21 @@ export const AppFooter = defineComponent({
 			} else {
 				return "展开";
 			}
+		},
+		toggleFoldBtn() {
+			return {
+				type: "primary",
+				class: { "footer-toggle": true, unfold: this.State_App.isFooterFold },
+				text: this.toggleText,
+				isHide: true,
+				onClick: Methods_App.toggleFooterFold
+			};
 		}
 	},
 	render() {
 		return (
 			<div class="footer-wrapper" style={this.wrapperStyle} id="ViewAppFooter">
-				<xButton
-					type="primary"
-					class={{ "footer-toggle": true, unfold: this.State_App.isFooterFold }}
-					onClick={Methods_App.toggleFooterFold}>
-					{this.toggleText}
-				</xButton>
+				<xButton configs={this.toggleFoldBtn} />
 				<aRow class="footer-container">
 					{this.footList.map((item, i) => {
 						return (
