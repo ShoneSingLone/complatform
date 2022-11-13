@@ -34,7 +34,7 @@ export const ViewProject = defineComponent({
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 		return (
-			<div id="ProjectView" class="flex flex1 vertical">
+			<div id="ViewProject">
 				<aMenu
 					onClick={this.switchProjectSubOption}
 					selectedKeys={[this.currentViewKey]}

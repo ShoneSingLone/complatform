@@ -1,4 +1,25 @@
 :root {
+
+	--color-white: rgba(255, 255, 255, 0.85);
+	--color-white-secondary: rgba(255, 255, 255, 0.67);
+	--color-bg-gray: #ececec;
+	--color-blue: #2395f1;
+	--color-blue-deeper: #34495e;
+	--color-grey-deep: #929aac;
+	--color-black-light: #404040;
+	--color-bg-dark: #32363a; // 背景色 - header 用的深蓝色
+	--box-shadow-panel: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+	--color-text-dark: rgba(13, 27, 62, 0.65);
+	--color-antd-green: #00a854;
+	--color-antd-yellow: #ffbf00;
+	--color-antd-red: #f56a00;
+	--color-antd-pink: #f5317f;
+	--color-antd-cyan: #00a2ae;
+	--color-antd-gray: #bfbfbf;
+	--color-antd-purple: #7265e6;
+
+
+
 	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 	font-size: 16px;
 	line-height: 24px;
@@ -13,6 +34,8 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-text-size-adjust: 100%;
+
+
 }
 
 a {
@@ -20,6 +43,7 @@ a {
 	color: #646cff;
 	text-decoration: inherit;
 }
+
 a:hover {
 	color: #535bf2;
 }
@@ -29,6 +53,7 @@ a {
 	color: #646cff;
 	text-decoration: inherit;
 }
+
 a:hover {
 	color: #535bf2;
 }
@@ -57,9 +82,11 @@ button {
 	cursor: pointer;
 	transition: border-color 0.25s;
 }
+
 button:hover {
 	border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
 	outline: 4px auto -webkit-focus-ring-color;
@@ -81,9 +108,11 @@ button:focus-visible {
 		color: #213547;
 		background-color: #ffffff;
 	}
+
 	a:hover {
 		color: #747bff;
 	}
+
 	button {
 		background-color: #f9f9f9;
 	}

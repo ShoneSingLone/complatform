@@ -1,12 +1,18 @@
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { Methods_App, State_App } from "../../../state/State_App";
 import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
 import { useProjectBasicProperties } from "../../../compositions";
+import "./interface.scss";
+import { InterfaceSider } from "./Interfacesider";
 
 export const ProjectInterface = defineComponent({
+	components: {
+		InterfaceSider
+	},
 	setup() {
 		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
+
 		return {
 			State_App,
 			Cpt_url,
@@ -29,20 +35,20 @@ export const ProjectInterface = defineComponent({
 			}
 		};
 	},
-	methods: {},
 	computed: {},
 	render() {
 		return (
 			<aLayout id="ViewProjectInterface">
-				<aLayoutSider width={300} class="flex vertical height100">
-					asdfasf
+				<aLayoutSider
+					width={300}
+					class="flex vertical height100"
+					ref="__$$sider">
+					<InterfaceSider />
 				</aLayoutSider>
 				<aLayout>
 					<aLayoutContent
 						data-app-position="Group-layout-content"
-						style={this.StyleContent}>
-						<h1>content</h1>
-					</aLayoutContent>
+						style={this.StyleContent}></aLayoutContent>
 				</aLayout>
 			</aLayout>
 		);
