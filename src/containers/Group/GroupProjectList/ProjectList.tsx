@@ -211,9 +211,8 @@ export default defineComponent({
 				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
 				<aRow class="project-list-header">
 					<aCol span={16} style={{ textAlign: "left" }}>
-						<span>{this.State_App.currGroup.group_name} </span>
-						<span>分组共</span>
-						<span> ({this.State_App.projectList.length})</span>
+						<span>共</span>
+						<span> {this.State_App.projectList.length} </span>
 						<span>个项目</span>
 						{/* {this.isShow ? JSON.stringify(this.State_App.currGroup, null, 2) : ""} */}
 					</aCol>

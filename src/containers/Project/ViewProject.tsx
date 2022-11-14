@@ -5,6 +5,8 @@ import { State_App } from "../../state/State_App";
 import { API } from "../../api";
 import { useProjectBasicProperties } from "../../compositions";
 
+/* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
+
 export const ViewProject = defineComponent({
 	setup() {
 		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();

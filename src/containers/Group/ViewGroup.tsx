@@ -1,5 +1,8 @@
 import "./Group.scss";
-import { GroupList } from "./GroupList/GroupList";
+import {
+	GroupLeftSider,
+	openDialogUpsertGroup
+} from "./GroupList/GroupLeftSider";
 import ProjectList from "./GroupProjectList/ProjectList";
 import GroupLog from "./GroupLog/GroupLog";
 import { defineComponent } from "vue";
@@ -7,6 +10,9 @@ import { Cpt_url } from "../../router/router";
 import { API } from "../../api";
 import { Methods_App, State_App } from "../../state/State_App";
 import { GroupMemberList } from "./GroupMemberList/GroupMemberList";
+import { DialogEditGroup } from "./GroupList/DialogEditGroup";
+import ViewAddGroup from "./GroupList/ViewAddGroup.vue";
+
 /* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 
 const TAB_KEY_PROJECT_LIST = "项目列表";
@@ -23,12 +29,19 @@ export const ViewGroup = defineComponent({
 	setup() {
 		return {
 			Cpt_url,
-			State_App
+			State_App,
+			openDialogUpsertGroup
 		};
 	},
 	data() {
 		return {
-			state: {}
+			state: {},
+			styleContent: {
+				height: "100%",
+				margin: "0 24px 0 16px",
+				overflow: "initial",
+				backgroundColor: "#fff"
+			}
 		};
 	},
 	mounted() {
@@ -112,78 +125,62 @@ export const ViewGroup = defineComponent({
 		}
 
 		return (
-			<aLayout
-				id="GroupView"
-				style={{
-					marginLeft: "24px",
-					marginTop: "24px"
-				}}>
+			<aLayout id="GroupView" style={{ marginLeft: "24px", marginTop: "24px" }}>
 				<aLayoutSider id="ViewGroup_sider" class={this.stylePanel} width="300">
-					<GroupList />
+					<GroupLeftSider />
 				</aLayoutSider>
 				<aLayout>
 					<aLayoutContent
 						data-app-position="Group-layout-content"
-						style={{
-							height: "100%",
-							margin: "0 24px 0 16px",
-							overflow: "initial",
-							backgroundColor: "#fff"
-						}}>
+						style={this.styleContent}>
 						<aTabs
 							id="Group-layout-content-tabs"
 							activeKey={this.tabActiveKey}
 							onUpdate:activeKey={val => (this.tabActiveKey = val)}
 							type="card"
+							centered
 							class="m-tab tabs-large height100">
-							{/* 项目列表 */}
-							<aTabPane tab={TAB_KEY_PROJECT_LIST} key={TAB_KEY_PROJECT_LIST}>
-								<ProjectList />
-							</aTabPane>
-							{this.TabMember}
-							{this.TabGroupLog}
+							{{
+								leftExtra: () => {
+									return (
+										<div class="curr-group-name">
+											<div class="curr-group-name_title">
+												<div class="name">
+													{this.State_App.currGroup.group_name}
+												</div>
+												<aTooltip title="修改分组信息">
+													<xIcon
+														class="btn editSet pointer"
+														icon="edit"
+														onClick={() =>
+															this.openDialogUpsertGroup(
+																this.State_App.currGroup
+															)
+														}
+														style="width:16px;"
+													/>
+												</aTooltip>
+											</div>
+										</div>
+									);
+								},
+								default: () => {
+									return (
+										<>
+											{/* 项目列表 */}
+											<aTabPane
+												tab={TAB_KEY_PROJECT_LIST}
+												key={TAB_KEY_PROJECT_LIST}>
+												<ProjectList />
+											</aTabPane>
+											{this.TabMember}
+											{this.TabGroupLog}
+										</>
+									);
+								}
+							}}
 						</aTabs>
 					</aLayoutContent>
-				</aLayout>
-			</aLayout>
-		);
-		return (
-			<aLayout
-				style={{
-					minHeight: "calc(100vh - 100px)",
-					marginLeft: "24px",
-					marginTop: "24px"
-				}}>
-				<aLayout>
-					<aContent
-						style={{
-							height: "100%",
-							margin: "0 24px 0 16px",
-							overflow: "initial",
-							backgroundColor: "#fff"
-						}}>
-						<aTabs
-							type="card"
-							className="m-tab tabs-large"
-							style={{ height: "100%" }}>
-							{["admin", "owner", "guest", "dev"].indexOf(
-								this.props.State_App.user.roleInGroup
-							) > -1 || this.State_App.user.role === "admin" ? (
-								<aTabPane tab="分组动态" key="3">
-									<GroupLog />
-								</aTabPane>
-							) : (
-								""
-							)}
-							{(this.props.State_App.user.role === "admin" ||
-								this.props.State_App.user.roleInGroup === "owner") &&
-							this.State_App.currGroup.type !== "private" ? (
-								<aTabPane tab="分组设置" key="4">
-									<GroupSetting />
-								</aTabPane>
-							) : null}
-						</aTabs>
-					</aContent>
 				</aLayout>
 			</aLayout>
 		);

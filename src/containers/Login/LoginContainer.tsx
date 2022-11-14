@@ -2,6 +2,14 @@ import LoginWrap from "./LoginWrap";
 import { defineComponent } from "vue";
 
 export const LoginContainer = defineComponent({
+	computed: {
+		styleLogo() {
+			return {
+				width: "100px",
+				height: "100px"
+			};
+		}
+	},
 	render() {
 		return (
 			<div class="g-body login-body flex1 " style="overflow:auto">

@@ -1,7 +1,7 @@
 import { computed, ComputedRef } from "vue";
 import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
-import { ViewGroup } from "../containers/Group/Group";
+import { ViewGroup } from "../containers/Group/ViewGroup";
 import { ViewProject } from "../containers/Project/ViewProject";
 import { ProjectInterface } from "../containers/Project/Interface/ProjectInterface";
 import { Methods_App, State_App } from "../state/State_App";

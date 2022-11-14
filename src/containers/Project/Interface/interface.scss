@@ -1,20 +1,20 @@
 @import "../../../styles/mixin.scss";
 
-#ViewProject{
+#ViewProject {
 	display: flex;
 	flex-flow: column nowrap;
-	flex:1;
+	flex: 1;
 	height: 100px;
 }
 
-#ViewProjectInterface{
+#ViewProjectInterface {
 	display: flex;
-	flex:1;
+	flex: 1;
 	height: 100px;
-	.ant-layout-sider{
+	.ant-layout-sider {
 		background-color: var(--color-white);
 	}
-	#ViewProjectInterface_wrapper{
+	#ViewProjectInterface_wrapper {
 		height: 100%;
 	}
 }

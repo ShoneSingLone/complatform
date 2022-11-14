@@ -1,12 +1,42 @@
 import GuideBtns from "@/components/GuideBtns/GuideBtns";
 import { _, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
-import "./GroupList.scss";
 import { defineComponent } from "vue";
-import { UI } from "@ventose/ui";
+import { UI, State_UI } from "@ventose/ui";
 import ViewAddGroup from "./ViewAddGroup.vue";
 import { API } from "@/api";
 import { Methods_App, State_App } from "../../../state/State_App";
-import { Cpt_url } from "./../../../router/router";
+import { Cpt_url } from "../../../router/router";
+import { DialogEditGroup } from "./DialogEditGroup";
+const { $t } = State_UI;
+
+export function openDialogUpsertGroup(row = {}) {
+	UI.dialog.component({
+		title: row._id ? $t("修改分组信息").label : $t("添加分组").label,
+		component: row._id ? DialogEditGroup : ViewAddGroup,
+		area: ["480px", "360px"],
+		onOk: async instance => {
+			if (row._id) {
+				debugger;
+			} else {
+				const validateResults = await validateForm(instance.vm.formItems);
+				if (AllWasWell(validateResults)) {
+					const { newGroupName, newGroupDesc, owner_uids } = pickValueFrom(
+						instance.vm.formItems
+					);
+					await this.upsert({
+						...row,
+						group_name: newGroupName,
+						group_desc: newGroupDesc,
+						owner_uids: owner_uids
+					});
+					instance.close();
+				} else {
+					throw new Error("未通过验证");
+				}
+			}
+		}
+	});
+}
 
 const tip = (
 	<div class="title-container">
@@ -19,7 +49,7 @@ const tip = (
 	</div>
 );
 
-export const GroupList = defineComponent({
+export const GroupLeftSider = defineComponent({
 	props: [
 		"groupList",
 		"currGroup",
@@ -38,7 +68,8 @@ export const GroupList = defineComponent({
 	setup() {
 		return {
 			Cpt_url,
-			State_App
+			State_App,
+			openDialogUpsertGroup
 		};
 	},
 	data() {
@@ -74,30 +105,6 @@ export const GroupList = defineComponent({
 			} catch (error) {
 				console.error(error);
 			}
-		},
-		openAddGroupDialog(row = {}) {
-			UI.dialog.component({
-				title: "添加分组",
-				component: ViewAddGroup,
-				area: ["480px", "360px"],
-				onOk: async instance => {
-					const validateResults = await validateForm(instance.vm.formItems);
-					if (AllWasWell(validateResults)) {
-						const { newGroupName, newGroupDesc, owner_uids } = pickValueFrom(
-							instance.vm.formItems
-						);
-						await this.upsert({
-							...row,
-							group_name: newGroupName,
-							group_desc: newGroupDesc,
-							owner_uids: owner_uids
-						});
-						instance.close();
-					} else {
-						throw new Error("未通过验证");
-					}
-				}
-			});
 		},
 		async upsert({ group_name, group_desc, owner_uids, id }) {
 			if (id) {
@@ -153,17 +160,19 @@ export const GroupList = defineComponent({
 			return (
 				<div class="curr-group">
 					<div class="curr-group-name">
-						<span class="name">{this.State_App.currGroup.group_name}</span>
-						<aTooltip title="添加分组">
-							<a class="editSet">
+						<span class="curr-group-name_title name">
+							{this.State_App.currGroup.group_name}
+							<aTooltip title="修改分组信息">
 								<xIcon
-									class="btn"
-									icon="addGroup"
-									onClick={this.openAddGroupDialog}
+									class="btn editSet pointer"
+									icon="edit"
+									onClick={() =>
+										this.openDialogUpsertGroup(this.State_App.currGroup)
+									}
 									style="width:16px;"
 								/>
-							</a>
-						</aTooltip>
+							</aTooltip>
+						</span>
 					</div>
 					<div class="curr-group-desc">
 						简介: {this.State_App.currGroup.group_desc}
@@ -173,7 +182,15 @@ export const GroupList = defineComponent({
 		},
 		vDomSearchInput() {
 			return (
-				<div class="group-operate">
+				<div class="group-operate flex center middle">
+					<aTooltip title="添加分组">
+						<xIcon
+							class="btn editSet pointer"
+							icon="addGroup"
+							onClick={() => this.openDialogUpsertGroup()}
+							style="width:32px;height:32px;transform:translate(-12px,-4px)"
+						/>
+					</aTooltip>
 					<div class="search">
 						{/* 搜索框 */}
 						<xItem configs={this.configsSearch} />
@@ -211,7 +228,6 @@ export const GroupList = defineComponent({
 		return (
 			<div class="m-group flex1 height100">
 				<div class="group-bar flex vertical">
-					{this.vDomCurrentGroupPanel}
 					{this.vDomSearchInput}
 					{/* 左侧 分组列表 leftside  */}
 					{this.vDomGroupList}

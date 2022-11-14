@@ -64,7 +64,7 @@ export const GroupMemberList = defineComponent({
 			this.configs_table.columns = {
 				...defCol({
 					prop: "name",
-					label: `${vm.State_App.currGroup.group_name} 分组成员 (${vm.state.userInfo.length}) 人`,
+					label: `成员 ${vm.configs_table.dataSource.length} 人`,
 					renderCell({ record }) {
 						const text = record.username;
 						const imgSrc = `${location.protocol}//${location.host}/api/user/avatar?uid=${record.uid}`;
@@ -258,6 +258,9 @@ export const GroupMemberList = defineComponent({
 		}
 		userinfo = [...ownerinfo, ...devinfo, ...guestinfo];
 		this.configs_table.dataSource = userinfo;
+		if (this.configs_table.columns?.name) {
+			this.configs_table.columns.name.title = `成员 ${userinfo.length} 人`;
+		}
 
 		return (
 			<div class="m-panel">

@@ -122,7 +122,7 @@
 	.modal-postman-expression {
 		.expression-item,
 		.expression {
-			color: rgba(39, 56, 72, 0.85);
+			color: var(--color-title);
 			font-size: 1.17em;
 			font-weight: 500;
 			line-height: 1.5em;

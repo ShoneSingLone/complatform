@@ -1,13 +1,13 @@
 :root {
-
 	--color-white: rgba(255, 255, 255, 0.85);
 	--color-white-secondary: rgba(255, 255, 255, 0.67);
 	--color-bg-gray: #ececec;
 	--color-blue: #2395f1;
 	--color-blue-deeper: #34495e;
+	--color-title: #273848d9;
 	--color-grey-deep: #929aac;
 	--color-black-light: #404040;
-	--color-bg-dark: #32363a; // 背景色 - header 用的深蓝色
+	--color-bg-dark: #32363a;
 	--box-shadow-panel: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 	--color-text-dark: rgba(13, 27, 62, 0.65);
 	--color-antd-green: #00a854;
@@ -17,8 +17,6 @@
 	--color-antd-cyan: #00a2ae;
 	--color-antd-gray: #bfbfbf;
 	--color-antd-purple: #7265e6;
-
-
 
 	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 	font-size: 16px;
@@ -34,8 +32,6 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-text-size-adjust: 100%;
-
-
 }
 
 a {
