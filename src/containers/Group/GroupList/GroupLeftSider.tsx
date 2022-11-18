@@ -10,12 +10,15 @@ import { DialogEditGroup } from "./DialogEditGroup";
 const { $t } = State_UI;
 
 export function openDialogUpsertGroup(row = {}) {
+	const isUpdate = !!row._id;
 	UI.dialog.component({
-		title: row._id ? $t("修改分组信息").label : $t("添加分组").label,
-		component: row._id ? DialogEditGroup : ViewAddGroup,
-		area: ["480px", "360px"],
+		title: isUpdate ? $t("修改分组信息").label : $t("添加分组").label,
+		component: isUpdate ? DialogEditGroup : ViewAddGroup,
+		fullscreen: isUpdate,
+		row,
+		area: isUpdate ? ["580px", "460px"] : ["480px", "360px"],
 		onOk: async instance => {
-			if (row._id) {
+			if (isUpdate) {
 				debugger;
 			} else {
 				const validateResults = await validateForm(instance.vm.formItems);

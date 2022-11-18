@@ -14,6 +14,13 @@ export const group = {
 			data
 		});
 	},
+	deleteGroup(data) {
+		return ajax({
+			method: "post",
+			url: "/api/group/del",
+			data
+		});
+	},
 	addMember(data) {
 		return ajax({
 			method: "post",

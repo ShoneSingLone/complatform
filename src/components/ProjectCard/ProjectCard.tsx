@@ -9,7 +9,7 @@ import {
 	AllWasWell,
 	pickValueFrom,
 	validateForm
-} from "@ventose/ui/dist/VentoseUI.es";
+} from "@ventose/ui";
 import { Cpt_url } from "../../router/router";
 
 export default defineComponent({

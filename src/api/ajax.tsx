@@ -4,7 +4,6 @@ import { State_App } from "../state/State_App";
 import { Cpt_url } from "./../router/router";
 
 const ajax = axios.create({
-	baseURL: "/devyapi",
 	timeout: 20000 // request timeout
 });
 

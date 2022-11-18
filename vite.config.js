@@ -18,12 +18,6 @@ export default defineConfig({
 			allow: [searchForWorkspaceRoot(process.cwd())]
 		},
 		proxy: {
-			"^/devyapi": {
-				target: YAPI_TARGET_HOST,
-				changeOrigin: true,
-				secure: false,
-				rewrite: path => path.replace(/^\/devyapi/, "")
-			},
 			"^/api": {
 				target: YAPI_TARGET_HOST,
 				changeOrigin: true,
@@ -47,7 +41,9 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),
-			"vue": "vue/dist/vue.esm-bundler.js"
+			/* 开发的时候用，不用每次修改之后都发布到npm */
+			"@ventose/ui": path.resolve(__dirname, "./src/devui/VentoseUI.es.js"),
+			vue: "vue/dist/vue.esm-bundler.js"
 		}
 	}
 });

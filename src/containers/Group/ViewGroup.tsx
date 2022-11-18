@@ -36,16 +36,15 @@ export const ViewGroup = defineComponent({
 	data() {
 		return {
 			state: {},
-			styleContent: {
-				height: "100%",
-				margin: "0 24px 0 16px",
-				overflow: "initial",
-				backgroundColor: "#fff"
-			}
 		};
 	},
 	mounted() {
 		this.ifUrlNoGroupIdGetAndAddIdToUrl();
+	},
+	beforeUnmount() {
+		if (this.timmer) {
+			clearTimeout(this.timmer)
+		}
 	},
 	methods: {
 		async ifUrlNoGroupIdGetAndAddIdToUrl() {
@@ -58,7 +57,7 @@ export const ViewGroup = defineComponent({
 				}
 			} catch (e) {
 				console.error(e);
-				setTimeout(() => {
+				this.timmer = setTimeout(() => {
 					this.ifUrlNoGroupIdGetAndAddIdToUrl();
 				}, 1000);
 			}
@@ -94,12 +93,12 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		TabGroupLog() {
-			const isGroupRoleAuth = this.State_App.currGroup.role === "admin";
-			const isCurrentUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(
+			const isGroupRoleAuth = this.State_App.group.role === "admin";
+			const isUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(
 				this.State_App.user.role
 			);
 
-			if (isGroupRoleAuth || isCurrentUserRoleAuth) {
+			if (isGroupRoleAuth || isUserRoleAuth) {
 				return (
 					/* 分组动态 */
 					<aTabPane tab={TAB_KEY_GROUP_LOG} key={TAB_KEY_GROUP_LOG}>
@@ -117,6 +116,53 @@ export const ViewGroup = defineComponent({
 				"footer-fold elevation-4": isFooterFold,
 				"elevation-8": !isFooterFold
 			};
+		},
+		styleContent() {
+
+
+			return {
+				height: "100%",
+				margin: "0 24px 0 16px",
+				overflow: "initial",
+				backgroundColor: "#fff"
+			}
+		},
+		vDomEditGroupInfo() {
+			/* TODO: 权限校验 */
+
+			console.log(this.State_App.group.role);
+			console.log(this.State_App.user.role);
+			const isGroupRoleAuth = this.State_App.group.role === "owner";
+			const isUserRoleAuth = ["admin"].includes(this.State_App.user.role);
+			if (isGroupRoleAuth) {
+			}
+			if (isUserRoleAuth) {
+			}
+			let vDomEditIcon = null;
+			if (isGroupRoleAuth || isUserRoleAuth) {
+				vDomEditIcon = <aTooltip title="修改分组信息">
+					<xIcon
+						class="btn editSet pointer"
+						icon="edit"
+						onClick={() =>
+							this.openDialogUpsertGroup(
+								this.State_App.currGroup
+							)
+						}
+						style="width:16px;"
+					/>
+				</aTooltip>
+			}
+			return (
+				<div class="curr-group-name">
+					<div class="curr-group-name_title">
+						<div class="name">
+							{this.State_App.currGroup.group_name}
+						</div>
+						{vDomEditIcon}
+					</div>
+				</div>
+			);
 		}
 	},
 	render() {
@@ -142,27 +188,7 @@ export const ViewGroup = defineComponent({
 							class="m-tab tabs-large height100">
 							{{
 								leftExtra: () => {
-									return (
-										<div class="curr-group-name">
-											<div class="curr-group-name_title">
-												<div class="name">
-													{this.State_App.currGroup.group_name}
-												</div>
-												<aTooltip title="修改分组信息">
-													<xIcon
-														class="btn editSet pointer"
-														icon="edit"
-														onClick={() =>
-															this.openDialogUpsertGroup(
-																this.State_App.currGroup
-															)
-														}
-														style="width:16px;"
-													/>
-												</aTooltip>
-											</div>
-										</div>
-									);
+									return this.vDomEditGroupInfo;
 								},
 								default: () => {
 									return (

@@ -2,7 +2,7 @@ import { defineComponent } from "vue";
 import { _ } from "@ventose/ui";
 import { State_App } from "../../state/State_App";
 
-export const ViewApiModify = defineComponent({
+export const DialogApiModify = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
 		options: {
@@ -44,6 +44,7 @@ export const ViewApiModify = defineComponent({
 					<aAlert
 						message={this.$t("注： 绿色代表新增内容，红色代表删除内容").label}
 						type="info"
+						closable
 						className="width100"
 					/>
 				</div>
