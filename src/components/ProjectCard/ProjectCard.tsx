@@ -3,13 +3,7 @@ import { defineComponent } from "vue";
 import { State_App, Methods_App } from "@/state/State_App";
 import { API } from "@/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
-import {
-	_,
-	UI,
-	AllWasWell,
-	pickValueFrom,
-	validateForm
-} from "@ventose/ui";
+import { _, UI, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
 import { Cpt_url } from "../../router/router";
 
 export default defineComponent({

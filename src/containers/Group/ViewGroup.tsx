@@ -35,7 +35,7 @@ export const ViewGroup = defineComponent({
 	},
 	data() {
 		return {
-			state: {},
+			state: {}
 		};
 	},
 	mounted() {
@@ -43,7 +43,7 @@ export const ViewGroup = defineComponent({
 	},
 	beforeUnmount() {
 		if (this.timmer) {
-			clearTimeout(this.timmer)
+			clearTimeout(this.timmer);
 		}
 	},
 	methods: {
@@ -118,14 +118,12 @@ export const ViewGroup = defineComponent({
 			};
 		},
 		styleContent() {
-
-
 			return {
 				height: "100%",
 				margin: "0 24px 0 16px",
 				overflow: "initial",
 				backgroundColor: "#fff"
-			}
+			};
 		},
 		vDomEditGroupInfo() {
 			/* TODO: 权限校验 */
@@ -140,25 +138,23 @@ export const ViewGroup = defineComponent({
 			}
 			let vDomEditIcon = null;
 			if (isGroupRoleAuth || isUserRoleAuth) {
-				vDomEditIcon = <aTooltip title="修改分组信息">
-					<xIcon
-						class="btn editSet pointer"
-						icon="edit"
-						onClick={() =>
-							this.openDialogUpsertGroup(
-								this.State_App.currGroup
-							)
-						}
-						style="width:16px;"
-					/>
-				</aTooltip>
+				vDomEditIcon = (
+					<aTooltip title="修改分组信息">
+						<xIcon
+							class="btn editSet pointer"
+							icon="edit"
+							onClick={() =>
+								this.openDialogUpsertGroup(this.State_App.currGroup)
+							}
+							style="width:16px;"
+						/>
+					</aTooltip>
+				);
 			}
 			return (
 				<div class="curr-group-name">
 					<div class="curr-group-name_title">
-						<div class="name">
-							{this.State_App.currGroup.group_name}
-						</div>
+						<div class="name">{this.State_App.currGroup.group_name}</div>
 						{vDomEditIcon}
 					</div>
 				</div>

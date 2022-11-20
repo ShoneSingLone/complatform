@@ -1,11 +1,19 @@
 import { defineComponent } from "vue";
-import { _, defItem, State_UI, FormRules, pickValueFrom, VNodeCollection, UI, components } from "@ventose/ui";
+import {
+	_,
+	defItem,
+	State_UI,
+	FormRules,
+	pickValueFrom,
+	VNodeCollection,
+	UI,
+	components
+} from "@ventose/ui";
 import { Methods_App, State_App } from "../../../state/State_App";
 import { Alert } from "ant-design-vue";
 import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
 const { xItem } = components;
-
 
 const { $t } = State_UI;
 
@@ -14,7 +22,7 @@ export const DialogEditGroup = defineComponent({
 		return {
 			State_App,
 			Cpt_url
-		}
+		};
 	},
 	props: {
 		/* Dialog 默认传入参数 */
@@ -31,16 +39,25 @@ export const DialogEditGroup = defineComponent({
 		},
 		vDomFormItems() {
 			return _.map(this.formItems, (item, prop) => {
-				return (<>
-					<xGap t="10" />
-					<xItem configs={item} />
-				</>)
-			})
+				return (
+					<>
+						<xGap t="10" />
+						<xItem configs={item} />
+					</>
+				);
+			});
 		},
 		vDomDeleteConfirmAuth() {
 			return (
 				<div>
-					<Alert message={$t("警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!").label} type="warning" />
+					<Alert
+						message={
+							$t(
+								"警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!"
+							).label
+						}
+						type="warning"
+					/>
 					<div style={{ marginTop: "16px" }}>
 						<xItem configs={this.formDelete.authText} />
 					</div>
@@ -49,22 +66,34 @@ export const DialogEditGroup = defineComponent({
 		},
 		vDomDeleteGroup() {
 			/* 只有超级管理员能删除分组 */
-			if (State_App.user.role === 'admin') {
-				return <aCard class="mt20">
-					<Alert
-						type="warning"
-						message={$t("删除分组").label}
-						description={<div>
-							<div className='card-danger-content'>
-								<p>分组一旦删除，将无法恢复数据，请慎重操作！</p>
-								<p>只有超级管理员有权限删除分组。</p>
-							</div>
-							<div class="flex end"><xButton configs={{ onClick: this.showDeleteGroupConfirm, preset: "delete" }} /></div>
-						</div>}
-						show-icon />
-				</aCard>
+			if (State_App.user.role === "admin") {
+				return (
+					<aCard class="mt20">
+						<Alert
+							type="warning"
+							message={$t("删除分组").label}
+							description={
+								<div>
+									<div className="card-danger-content">
+										<p>分组一旦删除，将无法恢复数据，请慎重操作！</p>
+										<p>只有超级管理员有权限删除分组。</p>
+									</div>
+									<div class="flex end">
+										<xButton
+											configs={{
+												onClick: this.showDeleteGroupConfirm,
+												preset: "delete"
+											}}
+										/>
+									</div>
+								</div>
+							}
+							show-icon
+						/>
+					</aCard>
+				);
 			}
-			return null
+			return null;
 		}
 	},
 	render() {
@@ -72,11 +101,19 @@ export const DialogEditGroup = defineComponent({
 		return (
 			<div class="padding20">
 				<aCard>
-					<xForm class="flex vertical" labelStyle={{ 'min-width': '170px', width: 'unset', 'text-align': 'right' }}> {this.vDomFormItems}</xForm >
-				</aCard >
+					<xForm
+						class="flex vertical"
+						labelStyle={{
+							"min-width": "170px",
+							width: "unset",
+							"text-align": "right"
+						}}>
+						{" "}
+						{this.vDomFormItems}
+					</xForm>
+				</aCard>
 				{this.vDomDeleteGroup}
 			</div>
-
 		);
 	},
 	data() {
@@ -119,24 +156,28 @@ export const DialogEditGroup = defineComponent({
 					value: "",
 					disabled() {
 						//@ts-ignore
-						return !vm.formItems.custom_field1_enable.value
+						return !vm.formItems.custom_field1_enable.value;
 					},
 					label: $t("接口自定义字段").label,
-					labelVNodeRender: VNodeCollection.labelTips(<div>
-						{$t("可以在接口中添加 额外字段 数据").label}
-					</div>),
+					labelVNodeRender: VNodeCollection.labelTips(
+						<div>{$t("可以在接口中添加 额外字段 数据").label}</div>
+					),
 					placeholder: $t("额外字段").label,
 					rules: [FormRules.required()],
 					once() {
-						vm.$watch("formItems.custom_field1_enable.value", isUse => {
-							if (isUse) {
-								this.rules = [FormRules.required()];
-							} else {
-								this.rules = [];
+						vm.$watch(
+							"formItems.custom_field1_enable.value",
+							isUse => {
+								if (isUse) {
+									this.rules = [FormRules.required()];
+								} else {
+									this.rules = [];
+								}
+							},
+							{
+								immediate: true
 							}
-						}, {
-							immediate: true
-						})
+						);
 					}
 				})
 			}
@@ -152,7 +193,7 @@ export const DialogEditGroup = defineComponent({
 			const vm = this;
 			vm.formDelete.authText.value = "";
 			UI.dialog.confirm({
-				title: '确认删除 ' + vm.State_App.currGroup.group_name + ' 分组吗？',
+				title: "确认删除 " + vm.State_App.currGroup.group_name + " 分组吗？",
 				content: vm.vDomDeleteConfirmAuth,
 				onOk() {
 					return new Promise(async (resolve, reject) => {
@@ -162,18 +203,18 @@ export const DialogEditGroup = defineComponent({
 							return reject();
 						} else {
 							await vm.deleteGroup();
-							vm.options?.close()
-							return resolve("")
+							vm.options?.close();
+							return resolve("");
 						}
 					});
 				},
 				iconType: "delete",
-				onCancel() { }
-			})
+				onCancel() {}
+			});
 		},
 		async deleteGroup() {
 			const { currGroup } = this.State_App;
-			// const res = await API.group.deleteGroup({ id: currGroup._id });
+			const res = await API.group.deleteGroup({ id: currGroup._id });
 			UI.notification.success("删除成功");
 			await Methods_App.fetchGroupList();
 			const firstGroup = _.first(this.State_App.groupList);
@@ -181,8 +222,7 @@ export const DialogEditGroup = defineComponent({
 		}
 	},
 	mounted() {
-		this.init()
+		this.init();
 		this.options.vm = this;
 	}
 });
-
