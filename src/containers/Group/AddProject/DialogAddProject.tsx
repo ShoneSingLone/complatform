@@ -227,14 +227,6 @@ export const DialogAddProject = defineComponent({
 					]
 				})
 			},
-			configs: {
-				btn_addProject: {
-					text: "创建项目",
-					type: "primary",
-					icon: <xIcon icon="add" />,
-					async onClick() {}
-				}
-			},
 			state: {
 				groupList: []
 			}

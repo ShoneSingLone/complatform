@@ -2,7 +2,7 @@ import "./Group.scss";
 import { defineComponent } from "vue";
 import {
 	GroupLeftSider,
-	fnShowDialogUpsertGroup,
+	fnShowUpsertGroupDialog,
 	fnUpsertGroupInfo
 } from "./GroupList/GroupLeftSider";
 import ProjectList from "./GroupProjectList/ProjectList";
@@ -29,7 +29,7 @@ export const ViewGroup = defineComponent({
 		return {
 			Cpt_url,
 			State_App,
-			fnShowDialogUpsertGroup,
+			fnShowUpsertGroupDialog,
 			fnUpsertGroupInfo
 		};
 	},
@@ -166,7 +166,7 @@ export const ViewGroup = defineComponent({
 							class="btn editSet pointer"
 							icon="edit"
 							onClick={() =>
-								this.fnShowDialogUpsertGroup(this.State_App.currGroup)
+								this.fnShowUpsertGroupDialog(this.State_App.currGroup)
 							}
 							style="width:16px;"
 						/>

@@ -58,5 +58,21 @@ export const project = {
 				group_id: Number(groupId)
 			}
 		});
+	},
+	addInterfaceCategory(data) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/add_cat",
+			data
+		});
+	},
+	fetchInterfaceListMenu(project_id) {
+		return ajax({
+			method: "get",
+			url: "/api/interface/list_menu",
+			params: {
+				project_id: Number(project_id)
+			}
+		});
 	}
 };

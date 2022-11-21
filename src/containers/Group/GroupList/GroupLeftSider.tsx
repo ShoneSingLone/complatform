@@ -24,7 +24,7 @@ export async function fnUpsertGroupInfo(formData = {}) {
 	await Methods_App.fetchNewsData(State_App.currGroup._id, "group", 1, 10);
 }
 
-export function fnShowDialogUpsertGroup(row = {}) {
+export function fnShowUpsertGroupDialog(row = {}) {
 	const vm = this;
 	const isUpdate = !!row._id;
 	UI.dialog.component({
@@ -109,7 +109,7 @@ export const GroupLeftSider = defineComponent({
 		return {
 			Cpt_url,
 			State_App,
-			fnShowDialogUpsertGroup,
+			fnShowUpsertGroupDialog,
 			fnUpsertGroupInfo
 		};
 	},
@@ -182,7 +182,7 @@ export const GroupLeftSider = defineComponent({
 									class="btn editSet pointer"
 									icon="edit"
 									onClick={() =>
-										this.fnShowDialogUpsertGroup(this.State_App.currGroup)
+										this.fnShowUpsertGroupDialog(this.State_App.currGroup)
 									}
 									style="width:16px;"
 								/>
@@ -202,7 +202,7 @@ export const GroupLeftSider = defineComponent({
 						<xIcon
 							class="btn editSet pointer"
 							icon="addGroup"
-							onClick={() => this.fnShowDialogUpsertGroup()}
+							onClick={() => this.fnShowUpsertGroupDialog()}
 							style="width:32px;height:32px;transform:translate(-12px,-4px)"
 						/>
 					</aTooltip>

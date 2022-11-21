@@ -86,7 +86,7 @@ export default defineComponent({
 				</div>
 			);
 		},
-		openAddProjectDialog() {
+		showAddProjectDialog() {
 			const vm = this;
 			UI.dialog.component({
 				title: "添加项目",
@@ -94,10 +94,10 @@ export default defineComponent({
 				area: ["840px", "550px"],
 				okText: "创建项目",
 				groupId: vm.Cpt_url.query.group_id,
-				async onOk(dialog) {
-					const res = await dialog.vm.submit();
+				async onOk(instance) {
+					const res = await instance.vm.submit();
 					if (res) {
-						dialog.close();
+						instance.close();
 						vm.updateProjectList();
 					}
 				}
@@ -170,7 +170,7 @@ export default defineComponent({
 		const addProjectButton = (() => {
 			if (this.isShow) {
 				return (
-					<aButton type="primary" onClick={this.openAddProjectDialog}>
+					<aButton type="primary" onClick={this.showAddProjectDialog}>
 						添加项目
 					</aButton>
 				);

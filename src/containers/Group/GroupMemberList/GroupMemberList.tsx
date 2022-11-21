@@ -94,7 +94,7 @@ export const GroupMemberList = defineComponent({
 									<aButton
 										className="btn"
 										type="primary"
-										onClick={vm.showAddMemberModal}>
+										onClick={vm.showAddMemberDialog}>
 										添加成员
 									</aButton>
 								</div>
@@ -164,7 +164,7 @@ export const GroupMemberList = defineComponent({
 				})
 			};
 		},
-		showAddMemberModal() {
+		showAddMemberDialog() {
 			UI.dialog.component({
 				title: "添加成员",
 				component: ViewAddMember,

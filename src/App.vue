@@ -1,5 +1,6 @@
 <script>
 /*https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup*/
+import "./style.css";
 import { defineComponent } from "vue";
 import { _ } from "@ventose/ui";
 import { AppFooter } from "./components/Footer/AppFooter";

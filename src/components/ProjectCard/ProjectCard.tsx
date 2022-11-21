@@ -21,7 +21,7 @@ export default defineComponent({
 		return { State_App, Cpt_url };
 	},
 	methods: {
-		openCopyProjectView() {
+		showCopyProjectDialog() {
 			const vm = this;
 			UI.dialog.component({
 				title: `复制项目${this.projectData.name}`,
@@ -111,7 +111,7 @@ export default defineComponent({
 		copyIcon() {
 			if (this.isShow) {
 				return (
-					<span class="pointer icon-copy" onClick={this.openCopyProjectView}>
+					<span class="pointer icon-copy" onClick={this.showCopyProjectDialog}>
 						<aTooltip placement="rightTop" title="复制项目">
 							<xIcon icon="copy" style={{ color: "#232426" }} />
 						</aTooltip>

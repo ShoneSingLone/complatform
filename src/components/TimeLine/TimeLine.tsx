@@ -79,7 +79,7 @@ export const TimeLine = defineComponent({
 			});
 		},
 
-		openDiff(data) {
+		showDiffLogDialog(data) {
 			UI.dialog.component({
 				title: $t("Api 改动日志(Esc 关闭弹窗)").label,
 				hideButtons: true,
@@ -197,7 +197,8 @@ export const TimeLine = defineComponent({
 							<span class="logcontent" v-html={newsItem.content} />
 							<div style={{ padding: "10px 0 0 10px" }}>
 								{interfaceDiff && (
-									<aButton onClick={() => this.openDiff(newsItem.data)}>
+									<aButton
+										onClick={() => this.showDiffLogDialog(newsItem.data)}>
 										改动详情
 									</aButton>
 								)}

@@ -31477,11 +31477,9 @@ var jquery = { exports: {} };
 									i3 > 1 && elementMatcher(matchers2),
 									i3 > 1 &&
 										toSelector(
-											tokens
-												.slice(0, i3 - 1)
-												.concat({
-													value: tokens[i3 - 2].type === " " ? "*" : ""
-												})
+											tokens.slice(0, i3 - 1).concat({
+												value: tokens[i3 - 2].type === " " ? "*" : ""
+											})
 										).replace(rtrim2, "$1"),
 									matcher,
 									i3 < j2 && matcherFromTokens(tokens.slice(i3, j2)),
