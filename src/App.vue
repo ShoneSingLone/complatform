@@ -25,7 +25,7 @@ export default defineComponent({
 });
 </script>
 <template>
-	<AppHeader v-if="State_App.user.loginState !== 1" />
+	<AppHeader v-if="State_App.user.isLogin" />
 	<xRouterView v-loading="isLoading" />
 	<AppFooter />
 </template>

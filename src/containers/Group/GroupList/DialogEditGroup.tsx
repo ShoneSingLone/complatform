@@ -13,6 +13,7 @@ import { Methods_App, State_App } from "../../../state/State_App";
 import { Alert } from "ant-design-vue";
 import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
+
 const { xItem } = components;
 
 const { $t } = State_UI;
@@ -108,7 +109,6 @@ export const DialogEditGroup = defineComponent({
 							width: "unset",
 							"text-align": "right"
 						}}>
-						{" "}
 						{this.vDomFormItems}
 					</xForm>
 				</aCard>
@@ -185,9 +185,12 @@ export const DialogEditGroup = defineComponent({
 	},
 	methods: {
 		init() {
-			const { type, role, group_desc, group_name } = this.row;
+			const { group_desc, group_name, custom_field1 } = this.row;
+			const { enable, name } = custom_field1 || {};
 			this.formItems.currGroupName.value = group_name;
 			this.formItems.currGroupDesc.value = group_desc;
+			this.formItems.custom_field1_enable.value = enable;
+			this.formItems.custom_field1_name.value = name;
 		},
 		showDeleteGroupConfirm() {
 			const vm = this;

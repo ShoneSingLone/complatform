@@ -3,7 +3,7 @@ import "jsondiffpatch/dist/formatters-styles/html.css";
 import "./TimeLine.scss";
 import * as jsondiffpatch from "jsondiffpatch";
 
-import { UI, State_UI, _ } from "@ventose/ui";
+import { UI, State_UI, _, defPagination } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { State_App, Methods_App } from "../../state/State_App";
 import { Cpt_url } from "../../router/router";
@@ -12,6 +12,7 @@ import { LOG_TYPE, METHOD_COLOR } from "../../utils/variable";
 import { _$timeAgo } from "../../utils/common";
 import { API } from "../../api";
 import { diffMessage } from "../../utils/diff-view";
+import { dayjs } from "@ventose/ui";
 
 const { $t } = State_UI;
 
@@ -34,7 +35,9 @@ export const TimeLine = defineComponent({
 
 	data() {
 		return {
+			newsWillShow: [],
 			curSelectValue: "",
+			pagination: defPagination(),
 			state: {
 				bidden: "",
 				loading: false,
@@ -43,29 +46,30 @@ export const TimeLine = defineComponent({
 		};
 	},
 	async mounted() {
-		await Methods_App.fetchNewsData(this.typeid, this.type, 1, 10);
 		if (this.type === "project") {
-			this.getApiList();
+			await this.getApiList();
 		}
+		await this.getMore();
 	},
 	methods: {
 		async getMore() {
-			const that = this;
-			if (this.State_App.news.curpage <= this.State_App.news.newsData.total) {
-				this.state.loading = true;
-				await Methods_App.fetchNewsData(
-					this.typeid,
-					this.type,
-					this.State_App.news.curpage + 1,
-					10,
-					this.curSelectValue
-				);
-				this.state.loading = false;
-				if (
-					that.State_App.news.newsData.total === that.State_App.news.curpage
-				) {
-					this.state.bidden = "logbidden";
+			this.state.loading = true;
+			try {
+				const { data } = await API.news.getLogList({
+					typeid: this.typeid,
+					type: this.type,
+					page: this.pagination.page,
+					limit: this.pagination.size,
+					selectValue: this.curSelectValue
+				});
+				const { list, total } = data || {};
+				if (list && total) {
+					this.newsWillShow = list;
+					this.pagination.total = total;
 				}
+			} catch (error) {
+			} finally {
+				this.state.loading = false;
 			}
 		},
 
@@ -81,6 +85,7 @@ export const TimeLine = defineComponent({
 				hideButtons: true,
 				component: DialogApiModify,
 				maxmin: true,
+				fullscreen: true,
 				diffView: diffMessage(jsondiffpatch, formattersHtml, data)
 			});
 		},
@@ -99,11 +104,6 @@ export const TimeLine = defineComponent({
 		}
 	},
 	computed: {
-		newsWillShow() {
-			return this.State_App.news.newsData
-				? this.State_App.news.newsData.list
-				: [];
-		},
 		vDomProjectChildren() {
 			const children = this.state.apiList.map(item => {
 				let methodColor =
@@ -171,26 +171,12 @@ export const TimeLine = defineComponent({
 
 			return null;
 		},
-		vDomPending() {
-			if (this.state.loading) {
-				return <aSpin />;
-			}
-
-			if (this.State_App.news.newsData.total <= this.State_App.news.curpage) {
-				return <a class="logbidden">以上为全部内容</a>;
-			}
-
-			return (
-				<a class="loggetMore" onClick={this.getMore}>
-					查看更多
-				</a>
-			);
-		},
 		vDomSectionRecords() {
 			let records = <ErrMsg type="noData" />;
 			if (this.newsWillShow.length) {
 				const vDomTimeLineItem = _.map(this.newsWillShow, (newsItem, i) => {
 					let interfaceDiff = _.isPlainObject(newsItem.data);
+					const addTime = _.dateFormat(dayjs.unix(newsItem.add_time), 1);
 					return (
 						<aTimelineItem
 							dot={
@@ -206,7 +192,7 @@ export const TimeLine = defineComponent({
 							<div class="logMesHeade">
 								<span class="logoTimeago">{_$timeAgo(newsItem.add_time)}</span>
 								<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
-								<span class="logtime">{_.dateFormat(newsItem.add_time)}</span>
+								<span class="logtime">{addTime}</span>
 							</div>
 							<span class="logcontent" v-html={newsItem.content} />
 							<div style={{ padding: "10px 0 0 10px" }}>
@@ -220,7 +206,7 @@ export const TimeLine = defineComponent({
 					);
 				});
 				records = (
-					<aTimeline class="TimeLine_news-content" pending={this.vDomPending}>
+					<aTimeline class="TimeLine_news-content">
 						{vDomTimeLineItem}
 					</aTimeline>
 				);
@@ -230,10 +216,18 @@ export const TimeLine = defineComponent({
 	},
 	render() {
 		return (
-			<section class="news-timeline">
-				{this.vDomSectionProject}
-				{this.vDomSectionRecords}
-			</section>
+			<>
+				<section class="news-timeline flex1">
+					{this.vDomSectionProject}
+					{this.vDomSectionRecords}
+				</section>
+				<div class="flex end padding20">
+					<xPagination
+						pagination={this.pagination}
+						onPaginationChange={this.getMore}
+					/>
+				</div>
+			</>
 		);
 	}
 });

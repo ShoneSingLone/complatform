@@ -9,7 +9,7 @@ export default defineComponent({
 	},
 	render() {
 		return (
-			<section class="news-box width100">
+			<section class="news-box flex vertical">
 				<TimeLine type={"group"} typeid={this.State_App.currGroup._id} />
 			</section>
 		);

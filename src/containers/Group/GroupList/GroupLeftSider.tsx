@@ -2,41 +2,78 @@ import GuideBtns from "@/components/GuideBtns/GuideBtns";
 import { _, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { UI, State_UI } from "@ventose/ui";
-import ViewAddGroup from "./ViewAddGroup.vue";
 import { API } from "@/api";
 import { Methods_App, State_App } from "../../../state/State_App";
 import { Cpt_url } from "../../../router/router";
+
 import { DialogEditGroup } from "./DialogEditGroup";
+import { DialogAddGroup } from "./DialogAddGroup";
+
 const { $t } = State_UI;
 
-export function openDialogUpsertGroup(row = {}) {
+export async function fnUpsertGroupInfo(formData = {}) {
+	const { id } = formData;
+	if (id) {
+		await API.group.updateGroup(formData);
+	} else {
+		await API.group.addGroup(formData);
+	}
+	/*TODO:*/
+	await Methods_App.fetchGroupList();
+	await Methods_App.setCurrGroup(State_App.currGroup._id);
+	await Methods_App.fetchNewsData(State_App.currGroup._id, "group", 1, 10);
+}
+
+export function fnShowDialogUpsertGroup(row = {}) {
+	const vm = this;
 	const isUpdate = !!row._id;
 	UI.dialog.component({
 		title: isUpdate ? $t("修改分组信息").label : $t("添加分组").label,
-		component: isUpdate ? DialogEditGroup : ViewAddGroup,
+		component: isUpdate ? DialogEditGroup : DialogAddGroup,
 		fullscreen: isUpdate,
 		row,
-		area: isUpdate ? ["580px", "460px"] : ["480px", "360px"],
+		area: ["580px", "460px"],
 		onOk: async instance => {
+			let formData = {};
 			if (isUpdate) {
-				debugger;
+				const validateResults = await validateForm(instance.vm.formItems);
+				if (AllWasWell(validateResults)) {
+					const {
+						currGroupName,
+						currGroupDesc,
+						custom_field1_enable,
+						custom_field1_name
+					} = pickValueFrom(instance.vm.formItems);
+					formData = {
+						...row,
+						group_name: currGroupName,
+						group_desc: currGroupDesc,
+						custom_field1: {
+							enable: custom_field1_enable,
+							name: custom_field1_name
+						},
+						id: row._id
+					};
+				} else {
+					throw new Error("未通过验证");
+				}
 			} else {
 				const validateResults = await validateForm(instance.vm.formItems);
 				if (AllWasWell(validateResults)) {
 					const { newGroupName, newGroupDesc, owner_uids } = pickValueFrom(
 						instance.vm.formItems
 					);
-					await this.upsert({
-						...row,
+					formData = {
 						group_name: newGroupName,
 						group_desc: newGroupDesc,
 						owner_uids: owner_uids
-					});
-					instance.close();
+					};
 				} else {
 					throw new Error("未通过验证");
 				}
 			}
+			await vm.fnUpsertGroupInfo(formData);
+			instance.close();
 		}
 	});
 }
@@ -72,7 +109,8 @@ export const GroupLeftSider = defineComponent({
 		return {
 			Cpt_url,
 			State_App,
-			openDialogUpsertGroup
+			fnShowDialogUpsertGroup,
+			fnUpsertGroupInfo
 		};
 	},
 	data() {
@@ -109,38 +147,12 @@ export const GroupLeftSider = defineComponent({
 				console.error(error);
 			}
 		},
-		async upsert({ group_name, group_desc, owner_uids, id }) {
-			if (id) {
-				await API.group.updateGroup({
-					group_name,
-					group_desc,
-					id
-				});
-			} else {
-				await API.group.addGroup({
-					group_name,
-					group_desc,
-					owner_uids
-				});
-			}
-
-			await Methods_App.fetchGroupList();
-			if (id) {
-				const currGroup = _.find(this.State_App.groupList, group => {
-					return +group._id === +id;
-				});
-				Methods_App.setCurrGroup(currGroup);
-			}
-			await Methods_App.setCurrGroup(State_App.currGroup._id);
-			await Methods_App.fetchNewsData(State_App.currGroup._id, "group", 1, 10);
-		},
 		async selectGroup({ key: groupId }) {
 			const currGroup = _.find(this.State_App.groupList, { _id: +groupId });
 			await Methods_App.setCurrGroup(currGroup);
 			this.Cpt_url.query.group_id = currGroup._id;
 			await Methods_App.fetchNewsData(groupId, "group", 1, 10);
 		},
-
 		searchGroup: _.debounce(function () {
 			const { groupList } = this.State_App;
 			const keywords = this.configsSearch.value;
@@ -170,7 +182,7 @@ export const GroupLeftSider = defineComponent({
 									class="btn editSet pointer"
 									icon="edit"
 									onClick={() =>
-										this.openDialogUpsertGroup(this.State_App.currGroup)
+										this.fnShowDialogUpsertGroup(this.State_App.currGroup)
 									}
 									style="width:16px;"
 								/>
@@ -190,7 +202,7 @@ export const GroupLeftSider = defineComponent({
 						<xIcon
 							class="btn editSet pointer"
 							icon="addGroup"
-							onClick={() => this.openDialogUpsertGroup()}
+							onClick={() => this.fnShowDialogUpsertGroup()}
 							style="width:32px;height:32px;transform:translate(-12px,-4px)"
 						/>
 					</aTooltip>

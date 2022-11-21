@@ -27,17 +27,20 @@
 
 .news-box {
 	display: -webkit-box;
-	-webkit-box-flex: 1;
 	margin: 0px auto 0 auto;
 	font-size: 0.14rem;
 	background: #fff;
-	display: block;
-	min-height: 550px;
+	display: flex;
+	flex: 1;
+	width: 100%;
+	height: 550px;
 	border-radius: 4px;
 
 	.news-timeline {
 		padding-left: 125px;
 		color: #6b6c6d;
+		height: 100px;
+		overflow: auto;
 
 		.news-search {
 			height: 35px;

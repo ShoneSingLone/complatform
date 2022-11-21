@@ -1,24 +1,10 @@
-<template>
-	<aCard>
-		<xForm
-			class="flex vertical"
-			:label-style="{ 'min-width': '120px', width: 'unset' }">
-			<template v-for="(item, prop) in formItems" :key="prop">
-				<xGap t="10" />
-				<xItem :configs="item" />
-			</template>
-		</xForm>
-	</aCard>
-</template>
-
-<script lang="jsx">
 import { defineComponent } from "vue";
 import { _, defItem, State_UI, FormRules } from "@ventose/ui";
-import { xItemUAC } from "@/components/xItemRender/xItemUAC";
+import { xItemUAC } from "../../../components/xItemRender/xItemUAC";
 
 const { $t } = State_UI;
 
-export default defineComponent({
+export const DialogAddGroup = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
 		options: {
@@ -55,11 +41,32 @@ export default defineComponent({
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				})
-			}
+			},
+			styleLabel: { "min-width": "120px", width: "unset" }
 		};
 	},
 	mounted() {
 		this.options.vm = this;
+	},
+	computed: {
+		vDomFormItems() {
+			return _.map(this.formItems, (item, prop) => {
+				return (
+					<>
+						<xGap t="10" />
+						<xItem configs={item} />
+					</>
+				);
+			});
+		}
+	},
+	render() {
+		return (
+			<aCard>
+				<xForm class="flex vertical" labelStyle={this.styleLabel}>
+					{this.vDomFormItems}
+				</xForm>
+			</aCard>
+		);
 	}
 });
-</script>

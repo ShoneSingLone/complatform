@@ -29497,8 +29497,8 @@ import {
 	createBlock,
 	createElementVNode,
 	withCtx,
-	toDisplayString,
 	renderList,
+	toDisplayString,
 	createCommentVNode,
 	normalizeStyle,
 	resolveDynamicComponent,
@@ -38912,7 +38912,7 @@ function isValidElement(element) {
 	}
 	return element && element.__v_isVNode && _typeof$2(element.type) !== "symbol";
 }
-function getInputClassName(prefixCls, bordered, size, disabled, direction) {
+function getInputClassName(prefixCls, bordered, size2, disabled, direction) {
 	var _classNames;
 	return classNames(
 		prefixCls,
@@ -38920,12 +38920,12 @@ function getInputClassName(prefixCls, bordered, size, disabled, direction) {
 		_defineProperty$m(
 			_classNames,
 			"".concat(prefixCls, "-sm"),
-			size === "small"
+			size2 === "small"
 		),
 		_defineProperty$m(
 			_classNames,
 			"".concat(prefixCls, "-lg"),
-			size === "large"
+			size2 === "large"
 		),
 		_defineProperty$m(_classNames, "".concat(prefixCls, "-disabled"), disabled),
 		_defineProperty$m(
@@ -40940,7 +40940,7 @@ const ClearableLabeledInput = defineComponent({
 							? void 0
 							: _slots$prefix.call(slots)
 						: _props$prefix,
-				size = props2.size,
+				size2 = props2.size,
 				_props$suffix3 = props2.suffix,
 				suffix =
 					_props$suffix3 === void 0
@@ -41000,12 +41000,12 @@ const ClearableLabeledInput = defineComponent({
 				_defineProperty$m(
 					_classNames2,
 					"".concat(prefixCls, "-affix-wrapper-sm"),
-					size === "small"
+					size2 === "small"
 				),
 				_defineProperty$m(
 					_classNames2,
 					"".concat(prefixCls, "-affix-wrapper-lg"),
-					size === "large"
+					size2 === "large"
 				),
 				_defineProperty$m(
 					_classNames2,
@@ -41051,7 +41051,7 @@ const ClearableLabeledInput = defineComponent({
 					cloneElement(element, {
 						style: null,
 						value,
-						class: getInputClassName(prefixCls, bordered, size, disabled)
+						class: getInputClassName(prefixCls, bordered, size2, disabled)
 					}),
 					suffixNode
 				]
@@ -41078,7 +41078,7 @@ const ClearableLabeledInput = defineComponent({
 							? void 0
 							: _slots$addonAfter.call(slots)
 						: _props$addonAfter2,
-				size = props2.size,
+				size2 = props2.size,
 				direction = props2.direction,
 				hidden = props2.hidden;
 			if (
@@ -41124,12 +41124,12 @@ const ClearableLabeledInput = defineComponent({
 				_defineProperty$m(
 					_classNames4,
 					"".concat(prefixCls, "-group-wrapper-sm"),
-					size === "small"
+					size2 === "small"
 				),
 				_defineProperty$m(
 					_classNames4,
 					"".concat(prefixCls, "-group-wrapper-lg"),
-					size === "large"
+					size2 === "large"
 				),
 				_defineProperty$m(
 					_classNames4,
@@ -44747,7 +44747,7 @@ const useConfigInject = function (name, props2) {
 				: props2.virtual !== false) && dropdownMatchSelectWidth.value !== false
 		);
 	});
-	var size = computed(function () {
+	var size2 = computed(function () {
 		return props2.size || configProvider.componentSize;
 	});
 	var autocomplete = computed(function () {
@@ -44767,7 +44767,7 @@ const useConfigInject = function (name, props2) {
 		configProvider,
 		prefixCls,
 		direction,
-		size,
+		size: size2,
 		getTargetContainer,
 		getPopupContainer,
 		space,
@@ -44861,7 +44861,7 @@ const Input$3 = defineComponent({
 		var _useConfigInject = useConfigInject("input", props2),
 			direction = _useConfigInject.direction,
 			prefixCls = _useConfigInject.prefixCls,
-			size = _useConfigInject.size,
+			size2 = _useConfigInject.size,
 			autocomplete = _useConfigInject.autocomplete;
 		var stateValue = ref(
 			props2.value === void 0 ? props2.defaultValue : props2.value
@@ -45059,7 +45059,7 @@ const Input$3 = defineComponent({
 						getInputClassName(
 							prefixCls.value,
 							bordered,
-							size.value,
+							size2.value,
 							disabled,
 							direction.value
 						),
@@ -45814,7 +45814,7 @@ const Button = defineComponent({
 			prefixCls = _useConfigInject.prefixCls,
 			autoInsertSpaceInButton = _useConfigInject.autoInsertSpaceInButton,
 			direction = _useConfigInject.direction,
-			size = _useConfigInject.size;
+			size2 = _useConfigInject.size;
 		var buttonNodeRef = ref(null);
 		var delayTimeoutRef = ref(void 0);
 		var isNeedInserted = false;
@@ -45858,7 +45858,7 @@ const Button = defineComponent({
 				small: "sm",
 				middle: void 0
 			};
-			var sizeFullname = size.value;
+			var sizeFullname = size2.value;
 			var sizeCls = sizeFullname ? sizeClassNameMap[sizeFullname] || "" : "";
 			return (
 				(_ref2 = {}),
@@ -46094,9 +46094,9 @@ const ButtonGroup = defineComponent({
 			direction = _useConfigInject.direction;
 		var classes = computed(function () {
 			var _ref2;
-			var size = props2.size;
+			var size2 = props2.size;
 			var sizeCls = "";
-			switch (size) {
+			switch (size2) {
 				case "large":
 					sizeCls = "lg";
 					break;
@@ -46107,7 +46107,7 @@ const ButtonGroup = defineComponent({
 				case void 0:
 					break;
 				default:
-					console.warn(new UnreachableException(size).error);
+					console.warn(new UnreachableException(size2).error);
 			}
 			return (
 				(_ref2 = {}),
@@ -46337,7 +46337,7 @@ const InputSearch = defineComponent({
 			prefixCls = _useConfigInject.prefixCls,
 			getPrefixCls2 = _useConfigInject.getPrefixCls,
 			direction = _useConfigInject.direction,
-			size = _useConfigInject.size;
+			size2 = _useConfigInject.size;
 		var inputPrefixCls = computed(function () {
 			return getPrefixCls2("input", props2.inputPrefixCls);
 		});
@@ -46404,7 +46404,7 @@ const InputSearch = defineComponent({
 						isAntdButton
 							? {
 									class: btnClassName,
-									size: size.value
+									size: size2.value
 							  }
 							: {}
 					),
@@ -46417,7 +46417,7 @@ const InputSearch = defineComponent({
 					{
 						class: btnClassName,
 						type: enterButton ? "primary" : void 0,
-						size: size.value,
+						size: size2.value,
 						disabled: disabled,
 						key: "enterButton",
 						onMousedown: onMousedown2,
@@ -46445,8 +46445,8 @@ const InputSearch = defineComponent({
 				),
 				_defineProperty$m(
 					_classNames,
-					"".concat(prefixCls.value, "-").concat(size.value),
-					!!size.value
+					"".concat(prefixCls.value, "-").concat(size2.value),
+					!!size2.value
 				),
 				_defineProperty$m(
 					_classNames,
@@ -46471,7 +46471,7 @@ const InputSearch = defineComponent({
 					{},
 					{
 						onPressEnter: onSearch,
-						size: size.value,
+						size: size2.value,
 						prefixCls: inputPrefixCls.value,
 						addonAfter: button,
 						suffix: suffix,
@@ -46743,9 +46743,9 @@ function getBordersSize(styles) {
 	for (var _i = 1; _i < arguments.length; _i++) {
 		positions[_i - 1] = arguments[_i];
 	}
-	return positions.reduce(function (size, position) {
+	return positions.reduce(function (size2, position) {
 		var value = styles["border-" + position + "-width"];
-		return size + toFloat(value);
+		return size2 + toFloat(value);
 	}, 0);
 }
 function getPaddings(styles) {
@@ -47029,18 +47029,18 @@ const ResizeObserver$1 = defineComponent({
 				state.offsetWidth !== offsetWidth ||
 				state.offsetHeight !== offsetHeight
 			) {
-				var size = {
+				var size2 = {
 					width: fixedWidth,
 					height: fixedHeight,
 					offsetWidth,
 					offsetHeight
 				};
-				_extends(state, size);
+				_extends(state, size2);
 				if (onResize3) {
 					Promise.resolve().then(function () {
 						onResize3(
 							_objectSpread2$1(
-								_objectSpread2$1({}, size),
+								_objectSpread2$1({}, size2),
 								{},
 								{
 									offsetWidth,
@@ -47281,11 +47281,11 @@ var ResizableTextArea = defineComponent({
 			wrapperRaf.cancel(nextFrameActionId);
 			nextFrameActionId = wrapperRaf(resizeTextarea);
 		};
-		var handleResize = function handleResize2(size) {
+		var handleResize = function handleResize2(size2) {
 			if (resizeStatus.value !== RESIZE_STATUS_NONE) {
 				return;
 			}
-			emit("resize", size);
+			emit("resize", size2);
 			var autoSize = props2.autoSize || props2.autosize;
 			if (autoSize) {
 				resizeOnNextFrame();
@@ -47433,7 +47433,7 @@ const Textarea = defineComponent({
 		var mergedValue = ref("");
 		var _useConfigInject = useConfigInject("input", props2),
 			prefixCls = _useConfigInject.prefixCls,
-			size = _useConfigInject.size,
+			size2 = _useConfigInject.size,
 			direction = _useConfigInject.direction;
 		var showCount = computed(function () {
 			return props2.showCount === "" || props2.showCount || false;
@@ -47614,12 +47614,12 @@ const Textarea = defineComponent({
 						_defineProperty$m(
 							_class,
 							"".concat(prefixCls.value, "-sm"),
-							size.value === "small"
+							size2.value === "small"
 						),
 						_defineProperty$m(
 							_class,
 							"".concat(prefixCls.value, "-lg"),
-							size.value === "large"
+							size2.value === "large"
 						),
 						_class),
 					showCount: null,
@@ -47965,7 +47965,7 @@ const InputPassword = defineComponent({
 			return getPrefixCls2("input", props2.inputPrefixCls);
 		});
 		var renderPassword = function renderPassword2() {
-			var size = props2.size,
+			var size2 = props2.size,
 				visibilityToggle = props2.visibilityToggle,
 				restProps = _objectWithoutProperties(props2, _excluded$d);
 			var suffixIcon = visibilityToggle && getIcon(prefixCls.value);
@@ -47974,8 +47974,8 @@ const InputPassword = defineComponent({
 				attrs.class,
 				_defineProperty$m(
 					{},
-					"".concat(prefixCls.value, "-").concat(size),
-					!!size
+					"".concat(prefixCls.value, "-").concat(size2),
+					!!size2
 				)
 			);
 			var omittedProps = _objectSpread2$1(
@@ -47994,8 +47994,8 @@ const InputPassword = defineComponent({
 					suffix: suffixIcon
 				}
 			);
-			if (size) {
-				omittedProps.size = size;
+			if (size2) {
+				omittedProps.size = size2;
 			}
 			return createVNode(
 				Input$3,
@@ -49995,9 +49995,9 @@ var lodash = { exports: {} };
 			}
 			function mapCacheSet2(key2, value) {
 				var data2 = getMapData2(this, key2),
-					size2 = data2.size;
+					size3 = data2.size;
 				data2.set(key2, value);
-				this.size += data2.size == size2 ? 0 : 1;
+				this.size += data2.size == size3 ? 0 : 1;
 				return this;
 			}
 			MapCache2.prototype.clear = mapCacheClear2;
@@ -52482,19 +52482,19 @@ var lodash = { exports: {} };
 					length = transforms.length;
 				while (++index2 < length) {
 					var data2 = transforms[index2],
-						size2 = data2.size;
+						size3 = data2.size;
 					switch (data2.type) {
 						case "drop":
-							start += size2;
+							start += size3;
 							break;
 						case "dropRight":
-							end -= size2;
+							end -= size3;
 							break;
 						case "take":
-							end = nativeMin(end, start + size2);
+							end = nativeMin(end, start + size3);
 							break;
 						case "takeRight":
-							start = nativeMax(start, end - size2);
+							start = nativeMax(start, end - size3);
 							break;
 					}
 				}
@@ -52845,18 +52845,18 @@ var lodash = { exports: {} };
 					return func.apply(undefined$1, arguments);
 				};
 			}
-			function shuffleSelf(array, size2) {
+			function shuffleSelf(array, size3) {
 				var index2 = -1,
 					length = array.length,
 					lastIndex = length - 1;
-				size2 = size2 === undefined$1 ? length : size2;
-				while (++index2 < size2) {
+				size3 = size3 === undefined$1 ? length : size3;
+				while (++index2 < size3) {
 					var rand = baseRandom(index2, lastIndex),
 						value = array[rand];
 					array[rand] = array[index2];
 					array[index2] = value;
 				}
-				array.length = size2;
+				array.length = size3;
 				return array;
 			}
 			var stringToPath = memoizeCapped(function (string) {
@@ -52908,23 +52908,23 @@ var lodash = { exports: {} };
 				result2.__values__ = wrapper.__values__;
 				return result2;
 			}
-			function chunk(array, size2, guard) {
+			function chunk(array, size3, guard) {
 				if (
-					guard ? isIterateeCall(array, size2, guard) : size2 === undefined$1
+					guard ? isIterateeCall(array, size3, guard) : size3 === undefined$1
 				) {
-					size2 = 1;
+					size3 = 1;
 				} else {
-					size2 = nativeMax(toInteger(size2), 0);
+					size3 = nativeMax(toInteger(size3), 0);
 				}
 				var length = array == null ? 0 : array.length;
-				if (!length || size2 < 1) {
+				if (!length || size3 < 1) {
 					return [];
 				}
 				var index2 = 0,
 					resIndex = 0,
-					result2 = Array2(nativeCeil(length / size2));
+					result2 = Array2(nativeCeil(length / size3));
 				while (index2 < length) {
-					result2[resIndex++] = baseSlice(array, index2, (index2 += size2));
+					result2[resIndex++] = baseSlice(array, index2, (index2 += size3));
 				}
 				return result2;
 			}
@@ -53638,7 +53638,7 @@ var lodash = { exports: {} };
 				var func = isArray2(collection) ? arrayShuffle : baseShuffle;
 				return func(collection);
 			}
-			function size(collection) {
+			function size2(collection) {
 				if (collection == null) {
 					return 0;
 				}
@@ -55542,7 +55542,7 @@ var lodash = { exports: {} };
 			lodash2.round = round;
 			lodash2.runInContext = runInContext2;
 			lodash2.sample = sample;
-			lodash2.size = size;
+			lodash2.size = size2;
 			lodash2.snakeCase = snakeCase;
 			lodash2.some = some;
 			lodash2.sortedIndex = sortedIndex;
@@ -62722,7 +62722,7 @@ function getVisibleRectForElement(element, alwaysByViewport) {
 }
 function adjustForViewport(elFuturePos, elRegion, visibleRect, overflow) {
 	var pos = utils.clone(elFuturePos);
-	var size = {
+	var size2 = {
 		width: elRegion.width,
 		height: elRegion.height
 	};
@@ -62732,12 +62732,12 @@ function adjustForViewport(elFuturePos, elRegion, visibleRect, overflow) {
 	if (
 		overflow.resizeWidth &&
 		pos.left >= visibleRect.left &&
-		pos.left + size.width > visibleRect.right
+		pos.left + size2.width > visibleRect.right
 	) {
-		size.width -= pos.left + size.width - visibleRect.right;
+		size2.width -= pos.left + size2.width - visibleRect.right;
 	}
-	if (overflow.adjustX && pos.left + size.width > visibleRect.right) {
-		pos.left = Math.max(visibleRect.right - size.width, visibleRect.left);
+	if (overflow.adjustX && pos.left + size2.width > visibleRect.right) {
+		pos.left = Math.max(visibleRect.right - size2.width, visibleRect.left);
 	}
 	if (overflow.adjustY && pos.top < visibleRect.top) {
 		pos.top = visibleRect.top;
@@ -62745,14 +62745,14 @@ function adjustForViewport(elFuturePos, elRegion, visibleRect, overflow) {
 	if (
 		overflow.resizeHeight &&
 		pos.top >= visibleRect.top &&
-		pos.top + size.height > visibleRect.bottom
+		pos.top + size2.height > visibleRect.bottom
 	) {
-		size.height -= pos.top + size.height - visibleRect.bottom;
+		size2.height -= pos.top + size2.height - visibleRect.bottom;
 	}
-	if (overflow.adjustY && pos.top + size.height > visibleRect.bottom) {
-		pos.top = Math.max(visibleRect.bottom - size.height, visibleRect.top);
+	if (overflow.adjustY && pos.top + size2.height > visibleRect.bottom) {
+		pos.top = Math.max(visibleRect.bottom - size2.height, visibleRect.top);
 	}
-	return utils.mix(pos, size);
+	return utils.mix(pos, size2);
 }
 function getRegion(node) {
 	var offset2;
@@ -63406,9 +63406,9 @@ function mapCacheHas(key2) {
 }
 function mapCacheSet(key2, value) {
 	var data2 = getMapData(this, key2),
-		size = data2.size;
+		size2 = data2.size;
 	data2.set(key2, value);
-	this.size += data2.size == size ? 0 : 1;
+	this.size += data2.size == size2 ? 0 : 1;
 	return this;
 }
 function MapCache(entries) {
@@ -68570,7 +68570,7 @@ function generateSinglePicker(generateConfig2, extraProps) {
 					prefixCls = _useConfigInject.prefixCls,
 					direction = _useConfigInject.direction,
 					getPopupContainer = _useConfigInject.getPopupContainer,
-					size = _useConfigInject.size,
+					size2 = _useConfigInject.size,
 					rootPrefixCls = _useConfigInject.rootPrefixCls;
 				var pickerRef = ref();
 				expose({
@@ -68790,8 +68790,8 @@ function generateSinglePicker(generateConfig2, extraProps) {
 									((_classNames = {}),
 									_defineProperty$m(
 										_classNames,
-										"".concat(pre, "-").concat(size.value),
-										size.value
+										"".concat(pre, "-").concat(size2.value),
+										size2.value
 									),
 									_defineProperty$m(
 										_classNames,
@@ -68994,7 +68994,7 @@ function generateRangePicker(generateConfig2, extraProps) {
 				prefixCls = _useConfigInject.prefixCls,
 				direction = _useConfigInject.direction,
 				getPopupContainer = _useConfigInject.getPopupContainer,
-				size = _useConfigInject.size,
+				size2 = _useConfigInject.size,
 				rootPrefixCls = _useConfigInject.rootPrefixCls;
 			var pickerRef = ref();
 			expose({
@@ -69228,8 +69228,8 @@ function generateRangePicker(generateConfig2, extraProps) {
 								((_classNames = {}),
 								_defineProperty$m(
 									_classNames,
-									"".concat(pre, "-").concat(size.value),
-									size.value
+									"".concat(pre, "-").concat(size2.value),
+									size2.value
 								),
 								_defineProperty$m(
 									_classNames,
@@ -75755,7 +75755,7 @@ var Select$1 = defineComponent({
 			prefixCls = _useConfigInject.prefixCls,
 			direction = _useConfigInject.direction,
 			configProvider = _useConfigInject.configProvider,
-			size = _useConfigInject.size,
+			size2 = _useConfigInject.size,
 			getPrefixCls2 = _useConfigInject.getPrefixCls;
 		var rootPrefixCls = computed(function () {
 			return getPrefixCls2();
@@ -75774,12 +75774,12 @@ var Select$1 = defineComponent({
 				_defineProperty$m(
 					_classNames,
 					"".concat(prefixCls.value, "-lg"),
-					size.value === "large"
+					size2.value === "large"
 				),
 				_defineProperty$m(
 					_classNames,
 					"".concat(prefixCls.value, "-sm"),
-					size.value === "small"
+					size2.value === "small"
 				),
 				_defineProperty$m(
 					_classNames,
@@ -76366,7 +76366,7 @@ const RadioGroup$1 = defineComponent({
 		var _useConfigInject = useConfigInject("radio", props2),
 			prefixCls = _useConfigInject.prefixCls,
 			direction = _useConfigInject.direction,
-			size = _useConfigInject.size;
+			size2 = _useConfigInject.size;
 		var stateValue = ref(props2.value);
 		var updatingValue = ref(false);
 		watch(
@@ -76413,8 +76413,8 @@ const RadioGroup$1 = defineComponent({
 				((_classNames = {}),
 				_defineProperty$m(
 					_classNames,
-					"".concat(groupPrefixCls, "-").concat(size.value),
-					size.value
+					"".concat(groupPrefixCls, "-").concat(size2.value),
+					size2.value
 				),
 				_defineProperty$m(
 					_classNames,
@@ -77160,7 +77160,7 @@ const Utils = {
 const domClass = {
 	tipsError: "ant-form-item-explain ant-form-item-explain-error"
 };
-const _sfc_main$c = defineComponent({
+const _sfc_main$b = defineComponent({
 	name: "XItem",
 	props: {
 		modelValue: {
@@ -77495,7 +77495,7 @@ const _sfc_main$c = defineComponent({
 		);
 	}
 });
-const _sfc_main$b = defineComponent({
+const _sfc_main$a = defineComponent({
 	name: "xForm",
 	props: {
 		labelStyle: {
@@ -77559,7 +77559,7 @@ const _export_sfc = (sfc, props2) => {
 	return target;
 };
 const _hoisted_1$e = ["id"];
-function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
 	return (
 		openBlock(),
 		createElementBlock(
@@ -77571,8 +77571,8 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
 		)
 	);
 }
-const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$b, [
-	["render", _sfc_render$8]
+const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$a, [
+	["render", _sfc_render$7]
 ]);
 const BTN_PRESET_MAP = {
 	query: () => ({
@@ -77773,7 +77773,7 @@ const xButton = defineComponent({
 		);
 	}
 });
-const _sfc_main$a = defineComponent({
+const _sfc_main$9 = defineComponent({
 	name: "XButtonCountDown",
 	props: {
 		configs: {
@@ -77844,7 +77844,7 @@ const _sfc_main$a = defineComponent({
 		}
 	}
 });
-function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
 	const _component_xButton = resolveComponent("xButton");
 	return (
 		openBlock(),
@@ -77853,10 +77853,10 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
 		])
 	);
 }
-const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$a, [
-	["render", _sfc_render$7]
+const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$9, [
+	["render", _sfc_render$6]
 ]);
-const _sfc_main$9 = defineComponent({
+const _sfc_main$8 = defineComponent({
 	name: "xGap",
 	props: ["t", "l", "r", "b", "a", "f"],
 	computed: {
@@ -77907,7 +77907,7 @@ const line = {};
 const CONFIGS_MAP = {
 	line
 };
-const _sfc_main$8 = defineComponent({
+const _sfc_main$7 = defineComponent({
 	name: "xCharts",
 	props: {
 		payload: {
@@ -77972,7 +77972,7 @@ const _sfc_main$8 = defineComponent({
 	}
 });
 const _hoisted_1$d = ["id"];
-function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
 	return (
 		openBlock(),
 		createElementBlock(
@@ -77987,10 +77987,10 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
 		)
 	);
 }
-const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$8, [
-	["render", _sfc_render$6]
+const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$7, [
+	["render", _sfc_render$5]
 ]);
-const _sfc_main$7 = defineComponent({
+const _sfc_main$6 = defineComponent({
 	name: "xView",
 	props: {
 		isShow: {
@@ -78008,7 +78008,7 @@ const _sfc_main$7 = defineComponent({
 	}
 });
 const _hoisted_1$c = ["id"];
-function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
 	return withDirectives(
 		(openBlock(),
 		createElementBlock(
@@ -78021,8 +78021,8 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
 		[[vShow, !!_ctx.isShow]]
 	);
 }
-const xView = /* @__PURE__ */ _export_sfc(_sfc_main$7, [
-	["render", _sfc_render$5]
+const xView = /* @__PURE__ */ _export_sfc(_sfc_main$6, [
+	["render", _sfc_render$4]
 ]);
 const _hoisted_1$b = {
 	xmlns: "http://www.w3.org/2000/svg",
@@ -78253,7 +78253,7 @@ const insideIcons = {
 	InsideUploadOutlined,
 	Insidetips
 };
-const _sfc_main$6 = defineComponent(
+const _sfc_main$5 = defineComponent(
 	markRaw({
 		name: "xIcon",
 		props: ["icon"],
@@ -78373,11 +78373,15 @@ function defDataGridOption(options) {
 	return options;
 }
 function defPagination(num_page = 1, num_size = 10, num_total = 0) {
-	const { page, size, total } = lStorage.appConfigs.pagination;
+	const {
+		page: page2,
+		size: size2,
+		total: total2
+	} = lStorage.appConfigs.pagination;
 	return {
-		[page]: num_page || 1,
-		[size]: num_size || 10,
-		[total]: num_total || 0
+		[page2]: num_page || 1,
+		[size2]: num_size || 10,
+		[total2]: num_total || 0
 	};
 }
 function setPagination(StateTable, pagination) {
@@ -78389,10 +78393,10 @@ function setPagination(StateTable, pagination) {
 function getPaginationPageSize(StateTable) {
 	const PAGINATION_MAP = lStorage.appConfigs.pagination;
 	const pagination = StateTable.pagination;
-	const { page, size } = PAGINATION_MAP;
+	const { page: page2, size: size2 } = PAGINATION_MAP;
 	return {
-		[page]: pagination[page],
-		[size]: pagination[size]
+		[page2]: pagination[page2],
+		[size2]: pagination[size2]
 	};
 }
 function defCol(options) {
@@ -78550,19 +78554,25 @@ function setDataGridInfo(
 		data: []
 	}
 ) {
-	const { data: data2 = [], total = false } = result;
+	const { data: data2 = [], total: total2 = false } = result;
 	StateBind.dataSource = data2;
-	if (total || total === 0) {
+	if (total2 || total2 === 0) {
 		setPagination(StateBind, {
-			total
+			total: total2
 		});
 	}
 }
 const PAGE_SIZE_OPTIONS = ["10", "20", "30"];
-const _sfc_main$5 = defineComponent({
+const { page, size, total } = lStorage.appConfigs.pagination;
+const xPagination = defineComponent({
 	name: "xPagination",
 	components: {
 		Pagination: Pagination$2
+	},
+	setup() {
+		return {
+			State_UI
+		};
 	},
 	props: {
 		onPaginationChange: {
@@ -78577,75 +78587,75 @@ const _sfc_main$5 = defineComponent({
 		}
 	},
 	data() {
-		const { page, size, total } = lStorage.appConfigs.pagination;
+		const {
+			page: page2,
+			size: size2,
+			total: total2
+		} = lStorage.appConfigs.pagination;
 		return {
 			pageSizeOptions: PAGE_SIZE_OPTIONS,
-			page,
-			size,
-			total
+			page: page2,
+			size: size2,
+			total: total2
 		};
 	},
 	methods: {
-		onShowSizeChange: mylodash.debounce(function (page, size) {
+		onShowSizeChange: mylodash.debounce(function (page2, size2) {
 			setPagination(this, {
-				page,
-				size
+				page: page2,
+				size: size2
 			});
 			if (this.onPaginationChange) {
 				this.onPaginationChange(this.pagination);
 			}
 		}, 30)
+	},
+	computed: {
+		i18nMessage() {
+			return {
+				"\u603B\u6761\u6570": "\u603B\u6761\u6570 {total}",
+				"\u6761\u9875": "{size}\u6761/\u9875",
+				...this.State_UI.i18nMessage
+			};
+		}
+	},
+	render() {
+		return createVNode(
+			Pagination$2,
+			{
+				current: this.pagination[page],
+				"onUpdate:current": $event => (this.pagination[page] = $event),
+				pageSizeOptions: this.pageSizeOptions,
+				total: this.pagination[total],
+				pageSize: this.pagination[size],
+				"show-size-changer": true,
+				showTotal: total2 =>
+					this.$t(
+						"\u603B\u6761\u6570",
+						{
+							total: total2
+						},
+						this.i18nMessage
+					).label,
+				onShowSizeChange: this.onShowSizeChange,
+				onChange: this.onShowSizeChange
+			},
+			{
+				buildOptionText: props2 => {
+					return createVNode("span", null, [
+						this.$t(
+							"\u6761\u9875",
+							{
+								size: props2.value
+							},
+							this.i18nMessage
+						).label
+					]);
+				}
+			}
+		);
 	}
 });
-lStorage.appConfigs.pagination;
-function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
-	const _component_Pagination = resolveComponent("Pagination");
-	return (
-		openBlock(),
-		createBlock(
-			_component_Pagination,
-			{
-				current: _ctx.pagination[_ctx.page],
-				"onUpdate:current":
-					_cache[0] ||
-					(_cache[0] = $event => (_ctx.pagination[_ctx.page] = $event)),
-				"page-size-options": _ctx.pageSizeOptions,
-				total: _ctx.pagination[_ctx.total],
-				"page-size": _ctx.pagination[_ctx.size],
-				"show-size-changer": "",
-				"show-total": total => _ctx.$t("\u603B\u6761\u6570", { total }).label,
-				onShowSizeChange: _ctx.onShowSizeChange,
-				onChange: _ctx.onShowSizeChange
-			},
-			{
-				buildOptionText: withCtx(props2 => [
-					createElementVNode(
-						"span",
-						null,
-						toDisplayString(
-							_ctx.$t("\u6761\u9875", { size: props2.value }).label
-						),
-						1
-					)
-				]),
-				_: 1
-			},
-			8,
-			[
-				"current",
-				"page-size-options",
-				"total",
-				"page-size",
-				"show-total",
-				"onShowSizeChange",
-				"onChange"
-			]
-		)
-	);
-}
-const xPagination = /* @__PURE__ */ _export_sfc(_sfc_main$5, [
-	["render", _sfc_render$4]
-]);
 const _sfc_main$4 = defineComponent({
 	name: "XDataGrid",
 	components: {
@@ -81624,13 +81634,13 @@ window.jquery = $$1;
 const componentMyUI = {
 	xButton,
 	xRender,
-	xItem: _sfc_main$c,
+	xItem: _sfc_main$b,
 	xForm,
 	xButtonCountDown,
-	xGap: _sfc_main$9,
+	xGap: _sfc_main$8,
 	xCharts,
 	xView,
-	xIcon: _sfc_main$6,
+	xIcon: _sfc_main$5,
 	xDataGrid: _sfc_main$4,
 	xDataGridToolbar,
 	xColFilter,
