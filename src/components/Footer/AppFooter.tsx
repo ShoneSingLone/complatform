@@ -125,7 +125,7 @@ export const AppFooter = defineComponent({
 	render() {
 		return (
 			<div class="footer-wrapper" style={this.wrapperStyle} id="ViewAppFooter">
-				<xButton configs={this.toggleFoldBtn} />
+				<xButton configs={this.toggleFoldBtn} class="toggle-fold-btn"/>
 				<aRow class="footer-container">
 					{this.footList.map((item, i) => {
 						return (

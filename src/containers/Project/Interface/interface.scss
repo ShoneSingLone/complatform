@@ -11,6 +11,7 @@
 	display: flex;
 	flex: 1;
 	height: 100px;
+
 	.ant-layout-sider {
 		background-color: var(--color-white);
 	}
@@ -18,29 +19,65 @@
 	.ViewProject-sider_wrapper {
 		height: 100%;
 		overflow: auto;
+
 		.ViewProjectInterface_tree {
 			height: 100px;
-		}
-	}
-}
-.Interfacesider-tree_menu {
-	&.Interfacesider-tree_menu_active {
-		color: var(--color-selected);
-		background-color: var(--color-selected-bg);
-		border-radius: 4px;
-	}
-	.Interfacesider-tree_menu_title {
-		width: 140px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	.Interfacesider-tree_menu_icon {
-		display: none;
-	}
-	&:hover {
-		.Interfacesider-tree_menu_icon {
-			display: block;
+
+			.ant-tree-treenode {
+				width: 100%;
+				font-size: 14px;
+
+				span {
+					transition: 1s all ease-in-out;
+				}
+
+				span[title] {
+					flex: 1;
+				}
+
+				.ant-tree-node-content-wrapper {
+					padding: 0;
+
+					.Interfacesider-tree_menu {
+						&.Interfacesider-tree_menu_active {
+							color: var(--color-selected);
+							background-color: var(--color-selected-bg);
+							border-radius: 4px;
+						}
+
+						.Interfacesider-tree_menu_title {
+							flex: 1;
+							padding-left: 8px;
+							width: 100px;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+
+						.Interfacesider-tree_menu_opration {
+							display: none;
+							opacity: 0;
+							transition: .3s all ease-in-out;
+
+							.Interfacesider-tree_menu_icon {
+								width: 16px;
+								height: 16px;
+
+								&:hover {
+									color: var(--color-selected);
+								}
+							}
+						}
+
+						&:hover {
+							.Interfacesider-tree_menu_opration {
+								display: flex;
+								opacity: 1;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

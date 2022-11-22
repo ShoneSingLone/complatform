@@ -12,6 +12,8 @@ export const HTTP_METHOD = {
 	PATCH: { request_body: true, default_tab: "body" }
 };
 
+export const ALL = "ALL";
+
 export const LOG_TYPE = {
 	project: "项目",
 	group: "分组",

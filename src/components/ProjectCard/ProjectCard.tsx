@@ -123,6 +123,8 @@ export default defineComponent({
 		iconStyle() {
 			return {
 				color: "white",
+				width: "84px",
+				height: "84px",
 				borderRadius: "16px",
 				backgroundColor: this.projectData.color
 			};

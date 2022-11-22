@@ -62,6 +62,7 @@ export const TimeLine = defineComponent({
 					limit: this.pagination.size,
 					selectValue: this.curSelectValue
 				});
+				debugger;
 				const { list, total } = data || {};
 				if (list && total) {
 					this.newsWillShow = list;

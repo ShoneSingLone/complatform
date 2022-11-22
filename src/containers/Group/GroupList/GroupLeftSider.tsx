@@ -4,10 +4,9 @@ import { defineComponent } from "vue";
 import { UI, State_UI } from "@ventose/ui";
 import { API } from "@/api";
 import { Methods_App, State_App } from "../../../state/State_App";
-import { Cpt_url } from "../../../router/router";
-
 import { DialogEditGroup } from "./DialogEditGroup";
 import { DialogAddGroup } from "./DialogAddGroup";
+import { Cpt_url } from "./../../../router/router";
 
 const { $t } = State_UI;
 
@@ -150,7 +149,7 @@ export const GroupLeftSider = defineComponent({
 		async selectGroup({ key: groupId }) {
 			const currGroup = _.find(this.State_App.groupList, { _id: +groupId });
 			await Methods_App.setCurrGroup(currGroup);
-			this.Cpt_url.query.group_id = currGroup._id;
+			this.Cpt_url.go("/group", { group_id: currGroup._id });
 			await Methods_App.fetchNewsData(groupId, "group", 1, 10);
 		},
 		searchGroup: _.debounce(function () {

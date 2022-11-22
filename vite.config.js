@@ -9,9 +9,7 @@ const __APP_VERSION = Date.now().toString();
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	define: {
-		"process.env": {}
-	},
+	base: "./",
 	server: {
 		https: false,
 		fs: {
@@ -26,6 +24,14 @@ export default defineConfig({
 			}
 		}
 	},
+	build: {
+		/* 没有混缩 */
+		minify: false,
+		assetsInlineLimit: 1024,
+		cssCodeSplit: false,
+		sourcemap: true,
+		manifest: true,
+	},
 	plugins: [
 		useVue(),
 		useVueJsx(),
@@ -33,7 +39,7 @@ export default defineConfig({
 			/* windows平台 */
 			data: (() => {
 				return {
-					version: __APP_VERSION
+					version: __APP_VERSION,
 				};
 			})()
 		})

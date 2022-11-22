@@ -4,6 +4,7 @@ import { DialogAddCategory } from "./DialogAddCategory";
 import { usefnObserveDomResize } from "./../../../compositions/useDomResize";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
+import { ALL } from "../../../utils/variable";
 
 export const InterfaceSider = defineComponent({
 	setup() {
@@ -17,7 +18,8 @@ export const InterfaceSider = defineComponent({
 	},
 	data(vm) {
 		return {
-			selectedKeys: [],
+			loading:true,
+			selectedKeys: [ALL],
 			siderHeight: 500,
 			filterText: "",
 			interfaceList: [],
@@ -45,6 +47,82 @@ export const InterfaceSider = defineComponent({
 	computed: {
 		currentSelected() {
 			return this.selectedKeys[0] || "NO_SELECTED";
+		},
+		vDomTree() {
+			const vm = this;
+			return (
+				<aTree
+					selectedKeys={vm.selectedKeys}
+					height={vm.siderHeight}
+					treeData={vm.interfaceListForShow}
+					fieldNames={{
+						children: "list",
+						key: "_id"
+					}}>
+					{{
+						title(item) {
+							const { title, name, _id, list } = item;
+							const classContentString = (() => {
+								let _classString = "flex middle Interfacesider-tree_menu";
+								if (String(_id) === String(vm.currentSelected)) {
+									return _classString + " Interfacesider-tree_menu_active";
+								}
+								return _classString;
+							})();
+
+							const handleClickCategory = () => vm.setSelectedKeys(_id);
+
+							if (_id === ALL) {
+								return (
+									<div class={classContentString} onClick={handleClickCategory}>
+										<span class="Interfacesider-tree_menu_title">{title}</span>
+									</div>
+								);
+							}
+
+							if (_.isArray(list)) {
+								/* { "edit_uid": 0, "status": "undone", "isProxy": false, "witchEnv": "", "index": 0, "tag": [], "_id": 9, "method": "GET", "catid": 56, "title": "first", "path": "/aws_ecs/goku/rest/vdc/v3.1/projects", "project_id": 83, "uid": 12, "add_time": 1669122695, "up_time": 1669122695 } */
+							}
+
+							const vDomOpration = (() => {
+								if (name) {
+									return (
+										<div class="flex middle Interfacesider-tree_menu_opration">
+											<xIcon
+												icon="add"
+												class="Interfacesider-tree_menu_icon"
+												onClick={$event =>
+													vm.showAddInterfaceDialog(_id, $event)
+												}
+											/>
+											<xGap l="8" />
+											<xIcon
+												icon="edit"
+												class="Interfacesider-tree_menu_icon"
+												onClick={() => vm.setSelectedKeys(_id)}
+											/>
+											<xGap l="8" />
+											<xIcon
+												icon="delete"
+												class="Interfacesider-tree_menu_icon"
+												onClick={() => vm.setSelectedKeys(_id)}
+											/>
+											<xGap l="8" />
+										</div>
+									);
+								}
+								return null;
+							})();
+							return (
+								<div class={classContentString} onClick={handleClickCategory}>
+									<span class="Interfacesider-tree_menu_title">{title}</span>
+									{vDomOpration}
+								</div>
+							);
+						}
+					}}
+				</aTree>
+			);
 		}
 	},
 	methods: {
@@ -52,7 +130,17 @@ export const InterfaceSider = defineComponent({
 			this.selectedKeys = [id];
 		},
 		setInterfaceListForShow: _.debounce(function () {
-			this.interfaceListForShow = _.cloneDeep(this.interfaceList);
+			this.interfaceListForShow = [
+				{
+					_id: ALL,
+					title: this.$t("全部接口").label
+				},
+				..._.map(this.interfaceList, i => ({
+					...i,
+					title: i.name
+				}))
+			];
+			this.loading = false;
 		}, 1000),
 		/* vDomList 需要实际高度 */
 		setSiderHeight: _.debounce(function (siderHeight) {
@@ -99,75 +187,25 @@ export const InterfaceSider = defineComponent({
 		const vm = this;
 		return (
 			<div class="ViewProject-sider_wrapper flex vertical">
-				<div class="flex padding16">
+				<div class="flex middle padding16">
+					<aTooltip placement="rightTop" title={this.$t("添加分类").label}>
+						<xIcon
+							icon="category"
+							onClick={this.showAddCategoryDialog}
+							class="icon-add-1 pointer"
+						/>
+					</aTooltip>
+					<xGap l="10" />
 					<aInput
 						v-model:value={this.filterText}
 						placeholder={this.$t("搜索接口").label}
 					/>
-					<xGap l="10" />
-					<aButton type="primary" onClick={this.showAddCategoryDialog}>
-						{this.$t("添加分类").label}
-					</aButton>
 				</div>
 				<div
 					class="ViewProjectInterface_tree flex1"
 					ref="wrapper"
-					v-loading={
-						this.interfaceList.length === 0 &&
-						this.interfaceListForShow.length === 0
-					}>
-					<aTree
-						selectedKeys={this.selectedKeys}
-						height={this.siderHeight}
-						treeData={this.interfaceListForShow}
-						fieldNames={{
-							children: "list",
-							title: "name",
-							key: "_id"
-						}}>
-						{{
-							title(item) {
-								const { name, _id, list } = item;
-
-								if (list) {
-									item.children = list;
-								}
-								const className = (() => {
-									let _classString = "flex middle Interfacesider-tree_menu";
-									if (String(_id) === String(vm.currentSelected)) {
-										return _classString + " Interfacesider-tree_menu_active";
-									}
-									return _classString;
-								})();
-								return (
-									<div
-										class={className}
-										onClick={$event => vm.setSelectedKeys(_id, $event)}>
-										<span class="Interfacesider-tree_menu_title">{name}</span>
-										<xGap f="1" />
-										<xIcon
-											icon="add"
-											class="Interfacesider-tree_menu_icon"
-											onClick={$event => vm.showAddInterfaceDialog(_id, $event)}
-										/>
-										<xGap f="8" />
-										<xIcon
-											icon="edit"
-											class="Interfacesider-tree_menu_icon"
-											onClick={() => vm.setSelectedKeys(_id)}
-										/>
-										<xGap f="8" />
-										<xIcon
-											icon="delete"
-											class="Interfacesider-tree_menu_icon"
-											onClick={() => vm.setSelectedKeys(_id)}
-										/>
-										<xGap f="8" />
-									</div>
-								);
-							}
-						}}
-					</aTree>
+					v-loading={this.loading}>
+					{this.vDomTree}
 				</div>
 			</div>
 		);
