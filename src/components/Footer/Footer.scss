@@ -86,15 +86,15 @@
 		width: 80px;
 		height: 80px;
 		border-radius: 50%;
-		transition: .3s all ease-in;
-		
+		transition: 0.3s all ease-in;
+
 		&.unfold {
 			left: 0;
 			bottom: 0;
 			opacity: 1;
-			transform: scale(.8);
+			transform: scale(0.8);
 		}
-		
+
 		&:hover {
 			transform: scale(1);
 			opacity: 1;

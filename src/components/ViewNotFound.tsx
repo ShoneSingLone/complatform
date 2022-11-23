@@ -13,6 +13,11 @@ export const ViewNotFound = defineComponent({
 			this.Cpt_url.go("/group");
 		}
 	},
+	mounted() {
+		if (this.Cpt_url.pathname === "/") {
+			this.goHome();
+		}
+	},
 	render() {
 		return (
 			<aResult status="404" title="404" subTitle={this.pathname} class="flex1">

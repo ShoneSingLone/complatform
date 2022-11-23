@@ -80,7 +80,7 @@ export const routes = [
 		}
 	},
 	{
-		/* 404兜底 */
+		/* 404兜底 在NotFound里面处理其他的访问逻辑，比如"/"的重定向*/
 		path: "/:pathMatch(.*)*",
 		component: ViewNotFound,
 		meta: {

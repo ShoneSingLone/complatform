@@ -18,7 +18,7 @@ export const InterfaceSider = defineComponent({
 	},
 	data(vm) {
 		return {
-			loading:true,
+			loading: true,
 			selectedKeys: [ALL],
 			siderHeight: 500,
 			filterText: "",
