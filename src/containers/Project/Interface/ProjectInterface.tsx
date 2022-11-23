@@ -12,7 +12,6 @@ export const ProjectInterface = defineComponent({
 	},
 	setup() {
 		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
-
 		return {
 			State_App,
 			Cpt_url,

@@ -5,13 +5,14 @@ import { usefnObserveDomResize } from "./../../../compositions/useDomResize";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL } from "../../../utils/variable";
+import { Methods_Interface, State_Interface } from "./State_Interface";
 
 export const InterfaceSider = defineComponent({
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
-
 		return {
+			State_Interface,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
@@ -22,12 +23,11 @@ export const InterfaceSider = defineComponent({
 			selectedKeys: [ALL],
 			siderHeight: 500,
 			filterText: "",
-			interfaceList: [],
 			interfaceListForShow: []
 		};
 	},
 	watch: {
-		interfaceList: {
+		"State_Interface.list": {
 			immediate: true,
 			handler() {
 				this.setInterfaceListForShow();
@@ -39,7 +39,7 @@ export const InterfaceSider = defineComponent({
 			const siderHeight = Math.floor($(this.$refs.wrapper).height());
 			this.setSiderHeight(siderHeight);
 		});
-		this.updateInterfaceList();
+		Methods_Interface.updateInterfaceMenuList();
 	},
 	beforeUnmount() {
 		this.fnUnobserveDomResize(this.$refs.wrapper);
@@ -116,7 +116,9 @@ export const InterfaceSider = defineComponent({
 								return null;
 							})();
 
-							const iconName = vDomOpration ? "subCategory" : "subCategoryInterface";
+							const iconName = vDomOpration
+								? "subCategory"
+								: "subCategoryInterface";
 							return (
 								<div class={classContentString} onClick={handleClickCategory}>
 									<xGap l="10" />
@@ -141,13 +143,13 @@ export const InterfaceSider = defineComponent({
 					_id: ALL,
 					title: this.$t("全部接口").label
 				},
-				..._.map(this.interfaceList, i => ({
+				..._.map(this.State_Interface.list, i => ({
 					...i,
 					title: i.name
 				}))
 			];
 			this.loading = false;
-		}, 1000),
+		}, 100),
 		/* vDomList 需要实际高度 */
 		setSiderHeight: _.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
@@ -161,7 +163,7 @@ export const InterfaceSider = defineComponent({
 					if (res) {
 						instance.close();
 					}
-					this.updateInterfaceList();
+					Methods_Interface.updateInterfaceMenuList();
 				}
 			});
 		},
@@ -176,17 +178,9 @@ export const InterfaceSider = defineComponent({
 					if (res) {
 						instance.close();
 					}
-					this.updateInterfaceList();
+					Methods_Interface.updateInterfaceMenuList();
 				}
 			});
-		},
-		async updateInterfaceList() {
-			const { data } = await API.project.fetchInterfaceListMenu(
-				Cpt_currProject.value._id
-			);
-			if (data) {
-				this.interfaceList = data;
-			}
 		}
 	},
 	render() {
@@ -210,7 +204,7 @@ export const InterfaceSider = defineComponent({
 				<div
 					class="ViewProjectInterface_tree flex1"
 					ref="wrapper"
-					v-loading={this.loading}>
+					v-loading={this.interfaceListForShow.length === 0 && this.loading}>
 					{this.vDomTree}
 				</div>
 			</div>

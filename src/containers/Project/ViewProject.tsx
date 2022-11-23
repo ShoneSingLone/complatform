@@ -4,13 +4,20 @@ import { Cpt_url, ProjectChildren } from "../../router/router";
 import { State_App } from "../../state/State_App";
 import { API } from "../../api";
 import { useProjectBasicProperties } from "../../compositions";
+import {
+	State_Interface,
+	resetStateInterface
+} from "./Interface/State_Interface";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
 export const ViewProject = defineComponent({
 	setup() {
 		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
+		/* 以project为root，共享数据随project生命周期重置 */
+		resetStateInterface();
 		return {
+			State_Interface,
 			State_App,
 			Cpt_url,
 			Cpt_currGroupId,

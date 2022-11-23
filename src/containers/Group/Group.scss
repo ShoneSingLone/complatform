@@ -37,14 +37,11 @@
 	background-color: white;
 	border-radius: 16px;
 	overflow: hidden;
-	//border-bottom-left-radius: unset;
-	//border-bottom-right-radius: unset;
-	height: calc(100% - 16px);
-	transform: translate(-10px, -32px);
+	// height: calc(100% - 6px);
+	transform: translate(-10px, -12px);
 
 	&.footer-fold {
-		transform: translate(-6px, -6px);
-		height: calc(100% - 6px);
+		transform: translate(-6px, -10px);
 	}
 }
 
