@@ -1,7 +1,6 @@
 import "./Header.scss";
 
 import Srch from "./Search/Search";
-import { LogoSVG } from "@/components/LogoSVG/index";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import GuideBtns from "../GuideBtns/GuideBtns";
 import { defineComponent, VNode } from "vue";

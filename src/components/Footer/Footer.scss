@@ -79,7 +79,7 @@
 	.ant-btn.x-button.footer-toggle {
 		position: absolute;
 		bottom: -40px;
-		left: -40px;
+		right: -40px;
 		opacity: 0.5;
 		transform: scale(0.5);
 		overflow: hidden;
@@ -89,7 +89,7 @@
 		transition: 0.3s all ease-in;
 
 		&.unfold {
-			left: 0;
+			right: 0;
 			bottom: 0;
 			opacity: 1;
 			transform: scale(0.8);

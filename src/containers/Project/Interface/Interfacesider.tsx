@@ -75,6 +75,8 @@ export const InterfaceSider = defineComponent({
 							if (_id === ALL) {
 								return (
 									<div class={classContentString} onClick={handleClickCategory}>
+										<xGap l="10" />
+										<xIcon icon="allCategory" />
 										<span class="Interfacesider-tree_menu_title">{title}</span>
 									</div>
 								);
@@ -113,8 +115,12 @@ export const InterfaceSider = defineComponent({
 								}
 								return null;
 							})();
+
+							const iconName = vDomOpration ? "subCategory" : "subCategoryInterface";
 							return (
 								<div class={classContentString} onClick={handleClickCategory}>
+									<xGap l="10" />
+									<xIcon icon={iconName} />
 									<span class="Interfacesider-tree_menu_title">{title}</span>
 									{vDomOpration}
 								</div>
