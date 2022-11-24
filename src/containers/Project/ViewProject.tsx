@@ -12,6 +12,7 @@ import {
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
 export const ViewProject = defineComponent({
+	name: "ViewProject",
 	setup() {
 		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
 		/* 以project为root，共享数据随project生命周期重置 */

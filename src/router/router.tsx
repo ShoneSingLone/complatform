@@ -1,32 +1,32 @@
 import { computed, ComputedRef } from "vue";
 import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
-import { ViewGroup } from "../containers/Group/ViewGroup";
-import { ViewProject } from "../containers/Project/ViewProject";
-import { ProjectInterface } from "../containers/Project/Interface/ProjectInterface";
 import { Methods_App, State_App } from "../state/State_App";
-import { LoginContainer } from "../containers/Login/LoginContainer";
-
 const { $t } = State_UI;
-
+const LazyComponent = (componentName, componentPath) => ({
+	componentName: componentName,
+	component: () => import(componentPath)
+});
 export const routes = [
 	{
 		path: `/login`,
-		component: LoginContainer,
+		componentName: "LoginContainer",
+		component: () => import("../containers/Login/LoginContainer"),
 		meta: {
 			title: $t("用户登录").label
 		}
 	},
 	{
+		...LazyComponent("ViewGroup", "../containers/Group/ViewGroup"),
 		path: `/group`,
-		component: ViewGroup,
 		meta: {
 			title: $t("分组").label
 		}
 	},
 	{
 		path: `/project`,
-		component: ViewProject,
+		componentName: "ViewProject",
+		component: () => import("../containers/Project/ViewProject"),
 		meta: {
 			title: $t("项目").label
 		}
@@ -34,15 +34,35 @@ export const routes = [
 	{
 		label: $t("接口").label,
 		path: "/project/interface",
-		component: ProjectInterface,
+		componentName: "ProjectInterface",
+		component: () => import("../containers/Project/Interface/ProjectInterface"),
 		meta: {
 			title: $t("接口").label
 		}
 	},
 	{
+		label: $t("接口-全部").label,
+		path: "/project/interface/all",
+		componentName: "InterfaceAll",
+		component: () => import("../containers/Project/Interface/InterfaceAll")
+	},
+	{
+		label: $t("接口-分类").label,
+		path: "/project/interface/category",
+		componentName: "InterfaceCategory",
+		component: () => import("../containers/Project/Interface/InterfaceCategory")
+	},
+	{
+		label: $t("接口-详情").label,
+		path: "/project/interface/detail",
+		componentName: "InterfaceDetail",
+		component: () => import("../containers/Project/Interface/InterfaceDetail")
+	},
+	{
 		label: $t("自动化测试").label,
 		path: "/project/test_case",
-		component: ProjectInterface,
+		componentName: "InterfaceDetail",
+		component: () => import("../containers/Project/Interface/InterfaceDetail"),
 		meta: {
 			title: $t("接口").label
 		}

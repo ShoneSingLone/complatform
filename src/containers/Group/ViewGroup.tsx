@@ -40,6 +40,9 @@ export const ViewGroup = defineComponent({
 	},
 	mounted() {
 		this.ifUrlNoGroupIdGetAndAddIdToUrl();
+		if (!this.Cpt_url.query.group_tab) {
+			this.Cpt_url.query.group_tab = TAB_KEY_PROJECT_LIST;
+		}
 	},
 	beforeUnmount() {
 		if (this.timmer) {
@@ -75,9 +78,8 @@ export const ViewGroup = defineComponent({
 				const { group_tab } = this.Cpt_url.query;
 				if (TAB_KEY_ARRAY.includes(group_tab)) {
 					return group_tab;
-				} else {
-					this.Cpt_url.query.group_tab = TAB_KEY_PROJECT_LIST;
 				}
+				return TAB_KEY_PROJECT_LIST;
 			}
 		},
 		vDomTabMember() {
@@ -190,7 +192,6 @@ export const ViewGroup = defineComponent({
 		if (!this.groupId) {
 			return <aSpin class="flex vertical middle center height100" />;
 		}
-
 		return (
 			<aLayout id="GroupView" style={{ marginLeft: "24px", marginTop: "24px" }}>
 				<aLayoutSider id="ViewGroup_sider" class={this.stylePanel} width="300">

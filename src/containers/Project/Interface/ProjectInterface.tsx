@@ -4,7 +4,7 @@ import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
 import { useProjectBasicProperties } from "../../../compositions";
 import "./interface.scss";
-import { InterfaceSider } from "./Interfacesider";
+import { InterfaceSider } from "./InterfaceSider";
 
 export const ProjectInterface = defineComponent({
 	components: {
@@ -47,7 +47,9 @@ export const ProjectInterface = defineComponent({
 				<aLayout>
 					<aLayoutContent
 						data-app-position="Group-layout-content"
-						style={this.StyleContent}></aLayoutContent>
+						style={this.StyleContent}>
+						<xRouterView />
+					</aLayoutContent>
 				</aLayout>
 			</aLayout>
 		);

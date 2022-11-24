@@ -64,7 +64,7 @@ export default defineComponent({
 			this.callbackResult();
 		},
 		async goToProject() {
-			this.Cpt_url.go("/project/interface", {
+			this.Cpt_url.go("/project/interface/all", {
 				project_id: this.projectData._id,
 				group_id: this.Cpt_url.query.group_id
 			});

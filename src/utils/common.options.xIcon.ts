@@ -1,6 +1,7 @@
 export default [
 	"add",
 	"addGroup",
+	"allCategory",
 	"back_group",
 	"cached",
 	"category",
@@ -38,6 +39,8 @@ export default [
 	"soundMute",
 	"star",
 	"stopsong",
+	"subCategory",
+	"subCategoryInterface",
 	"team",
 	"unfollow",
 	"unlock",

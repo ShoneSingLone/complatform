@@ -1,11 +1,16 @@
 import { defineComponent, ref, watch } from "vue";
 import { $, _, UI } from "@ventose/ui";
 import { DialogAddCategory } from "./DialogAddCategory";
-import { usefnObserveDomResize } from "./../../../compositions/useDomResize";
+import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL } from "../../../utils/variable";
-import { Methods_Interface, State_Interface } from "./State_Interface";
+import {
+	Cpt_interfaceMenuForShow,
+	Methods_Interface,
+	State_Interface
+} from "./State_Interface";
+import { Cpt_url } from "../../../router/router";
 
 export const InterfaceSider = defineComponent({
 	setup() {
@@ -13,26 +18,32 @@ export const InterfaceSider = defineComponent({
 			usefnObserveDomResize();
 		return {
 			State_Interface,
+			Cpt_interfaceMenuForShow,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
 	},
+	watch: {
+		filterText(text) {
+			this.loading = true;
+			this.setFilterText(text);
+		}
+	},
 	data(vm) {
 		return {
-			loading: true,
+			loading: false,
+			filterText: "",
 			selectedKeys: [ALL],
 			siderHeight: 500,
-			filterText: "",
-			interfaceListForShow: []
-		};
-	},
-	watch: {
-		"State_Interface.list": {
-			immediate: true,
-			handler() {
-				this.setInterfaceListForShow();
+			configs: {
+				tree: {
+					fieldNames: {
+						children: "list",
+						key: "_id"
+					}
+				}
 			}
-		}
+		};
 	},
 	mounted() {
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
@@ -54,14 +65,19 @@ export const InterfaceSider = defineComponent({
 				<aTree
 					selectedKeys={vm.selectedKeys}
 					height={vm.siderHeight}
-					treeData={vm.interfaceListForShow}
-					fieldNames={{
-						children: "list",
-						key: "_id"
-					}}>
+					treeData={vm.Cpt_interfaceMenuForShow}
+					fieldNames={vm.configs.tree.fieldNames}>
 					{{
 						title(item) {
-							const { title, name, _id, list } = item;
+							const {
+								title,
+								name,
+								_id,
+								list,
+								isCategory,
+								categoryName,
+								categoryId
+							} = item;
 							const classContentString = (() => {
 								let _classString = "flex middle Interfacesider-tree_menu";
 								if (String(_id) === String(vm.currentSelected)) {
@@ -70,7 +86,26 @@ export const InterfaceSider = defineComponent({
 								return _classString;
 							})();
 
-							const handleClickCategory = () => vm.setSelectedKeys(_id);
+							const handleClickCategory = () => {
+								if (_id === ALL) {
+									Cpt_url.value.go(
+										"/project/interface/all",
+										_.omit(Cpt_url.value.query, ["category_id", "interface_id"])
+									);
+								} else if (isCategory) {
+									Cpt_url.value.go("/project/interface/category", {
+										...Cpt_url.value.query,
+										category_id: _id
+									});
+								} else {
+									Cpt_url.value.go("/project/interface/detail", {
+										...Cpt_url.value.query,
+										category_id: categoryId,
+										interface_id: _id
+									});
+								}
+								vm.setSelectedKeys(_id);
+							};
 
 							if (_id === ALL) {
 								return (
@@ -134,22 +169,13 @@ export const InterfaceSider = defineComponent({
 		}
 	},
 	methods: {
+		setFilterText: _.debounce(function (filterText) {
+			this.State_Interface.filterText = filterText;
+			this.loading = false;
+		}, 600),
 		setSelectedKeys(id) {
 			this.selectedKeys = [id];
 		},
-		setInterfaceListForShow: _.debounce(function () {
-			this.interfaceListForShow = [
-				{
-					_id: ALL,
-					title: this.$t("全部接口").label
-				},
-				..._.map(this.State_Interface.list, i => ({
-					...i,
-					title: i.name
-				}))
-			];
-			this.loading = false;
-		}, 100),
 		/* vDomList 需要实际高度 */
 		setSiderHeight: _.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
@@ -204,8 +230,8 @@ export const InterfaceSider = defineComponent({
 				<div
 					class="ViewProjectInterface_tree flex1"
 					ref="wrapper"
-					v-loading={this.interfaceListForShow.length === 0 && this.loading}>
-					{this.vDomTree}
+					v-loading={vm.loading}>
+					{vm.vDomTree}
 				</div>
 			</div>
 		);

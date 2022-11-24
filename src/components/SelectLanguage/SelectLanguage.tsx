@@ -5,7 +5,7 @@ export const SelectLanguage = defineComponent({
 	setup() {
 		return {
 			State_UI
-		}
+		};
 	},
 	data() {
 		return {
@@ -13,7 +13,7 @@ export const SelectLanguage = defineComponent({
 				"zh-CN": { label: "简体中文", icon: "🇨🇳" },
 				"en-US": { label: "English", icon: "🇺🇸" }
 			}
-		}
+		};
 	},
 	methods: {
 		changeLanguage(item: any) {
@@ -27,11 +27,16 @@ export const SelectLanguage = defineComponent({
 	computed: {
 		vDomMenuItems() {
 			return _.map(this.languageLabels, (locale, prop) => {
-				return (<aMenuItem v-for="in " key={prop}>
-					<span role="img" ariaLabel={locale.label}> {locale.icon} </span>
-					<span>{locale.label}</span>
-				</aMenuItem >);
-			})
+				return (
+					<aMenuItem v-for="in " key={prop}>
+						<span role="img" ariaLabel={locale.label}>
+							{" "}
+							{locale.icon}{" "}
+						</span>
+						<span>{locale.label}</span>
+					</aMenuItem>
+				);
+			});
 		}
 	},
 	render() {
@@ -41,12 +46,16 @@ export const SelectLanguage = defineComponent({
 				<GlobalOutlined />
 				{{
 					overlay() {
-						return <aMenu selected-keys={vm.State_UI.language} onClick={vm.changeLanguage}>
-							{vm.vDomMenuItems}
-						</aMenu >
+						return (
+							<aMenu
+								selected-keys={vm.State_UI.language}
+								onClick={vm.changeLanguage}>
+								{vm.vDomMenuItems}
+							</aMenu>
+						);
 					}
 				}}
-			</aDropdown >
+			</aDropdown>
 		);
 	}
-})
+});
