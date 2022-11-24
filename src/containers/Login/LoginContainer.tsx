@@ -1,11 +1,18 @@
 import LoginWrap from "./LoginWrap";
-import { LogoSVG } from "@/components/LogoSVG";
 import { defineComponent } from "vue";
 
-export default defineComponent({
+export const LoginContainer = defineComponent({
+	computed: {
+		styleLogo() {
+			return {
+				width: "100px",
+				height: "100px"
+			};
+		}
+	},
 	render() {
 		return (
-			<div class="g-body login-body flex1">
+			<div class="g-body login-body flex1 " style="overflow:auto">
 				<div class="m-bg">
 					<div class="m-bg-mask m-bg-mask0" />
 					<div class="m-bg-mask m-bg-mask1" />
@@ -19,7 +26,7 @@ export default defineComponent({
 								<aCard class="card-login">
 									<h2 class="login-title">YAPI</h2>
 									<div class="login-logo elevation-12">
-										<LogoSVG length="100px" />
+										<xIcon icon="yapi_logo" style={this.styleLogo} />
 									</div>
 									<LoginWrap />
 								</aCard>

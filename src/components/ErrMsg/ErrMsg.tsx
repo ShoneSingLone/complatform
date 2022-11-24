@@ -1,6 +1,6 @@
 import "./ErrMsg.scss";
 import { defineComponent } from "vue";
-import { router } from "@/router/router";
+import { Cpt_url } from "./../../router/router";
 
 /**
  * 错误信息提示
@@ -23,6 +23,7 @@ import { router } from "@/router/router";
  * @returns {object}
  */
 export const ErrMsg = defineComponent({
+	name: "ErrMsg",
 	props: ["type", "history", "title", "desc", "opration"],
 	render() {
 		let { type, title, desc, opration } = this;
@@ -33,15 +34,7 @@ export const ErrMsg = defineComponent({
 					title = "你还没有关注项目呢";
 					desc = (
 						<span>
-							先去{" "}
-							<a
-								onClick={() =>
-									router.push({
-										path: "/group"
-									})
-								}>
-								“项目广场”
-							</a>{" "}
+							先去 <a onClick={() => Cpt_url.value.go("/group")}>“项目广场”</a>{" "}
 							逛逛吧, 那里可以添加关注。
 						</span>
 					);

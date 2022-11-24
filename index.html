@@ -2,12 +2,14 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" href="./favicon.svg" id="favicon-icon" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script>
 			window.__APP_VERSION = "<%- version %>";
+			/* fix:rollup chalk 不对付 */
+			window.process = {};
 			window.__URL_API_VERSION = "/v1";
-			window.__URL_STATIC_DIR = document.querySelector(`link[rel='icon']`).href.replace("favicon.ico", "");
+			window.__URL_STATIC_DIR = document.querySelector(`#favicon-icon`).href.split("favicon")[0];
 		</script>
 		<title>--</title>
 	</head>

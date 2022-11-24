@@ -1,0 +1,1 @@
+export { useProjectBasicProperties } from "./useProjectBasicProperties";

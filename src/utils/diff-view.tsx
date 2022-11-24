@@ -2,7 +2,7 @@
 
 import json5 from "json5";
 
-export const showDiffMsg = function (
+export const diffMessage = function (
 	jsondiffpatch,
 	formattersHtml,
 	curDiffData

@@ -2,7 +2,7 @@ import { LogoSVG } from "@/components/LogoSVG";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
 import { $ } from "@ventose/ui";
-import { RouterLink } from "vue-router";
+import { Cpt_url } from "./../../router/router";
 
 const TipTitle = () => {
 	return (
@@ -17,11 +17,12 @@ const TipBtns = () => {
 	return (
 		<div class="tip-btns">
 			<div class="btn-group">
-				<RouterLink to="/login">
-					<aButton type="primary" class="btn-home btn-login">
-						登录 / 注册
-					</aButton>
-				</RouterLink>
+				<aButton
+					type="primary"
+					class="btn-home btn-login"
+					onClick={() => Cpt_url.value.go("/login")}>
+					登录 / 注册
+				</aButton>
 				<aButton class="btn-home btn-home-normal">
 					<a
 						target="_blank"
@@ -78,11 +79,12 @@ const HomeGuest = params => {
 									</span>
 								</div>
 								<div class="btn-group">
-									<RouterLink to="/login">
-										<aButton type="primary" class="btn-home btn-login">
-											登录 / 注册
-										</aButton>
-									</RouterLink>
+									<aButton
+										type="primary"
+										class="btn-home btn-login"
+										onClick={() => Cpt_url.value.go("/login")}>
+										登录 / 注册
+									</aButton>
 									{/* {ThirdLogin ? <ThirdLogin /> : null} */}
 								</div>
 							</div>
@@ -369,7 +371,6 @@ export default defineComponent({
 	mounted() {
 		if (State_App.user.isLogin) {
 		}
-
 		$("#app").css("overflow", "auto");
 	},
 	unmounted() {

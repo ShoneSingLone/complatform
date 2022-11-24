@@ -3,6 +3,6 @@ import Home from "./Home/Home.js";
 import Login from "./Login/LoginContainer.js";
 import Group from "./Group/Group.js";
 import Project from "./Project/Project.js";
-import AddProject from "./AddProject/AddProject.js";
+import AddProject from "./Group/AddProject/AddProject.js";
 
 export { Header, Home, Login, Group, Project, AddProject };

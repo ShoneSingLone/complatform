@@ -1,13 +1,10 @@
 import "./ProjectCard.scss";
-import { Card, Tooltip, Modal, Alert, Input, message } from "ant-design-vue";
-import constants from "@/utils/variable";
-import produce from "immer";
 import { defineComponent } from "vue";
-import { _ } from "@ventose/ui";
-import { State_App } from "@/state/State_App";
+import { State_App, Methods_App } from "@/state/State_App";
 import { API } from "@/api";
-
-const confirm = Modal.confirm;
+import ViewCopyProject from "./ViewCopyProject.vue";
+import { _, UI, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
+import { Cpt_url } from "../../router/router";
 
 export default defineComponent({
 	props: [
@@ -18,38 +15,122 @@ export default defineComponent({
 		"isShow",
 		"getProject",
 		"checkProjectName",
-		"copyProjectMsg",
 		"currPage"
 	],
 	setup() {
-		return { State_App };
+		return { State_App, Cpt_url };
 	},
 	methods: {
+		showCopyProjectDialog() {
+			const vm = this;
+			UI.dialog.component({
+				title: `复制项目${this.projectData.name}`,
+				component: ViewCopyProject,
+				area: ["540px", "320px"],
+				okText: "复制",
+				projectName: this.projectData.name,
+				async onOk(dialog) {
+					try {
+						const validateResults = await validateForm(dialog.vm.formItems);
+						if (AllWasWell(validateResults)) {
+							const { name, icon } = pickValueFrom(dialog.vm.formItems);
+							try {
+								await vm.copyProject({ newProjectName: name, icon });
+								dialog.close();
+							} catch (error) {
+								console.error(error);
+								UI.message.error("复制失败");
+							}
+						} else {
+							throw new Error("未通过验证");
+						}
+					} catch (error) {
+						console.error(error);
+					}
+				}
+			});
+		},
+		async copyProject({ newProjectName, icon }) {
+			const id = this.projectData._id;
+			let { data } = await API.project.getProjectById(id);
+			data = _.merge(
+				data,
+				{ icon },
+				{ name: newProjectName },
+				{ preName: data.name }
+			);
+			await API.project.copyProjectMsg(data);
+			UI.message.success("项目复制成功");
+			this.callbackResult();
+		},
+		async goToProject() {
+			this.Cpt_url.go("/project/interface/all", {
+				project_id: this.projectData._id,
+				group_id: this.Cpt_url.query.group_id
+			});
+		},
 		add: _.debounce(async function () {
-			const { projectData } = this;
-			const uid = this.State_App.user.uid;
-			const param = {
-				uid,
-				projectid: projectData._id,
-				projectname: projectData.name,
-				icon: projectData.icon || constants.PROJECT_ICON[0],
-				color: projectData.color || constants.PROJECT_COLOR.blue
-			};
-			const { data } = await API.project.addFollow(param);
-			if (data) {
+			try {
+				const { projectData } = this;
+				const uid = this.State_App.user.uid;
+				const param = {
+					uid,
+					projectid: projectData._id,
+					projectname: projectData.name,
+					icon: projectData.icon,
+					color: projectData.color
+				};
+				await API.project.addFollow(param);
+			} catch (error) {
+				console.error(error);
+			} finally {
 				this.callbackResult();
 			}
 		}, 300),
 		del: _.debounce(async function () {
-			const id = this.projectData.projectid || this.projectData._id;
-			const { data } = await API.project.delFollow(id);
-			if (data) {
+			try {
+				const id = this.projectData.projectid || this.projectData._id;
+				await API.project.delFollow(id);
+			} catch (error) {
+				console.error(error);
+			} finally {
 				this.callbackResult();
 			}
 		}, 300)
 	},
 	computed: {
+		followIcon() {
+			return (
+				<span class="pointer" onClick={this.followIconClickHandler}>
+					<aTooltip placement="rightTop" title={this.followIconTitle}>
+						<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
+					</aTooltip>
+				</span>
+			);
+		},
+		copyIcon() {
+			if (this.isShow) {
+				return (
+					<span class="pointer icon-copy" onClick={this.showCopyProjectDialog}>
+						<aTooltip placement="rightTop" title="复制项目">
+							<xIcon icon="copy" style={{ color: "#232426" }} />
+						</aTooltip>
+					</span>
+				);
+			}
+			return null;
+		},
+		iconStyle() {
+			return {
+				color: "white",
+				width: "84px",
+				height: "84px",
+				borderRadius: "16px",
+				backgroundColor: this.projectData.color
+			};
+		},
 		isFollowStatus() {
+			/* 处于follow页面全是已follow的 */
 			return Boolean(this.projectData.follow || this.inFollowPage);
 		},
 		followIconTitle() {
@@ -60,61 +141,37 @@ export default defineComponent({
 		},
 		followIconClickHandler() {
 			return this.isFollowStatus ? this.del : this.add;
+		},
+		logo() {
+			return (
+				<xIcon
+					class="ui-logo"
+					icon={this.projectData.icon}
+					style={this.iconStyle}
+					onClick={this.goToProject}
+				/>
+			);
+		},
+		title() {
+			return (
+				<h4 class="ui-title">
+					<span class="mr10">{this.projectData._id}</span>
+					<span>{this.projectData.name || this.projectData.projectname}</span>
+				</h4>
+			);
 		}
 	},
 	render() {
-		const projectData = this.projectData;
-		const isShow = this.isShow;
-		/* 处于follow页面全是已follow的 */
-		const followIcon = (
-			<span class="pointer" onClick={this.followIconClickHandler}>
-				<aTooltip placement="rightTop" title={this.followIconTitle}>
-					<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
-				</aTooltip>
-			</span>
-		);
-
-		const copyIcon = (() => {
-			if (isShow) {
-				return (
-					<span class="pointer" onClick={this.showConfirm}>
-						<aTooltip placement="rightTop" title="复制项目">
-							<xIcon icon="copy" style={{ color: "#eceef1" }} />
-						</aTooltip>
-					</span>
-				);
-			}
-			return null;
-		})();
-
 		return (
 			<div class="card-container" style={"width:200px;"}>
-				<aCard
-					hoverable
-					class="m-card"
-					onClick={() =>
-						this.$router.push({
-							path: "/project/" + (projectData.projectid || projectData._id)
-						})
-					}>
-					<xIcon
-						icon={projectData.icon}
-						class="ui-logo"
-						style={{
-							color: "white",
-							backgroundColor:
-								constants.PROJECT_COLOR[projectData.color] ||
-								constants.PROJECT_COLOR.blue
-						}}
-					/>
-					<h4 class="ui-title">
-						{projectData.name || projectData.projectname}
-					</h4>
+				<aCard hoverable class="m-card">
+					{this.logo}
+					{this.title}
 				</aCard>
 				<div class="card-btns flex">
-					{copyIcon}
+					{this.copyIcon}
 					<xGap l="10" />
-					{followIcon}
+					{this.followIcon}
 				</div>
 			</div>
 		);

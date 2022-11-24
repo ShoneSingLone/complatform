@@ -1,8 +1,9 @@
 import { _, UI, lStorage, $ } from "@ventose/ui";
 import axios from "axios";
+import { State_App } from "../state/State_App";
+import { Cpt_url } from "./../router/router";
 
 const ajax = axios.create({
-	baseURL: "/devyapi",
 	timeout: 20000 // request timeout
 });
 
@@ -24,6 +25,10 @@ ajax.interceptors.request.use(
 // response interceptor
 ajax.interceptors.response.use(
 	async response => {
+		if (response?.data?.errcode == 40011) {
+			State_App.user.isLogin = false;
+			window.location.hash = "/login";
+		}
 		if (response?.data?.errcode !== 0) {
 			UI.message.error(response?.data?.errmsg);
 			return Promise.reject(response);

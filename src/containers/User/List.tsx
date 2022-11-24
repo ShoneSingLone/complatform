@@ -5,14 +5,13 @@ import { setBreadcrumb } from "../../reducer/modules/user";
 
 import { Table, Popconfirm, message, Input } from "ant-design-vue";
 import axios from "axios";
-import { RouterLink } from "vue-router";
 
 const Search = Input.Search;
 const limit = 20;
 @connect(
 	state => {
 		return {
-			curUserRole: state.user.role
+			State_App.user.role: State_App.user.role
 		};
 	},
 	{
@@ -32,7 +31,7 @@ class List extends Component {
 	}
 	static propTypes = {
 		setBreadcrumb: PropTypes.func,
-		curUserRole: PropTypes.string
+		State_App.user.role: PropTypes.string
 	};
 	changePage = current => {
 		this.setState(
@@ -129,7 +128,7 @@ class List extends Component {
 	};
 
 	render() {
-		const role = this.props.curUserRole;
+		const role = this.props.State_App.user.role;
 		let data = [];
 		if (role === "admin") {
 			data = this.state.data;
@@ -142,9 +141,9 @@ class List extends Component {
 				width: 180,
 				render: (username, item) => {
 					return (
-						<RouterLink to={"/user/profile/" + item._id}>
+						<div to={"/user/profile/" + item._id}>
 							{item.username}
-						</RouterLink>
+						</div>
 					);
 				}
 			},

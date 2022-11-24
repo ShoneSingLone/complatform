@@ -8,59 +8,96 @@
 	position: relative;
 	z-index: 0;
 	transition: height 0.3s ease-in-out;
-	overflow: hidden;
+	overflow: visible;
 }
 
 .footer-container {
 	margin: 0 auto !important;
 	padding: 0.48rem 0.24rem;
 	max-width: 12.2rem;
+
 	.icon {
 		font-size: 0.16rem;
 		margin-right: 0.08rem;
 	}
+
 	.title {
 		color: #8898aa;
 		font-size: 0.14rem;
 		margin-bottom: 0.08rem;
 	}
+
 	.link {
 		font-size: 0.14rem;
 		font-weight: 200;
 		color: #8898aa;
 		line-height: 0.3rem;
 		transition: color 0.2s;
+
 		&:hover {
 			color: $color-bg-gray;
 		}
 	}
 }
-.footItem {
-	padding: 24px 2%;
-	width: 25%;
-	float: left;
-	div {
-		margin: 6px 0;
-	}
-	a {
-		font-weight: 200;
-		color: #b3bdc1;
-		&:hover {
-			color: white;
+
+#ViewAppFooter {
+	.footItem {
+		padding: 24px 2%;
+		width: 25%;
+		float: left;
+
+		div {
+			margin: 6px 0;
+		}
+
+		a {
+			font-weight: 200;
+			color: #b3bdc1;
+
+			&:hover {
+				color: white;
+			}
 		}
 	}
-}
-.copyRight {
-	padding: 24px 2%;
-	width: 25%;
-	float: left;
-	font-size: 13px;
-	text-indent: 1em;
-	h4 {
-		font-size: 14px;
-		margin: 0 auto 13px;
-		font-weight: 500;
-		position: relative;
-		text-indent: 0;
+
+	.copyRight {
+		padding: 24px 2%;
+		width: 25%;
+		float: left;
+		font-size: 13px;
+		text-indent: 1em;
+
+		h4 {
+			font-size: 14px;
+			margin: 0 auto 13px;
+			font-weight: 500;
+			position: relative;
+			text-indent: 0;
+		}
+	}
+
+	.ant-btn.x-button.footer-toggle {
+		position: absolute;
+		bottom: -40px;
+		right: -40px;
+		opacity: 0.5;
+		transform: scale(0.5);
+		overflow: hidden;
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		transition: 0.3s all ease-in;
+
+		&.unfold {
+			right: 0;
+			bottom: 0;
+			opacity: 1;
+			transform: scale(0.8);
+		}
+
+		&:hover {
+			transform: scale(1);
+			opacity: 1;
+		}
 	}
 }

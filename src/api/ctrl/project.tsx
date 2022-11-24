@@ -1,4 +1,5 @@
 import { ajax } from "@/api/ajax";
+import qs from "qs";
 
 export const project = {
 	addFollow(data) {
@@ -24,17 +25,53 @@ export const project = {
 			data
 		});
 	},
-	/* {
-			group_id: 0,
-			page: 1,
-			limit: 10
-		} */
+	getProjectById(id) {
+		return ajax({
+			method: "get",
+			url: "/api/project/get",
+			params: { id }
+		});
+	},
+	copyProjectMsg(data) {
+		return ajax({
+			method: "post",
+			url: "/api/project/copy",
+			data
+		});
+	},
+	fetchInterfaceList(params) {
+		return ajax({
+			method: "get",
+			url: "/api/interface/list",
+			params,
+			paramsSerializer: params => {
+				return qs.stringify(params, { indices: false });
+			}
+		});
+	},
+	/* { group_id: 0, page: 1, limit: 10 } */
 	list(groupId) {
 		return ajax({
 			method: "get",
 			url: "/api/project/list",
 			params: {
 				group_id: Number(groupId)
+			}
+		});
+	},
+	addInterfaceCategory(data) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/add_cat",
+			data
+		});
+	},
+	fetchInterfaceListMenu(project_id) {
+		return ajax({
+			method: "get",
+			url: "/api/interface/list_menu",
+			params: {
+				project_id: Number(project_id)
 			}
 		});
 	}

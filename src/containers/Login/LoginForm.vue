@@ -31,9 +31,9 @@ import {
 	State_UI,
 	FormRules
 } from "@ventose/ui";
-import { Methods_App, State_App } from "@/state/State_App";
 import { API } from "@/api";
-import { router } from "@/router/router";
+import { Cpt_url } from "../../router/router";
+import { Methods_App } from "../../state/State_App";
 
 const { $t } = State_UI;
 
@@ -53,6 +53,7 @@ export default defineComponent({
 	},
 	setup() {
 		return {
+			Cpt_url,
 			Methods_App
 		};
 	},
@@ -107,7 +108,7 @@ export default defineComponent({
 						if (AllWasWell(validateResults)) {
 							await API.user.loginActions(vm.data);
 							UI.notification.success("登录成功! ");
-							router.push({ path: "/group" });
+							Cpt_url.value.go("/group");
 						} else {
 							throw new Error("未通过验证");
 						}

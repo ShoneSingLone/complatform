@@ -1,7 +1,7 @@
 import { reactive, watch, computed } from "vue";
 import { lStorage, setCSSVariables, UI, _, State_UI } from "@ventose/ui";
-import { API } from "@/api";
-import { router } from "@/router/router";
+import { Cpt_url } from "./../router/router";
+import { API } from "./../api";
 
 const { $t } = State_UI;
 
@@ -9,67 +9,58 @@ const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
 
-export const State_App = reactive({
-	user: {
-		isLogin: false,
-		canRegister: true,
-		isLDAP: false,
-		userName: null,
-		uid: null,
-		email: "",
-		loginState: LOADING_STATUS,
-		loginWrapActiveKey: "1",
-		role: "",
-		type: "",
-		breadcrumb: [],
-		studyTip: 0,
-		study: false,
-		imageUrl: ""
-	},
-	project: {
-		currPage: "",
-		projectList: [],
-		userInfo: "",
-		tableLoading: ""
-	},
-	news: {
-		newsData: {
-			list: [],
-			total: 0
+export const State_App = reactive(
+	lStorage.State_App || {
+		isFooterFold: false,
+		urlHash: window.location.hash,
+		user: {
+			isLogin: false,
+			canRegister: true,
+			isLDAP: false,
+			userName: null,
+			uid: null,
+			email: "",
+			loginState: LOADING_STATUS,
+			loginWrapActiveKey: "1",
+			role: "",
+			type: "",
+			breadcrumb: [],
+			studyTip: 0,
+			study: false,
+			imageUrl: ""
 		},
-		curpage: 1
-	},
-	groupList: [],
-	currGroup: {
-		group_name: "",
-		group_desc: "",
-		custom_field1: {
-			name: "",
-			enable: false
-		}
-	},
-	group: {
+		projectList: [],
+		project: {
+			currPage: "",
+			userInfo: "",
+			tableLoading: ""
+		},
+		news: {
+			newsData: {
+				list: [],
+				total: 0
+			},
+			curpage: 1
+		},
 		groupList: [],
 		currGroup: {
+			role: "",
 			group_name: "",
 			group_desc: "",
 			custom_field1: {
 				name: "",
 				enable: false
 			}
-		},
-		field: {
-			name: "",
-			enable: false
-		},
-		member: [],
-		role: ""
+		}
 	}
-});
+);
 
-window.State_App = State_App;
+State_App.urlHash = window.location.hash;
 
 export const Methods_App = {
+	toggleFooterFold() {
+		State_App.isFooterFold = !State_App.isFooterFold;
+	},
 	setMenu(menu) {
 		/* notice！！_.merge 空数组不会替换*/
 		State_App.menu = Object.assign({}, State_App.menu, menu);
@@ -183,8 +174,8 @@ export const Methods_App = {
 				type: ""
 			});
 			if (data === "ok") {
-				router.push({ path: "/login" });
-				UI.notification.success("退出成功! ");
+				Cpt_url.value.go("/login");
+				UI.notification.success($t("退出成功! ").label);
 			}
 		} catch (error) {
 			console.error(error);
@@ -195,30 +186,88 @@ export const Methods_App = {
 		if (!groupId) return;
 		groupId = Number(groupId);
 		const { data } = await API.project.list(groupId);
-		State_App.project.projectList = data.list;
-		console.log("State_App.project.projectList", State_App.project.projectList);
+		State_App.projectList = data.list;
+		console.log("State_App.projectList", State_App.projectList);
+	},
+	getProject() {
+		debugger;
 	},
 	async changeMenuItem() {},
 	async loginActions() {},
 	async loginLdapActions() {},
 	async fetchGroupMemberList(groupId) {
 		const { data: member } = await API.group.getMemberListBy(groupId);
-		State_App.group.member = member;
+		State_App.currGroup.member = member;
 		return member;
 	},
-	async addMember() {},
-	async delMember() {},
-	async changeMemberRole() {},
+	async addMember(data) {
+		return API.group.addMember(data);
+	},
+	async delMember(data) {
+		return API.group.delMember(data);
+	},
+	async changeMemberRole(data) {
+		return API.group.changeMemberRole(data);
+	},
+	async fetchMoreNews() {
+		debugger;
+	},
+	async fetchInterfaceList() {
+		debugger;
+	},
 
-	async fetchMoreNews() {},
-	async fetchInterfaceList() {},
-
-	async setGroupList() {},
-	async addProject() {},
-	async delProject() {},
-	async changeUpdateModal() {},
-	getProject() {},
-	checkProjectName() {},
-	copyProjectMsg() {},
-	loginTypeAction() {}
+	async setGroupList() {
+		debugger;
+	},
+	async addProject() {
+		debugger;
+	},
+	async delProject() {
+		debugger;
+	},
+	async changeUpdateModal() {
+		debugger;
+	},
+	checkProjectName() {
+		debugger;
+	},
+	loginTypeAction() {
+		debugger;
+	}
 };
+
+/* 有关全局的状态，变动 */
+
+watch(
+	State_App,
+	_.debounce(function () {
+		lStorage.State_App = State_App;
+	}),
+	100
+);
+
+window.addEventListener(
+	"hashchange",
+	_.debounce(function () {
+		State_App.urlHash = window.location.hash;
+	}, 60)
+);
+
+export const Cpt_currGroup = computed(() => {
+	const projectId = Cpt_url.value.query.group_id;
+	if (projectId && State_App.groupList.length > 0) {
+		return _.find(State_App.groupList, { _id: Number(projectId) });
+	}
+	return "";
+});
+
+/**
+ * 如果url 有 project_id,且有当前分组的projectList
+ */
+export const Cpt_currProject = computed(() => {
+	const projectId = Cpt_url.value.query.project_id;
+	if (projectId && State_App.projectList.length > 0) {
+		return _.find(State_App.projectList, { _id: Number(projectId) });
+	}
+	return "";
+});

@@ -14,7 +14,6 @@ import {
 	Col,
 	Alert
 } from "ant-design-vue";
-import constants from "@/utils/variable";
 import AceEditor from "client/components/AceEditor/AceEditor";
 import { _ } from "@ventose/ui";
 import { isJson, deepCopyJson, json5_parse } from "../../common.js";
@@ -24,6 +23,7 @@ import CheckCrossInstall, { initCrossRequest } from "./CheckCrossInstall.js";
 import "./Postman.scss";
 import ProjectEnv from "../../containers/Project/Setting/ProjectEnv/index.js";
 import json5 from "json5";
+import { HTTP_METHOD } from "../../utils/variable";
 const {
 	handleParamsValue,
 	ArrayToObject,
@@ -41,7 +41,6 @@ const plugin = require("client/plugin.js");
 
 const createContext = require("common/createContext");
 
-const HTTP_METHOD = constants.HTTP_METHOD;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;

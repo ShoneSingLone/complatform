@@ -1,13 +1,14 @@
 <script>
 /*https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup*/
+import "./style.css";
 import { defineComponent } from "vue";
 import { _ } from "@ventose/ui";
-import Footer from "@/components/Footer/Footer.vue";
-import Header from "@/components/Header/Header.tsx";
-import { Methods_App, State_App } from "@/state/State_App.tsx";
+import { AppFooter } from "./components/Footer/AppFooter";
+import { AppHeader } from "./components/Header/AppHeader";
+import { State_App } from "@/state/State_App.tsx";
 
 export default defineComponent({
-	components: { Footer, Header },
+	components: { AppFooter, AppHeader },
 	setup() {
 		return {
 			State_App
@@ -25,9 +26,9 @@ export default defineComponent({
 });
 </script>
 <template>
-	<Header v-if="State_App.user.loginState !== 1" />
-	<RouterView v-loading="isLoading" />
-	<Footer />
+	<AppHeader v-if="State_App.user.isLogin" />
+	<xRouterView v-loading="isLoading" />
+	<AppFooter />
 </template>
 
 <style lang="less" src="./styles/App.less"></style>
