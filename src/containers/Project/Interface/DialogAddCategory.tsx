@@ -67,20 +67,20 @@ export const DialogAddCategory = defineComponent({
 	render() {
 		return (
 			<div class="g-row flex1 height100">
-				<div class="g-row m-container">
-					<xForm
-						class="flex vertical"
-						labelStyle={{ "min-width": "120px", width: "unset" }}>
-						{_.map(this.dataXItem, (configs, prop) => {
-							return (
-								<>
-									<xGap t="10" />
-									<xItem configs={configs} />
-								</>
-							);
-						})}
-					</xForm>
-				</div>
+				<xGap t="10" />
+				<xForm
+					class="flex vertical"
+					labelStyle={{ "min-width": "120px", width: "unset" }}>
+					{_.map(this.dataXItem, (configs, prop) => {
+						return (
+							<>
+								<xGap t="10" />
+								<xItem configs={configs} />
+							</>
+						);
+					})}
+				</xForm>
+				<xGap t="10" />
 			</div>
 		);
 	}

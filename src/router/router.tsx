@@ -17,8 +17,9 @@ export const routes = [
 		}
 	},
 	{
-		...LazyComponent("ViewGroup", "../containers/Group/ViewGroup"),
 		path: `/group`,
+		componentName: "ViewGroup",
+		component: () => import("../containers/Group/ViewGroup"),
 		meta: {
 			title: $t("分组").label
 		}
@@ -110,8 +111,12 @@ export const routes = [
 ];
 
 export const ProjectChildren = routes.filter(route => {
-	const res = route.path.match(/^\/project(.*)/);
-	return res && res[1];
+	const res = route.path.split("/");
+	if (res.length === 3 && res[1] === "project") {
+		return true;
+	} else {
+		return false;
+	}
 });
 
 type type_url = {

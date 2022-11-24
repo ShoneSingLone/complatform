@@ -1,3 +1,4 @@
+export const ALL = "ALL";
 // 默认每页展示10条数据
 export const PAGE_LIMIT = 10;
 // 限制名称的字符长度(中文算两个长度)
@@ -12,7 +13,18 @@ export const HTTP_METHOD = {
 	PATCH: { request_body: true, default_tab: "body" }
 };
 
-export const ALL = "ALL";
+export const STATIC_WORD = {
+	ACCESS_TOKEN: "token",
+	NEW_TAB: "newTab",
+	M: "M",
+	GB: "GB"
+};
+
+export const TEXT = {
+	success(text) {
+		return `${text}成功！`;
+	}
+};
 
 export const LOG_TYPE = {
 	project: "项目",

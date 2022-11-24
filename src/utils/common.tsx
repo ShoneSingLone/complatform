@@ -3,9 +3,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { xRouterView } from "../components/xRouterView/xRouterView";
 import { ErrMsg } from "../components/ErrMsg/ErrMsg";
-
 export { ITEM_OPTIONS } from "./common.options";
-export { STATIC_WORD } from "./common.words";
 dayjs.locale("zh-cn");
 
 /**

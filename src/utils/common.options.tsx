@@ -1,4 +1,11 @@
+import { HTTP_METHOD } from "./variable";
+import { _ } from "@ventose/ui";
+
 export const ITEM_OPTIONS = {
+	httpMethod: _.map(HTTP_METHOD, (item, prop) => ({
+		label: prop,
+		value: prop
+	})),
 	status: [
 		{ label: "开通", value: "ACTIVATED" },
 		{ label: "未开通", value: "NONACTIVATED" }

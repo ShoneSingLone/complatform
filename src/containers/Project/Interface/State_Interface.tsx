@@ -31,13 +31,11 @@ export const Methods_Interface = {
 		);
 		if (data) {
 			/* @ts-ignore */
-			State_Interface.list = DefaultMenu.concat(
-				data.map(i => ({
-					...i,
-					isCategory: true,
-					title: i.name
-				}))
-			);
+			State_Interface.list = data.map(i => ({
+				...i,
+				isCategory: true,
+				title: i.name
+			}));
 
 			return State_Interface.list;
 		}
@@ -49,6 +47,7 @@ export const Cpt_interfaceMenuForShow = computed(() => {
 	if (!_.isArrayFill(menulListFilted)) {
 		return DefaultMenu;
 	}
+	menulListFilted = DefaultMenu.concat(menulListFilted);
 	if (State_Interface.filterText) {
 		const reg = new RegExp(State_Interface.filterText, "i");
 		menulListFilted = _.filter(menulListFilted, category => {
