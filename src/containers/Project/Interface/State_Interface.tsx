@@ -11,7 +11,13 @@ const DefaultMenu = [
 	}
 ];
 
-const defautlValue = () => ({ list: [], filterText: "", allInterface: [] });
+const defautlValue = () => ({
+	list: [],
+	filterText: "",
+	allInterface: [],
+	allTags: [],
+	allCategory: []
+});
 
 export function resetStateInterface() {
 	_.map(defautlValue(), (value, prop) => {
@@ -31,13 +37,16 @@ export const Methods_Interface = {
 		);
 		if (data) {
 			/* @ts-ignore */
-			const list = data.map(i => ({
+			const allCategory = data.map(i => ({
 				...i,
 				isCategory: true,
-				title: i.name
+				title: i.name,
+				value: i._id,
+				label: i.name
 			}));
+			State_Interface.allCategory = allCategory;
 			State_Interface.allInterface = _.reduce(
-				list,
+				allCategory,
 				(dataSource, i) => {
 					if (_.isArrayFill(i.list)) {
 						dataSource = dataSource.concat(i.list);
@@ -46,15 +55,21 @@ export const Methods_Interface = {
 				},
 				[]
 			);
-			State_Interface.list = list;
-
-			return State_Interface.list;
+			const _allTags = _.reduce(
+				State_Interface.allInterface,
+				(allTags, i) => {
+					return allTags.concat(i.tag);
+				},
+				[]
+			);
+			State_Interface.allTags = _.uniqBy(_allTags)
+			return State_Interface.allCategory;
 		}
 	}
 };
 
 export const Cpt_interfaceMenuForShow = computed(() => {
-	let menulListFilted = _.cloneDeep(State_Interface.list);
+	let menulListFilted = _.cloneDeep(State_Interface.allCategory);
 	if (!_.isArrayFill(menulListFilted)) {
 		return DefaultMenu;
 	}

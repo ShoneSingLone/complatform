@@ -6,7 +6,6 @@ import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL } from "../../../utils/variable";
 import {
-	Cpt_interfaceMenuForShow,
 	Methods_Interface,
 	State_Interface
 } from "./State_Interface";
