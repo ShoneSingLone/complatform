@@ -5,7 +5,7 @@ import {
 	fnShowUpsertGroupDialog,
 	fnUpsertGroupInfo
 } from "./GroupList/GroupLeftSider";
-import ProjectList from "./GroupProjectList/ProjectList";
+import { GroupProjectList } from "./GroupProjectList/GroupProjectList";
 import GroupLog from "./GroupLog/GroupLog";
 import { Cpt_url } from "../../router/router";
 import { API } from "../../api";
@@ -218,7 +218,7 @@ export const ViewGroup = defineComponent({
 											<aTabPane
 												tab={TAB_KEY_PROJECT_LIST}
 												key={TAB_KEY_PROJECT_LIST}>
-												<ProjectList />
+												<GroupProjectList />
 											</aTabPane>
 											{this.vDomTabMember}
 											{this.vDomTabGroupLog}

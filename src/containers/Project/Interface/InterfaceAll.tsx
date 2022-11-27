@@ -13,6 +13,6 @@ import {
 
 export const InterfaceAll = defineComponent({
 	render() {
-		return <h1>InterfaceAll</h1>;
+		return <xView></xView>;
 	}
 });
