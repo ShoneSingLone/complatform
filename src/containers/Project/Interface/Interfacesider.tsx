@@ -15,7 +15,8 @@ import { DialogAddInterface } from "./DialogAddInterface";
 
 export const InterfaceSider = defineComponent({
 	setup() {
-		const { fnObserveDomResize, fnUnobserveDomResize } = usefnObserveDomResize();
+		const { fnObserveDomResize, fnUnobserveDomResize } =
+			usefnObserveDomResize();
 		return {
 			State_Interface,
 			Cpt_interfaceMenuForShow,
