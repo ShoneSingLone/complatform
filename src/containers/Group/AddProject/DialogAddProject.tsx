@@ -13,7 +13,7 @@ import {
 	State_UI
 } from "@ventose/ui";
 import { API } from "../../../api";
-import optionsXItem from "@/utils/common.options.xIcon";
+import optionsXIcon from "@/utils/common.options.xIcon";
 import { NAME_LIMIT, PROJECT_COLOR } from "../../../utils/variable";
 import { Methods_App, State_App } from "../../../state/State_App";
 
@@ -38,14 +38,14 @@ export const xItem_ProjectColor = (options: any = {}) => {
 	};
 };
 export const xItem_ProjectIcon = (options: any = {}) => {
-	const [value] = randomValueAndProp(optionsXItem);
+	const [value] = randomValueAndProp(optionsXIcon);
 	return {
 		value,
 		prop: "icon",
 		itemType: "Select",
 		label: State_UI.$t("图标").label,
 		rules: [FormRules.required()],
-		options: _.map(optionsXItem, value => {
+		options: _.map(optionsXIcon, value => {
 			return {
 				label: (
 					<span>
@@ -65,44 +65,7 @@ export const xItem_ProjectName = (options: any = {}) => {
 
 	const rules = [
 		FormRules.required("请输入项目名称"),
-		FormRules.custom({
-			msg: "",
-			name: "",
-			trigger: "",
-			/* 可以根据校验修改提示信息 */
-			validator(value, { configs, rule }) {
-				const type = "项目";
-				// 返回字符串长度，汉字计数为2
-				const strLength = str => {
-					let length = 0;
-					for (let i = 0; i < str.length; i++) {
-						str.charCodeAt(i) > 255 ? (length += 2) : length++;
-					}
-					return length;
-				};
-
-				const len = value ? strLength(value) : 0;
-				if (len > NAME_LIMIT) {
-					rule.msg =
-						"请输入" +
-						type +
-						"名称，长度不超过" +
-						NAME_LIMIT +
-						"字符(中文算作2字符)!";
-					return FormRules.FAIL;
-				} else if (len === 0) {
-					rule.msg =
-						"请输入" +
-						type +
-						"名称，长度不超过" +
-						NAME_LIMIT +
-						"字符(中文算作2字符)!";
-					return FormRules.FAIL;
-				} else {
-					return FormRules.SUCCESS;
-				}
-			}
-		})
+		FormRules.nameLength({ label: State_UI.$t("项目").label })
 	];
 
 	if (_.isArray(appendRules)) {

@@ -11,7 +11,7 @@ const DefaultMenu = [
 	}
 ];
 
-const defautlValue = () => ({ list: [], filterText: "" });
+const defautlValue = () => ({ list: [], filterText: "", allInterface: [] });
 
 export function resetStateInterface() {
 	_.map(defautlValue(), (value, prop) => {
@@ -31,13 +31,22 @@ export const Methods_Interface = {
 		);
 		if (data) {
 			/* @ts-ignore */
-			State_Interface.list = DefaultMenu.concat(
-				data.map(i => ({
-					...i,
-					isCategory: true,
-					title: i.name
-				}))
+			const list = data.map(i => ({
+				...i,
+				isCategory: true,
+				title: i.name
+			}));
+			State_Interface.allInterface = _.reduce(
+				list,
+				(dataSource, i) => {
+					if (_.isArrayFill(i.list)) {
+						dataSource = dataSource.concat(i.list);
+					}
+					return dataSource;
+				},
+				[]
 			);
+			State_Interface.list = list;
 
 			return State_Interface.list;
 		}
@@ -49,6 +58,7 @@ export const Cpt_interfaceMenuForShow = computed(() => {
 	if (!_.isArrayFill(menulListFilted)) {
 		return DefaultMenu;
 	}
+	menulListFilted = DefaultMenu.concat(menulListFilted);
 	if (State_Interface.filterText) {
 		const reg = new RegExp(State_Interface.filterText, "i");
 		menulListFilted = _.filter(menulListFilted, category => {

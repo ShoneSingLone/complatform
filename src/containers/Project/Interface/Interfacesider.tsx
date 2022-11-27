@@ -11,6 +11,7 @@ import {
 	State_Interface
 } from "./State_Interface";
 import { Cpt_url } from "../../../router/router";
+import { DialogAddInterface } from "./DialogAddInterface";
 
 export const InterfaceSider = defineComponent({
 	setup() {
@@ -122,33 +123,60 @@ export const InterfaceSider = defineComponent({
 							}
 
 							const vDomOpration = (() => {
+								const genIcon = ({ icon, tips, clickHandler }) => {
+									return (
+										<>
+											<xIcon
+												icon={icon}
+												class="Interfacesider-tree_menu_icon"
+												v-uiPopover={{ content: tips }}
+												onClick={clickHandler}
+											/>
+											<xGap l="8" />
+										</>
+									);
+								};
 								if (name) {
 									return (
 										<div class="flex middle Interfacesider-tree_menu_opration">
-											<xIcon
-												icon="add"
-												class="Interfacesider-tree_menu_icon"
-												onClick={$event =>
+											{genIcon({
+												icon: "add",
+												tips: vm.$t("添加接口").label,
+												clickHandler: $event =>
 													vm.showAddInterfaceDialog(_id, $event)
-												}
-											/>
-											<xGap l="8" />
-											<xIcon
-												icon="edit"
-												class="Interfacesider-tree_menu_icon"
-												onClick={() => vm.setSelectedKeys(_id)}
-											/>
-											<xGap l="8" />
-											<xIcon
-												icon="delete"
-												class="Interfacesider-tree_menu_icon"
-												onClick={() => vm.setSelectedKeys(_id)}
-											/>
-											<xGap l="8" />
+											})}
+											{genIcon({
+												icon: "edit",
+												tips: vm.$t("修改分类").label,
+												clickHandler: $event =>
+													vm.showAddInterfaceDialog(_id, $event)
+											})}
+											{genIcon({
+												icon: "delete",
+												tips: vm.$t("删除分类").label,
+												clickHandler: $event =>
+													vm.showAddInterfaceDialog(_id, $event)
+											})}
+										</div>
+									);
+								} else {
+									return (
+										<div class="flex middle Interfacesider-tree_menu_opration">
+											{genIcon({
+												icon: "edit",
+												tips: vm.$t("修改接口").label,
+												clickHandler: $event =>
+													vm.showAddInterfaceDialog(_id, $event)
+											})}
+											{genIcon({
+												icon: "delete",
+												tips: vm.$t("删除接口").label,
+												clickHandler: $event =>
+													vm.showAddInterfaceDialog(_id, $event)
+											})}
 										</div>
 									);
 								}
-								return null;
 							})();
 
 							const iconName = vDomOpration
@@ -193,12 +221,13 @@ export const InterfaceSider = defineComponent({
 				}
 			});
 		},
-		showAddInterfaceDialog(_id, $event: Event) {
+		showAddInterfaceDialog(categoryId, $event: Event) {
 			$event.stopPropagation();
 			$event.preventDefault();
 			UI.dialog.component({
 				title: this.$t("添加接口").label,
-				component: DialogAddCategory,
+				categoryId,
+				component: DialogAddInterface,
 				onOk: async instance => {
 					const res = await instance.vm.submit();
 					if (res) {

@@ -106,8 +106,7 @@ export const DialogEditGroup = defineComponent({
 						class="flex vertical"
 						labelStyle={{
 							"min-width": "170px",
-							width: "unset",
-							"text-align": "right"
+							width: "unset"
 						}}>
 						{this.vDomFormItems}
 					</xForm>
