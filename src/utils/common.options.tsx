@@ -4,7 +4,8 @@ import { _ } from "@ventose/ui";
 export const ITEM_OPTIONS = {
 	httpMethod: _.map(HTTP_METHOD, (item, prop) => ({
 		label: prop,
-		value: prop
+		value: prop,
+		color: item.color
 	})),
 	interfaceStatus: [
 		{ label: "已完成", value: "done" },
@@ -21,3 +22,10 @@ export const ITEM_OPTIONS = {
 		return this.status;
 	}
 };
+
+export const ITEM_OPTIONS_VDOM = {
+	httpMethod(cell) {
+		const i = _.find(ITEM_OPTIONS.httpMethod, { value: cell })
+		return <aTag color={i.color}>{i.label}</aTag>
+	}
+}

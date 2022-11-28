@@ -51,7 +51,6 @@ export const AppHeader = defineComponent({
 		"uid",
 		"role",
 		"login",
-		"relieveLink",
 		"logoutActions",
 		"loginTypeAction",
 		"changeMenuItem",

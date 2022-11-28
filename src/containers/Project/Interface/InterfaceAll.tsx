@@ -6,7 +6,7 @@ import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL } from "../../../utils/variable";
 import { Methods_Interface, State_Interface } from "./State_Interface";
-import { ITEM_OPTIONS } from "../../../utils/common.options";
+import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 const { $t } = State_UI;
 
 export const InterfaceAll = defineComponent({
@@ -40,6 +40,7 @@ export const InterfaceAll = defineComponent({
 			while (prop) {
 				const search = this.filterParams[prop];
 				if (_.isInput(search)) {
+					console.log("interfaceForShow.length", interfaceForShow.length);
 					interfaceForShow = _.filter(interfaceForShow, i => {
 						if (prop == "status") {
 							return i.status === search;
@@ -51,12 +52,15 @@ export const InterfaceAll = defineComponent({
 							return new RegExp(search, "i").test(i[prop]);
 						}
 					});
+					console.log("interfaceForShow.length", interfaceForShow.length);
+
 				}
 				prop = paramKeys.pop();
 			}
 			this.configs_allInterface.dataSource = _.sortBy(interfaceForShow, [
 				"catid",
 				"title",
+				"method",
 				"path",
 				"status",
 				"tag"
@@ -141,7 +145,7 @@ export const InterfaceAll = defineComponent({
 						selectedType: "many",
 						selected: [],
 						selectedBy: "_id",
-						onSelected() {},
+						onSelected() { },
 						renderHeader({ label }) {
 							return (
 								<div class="flex">
@@ -178,6 +182,15 @@ export const InterfaceAll = defineComponent({
 						},
 						renderCell({ records, cell, index }) {
 							return <a>{cell}</a>;
+						}
+					}),
+					...defCol({
+						label: "请求方法",
+						prop: "method",
+						width: "100px",
+						minWidth: "100px",
+						renderCell({ cell }) {
+							return <div class="flex end width100">{ITEM_OPTIONS_VDOM.httpMethod(cell)}</div>
 						}
 					}),
 					...defCol({
@@ -218,12 +231,13 @@ export const InterfaceAll = defineComponent({
 							);
 						},
 						renderCell({ cell }) {
-							return <p>{cell}</p>;
+							return <p class="ellipsis" v-uiPopover={{ content: cell }} key={cell}> {cell}</p >;
 						}
 					}),
 					...defCol({
 						label: "状态",
 						prop: "status",
+						width: "100px",
 						renderHeader({ label }) {
 							const item = _.find(ITEM_OPTIONS.interfaceStatus, {
 								value: vm.filterParams.status

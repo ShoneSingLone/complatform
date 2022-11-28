@@ -1,4 +1,4 @@
-import { defineComponent, inject, provide, h } from "vue";
+import { defineComponent, inject, provide, h, markRaw } from "vue";
 import { routes, Cpt_url } from "../../router/router";
 import { _ } from "@ventose/ui";
 import { ViewNotFound } from "../ViewNotFound";
@@ -39,7 +39,7 @@ export const xRouterView = defineComponent({
 		"Cpt_url.pathname": {
 			immediate: true,
 			async handler(pathname) {
-				this.currentComponent = await this.getComponent(pathname.split("/"));
+				this.currentComponent = markRaw(await this.getComponent(pathname.split("/")));
 			}
 		}
 	},
@@ -71,7 +71,7 @@ export const xRouterView = defineComponent({
 	computed: {
 		vDomView() {
 			if (!this.currentComponent) {
-				return <aSpin spinning="true" />;
+				return <aSpin spinning={true} />;
 			} else {
 				return h(this.currentComponent, { pathname: this.Cpt_url.pathname });
 			}

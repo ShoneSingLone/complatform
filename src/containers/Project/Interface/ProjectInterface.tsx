@@ -22,7 +22,7 @@ export const ProjectInterface = defineComponent({
 	data() {
 		return {
 			state: {},
-			styleContent: {
+			s: {
 				height: "100%",
 				margin: "0 24px 0 16px",
 				overflow: "initial",
@@ -47,7 +47,7 @@ export const ProjectInterface = defineComponent({
 				<aLayout>
 					<aLayoutContent
 						data-app-position="Group-layout-content"
-						style={this.StyleContent}>
+						style={this.styleLayout}>
 						<xRouterView />
 					</aLayoutContent>
 				</aLayout>
