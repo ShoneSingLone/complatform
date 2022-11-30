@@ -5,34 +5,38 @@ import { Cpt_url } from "../../../router/router";
 import { useProjectBasicProperties } from "../../../compositions";
 import "./interface.scss";
 import { InterfaceSider } from "./InterfaceSider";
+import { _ } from "@ventose/ui";
 
 export const ProjectInterface = defineComponent({
 	components: {
 		InterfaceSider
 	},
 	setup() {
-		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
 		return {
 			State_App,
 			Cpt_url,
-			Cpt_currGroupId,
-			Cpt_currProjectId
 		};
 	},
 	data() {
 		return {
 			state: {},
-			s: {
-				height: "100%",
-				margin: "0 24px 0 16px",
-				overflow: "initial",
-				backgroundColor: "#fff"
-			},
 			styleLayout: {
 				marginLeft: "24px",
 				marginTop: "24px"
 			}
 		};
+	},
+	mounted() {
+		const { category_id, interface_id } = this.Cpt_url.query;
+		if (!category_id && !interface_id) {
+			this.Cpt_url.go("/project/interface/all", this.Cpt_url.query)
+		} else if (interface_id && !category_id) {
+			this.Cpt_url.go("/project/interface/all", _.omit(this.Cpt_url.query, ['interface_id']))
+		} else if (!interface_id && category_id) {
+			this.Cpt_url.go("/project/interface/category", _.omit(this.Cpt_url.query))
+		} else if (interface_id && category_id) {
+			this.Cpt_url.go("/project/interface/detail", _.omit(this.Cpt_url.query))
+		}
 	},
 	computed: {},
 	render() {
@@ -41,7 +45,7 @@ export const ProjectInterface = defineComponent({
 				<aLayoutSider
 					width={300}
 					class="flex vertical height100"
-					ref="__$$sider">
+				>
 					<InterfaceSider />
 				</aLayoutSider>
 				<aLayout>

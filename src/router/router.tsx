@@ -3,10 +3,10 @@ import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
 import { Methods_App, State_App } from "../state/State_App";
 const { $t } = State_UI;
-const LazyComponent = (componentName, componentPath) => ({
+/* const LazyComponent = (componentName, componentPath) => ({
 	componentName: componentName,
 	component: () => import(componentPath)
-});
+}); */
 export const routes = [
 	{
 		path: `/login`,

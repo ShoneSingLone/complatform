@@ -239,28 +239,13 @@ export const InterfaceSider = defineComponent({
 		}
 	},
 	render() {
-		const vm = this;
 		return (
 			<div class="ViewProject-sider_wrapper flex vertical">
-				<div class="flex middle padding16">
-					<aTooltip placement="rightTop" title={this.$t("添加分类").label}>
-						<xIcon
-							icon="category"
-							onClick={this.showAddCategoryDialog}
-							class="icon-add-1 pointer"
-						/>
-					</aTooltip>
-					<xGap l="10" />
-					<aInput
-						v-model:value={this.filterText}
-						placeholder={this.$t("搜索接口").label}
-					/>
-				</div>
 				<div
-					class="ViewProjectInterface_tree flex1"
+					class="ViewProjectInterface_tree flex1 mt10 mb10"
 					ref="wrapper"
-					v-loading={vm.loading}>
-					{vm.vDomTree}
+					v-loading={this.loading}>
+					{this.vDomTree}
 				</div>
 			</div>
 		);
