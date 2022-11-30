@@ -39,7 +39,9 @@ export const xRouterView = defineComponent({
 		"Cpt_url.pathname": {
 			immediate: true,
 			async handler(pathname) {
-				this.currentComponent = markRaw(await this.getComponent(pathname.split("/")));
+				this.currentComponent = markRaw(
+					await this.getComponent(pathname.split("/"))
+				);
 			}
 		}
 	},

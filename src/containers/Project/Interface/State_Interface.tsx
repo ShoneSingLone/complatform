@@ -62,7 +62,7 @@ export const Methods_Interface = {
 				},
 				[]
 			);
-			State_Interface.allTags = _.uniqBy(_allTags)
+			State_Interface.allTags = _.uniqBy(_allTags);
 			return State_Interface.allCategory;
 		}
 	}

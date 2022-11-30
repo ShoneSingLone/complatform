@@ -5,10 +5,7 @@ import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL } from "../../../utils/variable";
-import {
-	Methods_Interface,
-	State_Interface
-} from "./State_Interface";
+import { Methods_Interface, State_Interface } from "./State_Interface";
 
 export const InterfaceDetail = defineComponent({
 	render() {

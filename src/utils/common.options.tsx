@@ -25,7 +25,7 @@ export const ITEM_OPTIONS = {
 
 export const ITEM_OPTIONS_VDOM = {
 	httpMethod(cell) {
-		const i = _.find(ITEM_OPTIONS.httpMethod, { value: cell })
-		return <aTag color={i.color}>{i.label}</aTag>
+		const i = _.find(ITEM_OPTIONS.httpMethod, { value: cell });
+		return <aTag color={i.color}>{i.label}</aTag>;
 	}
-}
+};

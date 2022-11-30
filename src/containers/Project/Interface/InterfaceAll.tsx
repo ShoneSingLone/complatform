@@ -1,5 +1,12 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, _, UI, State_UI, defCol } from "@ventose/ui";
+import {
+	$,
+	_,
+	UI,
+	State_UI,
+	defCol,
+	defineXVirTableConfigs
+} from "@ventose/ui";
 import { DialogAddCategory } from "./DialogAddCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";
@@ -53,7 +60,6 @@ export const InterfaceAll = defineComponent({
 						}
 					});
 					console.log("interfaceForShow.length", interfaceForShow.length);
-
 				}
 				prop = paramKeys.pop();
 			}
@@ -80,9 +86,12 @@ export const InterfaceAll = defineComponent({
 				tag: []
 			},
 			records: {},
-			configs_allInterface: {
+			configs_allInterface: defineXVirTableConfigs({
 				rowHeight: 72,
 				dataSource: [],
+				selectedConfigs: {
+					prop: "_id"
+				},
 				columns: {
 					...defCol({
 						label: "接口分类",
@@ -99,7 +108,7 @@ export const InterfaceAll = defineComponent({
 									<aPopover placement="bottomRight" trigger="click">
 										{{
 											default() {
-												return <xIcon icon="search" class="pointer" />;
+												return <xIcon icon="iconFilter" class="pointer" />;
 											},
 											content() {
 												return (
@@ -107,7 +116,7 @@ export const InterfaceAll = defineComponent({
 														<aSelect
 															allowClear
 															mode="multiple"
-															style="width: 188px"
+															style="min-width: 400px"
 															v-model:value={vm.filterParams.catid}
 															class="select">
 															{_.map(vm.State_Interface.allCategory, i => {
@@ -142,10 +151,6 @@ export const InterfaceAll = defineComponent({
 					...defCol({
 						label: "接口名称",
 						prop: "title",
-						selectedType: "many",
-						selected: [],
-						selectedBy: "_id",
-						onSelected() { },
 						renderHeader({ label }) {
 							return (
 								<div class="flex">
@@ -160,17 +165,17 @@ export const InterfaceAll = defineComponent({
 									<aPopover placement="bottomRight" trigger="click">
 										{{
 											default() {
-												return <xIcon icon="search" class="pointer" />;
+												return <xIcon icon="iconFilter" class="pointer" />;
 											},
 											content() {
 												return (
 													<div style="padding: 8px">
-														<aInput
-															ref="searchInput"
+														<aTextarea
+															auto-size={{ minRows: 3, maxRows: 5 }}
 															placeholder={vm.$t("接口名称").label}
 															v-model:value={vm.filterParams.title}
 															allowClear
-															style="width: 188px"
+															style="width: 400px"
 														/>
 													</div>
 												);
@@ -190,7 +195,11 @@ export const InterfaceAll = defineComponent({
 						width: "100px",
 						minWidth: "100px",
 						renderCell({ cell }) {
-							return <div class="flex end width100">{ITEM_OPTIONS_VDOM.httpMethod(cell)}</div>
+							return (
+								<div class="flex end width100">
+									{ITEM_OPTIONS_VDOM.httpMethod(cell)}
+								</div>
+							);
 						}
 					}),
 					...defCol({
@@ -210,17 +219,17 @@ export const InterfaceAll = defineComponent({
 									<aPopover placement="bottomRight" trigger="click">
 										{{
 											default() {
-												return <xIcon icon="search" class="pointer" />;
+												return <xIcon icon="iconFilter" class="pointer" />;
 											},
 											content() {
 												return (
 													<div style="padding: 8px">
-														<aInput
-															ref="searchInput"
+														<aTextarea
+															auto-size={{ minRows: 3, maxRows: 5 }}
 															placeholder={vm.$t("接口路径").label}
 															v-model:value={vm.filterParams.path}
 															allowClear
-															style="width: 188px"
+															style="min-width: 400px"
 														/>
 													</div>
 												);
@@ -231,13 +240,21 @@ export const InterfaceAll = defineComponent({
 							);
 						},
 						renderCell({ cell }) {
-							return <p class="ellipsis" v-uiPopover={{ content: cell }} key={cell}> {cell}</p >;
+							return (
+								<p
+									class="ellipsis"
+									v-uiPopover={{ onlyEllipsis: true }}
+									key={cell}>
+									{" "}
+									{cell}
+								</p>
+							);
 						}
 					}),
 					...defCol({
 						label: "状态",
 						prop: "status",
-						width: "100px",
+						width: "160px",
 						renderHeader({ label }) {
 							const item = _.find(ITEM_OPTIONS.interfaceStatus, {
 								value: vm.filterParams.status
@@ -256,14 +273,14 @@ export const InterfaceAll = defineComponent({
 									<aPopover placement="bottomRight" trigger="click">
 										{{
 											default() {
-												return <xIcon icon="search" class="pointer" />;
+												return <xIcon icon="iconFilter" class="pointer" />;
 											},
 											content() {
 												return (
 													<div style="padding: 8px">
 														<aSelect
 															allowClear
-															style="width: 188px"
+															style="min-width: 100px"
 															v-model:value={vm.filterParams.status}
 															class="select">
 															{_.map(ITEM_OPTIONS.interfaceStatus, i => {
@@ -310,7 +327,7 @@ export const InterfaceAll = defineComponent({
 									<aPopover placement="bottomRight" trigger="click">
 										{{
 											default() {
-												return <xIcon icon="search" class="pointer" />;
+												return <xIcon icon="iconFilter" class="pointer" />;
 											},
 											content() {
 												return (
@@ -318,7 +335,7 @@ export const InterfaceAll = defineComponent({
 														<aSelect
 															allowClear
 															mode="multiple"
-															style="width: 188px"
+															style="width: 400px"
 															v-model:value={vm.filterParams.tag}
 															class="select">
 															{_.map(vm.State_Interface.allTags, i => {
@@ -346,7 +363,7 @@ export const InterfaceAll = defineComponent({
 						}
 					})
 				}
-			}
+			})
 		};
 	},
 	render() {
