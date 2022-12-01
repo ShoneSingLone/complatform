@@ -18,6 +18,7 @@ export const InterfaceSider = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
+			Cpt_currProject,
 			State_Interface,
 			Cpt_interfaceMenuForShow,
 			fnObserveDomResize,
@@ -107,6 +108,19 @@ export const InterfaceSider = defineComponent({
 								}
 								vm.setSelectedKeys(_id);
 							};
+							const genIcon = ({ icon, tips, clickHandler }) => {
+								return (
+									<>
+										<xIcon
+											icon={icon}
+											class="Interfacesider-tree_menu_icon"
+											v-uiPopover={{ content: tips }}
+											onClick={clickHandler}
+										/>
+										<xGap l="8" />
+									</>
+								);
+							};
 
 							if (_id === ALL) {
 								return (
@@ -114,6 +128,13 @@ export const InterfaceSider = defineComponent({
 										<xGap l="10" />
 										<xIcon icon="allCategory" />
 										<span class="Interfacesider-tree_menu_title">{title}</span>
+										<div class="flex middle Interfacesider-tree_menu_opration">
+											{genIcon({
+												icon: "add",
+												tips: vm.$t("添加分类").label,
+												clickHandler: vm.showAddCategoryDialog
+											})}
+										</div>
 									</div>
 								);
 							}
@@ -123,19 +144,6 @@ export const InterfaceSider = defineComponent({
 							}
 
 							const vDomOpration = (() => {
-								const genIcon = ({ icon, tips, clickHandler }) => {
-									return (
-										<>
-											<xIcon
-												icon={icon}
-												class="Interfacesider-tree_menu_icon"
-												v-uiPopover={{ content: tips }}
-												onClick={clickHandler}
-											/>
-											<xGap l="8" />
-										</>
-									);
-								};
 								if (name) {
 									return (
 										<div class="flex middle Interfacesider-tree_menu_opration">
@@ -213,8 +221,8 @@ export const InterfaceSider = defineComponent({
 				title: this.$t("添加分类").label,
 				component: DialogAddCategory,
 				onOk: async instance => {
-					const res = await instance.vm.submit();
-					if (res) {
+					if (await instance.vm.submit()) {
+						UI.message.success("添加分类成功");
 						instance.close();
 					}
 					Methods_Interface.updateInterfaceMenuList();
@@ -227,10 +235,11 @@ export const InterfaceSider = defineComponent({
 			UI.dialog.component({
 				title: this.$t("添加接口").label,
 				categoryId,
+				projectId: this.Cpt_currProject._id,
 				component: DialogAddInterface,
 				onOk: async instance => {
-					const res = await instance.vm.submit();
-					if (res) {
+					if (await instance.vm.submit()) {
+						UI.message.success("添加接口成功");
 						instance.close();
 					}
 					Methods_Interface.updateInterfaceMenuList();

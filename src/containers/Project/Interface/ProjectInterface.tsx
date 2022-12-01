@@ -14,7 +14,7 @@ export const ProjectInterface = defineComponent({
 	setup() {
 		return {
 			State_App,
-			Cpt_url,
+			Cpt_url
 		};
 	},
 	data() {
@@ -27,25 +27,30 @@ export const ProjectInterface = defineComponent({
 		};
 	},
 	mounted() {
-		const { category_id, interface_id } = this.Cpt_url.query;
-		if (!category_id && !interface_id) {
-			this.Cpt_url.go("/project/interface/all", this.Cpt_url.query)
-		} else if (interface_id && !category_id) {
-			this.Cpt_url.go("/project/interface/all", _.omit(this.Cpt_url.query, ['interface_id']))
-		} else if (!interface_id && category_id) {
-			this.Cpt_url.go("/project/interface/category", _.omit(this.Cpt_url.query))
-		} else if (interface_id && category_id) {
-			this.Cpt_url.go("/project/interface/detail", _.omit(this.Cpt_url.query))
-		}
+		this.handlerURL();
 	},
 	computed: {},
+	methods: {
+		handlerURL() {
+			const { category_id, interface_id } = this.Cpt_url.query;
+			if (!category_id && !interface_id) {
+				this.Cpt_url.go("/project/interface/all", this.Cpt_url.query);
+			} else if (interface_id && !category_id) {
+				this.Cpt_url.go(
+					"/project/interface/all",
+					_.omit(this.Cpt_url.query, ["interface_id"])
+				);
+			} else if (!interface_id && category_id) {
+				this.Cpt_url.go("/project/interface/category", this.Cpt_url.query);
+			} else if (interface_id && category_id) {
+				this.Cpt_url.go("/project/interface/detail", this.Cpt_url.query);
+			}
+		}
+	},
 	render() {
 		return (
 			<aLayout id="ViewProjectInterface">
-				<aLayoutSider
-					width={300}
-					class="flex vertical height100"
-				>
+				<aLayoutSider width={300} class="flex vertical height100">
 					<InterfaceSider />
 				</aLayoutSider>
 				<aLayout>

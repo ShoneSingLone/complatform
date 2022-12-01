@@ -98,7 +98,7 @@ const formItemLayout = {
 export const DialogAddProject = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -113,7 +113,7 @@ export const DialogAddProject = defineComponent({
 		return {
 			dataXItem: {
 				...defItem({
-					value: vm.options.groupId || "",
+					value: vm.propDialogOptions.groupId || "",
 					prop: "group_id",
 					label: "所属分组",
 					placeholder: "请选择项目所属的分组",
@@ -196,7 +196,7 @@ export const DialogAddProject = defineComponent({
 		};
 	},
 	mounted() {
-		this.options.vm = this;
+		this.propDialogOptions.vm = this;
 		this.init();
 	},
 

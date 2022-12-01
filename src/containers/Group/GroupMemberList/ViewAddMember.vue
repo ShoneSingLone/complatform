@@ -21,7 +21,7 @@ const { $t } = State_UI;
 export default defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -55,7 +55,7 @@ export default defineComponent({
 		};
 	},
 	mounted() {
-		this.options.vm = this;
+		this.propDialogOptions.vm = this;
 	}
 });
 </script>

@@ -59,6 +59,13 @@ export const project = {
 			}
 		});
 	},
+	addInterface(data) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/add",
+			data
+		});
+	},
 	addInterfaceCategory(data) {
 		return ajax({
 			method: "post",

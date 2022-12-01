@@ -23,7 +23,7 @@ import {
 export default defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -32,7 +32,7 @@ export default defineComponent({
 	},
 	computed: {
 		propProjectName() {
-			return String(this.options?.projectName || "");
+			return String(this.propDialogOptions?.projectName || "");
 		}
 	},
 	data() {
@@ -46,7 +46,7 @@ export default defineComponent({
 						appendRules: [
 							FormRules.custom({
 								validator(value, { configs, rule }) {
-									if (value === vm.options.projectName) {
+									if (value === vm.propDialogOptions.projectName) {
 										rule.msg = "不能与原项目名相同";
 										return FormRules.FAIL;
 									} else {
@@ -62,7 +62,7 @@ export default defineComponent({
 		};
 	},
 	mounted() {
-		this.options.vm = this;
+		this.propDialogOptions.vm = this;
 	}
 });
 </script>

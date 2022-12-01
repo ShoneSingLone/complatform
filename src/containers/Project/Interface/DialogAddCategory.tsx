@@ -8,7 +8,7 @@ import { Cpt_currProject, State_App } from "../../../state/State_App";
 export const DialogAddCategory = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -40,7 +40,7 @@ export const DialogAddCategory = defineComponent({
 		};
 	},
 	mounted() {
-		this.options.vm = this;
+		this.propDialogOptions.vm = this;
 	},
 
 	methods: {
@@ -66,7 +66,7 @@ export const DialogAddCategory = defineComponent({
 	},
 	render() {
 		return (
-			<div class="g-row flex1 height100">
+			<div class="g-row flex1 height100 ">
 				<xGap t="10" />
 				<xForm
 					class="flex vertical"
@@ -80,7 +80,7 @@ export const DialogAddCategory = defineComponent({
 						);
 					})}
 				</xForm>
-				<xGap t="10" />
+				<xGap b="38" />
 			</div>
 		);
 	}

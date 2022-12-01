@@ -7,7 +7,7 @@ const { $t } = State_UI;
 export const DialogAddGroup = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -46,7 +46,7 @@ export const DialogAddGroup = defineComponent({
 		};
 	},
 	mounted() {
-		this.options.vm = this;
+		this.propDialogOptions.vm = this;
 	},
 	computed: {
 		vDomFormItems() {
