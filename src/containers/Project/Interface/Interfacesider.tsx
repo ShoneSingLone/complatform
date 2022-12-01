@@ -10,16 +10,17 @@ import {
 	Methods_Interface,
 	State_Interface
 } from "./State_Interface";
-import { Cpt_url } from "../../../router/router";
 import { DialogAddInterface } from "./DialogAddInterface";
+import { Cpt_url } from "./../../../router/router";
 
 export const InterfaceSider = defineComponent({
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			Cpt_currProject,
 			State_Interface,
+			Cpt_url,
+			Cpt_currProject,
 			Cpt_interfaceMenuForShow,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -53,19 +54,27 @@ export const InterfaceSider = defineComponent({
 			this.setSiderHeight(siderHeight);
 		});
 		Methods_Interface.updateInterfaceMenuList();
+
+		this.setExpand();
 	},
 	beforeUnmount() {
 		this.fnUnobserveDomResize(this.$refs.wrapper);
 	},
 	computed: {
-		currentSelected() {
-			return this.selectedKeys[0] || "NO_SELECTED";
+		cpt_currentSelected() {
+			const { pathname, query } = this.Cpt_url;
+			const StrategyMap = {
+				"/project/interface/all": ALL,
+				"/project/interface/category": query.category_id,
+				"/project/interface/detail": query.interface_id
+			};
+			return StrategyMap[pathname];
 		},
 		vDomTree() {
 			const vm = this;
 			return (
 				<aTree
-					selectedKeys={vm.selectedKeys}
+					v-model:expandedKeys={vm.State_Interface.expandedKeys}
 					height={vm.siderHeight}
 					treeData={vm.Cpt_interfaceMenuForShow}
 					fieldNames={vm.configs.tree.fieldNames}>
@@ -82,7 +91,8 @@ export const InterfaceSider = defineComponent({
 							} = item;
 							const classContentString = (() => {
 								let _classString = "flex middle Interfacesider-tree_menu";
-								if (String(_id) === String(vm.currentSelected)) {
+								console.log(_id,vm.cpt_currentSelected);
+								if (String(_id) == String(vm.cpt_currentSelected)) {
 									return _classString + " Interfacesider-tree_menu_active";
 								}
 								return _classString;
@@ -205,6 +215,14 @@ export const InterfaceSider = defineComponent({
 		}
 	},
 	methods: {
+		setExpand() {
+			const { pathname, query } = this.Cpt_url;
+			if ("/project/interface/detail" === pathname) {
+				this.State_Interface.expandedKeys = [Number(query.category_id)];
+			} else {
+				this.State_Interface.expandedKeys = [];
+			}
+		},
 		setFilterText: _.debounce(function (filterText) {
 			this.State_Interface.filterText = filterText;
 			this.loading = false;

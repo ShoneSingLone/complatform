@@ -1,8 +1,6 @@
-import { defineComponent, ref } from "vue";
-import { Methods_App, State_App } from "../../../state/State_App";
-import { API } from "../../../api";
+import { defineComponent } from "vue";
+import { State_App } from "../../../state/State_App";
 import { Cpt_url } from "../../../router/router";
-import { useProjectBasicProperties } from "../../../compositions";
 import "./interface.scss";
 import { InterfaceSider } from "./InterfaceSider";
 import { _ } from "@ventose/ui";
@@ -26,25 +24,36 @@ export const ProjectInterface = defineComponent({
 			}
 		};
 	},
-	mounted() {
+	created() {
 		this.handlerURL();
 	},
 	computed: {},
 	methods: {
 		handlerURL() {
-			const { category_id, interface_id } = this.Cpt_url.query;
-			if (!category_id && !interface_id) {
-				this.Cpt_url.go("/project/interface/all", this.Cpt_url.query);
-			} else if (interface_id && !category_id) {
-				this.Cpt_url.go(
-					"/project/interface/all",
-					_.omit(this.Cpt_url.query, ["interface_id"])
-				);
-			} else if (!interface_id && category_id) {
-				this.Cpt_url.go("/project/interface/category", this.Cpt_url.query);
-			} else if (interface_id && category_id) {
-				this.Cpt_url.go("/project/interface/detail", this.Cpt_url.query);
-			}
+			const { pathname, query } = this.Cpt_url;
+			const { category_id, interface_id } = query;
+
+			const fnStrategyMap = {
+				"/project/interface/all": () => {
+					this.Cpt_url.go(
+						"/project/interface/all",
+						_.pick(this.Cpt_url.query, ["group_id", "project_id"])
+					);
+				},
+				"/project/interface/category": () => {
+					if (!category_id) {
+						fnStrategyMap["/project/interface/all"]();
+					}
+				},
+				"/project/interface/detail": () => {
+					if (!interface_id) {
+						fnStrategyMap["/project/interface/all"];
+					}
+				}
+			};
+
+			const fn = fnStrategyMap[pathname];
+			fn && fn();
 		}
 	},
 	render() {
