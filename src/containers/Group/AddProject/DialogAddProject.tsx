@@ -5,7 +5,6 @@ import { defineComponent } from "vue";
 import {
 	AllWasWell,
 	defItem,
-	FormRules,
 	pickValueFrom,
 	UI,
 	validateForm,
@@ -16,6 +15,7 @@ import { API } from "../../../api";
 import optionsXIcon from "@/utils/common.options.xIcon";
 import { NAME_LIMIT, PROJECT_COLOR } from "../../../utils/variable";
 import { Methods_App, State_App } from "../../../state/State_App";
+import { FormRules } from "../../../utils/common.FormRules";
 
 export const xItem_ProjectColor = (options: any = {}) => {
 	const [value] = randomValueAndProp(PROJECT_COLOR);

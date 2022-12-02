@@ -421,7 +421,6 @@ html #layuicss-layer {
   border-radius: 2px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   background-color: #000;
-  color: #ffffff;
 }
 .layui-layer-tips .layui-layer-close {
   right: -2px;
@@ -1262,6 +1261,10 @@ div[id^="xDialog_"] {
 
 .ml30 {
   margin-left: 30px;
+}
+
+.invisible {
+  visibility: hidden;
 }
 
 .x-loading {
@@ -37347,7 +37350,7 @@ var jquery = { exports: {} };
 							  });
 					}
 					var rect,
-						win,
+						win2,
 						elem = this[0];
 					if (!elem) {
 						return;
@@ -37356,10 +37359,10 @@ var jquery = { exports: {} };
 						return { top: 0, left: 0 };
 					}
 					rect = elem.getBoundingClientRect();
-					win = elem.ownerDocument.defaultView;
+					win2 = elem.ownerDocument.defaultView;
 					return {
-						top: rect.top + win.pageYOffset,
-						left: rect.left + win.pageXOffset
+						top: rect.top + win2.pageYOffset,
+						left: rect.left + win2.pageXOffset
 					};
 				},
 				position: function () {
@@ -37435,19 +37438,19 @@ var jquery = { exports: {} };
 						return access(
 							this,
 							function (elem, method2, val2) {
-								var win;
+								var win2;
 								if (isWindow2(elem)) {
-									win = elem;
+									win2 = elem;
 								} else if (elem.nodeType === 9) {
-									win = elem.defaultView;
+									win2 = elem.defaultView;
 								}
 								if (val2 === void 0) {
-									return win ? win[prop] : elem[method2];
+									return win2 ? win2[prop] : elem[method2];
 								}
-								if (win) {
-									win.scrollTo(
-										!top ? val2 : win.pageXOffset,
-										top ? val2 : win.pageYOffset
+								if (win2) {
+									win2.scrollTo(
+										!top ? val2 : win2.pageXOffset,
+										top ? val2 : win2.pageYOffset
 									);
 								} else {
 									elem[method2] = val2;
@@ -55709,6 +55712,37 @@ var dayjs_min = { exports: {} };
 	});
 })(dayjs_min);
 const dayjs$1 = dayjs_min.exports;
+function promisifyRequest(request) {
+	return new Promise((resolve, reject) => {
+		request.oncomplete = request.onsuccess = () => resolve(request.result);
+		request.onabort = request.onerror = () => reject(request.error);
+	});
+}
+function createStore(dbName, storeName) {
+	const request = indexedDB.open(dbName);
+	request.onupgradeneeded = () => request.result.createObjectStore(storeName);
+	const dbp = promisifyRequest(request);
+	return (txMode, callback) =>
+		dbp.then(db =>
+			callback(db.transaction(storeName, txMode).objectStore(storeName))
+		);
+}
+let defaultGetStoreFunc;
+function defaultGetStore() {
+	if (!defaultGetStoreFunc) {
+		defaultGetStoreFunc = createStore("keyval-store", "keyval");
+	}
+	return defaultGetStoreFunc;
+}
+function get(key2, customStore = defaultGetStore()) {
+	return customStore("readonly", store => promisifyRequest(store.get(key2)));
+}
+function set(key2, value, customStore = defaultGetStore()) {
+	return customStore("readwrite", store => {
+		store.put(value, key2);
+		return promisifyRequest(store.transaction);
+	});
+}
 mylodash.WORDS = {
 	INVALID_DATE: "Invalid Date",
 	format_ymd: "YYYY-MM-DD"
@@ -55889,20 +55923,25 @@ const parseContent = returnSentence => {
 	if (!returnSentence) return;
 	return new Function(`${returnSentence} return module();`);
 };
-mylodash.asyncLoadText = function (url) {
-	mylodash.asyncLoadText.cache = (() => {
-		if (window.__envMode === "development") {
-			return {};
+mylodash.asyncLoadText = async function (url) {
+	if (!window.___VENTOSE_UI_IS_DEV_MODE) {
+		const res = await get(url);
+		if (res) {
+			return res;
 		}
-		return mylodash.asyncLoadText.cache || {};
-	})();
+	}
 	return new Promise((resolve, reject) =>
 		$$1.ajax({
 			type: "GET",
 			async: true,
 			url,
 			dataType: "text",
-			success: resolve,
+			success(...args2) {
+				if (!window.___VENTOSE_UI_IS_DEV_MODE) {
+					set(url, args2[0]);
+				}
+				resolve.apply(null, args2);
+			},
 			error: reject
 		})
 	);
@@ -55916,7 +55955,7 @@ async function asyncExecFnString(url) {
 }
 mylodash.asyncExecFnString = asyncExecFnString;
 const VueComponents = {};
-async function asyncImportSFC(url) {
+async function asyncImportSFC(url, __Vue) {
 	if (VueComponents[url]) {
 		return VueComponents[url];
 	}
@@ -55937,7 +55976,7 @@ return (${scfObjSourceCode})(argVue,argPayload);
 	} catch (e2) {
 		console.error(e2);
 	}
-	const scfObj = await scfObjAsyncFn(window.Vue, {
+	const scfObj = await scfObjAsyncFn(__Vue, {
 		url
 	});
 	return scfObj;
@@ -56445,37 +56484,6 @@ lStorage.appConfigs = lStorage.appConfigs || {
 		total: "total"
 	}
 };
-function promisifyRequest(request) {
-	return new Promise((resolve, reject) => {
-		request.oncomplete = request.onsuccess = () => resolve(request.result);
-		request.onabort = request.onerror = () => reject(request.error);
-	});
-}
-function createStore(dbName, storeName) {
-	const request = indexedDB.open(dbName);
-	request.onupgradeneeded = () => request.result.createObjectStore(storeName);
-	const dbp = promisifyRequest(request);
-	return (txMode, callback) =>
-		dbp.then(db =>
-			callback(db.transaction(storeName, txMode).objectStore(storeName))
-		);
-}
-let defaultGetStoreFunc;
-function defaultGetStore() {
-	if (!defaultGetStoreFunc) {
-		defaultGetStoreFunc = createStore("keyval-store", "keyval");
-	}
-	return defaultGetStoreFunc;
-}
-function get(key2, customStore = defaultGetStore()) {
-	return customStore("readonly", store => promisifyRequest(store.get(key2)));
-}
-function set(key2, value, customStore = defaultGetStore()) {
-	return customStore("readwrite", store => {
-		store.put(value, key2);
-		return promisifyRequest(store.transaction);
-	});
-}
 let _State_UI = {
 	language: lStorage["language"] || "zh-CN",
 	onLanguageChange: false,
@@ -56485,6 +56493,7 @@ let _State_UI = {
 	},
 	i18nMessage: {},
 	assetsSvgPath: "",
+	assetsPath: "",
 	setAssetsBaseById(eleId) {
 		var _a;
 		const img = document.getElementById(eleId);
@@ -56493,6 +56502,7 @@ let _State_UI = {
 			const index2 =
 				((_a = src.match(/assets(.*)/)) == null ? void 0 : _a.index) || 0;
 			this.assetsSvgPath = src.substring(0, index2) + "assets/svg";
+			this.assetsPath = src.substring(0, index2) + "assets";
 		}
 	},
 	$t(prop, payload = {}, i18nMessage = false) {
@@ -62557,9 +62567,9 @@ each(["Width", "Height"], function (name) {
 			domUtils["viewport".concat(name)](d2)
 		);
 	};
-	domUtils["viewport".concat(name)] = function (win) {
+	domUtils["viewport".concat(name)] = function (win2) {
 		var prop = "client".concat(name);
-		var doc = win.document;
+		var doc = win2.document;
 		var body = doc.body;
 		var documentElement = doc.documentElement;
 		var documentElementProp = documentElement[prop];
@@ -62794,7 +62804,7 @@ function getVisibleRectForElement(element, alwaysByViewport) {
 	};
 	var el = getOffsetParent(element);
 	var doc = utils.getDocument(element);
-	var win = doc.defaultView || doc.parentWindow;
+	var win2 = doc.defaultView || doc.parentWindow;
 	var body = doc.body;
 	var documentElement = doc.documentElement;
 	while (el) {
@@ -62830,18 +62840,18 @@ function getVisibleRectForElement(element, alwaysByViewport) {
 			element.style.position = "fixed";
 		}
 	}
-	var scrollX = utils.getWindowScrollLeft(win);
-	var scrollY = utils.getWindowScrollTop(win);
-	var viewportWidth = utils.viewportWidth(win);
-	var viewportHeight = utils.viewportHeight(win);
+	var scrollX = utils.getWindowScrollLeft(win2);
+	var scrollY = utils.getWindowScrollTop(win2);
+	var viewportWidth = utils.viewportWidth(win2);
+	var viewportHeight = utils.viewportHeight(win2);
 	var documentWidth = documentElement.scrollWidth;
 	var documentHeight = documentElement.scrollHeight;
 	var bodyStyle = window.getComputedStyle(body);
 	if (bodyStyle.overflowX === "hidden") {
-		documentWidth = win.innerWidth;
+		documentWidth = win2.innerWidth;
 	}
 	if (bodyStyle.overflowY === "hidden") {
-		documentHeight = win.innerHeight;
+		documentHeight = win2.innerHeight;
 	}
 	if (element.style) {
 		element.style.position = originalPosition;
@@ -62907,13 +62917,13 @@ function getRegion(node) {
 		w2 = utils.outerWidth(node);
 		h2 = utils.outerHeight(node);
 	} else {
-		var win = utils.getWindow(node);
+		var win2 = utils.getWindow(node);
 		offset2 = {
-			left: utils.getWindowScrollLeft(win),
-			top: utils.getWindowScrollTop(win)
+			left: utils.getWindowScrollLeft(win2),
+			top: utils.getWindowScrollTop(win2)
 		};
-		w2 = utils.viewportWidth(win);
-		h2 = utils.viewportHeight(win);
+		w2 = utils.viewportWidth(win2);
+		h2 = utils.viewportHeight(win2);
 	}
 	offset2.width = w2;
 	offset2.height = h2;
@@ -63184,11 +63194,11 @@ function alignPoint(el, tgtPoint, align) {
 	var pageX;
 	var pageY;
 	var doc = utils.getDocument(el);
-	var win = doc.defaultView || doc.parentWindow;
-	var scrollX = utils.getWindowScrollLeft(win);
-	var scrollY = utils.getWindowScrollTop(win);
-	var viewportWidth = utils.viewportWidth(win);
-	var viewportHeight = utils.viewportHeight(win);
+	var win2 = doc.defaultView || doc.parentWindow;
+	var scrollX = utils.getWindowScrollLeft(win2);
+	var scrollY = utils.getWindowScrollTop(win2);
+	var viewportWidth = utils.viewportWidth(win2);
+	var viewportHeight = utils.viewportHeight(win2);
 	if ("pageX" in tgtPoint) {
 		pageX = tgtPoint.pageX;
 	} else {
@@ -80526,6 +80536,8 @@ const KEY = {
 };
 const $win = $$1(window);
 const $html = $$1("html");
+const LAYUI_LAYER_CONTENT = "layui-layer-content";
+const LAYUI_LAYER_CONTENT_CLASS_NAME = ".layui-layer-content";
 const DOMS = [
 	"layui-layer",
 	".layui-layer-title",
@@ -80770,59 +80782,74 @@ ClassLayer.pt.vessel = function (conType, callback) {
 						zIndex - 1
 				  };"></div>`
 				: "",
-			`<div class="flex vertical ${DOMS[0]} layui-layer-${
-				READY.type[config.type]
-			} ${
-				(config.type == 0 || config.type == 2) && !config.shade
-					? " layui-layer-border"
-					: ""
-			} ${config.skin || ""}"
-				  id="${DOMS[0]}${times}"
-				  type="${READY.type[config.type]}"
-				  times="${times}"
-				  showtime="${config.time}"
-				  conType="${conType ? "object" : "string"}"
-				  style="z-index:${zIndex};
-					  width:${config.area[0]};
-					  height:${config.area[1]};
-					  position:${config.fixed ? "fixed;" : "absolute;"}">
-				${conType && config.type != 2 ? "" : titleHTML}
-				<div id="${config.id || ""}" class="${classContent}">` +
-				(config.type == 0 && config.icon !== -1
-					? '<i class="layui-layer-ico layui-layer-ico' + config.icon + '"></i>'
-					: "") +
-				(config.type == 1 && conType ? "" : config.content || "") +
-				'</div><span class="layui-layer-setwin">' +
-				(function () {
-					var closebtn = ismax
-						? '<a class="layui-layer-min" href="javascript:;"><cite></cite></a><a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>'
+			(() => {
+				const layerInvvisibleClassName =
+					config.type === layer.TIPS ? " invisible" : "";
+				const layerTypeClassName = ` layui-layer-${READY.type[config.type]}`;
+				const layerBoderClassName =
+					(config.type == 0 || config.type == 2) && !config.shade
+						? " layui-layer-border"
 						: "";
-					config.closeBtn &&
-						(closebtn +=
-							'<a class="layui-layer-ico ' +
-							DOMS[7] +
-							" " +
-							DOMS[7] +
-							(config.title ? config.closeBtn : config.type == 4 ? "1" : "2") +
-							'" href="javascript:;"></a>');
-					return closebtn;
-				})() +
-				"</span>" +
-				(config.btn
-					? (function () {
-							var button = "";
-							typeof config.btn === "string" && (config.btn = [config.btn]);
-							if (config.btn.length === 0) return "";
-							for (var i2 = 0, len = config.btn.length; i2 < len; i2++) {
-								button += `<a class="${DOMS[6]}">${config.btn[i2]}</a>`;
-							}
-							return `<div class="${DOMS[6]} layui-layer-btn-${
-								config.btnAlign || ""
-							}">${button}</div>`;
-					  })()
-					: "") +
-				(config.resize ? '<span class="layui-layer-resize"></span>' : "") +
-				"</div>"
+				const layerSkinClassName = config.skin || "";
+				return (
+					`<div class="flex vertical ${
+						DOMS[0]
+					}${layerTypeClassName}${layerInvvisibleClassName}${layerBoderClassName}${layerSkinClassName}" id="${
+						DOMS[0]
+					}${times}"
+					  type="${READY.type[config.type]}"
+					  times="${times}"
+					  showtime="${config.time}"
+					  conType="${conType ? "object" : "string"}"
+					  style="z-index:${zIndex};
+						  width:${config.area[0]};
+						  height:${config.area[1]};
+						  position:${config.fixed ? "fixed;" : "absolute;"}">
+					${conType && config.type != 2 ? "" : titleHTML}
+					<div id="${config.id || ""}" class="${classContent}">` +
+					(config.type == 0 && config.icon !== -1
+						? '<i class="layui-layer-ico layui-layer-ico' +
+						  config.icon +
+						  '"></i>'
+						: "") +
+					(config.type == 1 && conType ? "" : config.content || "") +
+					'</div><span class="layui-layer-setwin">' +
+					(function () {
+						var closebtn = ismax
+							? '<a class="layui-layer-min" href="javascript:;"><cite></cite></a><a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>'
+							: "";
+						config.closeBtn &&
+							(closebtn +=
+								'<a class="layui-layer-ico ' +
+								DOMS[7] +
+								" " +
+								DOMS[7] +
+								(config.title
+									? config.closeBtn
+									: config.type == 4
+									? "1"
+									: "2") +
+								'" href="javascript:;"></a>');
+						return closebtn;
+					})() +
+					"</span>" +
+					(config.btn
+						? (function () {
+								var button = "";
+								typeof config.btn === "string" && (config.btn = [config.btn]);
+								if (config.btn.length === 0) return "";
+								for (var i2 = 0, len = config.btn.length; i2 < len; i2++) {
+									button += `<a class="${DOMS[6]}">${config.btn[i2]}</a>`;
+								}
+								return `<div class="${DOMS[6]} layui-layer-btn-${
+									config.btnAlign || ""
+								}">${button}</div>`;
+						  })()
+						: "") +
+					(config.resize ? '<span class="layui-layer-resize"></span>' : "") +
+					"</div>"
+				);
+			})()
 		],
 		titleHTML,
 		$$1(`<div class="${DOMS_MOVE}" id="${DOMS_MOVE}"></div>`)
@@ -80857,7 +80884,7 @@ ClassLayer.pt.creat = function () {
 				: [config.content || "", "auto"]);
 			config.content = `<iframe 
 	scrolling="${config.content[1] || "auto"}" 
-	allowtransparency="true" id="${DOMS[4] + times}" 
+	allowtransparency="true" id="${LAYUI_LAYER_CONTENT + times}" 
 	onload="this.className=''" 
 	style="height:100%;" 
 	class="layui-layer-load" 
@@ -80887,28 +80914,30 @@ src="${config.content[0]}">
 	that
 		.vessel(conType, function (html, titleHTML, moveElem) {
 			body.append(html[0]);
-			conType
-				? (function () {
-						config.type == 2 || config.type == 4
-							? (function () {
-									$$1("body").append(html[1]);
-							  })()
-							: (function () {
-									if (!content.parents("." + DOMS[0])[0]) {
-										content
-											.data("display", content.css("display"))
-											.show()
-											.addClass("layui-layer-wrap")
-											.wrap(html[1]);
-										$$1("#" + DOMS[0] + times)
-											.find("." + DOMS[5])
-											.before(titleHTML);
-									}
-							  })();
-				  })()
-				: body.append(html[1]);
+			const layeroId = DOMS[0] + times;
+			if (conType) {
+				if (config.type == 2) {
+					$$1("body").append(html[1]);
+				} else if (config.type == layer.TIPS) {
+					const $tips = $$1(html[1]);
+					$$1("body").append($tips);
+				} else {
+					if (!content.parents("." + DOMS[0])[0]) {
+						content
+							.data("display", content.css("display"))
+							.show()
+							.addClass("layui-layer-wrap")
+							.wrap(html[1]);
+						$$1("#" + DOMS[0] + times)
+							.find("." + DOMS[5])
+							.before(titleHTML);
+					}
+				}
+			} else {
+				body.append(html[1]);
+			}
 			$$1("#" + DOMS_MOVE)[0] || body.append((READY.moveElem = moveElem));
-			that.layero = $$1("#" + DOMS[0] + times);
+			that.layero = $$1(`#${layeroId}`);
 			that.shadeo = $$1("#" + DOMS_SHADE + times);
 			config.scrollbar ||
 				$html.css("overflow", "hidden").attr("layer-full", times);
@@ -80918,24 +80947,22 @@ src="${config.content[0]}">
 		"background-color": config.shade[1] || "#000",
 		opacity: config.shade[0] || config.shade
 	});
-	config.type == 2 &&
+	config.type == layer.IFRAME &&
 		layer.ie == 6 &&
 		that.layero.find("iframe").attr("src", content[0]);
-	config.type == 4
-		? that.tips()
-		: (function () {
-				that.offset();
-				parseInt(
-					READY.getStyle(document.getElementById(DOMS_MOVE), "z-index")
-				) ||
-					(function () {
-						that.layero.css("visibility", "hidden");
-						layer.ready(function () {
-							that.offset();
-							that.layero.css("visibility", "visible");
-						});
-					})();
-		  })();
+	if (config.type == layer.TIPS) {
+		that.tips();
+	} else {
+		that.offset();
+		parseInt(READY.getStyle(document.getElementById(DOMS_MOVE), "z-index")) ||
+			(function () {
+				that.layero.css("visibility", "hidden");
+				layer.ready(function () {
+					that.offset();
+					that.layero.css("visibility", "visible");
+				});
+			})();
+	}
 	if (config.fixed) {
 		$win.on("resize", function () {
 			that.offset();
@@ -81063,36 +81090,40 @@ ClassLayer.pt.offset = function () {
 		left: that.offsetLeft
 	});
 };
-ClassLayer.pt.tips = function () {
-	var that = this,
-		config = that.config,
-		layero = that.layero;
-	var layArea = [layero.outerWidth(), layero.outerHeight()],
-		follow = $$1(config.follow);
-	if (!follow[0]) follow = $$1("body");
+ClassLayer.pt.tips = async function () {
+	var that = this;
+	var config = that.config;
+	var layero = that.layero;
+	await new Promise(r2 => {
+		setTimeout(r2, 34);
+	});
+	var layArea = [layero.outerWidth(), layero.outerHeight()];
+	var follow = $$1(config.follow);
+	if (!follow[0]) {
+		follow = $$1("body");
+	}
 	var goal = {
-			width: follow.outerWidth(),
-			height: follow.outerHeight(),
-			top: follow.offset().top,
-			left: follow.offset().left
-		},
-		tipsG = layero.find(".layui-layer-TipsG");
+		width: follow.outerWidth(),
+		height: follow.outerHeight(),
+		top: follow.offset().top,
+		left: follow.offset().left
+	};
+	var tipsG = layero.find(".layui-layer-TipsG");
 	var guide = config.tips[0];
-	config.tips[1] || tipsG.remove();
-	goal.autoLeft = function () {
+	if (!config.tips[1]) {
+		tipsG.remove();
+	}
+	function makeLeftAuto() {
 		if (goal.left + layArea[0] - $win.width() > 0) {
 			goal.tipLeft = goal.left + goal.width - layArea[0];
-			tipsG.css({
-				right: 12,
-				left: "auto"
-			});
+			tipsG.css({ right: 12, left: "auto" });
 		} else {
 			goal.tipLeft = goal.left;
 		}
-	};
+	}
 	goal.where = [
 		function () {
-			goal.autoLeft();
+			makeLeftAuto();
 			goal.tipTop = goal.top - layArea[1] - 10;
 			tipsG
 				.removeClass("layui-layer-TipsB")
@@ -81108,7 +81139,7 @@ ClassLayer.pt.tips = function () {
 				.css("border-bottom-color", config.tips[1]);
 		},
 		function () {
-			goal.autoLeft();
+			makeLeftAuto();
 			goal.tipTop = goal.top + goal.height + 10;
 			tipsG
 				.removeClass("layui-layer-TipsT")
@@ -81146,10 +81177,12 @@ ClassLayer.pt.tips = function () {
 		"background-color": config.tips[1],
 		"padding-right": config.closeBtn ? "30px" : ""
 	});
-	layero.css({
-		left: goal.tipLeft - (config.fixed ? $win.scrollLeft() : 0),
-		top: goal.tipTop - (config.fixed ? $win.scrollTop() : 0)
-	});
+	const layeroPosition = {
+		left: goal.tipLeft - (config.fixed ? win.scrollLeft() : 0),
+		top: goal.tipTop - (config.fixed ? win.scrollTop() : 0)
+	};
+	layero.css(layeroPosition);
+	layero.removeClass("invisible");
 };
 ClassLayer.pt.move = function () {
 	var that = this,
@@ -81350,7 +81383,7 @@ READY.rescollbar = function (index2) {
 	}
 };
 layer.getChildFrame = function (selector, index2) {
-	index2 = index2 || $$1("." + DOMS[4]).attr("times");
+	index2 = index2 || $$1("." + LAYUI_LAYER_CONTENT).attr("times");
 	return $$1("#" + DOMS[0] + index2)
 		.find("iframe")
 		.contents()
@@ -81358,7 +81391,7 @@ layer.getChildFrame = function (selector, index2) {
 };
 layer.getFrameIndex = function (name) {
 	return $$1("#" + name)
-		.parents("." + DOMS[4])
+		.parents("." + LAYUI_LAYER_CONTENT)
 		.attr("times");
 };
 layer.iframeAuto = function (index2) {
@@ -81381,7 +81414,7 @@ layer.iframeSrc = function (index2, url) {
 };
 layer.style = function (index2, options, limit) {
 	var $layero = $$1("#" + DOMS[0] + index2),
-		contElem = $layero.find(".layui-layer-content"),
+		contElem = $layero.find(LAYUI_LAYER_CONTENT_CLASS_NAME),
 		type2 = $layero.attr("type"),
 		titHeight = $layero.find(DOMS[1]).outerHeight() || 0,
 		btnHeight = $layero.find("." + DOMS[6]).outerHeight() || 0;
@@ -81441,7 +81474,7 @@ layer.min = function (index2, options) {
 	layero.attr("position", position);
 	layer.style(index2, settings, true);
 	layero.find(".layui-layer-min").hide();
-	layero.attr("type") === "page" && layero.find(DOMS[4]).hide();
+	layero.attr("type") === "page" && layero.find(LAYUI_LAYER_CONTENT).hide();
 	READY.rescollbar(index2);
 	shadeo.hide();
 };
@@ -81464,7 +81497,7 @@ layer.restore = function (index2) {
 	);
 	layero.find(".layui-layer-max").removeClass("layui-layer-maxmin");
 	layero.find(".layui-layer-min").show();
-	layero.attr("type") === "page" && layero.find(DOMS[4]).show();
+	layero.attr("type") === "page" && layero.find(LAYUI_LAYER_CONTENT).show();
 	READY.rescollbar(index2);
 	shadeo.show();
 };
@@ -81512,7 +81545,7 @@ layer.close = function (index2, callback) {
 			} else {
 				if (type2 === READY.type[2]) {
 					try {
-						var iframe = $$1("#" + DOMS[4] + index2)[0];
+						var iframe = $$1("#" + LAYUI_LAYER_CONTENT + index2)[0];
 						iframe.contentWindow.document.write("");
 						iframe.contentWindow.close();
 						layero.find("." + DOMS[5])[0].removeChild(iframe);
@@ -81904,13 +81937,17 @@ layer.photos = function (options, loop, key2) {
 		}
 	);
 };
-layer.open = deliver => new ClassLayer(deliver).index;
-const timeoutDelay = 400;
+layer.open = deliver => {
+	const res = new ClassLayer(deliver);
+	return res.index;
+};
+const TIMEOUT_DELAY = 200;
 const popverOptionsCollection = {};
 const popverIndexCollection = {};
 const appAddPlugin = {};
 const appDependState = {};
 const timerCollection = {};
+const visibleArea = {};
 function installPopoverDirective(app, appSettings) {
 	const appId = mylodash.genId("appId");
 	appAddPlugin[appId] = appSettings.appPlugins;
@@ -81944,12 +81981,14 @@ function inVisibleArea(followId) {
 		clearTimeout(timerCollection[followId]);
 		delete timerCollection[followId];
 	}
+	visibleArea[followId] = true;
 }
 function closeTips(followId) {
+	delete visibleArea[followId];
 	timerCollection[followId] = setTimeout(() => {
 		layer.close(popverIndexCollection[followId]);
 		delete popverIndexCollection[followId];
-	}, timeoutDelay);
+	}, TIMEOUT_DELAY);
 }
 $$1(document).on("mouseenter.uiPopver", "[data-follow-id]", function (event) {
 	console.log("hover.uiPopver,this", this.dataset);
@@ -81982,7 +82021,7 @@ $$1(document).on("mouseenter.uiPopver", "[data-follow-id]", function (event) {
 	let app;
 	let tipsContent = options.content;
 	let layerTipsOptions = {
-		tips: [layer.UP, "#000"],
+		tips: [layer.UP, "#fff"],
 		time: 1e3 * 60 * 10
 	};
 	if (mylodash.isPlainObject(options.content)) {
@@ -82003,11 +82042,23 @@ $$1(document).on("mouseenter.uiPopver", "[data-follow-id]", function (event) {
 			}
 		};
 	}
-	popverIndexCollection[followId] = layer.tips(
-		tipsContent,
-		`#${followId}`,
-		layerTipsOptions
-	);
+	if (options.delay) {
+		setTimeout(() => {
+			if (visibleArea[followId]) {
+				popverIndexCollection[followId] = layer.tips(
+					tipsContent,
+					`#${followId}`,
+					layerTipsOptions
+				);
+			}
+		}, options.delay);
+	} else {
+		popverIndexCollection[followId] = layer.tips(
+			tipsContent,
+			`#${followId}`,
+			layerTipsOptions
+		);
+	}
 });
 $$1(document).on("mouseleave.uiPopver", "[data-follow-id]", function (event) {
 	closeTips(this.dataset.followId);
@@ -82415,7 +82466,9 @@ const setValueTo = (configs, values) => {
 	return mylodash.map(
 		values,
 		(value, prop) => {
-			configs[prop].value = value;
+			if (configs[prop]) {
+				configs[prop].value = value;
+			}
 		},
 		{}
 	);

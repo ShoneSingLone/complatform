@@ -1,25 +1,7 @@
-import { defineComponent, ref, watch } from "vue";
-import {
-	$,
-	_,
-	UI,
-	State_UI,
-	defCol,
-	defineXVirTableConfigs
-} from "@ventose/ui";
-import { DialogAddCategory } from "./DialogAddCategory";
-import { usefnObserveDomResize } from "../../../compositions/useDomResize";
-import { API } from "../../../api";
-import { Cpt_currProject } from "../../../state/State_App";
-import { ALL } from "../../../utils/variable";
-import {
-	Methods_Interface,
-	State_Interface,
-	useInterfaceTableConfigs
-} from "./State_Interface";
-import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
+import { defineComponent } from "vue";
+import { _ } from "@ventose/ui";
+import { State_Interface, useInterfaceTableConfigs } from "./State_Interface";
 import { Cpt_url } from "./../../../router/router";
-const { $t } = State_UI;
 
 export const InterfaceCategory = defineComponent({
 	setup() {
@@ -65,9 +47,7 @@ export const InterfaceCategory = defineComponent({
 		return (
 			<xView class="flex height100 padding20 vertical InterfaceAll-view">
 				<div class="Operation mb10">
-					<aCard>
-						<aButton>{JSON.stringify(this.Cpt)}</aButton>
-					</aCard>
+					<aCard></aCard>
 				</div>
 				<div
 					class="elevation-1 padding20 flex1"
