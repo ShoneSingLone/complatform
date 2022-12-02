@@ -1,11 +1,10 @@
 import { validateForm, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
-import { FormRules } from "@ventose/ui";
-import { defItem, _ } from "@ventose/ui";
+import { defItem, _, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { Cpt_currProject, State_App } from "../../../state/State_App";
 
-export const DialogAddCategory = defineComponent({
+export const DialogUpsertCategory = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
 		propDialogOptions: {
@@ -41,28 +40,74 @@ export const DialogAddCategory = defineComponent({
 	},
 	mounted() {
 		this.propDialogOptions.vm = this;
+		this.initForm();
 	},
+	computed: {
+		category() {
+			if (this.propDialogOptions.category) {
+				return this.propDialogOptions.category
+			} else {
+				return false
+			}
+		}
 
+	},
 	methods: {
-		async submit() {
+		initForm() {
+			if (this.category) {
+				setValueTo(this.dataXItem, this.category);
+			}
+		},
+		async submit(callback) {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
 				const project_id = Cpt_currProject.value._id;
+				debugger;
 				try {
-					const res = await API.project.addInterfaceCategory({
-						project_id,
-						name,
-						desc
-					});
-					if (res) {
-						return true;
+					if (this.category) {
+						await this.updateOldCategory({ name, desc, project_id })
+					} else {
+						await this.insertNewCategory({ name, desc, project_id })
 					}
+					callback && callback()
+					this.propDialogOptions.close();
 				} catch (error) {
-					UI.message.error("添加失败");
+					if (this.category) {
+						UI.message.error(this.$t("修改_失败", { title: "分类" }).label);
+					} else {
+						UI.message.error(this.$t("添加_失败", { title: "分类" }).label);
+					}
 				}
 			}
+		},
+		async insertNewCategory({ name, desc, project_id }) {
+			const res = await API.project.addInterfaceCategory({
+				project_id,
+				name,
+				desc
+			});
+			debugger;
+			if (res) {
+				UI.message.success(this.$t("添加_成功", { title: "分类" }).label);
+			} else {
+				throw new Error("");
+			}
+		},
+		async updateOldCategory({ name, desc, project_id }) {
+			const res = await API.project.updateInterfaceCategory({
+				project_id,
+				catid: this.category._id,
+				name,
+				desc
+			});
+			if (res) {
+				UI.message.success(this.$t("修改_成功", { title: "分类" }).label);
+			} else {
+				throw new Error("");
+			}
 		}
+
 	},
 	render() {
 		return (

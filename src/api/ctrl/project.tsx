@@ -73,6 +73,13 @@ export const project = {
 			data
 		});
 	},
+	updateInterfaceCategory(data) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/up_cat",
+			data
+		});
+	},
 	fetchInterfaceListMenu(project_id) {
 		return ajax({
 			method: "get",

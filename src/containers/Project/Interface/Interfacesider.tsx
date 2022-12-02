@@ -1,6 +1,6 @@
 import { defineComponent, ref, watch } from "vue";
 import { $, _, UI } from "@ventose/ui";
-import { DialogAddCategory } from "./DialogAddCategory";
+import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
@@ -91,7 +91,7 @@ export const InterfaceSider = defineComponent({
 							} = item;
 							const classContentString = (() => {
 								let _classString = "flex middle Interfacesider-tree_menu";
-								console.log(_id,vm.cpt_currentSelected);
+								console.log(_id, vm.cpt_currentSelected);
 								if (String(_id) == String(vm.cpt_currentSelected)) {
 									return _classString + " Interfacesider-tree_menu_active";
 								}
@@ -139,11 +139,8 @@ export const InterfaceSider = defineComponent({
 										<xIcon icon="allCategory" />
 										<span class="Interfacesider-tree_menu_title">{title}</span>
 										<div class="flex middle Interfacesider-tree_menu_opration">
-											{genIcon({
-												icon: "add",
-												tips: vm.$t("添加分类").label,
-												clickHandler: vm.showAddCategoryDialog
-											})}
+											{genIcon({ icon: "add", tips: vm.$t("添加分类").label, clickHandler: vm.showUpsertCategoryDialog })}
+											{genIcon({ icon: "refresh", tips: vm.$t("刷新").label, clickHandler: Methods_Interface.updateInterfaceMenuList })}
 										</div>
 									</div>
 								);
@@ -167,7 +164,7 @@ export const InterfaceSider = defineComponent({
 												icon: "edit",
 												tips: vm.$t("修改分类").label,
 												clickHandler: $event =>
-													vm.showAddInterfaceDialog(_id, $event)
+													vm.showUpsertCategoryDialog(item)
 											})}
 											{genIcon({
 												icon: "delete",
@@ -234,16 +231,15 @@ export const InterfaceSider = defineComponent({
 		setSiderHeight: _.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
 		}, 20),
-		showAddCategoryDialog() {
+		showUpsertCategoryDialog(category = false) {
 			UI.dialog.component({
-				title: this.$t("添加分类").label,
-				component: DialogAddCategory,
-				onOk: async instance => {
-					if (await instance.vm.submit()) {
-						UI.message.success("添加分类成功");
-						instance.close();
-					}
-					Methods_Interface.updateInterfaceMenuList();
+				title: category ? this.$t("修改分类").label : this.$t("添加分类").label,
+				component: DialogUpsertCategory,
+				category,
+				async onOk({ vm }) {
+					await vm.submit(() => {
+						Methods_Interface.updateInterfaceMenuList();
+					})
 				}
 			});
 		},
