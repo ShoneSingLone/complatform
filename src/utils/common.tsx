@@ -123,3 +123,18 @@ export const _$timeAgo = function (timestamp) {
 		return "刚刚";
 	}
 };
+
+// 交换数组的位置
+export const arrayChangeIndex = (arr, start, end) => {
+	let newArr = [].concat(arr);
+	let startItem = newArr[start];
+	newArr.splice(start, 1);
+	newArr.splice(end, 0, startItem);
+
+	return newArr.map((item, index) => {
+		return {
+			id: item._id,
+			index: index
+		};
+	});
+};

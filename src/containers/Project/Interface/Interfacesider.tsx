@@ -12,6 +12,8 @@ import {
 } from "./State_Interface";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "./../../../router/router";
+import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
+import { arrayChangeIndex } from "../../../utils/common";
 
 export const InterfaceSider = defineComponent({
 	setup() {
@@ -77,7 +79,9 @@ export const InterfaceSider = defineComponent({
 					v-model:expandedKeys={vm.State_Interface.expandedKeys}
 					height={vm.siderHeight}
 					treeData={vm.Cpt_interfaceMenuForShow}
-					fieldNames={vm.configs.tree.fieldNames}>
+					fieldNames={vm.configs.tree.fieldNames}
+					draggable
+					onDrop={vm.handleDropInterface}>
 					{{
 						title(item) {
 							const {
@@ -124,7 +128,7 @@ export const InterfaceSider = defineComponent({
 										<xIcon
 											icon={icon}
 											class="Interfacesider-tree_menu_icon"
-											v-uiPopover={{ content: tips }}
+											v-uiPopover={{ content: tips, delay: 1000 }}
 											onClick={clickHandler}
 										/>
 										<xGap l="8" />
@@ -212,6 +216,47 @@ export const InterfaceSider = defineComponent({
 		}
 	},
 	methods: {
+		async handleDropInterface(e: AntTreeNodeDropEvent) {
+			const dropCatIndex = e.node.pos.split("-")[1] - 1;
+			const dragCatIndex = e.dragNode.pos.split("-")[1] - 1;
+			if (dropCatIndex < 0 || dragCatIndex < 0) {
+				return;
+			}
+			const { allInterface } = this.State_Interface;
+			const dropCatId = allInterface[dropCatIndex]._id;
+			const id = e.dragNode.eventKey;
+			const dragCatId = allInterface[dragCatIndex]._id;
+
+			const dropPos = e.node.pos.split("-");
+			const dropIndex = Number(dropPos[dropPos.length - 1]);
+			const dragPos = e.dragNode.pos.split("-");
+			const dragIndex = Number(dragPos[dragPos.length - 1]);
+
+			debugger;
+			if (id.indexOf("cat") === -1) {
+				if (dropCatId === dragCatId) {
+					// 同一个分类下的接口交换顺序
+					let colList = list[dropCatIndex].list;
+					let changes = arrayChangeIndex(colList, dragIndex, dropIndex);
+					axios.post("/api/interface/up_index", changes).then();
+				} else {
+					await axios.post("/api/interface/up", { id, catid: dropCatId });
+				}
+				const { projectId, router } = this.props;
+				this.props.fetchInterfaceListMenu(projectId);
+				this.props.fetchInterfaceList({ project_id: projectId });
+				if (router && isNaN(router.params.actionId)) {
+					// 更新分类list下的数据
+					let catid = router.params.actionId.substr(4);
+					this.props.fetchInterfaceCatList({ catid });
+				}
+			} else {
+				// 分类之间拖动
+				let changes = arrayChangeIndex(list, dragIndex - 1, dropIndex - 1);
+				axios.post("/api/interface/up_cat_index", changes).then();
+				this.props.fetchInterfaceListMenu(this.props.projectId);
+			}
+		},
 		setExpand() {
 			const { pathname, query } = this.Cpt_url;
 			if ("/project/interface/detail" === pathname) {

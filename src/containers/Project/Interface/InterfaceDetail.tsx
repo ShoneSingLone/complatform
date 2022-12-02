@@ -9,7 +9,7 @@ import { Methods_Interface, State_Interface } from "./State_Interface";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		return {State_Interface}
+		return { State_Interface };
 	},
 	render() {
 		return <h1>{JSON.stringify(this.State_Interface.expandedKeys)}</h1>;

@@ -60,9 +60,7 @@ export const InterfaceAll = defineComponent({
 		return (
 			<xView class="flex height100 padding20 vertical InterfaceAll-view">
 				<div class="Operation mb10">
-					<aCard>
-						<aButton>{JSON.stringify(this.Cpt)}</aButton>
-					</aCard>
+					<aCard>asdf</aCard>
 				</div>
 				<div
 					class="elevation-1 padding20 flex1"
