@@ -20,15 +20,10 @@ import {
 
 export const InterfaceAll = defineComponent({
 	setup() {
-		const {
-			isLoading,
-			filterParams,
-			configs_interfaceTable,
-			fnUpdateListForShow
-		} = useInterfaceTableConfigs(true);
+		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
+			useInterfaceTableConfigs(true);
 
 		return {
-			isLoading,
 			State_Interface,
 			filterParams,
 			configs_interfaceTable,
@@ -45,9 +40,9 @@ export const InterfaceAll = defineComponent({
 		},
 		filterParams: {
 			deep: true,
-			handler(allInterface) {
-				debugger;
-				this.isLoading = true;
+			handler() {
+				this.State_Interface.isLoading = true;
+				this.configs_interfaceTable.selected = [];
 				this.fnUpdateListForShow();
 			}
 		}
@@ -57,15 +52,18 @@ export const InterfaceAll = defineComponent({
 		return {};
 	},
 	render() {
+		const vm = this;
 		return (
 			<xView class="flex height100 padding20 vertical InterfaceAll-view">
 				<div class="Operation mb10">
-					<aCard>asdf</aCard>
+					<aCard>
+						<xButton>{vm.$t("变更状态").label}</xButton>
+						<xButton>{vm.$t("添加Tag").label}</xButton>
+						<xButton>{vm.$t("开启代理").label}</xButton>
+						<xButton>{vm.$t("转发环境").label}</xButton>
+					</aCard>
 				</div>
-				<div
-					class="elevation-1 padding20 flex1"
-					style={{ height: "100px" }}
-					v-loading={this.isLoading}>
+				<div class="elevation-1 padding20 flex1" style={{ height: "100px" }}>
 					<xVirTable
 						configs={this.configs_interfaceTable}
 						class="flex1 width100 "

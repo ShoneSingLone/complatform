@@ -1,4 +1,14 @@
 export const ALL = "ALL";
+import { State_UI } from "@ventose/ui";
+export const DefaultInterfaceMenu = [
+	{
+		_id: ALL,
+		title: State_UI.$t("全部接口").label,
+		menuType: ALL,
+		list: []
+	}
+];
+
 // 默认每页展示10条数据
 export const PAGE_LIMIT = 10;
 // 限制名称的字符长度(中文算两个长度)

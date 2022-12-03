@@ -73,10 +73,38 @@ export const project = {
 			data
 		});
 	},
+	updateInterface(data) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/up",
+			data
+		});
+	},
+	deleteInterfaceCategoryById(id) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/del_cat",
+			data: { catid: id }
+		});
+	},
 	updateInterfaceCategory(data) {
 		return ajax({
 			method: "post",
 			url: "/api/interface/up_cat",
+			data
+		});
+	},
+	switchManyCategoryOrder(data) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/up_cat_index",
+			data
+		});
+	},
+	switchManyInterfaceOrder(data) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/up_index",
 			data
 		});
 	},

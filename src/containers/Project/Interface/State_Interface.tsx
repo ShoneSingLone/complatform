@@ -9,18 +9,12 @@ import {
 } from "@ventose/ui";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
-import { ALL } from "../../../utils/variable";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
+import { Cpt_url } from "../../../router/router";
 const { $t } = State_UI;
 
-const DefaultMenu = [
-	{
-		_id: ALL,
-		title: State_UI.$t("全部接口").label
-	}
-];
-
 const defautlValue = () => ({
+	isLoading: false,
 	list: [],
 	filterText: "",
 	allInterface: [],
@@ -42,19 +36,64 @@ const _State_Interface = defautlValue();
 export const State_Interface = reactive(_State_Interface);
 
 export const Methods_Interface = {
+	resetURL: _.debounce(function () {
+		const { pathname, query } = Cpt_url.value;
+		const { category_id, interface_id } = query;
+		const fnStrategyMap = {
+			"/project/interface/all": () => {
+				Cpt_url.value.go(
+					"/project/interface/all",
+					_.pick(Cpt_url.value.query, ["group_id", "project_id"])
+				);
+			},
+			"/project/interface/category": () => {
+				if (!category_id) {
+					fnStrategyMap["/project/interface/all"]();
+				}
+			},
+			"/project/interface/detail": () => {
+				if (!interface_id) {
+					fnStrategyMap["/project/interface/all"]();
+				}
+			}
+		};
+
+		const fn = fnStrategyMap[pathname];
+		if (fn) {
+			fn();
+		} else {
+			fnStrategyMap["/project/interface/all"]();
+		}
+	}, 100),
 	async updateInterfaceMenuList() {
 		const { data } = await API.project.fetchInterfaceListMenu(
 			Cpt_currProject.value._id
 		);
 		if (data) {
 			/* @ts-ignore */
-			const allCategory = data.map(i => ({
-				...i,
-				isCategory: true,
-				title: i.name,
-				value: i._id,
-				label: i.name
-			}));
+			const allCategory = data.map(category => {
+				const list = _.map(category.list, i => {
+					return {
+						...i,
+						menuType: "interface",
+						categoryName: category.title,
+						categoryId: category._id
+					};
+				});
+				return {
+					...category,
+					list,
+					isCategory: true,
+					categoryName: category.title,
+					categoryId: category._id,
+					menuType: "category",
+					title: category.name,
+					/* 下拉选项 */
+					value: category._id,
+					label: category.name
+				};
+			});
+
 			State_Interface.allCategory = allCategory;
 			State_Interface.allInterface = _.reduce(
 				allCategory,
@@ -79,72 +118,7 @@ export const Methods_Interface = {
 	}
 };
 
-export const Cpt_interfaceMenuForShow = computed(() => {
-	let menulListFilted = _.cloneDeep(State_Interface.allCategory);
-	if (!_.isArrayFill(menulListFilted)) {
-		return DefaultMenu;
-	}
-	menulListFilted = DefaultMenu.concat(menulListFilted);
-	if (State_Interface.filterText) {
-		const reg = new RegExp(State_Interface.filterText, "i");
-		menulListFilted = _.filter(menulListFilted, category => {
-			if (category._id === ALL) {
-				return true;
-			}
-			/* 处理分类：name */
-			let isOk = reg.test(category.name);
-			if (isOk) {
-				return true;
-			}
-			/* 处理分类：desc */
-			isOk = reg.test(category.desc);
-			if (isOk) {
-				return true;
-			}
-			if (_.isArrayFill(category.list)) {
-				/* 过滤符合条件的接口 */
-				category.list = _.filter(category.list, i => {
-					let isOk = reg.test(i.title);
-					if (isOk) {
-						return true;
-					}
-					isOk = reg.test(i.path);
-					if (isOk) {
-						return true;
-					}
-					return false;
-				});
-				/* 有符合条件的接口，category予以展示 */
-				if (_.isArrayFill(category.list)) {
-					return true;
-				}
-			}
-
-			return false;
-		});
-	}
-
-	const _interfaceListForShow = _.map(menulListFilted, category => {
-		/* category 使用的是name */
-		if (category.name) {
-			category.title = category.name;
-			category.isCategory = true;
-			category.list = _.map(category.list, i => {
-				return {
-					...i,
-					categoryName: category.title,
-					categoryId: category._id
-				};
-			});
-		}
-		return category;
-	});
-
-	return _interfaceListForShow;
-});
-
 export function useInterfaceTableConfigs(isAll = false) {
-	const isLoading = ref(false);
 	const filterParams = reactive({
 		name: "",
 		path: "",
@@ -461,19 +435,14 @@ export function useInterfaceTableConfigs(isAll = false) {
 			}
 			prop = paramKeys.pop();
 		}
-		configs_interfaceTable.dataSource = _.sortBy(interfaceForShow, [
-			"catid",
-			"title",
-			"method",
-			"path",
-			"status",
-			"tag"
-		]);
-		isLoading.value = false;
+		configs_interfaceTable.dataSource = interfaceForShow;
+
+		setTimeout(() => {
+			State_Interface.isLoading = false;
+		}, 100);
 	}, 500);
 
 	return {
-		isLoading,
 		filterParams,
 		configs_interfaceTable,
 		fnUpdateListForShow

@@ -2,16 +2,18 @@ import { defineComponent } from "vue";
 import { State_App } from "../../../state/State_App";
 import { Cpt_url } from "../../../router/router";
 import "./interface.scss";
-import { InterfaceSider } from "./InterfaceSider";
+import { ProjectInterfaceLeftSider } from "./ProjectInterfaceLeftSider";
 import { _ } from "@ventose/ui";
+import { State_Interface, Methods_Interface } from "./State_Interface";
 
 export const ProjectInterface = defineComponent({
 	components: {
-		InterfaceSider
+		ProjectInterfaceLeftSider
 	},
 	setup() {
 		return {
 			State_App,
+			State_Interface,
 			Cpt_url
 		};
 	},
@@ -25,42 +27,16 @@ export const ProjectInterface = defineComponent({
 		};
 	},
 	created() {
-		this.handlerURL();
+		Methods_Interface.resetURL();
 	},
-	computed: {},
-	methods: {
-		handlerURL() {
-			const { pathname, query } = this.Cpt_url;
-			const { category_id, interface_id } = query;
-
-			const fnStrategyMap = {
-				"/project/interface/all": () => {
-					this.Cpt_url.go(
-						"/project/interface/all",
-						_.pick(this.Cpt_url.query, ["group_id", "project_id"])
-					);
-				},
-				"/project/interface/category": () => {
-					if (!category_id) {
-						fnStrategyMap["/project/interface/all"]();
-					}
-				},
-				"/project/interface/detail": () => {
-					if (!interface_id) {
-						fnStrategyMap["/project/interface/all"];
-					}
-				}
-			};
-
-			const fn = fnStrategyMap[pathname];
-			fn && fn();
-		}
-	},
+	methods: {},
 	render() {
 		return (
-			<aLayout id="ViewProjectInterface">
+			<aLayout
+				id="ViewProjectInterface"
+				v-loading={this.State_Interface.isLoading}>
 				<aLayoutSider width={300} class="flex vertical height100">
-					<InterfaceSider />
+					<ProjectInterfaceLeftSider />
 				</aLayoutSider>
 				<aLayout>
 					<aLayoutContent

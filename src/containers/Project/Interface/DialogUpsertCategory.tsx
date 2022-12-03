@@ -45,12 +45,11 @@ export const DialogUpsertCategory = defineComponent({
 	computed: {
 		category() {
 			if (this.propDialogOptions.category) {
-				return this.propDialogOptions.category
+				return this.propDialogOptions.category;
 			} else {
-				return false
+				return false;
 			}
 		}
-
 	},
 	methods: {
 		initForm() {
@@ -63,14 +62,13 @@ export const DialogUpsertCategory = defineComponent({
 			if (AllWasWell(validateResults)) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
 				const project_id = Cpt_currProject.value._id;
-				debugger;
 				try {
 					if (this.category) {
-						await this.updateOldCategory({ name, desc, project_id })
+						await this.updateOldCategory({ name, desc, project_id });
 					} else {
-						await this.insertNewCategory({ name, desc, project_id })
+						await this.insertNewCategory({ name, desc, project_id });
 					}
-					callback && callback()
+					callback && callback();
 					this.propDialogOptions.close();
 				} catch (error) {
 					if (this.category) {
@@ -87,7 +85,6 @@ export const DialogUpsertCategory = defineComponent({
 				name,
 				desc
 			});
-			debugger;
 			if (res) {
 				UI.message.success(this.$t("添加_成功", { title: "分类" }).label);
 			} else {
@@ -107,7 +104,6 @@ export const DialogUpsertCategory = defineComponent({
 				throw new Error("");
 			}
 		}
-
 	},
 	render() {
 		return (

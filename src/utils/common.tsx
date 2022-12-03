@@ -125,16 +125,31 @@ export const _$timeAgo = function (timestamp) {
 };
 
 // 交换数组的位置
-export const arrayChangeIndex = (arr, start, end) => {
-	let newArr = [].concat(arr);
-	let startItem = newArr[start];
-	newArr.splice(start, 1);
-	newArr.splice(end, 0, startItem);
+export const arrayChangeIndex = (arr, dragId, dropId) => {
+	arr = JSON.parse(JSON.stringify(arr));
+	const findBy = { _id: dragId };
+	const dragItem = _.find(arr, findBy);
+	const dragIndex = _.findIndex(arr, findBy);
+	const dropIndex = _.findIndex(arr, { _id: dropId });
 
-	return newArr.map((item, index) => {
-		return {
-			id: item._id,
-			index: index
-		};
-	});
+	if (dragIndex > -1 && dropIndex > -1) {
+		arr[dragIndex] = null;
+		arr.splice(dropIndex, 0, dragItem);
+		let index = 0;
+		return _.reduce(
+			arr,
+			(_arr, item) => {
+				if (item) {
+					_arr.push({
+						id: item._id,
+						index: index++
+					});
+				}
+				return _arr;
+			},
+			[]
+		);
+	} else {
+		return [];
+	}
 };

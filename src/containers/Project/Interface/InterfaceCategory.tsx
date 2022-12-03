@@ -23,17 +23,12 @@ const { $t } = State_UI;
 
 export const InterfaceCategory = defineComponent({
 	setup() {
-		const {
-			isLoading,
-			filterParams,
-			configs_interfaceTable,
-			fnUpdateListForShow
-		} = useInterfaceTableConfigs();
+		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
+			useInterfaceTableConfigs();
 
 		return {
 			State_Interface,
 			Cpt_url,
-			isLoading,
 			filterParams,
 			configs_interfaceTable,
 			fnUpdateListForShow
@@ -50,8 +45,12 @@ export const InterfaceCategory = defineComponent({
 		filterParams: {
 			deep: true,
 			handler(allInterface) {
-				this.isLoading = true;
+				this.State_Interface.isLoading = true;
+				this.configs_interfaceTable.selected = [];
 				this.fnUpdateListForShow();
+				setTimeout(() => {
+					this.State_Interface.isLoading = false;
+				}, 10 * 1000);
 			}
 		},
 		"Cpt_url.query.category_id": {
@@ -67,12 +66,10 @@ export const InterfaceCategory = defineComponent({
 				<div class="Operation mb10">
 					<aCard>
 						<aButton>{JSON.stringify(this.Cpt)}</aButton>
+						{this.configs_interfaceTable.selected}
 					</aCard>
 				</div>
-				<div
-					class="elevation-1 padding20 flex1"
-					style={{ height: "100px" }}
-					v-loading={this.isLoading}>
+				<div class="elevation-1 padding20 flex1" style={{ height: "100px" }}>
 					<xVirTable
 						configs={this.configs_interfaceTable}
 						class="flex1 width100 "
