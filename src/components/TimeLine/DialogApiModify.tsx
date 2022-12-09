@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 import { State_App } from "../../state/State_App";
 
 export const DialogApiModify = defineComponent({
@@ -23,7 +23,7 @@ export const DialogApiModify = defineComponent({
 			if (this.propDiffView.length === 0) {
 				return <ErrMsg type="noChange" />;
 			} else {
-				return _.map(this.propDiffView, (item, index) => {
+				return vUtils.map(this.propDiffView, (item, index) => {
 					if (!item.content) {
 						return null;
 					}

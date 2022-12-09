@@ -5,7 +5,7 @@ import {
 	UI,
 	State_UI,
 	defCol,
-	defineXVirTableConfigs
+	defXVirTableConfigs
 } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";

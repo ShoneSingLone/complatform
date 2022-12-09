@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Row, Icon, Input, Select, Tooltip } from "ant-design-vue";
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 const Option = Select.Option;
 
 // 深拷贝

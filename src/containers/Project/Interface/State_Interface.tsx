@@ -5,7 +5,7 @@ import {
 	UI,
 	State_UI,
 	defCol,
-	defineXVirTableConfigs
+	defXVirTableConfigs
 } from "@ventose/ui";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
@@ -128,7 +128,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 	});
 
 	const configs_interfaceTable = reactive(
-		defineXVirTableConfigs({
+		defXVirTableConfigs({
 			rowHeight: 72,
 			dataSource: [],
 			selectedConfigs: {

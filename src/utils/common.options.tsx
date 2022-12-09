@@ -1,5 +1,5 @@
 import { HTTP_METHOD } from "./variable";
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 
 export const ITEM_OPTIONS = {
 	httpMethod: _.map(HTTP_METHOD, (item, prop) => ({

@@ -3,7 +3,7 @@ import { Table } from "ant-design-vue";
 import json5 from "json5";
 
 import { schemaTransformToTable } from "../../../common/schema-transformTo-table.js";
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 import "./index.scss";
 
 const messageMap = {

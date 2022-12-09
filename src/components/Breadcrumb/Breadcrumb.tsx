@@ -1,7 +1,7 @@
 import "./Breadcrumb.scss";
 
 import { defineComponent } from "vue";
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 import { Cpt_currProject, State_App } from "../../state/State_App";
 import { Cpt_url } from "../../router/router";
 

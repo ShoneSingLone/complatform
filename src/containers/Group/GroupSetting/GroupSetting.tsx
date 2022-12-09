@@ -22,7 +22,7 @@ import {
 } from "../../../reducer/modules/group.js";
 const { TextArea } = Input;
 import { trim } from "../../../common.js";
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 import "./GroupSetting.scss";
 const confirm = Modal.confirm;
 

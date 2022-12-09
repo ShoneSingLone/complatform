@@ -15,7 +15,7 @@ import {
 	Alert
 } from "ant-design-vue";
 import AceEditor from "client/components/AceEditor/AceEditor";
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 import { isJson, deepCopyJson, json5_parse } from "../../common.js";
 import axios from "axios";
 import ModalPostman from "../ModalPostman/index.js";

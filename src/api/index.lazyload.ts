@@ -1,4 +1,4 @@
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 
 const APP_API_CACHE = {};
 const isPending = {};

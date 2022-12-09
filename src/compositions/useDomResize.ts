@@ -1,4 +1,4 @@
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 export const usefnObserveDomResize = () => {
 	function fnObserveDomResize($el, callback) {
 		//初始化这个观察类 如果有变化了 那么就调用二chart的resize方法改变大小

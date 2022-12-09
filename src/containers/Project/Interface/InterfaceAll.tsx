@@ -5,7 +5,7 @@ import {
 	UI,
 	State_UI,
 	defCol,
-	defineXVirTableConfigs
+	defXVirTableConfigs
 } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";
@@ -20,9 +20,7 @@ import {
 
 export const InterfaceAll = defineComponent({
 	setup() {
-		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
-			useInterfaceTableConfigs(true);
-
+		const { filterParams, configs_interfaceTable, fnUpdateListForShow } = useInterfaceTableConfigs(true);
 		return {
 			State_Interface,
 			filterParams,

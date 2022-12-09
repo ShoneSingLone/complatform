@@ -3,7 +3,7 @@ import { State_App } from "../../../state/State_App";
 import { Cpt_url } from "../../../router/router";
 import "./interface.scss";
 import { ProjectInterfaceLeftSider } from "./ProjectInterfaceLeftSider";
-import { _ } from "@ventose/ui";
+import { vUtils } from "@ventose/ui";
 import { State_Interface, Methods_Interface } from "./State_Interface";
 
 export const ProjectInterface = defineComponent({
