@@ -1,19 +1,22 @@
 {
   "pathalias": {
-    "@": "${cwd}/src"
+    "@": "${cwd}/src",
+    "@ventose/ui": "${cwd}/src/devui/VentoseUI.es.js"
   },
   "name": "complatfrom",
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "bs": "npm i",
+    "bs": "pnpm i",
     "start": "vite --open --host",
     "build": "npm run genIconJSON && vite build",
     "genIconJSON_comment": "在public下的icon svg资源，获取文件名，用于系统图标的下拉选项 ",
     "genIconJSON": "node ./preprocess/genIconJSON.js",
     "lint": "prettier --write ./src",
     "update:ui_comment": "更新UI库",
-    "update:ui": "npm uninstall @ventose/ui -S && npm i @ventose/ui -S",
+    "update:ui": "pnpm uninstall @ventose/ui && pnpm i @ventose/ui -S",
+    "git:pull": "git pull gitee dev & git pull github dev",
+    "git:push": "git push gitee dev & git push github dev",
     "preview": "vite preview"
   },
   "dependencies": {
