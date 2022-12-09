@@ -14,7 +14,7 @@
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { _, defItem, State_UI, FormRules } from "@ventose/ui";
+import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
 import {
 	xItem_ProjectIcon,
 	xItem_ProjectName
@@ -41,7 +41,7 @@ export default defineComponent({
 			alertMessage: `该操作将会复制 ${this.propProjectName} 下的所有接口集合，但不包括测试集合中的接口`,
 			formItems: {
 				...defItem(
-					xItem_ProjectName({
+					xItemxU.rojectName({
 						value: this.propProjectName,
 						appendRules: [
 							FormRules.custom({
@@ -57,7 +57,7 @@ export default defineComponent({
 						]
 					})
 				),
-				...defItem(xItem_ProjectIcon())
+				...defItem(xItemxU.rojectIcon())
 			}
 		};
 	},

@@ -4,7 +4,7 @@ import Srch from "./Search/Search";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import GuideBtns from "../GuideBtns/GuideBtns";
 import { defineComponent, VNode } from "vue";
-import { UI, _ } from "@ventose/ui";
+import { UI, xU } from "@ventose/ui";
 import { Methods_App, State_App } from "./../../state/State_App";
 import { Cpt_url } from "../../router/router";
 
@@ -182,7 +182,7 @@ export const AppHeader = defineComponent({
 							Methods_App.logoutActions();
 						}
 					}}>
-					{_.map(
+					{xU.map(
 						{
 							user: {
 								path: `/user/profile/${uid}`,

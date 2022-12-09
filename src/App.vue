@@ -2,7 +2,7 @@
 /*https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup*/
 import "./style.css";
 import { defineComponent } from "vue";
-import { vUtils } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
 import { State_App } from "@/state/State_App.tsx";

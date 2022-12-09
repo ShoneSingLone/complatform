@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { _, defItem, State_UI, FormRules } from "@ventose/ui";
+import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
 import { xItemUAC } from "../../../components/xItemRender/xItemUAC";
 
 const { $t } = State_UI;
@@ -50,7 +50,7 @@ export const DialogAddGroup = defineComponent({
 	},
 	computed: {
 		vDomFormItems() {
-			return _.map(this.formItems, (item, prop) => {
+			return xU.map(this.formItems, (item, prop) => {
 				return (
 					<>
 						<xGap t="10" />

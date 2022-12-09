@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { API } from "@/api";
-import { vUtils } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 
 /**
  * 用户名输入框自动完成组件
@@ -45,14 +45,14 @@ export default defineComponent({
 		};
 	},
 	methods: {
-		doSearch: _.debounce(function (params) {
+		doSearch: xU.debounce(function (params) {
 			API.user
 				.searchUser(params)
 				.then(({ data }) => {
 					let userList = [];
-					if (_.isArrayFill(data)) {
+					if (xU.isArrayFill(data)) {
 						// 取回搜索值后，设置 dataSource
-						userList = _.map(data, v => {
+						userList = xU.map(data, v => {
 							return {
 								username: v.username,
 								id: v.uid
@@ -82,7 +82,7 @@ export default defineComponent({
 	},
 	computed: {
 		children() {
-			return _.map(this.state.dataSource, (item, index) => (
+			return xU.map(this.state.dataSource, (item, index) => (
 				<aSelectOption key={index} value={"" + item.id}>
 					{item.username}
 				</aSelectOption>

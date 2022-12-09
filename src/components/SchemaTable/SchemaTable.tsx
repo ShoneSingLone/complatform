@@ -3,7 +3,7 @@ import { Table } from "ant-design-vue";
 import json5 from "json5";
 
 import { schemaTransformToTable } from "../../../common/schema-transformTo-table.js";
-import { vUtils } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import "./index.scss";
 
 const messageMap = {
@@ -60,7 +60,7 @@ const columns = [
 		key: "default",
 		width: 80,
 		render: text => {
-			return <div>{_.isBoolean(text) ? text + "" : text}</div>;
+			return <div>{xU.isBoolean(text) ? text + "" : text}</div>;
 		}
 	},
 	{
@@ -68,7 +68,7 @@ const columns = [
 		dataIndex: "desc",
 		key: "desc",
 		render: (text, item) => {
-			return _.isUndefined(item.childrenDesc) ? (
+			return xU.isUndefined(item.childrenDesc) ? (
 				<span class="table-desc">{text}</span>
 			) : (
 				<span class="table-desc">{item.childrenDesc}</span>
@@ -86,7 +86,8 @@ const columns = [
 			return Object.keys(result).map((item, index) => {
 				let name = messageMap[item];
 				let value = result[item];
-				let isShow = !_.isUndefined(result[item]) && !_.isUndefined(name);
+				let isShow =
+					!xU.isUndefined(result[item]) && !xU.isUndefined(name);
 
 				return (
 					isShow && (
@@ -121,7 +122,7 @@ class SchemaTable extends Component {
 			return null;
 		}
 		let data = schemaTransformToTable(product);
-		data = _.isArray(data) ? data : [];
+		data = xU.isArray(data) ? data : [];
 		return (
 			<Table
 				bordered

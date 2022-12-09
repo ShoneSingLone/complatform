@@ -1,5 +1,5 @@
 import { validateForm, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
-import { defItem, _, FormRules, setValueTo } from "@ventose/ui";
+import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { Cpt_currProject, State_App } from "../../../state/State_App";
@@ -112,7 +112,7 @@ export const DialogUpsertCategory = defineComponent({
 				<xForm
 					class="flex vertical"
 					labelStyle={{ "min-width": "120px", width: "unset" }}>
-					{_.map(this.dataXItem, (configs, prop) => {
+					{xU.map(this.dataXItem, (configs, prop) => {
 						return (
 							<>
 								<xGap t="10" />

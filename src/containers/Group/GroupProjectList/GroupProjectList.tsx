@@ -4,7 +4,13 @@ import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 import "./ProjectList.scss";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
-import { AllWasWell, pickValueFrom, UI, validateForm, _ } from "@ventose/ui";
+import {
+	AllWasWell,
+	pickValueFrom,
+	UI,
+	validateForm,
+	xU
+} from "@ventose/ui";
 import { Cpt_url } from "../../../router/router";
 import { DialogAddProject } from "../AddProject/DialogAddProject";
 
@@ -14,7 +20,7 @@ export const GroupProjectList = defineComponent({
 	},
 	data() {
 		const vm = this;
-		vm.fetchProjectList = _.debounce(async function () {
+		vm.fetchProjectList = xU.debounce(async function () {
 			await Methods_App.fetchProjectList(vm.Cpt_url.query.group_id);
 			vm.isLoading = false;
 		});
@@ -52,11 +58,12 @@ export const GroupProjectList = defineComponent({
 		},
 		vDomNoFollowPanel() {
 			const isUnfollow = project => !project.follow;
-			let unfollowArray = _.sortBy(_.filter(this.projectData, isUnfollow), [
-				"up_time"
-			]);
+			let unfollowArray = xU.sortBy(
+				xU.filter(this.projectData, isUnfollow),
+				["up_time"]
+			);
 
-			if (_.isArrayFill(unfollowArray)) {
+			if (xU.isArrayFill(unfollowArray)) {
 				return (
 					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
 						<h3 class="owner-type">我的项目</h3>
@@ -68,10 +75,11 @@ export const GroupProjectList = defineComponent({
 		},
 		vDomFollowPanel() {
 			const isFollow = project => !!project.follow;
-			let followProject = _.sortBy(_.filter(this.projectData, isFollow), [
-				"up_time"
-			]);
-			if (_.isArrayFill(followProject)) {
+			let followProject = xU.sortBy(
+				xU.filter(this.projectData, isFollow),
+				["up_time"]
+			);
+			if (xU.isArrayFill(followProject)) {
 				return (
 					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
 						<h3 class="owner-type">我的关注</h3>
@@ -136,7 +144,7 @@ export const GroupProjectList = defineComponent({
 		genProjectCard(projectItems, isShow = false) {
 			return (
 				<div class="flex like-float">
-					{_.map(projectItems, (item, index) => {
+					{xU.map(projectItems, (item, index) => {
 						return (
 							<ProjectCard
 								isShow={isShow}

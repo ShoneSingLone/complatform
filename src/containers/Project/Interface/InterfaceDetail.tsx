@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, _, UI } from "@ventose/ui";
+import { $, xU, UI } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";

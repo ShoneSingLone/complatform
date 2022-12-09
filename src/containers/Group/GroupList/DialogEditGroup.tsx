@@ -39,7 +39,7 @@ export const DialogEditGroup = defineComponent({
 			return this.propDialogOptions?.row || {};
 		},
 		vDomFormItems() {
-			return _.map(this.formItems, (item, prop) => {
+			return xU.map(this.formItems, (item, prop) => {
 				return (
 					<>
 						<xGap t="10" />
@@ -219,7 +219,7 @@ export const DialogEditGroup = defineComponent({
 			const res = await API.group.deleteGroup({ id: currGroup._id });
 			UI.notification.success("删除成功");
 			await Methods_App.fetchGroupList();
-			const firstGroup = _.first(this.State_App.groupList);
+			const firstGroup = xU.first(this.State_App.groupList);
 			this.Cpt_url.go("/group", { group_id: firstGroup._id });
 		}
 	},

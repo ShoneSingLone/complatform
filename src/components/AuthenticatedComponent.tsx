@@ -25,7 +25,7 @@ export function requireAuthentication(Component) {
 				history: PropTypes.object,
 				changeMenuItem: PropTypes.func
 			};
-			UNSAFE_componentWillMount() {
+			UNSAFExU.omponentWillMount() {
 				this.checkAuth();
 			}
 			componentWillReceiveProps() {

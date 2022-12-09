@@ -3,7 +3,13 @@ import { defineComponent } from "vue";
 import { State_App, Methods_App } from "@/state/State_App";
 import { API } from "@/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
-import { _, UI, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
+import {
+	xU,
+	UI,
+	AllWasWell,
+	pickValueFrom,
+	validateForm
+} from "@ventose/ui";
 import { Cpt_url } from "../../router/router";
 
 export default defineComponent({
@@ -53,7 +59,7 @@ export default defineComponent({
 		async copyProject({ newProjectName, icon }) {
 			const id = this.projectData._id;
 			let { data } = await API.project.getProjectById(id);
-			data = _.merge(
+			data = xU.merge(
 				data,
 				{ icon },
 				{ name: newProjectName },
@@ -69,7 +75,7 @@ export default defineComponent({
 				group_id: this.Cpt_url.query.group_id
 			});
 		},
-		add: _.debounce(async function () {
+		add: xU.debounce(async function () {
 			try {
 				const { projectData } = this;
 				const uid = this.State_App.user.uid;
@@ -87,7 +93,7 @@ export default defineComponent({
 				this.callbackResult();
 			}
 		}, 300),
-		del: _.debounce(async function () {
+		del: xU.debounce(async function () {
 			try {
 				const id = this.projectData.projectid || this.projectData._id;
 				await API.project.delFollow(id);

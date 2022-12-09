@@ -1,4 +1,4 @@
-import { vUtils } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import { computed, defineComponent } from "vue";
 import { Cpt_url, ProjectChildren } from "../../router/router";
 import { State_App } from "../../state/State_App";
@@ -50,7 +50,7 @@ export const ViewProject = defineComponent({
 					selectedKeys={[this.currentViewKey]}
 					mode="horizontal"
 					class="">
-					{_.map(this.ProjectChildren, (item, index) => {
+					{xU.map(this.ProjectChildren, (item, index) => {
 						// 若导航标题为两个字，则自动在中间加个空格
 						if (item.label.length === 2) {
 							item.label = item.label[0] + " " + item.label[1];

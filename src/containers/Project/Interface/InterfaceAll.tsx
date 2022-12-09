@@ -1,7 +1,7 @@
 import { defineComponent, ref, watch } from "vue";
 import {
 	$,
-	_,
+	xU,
 	UI,
 	State_UI,
 	defCol,
@@ -20,7 +20,8 @@ import {
 
 export const InterfaceAll = defineComponent({
 	setup() {
-		const { filterParams, configs_interfaceTable, fnUpdateListForShow } = useInterfaceTableConfigs(true);
+		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
+			useInterfaceTableConfigs(true);
 		return {
 			State_Interface,
 			filterParams,

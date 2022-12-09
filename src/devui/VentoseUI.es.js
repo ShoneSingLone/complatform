@@ -30696,7 +30696,7 @@ const checkXItem = async (xItemConfigs, handlerResult) => {
 const Checkbox = ({
   property
 }) => {
-  const _property = vUtils.merge({}, property, {
+  const _property = xU.merge({}, property, {
     checked: property.value,
     onClick() {
       _property["onUpdate:value"](!_property.value, EVENT_TYPE.update);
@@ -33478,7 +33478,7 @@ const LayerUtils = {
   },
   close(layerKey) {
     if (!layerKey) {
-      return Promise.reject(false);
+      return Promise.reject();
     }
     return new Promise((resolve, reject) => {
       try {
@@ -34402,7 +34402,9 @@ function installPopoverDirective(app, appSettings) {
     },
     unmounted(el) {
       const followId = $(el).attr(DATA_FOLLOW_ID);
-      tipsKeys[followId]&&LayerUtils.close(tipsKeys[followId]);
+      if (typeof tipsKeys[followId] == "string") {
+        LayerUtils.close(tipsKeys[followId]);
+      }
       delete tipsOptionsCollection[followId];
       delete visibleArea[followId];
     }
@@ -35028,7 +35030,6 @@ export {
   setPagination,
   setValueTo,
   vModel,
-  privateLodash as vUtils,
-  privateLodash as _,
-  validateForm
+  validateForm,
+  privateLodash as xU
 };

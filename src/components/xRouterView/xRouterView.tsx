@@ -1,6 +1,6 @@
 import { defineComponent, inject, provide, h, markRaw } from "vue";
 import { routes, Cpt_url } from "../../router/router";
-import { vUtils } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import { ViewNotFound } from "../ViewNotFound";
 import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css";
@@ -52,16 +52,16 @@ export const xRouterView = defineComponent({
 				return await this.getComponent(pathArray);
 			}
 			if (pathArray.length == this.ViewLength) {
-				const route = _.find(routes, { path: pathArray.join("/") });
+				const route = xU.find(routes, { path: pathArray.join("/") });
 				if (route && route.component) {
-					if (_.isFunction(route.component)) {
+					if (xU.isFunction(route.component)) {
 						const modules = await route.component();
 						/* 缓存 */
 						if (route.componentName) {
 							route.component = modules[route.componentName];
 						} else {
 							/* 可能导出多个变量，最好提供componentName */
-							route.component = _.getObjectFirstKeyValue(modules);
+							route.component = xU.getObjectFirstKeyValue(modules);
 						}
 					}
 					return route.component;

@@ -1,14 +1,14 @@
-import {createApp} from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
-import {State_App} from "./state/State_App";
-import {appPlugins} from "./utils/common";
+import { State_App } from "./state/State_App";
+import { appPlugins } from "./utils/common";
 
 async function main() {
-    createApp(App)
-        .use(appPlugins, {
-            dependState: State_App
-        })
-        .mount("#app");
+	createApp(App)
+		.use(appPlugins, {
+			dependState: State_App
+		})
+		.mount("#app");
 }
 
 main();

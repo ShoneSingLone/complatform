@@ -1,8 +1,8 @@
 import { HTTP_METHOD } from "./variable";
-import { vUtils } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 
 export const ITEM_OPTIONS = {
-	httpMethod: _.map(HTTP_METHOD, (item, prop) => ({
+	httpMethod: xU.map(HTTP_METHOD, (item, prop) => ({
 		label: prop,
 		value: prop,
 		color: item.color
@@ -25,7 +25,7 @@ export const ITEM_OPTIONS = {
 
 export const ITEM_OPTIONS_VDOM = {
 	httpMethod(cell) {
-		const i = _.find(ITEM_OPTIONS.httpMethod, { value: cell });
+		const i = xU.find(ITEM_OPTIONS.httpMethod, { value: cell });
 		return <aTag color={i.color}>{i.label}</aTag>;
 	}
 };

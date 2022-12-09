@@ -1,4 +1,4 @@
-import { vUtils } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 
 const APP_API_CACHE = {};
 const isPending = {};
@@ -23,7 +23,7 @@ function reqProxy(ctrlName, reqName) {
 							return Promise.reject(`api文件夹下缺失${ctrlName}.${reqName}`);
 						}
 						const result = fnRequest.apply(thisArg, argumentsList);
-						_.each(resolveCollection[ctrlName], r => r(result));
+						xU.each(resolveCollection[ctrlName], r => r(result));
 						resolveCollection[ctrlName] = null;
 						delete resolveCollection[ctrlName];
 						isPending[ctrlName] = true;
