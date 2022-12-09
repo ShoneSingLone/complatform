@@ -4,7 +4,7 @@ import { Cpt_url } from "../../../router/router";
 import "./interface.scss";
 import { ProjectInterfaceLeftSider } from "./ProjectInterfaceLeftSider";
 import { xU } from "@ventose/ui";
-import { State_Interface, Methods_Interface } from "./State_Interface";
+import { State_Project, Methods_Interface } from "./State_Project";
 
 export const ProjectInterface = defineComponent({
 	components: {
@@ -13,17 +13,13 @@ export const ProjectInterface = defineComponent({
 	setup() {
 		return {
 			State_App,
-			State_Interface,
+			State_Interface: State_Project,
 			Cpt_url
 		};
 	},
 	data() {
 		return {
 			state: {},
-			styleLayout: {
-				marginLeft: "24px",
-				marginTop: "24px"
-			}
 		};
 	},
 	created() {
@@ -32,20 +28,14 @@ export const ProjectInterface = defineComponent({
 	methods: {},
 	render() {
 		return (
-			<aLayout
+			<section
 				id="ViewProjectInterface"
 				v-loading={this.State_Interface.isLoading}>
-				<aLayoutSider width={300} class="flex vertical height100">
-					<ProjectInterfaceLeftSider />
-				</aLayoutSider>
-				<aLayout>
-					<aLayoutContent
-						data-app-position="Group-layout-content"
-						style={this.styleLayout}>
-						<xRouterView />
-					</aLayoutContent>
-				</aLayout>
-			</aLayout>
+				<ProjectInterfaceLeftSider />
+				<main class="flex flex1 padding10" style="width:1px;">
+					<xRouterView class="flex flex1 width100 height100 vertical padding10" />
+				</main>
+			</section>
 		);
 	}
 });

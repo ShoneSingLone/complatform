@@ -5,7 +5,7 @@ import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL, DefaultInterfaceMenu } from "../../../utils/variable";
-import { Methods_Interface, State_Interface } from "./State_Interface";
+import { Methods_Interface, State_Project } from "./State_Project";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
@@ -16,7 +16,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Interface,
+			State_Interface: State_Project,
 			Cpt_url,
 			Cpt_currProject,
 			fnObserveDomResize,
@@ -31,6 +31,9 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	data(vm) {
 		return {
+			styleAside: {
+				width: "300px"
+			},
 			filterText: "",
 			selectedKeys: [ALL],
 			siderHeight: 500,
@@ -356,11 +359,11 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	render() {
 		return (
-			<div class="ViewProject-sider_wrapper flex vertical">
+			<aside class="ViewProject-sider_wrapper flex vertical" style={this.styleAside}>
 				<div class="ViewProjectInterface_tree flex1 mt10 mb10" ref="wrapper">
 					{this.vDomTree}
 				</div>
-			</div>
+			</aside>
 		);
 	}
 });

@@ -26,14 +26,14 @@ const defautlValue = () => ({
 
 export function resetStateInterface() {
 	xU.map(defautlValue(), (value, prop) => {
-		State_Interface[prop] = value;
+		State_Project[prop] = value;
 	});
-	return State_Interface;
+	return State_Project;
 }
 
-const _State_Interface = defautlValue();
+const _State_Project = defautlValue();
 
-export const State_Interface = reactive(_State_Interface);
+export const State_Project = reactive(_State_Project);
 
 export const Methods_Interface = {
 	resetURL: xU.debounce(function () {
@@ -94,8 +94,8 @@ export const Methods_Interface = {
 				};
 			});
 
-			State_Interface.allCategory = allCategory;
-			State_Interface.allInterface = xU.reduce(
+			State_Project.allCategory = allCategory;
+			State_Project.allInterface = xU.reduce(
 				allCategory,
 				(dataSource, i) => {
 					if (xU.isArrayFill(i.list)) {
@@ -106,14 +106,14 @@ export const Methods_Interface = {
 				[]
 			);
 			const _allTags = xU.reduce(
-				State_Interface.allInterface,
+				State_Project.allInterface,
 				(allTags, i) => {
 					return allTags.concat(i.tag);
 				},
 				[]
 			);
-			State_Interface.allTags = xU.uniqBy(_allTags);
-			return State_Interface.allCategory;
+			State_Project.allTags = xU.uniqBy(_allTags);
+			return State_Project.allCategory;
 		}
 	}
 };
@@ -163,7 +163,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 																style="min-width: 400px"
 																v-model:value={filterParams.catid}
 																class="select">
-																{xU.map(State_Interface.allCategory, i => {
+																{xU.map(State_Project.allCategory, i => {
 																	return (
 																		<aSelectOption value={i.value}>
 																			<span class={"tag-status " + i.value}>
@@ -182,7 +182,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								);
 							},
 							renderCell({ cell }) {
-								const item = xU.find(State_Interface.allCategory, {
+								const item = xU.find(State_Project.allCategory, {
 									value: cell
 								});
 								return item ? (
@@ -383,7 +383,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 														style="width: 400px"
 														v-model:value={filterParams.tag}
 														class="select">
-														{xU.map(State_Interface.allTags, i => {
+														{xU.map(State_Project.allTags, i => {
 															return (
 																<aSelectOption value={i}>{i}</aSelectOption>
 															);
@@ -412,7 +412,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 	);
 
 	const fnUpdateListForShow = xU.debounce(function () {
-		const { allInterface } = State_Interface;
+		const { allInterface } = State_Project;
 		let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
 		let paramKeys = Object.keys(filterParams);
 		let prop = paramKeys.pop();
@@ -438,7 +438,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 		configs_interfaceTable.dataSource = interfaceForShow;
 
 		setTimeout(() => {
-			State_Interface.isLoading = false;
+			State_Project.isLoading = false;
 		}, 100);
 	}, 500);
 

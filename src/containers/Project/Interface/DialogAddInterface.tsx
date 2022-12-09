@@ -3,7 +3,7 @@ import { defItem, xU, setValueTo } from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "../../../api";
 import { Cpt_currProject, State_App } from "../../../state/State_App";
-import { State_Interface } from "./State_Interface";
+import { State_Project } from "./State_Project";
 import { FormRules } from "../../../utils/common.FormRules";
 import { ITEM_OPTIONS } from "../../../utils/common.options";
 
@@ -44,7 +44,7 @@ export const DialogAddInterface = defineComponent({
 					options: [],
 					rules: [FormRules.required()],
 					once() {
-						this.options = State_Interface.allCategory;
+						this.options = State_Project.allCategory;
 						/* 默认在点击的分类下添加新接口 */
 						if (vm.propDialogOptions.categoryId) {
 							this.value = vm.propDialogOptions.categoryId;
