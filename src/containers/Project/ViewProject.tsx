@@ -1,13 +1,13 @@
-import { _ } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import { computed, defineComponent } from "vue";
 import { Cpt_url, ProjectChildren } from "../../router/router";
 import { State_App } from "../../state/State_App";
 import { API } from "../../api";
 import { useProjectBasicProperties } from "../../compositions";
 import {
-	State_Interface,
+	State_Project,
 	resetStateInterface
-} from "./Interface/State_Interface";
+} from "./Interface/State_Project";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
@@ -18,7 +18,7 @@ export const ViewProject = defineComponent({
 		/* 以project为root，共享数据随project生命周期重置 */
 		resetStateInterface();
 		return {
-			State_Interface,
+			State_Interface: State_Project,
 			State_App,
 			Cpt_url,
 			Cpt_currGroupId,
@@ -50,7 +50,7 @@ export const ViewProject = defineComponent({
 					selectedKeys={[this.currentViewKey]}
 					mode="horizontal"
 					class="">
-					{_.map(this.ProjectChildren, (item, index) => {
+					{xU.map(this.ProjectChildren, (item, index) => {
 						// 若导航标题为两个字，则自动在中间加个空格
 						if (item.label.length === 2) {
 							item.label = item.label[0] + " " + item.label[1];

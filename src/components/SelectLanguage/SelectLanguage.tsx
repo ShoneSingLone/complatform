@@ -26,7 +26,7 @@ export const SelectLanguage = defineComponent({
 	},
 	computed: {
 		vDomMenuItems() {
-			return _.map(this.languageLabels, (locale, prop) => {
+			return xU.map(this.languageLabels, (locale, prop) => {
 				return (
 					<aMenuItem v-for="in " key={prop}>
 						<span role="img" ariaLabel={locale.label}>

@@ -1,8 +1,9 @@
-import { _, $, VentoseUIWithInstall, State_UI } from "@ventose/ui";
+import { xU, $, VentoseUIWithInstall, State_UI } from "@ventose/ui";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { xRouterView } from "../components/xRouterView/xRouterView";
 import { ErrMsg } from "../components/ErrMsg/ErrMsg";
+
 export { ITEM_OPTIONS } from "./common.options";
 dayjs.locale("zh-cn");
 
@@ -48,12 +49,12 @@ export const pickRandomProperty = obj => {
 // 从 Javascript 对象中选取随机属性
 
 export const randomValueAndProp = (obj: any) => {
-	if (_.isArray(obj) && obj.length > 0) {
+	if (xU.isArray(obj) && obj.length > 0) {
 		const start = 0;
 		const end = obj.length;
 		const key = Math.floor(Math.random() * end + start);
 		return [obj[key], key];
-	} else if (_.isPlainObject(obj)) {
+	} else if (xU.isPlainObject(obj)) {
 		const objArray = Object.keys(obj);
 		const [prop] = randomValueAndProp(objArray);
 		return [obj[prop], prop];
@@ -66,7 +67,7 @@ export const randomNum = (start = 0, end = 100) => {
 };
 
 export const handlePath = path => {
-	path = _.trim(path);
+	path = xU.trim(path);
 	if (!path) {
 		return path;
 	}
@@ -128,15 +129,15 @@ export const _$timeAgo = function (timestamp) {
 export const arrayChangeIndex = (arr, dragId, dropId) => {
 	arr = JSON.parse(JSON.stringify(arr));
 	const findBy = { _id: dragId };
-	const dragItem = _.find(arr, findBy);
-	const dragIndex = _.findIndex(arr, findBy);
-	const dropIndex = _.findIndex(arr, { _id: dropId });
+	const dragItem = xU.find(arr, findBy);
+	const dragIndex = xU.findIndex(arr, findBy);
+	const dropIndex = xU.findIndex(arr, { _id: dropId });
 
 	if (dragIndex > -1 && dropIndex > -1) {
 		arr[dragIndex] = null;
 		arr.splice(dropIndex, 0, dragItem);
 		let index = 0;
-		return _.reduce(
+		return xU.reduce(
 			arr,
 			(_arr, item) => {
 				if (item) {

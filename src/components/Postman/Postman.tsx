@@ -15,7 +15,7 @@ import {
 	Alert
 } from "ant-design-vue";
 import AceEditor from "client/components/AceEditor/AceEditor";
-import { _ } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import { isJson, deepCopyJson, json5_parse } from "../../common.js";
 import axios from "axios";
 import ModalPostman from "../ModalPostman/index.js";
@@ -267,7 +267,7 @@ export default class Run extends Component {
 				env: env
 			},
 			() => {
-				let s = !_.find(env, item => item.name === this.state.case_env);
+				let s = !xU.find(env, item => item.name === this.state.case_env);
 				if (!this.state.case_env || s) {
 					this.setState({
 						case_env: this.state.env[0].name
@@ -277,7 +277,7 @@ export default class Run extends Component {
 		);
 	}
 
-	UNSAFE_componentWillMount() {
+	UNSAFExU.omponentWillMount() {
 		this._crossRequestInterval = initCrossRequest(hasPlugin => {
 			this.setState({
 				hasPlugin: hasPlugin
@@ -424,7 +424,7 @@ export default class Run extends Component {
 				resStatusText: result.statusText,
 				test_res_header: `/* ===============请求参数================= */
 ${JSON.stringify(
-	_.omit(result.req, ["interfaceData", "taskId", "timeout", "caseId"]),
+	xU.omit(result.req, ["interfaceData", "taskId", "timeout", "caseId"]),
 	null,
 	2
 )}
@@ -445,8 +445,8 @@ ${JSON.stringify(result.header, null, 2)}
 		let validResult = { valid: true };
 
 		if (res_body_type === "json" && res_body_is_json_schema) {
-			const schema = json5_parse(res_body);
-			const params = json5_parse(test_res_body);
+			const schema = json5xU.arse(res_body);
+			const params = json5xU.arse(test_res_body);
 			validResult = schemaValidator(schema, params);
 		}
 

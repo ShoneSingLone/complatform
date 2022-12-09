@@ -1,11 +1,11 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, _, UI } from "@ventose/ui";
+import { $, xU, UI } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL, DefaultInterfaceMenu } from "../../../utils/variable";
-import { Methods_Interface, State_Interface } from "./State_Interface";
+import { Methods_Interface, State_Project } from "./State_Project";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
@@ -16,7 +16,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Interface,
+			State_Interface: State_Project,
 			Cpt_url,
 			Cpt_currProject,
 			fnObserveDomResize,
@@ -31,6 +31,9 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	data(vm) {
 		return {
+			styleAside: {
+				width: "300px"
+			},
 			filterText: "",
 			selectedKeys: [ALL],
 			siderHeight: 500,
@@ -100,7 +103,10 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								if (menuType === ALL) {
 									Cpt_url.value.go(
 										"/project/interface/all",
-										_.omit(Cpt_url.value.query, ["category_id", "interface_id"])
+										xU.omit(Cpt_url.value.query, [
+											"category_id",
+											"interface_id"
+										])
 									);
 								} else if (menuType === "category") {
 									Cpt_url.value.go("/project/interface/category", {
@@ -152,7 +158,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								);
 							}
 
-							if (_.isArray(list)) {
+							if (xU.isArray(list)) {
 								/* { "edit_uid": 0, "status": "undone", "isProxy": false, "witchEnv": "", "index": 0, "tag": [], "_id": 9, "method": "GET", "catid": 56, "title": "first", "path": "/aws_ecs/goku/rest/vdc/v3.1/projects", "project_id": 83, "uid": 12, "add_time": 1669122695, "up_time": 1669122695 } */
 							}
 
@@ -256,7 +262,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		},
 		/* 同类 interface */
 		async switchSameCategoryInterfaceOrder({ dragItem, dropItem }) {
-			const category = _.find(this.State_Interface.allCategory, {
+			const category = xU.find(this.State_Interface.allCategory, {
 				_id: dragItem.categoryId
 			});
 			const paramsChanges = arrayChangeIndex(
@@ -289,7 +295,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 				this.State_Interface.expandedKeys = [];
 			}
 		},
-		setFilterText: _.debounce(function (filterText) {
+		setFilterText: xU.debounce(function (filterText) {
 			this.State_Interface.filterText = filterText;
 			this.State_Interface.isLoading = false;
 		}, 600),
@@ -297,7 +303,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			this.selectedKeys = [id];
 		},
 		/* vDomList 需要实际高度 */
-		setSiderHeight: _.debounce(function (siderHeight) {
+		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
 		}, 20),
 		deleteCategory(id) {
@@ -312,7 +318,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 						Methods_Interface.updateInterfaceMenuList();
 						vm.Cpt_url.go(
 							"/project/interface/all",
-							_.omit(vm.Cpt_url.query, ["category_id"])
+							xU.omit(vm.Cpt_url.query, ["category_id"])
 						);
 					} catch (error) {
 						UI.message.error(error.message);
@@ -353,11 +359,11 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	render() {
 		return (
-			<div class="ViewProject-sider_wrapper flex vertical">
+			<aside class="ViewProject-sider_wrapper flex vertical" style={this.styleAside}>
 				<div class="ViewProjectInterface_tree flex1 mt10 mb10" ref="wrapper">
 					{this.vDomTree}
 				</div>
-			</div>
+			</aside>
 		);
 	}
 });

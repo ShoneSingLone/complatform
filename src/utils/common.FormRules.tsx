@@ -1,4 +1,4 @@
-import { FormRules, EVENT_TYPE, _, State_UI } from "@ventose/ui";
+import { FormRules, EVENT_TYPE, xU, State_UI } from "@ventose/ui";
 import { NAME_LIMIT } from "./variable";
 
 FormRules.nameLength = ({ label, max, min }) => {
@@ -23,7 +23,7 @@ FormRules.nameLength = ({ label, max, min }) => {
 				return FormRules.FAIL;
 			}
 
-			if (_.isInput(min) && len < min) {
+			if (xU.isInput(min) && len < min) {
 				rule.msg = `请输入${label}名称，长度不短于${max}字符(中文算作2字符)!`;
 				return FormRules.FAIL;
 			}

@@ -22,7 +22,7 @@ import {
 } from "../../../reducer/modules/group.js";
 const { TextArea } = Input;
 import { trim } from "../../../common.js";
-import { _ } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import "./GroupSetting.scss";
 const confirm = Modal.confirm;
 
@@ -145,7 +145,7 @@ class GroupSetting extends Component {
 			message.success("修改成功！");
 			await this.props.fetchGroupList(this.props.groupList);
 			this.props.updateGroupList(this.props.groupList);
-			const currGroup = _.find(this.props.groupList, group => {
+			const currGroup = xU.find(this.props.groupList, group => {
 				return +group._id === +id;
 			});
 			this.props.setCurrGroup(currGroup);

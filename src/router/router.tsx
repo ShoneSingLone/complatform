@@ -1,5 +1,5 @@
 import { computed, ComputedRef } from "vue";
-import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
+import { setDocumentTitle, State_UI, xU } from "@ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
 import { Methods_App, State_App } from "../state/State_App";
 const { $t } = State_UI;
@@ -7,6 +7,7 @@ const { $t } = State_UI;
 	componentName: componentName,
 	component: () => import(componentPath)
 }); */
+
 export const routes = [
 	{
 		path: `/login`,
@@ -149,7 +150,7 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 		},
 		set(_query, prop, val) {
 			_query[prop] = val;
-			onlyModifyQuery(_.merge({}, _query));
+			onlyModifyQuery(xU.merge({}, _query));
 			return true;
 		}
 	});
@@ -200,7 +201,7 @@ async function setLocationHash(href: string, url: URL) {
 		if (["/login"].includes(url.pathname)) {
 			href = "/";
 		}
-		const route = _.find(routes, { path: url.pathname });
+		const route = xU.find(routes, { path: url.pathname });
 		if (route?.meta?.title) {
 			setDocumentTitle(route.meta.title);
 		} else {

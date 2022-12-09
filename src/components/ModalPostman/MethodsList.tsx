@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Row, Icon, Input, Select, Tooltip } from "ant-design-vue";
-import { _ } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 const Option = Select.Option;
 
 // 深拷贝
@@ -72,7 +72,7 @@ class MethodsList extends Component {
 	};
 
 	componentDidMount() {
-		var index = _.findIndex(METHODS_LIST, { name: this.props.clickValue });
+		var index = xU.findIndex(METHODS_LIST, { name: this.props.clickValue });
 
 		let moreFlag = index > 3 ? false : true;
 		this.setState({

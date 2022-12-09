@@ -1,5 +1,5 @@
 import { reactive, watch, computed } from "vue";
-import { lStorage, setCSSVariables, UI, _, State_UI } from "@ventose/ui";
+import { lStorage, setCSSVariables, UI, xU, State_UI } from "@ventose/ui";
 import { Cpt_url } from "./../router/router";
 import { API } from "./../api";
 
@@ -109,9 +109,9 @@ export const Methods_App = {
 	 */
 	async setCurrGroup(group) {
 		let groupId;
-		if (!_.isPlainObject(group)) {
+		if (!xU.isPlainObject(group)) {
 			groupId = parseInt(group);
-			if (!_.isNumber(groupId)) {
+			if (!xU.isNumber(groupId)) {
 				throw new Error("miss groupId");
 			}
 		} else {
@@ -119,7 +119,7 @@ export const Methods_App = {
 		}
 		const { data } = await API.group.getMyGroupBy(groupId);
 		group = data;
-		State_App.currGroup = _.merge({}, State_App.currGroup, group);
+		State_App.currGroup = xU.merge({}, State_App.currGroup, group);
 		Methods_App.setUser({
 			role: group.role,
 			field: {
@@ -141,7 +141,7 @@ export const Methods_App = {
 				curpage: 1,
 				newsData: {
 					total: data.total,
-					list: _.sortBy(data.list, (a, b) => {
+					list: xU.sortBy(data.list, (a, b) => {
 						if (a && b) {
 							return b.add_time - a.add_time;
 						}
@@ -240,7 +240,7 @@ export const Methods_App = {
 
 watch(
 	State_App,
-	_.debounce(function () {
+	xU.debounce(function () {
 		lStorage.State_App = State_App;
 	}),
 	100
@@ -248,7 +248,7 @@ watch(
 
 window.addEventListener(
 	"hashchange",
-	_.debounce(function () {
+	xU.debounce(function () {
 		State_App.urlHash = window.location.hash;
 	}, 60)
 );
@@ -256,7 +256,7 @@ window.addEventListener(
 export const Cpt_currGroup = computed(() => {
 	const projectId = Cpt_url.value.query.group_id;
 	if (projectId && State_App.groupList.length > 0) {
-		return _.find(State_App.groupList, { _id: Number(projectId) });
+		return xU.find(State_App.groupList, { _id: Number(projectId) });
 	}
 	return "";
 });
@@ -267,7 +267,7 @@ export const Cpt_currGroup = computed(() => {
 export const Cpt_currProject = computed(() => {
 	const projectId = Cpt_url.value.query.project_id;
 	if (projectId && State_App.projectList.length > 0) {
-		return _.find(State_App.projectList, { _id: Number(projectId) });
+		return xU.find(State_App.projectList, { _id: Number(projectId) });
 	}
 	return "";
 });

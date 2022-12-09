@@ -1,5 +1,5 @@
 import GuideBtns from "@/components/GuideBtns/GuideBtns";
-import { _, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
+import { xU, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { UI, State_UI } from "@ventose/ui";
 import { API } from "@/api";
@@ -147,18 +147,20 @@ export const GroupLeftSider = defineComponent({
 			}
 		},
 		async selectGroup({ key: groupId }) {
-			const currGroup = _.find(this.State_App.groupList, { _id: +groupId });
+			const currGroup = xU.find(this.State_App.groupList, {
+				_id: +groupId
+			});
 			await Methods_App.setCurrGroup(currGroup);
 			this.Cpt_url.go("/group", { group_id: currGroup._id });
 			await Methods_App.fetchNewsData(groupId, "group", 1, 10);
 		},
-		searchGroup: _.debounce(function () {
+		searchGroup: xU.debounce(function () {
 			const { groupList } = this.State_App;
 			const keywords = this.configsSearch.value;
 			if (keywords === "") {
 				this.groupListForShow = groupList;
 			} else {
-				this.groupListForShow = _.filter(groupList, group =>
+				this.groupListForShow = xU.filter(groupList, group =>
 					new RegExp(keywords, "i").test(group.group_name)
 				);
 			}
@@ -220,7 +222,7 @@ export const GroupLeftSider = defineComponent({
 					v-loading={this.groupListForShow.length === 0}
 					onClick={this.selectGroup}
 					selectedKeys={[`${this.State_App.currGroup._id}`]}>
-					{_.map(this.groupListForShow, group => {
+					{xU.map(this.groupListForShow, group => {
 						let icon = "folderOpen";
 						if (group.type === "private") {
 							icon = "user";

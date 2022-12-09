@@ -1,4 +1,4 @@
-import { _, UI, lStorage, $ } from "@ventose/ui";
+import { xU, UI, lStorage, $ } from "@ventose/ui";
 import axios from "axios";
 import { State_App } from "../state/State_App";
 import { Cpt_url } from "./../router/router";
@@ -11,9 +11,9 @@ const ajax = axios.create({
 ajax.interceptors.request.use(
 	config => {
 		if (config.data) {
-			_.each(["name"], prop => {
+			xU.each(["name"], prop => {
 				if (config.data[prop]) {
-					config.data[prop] = _.htmlFilter(config.data[prop]);
+					config.data[prop] = xU.htmlFilter(config.data[prop]);
 				}
 			});
 		}

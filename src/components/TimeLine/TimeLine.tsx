@@ -3,7 +3,7 @@ import "jsondiffpatch/dist/formatters-styles/html.css";
 import "./TimeLine.scss";
 import * as jsondiffpatch from "jsondiffpatch";
 
-import { UI, State_UI, _, defPagination } from "@ventose/ui";
+import { UI, State_UI, xU, defPagination } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { State_App, Methods_App } from "../../state/State_App";
 import { Cpt_url } from "../../router/router";
@@ -175,38 +175,43 @@ export const TimeLine = defineComponent({
 		vDomSectionRecords() {
 			let records = <ErrMsg type="noData" />;
 			if (this.newsWillShow.length) {
-				const vDomTimeLineItem = _.map(this.newsWillShow, (newsItem, i) => {
-					let interfaceDiff = _.isPlainObject(newsItem.data);
-					const addTime = _.dateFormat(dayjs.unix(newsItem.add_time), 1);
-					return (
-						<aTimelineItem
-							dot={
-								<aAvatar
-									class="pointer"
-									src={`/api/user/avatar?uid=${newsItem.uid}`}
-									onClick={() =>
-										Cpt_url.value.go(`/user/profile/${newsItem.uid}`)
-									}
-								/>
-							}
-							key={i}>
-							<div class="logMesHeade">
-								<span class="logoTimeago">{_$timeAgo(newsItem.add_time)}</span>
-								<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
-								<span class="logtime">{addTime}</span>
-							</div>
-							<span class="logcontent" v-html={newsItem.content} />
-							<div style={{ padding: "10px 0 0 10px" }}>
-								{interfaceDiff && (
-									<aButton
-										onClick={() => this.showDiffLogDialog(newsItem.data)}>
-										改动详情
-									</aButton>
-								)}
-							</div>
-						</aTimelineItem>
-					);
-				});
+				const vDomTimeLineItem = xU.map(
+					this.newsWillShow,
+					(newsItem, i) => {
+						let interfaceDiff = xU.isPlainObject(newsItem.data);
+						const addTime = xU.dateFormat(dayjs.unix(newsItem.add_time), 1);
+						return (
+							<aTimelineItem
+								dot={
+									<aAvatar
+										class="pointer"
+										src={`/api/user/avatar?uid=${newsItem.uid}`}
+										onClick={() =>
+											Cpt_url.value.go(`/user/profile/${newsItem.uid}`)
+										}
+									/>
+								}
+								key={i}>
+								<div class="logMesHeade">
+									<span class="logoTimeago">
+										{_$timeAgo(newsItem.add_time)}
+									</span>
+									<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
+									<span class="logtime">{addTime}</span>
+								</div>
+								<span class="logcontent" v-html={newsItem.content} />
+								<div style={{ padding: "10px 0 0 10px" }}>
+									{interfaceDiff && (
+										<aButton
+											onClick={() => this.showDiffLogDialog(newsItem.data)}>
+											改动详情
+										</aButton>
+									)}
+								</div>
+							</aTimelineItem>
+						);
+					}
+				);
 				records = (
 					<aTimeline class="TimeLine_news-content">
 						{vDomTimeLineItem}

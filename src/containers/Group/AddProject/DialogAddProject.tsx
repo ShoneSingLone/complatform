@@ -25,7 +25,7 @@ export const xItem_ProjectColor = (options: any = {}) => {
 		itemType: "Select",
 		label: State_UI.$t("icon背景颜色").label,
 		rules: [FormRules.required()],
-		options: _.map(PROJECT_COLOR, background => {
+		options: xU.map(PROJECT_COLOR, background => {
 			return {
 				label: (
 					<span style={{ background, color: "transparent" }}>
@@ -45,7 +45,7 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 		itemType: "Select",
 		label: State_UI.$t("图标").label,
 		rules: [FormRules.required()],
-		options: _.map(optionsXIcon, value => {
+		options: xU.map(optionsXIcon, value => {
 			return {
 				label: (
 					<span>
@@ -68,7 +68,7 @@ export const xItem_ProjectName = (options: any = {}) => {
 		FormRules.nameLength({ label: State_UI.$t("项目").label })
 	];
 
-	if (_.isArray(appendRules)) {
+	if (xU.isArray(appendRules)) {
 		rules.concat(appendRules);
 	}
 
@@ -124,7 +124,7 @@ export const DialogAddProject = defineComponent({
 						vm.$watch(
 							"State_App.groupList",
 							groupList => {
-								vm.dataXItem.group_id.options = _.map(groupList, i => {
+								vm.dataXItem.group_id.options = xU.map(groupList, i => {
 									return {
 										label: i.group_name,
 										value: String(i._id),
@@ -241,7 +241,7 @@ export const DialogAddProject = defineComponent({
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
-						{_.map(this.dataXItem, (configs, prop) => {
+						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
 									<xGap t="10" />

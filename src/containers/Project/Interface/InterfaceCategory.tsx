@@ -1,11 +1,11 @@
 import { defineComponent, ref, watch } from "vue";
 import {
 	$,
-	_,
+	xU,
 	UI,
 	State_UI,
 	defCol,
-	defineXVirTableConfigs
+	defXVirTableConfigs
 } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";
@@ -14,9 +14,9 @@ import { Cpt_currProject } from "../../../state/State_App";
 import { ALL } from "../../../utils/variable";
 import {
 	Methods_Interface,
-	State_Interface,
+	State_Project,
 	useInterfaceTableConfigs
-} from "./State_Interface";
+} from "./State_Project";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { Cpt_url } from "./../../../router/router";
 const { $t } = State_UI;
@@ -27,7 +27,7 @@ export const InterfaceCategory = defineComponent({
 			useInterfaceTableConfigs();
 
 		return {
-			State_Interface,
+			State_Interface: State_Project,
 			Cpt_url,
 			filterParams,
 			configs_interfaceTable,
@@ -62,7 +62,7 @@ export const InterfaceCategory = defineComponent({
 	},
 	render() {
 		return (
-			<xView class="flex height100 padding20 vertical InterfaceAll-view">
+			<xView class="InterfaceCategory-view">
 				<div class="Operation mb10">
 					<aCard>
 						<aButton>{JSON.stringify(this.Cpt)}</aButton>

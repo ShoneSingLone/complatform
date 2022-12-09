@@ -13,7 +13,7 @@
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { _, defItem, State_UI, FormRules } from "@ventose/ui";
+import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
 import { xItemUAC } from "@/components/xItemRender/xItemUAC";
 
 const { $t } = State_UI;
