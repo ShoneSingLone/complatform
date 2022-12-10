@@ -33,7 +33,7 @@ export const ProjectInterface = defineComponent({
 				v-loading={this.State_Interface.isLoading}>
 				<ProjectInterfaceLeftSider />
 				<main class="flex flex1 padding10" style="width:1px;">
-					<xRouterView class="flex flex1 width100 height100 vertical padding10" />
+					<RouterView class="flex flex1 width100 height100 vertical padding10" />
 				</main>
 			</section>
 		);

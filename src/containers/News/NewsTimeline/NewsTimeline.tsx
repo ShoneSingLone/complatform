@@ -2,8 +2,8 @@ import { Timeline, Spin } from "ant-design-vue";
 
 import { formatTime } from "../../../common.js";
 import { fetchNewsData } from "../../../reducer/modules/news.js";
-import { timeago } from "../../../../common/utils";
-// timeago(new Date().getTime() - 40);
+import { _$timeAgo } from "../../../../common/utils";
+// _$timeAgo(new Date().getTime() - 40);
 
 @connect(
 	state => {
@@ -57,7 +57,7 @@ class NewsTimeline extends Component {
 			data = data.map(function (item, i) {
 				return (
 					<Timeline.Item key={i}>
-						<span class="logoTimeago">{timeago(item.add_time)}</span>
+						<span class="logo_$timeAgo">{_$timeAgo(item.add_time)}</span>
 						<span class="logusername">{item.username}</span>
 						<span class="logtype">{item.type}</span>
 						<span class="logtime">{formatTime(item.add_time)}</span>

@@ -1,3 +1,4 @@
+import { ViewGroup } from "../containers/Group/ViewGroup";
 import { computed, ComputedRef } from "vue";
 import { setDocumentTitle, State_UI, xU } from "@ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
@@ -20,7 +21,7 @@ export const routes = [
 	{
 		path: `/group`,
 		componentName: "ViewGroup",
-		component: () => import("../containers/Group/ViewGroup"),
+		component: ViewGroup,
 		meta: {
 			title: $t("分组").label
 		}

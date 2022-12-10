@@ -9,8 +9,8 @@ NProgress.configure({
 	showSpinner: false
 });
 
-export const xRouterView = defineComponent({
-	name: "xRouterView",
+export const RouterView = defineComponent({
+	name: "RouterView",
 	setup() {
 		let ViewLength: any = inject("ViewLength");
 		if (typeof ViewLength != "number") {

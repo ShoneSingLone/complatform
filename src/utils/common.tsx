@@ -1,10 +1,12 @@
 import { xU, $, VentoseUIWithInstall, State_UI } from "@ventose/ui";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
-import { xRouterView } from "../components/xRouterView/xRouterView";
+import { RouterView } from "../components/RouterView/RouterView";
 import { ErrMsg } from "../components/ErrMsg/ErrMsg";
-
+import { InfoCard } from "../components/InfoCard";
 export { ITEM_OPTIONS } from "./common.options";
+import CopyContent from "../components/CopyContent.vue";
+
 dayjs.locale("zh-cn");
 
 /**
@@ -22,8 +24,10 @@ export const appPlugins = {
 		});
 		app.use({
 			install: (app, { watch } = {}) => {
-				app.component("xRouterView", xRouterView);
+				app.component("InfoCard", InfoCard);
+				app.component("RouterView", RouterView);
 				app.component("ErrMsg", ErrMsg);
+				app.component("CopyContent", CopyContent);
 				//注册i8n实例并引入语言文件
 				app.config.globalProperties.$t = State_UI.$t;
 				State_UI.assetsSvgPath = `${__URL_STATIC_DIR}assets/img/svg`;
@@ -36,7 +40,7 @@ export const appPlugins = {
 };
 
 // 从 Javascript 对象中选取随机属性
-export const pickRandomProperty = obj => {
+export const _$pickRandomProperty = obj => {
 	let result;
 	let count = 0;
 	for (let prop in obj) {
@@ -48,7 +52,7 @@ export const pickRandomProperty = obj => {
 };
 // 从 Javascript 对象中选取随机属性
 
-export const randomValueAndProp = (obj: any) => {
+export const _$randomValueAndProp = (obj: any) => {
 	if (xU.isArray(obj) && obj.length > 0) {
 		const start = 0;
 		const end = obj.length;
@@ -56,17 +60,17 @@ export const randomValueAndProp = (obj: any) => {
 		return [obj[key], key];
 	} else if (xU.isPlainObject(obj)) {
 		const objArray = Object.keys(obj);
-		const [prop] = randomValueAndProp(objArray);
+		const [prop] = _$randomValueAndProp(objArray);
 		return [obj[prop], prop];
 	} else {
 		return ["", 0];
 	}
 };
-export const randomNum = (start = 0, end = 100) => {
+export const _$randomNum = (start = 0, end = 100) => {
 	return Math.floor(Math.random() * end + start);
 };
 
-export const handlePath = path => {
+export const _$handlePath = path => {
 	path = xU.trim(path);
 	if (!path) {
 		return path;
@@ -126,7 +130,7 @@ export const _$timeAgo = function (timestamp) {
 };
 
 // 交换数组的位置
-export const arrayChangeIndex = (arr, dragId, dropId) => {
+export const _$arrayChangeIndex = (arr, dragId, dropId) => {
 	arr = JSON.parse(JSON.stringify(arr));
 	const findBy = { _id: dragId };
 	const dragItem = xU.find(arr, findBy);

@@ -62,7 +62,7 @@ export const ViewProject = defineComponent({
 						);
 					})}
 				</aMenu>
-				<xRouterView />
+				<RouterView />
 			</div>
 		);
 	}

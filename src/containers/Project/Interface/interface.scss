@@ -21,7 +21,19 @@
 	.ViewProject-sider_wrapper {
 		height: 100%;
 		width: 300px;
-		overflow: auto;
+		overflow: hidden;
+
+		.resize_bar {
+			&:hover {
+				cursor: ew-resize;
+			}
+
+			position: absolute;
+			top: 20px;
+			bottom: 20px;
+			right: 0;
+			width: 16px;
+		}
 
 		.ViewProjectInterface_tree {
 			height: 100px;
@@ -85,6 +97,7 @@
 	}
 }
 
-.InterfaceAll-view {
+.Interface-view {
 	background-color: var(--color-white);
+	margin-left: -10px;
 }

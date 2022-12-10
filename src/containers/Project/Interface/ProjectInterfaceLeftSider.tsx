@@ -9,7 +9,7 @@ import { Methods_Interface, State_Project } from "./State_Project";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
-import { arrayChangeIndex } from "../../../utils/common";
+import { _$arrayChangeIndex } from "../../../utils/common";
 
 export const ProjectInterfaceLeftSider = defineComponent({
 	setup() {
@@ -31,8 +31,19 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	data(vm) {
 		return {
+			configsResize: {
+				onMoving({ clickEvent, movingEvent, clickInfo }) {
+					const { left: leftStart } = clickInfo;
+					let left = 16 + leftStart + movingEvent.clientX - clickEvent.clientX;
+					if (left < 100) {
+						left = 100;
+					}
+					vm.styleAside.width = `${left}px`;
+				}
+			},
 			styleAside: {
-				width: "300px"
+				width: "300px",
+				position: "relative"
 			},
 			filterText: "",
 			selectedKeys: [ALL],
@@ -72,168 +83,168 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<aTree
-					v-model:expandedKeys={vm.State_Interface.expandedKeys}
-					height={vm.siderHeight}
-					treeData={vm.treeData}
-					draggable
-					onDrop={vm.handleDropInterface}
-					fieldNames={vm.configs.fieldNames}>
-					{{
-						title(item) {
-							const {
-								title,
-								name,
-								_id,
-								list,
-								isCategory,
-								categoryName,
-								menuType,
-								categoryId
-							} = item;
-							const classContentString = (() => {
-								let _classString = "flex middle Interfacesider-tree_menu";
-								if (String(_id) == String(vm.cpt_currentSelected)) {
-									return _classString + " Interfacesider-tree_menu_active";
-								}
-								return _classString;
-							})();
+				<div
+					class="elevation-2 height100 padding10"
+					style="border-radius: 8px;">
+					<aTree
+						v-model:expandedKeys={vm.State_Interface.expandedKeys}
+						height={vm.siderHeight}
+						treeData={vm.treeData}
+						draggable
+						onDrop={vm.handleDropInterface}
+						fieldNames={vm.configs.fieldNames}>
+						{{
+							title(item) {
+								const { title, _id, list, menuType, categoryId } = item;
+								const classContentString = (() => {
+									let _classString = "flex middle Interfacesider-tree_menu";
+									if (String(_id) == String(vm.cpt_currentSelected)) {
+										return _classString + " Interfacesider-tree_menu_active";
+									}
+									return _classString;
+								})();
 
-							const handleClickCategory = () => {
-								if (menuType === ALL) {
-									Cpt_url.value.go(
-										"/project/interface/all",
-										xU.omit(Cpt_url.value.query, [
-											"category_id",
-											"interface_id"
-										])
+								const handleClickCategory = () => {
+									if (menuType === ALL) {
+										Cpt_url.value.go(
+											"/project/interface/all",
+											xU.omit(Cpt_url.value.query, [
+												"category_id",
+												"interface_id"
+											])
+										);
+									} else if (menuType === "category") {
+										Cpt_url.value.go("/project/interface/category", {
+											...Cpt_url.value.query,
+											category_id: _id
+										});
+									} else {
+										Cpt_url.value.go("/project/interface/detail", {
+											...Cpt_url.value.query,
+											category_id: categoryId,
+											interface_id: _id
+										});
+									}
+									vm.setSelectedKeys(_id);
+								};
+								const genIcon = ({ icon, tips, clickHandler }) => {
+									return (
+										<>
+											<xIcon
+												icon={icon}
+												class="Interfacesider-tree_menu_icon"
+												v-uiPopover={{ content: tips, delay: 1000 }}
+												onClick={clickHandler}
+											/>
+											<xGap l="8" />
+										</>
 									);
-								} else if (menuType === "category") {
-									Cpt_url.value.go("/project/interface/category", {
-										...Cpt_url.value.query,
-										category_id: _id
-									});
-								} else {
-									Cpt_url.value.go("/project/interface/detail", {
-										...Cpt_url.value.query,
-										category_id: categoryId,
-										interface_id: _id
-									});
-								}
-								vm.setSelectedKeys(_id);
-							};
-							const genIcon = ({ icon, tips, clickHandler }) => {
-								return (
-									<>
-										<xIcon
-											icon={icon}
-											class="Interfacesider-tree_menu_icon"
-											v-uiPopover={{ content: tips, delay: 1000 }}
-											onClick={clickHandler}
-										/>
-										<xGap l="8" />
-									</>
-								);
-							};
+								};
 
-							if (menuType === ALL) {
+								if (menuType === ALL) {
+									return (
+										<div
+											class={classContentString}
+											onClick={handleClickCategory}>
+											<xGap l="10" />
+											<xIcon icon="allCategory" />
+											<span class="Interfacesider-tree_menu_title">
+												{title}
+											</span>
+											<div class="flex middle Interfacesider-tree_menu_opration">
+												{genIcon({
+													icon: "add",
+													tips: vm.$t("添加分类").label,
+													clickHandler: () => vm.showUpsertCategoryDialog()
+												})}
+												{genIcon({
+													icon: "refresh",
+													tips: vm.$t("刷新").label,
+													clickHandler:
+														Methods_Interface.updateInterfaceMenuList
+												})}
+											</div>
+										</div>
+									);
+								}
+
+								if (xU.isArray(list)) {
+									/* { "edit_uid": 0, "status": "undone", "isProxy": false, "witchEnv": "", "index": 0, "tag": [], "_id": 9, "method": "GET", "catid": 56, "title": "first", "path": "/aws_ecs/goku/rest/vdc/v3.1/projects", "project_id": 83, "uid": 12, "add_time": 1669122695, "up_time": 1669122695 } */
+								}
+
+								const vDomOpration = (() => {
+									if (menuType === "category") {
+										return (
+											<div class="flex middle Interfacesider-tree_menu_opration">
+												{genIcon({
+													icon: "add",
+													tips: vm.$t("添加接口").label,
+													clickHandler: $event =>
+														vm.showAddInterfaceDialog(_id, $event)
+												})}
+												{genIcon({
+													icon: "edit",
+													tips: vm.$t("修改分类").label,
+													clickHandler: $event =>
+														vm.showUpsertCategoryDialog(item)
+												})}
+												{genIcon({
+													icon: "delete",
+													tips: vm.$t("删除分类").label,
+													clickHandler: $event => vm.deleteCategory(_id, $event)
+												})}
+											</div>
+										);
+									} else {
+										return (
+											<div class="flex middle Interfacesider-tree_menu_opration">
+												{genIcon({
+													icon: "edit",
+													tips: vm.$t("修改接口").label,
+													clickHandler: $event =>
+														vm.showAddInterfaceDialog(_id, $event)
+												})}
+												{genIcon({
+													icon: "delete",
+													tips: vm.$t("删除接口").label,
+													clickHandler: $event =>
+														vm.showAddInterfaceDialog(_id, $event)
+												})}
+											</div>
+										);
+									}
+								})();
+
+								let iconName = "subCategoryInterface";
+								if (menuType === "category") {
+									iconName = "subCategory";
+								}
+
 								return (
 									<div class={classContentString} onClick={handleClickCategory}>
 										<xGap l="10" />
-										<xIcon icon="allCategory" />
+										<xIcon icon={iconName} />
 										<span class="Interfacesider-tree_menu_title">{title}</span>
-										<div class="flex middle Interfacesider-tree_menu_opration">
-											{genIcon({
-												icon: "add",
-												tips: vm.$t("添加分类").label,
-												clickHandler: () => vm.showUpsertCategoryDialog()
-											})}
-											{genIcon({
-												icon: "refresh",
-												tips: vm.$t("刷新").label,
-												clickHandler: Methods_Interface.updateInterfaceMenuList
-											})}
-										</div>
+										{vDomOpration}
 									</div>
 								);
 							}
-
-							if (xU.isArray(list)) {
-								/* { "edit_uid": 0, "status": "undone", "isProxy": false, "witchEnv": "", "index": 0, "tag": [], "_id": 9, "method": "GET", "catid": 56, "title": "first", "path": "/aws_ecs/goku/rest/vdc/v3.1/projects", "project_id": 83, "uid": 12, "add_time": 1669122695, "up_time": 1669122695 } */
-							}
-
-							const vDomOpration = (() => {
-								if (menuType === "category") {
-									return (
-										<div class="flex middle Interfacesider-tree_menu_opration">
-											{genIcon({
-												icon: "add",
-												tips: vm.$t("添加接口").label,
-												clickHandler: $event =>
-													vm.showAddInterfaceDialog(_id, $event)
-											})}
-											{genIcon({
-												icon: "edit",
-												tips: vm.$t("修改分类").label,
-												clickHandler: $event =>
-													vm.showUpsertCategoryDialog(item)
-											})}
-											{genIcon({
-												icon: "delete",
-												tips: vm.$t("删除分类").label,
-												clickHandler: $event => vm.deleteCategory(_id, $event)
-											})}
-										</div>
-									);
-								} else {
-									return (
-										<div class="flex middle Interfacesider-tree_menu_opration">
-											{genIcon({
-												icon: "edit",
-												tips: vm.$t("修改接口").label,
-												clickHandler: $event =>
-													vm.showAddInterfaceDialog(_id, $event)
-											})}
-											{genIcon({
-												icon: "delete",
-												tips: vm.$t("删除接口").label,
-												clickHandler: $event =>
-													vm.showAddInterfaceDialog(_id, $event)
-											})}
-										</div>
-									);
-								}
-							})();
-
-							let iconName = "subCategoryInterface";
-							if (menuType === "category") {
-								iconName = "subCategory";
-							}
-
-							return (
-								<div class={classContentString} onClick={handleClickCategory}>
-									<xGap l="10" />
-									<xIcon icon={iconName} />
-									<span class="Interfacesider-tree_menu_title">{title}</span>
-									{vDomOpration}
-								</div>
-							);
-						}
-					}}
-				</aTree>
+						}}
+					</aTree>
+				</div>
 			);
 		}
 	},
 	methods: {
 		async handleDropInterface(e: AntTreeNodeDropEvent) {
 			this.State_Interface.isLoading = true;
-			/* 
-			1.drag interface
-				1.1 drop 到同一个category
-				1.2 drop 到不同category
-			2.drag category
-				2.1 调整 category 顺序
-			*/
+			/*
+            1.drag interface
+                1.1 drop 到同一个category
+                1.2 drop 到不同category
+            2.drag category
+                2.1 调整 category 顺序
+            */
 			const dragItem = e.dragNode;
 			const dropItem = e.node;
 			const isDragInterface = dragItem.menuType === "interface";
@@ -265,7 +276,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			const category = xU.find(this.State_Interface.allCategory, {
 				_id: dragItem.categoryId
 			});
-			const paramsChanges = arrayChangeIndex(
+			const paramsChanges = _$arrayChangeIndex(
 				category.list,
 				dragItem._id,
 				dropItem._id
@@ -280,7 +291,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			});
 		},
 		async switchCategoryOrder({ dragItem, dropItem }) {
-			const paramsChanges = arrayChangeIndex(
+			const paramsChanges = _$arrayChangeIndex(
 				this.State_Interface.allCategory,
 				dragItem._id,
 				dropItem._id
@@ -359,10 +370,13 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	render() {
 		return (
-			<aside class="ViewProject-sider_wrapper flex vertical" style={this.styleAside}>
+			<aside
+				class="ViewProject-sider_wrapper flex vertical move-transition padding10"
+				style={this.styleAside}>
 				<div class="ViewProjectInterface_tree flex1 mt10 mb10" ref="wrapper">
 					{this.vDomTree}
 				</div>
+				<div class="resize_bar" icon="scroll" v-uiMove={this.configsResize} />
 			</aside>
 		);
 	}

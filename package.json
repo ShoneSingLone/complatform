@@ -1,8 +1,4 @@
 {
-  "pathalias": {
-    "@": "${cwd}/src",
-    "@ventose/ui": "${cwd}/src/devui/VentoseUI.es.js"
-  },
   "name": "complatfrom",
   "private": true,
   "version": "0.0.0",
@@ -23,6 +19,7 @@
     "ant-design-vue": "^3.0.0-alpha.3",
     "axios": "^0.26.0",
     "chalk": "^5.1.2",
+    "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.10.7",
     "immer": "^9.0.16",
     "jquery": "^3.6.0",

@@ -62,10 +62,10 @@ export const InterfaceCategory = defineComponent({
 	},
 	render() {
 		return (
-			<xView class="InterfaceCategory-view">
+			<xView class="Interface-view">
 				<div class="Operation mb10">
 					<aCard>
-						<aButton>{JSON.stringify(this.Cpt)}</aButton>
+						<aButton>this.Cpt</aButton>
 						{this.configs_interfaceTable.selected}
 					</aCard>
 				</div>

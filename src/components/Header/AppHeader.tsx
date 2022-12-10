@@ -143,8 +143,9 @@ export const AppHeader = defineComponent({
 						</a>
 					);
 				}
+				const configsPopover = { content: i.content, placement: "bottom" };
 				return (
-					<div class="toolbar-li" v-uiPopover={{ content: i.content }}>
+					<div class="toolbar-li" v-uiPopover={configsPopover}>
 						{link}
 					</div>
 				);

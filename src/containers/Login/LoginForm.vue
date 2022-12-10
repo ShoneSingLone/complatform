@@ -21,7 +21,7 @@
 import "./Login.scss";
 import { defineComponent } from "vue";
 import {
-	_,
+	xU,
 	UI,
 	defItem,
 	EVENT_TYPE,

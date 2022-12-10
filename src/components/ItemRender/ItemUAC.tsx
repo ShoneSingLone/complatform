@@ -5,7 +5,7 @@ import UsernameAutoComplete from "../UsernameAutoComplete/UsernameAutoComplete";
  * @param {*} param0
  * @returns
  */
-export const xItemUAC = ({ listeners }) => {
+export const ItemUAC = ({ listeners }) => {
 	return (
 		<UsernameAutoComplete
 			callbackState={val => listeners["onUpdate:value"](val)}

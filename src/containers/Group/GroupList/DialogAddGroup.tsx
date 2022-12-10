@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
-import { xItemUAC } from "../../../components/xItemRender/xItemUAC";
+import { ItemUAC } from "../../../components/ItemRender/ItemUAC";
 
 const { $t } = State_UI;
 
@@ -34,7 +34,7 @@ export const DialogAddGroup = defineComponent({
 					rules: [FormRules.required()]
 				}),
 				...defItem({
-					itemType: xItemUAC,
+					itemType: ItemUAC,
 					prop: "owner_uids",
 					value: "",
 					label: $t("组长").label,

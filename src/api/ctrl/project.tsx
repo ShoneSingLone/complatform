@@ -116,5 +116,14 @@ export const project = {
 				project_id: Number(project_id)
 			}
 		});
+	},
+	fetchInterfaceDetail(interfaceId) {
+		return ajax({
+			method: "get",
+			url: "/api/interface/get",
+			params: {
+				id: Number(interfaceId)
+			}
+		});
 	}
 };

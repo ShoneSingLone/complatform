@@ -1,5 +1,3 @@
-import { handlePath, randomValueAndProp } from "@/utils/common";
-
 import "./Addproject.scss";
 import { defineComponent } from "vue";
 import {
@@ -8,17 +6,18 @@ import {
 	pickValueFrom,
 	UI,
 	validateForm,
-	_,
+	xU,
 	State_UI
 } from "@ventose/ui";
 import { API } from "../../../api";
-import optionsXIcon from "@/utils/common.options.xIcon";
-import { NAME_LIMIT, PROJECT_COLOR } from "../../../utils/variable";
+import optionsXIcon from "../../../utils/common.options.xIcon";
+import { PROJECT_COLOR } from "../../../utils/variable";
 import { Methods_App, State_App } from "../../../state/State_App";
 import { FormRules } from "../../../utils/common.FormRules";
+import { _$handlePath, _$randomValueAndProp } from "../../../utils/common";
 
 export const xItem_ProjectColor = (options: any = {}) => {
-	const [value] = randomValueAndProp(PROJECT_COLOR);
+	const [value] = _$randomValueAndProp(PROJECT_COLOR);
 	return {
 		value,
 		prop: "color",
@@ -38,7 +37,7 @@ export const xItem_ProjectColor = (options: any = {}) => {
 	};
 };
 export const xItem_ProjectIcon = (options: any = {}) => {
-	const [value] = randomValueAndProp(optionsXIcon);
+	const [value] = _$randomValueAndProp(optionsXIcon);
 	return {
 		value,
 		prop: "icon",
@@ -227,10 +226,10 @@ export const DialogAddProject = defineComponent({
 				console.error(e);
 			}
 		},
-		handlePath(e) {
+		_$handlePath(e) {
 			let val = e.target.value;
 			this.props.form.setFieldsValue({
-				basepath: handlePath(val)
+				basepath: _$handlePath(val)
 			});
 		}
 	},

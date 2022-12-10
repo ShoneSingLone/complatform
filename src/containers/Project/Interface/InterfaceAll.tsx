@@ -40,7 +40,7 @@ export const InterfaceAll = defineComponent({
 	render() {
 		const vm = this;
 		return (
-			<xView class="InterfaceAll-view">
+			<xView class="Interface-view">
 				<div class="Operation mb10">
 					<xButton>{vm.$t("变更状态").label}</xButton>
 					<xButton>{vm.$t("添加Tag").label}</xButton>

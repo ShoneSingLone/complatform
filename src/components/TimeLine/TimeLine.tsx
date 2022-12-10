@@ -179,7 +179,7 @@ export const TimeLine = defineComponent({
 					this.newsWillShow,
 					(newsItem, i) => {
 						let interfaceDiff = xU.isPlainObject(newsItem.data);
-						const addTime = xU.dateFormat(dayjs.unix(newsItem.add_time), 1);
+						const addTime = xU.dateFormat(newsItem.add_time, 1);
 						return (
 							<aTimelineItem
 								dot={
@@ -193,7 +193,7 @@ export const TimeLine = defineComponent({
 								}
 								key={i}>
 								<div class="logMesHeade">
-									<span class="logoTimeago">
+									<span class="logo_$timeAgo">
 										{_$timeAgo(newsItem.add_time)}
 									</span>
 									<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
