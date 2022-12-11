@@ -178,16 +178,6 @@ export const GroupLeftSider = defineComponent({
 					<div class="curr-group-name">
 						<span class="curr-group-name_title name">
 							{this.State_App.currGroup.group_name}
-							<aTooltip title="修改分组信息">
-								<xIcon
-									class="btn editSet pointer"
-									icon="edit"
-									onClick={() =>
-										this.fnShowUpsertGroupDialog(this.State_App.currGroup)
-									}
-									style="width:16px;"
-								/>
-							</aTooltip>
 						</span>
 					</div>
 					<div class="curr-group-desc">
@@ -215,6 +205,7 @@ export const GroupLeftSider = defineComponent({
 			);
 		},
 		vDomGroupList() {
+			const vm = this;
 			return (
 				<aMenu
 					class="group-list flex1"
@@ -231,7 +222,16 @@ export const GroupLeftSider = defineComponent({
 							<aMenuItem key={`${group._id}`} class="group-item flex">
 								<div class="flex middle">
 									<xIcon icon={icon} style="width:16px;" />
-									<span>{group.group_name}</span>
+									<span class="flex1">{group.group_name}</span>
+									<xIcon
+										v-uiPopover={{ content: vm.$t("修改分组信息").label }}
+										class="btn editSet pointer"
+										icon="edit"
+										onClick={() =>
+											vm.fnShowUpsertGroupDialog(this.State_App.currGroup)
+										}
+										style="width:16px;"
+									/>
 								</div>
 							</aMenuItem>
 						);

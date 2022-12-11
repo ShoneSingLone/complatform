@@ -10,6 +10,7 @@ import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "../../../utils/common";
+import { DialogModifyInterface } from "./DialogModifyInterface";
 
 export const ProjectInterfaceLeftSider = defineComponent({
 	setup() {
@@ -144,6 +145,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								if (menuType === ALL) {
 									return (
 										<div
+											data-interface-all-menu
 											class={classContentString}
 											onClick={handleClickCategory}>
 											<xGap l="10" />
@@ -198,12 +200,6 @@ export const ProjectInterfaceLeftSider = defineComponent({
 									} else {
 										return (
 											<div class="flex middle Interfacesider-tree_menu_opration">
-												{genIcon({
-													icon: "edit",
-													tips: vm.$t("修改接口").label,
-													clickHandler: $event =>
-														vm.showAddInterfaceDialog(_id, $event)
-												})}
 												{genIcon({
 													icon: "delete",
 													tips: vm.$t("删除接口").label,

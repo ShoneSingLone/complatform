@@ -19,7 +19,7 @@ export const ProjectInterface = defineComponent({
 	},
 	data() {
 		return {
-			state: {},
+			state: {}
 		};
 	},
 	created() {

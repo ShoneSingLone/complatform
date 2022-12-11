@@ -4,13 +4,7 @@ import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 import "./ProjectList.scss";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
-import {
-	AllWasWell,
-	pickValueFrom,
-	UI,
-	validateForm,
-	xU
-} from "@ventose/ui";
+import { AllWasWell, pickValueFrom, UI, validateForm, xU } from "@ventose/ui";
 import { Cpt_url } from "../../../router/router";
 import { DialogAddProject } from "../AddProject/DialogAddProject";
 
@@ -58,10 +52,9 @@ export const GroupProjectList = defineComponent({
 		},
 		vDomNoFollowPanel() {
 			const isUnfollow = project => !project.follow;
-			let unfollowArray = xU.sortBy(
-				xU.filter(this.projectData, isUnfollow),
-				["up_time"]
-			);
+			let unfollowArray = xU.sortBy(xU.filter(this.projectData, isUnfollow), [
+				"up_time"
+			]);
 
 			if (xU.isArrayFill(unfollowArray)) {
 				return (
@@ -75,10 +68,9 @@ export const GroupProjectList = defineComponent({
 		},
 		vDomFollowPanel() {
 			const isFollow = project => !!project.follow;
-			let followProject = xU.sortBy(
-				xU.filter(this.projectData, isFollow),
-				["up_time"]
-			);
+			let followProject = xU.sortBy(xU.filter(this.projectData, isFollow), [
+				"up_time"
+			]);
 			if (xU.isArrayFill(followProject)) {
 				return (
 					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>

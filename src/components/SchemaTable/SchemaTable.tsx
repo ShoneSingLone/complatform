@@ -86,8 +86,7 @@ const columns = [
 			return Object.keys(result).map((item, index) => {
 				let name = messageMap[item];
 				let value = result[item];
-				let isShow =
-					!xU.isUndefined(result[item]) && !xU.isUndefined(name);
+				let isShow = !xU.isUndefined(result[item]) && !xU.isUndefined(name);
 
 				return (
 					isShow && (

@@ -1,9 +1,6 @@
 import { defineComponent } from "vue";
 
-import {
-	State_Project,
-	useInterfaceTableConfigs
-} from "./State_Project";
+import { State_Project, useInterfaceTableConfigs } from "./State_Project";
 
 export const InterfaceAll = defineComponent({
 	setup() {

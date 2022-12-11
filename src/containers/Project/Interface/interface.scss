@@ -53,6 +53,10 @@
 				.ant-tree-node-content-wrapper {
 					padding: 0;
 
+					[data-interface-all-menu] {
+						transform: translateX(-32px);
+					}
+
 					.Interfacesider-tree_menu {
 						&.Interfacesider-tree_menu_active {
 							color: var(--color-selected);

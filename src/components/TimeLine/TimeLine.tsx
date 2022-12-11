@@ -175,43 +175,40 @@ export const TimeLine = defineComponent({
 		vDomSectionRecords() {
 			let records = <ErrMsg type="noData" />;
 			if (this.newsWillShow.length) {
-				const vDomTimeLineItem = xU.map(
-					this.newsWillShow,
-					(newsItem, i) => {
-						let interfaceDiff = xU.isPlainObject(newsItem.data);
-						const addTime = xU.dateFormat(newsItem.add_time, 1);
-						return (
-							<aTimelineItem
-								dot={
-									<aAvatar
-										class="pointer"
-										src={`/api/user/avatar?uid=${newsItem.uid}`}
-										onClick={() =>
-											Cpt_url.value.go(`/user/profile/${newsItem.uid}`)
-										}
-									/>
-								}
-								key={i}>
-								<div class="logMesHeade">
-									<span class="logo_$timeAgo">
-										{_$timeAgo(newsItem.add_time)}
-									</span>
-									<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
-									<span class="logtime">{addTime}</span>
-								</div>
-								<span class="logcontent" v-html={newsItem.content} />
-								<div style={{ padding: "10px 0 0 10px" }}>
-									{interfaceDiff && (
-										<aButton
-											onClick={() => this.showDiffLogDialog(newsItem.data)}>
-											改动详情
-										</aButton>
-									)}
-								</div>
-							</aTimelineItem>
-						);
-					}
-				);
+				const vDomTimeLineItem = xU.map(this.newsWillShow, (newsItem, i) => {
+					let interfaceDiff = xU.isPlainObject(newsItem.data);
+					const addTime = xU.dateFormat(newsItem.add_time, 1);
+					return (
+						<aTimelineItem
+							dot={
+								<aAvatar
+									class="pointer"
+									src={`/api/user/avatar?uid=${newsItem.uid}`}
+									onClick={() =>
+										Cpt_url.value.go(`/user/profile/${newsItem.uid}`)
+									}
+								/>
+							}
+							key={i}>
+							<div class="logMesHeade">
+								<span class="logo_$timeAgo">
+									{_$timeAgo(newsItem.add_time)}
+								</span>
+								<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
+								<span class="logtime">{addTime}</span>
+							</div>
+							<span class="logcontent" v-html={newsItem.content} />
+							<div style={{ padding: "10px 0 0 10px" }}>
+								{interfaceDiff && (
+									<aButton
+										onClick={() => this.showDiffLogDialog(newsItem.data)}>
+										改动详情
+									</aButton>
+								)}
+							</div>
+						</aTimelineItem>
+					);
+				});
 				records = (
 					<aTimeline class="TimeLine_news-content">
 						{vDomTimeLineItem}

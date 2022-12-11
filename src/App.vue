@@ -5,12 +5,15 @@ import { defineComponent } from "vue";
 import { xU } from "@ventose/ui";
 import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
-import { State_App } from "@/state/State_App.tsx";
+import { Cpt_url } from "./router/router";
+import { Methods_App, State_App } from "./state/State_App";
+import { Methods_Interface } from "./containers/Project/Interface/State_Project";
 
 export default defineComponent({
 	components: { AppFooter, AppHeader },
 	setup() {
 		return {
+			Cpt_url,
 			State_App
 		};
 	},
@@ -20,14 +23,28 @@ export default defineComponent({
 		};
 	},
 	async mounted() {
-		/* try { } catch (error) {} */
-		this.isLoading = false;
+		try {
+			if (this.Cpt_url.query.group_id) {
+				await Methods_App.setCurrGroup(this.Cpt_url.query.group_id);
+				await Methods_App.fetchProjectList(this.Cpt_url.query.group_id);
+				await Methods_App.fetchGroupList();
+				if (this.Cpt_url.query.project_id) {
+					await Methods_Interface.updateInterfaceMenuList();
+					debugger;
+				}
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			this.isLoading = false;
+		}
 	}
 });
 </script>
 <template>
 	<AppHeader v-if="State_App.user.isLogin" />
-	<RouterView v-loading="isLoading" />
+	<div v-if="isLoading" v-loading="isLoading" />
+	<RouterView v-else />
 	<AppFooter />
 </template>
 

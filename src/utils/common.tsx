@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { RouterView } from "../components/RouterView/RouterView";
 import { ErrMsg } from "../components/ErrMsg/ErrMsg";
-import { InfoCard } from "../components/InfoCard";
+import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
 export { ITEM_OPTIONS } from "./common.options";
 import CopyContent from "../components/CopyContent.vue";
 
@@ -25,6 +25,8 @@ export const appPlugins = {
 		app.use({
 			install: (app, { watch } = {}) => {
 				app.component("InfoCard", InfoCard);
+				app.component("InfoCardRow", InfoCardRow);
+				app.component("InfoCardCol", InfoCardCol);
 				app.component("RouterView", RouterView);
 				app.component("ErrMsg", ErrMsg);
 				app.component("CopyContent", CopyContent);
@@ -37,6 +39,26 @@ export const appPlugins = {
 		});
 		return app;
 	}
+};
+export const _$interfacePathParamsTpl = (data, index) => {
+	debugger;
+	return (
+		<Row key={index} className="interface-edit-item-content">
+			<Col span="6" className="interface-edit-item-content-col">
+				<aInput disabled placeholder="参数名称" />
+			</Col>
+			<Col span="7" className="interface-edit-item-content-col">
+				{getFieldDecorator("req_params[" + index + "].example", {
+					initialValue: data.example
+				})(<aTextArea autosize={true} placeholder="参数示例" />)}
+			</Col>
+			<Col span="11" className="interface-edit-item-content-col">
+				{getFieldDecorator("req_params[" + index + "].desc", {
+					initialValue: data.desc
+				})(<aTextArea autosize={true} placeholder="备注" />)}
+			</Col>
+		</Row>
+	);
 };
 
 // 从 Javascript 对象中选取随机属性
