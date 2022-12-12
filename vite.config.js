@@ -20,6 +20,7 @@ export default defineConfig({
 				target: YAPI_TARGET_HOST,
 				changeOrigin: true,
 				secure: false,
+				ws: true,
 				rewrite: path => path.replace(/^\/api/, "/api")
 			}
 		}
@@ -30,7 +31,7 @@ export default defineConfig({
 		assetsInlineLimit: 1024,
 		cssCodeSplit: false,
 		sourcemap: true,
-		manifest: true,
+		manifest: true
 	},
 	plugins: [
 		useVue(),
@@ -39,14 +40,14 @@ export default defineConfig({
 			/* windows平台 */
 			data: (() => {
 				return {
-					version: __APP_VERSION,
+					version: __APP_VERSION
 				};
 			})()
 		})
 	],
 	resolve: {
 		alias: {
-			"src": path.resolve(__dirname, "./src"),
+			src: path.resolve(__dirname, "./src"),
 			"@": path.resolve(__dirname, "./src"),
 			/* 开发的时候用，不用每次修改之后都发布到npm */
 			"@ventose/ui": path.resolve(__dirname, "./src/devui/VentoseUI.es.js"),

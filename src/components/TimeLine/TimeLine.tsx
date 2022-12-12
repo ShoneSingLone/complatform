@@ -62,7 +62,6 @@ export const TimeLine = defineComponent({
 					limit: this.pagination.size,
 					selectValue: this.curSelectValue
 				});
-				debugger;
 				const { list, total } = data || {};
 				if (list && total) {
 					this.newsWillShow = list;
@@ -83,7 +82,6 @@ export const TimeLine = defineComponent({
 		showDiffLogDialog(data) {
 			UI.dialog.component({
 				title: $t("Api 改动日志(Esc 关闭弹窗)").label,
-				hideButtons: true,
 				component: DialogApiModify,
 				maxmin: true,
 				fullscreen: true,

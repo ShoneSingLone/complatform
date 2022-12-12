@@ -32,7 +32,7 @@ export const appPlugins = {
 				app.component("CopyContent", CopyContent);
 				//注册i8n实例并引入语言文件
 				app.config.globalProperties.$t = State_UI.$t;
-				State_UI.assetsSvgPath = `${__URL_STATIC_DIR}assets/img/svg`;
+				State_UI.setAssetsBaseById("favicon-icon");
 				$("html").attr("lang", State_UI.language);
 				watch && watch();
 			}

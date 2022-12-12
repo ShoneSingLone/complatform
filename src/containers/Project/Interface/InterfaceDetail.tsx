@@ -2,16 +2,17 @@ import { defineComponent, ref, watch } from "vue";
 import { $, xU, UI } from "@ventose/ui";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
-import { Methods_Interface, State_Project } from "./State_Project";
+import { Methods_Project, State_Project } from "./State_Project";
 import { Cpt_url } from "../../../router/router";
 import { InfoCard, InfoCardCol } from "../../../components/InfoCard";
 import { ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { State_App } from "./../../../state/State_App";
 import { DialogModifyInterface } from "./DialogModifyInterface";
+import { makeAhref } from "src/components/RouterView/RouterView";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		return { State_Interface: State_Project, Cpt_url };
+		return { State_Project: State_Project, Cpt_url };
 	},
 	data(vm) {
 		return {
@@ -46,26 +47,91 @@ export const InterfaceDetail = defineComponent({
 				return;
 			}
 		},
-		showModifyInterfaceDialog() {
+		closeWS() {
+			this.WebSocket && this.WebSocket.close();
+			delete this.WebSocket;
+		},
+		async showModifyInterfaceDialog() {
+			const vm = this;
 			const item = this.detailInfo;
 			const $dialogModifyInterface = $(`.dialog-modify-interface`);
+
 			if ($dialogModifyInterface.length > 0) {
 				UI.message.warn(this.$t("已存在修改面板").label);
 				return;
 			}
-			console.log(DialogModifyInterface);
+			const { status, curdata, message } = await this.checkConflict(item);
+
+			if (status == 2) {
+				UI.dialog.confirm({
+					content: (
+						<div class="flex middle">
+							<a href={makeAhref(`/user/profile/${curdata.uid}`)}>
+								{curdata.username}
+							</a>
+							<div>正在编辑该接口，请稍后再试...</div>
+						</div>
+					)
+				});
+				this.closeWS();
+				return;
+			}
+
+			if (message) {
+				UI.message.warn(message);
+			}
+
 			UI.dialog.component({
 				title: this.$t("修改接口").label + `-${item.title}`,
 				// fullscreen: true,
+				component: DialogModifyInterface,
 				oldInterface: item,
 				maxmin: true,
-				component: DialogModifyInterface,
-				onOk: async instance => {
-					if (await instance.vm.submit()) {
-						UI.message.success("添加接口成功");
-						instance.close();
-					}
-					Methods_Interface.updateInterfaceMenuList();
+				onBeforeClose: vm.closeWS,
+			});
+		},
+		async checkConflict(item) {
+			const vm = this;
+			const { hostname, port, protocol } = location;
+			let domain = hostname + (port !== "" ? ":" + port : "");
+			//因后端 node 仅支持 ws， 暂不支持 wss
+			let wsProtocol = protocol === "https:" ? "wss" : "ws";
+
+			return new Promise((resolve, reject) => {
+				try {
+					const sockei = new WebSocket(
+						`${wsProtocol}://${domain}/api/interface/solve_conflict?id=${item._id}`
+					);
+					sockei.onopen = () => {
+						vm.WebSocket = sockei;
+					};
+					sockei.onmessage = e => {
+						let result = JSON.parse(e.data);
+						if (result.errno === 0) {
+							resolve({
+								curdata: result.data,
+								status: 1
+							});
+						} else {
+							resolve({
+								curdata: result.data,
+								status: 2
+							});
+						}
+					};
+					sockei.onerror = () => {
+						resolve({
+							curdata: item,
+							status: 1,
+							message: "websocket 连接失败，将导致多人编辑同一个接口冲突。"
+						});
+					};
+				} catch (e) {
+					resolve({
+						curdata: item,
+						status: 1,
+						message: "websocket 连接失败，将导致多人编辑同一个接口冲突。"
+					});
 				}
 			});
 		}
@@ -82,9 +148,8 @@ export const InterfaceDetail = defineComponent({
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
-				this.Cpt_currProject._id
-			}${this.Cpt_currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.Cpt_currProject._id
+				}${this.Cpt_currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {

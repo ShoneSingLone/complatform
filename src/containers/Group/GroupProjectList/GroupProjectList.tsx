@@ -154,16 +154,8 @@ export const GroupProjectList = defineComponent({
 			UI.dialog.component({
 				title: "添加项目",
 				component: DialogAddProject,
-				area: ["840px", "550px"],
-				okText: "创建项目",
 				groupId: vm.Cpt_url.query.group_id,
-				async onOk(instance) {
-					const res = await instance.vm.submit();
-					if (res) {
-						instance.close();
-						vm.updateProjectList();
-					}
-				}
+				updateProjectList: vm.updateProjectList
 			});
 		},
 		// 修改线上域名的协议类型 (http/https)

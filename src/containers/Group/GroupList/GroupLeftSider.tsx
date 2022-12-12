@@ -32,17 +32,17 @@ export function fnShowUpsertGroupDialog(row = {}) {
 		fullscreen: isUpdate,
 		row,
 		area: ["580px", "460px"],
-		onOk: async instance => {
+		onOk: async ({ formItems, closeDialog }) => {
 			let formData = {};
 			if (isUpdate) {
-				const validateResults = await validateForm(instance.vm.formItems);
+				const validateResults = await validateForm(formItems);
 				if (AllWasWell(validateResults)) {
 					const {
 						currGroupName,
 						currGroupDesc,
 						custom_field1_enable,
 						custom_field1_name
-					} = pickValueFrom(instance.vm.formItems);
+					} = pickValueFrom(formItems);
 					formData = {
 						...row,
 						group_name: currGroupName,
@@ -57,10 +57,10 @@ export function fnShowUpsertGroupDialog(row = {}) {
 					throw new Error("未通过验证");
 				}
 			} else {
-				const validateResults = await validateForm(instance.vm.formItems);
+				const validateResults = await validateForm(formItems);
 				if (AllWasWell(validateResults)) {
 					const { newGroupName, newGroupDesc, owner_uids } = pickValueFrom(
-						instance.vm.formItems
+						formItems
 					);
 					formData = {
 						group_name: newGroupName,
@@ -72,7 +72,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 				}
 			}
 			await vm.fnUpsertGroupInfo(formData);
-			instance.close();
+			closeDialog();
 		}
 	});
 }

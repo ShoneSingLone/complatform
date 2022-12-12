@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { $, xU, UI, State_UI, defCol, defXVirTableConfigs } from "@ventose/ui";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
@@ -6,7 +6,6 @@ import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { Cpt_url } from "../../../router/router";
 
 const { $t } = State_UI;
-
 const defautlValue = () => ({
 	isLoading: false,
 	list: [],
@@ -29,7 +28,15 @@ const _State_Project = defautlValue();
 
 export const State_Project = reactive(_State_Project);
 
-export const Methods_Interface = {
+export const Methods_Project = {
+	setExpand: xU.debounce(function () {
+		const { pathname, query } = Cpt_url.value;
+		if ("/project/interface/detail" === pathname) {
+			State_Project.expandedKeys = [Number(query.category_id)];
+		} else {
+			State_Project.expandedKeys = [];
+		}
+	}, 500),
 	resetURL: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
 		const { category_id, interface_id } = query;
@@ -60,12 +67,12 @@ export const Methods_Interface = {
 		}
 	}, 100),
 	async updateInterfaceMenuList() {
-		if (!Cpt_currProject.value) {
+		/* 必然是有当前project的id */
+		const projectId = Number(Cpt_url.value?.query?.project_id);
+		if (!projectId) {
 			debugger;
-		}
-		const projectId = Cpt_currProject.value._id;
-		if (typeof projectId !== "number") {
-			debugger;
+			console.error("miss project_id in url");
+			return;
 		}
 		const { data } = await API.project.fetchInterfaceListMenu(projectId);
 
@@ -117,6 +124,16 @@ export const Methods_Interface = {
 		}
 	}
 };
+
+watch(
+	() => {
+		const { pathname, query } = Cpt_url.value;
+		return pathname + query.category_id;
+	},
+	() => {
+		Methods_Project.setExpand();
+	}
+);
 
 /*interfaceAll 与 interfaceCategory 同用的列表*/
 export function useInterfaceTableConfigs(isAll = false) {
@@ -233,8 +250,19 @@ export function useInterfaceTableConfigs(isAll = false) {
 							</div>
 						);
 					},
-					renderCell({ records, cell, index }) {
-						return <a>{cell}</a>;
+					renderCell({ record, cell, index }) {
+						return (
+							<a
+								onClick={() => {
+									Cpt_url.value.go("/project/interface/detail", {
+										...Cpt_url.value.query,
+										category_id: record.categoryId,
+										interface_id: record._id
+									});
+								}}>
+								{cell}
+							</a>
+						);
 					}
 				}),
 				...defCol({

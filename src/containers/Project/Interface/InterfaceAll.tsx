@@ -7,7 +7,7 @@ export const InterfaceAll = defineComponent({
 		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
 			useInterfaceTableConfigs(true);
 		return {
-			State_Interface: State_Project,
+			State_Project,
 			filterParams,
 			configs_interfaceTable,
 			fnUpdateListForShow
@@ -15,7 +15,7 @@ export const InterfaceAll = defineComponent({
 	},
 	computed: {},
 	watch: {
-		"State_Interface.allInterface": {
+		"State_Project.allInterface": {
 			immediate: true,
 			handler() {
 				this.fnUpdateListForShow();
@@ -24,7 +24,7 @@ export const InterfaceAll = defineComponent({
 		filterParams: {
 			deep: true,
 			handler() {
-				this.State_Interface.isLoading = true;
+				this.State_Project.isLoading = true;
 				this.configs_interfaceTable.selected = [];
 				this.fnUpdateListForShow();
 			}

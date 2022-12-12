@@ -1,5 +1,5 @@
 <template>
-	<aCard>
+	<aCard class="flex1">
 		<xForm
 			class="flex vertical"
 			:label-style="{ 'min-width': '120px', width: 'unset' }">
@@ -9,6 +9,7 @@
 			</template>
 		</xForm>
 	</aCard>
+	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 
 <script lang="jsx">
@@ -53,6 +54,19 @@ export default defineComponent({
 				})
 			}
 		};
+	},
+	computed: {
+		dialogDefautBtn() {
+			return {
+				onCancel: this.propDialogOptions.closeDialog,
+				onOk: () => {
+					this.propDialogOptions.onOk({
+						formItems: this.formItems,
+						closeDialog: this.propDialogOptions.closeDialog
+					});
+				}
+			};
+		}
 	},
 	mounted() {
 		this.propDialogOptions.vm = this;

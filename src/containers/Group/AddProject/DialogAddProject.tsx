@@ -195,10 +195,8 @@ export const DialogAddProject = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
 		this.init();
 	},
-
 	methods: {
 		async init() {
 			Methods_App.setBreadcrumb([{ name: "新建项目" }]);
@@ -235,22 +233,36 @@ export const DialogAddProject = defineComponent({
 	},
 	render() {
 		return (
-			<div class="g-row flex1 height100">
-				<div class="g-row m-container">
-					<xForm
-						class="flex vertical"
-						labelStyle={{ "min-width": "120px", width: "unset" }}>
-						{xU.map(this.dataXItem, (configs, prop) => {
-							return (
-								<>
-									<xGap t="10" />
-									<xItem configs={configs} />
-								</>
-							);
-						})}
-					</xForm>
+			<>
+				<div class="g-row flex1 height100">
+					<div class="g-row m-container">
+						<xForm
+							class="flex vertical"
+							labelStyle={{ "min-width": "120px", width: "unset" }}>
+							{xU.map(this.dataXItem, (configs, prop) => {
+								return (
+									<>
+										<xGap t="10" />
+										<xItem configs={configs} />
+									</>
+								);
+							})}
+						</xForm>
+					</div>
 				</div>
-			</div>
+				<xDialogFooter configs={
+					{
+						onCancel: this.propDialogOptions.closeDialog,
+						onOk: async () => {
+							const res = await this.submit();
+							if (res) {
+								this.propDialogOptions.updateProjectList();
+								this.propDialogOptions.closeDialog();
+							}
+						}
+					}
+				} />
+			</>
 		);
 	}
 });

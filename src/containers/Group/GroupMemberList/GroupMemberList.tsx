@@ -39,7 +39,7 @@ export const GroupMemberList = defineComponent({
 			},
 			configs_table: defDataGridOption({
 				isHidePagination: true,
-				async queryTableList(params) {},
+				async queryTableList(params) { },
 				dataSource: [],
 				columns: {}
 			})
@@ -169,13 +169,13 @@ export const GroupMemberList = defineComponent({
 				title: "添加成员",
 				component: ViewAddMember,
 				area: ["480px", "260px"],
-				onOk: async instance => {
-					const validateResults = await validateForm(instance.vm.formItems);
+				onOk: async ({ formItems, closeDialog }) => {
+					const validateResults = await validateForm(formItems);
 					if (AllWasWell(validateResults)) {
-						const { member_uids, role } = pickValueFrom(instance.vm.formItems);
+						const { member_uids, role } = pickValueFrom(formItems);
 						try {
 							await this.addMember({ member_uids, role });
-							instance.close();
+							closeDialog();
 						} catch (error) {
 							UI.message.error("添加失败");
 						}

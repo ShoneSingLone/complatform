@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "bs": "pnpm i",
-    "start": "vite --open --host",
+    "start": "vite --open --host --port 3010",
     "build": "npm run genIconJSON && vite build",
     "genIconJSON_comment": "在public下的icon svg资源，获取文件名，用于系统图标的下拉选项 ",
     "genIconJSON": "node ./preprocess/genIconJSON.js",

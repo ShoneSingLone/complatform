@@ -3,6 +3,7 @@ import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { Cpt_currProject, State_App } from "../../../state/State_App";
+import { Methods_Project } from "./State_Project";
 
 export const DialogUpsertCategory = defineComponent({
 	props: {
@@ -57,7 +58,7 @@ export const DialogUpsertCategory = defineComponent({
 				setValueTo(this.dataXItem, this.category);
 			}
 		},
-		async submit(callback) {
+		async onOk() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
@@ -68,8 +69,8 @@ export const DialogUpsertCategory = defineComponent({
 					} else {
 						await this.insertNewCategory({ name, desc, project_id });
 					}
-					callback && callback();
-					this.propDialogOptions.close();
+					Methods_Project.updateInterfaceMenuList();
+					this.propDialogOptions.closeDialog();
 				} catch (error) {
 					if (this.category) {
 						UI.message.error(this.$t("修改_失败", { title: "分类" }).label);
@@ -107,22 +108,25 @@ export const DialogUpsertCategory = defineComponent({
 	},
 	render() {
 		return (
-			<div class="g-row flex1 height100 ">
-				<xGap t="10" />
-				<xForm
-					class="flex vertical"
-					labelStyle={{ "min-width": "120px", width: "unset" }}>
-					{xU.map(this.dataXItem, (configs, prop) => {
-						return (
-							<>
-								<xGap t="10" />
-								<xItem configs={configs} />
-							</>
-						);
-					})}
-				</xForm>
-				<xGap b="38" />
-			</div>
+			<>
+				<div class="g-row flex1 height100 ">
+					<xGap t="10" />
+					<xForm
+						class="flex vertical"
+						labelStyle={{ "min-width": "120px", width: "unset" }}>
+						{xU.map(this.dataXItem, (configs, prop) => {
+							return (
+								<>
+									<xGap t="10" />
+									<xItem configs={configs} />
+								</>
+							);
+						})}
+					</xForm>
+					<xGap b="38" />
+				</div>
+				<xDialogFooter configs={{ onCancel: this.propDialogOptions.closeDialog, onOk: this.onOk }} />
+			</>
 		);
 	}
 });

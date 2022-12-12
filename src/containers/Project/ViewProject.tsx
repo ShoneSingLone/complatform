@@ -15,7 +15,7 @@ export const ViewProject = defineComponent({
 		/* 以project为root，共享数据随project生命周期重置 */
 		resetStateInterface();
 		return {
-			State_Interface: State_Project,
+			State_Project,
 			State_App,
 			Cpt_url,
 			Cpt_currGroupId,

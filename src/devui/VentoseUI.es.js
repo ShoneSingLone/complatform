@@ -2102,6 +2102,14 @@ div.xVirTable-row > div.xVirTable-cell::after {
   width: 100%;
   height: 100%;
   border-right: 1px solid #f0f0f0;
+}
+
+.ventose-dialog-content {
+  overflow: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  height: 100%;
 }/*!
  * 
  * ant-design-vue v3.2.13
@@ -29545,18 +29553,18 @@ div[id^=lazy-svg_] {
   z-index: 4;
   text-align: center;
 }
-.table-options {
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: center;
+.table-options {\r
+	display: flex;\r
+	flex-flow: row nowrap;\r
+	align-items: center;\r
 	padding: 10px 0;
 }
-.table-filter {
+.table-filter {\r
 	margin-left: 4px;
 }
-.table-pagination {
+.table-pagination {\r
 	padding: 10px 0;
-}
+}\r
 .vir-item-component {
   height: 100%;
   overflow: auto;
@@ -29602,7 +29610,6 @@ import Antd, {
 	DatePicker as DatePicker$3,
 	Checkbox as Checkbox$1,
 	Switch as Switch$1,
-	Button,
 	Table,
 	Modal,
 	message,
@@ -29643,7 +29650,6 @@ import {
 import dayjs from "dayjs";
 import { default as default3, default as default4 } from "dayjs";
 import _ from "lodash";
-
 const index = "";
 const ui = "";
 const antd = "";
@@ -29694,7 +29700,6 @@ const Pagination$1 = {
 	prev_3: "Previous 3 Pages",
 	next_3: "Next 3 Pages"
 };
-
 function _defineProperty(obj, key, value) {
 	if (key in obj) {
 		Object.defineProperty(obj, key, {
@@ -29708,7 +29713,6 @@ function _defineProperty(obj, key, value) {
 	}
 	return obj;
 }
-
 function ownKeys(object, enumerableOnly) {
 	var keys = Object.keys(object);
 	if (Object.getOwnPropertySymbols) {
@@ -29721,7 +29725,6 @@ function ownKeys(object, enumerableOnly) {
 	}
 	return keys;
 }
-
 function _objectSpread2(target) {
 	for (var i = 1; i < arguments.length; i++) {
 		var source = null != arguments[i] ? arguments[i] : {};
@@ -29744,7 +29747,6 @@ function _objectSpread2(target) {
 	}
 	return target;
 }
-
 var locale$5 = {
 	locale: "en_US",
 	today: "Today",
@@ -30150,7 +30152,6 @@ var zhCn = { exports: {} };
 				? e2
 				: { default: e2 };
 		}
-
 		var t = _2(e),
 			d = {
 				name: "zh-cn",
@@ -30233,7 +30234,6 @@ var enAu = { exports: {} };
 				? e2
 				: { default: e2 };
 		}
-
 		var t = a(e),
 			_2 = {
 				name: "en-au",
@@ -30373,7 +30373,6 @@ return (${scfObjSourceCode})(argVue,argPayload);`
 				? targetSource.replace(/`/g, "\\`")
 				: targetSource;
 		}
-
 		function splitCode() {
 			if (!/TEMPLATE_PLACEHOLDER/.test(code)) {
 				alert("SFC miss TEMPLATE_PLACEHOLDER");
@@ -30384,7 +30383,6 @@ return (${scfObjSourceCode})(argVue,argPayload);`
 				`template: \`${getSource(code, "template")}\``
 			);
 		}
-
 		return splitCode();
 	},
 	async asyncExecFnString(url) {
@@ -30530,7 +30528,7 @@ return (${scfObjSourceCode})(argVue,argPayload);`
 		return `k${privateLodash.camelCase(someString)}`;
 	},
 	asyncLoadText: async function (url) {
-		if (!window.___VENTOSE_UI_IS_DEV_MODE) {
+		if (!localStorage.___VENTOSE_UI_IS_DEV_MODE) {
 			const res = await iStorage(url);
 			if (res) {
 				return res;
@@ -30543,7 +30541,7 @@ return (${scfObjSourceCode})(argVue,argPayload);`
 				url,
 				dataType: "text",
 				success(...args2) {
-					if (!window.___VENTOSE_UI_IS_DEV_MODE) {
+					if (!localStorage.___VENTOSE_UI_IS_DEV_MODE) {
 						iStorage(url, args2[0]);
 					}
 					resolve.apply(null, args2);
@@ -30689,14 +30687,12 @@ return (${scfObjSourceCode})(argVue,argPayload);`
 		return item;
 	}
 };
-
 function promisifyRequest(request) {
 	return new Promise((resolve, reject) => {
 		request.oncomplete = request.onsuccess = () => resolve(request.result);
 		request.onabort = request.onerror = () => reject(request.error);
 	});
 }
-
 function createStore(dbName, storeName) {
 	const request = indexedDB.open(dbName);
 	request.onupgradeneeded = () => request.result.createObjectStore(storeName);
@@ -30706,27 +30702,22 @@ function createStore(dbName, storeName) {
 			callback(db.transaction(storeName, txMode).objectStore(storeName))
 		);
 }
-
 let defaultGetStoreFunc;
-
 function defaultGetStore() {
 	if (!defaultGetStoreFunc) {
 		defaultGetStoreFunc = createStore("keyval-store", "keyval");
 	}
 	return defaultGetStoreFunc;
 }
-
 function get(key, customStore = defaultGetStore()) {
 	return customStore("readonly", store => promisifyRequest(store.get(key)));
 }
-
 function set(key, value, customStore = defaultGetStore()) {
 	return customStore("readwrite", store => {
 		store.put(value, key);
 		return promisifyRequest(store.transaction);
 	});
 }
-
 const lStorage = new Proxy(localStorage, {
 	set(_localStorage, prop, value) {
 		if (privateLodash.isPlainObject(value)) {
@@ -30774,15 +30765,17 @@ let _State_UI = {
 	i18nMessage: {},
 	assetsSvgPath: "",
 	assetsPath: "",
+	bashPath: "",
 	setAssetsBaseById(eleId) {
 		var _a;
 		const img = document.getElementById(eleId);
 		if (img) {
-			const src = String(img.src);
+			const src = String(img.href);
 			const index2 =
 				((_a = src.match(/assets(.*)/)) == null ? void 0 : _a.index) || 0;
 			this.assetsSvgPath = src.substring(0, index2) + "assets/svg";
 			this.assetsPath = src.substring(0, index2) + "assets";
+			this.bashPath = src.substring(0, index2);
 		}
 	},
 	$t(prop, payload = {}, i18nMessage = false) {
@@ -30865,7 +30858,6 @@ const TIPS_TYPE = {
 	success: "success",
 	error: "error"
 };
-
 async function validateForm(configsForm) {
 	return Promise.all(
 		privateLodash.map(
@@ -30903,7 +30895,6 @@ async function validateForm(configsForm) {
 			return error;
 		});
 }
-
 const AllWasWell = res => {
 	return privateLodash.isArray(res) && res.length === 0;
 };
@@ -31104,18 +31095,18 @@ const _sfc_main$b = defineComponent({
 		}
 	},
 	emits: ["update:modelValue"],
-	setup(props) {
+	setup(props, { attrs, slots, emit, expose }) {
 		let Cpt_isShowXItem = true;
 		let Cpt_isDisabled = false;
 		if (privateLodash.isFunction(props.configs.isShow)) {
 			Cpt_isShowXItem = computed(props.configs.isShow);
 		} else if (privateLodash.isBoolean(props.configs.isShow)) {
-			Cpt_isShowXItem = props.configs.isShow;
+			Cpt_isShowXItem = computed(() => props.configs.isShow);
 		}
 		if (privateLodash.isFunction(props.configs.disabled)) {
 			Cpt_isDisabled = computed(props.configs.disabled);
 		} else if (privateLodash.isBoolean(props.configs.disabled)) {
-			Cpt_isDisabled = props.configs.disabled;
+			Cpt_isDisabled = computed(() => props.configs.disabled);
 		}
 		return {
 			Cpt_isShowXItem,
@@ -31150,7 +31141,6 @@ const _sfc_main$b = defineComponent({
 				handleConfigsValidate(EVENT_TYPE.focus);
 			}
 		};
-
 		function initListenerHandler(prop, value) {
 			listeners[prop] = function (...args2) {
 				privateLodash.each(listeners[prop].queue, listener => {
@@ -31159,7 +31149,6 @@ const _sfc_main$b = defineComponent({
 			};
 			listeners[prop].queue = [value];
 		}
-
 		function addListenerFromConfigs(currentConfigs) {
 			const propsWillDeleteFromConfigs = [];
 			privateLodash.each(currentConfigs, (value, prop) => {
@@ -31179,7 +31168,6 @@ const _sfc_main$b = defineComponent({
 			});
 			return listeners;
 		}
-
 		privateLodash.each(listeners, (value, prop) =>
 			initListenerHandler(prop, value)
 		);
@@ -31244,7 +31232,7 @@ const _sfc_main$b = defineComponent({
 						property[prop] = value(vm);
 						return;
 					}
-					if (["itemTips", "rules"].includes(prop)) {
+					if (["itemTips", "rules", "labelVNodeRender"].includes(prop)) {
 						return;
 					}
 					property[prop] = value;
@@ -31497,7 +31485,6 @@ const _export_sfc = (sfc, props) => {
 	return target;
 };
 const _hoisted_1$e = ["id"];
-
 function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
 	return (
 		openBlock(),
@@ -31510,7 +31497,6 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
 		)
 	);
 }
-
 const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$a, [
 	["render", _sfc_render$7]
 ]);
@@ -31590,9 +31576,6 @@ const xButton = defineComponent({
 				return {};
 			}
 		}
-	},
-	components: {
-		Button
 	},
 	beforeMount() {
 		if (!this.configs) {
@@ -31702,7 +31685,7 @@ const xButton = defineComponent({
 			configs.title = this.title;
 		}
 		return createVNode(
-			Button,
+			resolveComponent("aButton"),
 			mergeProps(
 				{
 					class: "x-button",
@@ -31790,7 +31773,6 @@ const _sfc_main$9 = defineComponent({
 		}
 	}
 });
-
 function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
 	const _component_xButton = resolveComponent("xButton");
 	return (
@@ -31800,7 +31782,6 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
 		])
 	);
 }
-
 const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$9, [
 	["render", _sfc_render$6]
 ]);
@@ -31920,7 +31901,6 @@ const _sfc_main$7 = defineComponent({
 	}
 });
 const _hoisted_1$d = ["id"];
-
 function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
 	return (
 		openBlock(),
@@ -31936,7 +31916,6 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
 		)
 	);
 }
-
 const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$7, [
 	["render", _sfc_render$5]
 ]);
@@ -31958,7 +31937,6 @@ const _sfc_main$6 = defineComponent({
 	}
 });
 const _hoisted_1$c = ["id"];
-
 function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
 	return withDirectives(
 		(openBlock(),
@@ -31972,7 +31950,6 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
 		[[vShow, !!_ctx.isShow]]
 	);
 }
-
 const xView = /* @__PURE__ */ _export_sfc(_sfc_main$6, [
 	["render", _sfc_render$4]
 ]);
@@ -31997,11 +31974,9 @@ const _hoisted_2$8 = /* @__PURE__ */ createElementVNode(
 	-1
 );
 const _hoisted_3$8 = [_hoisted_2$8];
-
 function render$7(_ctx, _cache) {
 	return openBlock(), createElementBlock("svg", _hoisted_1$b, _hoisted_3$8);
 }
-
 const InsideDeleteOutlined = { name: "DeleteOutlined", render: render$7 };
 const _hoisted_1$a = {
 	xmlns: "http://www.w3.org/2000/svg",
@@ -32024,11 +31999,9 @@ const _hoisted_2$7 = /* @__PURE__ */ createElementVNode(
 	-1
 );
 const _hoisted_3$7 = [_hoisted_2$7];
-
 function render$6(_ctx, _cache) {
 	return openBlock(), createElementBlock("svg", _hoisted_1$a, _hoisted_3$7);
 }
-
 const InsideExclamationCircleOutlined = {
 	name: "ExclamationCircleOutlined",
 	render: render$6
@@ -32070,11 +32043,9 @@ const _hoisted_3$6 = /* @__PURE__ */ createElementVNode(
 	-1
 );
 const _hoisted_4 = [_hoisted_2$6, _hoisted_3$6];
-
 function render$5(_ctx, _cache) {
 	return openBlock(), createElementBlock("svg", _hoisted_1$9, _hoisted_4);
 }
-
 const InsideLoadingOutlined = { name: "LoadingOutlined", render: render$5 };
 const _hoisted_1$8 = {
 	xmlns: "http://www.w3.org/2000/svg",
@@ -32097,11 +32068,9 @@ const _hoisted_2$5 = /* @__PURE__ */ createElementVNode(
 	-1
 );
 const _hoisted_3$5 = [_hoisted_2$5];
-
 function render$4(_ctx, _cache) {
 	return openBlock(), createElementBlock("svg", _hoisted_1$8, _hoisted_3$5);
 }
-
 const InsideSaveOutlined = { name: "SaveOutlined", render: render$4 };
 const _hoisted_1$7 = {
 	xmlns: "http://www.w3.org/2000/svg",
@@ -32124,11 +32093,9 @@ const _hoisted_2$4 = /* @__PURE__ */ createElementVNode(
 	-1
 );
 const _hoisted_3$4 = [_hoisted_2$4];
-
 function render$3(_ctx, _cache) {
 	return openBlock(), createElementBlock("svg", _hoisted_1$7, _hoisted_3$4);
 }
-
 const InsideSearchOutlined = { name: "SearchOutlined", render: render$3 };
 const _hoisted_1$6 = {
 	xmlns: "http://www.w3.org/2000/svg",
@@ -32151,11 +32118,9 @@ const _hoisted_2$3 = /* @__PURE__ */ createElementVNode(
 	-1
 );
 const _hoisted_3$3 = [_hoisted_2$3];
-
 function render$2(_ctx, _cache) {
 	return openBlock(), createElementBlock("svg", _hoisted_1$6, _hoisted_3$3);
 }
-
 const InsideSyncOutlined = { name: "SyncOutlined", render: render$2 };
 const _hoisted_1$5 = {
 	xmlns: "http://www.w3.org/2000/svg",
@@ -32178,11 +32143,9 @@ const _hoisted_2$2 = /* @__PURE__ */ createElementVNode(
 	-1
 );
 const _hoisted_3$2 = [_hoisted_2$2];
-
 function render$1(_ctx, _cache) {
 	return openBlock(), createElementBlock("svg", _hoisted_1$5, _hoisted_3$2);
 }
-
 const InsideUploadOutlined = { name: "UploadOutlined", render: render$1 };
 const _hoisted_1$4 = {
 	xmlns: "http://www.w3.org/2000/svg",
@@ -32205,11 +32168,9 @@ const _hoisted_2$1 = /* @__PURE__ */ createElementVNode(
 	-1
 );
 const _hoisted_3$1 = [_hoisted_2$1];
-
 function render(_ctx, _cache) {
 	return openBlock(), createElementBlock("svg", _hoisted_1$4, _hoisted_3$1);
 }
-
 const Insidetips = { name: "tips", render };
 const insideIcons = {
 	InsideDeleteOutlined,
@@ -32313,18 +32274,15 @@ const _sfc_main$5 = defineComponent(
 	})
 );
 const xIcon_vue_vue_type_style_index_0_lang = "";
-
 function _isSlot$1(s) {
 	return (
 		typeof s === "function" ||
 		(Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s))
 	);
 }
-
 const static_word = {
 	operation: "operation"
 };
-
 function defDataGridOption(options) {
 	options.pagination = options.pagination || defPagination();
 	options.isLoading = Boolean(options.isLoading);
@@ -32345,7 +32303,6 @@ function defDataGridOption(options) {
 		};
 	return options;
 }
-
 function defPagination(num_page = 1, num_size = 10, num_total = 0) {
 	const {
 		page: page2,
@@ -32358,14 +32315,12 @@ function defPagination(num_page = 1, num_size = 10, num_total = 0) {
 		[total2]: num_total || 0
 	};
 }
-
 function setPagination(StateTable, pagination) {
 	const PAGINATION_MAP = lStorage.appConfigs.pagination;
 	privateLodash.each(pagination, (value, prop) => {
 		StateTable.pagination[PAGINATION_MAP[prop]] = value;
 	});
 }
-
 function getPaginationPageSize(StateTable) {
 	const PAGINATION_MAP = lStorage.appConfigs.pagination;
 	const pagination = StateTable.pagination;
@@ -32375,7 +32330,6 @@ function getPaginationPageSize(StateTable) {
 		[size2]: pagination[size2]
 	};
 }
-
 function defCol(options) {
 	return {
 		[options.prop]: {
@@ -32386,7 +32340,6 @@ function defCol(options) {
 		}
 	};
 }
-
 function defColActions(options) {
 	return {
 		[static_word.operation]: privateLodash.merge(
@@ -32401,7 +32354,6 @@ function defColActions(options) {
 		)
 	};
 }
-
 function defColActionsBtnlist(options) {
 	const { fold = 3, btns = [] } = options;
 	const [always, more] = (() => {
@@ -32520,7 +32472,6 @@ function defColActionsBtnlist(options) {
 		]
 	);
 }
-
 function filterColIsShow(isShow, prop) {
 	if (privateLodash.isBoolean(isShow)) {
 		return isShow;
@@ -32528,7 +32479,6 @@ function filterColIsShow(isShow, prop) {
 		return true;
 	}
 }
-
 function setDataGridInfo(
 	StateBind,
 	result = {
@@ -32543,7 +32493,6 @@ function setDataGridInfo(
 		});
 	}
 }
-
 const PAGE_SIZE_OPTIONS = ["10", "20", "30"];
 const { page, size, total } = lStorage.appConfigs.pagination;
 const xPagination = defineComponent({
@@ -32928,7 +32877,6 @@ const _hoisted_1$3 = /* @__PURE__ */ createElementVNode(
 	null,
 	-1
 );
-
 function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
 	const _component_aCheckbox = resolveComponent("aCheckbox");
 	const _component_aButton = resolveComponent("aButton");
@@ -32989,7 +32937,6 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
 		)
 	);
 }
-
 const xColFilter = /* @__PURE__ */ _export_sfc(_sfc_main$3, [
 	["render", _sfc_render$3]
 ]);
@@ -33066,7 +33013,6 @@ const _hoisted_3 = {
 	key: 0,
 	class: "table-filter flex"
 };
-
 function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
 	const _component_xButton = resolveComponent("xButton");
 	const _component_xGap = resolveComponent("xGap");
@@ -33126,7 +33072,6 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
 		])
 	);
 }
-
 const xDataGridToolbar = /* @__PURE__ */ _export_sfc(_sfc_main$2, [
 	["render", _sfc_render$2]
 ]);
@@ -33180,7 +33125,6 @@ const _sfc_main$1 = defineComponent({
 	}
 });
 const _hoisted_1$1 = ["title", "id"];
-
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
 	return (
 		openBlock(),
@@ -33197,7 +33141,6 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
 		)
 	);
 }
-
 const xCellLabel = /* @__PURE__ */ _export_sfc(_sfc_main$1, [
 	["render", _sfc_render$1]
 ]);
@@ -33361,7 +33304,6 @@ const _hoisted_1 = {
 	ref: "refWrapper",
 	class: "wrapper vir-item-component"
 };
-
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 	return (
 		openBlock(),
@@ -33497,7 +33439,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 		)
 	);
 }
-
 const xVirScroll = /* @__PURE__ */ _export_sfc(_sfc_main, [
 	["render", _sfc_render]
 ]);
@@ -33545,11 +33486,9 @@ const usefnObserveDomResize = () => {
 		this.resizeObserver = new ResizeObserver(callback);
 		this.resizeObserver.observe($el);
 	}
-
 	function fnUnobserveDomResize($el) {
 		this.resizeObserver.unobserve($el);
 	}
-
 	return {
 		fnObserveDomResize,
 		fnUnobserveDomResize
@@ -33979,7 +33918,6 @@ const xVirTableBody = defineComponent({
 		);
 	}
 });
-
 function defXVirTableConfigs(options) {
 	const required = ["rowHeight", "columns"];
 	if (
@@ -33998,7 +33936,6 @@ function defXVirTableConfigs(options) {
 	}
 	return options;
 }
-
 defXVirTableConfigs.type = {
 	many: "many",
 	one: "one"
@@ -34835,7 +34772,6 @@ const LayerUtils = {
 		}
 	}
 };
-
 class ClassLayer {
 	constructor(custumSettings) {
 		__publicField(this, "_layerKey", 0);
@@ -34881,7 +34817,7 @@ class ClassLayer {
 			tipsMore: false,
 			success: false,
 			yes: false,
-			cancel: false,
+			onClickClose: false,
 			end: false,
 			full: false,
 			minStack: true
@@ -34891,7 +34827,6 @@ class ClassLayer {
 			.addLayerListener()
 			.handleAnimation();
 	}
-
 	get cptDomShade() {
 		const { config, _IDShade } = this;
 		if (!config.shade) {
@@ -34901,7 +34836,6 @@ class ClassLayer {
 			this.zIndex - 1
 		};"></div>`;
 	}
-
 	get cptDomTitle() {
 		const { config, _IDLayer } = this;
 		if (this.isContentTypeObject && !this.isNeedTitle) {
@@ -34914,21 +34848,18 @@ class ClassLayer {
 		const [title, styleString] = config.title || ["", ""];
 		return `<div class="${LAYUI_LAYER_TITLE}" style="${styleString}" data-layer-id="${_IDLayer}"> ${title} </div >`;
 	}
-
 	get cptDomIcon() {
 		if (this.config.type == LayerUtils.MSG && this.config.icon !== -1) {
 			return `<i class="layui-layer-ico layui-layer-ico${this.config.icon}></i>`;
 		}
 		return "";
 	}
-
 	get cptDomContent() {
 		if (this.config.type == LayerUtils.DIALOG && this.isContentTypeObject) {
 			return "";
 		}
 		return this.config.content || "";
 	}
-
 	get cptDomSetDialogOperations() {
 		const { config, ismax, _IDLayer } = this;
 		return (
@@ -34953,7 +34884,6 @@ class ClassLayer {
 			"</span>"
 		);
 	}
-
 	get cptDomFooterBtns() {
 		const { config } = this;
 		if (config.btn) {
@@ -34979,11 +34909,9 @@ class ClassLayer {
 		}
 		return "";
 	}
-
 	get cptDomResizeBar() {
 		return this.config.resize ? '<span class="layui-layer-resize"></span>' : "";
 	}
-
 	get cptDomContainer() {
 		const {
 			config,
@@ -35048,13 +34976,13 @@ class ClassLayer {
 			${this.cptDomResizeBar}
 </div>`;
 	}
-
 	initConfig(custumSettings) {
 		const layerInstance = this;
 		layerInstance.config = Object.assign(layerInstance.config, custumSettings);
 		layerInstance.config.icon =
 			custumSettings.type === LayerUtils.LOADING ? 0 : -1;
 		layerInstance.config.maxWidth = $win.width() - 15 * 2;
+		layerInstance.config.custumSettings = custumSettings;
 		const { config } = layerInstance;
 		layerInstance._layerKey = privateLodash.genId("");
 		layerInstance._IDLayer = `${LAYUI_LAYER}${layerInstance._layerKey}`;
@@ -35067,6 +34995,15 @@ class ClassLayer {
 		);
 		layerInstance.ismax = Boolean(config.maxmin && layerInstance.isNeedTitle);
 		layerInstance.isContentTypeObject = typeof config.content === "object";
+		layerInstance.config.onClickClose = async params => {
+			if (custumSettings.onClickClose) {
+				return await custumSettings.onClickClose(params);
+			}
+			if (custumSettings.onBeforeClose) {
+				return await custumSettings.onBeforeClose(params);
+			}
+			return true;
+		};
 		const { isContentTypeObject } = layerInstance;
 		if (typeof config.area === "string") {
 			config.area = config.area === "auto" ? ["", ""] : [config.area, ""];
@@ -35124,7 +35061,6 @@ class ClassLayer {
 		processContentFn && processContentFn();
 		return layerInstance;
 	}
-
 	async setLayerPosition() {
 		await privateLodash.sleep(34);
 		const layerInstance = this;
@@ -35158,7 +35094,6 @@ class ClassLayer {
 		LayerUtils.setLayerTop(layerInstance.$eleLayer);
 		return layerInstance;
 	}
-
 	handleAnimation() {
 		const layerInstance = this;
 		const { config } = layerInstance;
@@ -35178,7 +35113,6 @@ class ClassLayer {
 		}
 		return layerInstance;
 	}
-
 	insertLayer() {
 		const layerInstance = this;
 		const { config, _layerKey, _IDShade } = layerInstance;
@@ -35211,7 +35145,6 @@ class ClassLayer {
 		layerInstance.setLayerPosition();
 		return layerInstance;
 	}
-
 	offset() {
 		var layerInstance = this,
 			config = layerInstance.config,
@@ -35271,7 +35204,6 @@ class ClassLayer {
 		});
 		return layerInstance;
 	}
-
 	async setTips() {
 		const layerInstance = this;
 		const { config, $eleLayer } = layerInstance;
@@ -35298,7 +35230,6 @@ class ClassLayer {
 		}
 		var $tipsG = $eleLayer.find(".layui-layer-TipsG");
 		const [direction, customColor] = config.tips || ["1", ""];
-
 		function makeLeftAuto() {
 			if (followInfo.left + tipsDomWidth - $win.width() > 0) {
 				followInfo.tipLeft = followInfo.left + followInfo.width - tipsDomWidth;
@@ -35307,7 +35238,6 @@ class ClassLayer {
 				followInfo.tipLeft = followInfo.left;
 			}
 		}
-
 		const direction_strategy = {
 			[LayerUtils.UP]() {
 				makeLeftAuto();
@@ -35373,7 +35303,6 @@ class ClassLayer {
 			$tipsG.remove();
 		}
 	}
-
 	onMoveOrResize() {
 		var layerInstance = this;
 		const { config, $eleLayer } = layerInstance;
@@ -35404,7 +35333,6 @@ class ClassLayer {
 		});
 		return layerInstance;
 	}
-
 	addLayerListener() {
 		const layerInstance = this;
 		const { $eleLayer, config } = layerInstance;
@@ -35440,15 +35368,19 @@ class ClassLayer {
 		$eleLayer
 			.find(`.${LAYUI_LAYER_CLOSE}`)
 			.on("click", async function handleClickCloseBtn() {
-				var isClosed = false;
-				if (config.cancel) {
-					isClosed = config.cancel(layerInstance._layerKey, $eleLayer);
-				}
-				if (!isClosed) {
-					isClosed = await LayerUtils.close(layerInstance._layerKey);
-				}
-				if (!isClosed) {
-					await LayerUtils.close($(this).attr("data-layer-id"));
+				let isClosed = false;
+				const isNeedClose = await config.onClickClose({
+					_layerKey: layerInstance._layerKey,
+					$eleLayer,
+					dialogOptions: ""
+				});
+				if (isNeedClose) {
+					if (!isClosed) {
+						isClosed = await LayerUtils.close(layerInstance._layerKey);
+					}
+					if (!isClosed) {
+						await LayerUtils.close($(this).attr("data-layer-id"));
+					}
 				}
 			});
 		if (config.shadeClose) {
@@ -35484,7 +35416,6 @@ class ClassLayer {
 		return layerInstance;
 	}
 }
-
 LayerUtils.cache || {};
 $document
 	.on("click.setLayerTop", "[layer-wrapper]", event2 => {
@@ -35551,7 +35482,72 @@ $document
 		}
 		$MoveMask.hide();
 	});
-const installUIDialogComponent = (UI2, { appPlugins, dependState }) => {
+const xDialogFooter = defineComponent({
+	props: ["configs"],
+	computed: {
+		onCancel() {
+			return this.configs.onCancel;
+		},
+		onOk() {
+			return this.configs.onOk;
+		},
+		vDomOk() {
+			var _a;
+			if ((_a = this.configs) == null ? void 0 : _a.hideOk) {
+				return null;
+			}
+			return createVNode(
+				resolveComponent("aButton"),
+				{
+					type: "primary",
+					class: "ml10",
+					onClick: this.onOk
+				},
+				{
+					default: () => [
+						createTextVNode(" "),
+						privateLodash.isInput(this.configs.textOk)
+							? this.configs.textOk
+							: State_UI.$t("\u786E\u5B9A").label,
+						createTextVNode(" ")
+					]
+				}
+			);
+		},
+		vDomCancel() {
+			var _a;
+			if ((_a = this.configs) == null ? void 0 : _a.hideCancel) {
+				return null;
+			}
+			return createVNode(
+				resolveComponent("aButton"),
+				{
+					onClick: this.onCancel
+				},
+				{
+					default: () => [
+						createTextVNode(" "),
+						privateLodash.isInput(this.configs.textCancel)
+							? this.configs.textCancel
+							: State_UI.$t("\u53D6\u6D88").label,
+						createTextVNode(" ")
+					]
+				}
+			);
+		}
+	},
+	render() {
+		return createVNode(
+			"div",
+			{
+				class: "flex middle end ant-modal-footer"
+			},
+			[this.vDomCancel, this.vDomOk]
+		);
+	}
+});
+const installUIDialogComponent = (UI2, { appPlugins, dependState }, app) => {
+	app.component("xDialogFooter", xDialogFooter);
 	UI2.dialog.component = async dialogOptions =>
 		new Promise((resolve, reject) => {
 			const { component: BussinessComponent, title, area } = dialogOptions;
@@ -35559,238 +35555,134 @@ const installUIDialogComponent = (UI2, { appPlugins, dependState }) => {
 			let $container = $("<div/>", {
 				id
 			});
-			const __elId = `#${id}`;
+			const _dialogId = `#${id}`;
 			if (dialogOptions.yes) {
 				dialogOptions._yes = dialogOptions.yes;
 				delete dialogOptions.yes;
 			}
+			dialogOptions.closeDialog = async () => {
+				let isCloseDialog = true;
+				if (dialogOptions.onBeforeClose) {
+					const res = await dialogOptions.onBeforeClose({
+						dialogOptions,
+						_layerKey: "",
+						$eleLayer: ""
+					});
+          debugger;
+					isCloseDialog = Boolean(res);
+				}
+				if (isCloseDialog) {
+					LayerUtils.close(handleEcsPress._layerKey);
+				}
+			};
 			let dialogVueApp = null;
 			let handleEcsPress = {
-				layerIndex: "",
+				_layerKey: "",
 				handler(event2) {
 					const code = event2.keyCode;
 					event2.preventDefault();
 					if (code === KEY.esc) {
-						LayerUtils.close(handleEcsPress.layerIndex);
+						dialogOptions.closeDialog();
 					}
 				},
-				on(layerIndex) {
-					handleEcsPress.layerIndex = layerIndex;
-					$(document).on(`keyup.${__elId}`, handleEcsPress.handler);
+				on(_layerKey) {
+					handleEcsPress._layerKey = _layerKey;
+					$(document).on(`keyup.${_dialogId}`, handleEcsPress.handler);
 				},
 				off() {
-					$(document).off(`keyup.${__elId}`, handleEcsPress.handler);
+					$(document).off(`keyup.${_dialogId}`, handleEcsPress.handler);
 					handleEcsPress = null;
 				}
 			};
-			LayerUtils.open(
-				privateLodash.merge(
-					{
-						contentClass: "flex1",
-						type: 1,
-						title: [title || ""],
-						area: area || ["800px"],
-						content: $container,
-						offset: ["160px", null],
-						btn: [],
-						success(indexPanel, layerIndex) {
-							handleEcsPress.on(layerIndex);
-							try {
-								dialogVueApp = createApp(
-									defineComponent({
-										beforeMount() {
-											resolve(this);
-										},
-										created() {
-											this.dialogOptions.__dialogInstance = this;
-											this.dialogOptions.__elId = __elId;
-										},
-										mounted() {
-											if (this.dialogOptions.fullscreen) {
-												this.fullDialog();
-											}
-										},
-										data() {
-											return {
-												dialogOptions
-											};
-										},
-										methods: {
-											fullDialog() {
-												LayerUtils.full(layerIndex);
+			const layerOptions = privateLodash.merge(
+				dialogOptions,
+				{
+					contentClass: "flex1",
+					type: LayerUtils.DIALOG,
+					title: [title || ""],
+					area: area || ["800px"],
+					content: $container,
+					offset: ["160px", null],
+					btn: [],
+					success($eleLayer, _layerKey) {
+						handleEcsPress.on(_layerKey);
+						dialogOptions._dialog$ele = $eleLayer;
+						dialogOptions._layerKey = _layerKey;
+						try {
+							dialogVueApp = createApp(
+								defineComponent({
+									components: {
+										BussinessComponent
+									},
+									created() {
+										this.dialogOptions._contentInstance = this;
+										resolve(this);
+									},
+									mounted() {
+										if (this.dialogOptions.fullscreen) {
+											LayerUtils.full(_layerKey);
+										}
+									},
+									data() {
+										return {
+											dialogOptions
+										};
+									},
+									render() {
+										return createVNode(
+											"div",
+											{
+												class: "ventose-dialog-content",
+												"data-el-id": _dialogId
 											},
-											async handleClickOk() {
-												if (dialogOptions.onOk) {
-													await dialogOptions.onOk(dialogOptions);
-												} else {
-													await this.handleClickCancel();
-												}
-											},
-											async handleClickCancel() {
-												let isClose = true;
-												if (dialogOptions.beforeCancel) {
-													isClose = await dialogOptions.beforeCancel();
-												}
-												if (isClose) {
-													LayerUtils.close(layerIndex);
-												} else {
-													return false;
-												}
-											}
-										},
-										computed: {
-											okText() {
-												return (
-													this.dialogOptions.okText ||
-													this.$t("\u786E\u5B9A").label
-												);
-											},
-											cancelText() {
-												return (
-													this.dialogOptions.cancelText ||
-													this.$t("\u53D6\u6D88").label
-												);
-											},
-											renderContent() {
-												return createVNode(
+											[
+												createVNode(
 													BussinessComponent,
 													{
-														propDialogOptions: dialogOptions,
-														class: "flex1",
-														style: "overflow:auto;"
+														propDialogOptions: this.dialogOptions
 													},
 													null
-												);
-											},
-											renderButtons() {
-												if (this.dialogOptions.hideButtons) {
-													return null;
-												}
-												if (
-													privateLodash.isFunction(
-														this.dialogOptions.renderButtons
-													)
-												) {
-													let vDomButtons = (() => {
-														let _vDomButtons =
-															this.dialogOptions.renderButtons(this);
-														if (!_vDomButtons) {
-															return null;
-														} else if (_vDomButtons.template) {
-															return h(_vDomButtons);
-														} else {
-															return _vDomButtons;
-														}
-													})();
-													return vDomButtons;
-												}
-												return this.vDomDefaultButton;
-											},
-											vDomDefaultButton() {
-												const [isShowCancel, isShowOk] = (() => {
-													return [
-														!this.dialogOptions.hideCancel || null,
-														!this.dialogOptions.hideOk || null
-													];
-												})();
-												return createVNode(Fragment, null, [
-													isShowCancel &&
-														createVNode(
-															resolveComponent("xButton"),
-															{
-																configs: {
-																	onClick: this.handleClickCancel
-																}
-															},
-															{
-																default: () => [this.cancelText]
-															}
-														),
-													createVNode(
-														resolveComponent("xGap"),
-														{
-															l: "10"
-														},
-														null
-													),
-													isShowOk &&
-														createVNode(
-															resolveComponent("xButton"),
-															{
-																configs: {
-																	onClick: this.handleClickOk,
-																	type: "primary"
-																}
-															},
-															{
-																default: () => [this.okText]
-															}
-														)
-												]);
-											}
-										},
-										render() {
-											return createVNode(
-												"div",
-												{
-													class: "flex vertical h100 width100",
-													"data-el-id": __elId
-												},
-												[
-													this.renderContent,
-													createVNode(
-														"div",
-														{
-															class: "flex middle end ant-modal-footer"
-														},
-														[this.renderButtons]
-													)
-												]
-											);
-										}
-									})
-								);
-								dialogVueApp.use(appPlugins, {
-									dependState
-								});
-								dialogVueApp.mount(__elId);
-							} catch (e) {
-								console.error(e);
-							}
-							dialogOptions.layerIndex = layerIndex;
-							dialogOptions.close = () => {
-								LayerUtils.close(layerIndex);
-							};
-							dialogOptions.afterOpenDialoag &&
-								dialogOptions.afterOpenDialoag(dialogVueApp);
-						},
-						cancel() {
-							var _a, _b;
-							if (dialogVueApp) {
-								(_b =
-									(_a = dialogVueApp._instance) == null ? void 0 : _a.proxy) ==
-								null
-									? void 0
-									: _b.handleClickCancel();
-							}
-							return false;
-						},
-						end() {
-							handleEcsPress.off();
-							$container.remove();
-							$container = null;
-							if (dialogVueApp) {
-								dialogVueApp.unmount();
-								dialogVueApp = null;
-							}
-							dialogOptions.payload = null;
-							dialogOptions.__dialogInstance = null;
-							dialogOptions = null;
+												)
+											]
+										);
+									}
+								})
+							);
+							dialogVueApp.use(appPlugins, {
+								dependState
+							});
+							dialogVueApp.mount(_dialogId);
+						} catch (e) {
+							console.error(e);
 						}
+						dialogOptions.onAfterOpenDialoag &&
+							dialogOptions.onAfterOpenDialoag(dialogVueApp);
 					},
-					dialogOptions
-				)
+					cancel() {
+						dialogOptions.closeDialog();
+						return false;
+					},
+					end() {
+						handleEcsPress.off();
+						$container.remove();
+						$container = null;
+						if (dialogVueApp) {
+							dialogVueApp.unmount();
+							dialogVueApp = null;
+						}
+						dialogOptions.payload = null;
+						dialogOptions._contentInstance = null;
+						dialogOptions = null;
+					}
+				},
+				privateLodash.omit(dialogOptions, [
+					"end",
+					"cancel",
+					"success",
+					"content"
+				])
 			);
+			LayerUtils.open(layerOptions);
 		});
 };
 const appAddPlugin = {};
@@ -35802,7 +35694,6 @@ const DATA_FOLLOW_ID = "data-follow-id";
 const TIMEOUT_DELAY = 200;
 const tipsOptionsCollection = {};
 const tipsKeys = {};
-
 function fnShowTips({ $ele, followId, appId, event: event2 }) {
 	const options = tipsOptionsCollection[followId] || {
 		content: ""
@@ -35877,7 +35768,6 @@ function fnShowTips({ $ele, followId, appId, event: event2 }) {
 		}
 	}, options.delay || 32);
 }
-
 function installPopoverDirective(app, appSettings) {
 	const appId = privateLodash.genId("appId");
 	appAddPlugin[appId] = appSettings.appPlugins;
@@ -35922,7 +35812,6 @@ function installPopoverDirective(app, appSettings) {
 		}
 	});
 }
-
 function inVisibleArea(followId) {
 	if (timer4CloseTips[followId]) {
 		clearTimeout(timer4CloseTips[followId]);
@@ -35930,7 +35819,6 @@ function inVisibleArea(followId) {
 	}
 	visibleArea[followId] = true;
 }
-
 function closeTips(followId, options = {}) {
 	delete visibleArea[followId];
 	timer4CloseTips[followId] = setTimeout(() => {
@@ -35943,7 +35831,6 @@ function closeTips(followId, options = {}) {
 		}
 	}, TIMEOUT_DELAY);
 }
-
 function handleClick(event2) {
 	event2.preventDefault();
 	const $ele = $(this);
@@ -35961,7 +35848,6 @@ function handleClick(event2) {
 		});
 	}
 }
-
 $(document).on(
 	"click.uiPopver",
 	`[${DATA_FOLLOW_ID}][data-trigger=click]`,
@@ -36017,7 +35903,6 @@ $(document).on(
 		closeTips(followId);
 	}
 );
-
 function installLoading(app, options = {}) {
 	app.directive("loading", {
 		updated(el, binding) {
@@ -36029,7 +35914,6 @@ function installLoading(app, options = {}) {
 		}
 	});
 }
-
 function installMoveDirective(app) {
 	app.directive("uiMove", {
 		mounted(el, binding) {
@@ -36064,22 +35948,24 @@ function installMoveDirective(app) {
 		}
 	});
 }
-
 const installDirective = (app, options) => {
 	installPopoverDirective(app, options);
 	[installLoading, installMoveDirective].forEach(install => install(app));
 };
-
 function _isSlot(s) {
 	return (
 		typeof s === "function" ||
 		(Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s))
 	);
 }
-
 let xItemNoPropCount = 0;
-
 function defItem(options) {
+	const configs = defItem.item(options);
+	return {
+		[configs.prop]: configs
+	};
+}
+defItem.item = options => {
 	if (!options.prop) {
 		options.prop = `xItem${xItemNoPropCount++}`;
 		console.error(`no xItem prop replace by ${options.prop}`);
@@ -36098,11 +35984,8 @@ function defItem(options) {
 			}
 		)
 	);
-	return {
-		[configs.prop]: configs
-	};
-}
-
+	return configs;
+};
 defItem.labelWithTips = ({ label, tips, icon }) => {
 	return createVNode(
 		"span",
@@ -36125,7 +36008,6 @@ defItem.labelWithTips = ({ label, tips, icon }) => {
 		]
 	);
 };
-
 function vModel(
 	configs,
 	prop,
@@ -36143,7 +36025,6 @@ function vModel(
 		}
 	};
 }
-
 function antColKey(prop, makeRenderCell) {
 	const target = {
 		dataIndex: prop,
@@ -36155,7 +36036,6 @@ function antColKey(prop, makeRenderCell) {
 	}
 	return target;
 }
-
 const get$head = () => {
 	let $head = $("html head");
 	if (!privateLodash.is$Selected($head)) {
@@ -36386,12 +36266,10 @@ const VNodeCollection = {
 		);
 	}
 };
-
 function compileVNode(template, state) {
 	const render2 = compile(template);
 	return render2.call(state, state);
 }
-
 window.dayjs = dayjs;
 window.moment = dayjs;
 window.jquery = $;
@@ -36419,7 +36297,7 @@ const components = {
 const VentoseUIWithInstall = {
 	install: (app, options) => {
 		installDirective(app, options);
-		installUIDialogComponent(UI, options);
+		installUIDialogComponent(UI, options, app);
 		privateLodash.each(components, (component, name) => {
 			if (component.name) {
 				name = component.name;

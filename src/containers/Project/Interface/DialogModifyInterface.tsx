@@ -5,7 +5,7 @@ import {
 	UI,
 	defItem,
 	xU,
-	setValueTo
+	VNodeCollection
 } from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "../../../api";
@@ -14,7 +14,6 @@ import { FormRules } from "../../../utils/common.FormRules";
 import { ITEM_OPTIONS } from "../../../utils/common.options";
 import { HTTP_METHOD } from "./../../../utils/variable";
 import { State_Project } from "./State_Project";
-import { VNodeCollection } from "@ventose/ui";
 import { _$interfacePathParamsTpl } from "src/utils/common";
 
 export const DialogModifyInterface = defineComponent({
@@ -35,8 +34,19 @@ export const DialogModifyInterface = defineComponent({
 			return this.propDialogOptions.oldInterface._id;
 		},
 		vDomInterfacePathParams() {
-			debugger;
 			return xU.map(this.detailInfo, _$interfacePathParamsTpl);
+		},
+		configsDialogFooter() {
+			return {
+				onCancel: async () => {
+					debugger;
+					this.propDialogOptions.closeDialog()
+				},
+				onOk: async () => {
+					debugger;
+					this.submit()
+				}
+			}
 		}
 	},
 	data() {
@@ -96,8 +106,7 @@ export const DialogModifyInterface = defineComponent({
 				value: vm.Cpt_currProject.basepath,
 				prop: "basepath",
 				label: vm.$t("接口基本路径").label,
-				labelVNodeRender:
-					VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
+				labelVNodeRender: VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
 				disabled: true
 			}),
 			...defItem({
@@ -226,28 +235,32 @@ export const DialogModifyInterface = defineComponent({
 		}
 	},
 	render() {
+		const vm = this;
 		return (
-			<div class="dialog-modify-interface g-row flex1 flex horizon height100 width100">
-				<a-tabs v-model:activeKey={this.activeKey} tab-position="left" animated>
-					<a-tab-pane key="1" tab="基本设置"></a-tab-pane>
-					<a-tab-pane key="2" tab="请求参数"></a-tab-pane>
-					<a-tab-pane key="3" tab="返回数据"></a-tab-pane>
-					<a-tab-pane key="4" tab="备注"></a-tab-pane>
-				</a-tabs>
-				<div className="flex1">
-					<xGap t="10" />
-					<xForm
-						style={{ display: this.activeKey === "1" ? "block" : "none" }}
-						class="flex vertical"
-						labelStyle={{ "min-width": "120px", width: "unset" }}>
-						<xGap t="10" /> <xItem configs={this.dataXItem.catid} />
-						<xGap t="10" /> <xItem configs={this.dataXItem.title} />
-						<xGap t="10" /> <xItem configs={this.dataXItem.basepath} />
-						<xGap t="10" /> <xItem configs={this.dataXItem.path} />
-					</xForm>
-					<xGap t="10" />
+			<>
+				<div class="dialog-modify-interface g-row flex1 flex horizon height100 width100">
+					<a-tabs v-model:activeKey={this.activeKey} tab-position="left" animated>
+						<a-tab-pane key="1" tab="基本设置"></a-tab-pane>
+						<a-tab-pane key="2" tab="请求参数"></a-tab-pane>
+						<a-tab-pane key="3" tab="返回数据"></a-tab-pane>
+						<a-tab-pane key="4" tab="备注"></a-tab-pane>
+					</a-tabs>
+					<div className="flex1">
+						<xGap t="10" />
+						<xForm
+							style={{ display: this.activeKey === "1" ? "block" : "none" }}
+							class="flex vertical"
+							labelStyle={{ "min-width": "120px", width: "unset" }}>
+							<xGap t="10" /> <xItem configs={this.dataXItem.catid} />
+							<xGap t="10" /> <xItem configs={this.dataXItem.title} />
+							<xGap t="10" /> <xItem configs={this.dataXItem.basepath} />
+							<xGap t="10" /> <xItem configs={this.dataXItem.path} />
+						</xForm>
+						<xGap t="10" />
+					</div>
 				</div>
-			</div>
+				<xDialogFooter configs={this.configsDialogFooter} />
+			</>
 		);
 	}
 });

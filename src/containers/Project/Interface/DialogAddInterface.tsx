@@ -10,7 +10,7 @@ import {
 import { defineComponent, markRaw } from "vue";
 import { API } from "../../../api";
 import { Cpt_currProject, State_App } from "../../../state/State_App";
-import { State_Project } from "./State_Project";
+import { Methods_Project, State_Project } from "./State_Project";
 import { FormRules } from "../../../utils/common.FormRules";
 import { ITEM_OPTIONS } from "../../../utils/common.options";
 
@@ -90,11 +90,11 @@ export const DialogAddInterface = defineComponent({
 		this.propDialogOptions.vm = this;
 	},
 	methods: {
-		async submit() {
+		async onOk() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
 				const { catid, title, path } = pickValueFrom(this.dataXItem);
-				const { projectId } = this.propDialogOptions;
+				const { projectId, closeDialog } = this.propDialogOptions;
 				try {
 					const res = await API.project.addInterface({
 						project_id: projectId,
@@ -104,7 +104,9 @@ export const DialogAddInterface = defineComponent({
 						method: this.apiMethod.value
 					});
 					if (res) {
-						return true;
+						Methods_Project.updateInterfaceMenuList();
+						UI.message.success("添加接口成功");
+						closeDialog();
 					}
 				} catch (error) {
 					UI.message.error("添加失败");
@@ -114,28 +116,31 @@ export const DialogAddInterface = defineComponent({
 	},
 	render() {
 		return (
-			<div class="g-row flex1 height100">
-				<xGap t="10" />
-				<aAlert
-					message={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
-					type="info"
-					closable
-					className="width100"
-				/>
-				<xForm
-					class="flex vertical"
-					labelStyle={{ "min-width": "120px", width: "unset" }}>
-					{xU.map(this.dataXItem, (configs, prop) => {
-						return (
-							<>
-								<xGap t="10" />
-								<xItem configs={configs} />
-							</>
-						);
-					})}
-				</xForm>
-				<xGap t="10" />
-			</div>
+			<>
+				<div class="g-row flex1 height100">
+					<xGap t="10" />
+					<aAlert
+						message={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
+						type="info"
+						closable
+						className="width100"
+					/>
+					<xForm
+						class="flex vertical"
+						labelStyle={{ "min-width": "120px", width: "unset" }}>
+						{xU.map(this.dataXItem, (configs, prop) => {
+							return (
+								<>
+									<xGap t="10" />
+									<xItem configs={configs} />
+								</>
+							);
+						})}
+					</xForm>
+					<xGap t="10" />
+				</div>
+				<xDialogFooter configs={{ onCancel: this.propDialogOptions.closeDialog, onOk: this.onOk }} />
+			</>
 		);
 	}
 });

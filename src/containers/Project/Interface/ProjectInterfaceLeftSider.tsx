@@ -5,19 +5,18 @@ import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL, DefaultInterfaceMenu } from "../../../utils/variable";
-import { Methods_Interface, State_Project } from "./State_Project";
+import { Methods_Project, State_Project } from "./State_Project";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "../../../utils/common";
-import { DialogModifyInterface } from "./DialogModifyInterface";
 
 export const ProjectInterfaceLeftSider = defineComponent({
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Interface: State_Project,
+			State_Project: State_Project,
 			Cpt_url,
 			Cpt_currProject,
 			fnObserveDomResize,
@@ -26,7 +25,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	watch: {
 		filterText(text) {
-			this.State_Interface.isLoading = true;
+			this.State_Project.isLoading = true;
 			this.setFilterText(text);
 		}
 	},
@@ -62,8 +61,8 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			const siderHeight = Math.floor($(this.$refs.wrapper).height());
 			this.setSiderHeight(siderHeight);
 		});
-		Methods_Interface.updateInterfaceMenuList();
-		this.setExpand();
+		Methods_Project.updateInterfaceMenuList();
+		Methods_Project.setExpand();
 	},
 	beforeUnmount() {
 		this.fnUnobserveDomResize(this.$refs.wrapper);
@@ -79,7 +78,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			return StrategyMap[pathname];
 		},
 		treeData() {
-			return DefaultInterfaceMenu.concat(this.State_Interface.allCategory);
+			return DefaultInterfaceMenu.concat(this.State_Project.allCategory);
 		},
 		vDomTree() {
 			const vm = this;
@@ -88,7 +87,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 					class="elevation-2 height100 padding10"
 					style="border-radius: 8px;">
 					<aTree
-						v-model:expandedKeys={vm.State_Interface.expandedKeys}
+						v-model:expandedKeys={vm.State_Project.expandedKeys}
 						height={vm.siderHeight}
 						treeData={vm.treeData}
 						draggable
@@ -105,7 +104,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 									return _classString;
 								})();
 
-								const handleClickCategory = () => {
+								const handleClickMenuItem = () => {
 									if (menuType === ALL) {
 										Cpt_url.value.go(
 											"/project/interface/all",
@@ -147,7 +146,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 										<div
 											data-interface-all-menu
 											class={classContentString}
-											onClick={handleClickCategory}>
+											onClick={handleClickMenuItem}>
 											<xGap l="10" />
 											<xIcon icon="allCategory" />
 											<span class="Interfacesider-tree_menu_title">
@@ -162,8 +161,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 												{genIcon({
 													icon: "refresh",
 													tips: vm.$t("刷新").label,
-													clickHandler:
-														Methods_Interface.updateInterfaceMenuList
+													clickHandler: Methods_Project.updateInterfaceMenuList
 												})}
 											</div>
 										</div>
@@ -217,7 +215,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								}
 
 								return (
-									<div class={classContentString} onClick={handleClickCategory}>
+									<div class={classContentString} onClick={handleClickMenuItem}>
 										<xGap l="10" />
 										<xIcon icon={iconName} />
 										<span class="Interfacesider-tree_menu_title">{title}</span>
@@ -233,14 +231,14 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	methods: {
 		async handleDropInterface(e: AntTreeNodeDropEvent) {
-			this.State_Interface.isLoading = true;
+			this.State_Project.isLoading = true;
 			/*
-            1.drag interface
-                1.1 drop 到同一个category
-                1.2 drop 到不同category
-            2.drag category
-                2.1 调整 category 顺序
-            */
+			1.drag interface
+				1.1 drop 到同一个category
+				1.2 drop 到不同category
+			2.drag category
+				2.1 调整 category 顺序
+			*/
 			const dragItem = e.dragNode;
 			const dropItem = e.node;
 			const isDragInterface = dragItem.menuType === "interface";
@@ -258,18 +256,18 @@ export const ProjectInterfaceLeftSider = defineComponent({
 				} else {
 					await this.switchCategoryOrder(params);
 				}
-				Methods_Interface.updateInterfaceMenuList();
+				Methods_Project.updateInterfaceMenuList();
 			} catch (error) {
 				UI.message.error(error.message);
 			} finally {
 				setTimeout(() => {
-					this.State_Interface.isLoading = false;
+					this.State_Project.isLoading = false;
 				}, 400);
 			}
 		},
 		/* 同类 interface */
 		async switchSameCategoryInterfaceOrder({ dragItem, dropItem }) {
-			const category = xU.find(this.State_Interface.allCategory, {
+			const category = xU.find(this.State_Project.allCategory, {
 				_id: dragItem.categoryId
 			});
 			const paramsChanges = _$arrayChangeIndex(
@@ -288,23 +286,15 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		},
 		async switchCategoryOrder({ dragItem, dropItem }) {
 			const paramsChanges = _$arrayChangeIndex(
-				this.State_Interface.allCategory,
+				this.State_Project.allCategory,
 				dragItem._id,
 				dropItem._id
 			);
 			await API.project.switchManyCategoryOrder(paramsChanges);
 		},
-		setExpand() {
-			const { pathname, query } = this.Cpt_url;
-			if ("/project/interface/detail" === pathname) {
-				this.State_Interface.expandedKeys = [Number(query.category_id)];
-			} else {
-				this.State_Interface.expandedKeys = [];
-			}
-		},
 		setFilterText: xU.debounce(function (filterText) {
-			this.State_Interface.filterText = filterText;
-			this.State_Interface.isLoading = false;
+			this.State_Project.filterText = filterText;
+			this.State_Project.isLoading = false;
 		}, 600),
 		setSelectedKeys(id) {
 			this.selectedKeys = [id];
@@ -322,7 +312,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 					try {
 						await API.project.deleteInterfaceCategoryById(id);
 						UI.message.success("删除分类成功");
-						Methods_Interface.updateInterfaceMenuList();
+						Methods_Project.updateInterfaceMenuList();
 						vm.Cpt_url.go(
 							"/project/interface/all",
 							xU.omit(vm.Cpt_url.query, ["category_id"])
@@ -338,12 +328,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			UI.dialog.component({
 				title: category ? this.$t("修改分类").label : this.$t("添加分类").label,
 				component: DialogUpsertCategory,
-				category,
-				async onOk({ vm }) {
-					await vm.submit(() => {
-						Methods_Interface.updateInterfaceMenuList();
-					});
-				}
+				category
 			});
 		},
 		showAddInterfaceDialog(categoryId, $event: Event) {
@@ -354,13 +339,6 @@ export const ProjectInterfaceLeftSider = defineComponent({
 				categoryId,
 				projectId: this.Cpt_currProject._id,
 				component: DialogAddInterface,
-				onOk: async instance => {
-					if (await instance.vm.submit()) {
-						UI.message.success("添加接口成功");
-						instance.close();
-					}
-					Methods_Interface.updateInterfaceMenuList();
-				}
 			});
 		}
 	},

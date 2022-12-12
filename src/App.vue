@@ -7,7 +7,7 @@ import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
 import { Cpt_url } from "./router/router";
 import { Methods_App, State_App } from "./state/State_App";
-import { Methods_Interface } from "./containers/Project/Interface/State_Project";
+import { Methods_Project } from "./containers/Project/Interface/State_Project";
 
 export default defineComponent({
 	components: { AppFooter, AppHeader },
@@ -29,8 +29,7 @@ export default defineComponent({
 				await Methods_App.fetchProjectList(this.Cpt_url.query.group_id);
 				await Methods_App.fetchGroupList();
 				if (this.Cpt_url.query.project_id) {
-					await Methods_Interface.updateInterfaceMenuList();
-					debugger;
+					await Methods_Project.updateInterfaceMenuList();
 				}
 			}
 		} catch (error) {

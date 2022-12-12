@@ -1,6 +1,6 @@
 import { defineComponent, inject, provide, h, markRaw } from "vue";
 import { routes, Cpt_url } from "../../router/router";
-import { xU } from "@ventose/ui";
+import { State_UI, xU } from "@ventose/ui";
 import { ViewNotFound } from "../ViewNotFound";
 import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css";
@@ -8,6 +8,12 @@ import "nprogress/nprogress.css";
 NProgress.configure({
 	showSpinner: false
 });
+
+export const makeAhref = (url: string) => {
+	console.log(State_UI.assetsPath);
+
+	return `#${url}`;
+};
 
 export const RouterView = defineComponent({
 	name: "RouterView",

@@ -1,5 +1,5 @@
 <template>
-	<aCard>
+	<aCard class="flex1">
 		<aAlert :message="alertMessage" type="info" />
 		<xForm
 			class="flex vertical"
@@ -10,11 +10,21 @@
 			</template>
 		</xForm>
 	</aCard>
+	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
+import {
+	defItem,
+	State_UI,
+	FormRules,
+	xU,
+	UI,
+	AllWasWell,
+	pickValueFrom,
+	validateForm
+} from "@ventose/ui";
 import {
 	xItem_ProjectIcon,
 	xItem_ProjectName
@@ -30,9 +40,36 @@ export default defineComponent({
 			}
 		}
 	},
+	methods: {
+		async onOk() {
+			const validateResults = await validateForm(this.formItems);
+			if (AllWasWell(validateResults)) {
+				const { name, icon } = pickValueFrom(this.formItems);
+				try {
+					await this.propDialogOptions.copyProject({
+						newProjectName: name,
+						icon
+					});
+					this.propDialogOptions.closeDialog();
+				} catch (error) {
+					console.error(error);
+					UI.message.error("复制失败");
+				}
+			} else {
+				throw new Error("未通过验证");
+			}
+		}
+	},
 	computed: {
 		propProjectName() {
 			return String(this.propDialogOptions?.projectName || "");
+		},
+		dialogDefautBtn() {
+			return {
+				textOk: this.$t("复制").label,
+				onCancel: this.propDialogOptions.closeDialog,
+				onOk: this.onOk
+			};
 		}
 	},
 	data() {
@@ -41,7 +78,7 @@ export default defineComponent({
 			alertMessage: `该操作将会复制 ${this.propProjectName} 下的所有接口集合，但不包括测试集合中的接口`,
 			formItems: {
 				...defItem(
-					xItemxU.rojectName({
+					xItem_ProjectName({
 						value: this.propProjectName,
 						appendRules: [
 							FormRules.custom({
@@ -57,12 +94,9 @@ export default defineComponent({
 						]
 					})
 				),
-				...defItem(xItemxU.rojectIcon())
+				...defItem(xItem_ProjectIcon())
 			}
 		};
-	},
-	mounted() {
-		this.propDialogOptions.vm = this;
 	}
 });
 </script>

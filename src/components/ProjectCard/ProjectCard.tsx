@@ -22,32 +22,11 @@ export default defineComponent({
 	},
 	methods: {
 		showCopyProjectDialog() {
-			const vm = this;
 			UI.dialog.component({
 				title: `复制项目${this.projectData.name}`,
 				component: ViewCopyProject,
-				area: ["540px", "320px"],
-				okText: "复制",
+				copyProject: this.copyProject,
 				projectName: this.projectData.name,
-				async onOk(dialog) {
-					try {
-						const validateResults = await validateForm(dialog.vm.formItems);
-						if (AllWasWell(validateResults)) {
-							const { name, icon } = pickValueFrom(dialog.vm.formItems);
-							try {
-								await vm.copyProject({ newProjectName: name, icon });
-								dialog.close();
-							} catch (error) {
-								console.error(error);
-								UI.message.error("复制失败");
-							}
-						} else {
-							throw new Error("未通过验证");
-						}
-					} catch (error) {
-						console.error(error);
-					}
-				}
 			});
 		},
 		async copyProject({ newProjectName, icon }) {

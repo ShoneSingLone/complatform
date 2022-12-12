@@ -6,7 +6,7 @@ import { API } from "../../../api";
 import { Cpt_currProject } from "../../../state/State_App";
 import { ALL } from "../../../utils/variable";
 import {
-	Methods_Interface,
+	Methods_Project,
 	State_Project,
 	useInterfaceTableConfigs
 } from "./State_Project";
@@ -20,7 +20,7 @@ export const InterfaceCategory = defineComponent({
 			useInterfaceTableConfigs();
 
 		return {
-			State_Interface: State_Project,
+			State_Project: State_Project,
 			Cpt_url,
 			filterParams,
 			configs_interfaceTable,
@@ -29,7 +29,7 @@ export const InterfaceCategory = defineComponent({
 	},
 	computed: {},
 	watch: {
-		"State_Interface.allInterface": {
+		"State_Project.allInterface": {
 			immediate: true,
 			handler() {
 				this.fnUpdateListForShow();
@@ -38,11 +38,11 @@ export const InterfaceCategory = defineComponent({
 		filterParams: {
 			deep: true,
 			handler(allInterface) {
-				this.State_Interface.isLoading = true;
+				this.State_Project.isLoading = true;
 				this.configs_interfaceTable.selected = [];
 				this.fnUpdateListForShow();
 				setTimeout(() => {
-					this.State_Interface.isLoading = false;
+					this.State_Project.isLoading = false;
 				}, 10 * 1000);
 			}
 		},

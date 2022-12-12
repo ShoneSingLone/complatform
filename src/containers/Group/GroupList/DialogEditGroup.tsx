@@ -100,19 +100,30 @@ export const DialogEditGroup = defineComponent({
 	render() {
 		/* {JSON.stringify(pickValueFrom(this.formItems))} */
 		return (
-			<div class="padding20">
-				<aCard>
-					<xForm
-						class="flex vertical"
-						labelStyle={{
-							"min-width": "170px",
-							width: "unset"
-						}}>
-						{this.vDomFormItems}
-					</xForm>
-				</aCard>
-				{this.vDomDeleteGroup}
-			</div>
+			<>
+				<div class="padding20 flex1">
+					<aCard>
+						<xForm
+							class="flex vertical"
+							labelStyle={{
+								"min-width": "170px",
+								width: "unset"
+							}}>
+							{this.vDomFormItems}
+						</xForm>
+					</aCard>
+					{this.vDomDeleteGroup}
+				</div>
+				<xDialogFooter configs={{
+					onCancel: this.propDialogOptions.closeDialog,
+					onOk: () => {
+						this.propDialogOptions.onOk({
+							formItems: this.formItems,
+							closeDialog: this.propDialogOptions.closeDialog
+						})
+					}
+				}} />
+			</>
 		);
 	},
 	data() {
@@ -211,7 +222,7 @@ export const DialogEditGroup = defineComponent({
 					});
 				},
 				iconType: "delete",
-				onCancel() {}
+				onCancel() { }
 			});
 		},
 		async deleteGroup() {
