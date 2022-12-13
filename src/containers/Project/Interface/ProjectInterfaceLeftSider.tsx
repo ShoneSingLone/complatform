@@ -3,7 +3,6 @@ import { $, xU, UI } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "../../../api";
-import { Cpt_currProject } from "../../../state/State_App";
 import { ALL, DefaultInterfaceMenu } from "../../../utils/variable";
 import { Methods_Project, State_Project } from "./State_Project";
 import { DialogAddInterface } from "./DialogAddInterface";
@@ -18,7 +17,6 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		return {
 			State_Project: State_Project,
 			Cpt_url,
-			Cpt_currProject,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
@@ -58,7 +56,8 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	},
 	mounted() {
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
-			const siderHeight = Math.floor($(this.$refs.wrapper).height());
+			/* mt mb 共计20 */
+			const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 20;
 			this.setSiderHeight(siderHeight);
 		});
 		Methods_Project.updateInterfaceMenuList();
@@ -68,7 +67,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		this.fnUnobserveDomResize(this.$refs.wrapper);
 	},
 	computed: {
-		cpt_currentSelected() {
+		currentSelectedMenu() {
 			const { pathname, query } = this.Cpt_url;
 			const StrategyMap = {
 				"/project/interface/all": ALL,
@@ -98,7 +97,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								const { title, _id, list, menuType, categoryId } = item;
 								const classContentString = (() => {
 									let _classString = "flex middle Interfacesider-tree_menu";
-									if (String(_id) == String(vm.cpt_currentSelected)) {
+									if (String(_id) == String(vm.currentSelectedMenu)) {
 										return _classString + " Interfacesider-tree_menu_active";
 									}
 									return _classString;
@@ -337,7 +336,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			UI.dialog.component({
 				title: this.$t("添加接口").label,
 				categoryId,
-				projectId: this.Cpt_currProject._id,
+				projectId: this.State_App.currProject._id,
 				component: DialogAddInterface,
 			});
 		}

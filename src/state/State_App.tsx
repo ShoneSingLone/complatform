@@ -9,88 +9,75 @@ const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
 
-export const State_App = reactive(
-	lStorage.State_App || {
-		isFooterFold: false,
-		urlHash: window.location.hash,
-		user: {
-			isLogin: false,
-			canRegister: true,
-			isLDAP: false,
-			userName: null,
-			uid: null,
-			email: "",
-			loginState: LOADING_STATUS,
-			loginWrapActiveKey: "1",
-			role: "",
-			type: "",
-			breadcrumb: [],
-			studyTip: 0,
-			study: false,
-			imageUrl: ""
+let _State_App = {
+	isFooterFold: false,
+	urlHash: window.location.hash,
+	user: {
+		isLogin: false,
+		canRegister: true,
+		isLDAP: false,
+		userName: null,
+		uid: null,
+		email: "",
+		loginState: LOADING_STATUS,
+		loginWrapActiveKey: "1",
+		role: "",
+		type: "",
+		breadcrumb: [],
+		studyTip: 0,
+		study: false,
+		imageUrl: ""
+	},
+	news: {
+		newsData: {
+			list: [],
+			total: 0
 		},
-		projectList: [],
-		project: {
-			currPage: "",
-			userInfo: "",
-			tableLoading: ""
-		},
-		news: {
-			newsData: {
-				list: [],
-				total: 0
-			},
-			curpage: 1
-		},
-		groupList: [],
-		currGroup: {
-			role: "",
-			group_name: "",
-			group_desc: "",
-			custom_field1: {
-				name: "",
-				enable: false
-			}
+		curpage: 1
+	},
+	groupList: [],
+	currGroup: {
+		role: "",
+		group_name: "",
+		group_desc: "",
+		custom_field1: {
+			name: "",
+			enable: false
 		}
-	}
+	},
+	projectList: [],
+	currProject: {
+		currPage: "",
+		userInfo: "",
+		tableLoading: ""
+	},
+}
+
+_State_App = reactive(
+	xU.merge(_State_App, lStorage.State_App)
 );
 
-State_App.urlHash = window.location.hash;
-
-/**
- * 如果url 有 project_id,且有当前分组的projectList
- */
-export const Cpt_currProject = computed(() => {
-	const projectId = Cpt_url.value.query.project_id;
-	let project = {};
-	if (projectId && State_App.projectList.length > 0) {
-		project = xU.find(State_App.projectList, { _id: Number(projectId) });
-		if (!project) {
-			project = {};
-		}
-	}
-	return project;
-});
+_State_App.urlHash = window.location.hash;
 
 export const Methods_App = {
 	toggleFooterFold() {
-		State_App.isFooterFold = !State_App.isFooterFold;
+		_State_App.isFooterFold = !_State_App.isFooterFold;
 	},
 	setMenu(menu) {
 		/* notice！！_.merge 空数组不会替换*/
-		State_App.menu = Object.assign({}, State_App.menu, menu);
+		_State_App.menu = Object.assign({}, _State_App.menu, menu);
 	},
 	setUser(user) {
-		State_App.user = Object.assign({}, State_App.user, user);
+		_State_App.user = Object.assign({}, _State_App.user, user);
 	},
 	setNews(news) {
-		State_App.news = Object.assign({}, State_App.news, news);
+		_State_App.news = Object.assign({}, _State_App.news, news);
 	},
 	setBreadcrumb(breadcrumb) {
 		Methods_App.setUser({ breadcrumb });
 	},
 	async checkLoginState() {
-		if (State_App.user.isLogin) {
+		if (_State_App.user.isLogin) {
 			return true;
 		}
 		try {
@@ -109,39 +96,49 @@ export const Methods_App = {
 		} catch (error) {
 			console.error(error);
 		} finally {
-			return State_App.user.isLogin;
+			return _State_App.user.isLogin;
 		}
 	},
 	async fetchGroupList() {
 		const { data: groupList } = await API.group.getMyGroupList();
-		State_App.groupList = groupList;
+		_State_App.groupList = groupList;
 	},
 	/**
 	 * 如果group是对象，直接赋值，
 	 * 如果是Id(可能不是数字),则需要request
-	 * @param group
+	 * @param group_id
 	 * @returns {Promise<void>}
 	 */
-	async setCurrGroup(group) {
-		let groupId;
-		if (!xU.isPlainObject(group)) {
-			groupId = parseInt(group);
-			if (!xU.isNumber(groupId)) {
-				throw new Error("miss groupId");
-			}
-		} else {
-			groupId = group._id;
+	async setCurrGroup(group_id) {
+		if (!xU.isInput(group_id)) {
+			_State_App.currGroup = {};
 		}
-		const { data } = await API.group.getMyGroupBy(groupId);
-		group = data;
-		State_App.currGroup = xU.merge({}, State_App.currGroup, group);
+
+		if (_State_App.currGroup._id === group_id) {
+			return;
+		}
+		const { data: currGroup } = await API.group.getMyGroupBy(group_id);
+		_State_App.currGroup = currGroup;
 		Methods_App.setUser({
-			role: group.role,
+			role: group_id.role,
 			field: {
-				name: group.custom_field1.name,
-				enable: group.custom_field1.enable
+				name: currGroup.custom_field1.name,
+				enable: currGroup.custom_field1.enable
 			}
 		});
+	},
+	async setCurrProject(project_id) {
+		if (!xU.isInput(project_id)) {
+			_State_App.currProject = {};
+		}
+		if (_State_App.currProject._id === project_id) {
+			return;
+		}
+		project_id = project_id || Cpt_url.value.query.project_id;
+		if (project_id) {
+			let { data } = await API.project.getProjectById(Number(project_id));
+			_State_App.currProject = data;
+		}
 	},
 	async fetchNewsData(typeid, type, page, limit, selectValue) {
 		try {
@@ -169,7 +166,7 @@ export const Methods_App = {
 		}
 	},
 	async changeStudyTip() {
-		State_App.user.studyTip++;
+		_State_App.user.studyTip++;
 	},
 	async finishStudy() {
 		Methods_App.setUser({
@@ -196,23 +193,22 @@ export const Methods_App = {
 			console.error(error);
 		}
 	},
-	async fetchInterfaceListMenu() {},
+	async fetchInterfaceListMenu() { },
 	async fetchProjectList(groupId) {
 		if (!groupId) return;
 		groupId = Number(groupId);
 		const { data } = await API.project.list(groupId);
-		State_App.projectList = data.list;
-		console.log("State_App.projectList", State_App.projectList);
+		_State_App.projectList = data.list;
+		console.log("State_App.projectList", _State_App.projectList);
 	},
 	getProject() {
-		debugger;
 	},
-	async changeMenuItem() {},
-	async loginActions() {},
-	async loginLdapActions() {},
+	async changeMenuItem() { },
+	async loginActions() { },
+	async loginLdapActions() { },
 	async fetchGroupMemberList(groupId) {
 		const { data: member } = await API.group.getMemberListBy(groupId);
-		State_App.currGroup.member = member;
+		_State_App.currGroup.member = member;
 		return member;
 	},
 	async addMember(data) {
@@ -225,49 +221,56 @@ export const Methods_App = {
 		return API.group.changeMemberRole(data);
 	},
 	async fetchMoreNews() {
-		debugger;
 	},
 	async fetchInterfaceList() {
-		debugger;
 	},
 	async addProject() {
-		debugger;
 	},
 	async delProject() {
-		debugger;
 	},
 	async changeUpdateModal() {
-		debugger;
 	},
 	checkProjectName() {
-		debugger;
 	},
 	loginTypeAction() {
-		debugger;
 	}
 };
 
 /* 有关全局的状态，变动 */
 
 watch(
-	State_App,
+	_State_App,
 	xU.debounce(function () {
-		lStorage.State_App = State_App;
+		lStorage.State_App = _State_App;
 	}),
 	100
 );
 
+watch(
+	() => Cpt_url.value.query.group_id,
+	xU.debounce(async (group_id) => {
+		await Methods_App.setCurrGroup(group_id);
+	}),
+	100
+);
+
+watch(
+	() => Cpt_url.value.query.project_id,
+	xU.debounce(async (project_id) => {
+		await Methods_App.setCurrProject(project_id);
+	}),
+	100
+);
+
+
+
+
+
 window.addEventListener(
 	"hashchange",
 	xU.debounce(function () {
-		State_App.urlHash = window.location.hash;
+		_State_App.urlHash = window.location.hash;
 	}, 60)
 );
 
-export const Cpt_currGroup = computed(() => {
-	const projectId = Cpt_url.value.query.group_id;
-	if (projectId && State_App.groupList.length > 0) {
-		return xU.find(State_App.groupList, { _id: Number(projectId) });
-	}
-	return "";
-});
+export { _State_App as State_App }

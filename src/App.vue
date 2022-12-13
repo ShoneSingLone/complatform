@@ -22,27 +22,35 @@ export default defineComponent({
 			isLoading: true
 		};
 	},
-	async mounted() {
-		try {
-			if (this.Cpt_url.query.group_id) {
-				await Methods_App.setCurrGroup(this.Cpt_url.query.group_id);
-				await Methods_App.fetchProjectList(this.Cpt_url.query.group_id);
+	mounted() {
+
+		this.onAfterRefresh();
+	},
+	methods: {
+		async onAfterRefresh() {
+			/* 刷新之后重新获取基础信息 */
+			try {
 				await Methods_App.fetchGroupList();
-				if (this.Cpt_url.query.project_id) {
-					await Methods_Project.updateInterfaceMenuList();
+				if (this.Cpt_url.query.group_id) {
+					await Methods_App.setCurrGroup(this.Cpt_url.query.group_id);
+					await Methods_App.fetchProjectList(this.Cpt_url.query.group_id);
+					if (this.Cpt_url.query.project_id) {
+						await Methods_App.setCurrProject(this.Cpt_url.query.project_id);
+						await Methods_Project.updateInterfaceMenuList();
+					}
 				}
+			} catch (error) {
+				console.error(error);
+			} finally {
+				this.isLoading = false;
 			}
-		} catch (error) {
-			console.error(error);
-		} finally {
-			this.isLoading = false;
 		}
 	}
 });
 </script>
 <template>
 	<AppHeader v-if="State_App.user.isLogin" />
-	<div v-if="isLoading" v-loading="isLoading" />
+	<aSpin v-if="isLoading" :spinning="true" class="flex1 flex middle center" />
 	<RouterView v-else />
 	<AppFooter />
 </template>

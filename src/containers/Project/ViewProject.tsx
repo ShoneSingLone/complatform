@@ -3,7 +3,6 @@ import { computed, defineComponent } from "vue";
 import { Cpt_url, ProjectChildren } from "../../router/router";
 import { State_App } from "../../state/State_App";
 import { API } from "../../api";
-import { useProjectBasicProperties } from "../../compositions";
 import { State_Project, resetStateInterface } from "./Interface/State_Project";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
@@ -11,15 +10,12 @@ import { State_Project, resetStateInterface } from "./Interface/State_Project";
 export const ViewProject = defineComponent({
 	name: "ViewProject",
 	setup() {
-		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
 		/* 以project为root，共享数据随project生命周期重置 */
 		resetStateInterface();
 		return {
 			State_Project,
 			State_App,
 			Cpt_url,
-			Cpt_currGroupId,
-			Cpt_currProjectId
 		};
 	},
 	data() {
@@ -37,7 +33,7 @@ export const ViewProject = defineComponent({
 	computed: {},
 	render() {
 		/* 如果没有projectId 则重定向到group */
-		if (!this.Cpt_currProjectId) {
+		if (!this.State_App.currProject._id) {
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 		return (

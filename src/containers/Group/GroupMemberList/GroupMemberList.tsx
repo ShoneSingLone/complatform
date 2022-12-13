@@ -46,9 +46,7 @@ export const GroupMemberList = defineComponent({
 		};
 	},
 	async mounted() {
-		const vm = this;
 		this.initTableColumns();
-		await Methods_App.setCurrGroup(this.State_App.currGroup._id);
 	},
 	watch: {
 		"State_App.currGroup._id": {
@@ -134,7 +132,7 @@ export const GroupMemberList = defineComponent({
 										{ label: "访客", value: "guest-" + record.uid }
 									],
 									style: { width: "100px" },
-									onAfterValueChange(e) {
+									onAfterValueEmit(e) {
 										vm.changeUserRole(e);
 									}
 								})

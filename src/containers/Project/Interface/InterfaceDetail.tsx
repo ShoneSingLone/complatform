@@ -1,7 +1,6 @@
 import { defineComponent, ref, watch } from "vue";
 import { $, xU, UI } from "@ventose/ui";
 import { API } from "../../../api";
-import { Cpt_currProject } from "../../../state/State_App";
 import { Methods_Project, State_Project } from "./State_Project";
 import { Cpt_url } from "../../../router/router";
 import { InfoCard, InfoCardCol } from "../../../components/InfoCard";
@@ -17,7 +16,6 @@ export const InterfaceDetail = defineComponent({
 	data(vm) {
 		return {
 			State_App,
-			Cpt_currProject,
 			detailInfo: false
 		};
 	},
@@ -83,7 +81,7 @@ export const InterfaceDetail = defineComponent({
 
 			UI.dialog.component({
 				title: this.$t("修改接口").label + `-${item.title}`,
-				// fullscreen: true,
+				fullscreen: true,
 				component: DialogModifyInterface,
 				oldInterface: item,
 				maxmin: true,
@@ -148,8 +146,8 @@ export const InterfaceDetail = defineComponent({
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.Cpt_currProject._id
-				}${this.Cpt_currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
+				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {
@@ -197,7 +195,7 @@ export const InterfaceDetail = defineComponent({
 						value: (
 							<CopyContent class="flex middle">
 								{ITEM_OPTIONS_VDOM.httpMethod(method)}
-								{this.Cpt_currProject.basepath}
+								{this.State_App.currProject.basepath}
 								{path}
 							</CopyContent>
 						)
@@ -222,8 +220,8 @@ export const InterfaceDetail = defineComponent({
 						value: (
 							<div class="flex middle width100">
 								{this.flagMsg(
-									this.Cpt_currProject.is_mock_open,
-									this.Cpt_currProject.strice
+									this.State_App.currProject.is_mock_open,
+									this.State_App.currProject.strice
 								)}
 								<CopyContent>
 									<span class="href">{this.vDomMockHref}</span>
@@ -261,52 +259,49 @@ export const InterfaceDetail = defineComponent({
 		}
 	},
 	render() {
-		if (!this.detailInfo || !this.Cpt_currProject) {
+		if (!this.detailInfo || !this.State_App.currProject) {
 			return <aSpin spinning={true}></aSpin>;
 		}
 		console.log(
 			this.State_App.currGroup,
-			this.Cpt_currProject,
+			this.State_App.currProject,
 			this.detailInfo
 		);
 		return (
-			<xView style="overflow:auto;">
-				<InfoCard
-					title={
-						<div class="flex middle">
-							<span>基本信息</span>
-							<xGap f="1" />
-							<xButton onClick={this.showModifyInterfaceDialog} type="primary">
-								修改
-							</xButton>
-							<xGap l="10" />
-							<xButton onClick={this.showModifyInterfaceDialog} type="primary">
-								删除
-							</xButton>
-						</div>
-					}
-					items={this.descriptions}
-				/>
-				<xGap t="20" />
-				<InfoCard title={"请求参数"}>
-					<aCard title="Headers">
-						<h3>Headers</h3>
-					</aCard>
-					<xGap t="10" />
-					<aCard title="Query">
-						<h3>Query</h3>
-					</aCard>
-				</InfoCard>
-				<xGap t="20" />
-				<InfoCard title={"返回信息"}>
-					<aCard>返回信息</aCard>
-					<aCard>返回信息</aCard>
-					<aCard>返回信息</aCard>
-					<aCard>返回信息</aCard>
-					<aCard>返回信息</aCard>
-					<aCard>返回信息</aCard>
-					<aCard>返回信息</aCard>
-				</InfoCard>
+			<xView style="overflow:hidden;">
+				<div class="flex">
+					<xButton onClick={this.showModifyInterfaceDialog}>
+						修改
+					</xButton>
+					<xGap l="10" />
+					<xButton onClick={this.showModifyInterfaceDialog}>
+						删除
+					</xButton>
+					<xGap f="1" />
+				</div>
+				<div class="flex1 overflow-auto mt10">
+					<InfoCard title={<span>基本信息</span>} items={this.descriptions} />
+					<xGap t="20" />
+					<InfoCard title={"请求参数"}>
+						<aCard title="Headers">
+							<h3>Headers</h3>
+						</aCard>
+						<xGap t="10" />
+						<aCard title="Query">
+							<h3>Query</h3>
+						</aCard>
+					</InfoCard>
+					<xGap t="20" />
+					<InfoCard title={"返回信息"}>
+						<aCard>返回信息</aCard>
+						<aCard>返回信息</aCard>
+						<aCard>返回信息</aCard>
+						<aCard>返回信息</aCard>
+						<aCard>返回信息</aCard>
+						<aCard>返回信息</aCard>
+						<aCard>返回信息</aCard>
+					</InfoCard>
+				</div>
 			</xView>
 		);
 	}

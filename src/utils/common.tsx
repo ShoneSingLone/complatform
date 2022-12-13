@@ -40,26 +40,6 @@ export const appPlugins = {
 		return app;
 	}
 };
-export const _$interfacePathParamsTpl = (data, index) => {
-	debugger;
-	return (
-		<Row key={index} className="interface-edit-item-content">
-			<Col span="6" className="interface-edit-item-content-col">
-				<aInput disabled placeholder="参数名称" />
-			</Col>
-			<Col span="7" className="interface-edit-item-content-col">
-				{getFieldDecorator("req_params[" + index + "].example", {
-					initialValue: data.example
-				})(<aTextArea autosize={true} placeholder="参数示例" />)}
-			</Col>
-			<Col span="11" className="interface-edit-item-content-col">
-				{getFieldDecorator("req_params[" + index + "].desc", {
-					initialValue: data.desc
-				})(<aTextArea autosize={true} placeholder="备注" />)}
-			</Col>
-		</Row>
-	);
-};
 
 // 从 Javascript 对象中选取随机属性
 export const _$pickRandomProperty = obj => {

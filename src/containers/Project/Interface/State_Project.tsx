@@ -1,7 +1,6 @@
 import { computed, reactive, ref, watch } from "vue";
 import { $, xU, UI, State_UI, defCol, defXVirTableConfigs } from "@ventose/ui";
 import { API } from "../../../api";
-import { Cpt_currProject } from "../../../state/State_App";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { Cpt_url } from "../../../router/router";
 

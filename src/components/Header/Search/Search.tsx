@@ -43,10 +43,7 @@ export default defineComponent({
 			if (option.props.type === "分组") {
 				this.props.changeMenuItem("/group");
 				this.$router.push({ path: "/group/" + option.props["id"] });
-				Methods_App.setCurrGroup({
-					group_name: value,
-					_id: option.props["id"] - 0
-				});
+				Methods_App.setCurrGroup(ption.props["id"] - 0);
 			} else if (option.props.type === "项目") {
 				await Methods_App.setCurrGroup(option.props["groupId"]);
 				this.$router.push({ path: "/project/" + option.props["id"] });
@@ -54,9 +51,9 @@ export default defineComponent({
 				await this.props.fetchInterfaceListMenu(option.props["projectId"]);
 				this.props.history.push(
 					"/project/" +
-						option.props["projectId"] +
-						"/interface/api/" +
-						option.props["id"]
+					option.props["projectId"] +
+					"/interface/api/" +
+					option.props["id"]
 				);
 			}
 		},
@@ -132,9 +129,9 @@ export default defineComponent({
 					defaultActiveFirstOption={false}
 					onSelect={this.onSelect}
 					onSearch={this.handleSearch}
-					// filterOption={(inputValue, option) =>
-					//   option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-					// }
+				// filterOption={(inputValue, option) =>
+				//   option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+				// }
 				>
 					<aInput
 						prefix={<xIcon icon="search" class="srch-icon" />}

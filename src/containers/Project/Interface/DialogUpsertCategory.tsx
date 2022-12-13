@@ -2,7 +2,7 @@ import { validateForm, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
 import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
-import { Cpt_currProject, State_App } from "../../../state/State_App";
+import { State_App } from "../../../state/State_App";
 import { Methods_Project } from "./State_Project";
 
 export const DialogUpsertCategory = defineComponent({
@@ -62,7 +62,7 @@ export const DialogUpsertCategory = defineComponent({
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
-				const project_id = Cpt_currProject.value._id;
+				const project_id = this.State_App.currProject._id;
 				try {
 					if (this.category) {
 						await this.updateOldCategory({ name, desc, project_id });

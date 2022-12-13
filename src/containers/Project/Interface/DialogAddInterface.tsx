@@ -9,7 +9,7 @@ import {
 } from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "../../../api";
-import { Cpt_currProject, State_App } from "../../../state/State_App";
+import { State_App } from "../../../state/State_App";
 import { Methods_Project, State_Project } from "./State_Project";
 import { FormRules } from "../../../utils/common.FormRules";
 import { ITEM_OPTIONS } from "../../../utils/common.options";

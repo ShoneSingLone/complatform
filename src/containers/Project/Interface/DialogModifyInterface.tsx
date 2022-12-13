@@ -5,16 +5,21 @@ import {
 	UI,
 	defItem,
 	xU,
-	VNodeCollection
+	VNodeCollection,
+	setValueTo,
+	State_UI,
+	$
 } from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "../../../api";
-import { Cpt_currProject, State_App } from "../../../state/State_App";
+import { State_App } from "../../../state/State_App";
 import { FormRules } from "../../../utils/common.FormRules";
 import { ITEM_OPTIONS } from "../../../utils/common.options";
 import { HTTP_METHOD } from "./../../../utils/variable";
 import { State_Project } from "./State_Project";
-import { _$interfacePathParamsTpl } from "src/utils/common";
+import { _$handlePath, _$interfacePathParamsTpl } from "src/utils/common";
+import { DialogAddGroup } from "../../Group/GroupList/DialogAddGroup";
+import { DialogUpsertTags } from "./DialogUpsertTags";
 
 export const DialogModifyInterface = defineComponent({
 	props: {
@@ -27,23 +32,18 @@ export const DialogModifyInterface = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App, State_Project, Cpt_currProject };
+		return { State_App, State_Project };
 	},
 	computed: {
 		interfaceId() {
 			return this.propDialogOptions.oldInterface._id;
 		},
-		vDomInterfacePathParams() {
-			return xU.map(this.detailInfo, _$interfacePathParamsTpl);
-		},
 		configsDialogFooter() {
 			return {
 				onCancel: async () => {
-					debugger;
 					this.propDialogOptions.closeDialog()
 				},
 				onOk: async () => {
-					debugger;
 					this.submit()
 				}
 			}
@@ -52,8 +52,9 @@ export const DialogModifyInterface = defineComponent({
 	data() {
 		const vm = this;
 		return {
+			detailInfo: {},
 			activeKey: "1",
-			...defItem({
+			apiMethod: defItem.item({
 				value: "",
 				itemType: "Select",
 				prop: "apiMethod",
@@ -64,79 +65,132 @@ export const DialogModifyInterface = defineComponent({
 				},
 				style: { width: "120px" }
 			}),
-			dataXItem: {}
+			dataXItem: {
+				...defItem({
+					value: '',
+					itemType: "Select",
+					prop: "catid",
+					label: vm.$t("接口分类").label,
+					placeholder: "分类名称",
+					options: [],
+					rules: [FormRules.required()],
+					once() {
+						this.options = vm.State_Project.allCategory;
+						/* 默认在点击的分类下添加新接口 */
+						if (vm.propDialogOptions.categoryId) {
+							this.value = vm.propDialogOptions.categoryId;
+						} else {
+							this.value = xU.first(this.options)?.value || "";
+						}
+					}
+				}),
+				...defItem({
+					value: "",
+					prop: "title",
+					label: vm.$t("接口名称").label,
+					placeholder: vm.$t("接口名称").label,
+					rules: [
+						FormRules.required(),
+						FormRules.nameLength({ label: vm.$t("接口").label })
+					]
+				}),
+				...defItem({
+					value: vm.State_App.currProject.basepath,
+					prop: "basepath",
+					label: vm.$t("接口基本路径").label,
+					labelVNodeRender: VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
+					disabled: true
+				}),
+				...defItem({
+					value: "",
+					prop: "path",
+					label: vm.$t("接口路径").label,
+					labelVNodeRender: VNodeCollection.labelTips(
+						<div>
+							<p>
+								1. 支持动态路由,例如:
+								{`{DEMOPATH}`}
+							</p>
+							<p>
+								2. 支持 ?controller=xxx 的QueryRouter,非router的Query参数请定义到
+								Request设置-&#62;Query
+							</p>
+						</div>
+					),
+					placeholder: "/path",
+					rules: [FormRules.required(), FormRules.apiPath()],
+					once() {
+						const vDomApiMethodsSelector = <xItem configs={vm.apiMethod} />;
+						this.slots = markRaw({
+							addonBefore: () => vDomApiMethodsSelector
+						});
+					},
+					onAfterValueEmit: xU.debounce(function (newPatnValue) {
+						newPatnValue = _$handlePath(newPatnValue);
+						let queue = [];
+						setValueTo(vm.dataXItem, { path: newPatnValue });
+						const { pathParams } = pickValueFrom(vm.dataXItem);
+
+						let insertParams = name => {
+							let findExist = xU.find(pathParams, { name: name });
+							if (findExist) {
+								queue.push(findExist);
+							} else {
+								queue.push({ name: name, desc: '' });
+							}
+						};
+
+						if (newPatnValue && newPatnValue.indexOf(':') !== -1) {
+							let paths = newPatnValue.split('/'),
+								name,
+								i;
+							for (i = 1; i < paths.length; i++) {
+								if (paths[i][0] === ':') {
+									name = paths[i].substr(1);
+									insertParams(name);
+								}
+							}
+						}
+						if (newPatnValue && newPatnValue.length > 3) {
+							newPatnValue.replace(/\{(.+?)\}/g, function (str, match) {
+								insertParams(match);
+							});
+						}
+
+						setValueTo(vm.dataXItem, {
+							pathParams: xU.map(xU.uniqBy(queue, 'name'), (newValue) => {
+								/* @ts-ignore */
+								return xU.merge({ name: '', desc: '', example: "", _id: "" }, newValue)
+							})
+						});
+
+					}, 800)
+				}),
+				...defItem({
+					prop: "pathParams",
+					label: "接口路径参数",
+					value: [],
+					itemType: InpterfacePathParams
+				}),
+				...defItem({
+					prop: "tag",
+					label: "Tag",
+					value: [],
+					itemType: TagSelector
+				}),
+			}
 		};
 	},
 	mounted() {
 		const vm = this;
-		this.propDialogOptions.vm = this;
-		const detailInfo = this.initState(this.propDialogOptions.oldInterface);
-		const { catid, title, path } = detailInfo;
-
-		this.dataXItem = {
-			...defItem({
-				value: catid,
-				itemType: "Select",
-				prop: "catid",
-				label: vm.$t("接口分类").label,
-				placeholder: "分类名称",
-				options: [],
-				rules: [FormRules.required()],
-				once() {
-					this.options = vm.State_Project.allCategory;
-					/* 默认在点击的分类下添加新接口 */
-					if (vm.propDialogOptions.categoryId) {
-						this.value = vm.propDialogOptions.categoryId;
-					} else {
-						this.value = xU.first(this.options)?.value || "";
-					}
-				}
-			}),
-			...defItem({
-				value: title,
-				prop: "title",
-				label: vm.$t("接口名称").label,
-				placeholder: vm.$t("接口名称").label,
-				rules: [
-					FormRules.required(),
-					FormRules.nameLength({ label: vm.$t("接口").label })
-				]
-			}),
-			...defItem({
-				value: vm.Cpt_currProject.basepath,
-				prop: "basepath",
-				label: vm.$t("接口基本路径").label,
-				labelVNodeRender: VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
-				disabled: true
-			}),
-			...defItem({
-				value: path,
-				prop: "path",
-				label: vm.$t("接口路径").label,
-				labelVNodeRender: VNodeCollection.labelTips(
-					<div>
-						<p>
-							1. 支持动态路由,例如:
-							{`{DEMOPATH}`}
-						</p>
-						<p>
-							2. 支持 ?controller=xxx 的QueryRouter,非router的Query参数请定义到
-							Request设置-&#62;Query
-						</p>
-					</div>
-				),
-				placeholder: "/path",
-				rules: [FormRules.required(), FormRules.apiPath()],
-				once() {
-					const vDomApiMethodsSelector = <xItem configs={vm.apiMethod} />;
-					this.slots = markRaw({
-						addonBefore: () => vDomApiMethodsSelector
-					});
-				}
-			})
-		};
+		vm.init()
 	},
 	methods: {
+		init() {
+			this.detailInfo = this.initState(this.propDialogOptions.oldInterface);
+			const { catid, title, path, req_params } = this.detailInfo;
+			setValueTo(this.dataXItem, { catid, title, path, pathParams: req_params });
+		},
 		initState(detailInfo) {
 			this.startTime = new Date().getTime();
 			if (detailInfo.req_query && detailInfo.req_query.length === 0) {
@@ -245,16 +299,27 @@ export const DialogModifyInterface = defineComponent({
 						<a-tab-pane key="3" tab="返回数据"></a-tab-pane>
 						<a-tab-pane key="4" tab="备注"></a-tab-pane>
 					</a-tabs>
-					<div className="flex1">
+					<div class="flex1">
 						<xGap t="10" />
 						<xForm
 							style={{ display: this.activeKey === "1" ? "block" : "none" }}
 							class="flex vertical"
 							labelStyle={{ "min-width": "120px", width: "unset" }}>
-							<xGap t="10" /> <xItem configs={this.dataXItem.catid} />
-							<xGap t="10" /> <xItem configs={this.dataXItem.title} />
-							<xGap t="10" /> <xItem configs={this.dataXItem.basepath} />
-							<xGap t="10" /> <xItem configs={this.dataXItem.path} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.catid} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.title} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.basepath} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.path} />
+							{/* 接口路径参数 */}
+							{xU.isArrayFill(this.dataXItem.pathParams.value) && <>
+								<xGap t="10" />
+								<xItem configs={this.dataXItem.pathParams} />
+							</>}
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.tag} />
 						</xForm>
 						<xGap t="10" />
 					</div>
@@ -264,3 +329,64 @@ export const DialogModifyInterface = defineComponent({
 		);
 	}
 });
+
+
+export const InpterfacePathParams = (args) => {
+	args.property.value = args.property.value || [];
+	args.fnUpdate = (prop, val, index) => {
+		args.property.value[index][prop] = val;
+		args.listeners["onUpdate:value"](args.property.value)
+	}
+	return xU.map(args.property.value, (data, index) => {
+		console.log(args.property.value);
+		const { desc, example, name, _id } = data;
+		return (<div class="flex middel mt10">
+			<aTag class="mr10 flex middle" style="width:200px">{name}</aTag>
+			<span class="mr10"><xItem configs={{
+				placeholder: "参数示例",
+				value: example,
+				onAfterValueEmit: (val) => args.fnUpdate("example", val, index),
+				style: "width:500px"
+			}} /></span>
+			<span class="mr10"><xItem configs={{
+				placeholder: "备注",
+				value: desc,
+				onAfterValueEmit: (val) => args.fnUpdate("desc", val, index),
+				style: "width:500px"
+			}} /></span>
+		</div>)
+	})
+};
+
+
+async function openAddTagDialog() {
+	const { _layerKey } = await UI.dialog.component({
+		title: State_UI.$t("管理项目接口Tags").label,
+		tags: State_App.currProject.tag,
+		component: DialogUpsertTags,
+	});
+	$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
+}
+
+
+const TagSelector = (args) => {
+	args.property.value = args.property.value || [];
+	args.fnUpdate = (val) => {
+		args.listeners["onUpdate:value"](val)
+	}
+	return <div class="flex overflow-auto">
+		<aSelect placeholder='请选择 tag' onChange={args.fnUpdate} mode="multiple" value={args.property.value}>
+			{xU.map(State_App.currProject.tag, item => {
+				return (
+					<aSelectOption value={item.name} key={item._id}>
+						{item.name}
+					</aSelectOption>
+				);
+			})}
+		</aSelect>
+		<xGap l="10" />
+		<aButton type='primary' onClick={openAddTagDialog}>
+			Tag设置
+		</aButton>
+	</div>
+};

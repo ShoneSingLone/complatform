@@ -118,7 +118,7 @@ export const GroupLeftSider = defineComponent({
 				isSearch: false,
 				value: "",
 				placeholder: "搜索分类",
-				onAfterValueChange: this.searchGroup,
+				onAfterValueEmit: this.searchGroup,
 				allowClear: true
 			},
 			groupListForShow: [],
@@ -147,11 +147,8 @@ export const GroupLeftSider = defineComponent({
 			}
 		},
 		async selectGroup({ key: groupId }) {
-			const currGroup = xU.find(this.State_App.groupList, {
-				_id: +groupId
-			});
-			await Methods_App.setCurrGroup(currGroup);
-			this.Cpt_url.go("/group", { group_id: currGroup._id });
+			await Methods_App.setCurrGroup(groupId);
+			this.Cpt_url.go("/group", { group_id: groupId });
 			await Methods_App.fetchNewsData(groupId, "group", 1, 10);
 		},
 		searchGroup: xU.debounce(function () {
