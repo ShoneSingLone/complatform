@@ -33,6 +33,7 @@ ajax.interceptors.response.use(
 			UI.message.error(response?.data?.errmsg);
 			return Promise.reject(response);
 		}
+
 		return Promise.resolve({ data: response.data.data, response });
 	},
 	async error => {

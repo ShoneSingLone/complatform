@@ -8,6 +8,7 @@ import { ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { State_App } from "./../../../state/State_App";
 import { DialogModifyInterface } from "./DialogModifyInterface";
 import { makeAhref } from "src/components/RouterView/RouterView";
+import { openProxyEnvDialog } from "./DialogModifyInterface"
 
 export const InterfaceDetail = defineComponent({
 	setup() {
@@ -32,6 +33,9 @@ export const InterfaceDetail = defineComponent({
 				this.detailInfo = data;
 			}
 		}
+	},
+	mounted() {
+		openProxyEnvDialog();
 	},
 	methods: {
 		flagMsg(mock, strice) {

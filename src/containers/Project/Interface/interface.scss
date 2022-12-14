@@ -105,3 +105,12 @@
 	background-color: var(--color-white);
 	margin-left: -10px;
 }
+
+.DialogUpsertProxyEnv {
+	.env-configs-wrapper {
+		.env-configs {
+			width: 600px;
+			height: 460px;
+		}
+	}
+}

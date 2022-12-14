@@ -2,6 +2,13 @@ import { ajax } from "@/api/ajax";
 import qs from "qs";
 
 export const project = {
+	updateTags(data) {
+		return ajax({
+			method: "post",
+			url: "/api/project/up_tag",
+			data
+		});
+	},
 	addFollow(data) {
 		return ajax({
 			method: "post",

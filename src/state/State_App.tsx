@@ -127,18 +127,15 @@ export const Methods_App = {
 			}
 		});
 	},
-	async setCurrProject(project_id) {
+	async setCurrProject(project_id, enforce = false) {
 		if (!xU.isInput(project_id)) {
 			_State_App.currProject = {};
 		}
-		if (_State_App.currProject._id === project_id) {
+		if (!enforce && (_State_App.currProject._id === project_id)) {
 			return;
 		}
-		project_id = project_id || Cpt_url.value.query.project_id;
-		if (project_id) {
-			let { data } = await API.project.getProjectById(Number(project_id));
-			_State_App.currProject = data;
-		}
+		let { data } = await API.project.getProjectById(Number(project_id));
+		_State_App.currProject = data;
 	},
 	async fetchNewsData(typeid, type, page, limit, selectValue) {
 		try {

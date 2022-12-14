@@ -15,6 +15,10 @@ export const ITEM_OPTIONS = {
 		{ label: "开通", value: "ACTIVATED" },
 		{ label: "未开通", value: "NONACTIVATED" }
 	],
+	YesOrNo: [
+		{ label: "是", value: true },
+		{ label: "否", value: false }
+	],
 	statusFn(action) {
 		if (action === "all") {
 			return [{ label: "所有状态", value: "" }].concat(this.status);
