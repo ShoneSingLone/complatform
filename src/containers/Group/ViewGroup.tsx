@@ -180,7 +180,7 @@ export const ViewGroup = defineComponent({
 			/* TODO: 权限校验 */
 			return (
 				<div class="curr-group-name">
-					<div class="curr-group-name_title">
+					<div class="curr-group-name_title elevation-1">
 						{this.vDomGroupName}
 						{this.vDomEditIcon}
 					</div>
@@ -193,7 +193,7 @@ export const ViewGroup = defineComponent({
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 		return (
-			<aLayout id="GroupView" style={{ marginLeft: "24px", marginTop: "24px" }}>
+			<aLayout id="GroupView" class="padding20">
 				<aLayoutSider id="ViewGroup_sider" class={this.stylePanel} width="300">
 					<GroupLeftSider />
 				</aLayoutSider>
