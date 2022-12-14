@@ -8,7 +8,6 @@ import { ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { State_App } from "./../../../state/State_App";
 import { DialogModifyInterface } from "./DialogModifyInterface";
 import { makeAhref } from "src/components/RouterView/RouterView";
-import { openProxyEnvDialog } from "./DialogModifyInterface"
 
 export const InterfaceDetail = defineComponent({
 	setup() {
@@ -34,9 +33,7 @@ export const InterfaceDetail = defineComponent({
 			}
 		}
 	},
-	mounted() {
-		openProxyEnvDialog();
-	},
+	mounted() {},
 	methods: {
 		flagMsg(mock, strice) {
 			if (mock && strice) {
@@ -89,7 +86,7 @@ export const InterfaceDetail = defineComponent({
 				component: DialogModifyInterface,
 				oldInterface: item,
 				maxmin: true,
-				onBeforeClose: vm.closeWS,
+				onBeforeClose: vm.closeWS
 			});
 		},
 		async checkConflict(item) {
@@ -150,8 +147,9 @@ export const InterfaceDetail = defineComponent({
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
-				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
+				this.State_App.currProject._id
+			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {
@@ -264,7 +262,7 @@ export const InterfaceDetail = defineComponent({
 	},
 	render() {
 		if (!this.detailInfo || !this.State_App.currProject) {
-			return <aSpin spinning={true}></aSpin>;
+			return <aSpin spinning={true} class="flex middle center flex1"></aSpin>;
 		}
 		console.log(
 			this.State_App.currGroup,
@@ -274,13 +272,9 @@ export const InterfaceDetail = defineComponent({
 		return (
 			<xView style="overflow:hidden;">
 				<div class="flex">
-					<xButton onClick={this.showModifyInterfaceDialog}>
-						修改
-					</xButton>
+					<xButton onClick={this.showModifyInterfaceDialog}>修改</xButton>
 					<xGap l="10" />
-					<xButton onClick={this.showModifyInterfaceDialog}>
-						删除
-					</xButton>
+					<xButton onClick={this.showModifyInterfaceDialog}>删除</xButton>
 					<xGap f="1" />
 				</div>
 				<div class="flex1 overflow-auto mt10">

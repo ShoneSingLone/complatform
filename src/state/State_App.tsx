@@ -50,12 +50,10 @@ let _State_App = {
 		currPage: "",
 		userInfo: "",
 		tableLoading: ""
-	},
-}
+	}
+};
 
-_State_App = reactive(
-	xU.merge(_State_App, lStorage.State_App)
-);
+_State_App = reactive(xU.merge(_State_App, lStorage.State_App));
 
 _State_App.urlHash = window.location.hash;
 
@@ -127,11 +125,14 @@ export const Methods_App = {
 			}
 		});
 	},
-	async setCurrProject(project_id, enforce = false) {
+	async setCurrProject(project_id, options = {}) {
+		let { isEnforce } = options;
+		isEnforce = isEnforce || false;
+
 		if (!xU.isInput(project_id)) {
 			_State_App.currProject = {};
 		}
-		if (!enforce && (_State_App.currProject._id === project_id)) {
+		if (!isEnforce && _State_App.currProject._id === project_id) {
 			return;
 		}
 		let { data } = await API.project.getProjectById(Number(project_id));
@@ -190,7 +191,7 @@ export const Methods_App = {
 			console.error(error);
 		}
 	},
-	async fetchInterfaceListMenu() { },
+	async fetchInterfaceListMenu() {},
 	async fetchProjectList(groupId) {
 		if (!groupId) return;
 		groupId = Number(groupId);
@@ -198,11 +199,10 @@ export const Methods_App = {
 		_State_App.projectList = data.list;
 		console.log("State_App.projectList", _State_App.projectList);
 	},
-	getProject() {
-	},
-	async changeMenuItem() { },
-	async loginActions() { },
-	async loginLdapActions() { },
+	getProject() {},
+	async changeMenuItem() {},
+	async loginActions() {},
+	async loginLdapActions() {},
 	async fetchGroupMemberList(groupId) {
 		const { data: member } = await API.group.getMemberListBy(groupId);
 		_State_App.currGroup.member = member;
@@ -217,20 +217,13 @@ export const Methods_App = {
 	async changeMemberRole(data) {
 		return API.group.changeMemberRole(data);
 	},
-	async fetchMoreNews() {
-	},
-	async fetchInterfaceList() {
-	},
-	async addProject() {
-	},
-	async delProject() {
-	},
-	async changeUpdateModal() {
-	},
-	checkProjectName() {
-	},
-	loginTypeAction() {
-	}
+	async fetchMoreNews() {},
+	async fetchInterfaceList() {},
+	async addProject() {},
+	async delProject() {},
+	async changeUpdateModal() {},
+	checkProjectName() {},
+	loginTypeAction() {}
 };
 
 /* 有关全局的状态，变动 */
@@ -245,7 +238,7 @@ watch(
 
 watch(
 	() => Cpt_url.value.query.group_id,
-	xU.debounce(async (group_id) => {
+	xU.debounce(async group_id => {
 		await Methods_App.setCurrGroup(group_id);
 	}),
 	100
@@ -253,15 +246,11 @@ watch(
 
 watch(
 	() => Cpt_url.value.query.project_id,
-	xU.debounce(async (project_id) => {
+	xU.debounce(async project_id => {
 		await Methods_App.setCurrProject(project_id);
 	}),
 	100
 );
-
-
-
-
 
 window.addEventListener(
 	"hashchange",
@@ -270,4 +259,4 @@ window.addEventListener(
 	}, 60)
 );
 
-export { _State_App as State_App }
+export { _State_App as State_App };

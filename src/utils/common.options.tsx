@@ -7,6 +7,10 @@ export const ITEM_OPTIONS = {
 		value: prop,
 		color: item.color
 	})),
+	httpProtocol: [
+		{ label: "http://", value: "http://" },
+		{ label: "https://", value: "https://" }
+	],
 	interfaceStatus: [
 		{ label: "已完成", value: "done" },
 		{ label: "未完成", value: "undone" }
