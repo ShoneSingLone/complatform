@@ -39,7 +39,7 @@ export const GroupMemberList = defineComponent({
 			},
 			configs_table: defDataGridOption({
 				isHidePagination: true,
-				async queryTableList(params) { },
+				async queryTableList(params) {},
 				dataSource: [],
 				columns: {}
 			})

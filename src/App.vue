@@ -23,7 +23,6 @@ export default defineComponent({
 		};
 	},
 	mounted() {
-
 		this.onAfterRefresh();
 	},
 	methods: {

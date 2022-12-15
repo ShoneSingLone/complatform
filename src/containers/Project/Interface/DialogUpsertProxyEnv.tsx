@@ -18,6 +18,7 @@ import {
 	makeKeyValueObj,
 	makeNameValueObj
 } from "./../../../components/InputKeyValue";
+import { diff } from "jsondiffpatch";
 
 export const DialogUpsertProxyEnv = defineComponent({
 	props: {
@@ -182,7 +183,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			return xU.map(this.privateEnv, i => {
 				const type = i._id === this.currentSelected._id ? "primary" : "";
 				return (
-					<aButton type={type} onClick={() => (this.currentSelected = i)}>
+					<aButton type={type} onClick={() => this.switchEvn(i)}>
 						{i.name}
 					</aButton>
 				);
@@ -221,6 +222,22 @@ export const DialogUpsertProxyEnv = defineComponent({
 		}
 	},
 	methods: {
+		async switchEvn(envItem) {
+			const continu = () => (this.currentSelected = envItem);
+			const rightData = pickValueFrom(this.configsForm);
+			var delta = diff(this.leftData, rightData);
+			const keys = Object.keys(delta || {});
+			if (keys.length > 0) {
+				try {
+					await UI.dialog.confirm({
+						content: "有未保存的修改，切换之后将被放弃"
+					});
+					continu();
+				} catch (e) {}
+			} else {
+				continu();
+			}
+		},
 		setFormValues() {
 			const item = xU.cloneDeep(this.currentSelected || []);
 			item.name = item.name || "";
@@ -247,6 +264,8 @@ export const DialogUpsertProxyEnv = defineComponent({
 			item.header = xU.map(item.header || [], makeKeyValueObj);
 			item.global = xU.map(item.global || [], makeKeyValueObj);
 			setValueTo(this.configsForm, item);
+			/* 切换env的时候先对比是否已经修改东西 */
+			this.leftData = pickValueFrom(this.configsForm);
 			setTimeout(() => {
 				this.isLoading = false;
 			}, 64);
@@ -303,6 +322,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 					<div class="env-list flex vertical">{this.vDomLeftSide}</div>
 					<div class="env-configs-wrapper flex1 flex padding10">
 						{this.vdomEnvconfigs}
+						{JSON.stringify(this.dataForm)}
 					</div>
 				</div>
 				<xDialogFooter>

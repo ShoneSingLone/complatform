@@ -15,7 +15,7 @@ export const ViewProject = defineComponent({
 		return {
 			State_Project,
 			State_App,
-			Cpt_url,
+			Cpt_url
 		};
 	},
 	data() {

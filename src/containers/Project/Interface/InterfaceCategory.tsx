@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from "vue";
-import { State_UI, } from "@ventose/ui";
+import { State_UI } from "@ventose/ui";
 import {
 	Methods_Project,
 	State_Project,

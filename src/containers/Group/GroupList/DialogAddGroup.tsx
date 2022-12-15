@@ -68,17 +68,18 @@ export const DialogAddGroup = defineComponent({
 						{this.vDomFormItems}
 					</xForm>
 				</aCard>
-				<xDialogFooter configs={{
-					onCancel: this.propDialogOptions.closeDialog,
-					onOk: () => {
-						this.propDialogOptions.onOk({
-							formItems: this.formItems,
-							closeDialog: this.propDialogOptions.closeDialog
-						})
-					}
-				}} />
+				<xDialogFooter
+					configs={{
+						onCancel: this.propDialogOptions.closeDialog,
+						onOk: () => {
+							this.propDialogOptions.onOk({
+								formItems: this.formItems,
+								closeDialog: this.propDialogOptions.closeDialog
+							});
+						}
+					}}
+				/>
 			</>
-
 		);
 	}
 });

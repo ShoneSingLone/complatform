@@ -250,8 +250,8 @@ export const DialogAddProject = defineComponent({
 						</xForm>
 					</div>
 				</div>
-				<xDialogFooter configs={
-					{
+				<xDialogFooter
+					configs={{
 						onCancel: this.propDialogOptions.closeDialog,
 						onOk: async () => {
 							const res = await this.submit();
@@ -260,8 +260,8 @@ export const DialogAddProject = defineComponent({
 								this.propDialogOptions.closeDialog();
 							}
 						}
-					}
-				} />
+					}}
+				/>
 			</>
 		);
 	}

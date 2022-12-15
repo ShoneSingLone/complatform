@@ -3,7 +3,7 @@ import { State_App } from "src/state/State_App";
 import { defineComponent } from "vue";
 
 export function makeKeyValueObj(i: any) {
-	return { ...i, key: i.name, value: i.value };
+	return { key: i.name, value: i.value };
 }
 export function makeNameValueObj(i: any) {
 	return { name: i.key, value: i.value };
@@ -11,8 +11,16 @@ export function makeNameValueObj(i: any) {
 export function orderAsc(a, b) {
 	return a - b < 0 ? -1 : 1;
 }
+
+/* 只能处理全量的upsert，因为没有保留_id这样的信息，方便diff的时候做判断 */
 export const InputKeyValue = defineComponent({
-	props: ["items", "genItem", "fnCheck"],
+	props: [
+		"items",
+		/* fnCheck 提供额外的校验方法，满足基本的校验之后，由外部规则决定是否通过 */
+		"genItem",
+		/* fnCheck 提供额外的校验方法，满足基本的校验之后，由外部规则决定是否通过 */
+		"fnCheck"
+	],
 	emits: ["update:items"],
 	setup() {
 		return { State_App };

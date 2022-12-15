@@ -139,7 +139,12 @@ export const DialogAddInterface = defineComponent({
 					</xForm>
 					<xGap t="10" />
 				</div>
-				<xDialogFooter configs={{ onCancel: this.propDialogOptions.closeDialog, onOk: this.onOk }} />
+				<xDialogFooter
+					configs={{
+						onCancel: this.propDialogOptions.closeDialog,
+						onOk: this.onOk
+					}}
+				/>
 			</>
 		);
 	}

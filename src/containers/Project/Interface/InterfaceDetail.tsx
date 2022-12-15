@@ -6,7 +6,10 @@ import { Cpt_url } from "../../../router/router";
 import { InfoCard, InfoCardCol } from "../../../components/InfoCard";
 import { ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { State_App } from "./../../../state/State_App";
-import { DialogModifyInterface } from "./DialogModifyInterface";
+import {
+	DialogModifyInterface,
+	openProxyEnvDialog
+} from "./DialogModifyInterface";
 import { makeAhref } from "src/components/RouterView/RouterView";
 
 export const InterfaceDetail = defineComponent({
@@ -33,7 +36,9 @@ export const InterfaceDetail = defineComponent({
 			}
 		}
 	},
-	mounted() {},
+	mounted() {
+		openProxyEnvDialog();
+	},
 	methods: {
 		flagMsg(mock, strice) {
 			if (mock && strice) {

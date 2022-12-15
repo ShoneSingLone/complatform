@@ -114,15 +114,17 @@ export const DialogEditGroup = defineComponent({
 					</aCard>
 					{this.vDomDeleteGroup}
 				</div>
-				<xDialogFooter configs={{
-					onCancel: this.propDialogOptions.closeDialog,
-					onOk: () => {
-						this.propDialogOptions.onOk({
-							formItems: this.formItems,
-							closeDialog: this.propDialogOptions.closeDialog
-						})
-					}
-				}} />
+				<xDialogFooter
+					configs={{
+						onCancel: this.propDialogOptions.closeDialog,
+						onOk: () => {
+							this.propDialogOptions.onOk({
+								formItems: this.formItems,
+								closeDialog: this.propDialogOptions.closeDialog
+							});
+						}
+					}}
+				/>
 			</>
 		);
 	},
@@ -222,7 +224,7 @@ export const DialogEditGroup = defineComponent({
 					});
 				},
 				iconType: "delete",
-				onCancel() { }
+				onCancel() {}
 			});
 		},
 		async deleteGroup() {

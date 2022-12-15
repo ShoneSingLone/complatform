@@ -59,9 +59,8 @@ export function fnShowUpsertGroupDialog(row = {}) {
 			} else {
 				const validateResults = await validateForm(formItems);
 				if (AllWasWell(validateResults)) {
-					const { newGroupName, newGroupDesc, owner_uids } = pickValueFrom(
-						formItems
-					);
+					const { newGroupName, newGroupDesc, owner_uids } =
+						pickValueFrom(formItems);
 					formData = {
 						group_name: newGroupName,
 						group_desc: newGroupDesc,

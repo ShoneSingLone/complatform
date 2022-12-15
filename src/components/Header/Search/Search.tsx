@@ -51,9 +51,9 @@ export default defineComponent({
 				await this.props.fetchInterfaceListMenu(option.props["projectId"]);
 				this.props.history.push(
 					"/project/" +
-					option.props["projectId"] +
-					"/interface/api/" +
-					option.props["id"]
+						option.props["projectId"] +
+						"/interface/api/" +
+						option.props["id"]
 				);
 			}
 		},
@@ -129,9 +129,9 @@ export default defineComponent({
 					defaultActiveFirstOption={false}
 					onSelect={this.onSelect}
 					onSearch={this.handleSearch}
-				// filterOption={(inputValue, option) =>
-				//   option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-				// }
+					// filterOption={(inputValue, option) =>
+					//   option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+					// }
 				>
 					<aInput
 						prefix={<xIcon icon="search" class="srch-icon" />}

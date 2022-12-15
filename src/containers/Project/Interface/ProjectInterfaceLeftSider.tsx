@@ -337,7 +337,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 				title: this.$t("添加接口").label,
 				categoryId,
 				projectId: this.State_App.currProject._id,
-				component: DialogAddInterface,
+				component: DialogAddInterface
 			});
 		}
 	},

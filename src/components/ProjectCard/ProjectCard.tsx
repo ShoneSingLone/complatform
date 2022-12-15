@@ -26,7 +26,7 @@ export default defineComponent({
 				title: `复制项目${this.projectData.name}`,
 				component: ViewCopyProject,
 				copyProject: this.copyProject,
-				projectName: this.projectData.name,
+				projectName: this.projectData.name
 			});
 		},
 		async copyProject({ newProjectName, icon }) {

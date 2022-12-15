@@ -125,7 +125,12 @@ export const DialogUpsertCategory = defineComponent({
 					</xForm>
 					<xGap b="38" />
 				</div>
-				<xDialogFooter configs={{ onCancel: this.propDialogOptions.closeDialog, onOk: this.onOk }} />
+				<xDialogFooter
+					configs={{
+						onCancel: this.propDialogOptions.closeDialog,
+						onOk: this.onOk
+					}}
+				/>
 			</>
 		);
 	}
