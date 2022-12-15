@@ -160,7 +160,15 @@ export const DialogUpsertProxyEnv = defineComponent({
 					return;
 				}
 				this.privateEnv = xU.cloneDeep(env);
-				this.currentSelected = xU.first(this.privateEnv);
+
+				let currentSelected = {}
+				/* 已经打开，非初始状态 */
+				if (this.raw$EnvId) {
+					currentSelected = xU.find(this.privateEnv, { _id: this.raw$EnvId })
+				} else {
+					currentSelected = xU.first(this.privateEnv);
+				}
+				this.switchEvn(currentSelected, { isEnforce: true })
 			}
 		},
 		currentSelected: {
@@ -222,8 +230,18 @@ export const DialogUpsertProxyEnv = defineComponent({
 		}
 	},
 	methods: {
-		async switchEvn(envItem) {
-			const continu = () => (this.currentSelected = envItem);
+		async switchEvn(envItem, options: any = {}) {
+			const continu = () => {
+				this.currentSelected = envItem
+				/* 数据动态更新后，能通过raw$EnvId找回来 */
+				this.raw$EnvId = envItem._id;
+			};
+			const isEnforce = options.isEnforce || false;
+
+			if (isEnforce) {
+				continu();
+				return;
+			}
 			const rightData = pickValueFrom(this.configsForm);
 			var delta = diff(this.leftData, rightData);
 			const keys = Object.keys(delta || {});
@@ -233,7 +251,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
-				} catch (e) {}
+				} catch (e) { }
 			} else {
 				continu();
 			}
@@ -310,7 +328,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			UI.message.success(this.$t("环境设置成功").label);
 			Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
 		},
-		async addEnv() {}
+		async addEnv() { }
 	},
 	render() {
 		const vm = this;
