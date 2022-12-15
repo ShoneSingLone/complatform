@@ -38,6 +38,7 @@ export const InterfaceDetail = defineComponent({
 	},
 	mounted() {
 		openProxyEnvDialog();
+		// this.showModifyInterfaceDialog();
 	},
 	methods: {
 		flagMsg(mock, strice) {
@@ -57,6 +58,7 @@ export const InterfaceDetail = defineComponent({
 		},
 		async showModifyInterfaceDialog() {
 			const vm = this;
+			await xU.ensureValueDone(() => this.detailInfo);
 			const item = this.detailInfo;
 			const $dialogModifyInterface = $(`.dialog-modify-interface`);
 

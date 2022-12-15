@@ -143,9 +143,9 @@ export const DialogUpsertTags = defineComponent({
 					tag: xU.map(this.formData, item => item)
 				};
 				await API.project.updateTags(data);
-				if (this.propDialogOptions.onAfterUpdate) {
-					await this.propDialogOptions.onAfterUpdate();
-				}
+				await Methods_App.setCurrProject(this.propProjectId, {
+					isEnforce: true
+				});
 				UI.message.success("Tag修改成功");
 				this.propDialogOptions.closeDialog();
 			}

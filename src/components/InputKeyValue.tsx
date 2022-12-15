@@ -67,6 +67,7 @@ export const InputKeyValue = defineComponent({
 									v-loading={this.isLoading}
 									icon="delete"
 									onClick={() => this.deleteItem(index)}
+									style="color:red;"
 									class="pointer"
 								/>
 							</span>
@@ -113,9 +114,7 @@ export const InputKeyValue = defineComponent({
 					},
 					[]
 				);
-				if (xU.isArrayFill(value)) {
-					this.$emit("update:items", value);
-				}
+				this.$emit("update:items", value);
 			}
 			this.isLoading = false;
 		}, 1000),
@@ -175,6 +174,7 @@ export const InputKeyValue = defineComponent({
 				<xIcon
 					v-loading={vm.isLoading}
 					icon="add"
+					style="color:#1890ff;"
 					onClick={this.addItem}
 					class="pointer mt10 ml10 mb10"
 				/>

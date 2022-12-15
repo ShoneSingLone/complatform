@@ -21,6 +21,7 @@ import { _$handlePath, _$interfacePathParamsTpl } from "src/utils/common";
 import { DialogAddGroup } from "../../Group/GroupList/DialogAddGroup";
 import { DialogUpsertTags } from "./DialogUpsertTags";
 import { DialogUpsertProxyEnv } from "./DialogUpsertProxyEnv";
+import { RequestArgsPanel } from "src/components/RequestArgsPanel";
 
 export const DialogModifyInterface = defineComponent({
 	props: {
@@ -36,6 +37,18 @@ export const DialogModifyInterface = defineComponent({
 		return { State_App, State_Project };
 	},
 	computed: {
+		vDomXItemPathparams() {
+			if (xU.isArrayFill(this.dataXItem.pathParams.value)) {
+				return (
+					<>
+						<xGap t="10" />
+						<xItem configs={this.dataXItem.pathParams} />
+					</>
+				);
+			} else {
+				return null;
+			}
+		},
 		interfaceId() {
 			return this.propDialogOptions.oldInterface._id;
 		},
@@ -53,19 +66,9 @@ export const DialogModifyInterface = defineComponent({
 	data() {
 		const vm = this;
 		return {
+			reqArgs: "1",
 			detailInfo: {},
 			activeKey: "1",
-			apiMethod: defItem.item({
-				value: "",
-				itemType: "Select",
-				prop: "apiMethod",
-				options: ITEM_OPTIONS.httpMethod,
-				rules: [FormRules.required()],
-				once() {
-					this.value = xU.first(this.options).value;
-				},
-				style: { width: "120px" }
-			}),
 			dataXItem: {
 				...defItem({
 					value: "",
@@ -75,8 +78,8 @@ export const DialogModifyInterface = defineComponent({
 					placeholder: "分类名称",
 					options: [],
 					rules: [FormRules.required()],
-					once() {
-						this.options = vm.State_Project.allCategory;
+					setOptions(allCategory) {
+						this.options = allCategory;
 						/* 默认在点击的分类下添加新接口 */
 						if (vm.propDialogOptions.categoryId) {
 							this.value = vm.propDialogOptions.categoryId;
@@ -105,6 +108,14 @@ export const DialogModifyInterface = defineComponent({
 				}),
 				...defItem({
 					value: "",
+					itemType: "Select",
+					prop: "apiMethod",
+					options: ITEM_OPTIONS.httpMethod,
+					rules: [FormRules.required()],
+					style: { width: "120px" }
+				}),
+				...defItem({
+					value: "",
 					prop: "path",
 					label: vm.$t("接口路径").label,
 					labelVNodeRender: VNodeCollection.labelTips(
@@ -122,7 +133,9 @@ export const DialogModifyInterface = defineComponent({
 					placeholder: "/path",
 					rules: [FormRules.required(), FormRules.apiPath()],
 					once() {
-						const vDomApiMethodsSelector = <xItem configs={vm.apiMethod} />;
+						const vDomApiMethodsSelector = (
+							<xItem configs={vm.dataXItem.apiMethod} />
+						);
 						this.slots = markRaw({
 							addonBefore: () => vDomApiMethodsSelector
 						});
@@ -177,6 +190,16 @@ export const DialogModifyInterface = defineComponent({
 					itemType: InpterfacePathParams
 				}),
 				...defItem({
+					prop: "tag",
+					label: "Tag",
+					value: [],
+					options: [],
+					async setOptions(tagArray) {
+						this.options = tagArray;
+					},
+					itemType: TagSelectRender
+				}),
+				...defItem({
 					prop: "isProxy",
 					label: "是否开启转发",
 					options: ITEM_OPTIONS.YesOrNo,
@@ -195,53 +218,53 @@ export const DialogModifyInterface = defineComponent({
 							};
 						});
 					},
-					itemType: "Select"
+					itemType: EnvSelectRender
 				}),
 				...defItem({
-					prop: "tag",
-					label: "Tag",
+					prop: "requestArgs",
+					label: "请求参数设置",
 					value: [],
-					tagOptions: [],
-					async once() {
-						this.setOptions();
-					},
-					async setOptions() {
-						this.tagOptions = State_App.currProject.tag;
-					},
-					async onAfterUpdate() {
-						await Methods_App.setCurrProject(State_App.currProject._id);
-						this.setOptions();
-					},
-					itemType: TagSelector
+					activeKey: "1",
+					itemType: RequestArgsRender
 				})
 			}
 		};
 	},
 	mounted() {
-		const vm = this;
-		vm.init();
+		this.setFormDataValues();
 	},
 	watch: {
-		"State_App.currProject.env": {
+		"State_App.currProject": {
 			immediate: true,
-			handler(envArray) {
+			deep: true,
+			handler(currProject) {
+				const { env: envArray, tag: tagArray, cat: category } = currProject;
+				this.dataXItem.catid.setOptions(
+					xU.map(category, i => ({ ...i, label: i.name, value: i._id }))
+				);
 				this.dataXItem.witchEnv.setOptions(envArray);
+				this.dataXItem.tag.setOptions(tagArray);
 			}
 		}
 	},
 	methods: {
-		init() {
+		setFormDataValues() {
 			this.detailInfo = this.initState(this.propDialogOptions.oldInterface);
-			const { catid, title, path, req_params, tag, isProxy, witchEnv } =
+			console.log(JSON.stringify(this.detailInfo, null, 2));
+			const { catid, title, path, req_params, tag, isProxy, witchEnv, method } =
 				this.detailInfo;
 			setValueTo(this.dataXItem, {
 				witchEnv,
 				catid,
 				title,
+				apiMethod: method,
 				path,
 				pathParams: req_params,
 				tag: String(tag).split(","),
-				isProxy
+				isProxy,
+				requestArgs: {
+					method
+				}
 			});
 		},
 		initState(detailInfo) {
@@ -322,7 +345,7 @@ export const DialogModifyInterface = defineComponent({
 		async submit() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-				const { catid, title, path } = pickValueFrom(this.dataXItem);
+				const { catid, title, path, apiMethod } = pickValueFrom(this.dataXItem);
 				const { projectId } = this.propDialogOptions;
 				try {
 					const res = await API.project.addInterface({
@@ -330,7 +353,7 @@ export const DialogModifyInterface = defineComponent({
 						catid,
 						title,
 						path,
-						method: this.apiMethod.value
+						method: apiMethod
 					});
 					if (res) {
 						return true;
@@ -346,22 +369,10 @@ export const DialogModifyInterface = defineComponent({
 		return (
 			<>
 				<div class="dialog-modify-interface g-row flex1 flex horizon height100 width100 overflow-auto">
-					<a-tabs
-						v-model:activeKey={this.activeKey}
-						tab-position="left"
-						animated>
-						<a-tab-pane key="1" tab="基本设置"></a-tab-pane>
-						<a-tab-pane key="2" tab="请求参数"></a-tab-pane>
-						<a-tab-pane key="3" tab="返回数据"></a-tab-pane>
-						<a-tab-pane key="4" tab="备注"></a-tab-pane>
-					</a-tabs>
 					<div class="flex1">
 						{JSON.stringify(pickValueFrom(this.dataXItem))}
 						<xGap t="10" />
-						<xForm
-							style={{ display: this.activeKey === "1" ? "block" : "none" }}
-							class="flex vertical"
-							labelStyle={{ "min-width": "120px", width: "unset" }}>
+						<xForm labelStyle={{ "min-width": "120px", width: "unset" }}>
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.catid} />
 							<xGap t="10" />
@@ -371,33 +382,15 @@ export const DialogModifyInterface = defineComponent({
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.path} />
 							{/* 接口路径参数 */}
-							{xU.isArrayFill(this.dataXItem.pathParams.value) && (
-								<>
-									<xGap t="10" />
-									<xItem configs={this.dataXItem.pathParams} />
-								</>
-							)}
+							{this.vDomXItemPathparams}
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.tag} />
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.isProxy} />
 							<xGap t="10" />
-							<xItem configs={this.dataXItem.witchEnv}>
-								{{
-									afterControll() {
-										return (
-											<xButton
-												configs={{
-													text: vm.$t("转发环境设置").label,
-													onClick: openProxyEnvDialog
-												}}
-												class="ml10"
-												type="primary"
-											/>
-										);
-									}
-								}}
-							</xItem>
+							<xItem configs={this.dataXItem.witchEnv} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.requestArgs} />
 						</xForm>
 						<xGap t="10" />
 					</div>
@@ -452,7 +445,7 @@ export async function openProxyEnvDialog() {
 	/*弹窗里面的弹窗点击之后不关闭（点不到其他位置）*/
 	$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
 }
-async function openAddTagDialog() {
+async function openUpsertTagDialog() {
 	const { _layerKey } = await UI.dialog.component({
 		title: State_UI.$t("管理项目接口Tags").label,
 		component: DialogUpsertTags
@@ -461,15 +454,48 @@ async function openAddTagDialog() {
 	$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
 }
 
-const TagSelector = args => {
+const EnvSelectRender = args => {
 	args.property.value = args.property.value || [];
-	const tagOptions = args.property.tagOptions || [];
-	const onAfterUpdate = args.property.onAfterUpdate || xU.doNothing;
+	const options = args.property.options || [];
+	args.fnUpdate = val => {
+		args.listeners["onUpdate:value"](val);
+	};
+	const vDomOptions = xU.map(options, item => {
+		return (
+			<aSelectOption value={item.value} key={item.value}>
+				{item.label}
+			</aSelectOption>
+		);
+	});
+	return (
+		<div class="flex overflow-auto">
+			<aSelect
+				placeholder="请选择转发环境"
+				onChange={args.fnUpdate}
+				mode="multiple"
+				value={args.property.value}>
+				{vDomOptions}
+			</aSelect>
+			<xGap l="10" />
+			<xButton
+				configs={{
+					text: State_UI.$t("转发环境设置").label,
+					onClick: openProxyEnvDialog
+				}}
+				class="ml10"
+				type="primary"
+			/>
+		</div>
+	);
+};
+const TagSelectRender = args => {
+	args.property.value = args.property.value || [];
+	const options = args.property.options || [];
 	args.fnUpdate = val => {
 		args.listeners["onUpdate:value"](val);
 	};
 
-	const vDomOptions = xU.map(tagOptions, item => {
+	const vDomOptions = xU.map(options, item => {
 		return (
 			<aSelectOption value={item.name} key={item.name}>
 				<span v-uiPopover={{ content: item.desc }}>{item.name}</span>
@@ -486,9 +512,34 @@ const TagSelector = args => {
 				{vDomOptions}
 			</aSelect>
 			<xGap l="10" />
-			<aButton type="primary" onClick={() => openAddTagDialog(onAfterUpdate)}>
-				Tag设置
-			</aButton>
+			<xButton
+				configs={{
+					text: State_UI.$t("Tag设置").label,
+					onClick: openUpsertTagDialog
+				}}
+				class="ml10"
+				type="primary"
+			/>
 		</div>
+	);
+};
+
+const RequestArgsRender = args => {
+	/* input */
+	args.property.value = args.property.value || [];
+	/* output */
+	args.fnUpdate = val => {
+		args.listeners["onUpdate:value"](val);
+	};
+	/* TODO: miss readonly 
+	if(args.property.isReadonly){
+		return <ReadonlyView />
+	}
+	*/
+	return (
+		<RequestArgsPanel
+			params={args.property.value}
+			onUpdate:params={args.fnUpdate}
+		/>
 	);
 };

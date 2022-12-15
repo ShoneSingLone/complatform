@@ -76,8 +76,6 @@ export const DialogUpsertProxyEnv = defineComponent({
 					prop: "header",
 					itemType: KeyValuePanel,
 					fnCheck(configs) {
-						debugger;
-						console.log(this);
 						if (configs.keyConfigs.value === "Cookie") {
 							configs.keyConfigs.itemTips = {
 								type: "error",
@@ -161,14 +159,18 @@ export const DialogUpsertProxyEnv = defineComponent({
 				}
 				this.privateEnv = xU.cloneDeep(env);
 
-				let currentSelected = {}
+				let currentSelected = false;
 				/* 已经打开，非初始状态 */
 				if (this.raw$EnvId) {
-					currentSelected = xU.find(this.privateEnv, { _id: this.raw$EnvId })
-				} else {
+					currentSelected = xU.find(this.privateEnv, { _id: this.raw$EnvId });
+					this.raw$EnvId = false;
+				}
+				if (!currentSelected) {
 					currentSelected = xU.first(this.privateEnv);
 				}
-				this.switchEvn(currentSelected, { isEnforce: true })
+				if (currentSelected) {
+					this.switchEvn(currentSelected, { isEnforce: true });
+				}
 			}
 		},
 		currentSelected: {
@@ -188,14 +190,57 @@ export const DialogUpsertProxyEnv = defineComponent({
 			}
 		},
 		vDomLeftSide() {
-			return xU.map(this.privateEnv, i => {
-				const type = i._id === this.currentSelected._id ? "primary" : "";
-				return (
-					<aButton type={type} onClick={() => this.switchEvn(i)}>
-						{i.name}
-					</aButton>
-				);
-			});
+			return (
+				<div class="env-list flex vertical flex1 width100 overflow-auto height100 ">
+					{xU.map(this.privateEnv, i => {
+						const className =
+							i._id === this.currentSelected._id
+								? "delete-env-btn active"
+								: "delete-env-btn";
+
+						const fnDelete = (() => {
+							if (/^new_env/.test(i._id)) {
+								return () => {
+									const envIndex = xU.findIndex(this.privateEnv, {
+										_id: i._id
+									});
+									this.privateEnv.splice(envIndex, 1);
+								};
+							}
+							return () => this.deleteEnv(i);
+						})();
+
+						return (
+							<aButton
+								type="text"
+								onClick={() => this.switchEvn(i)}
+								class={className}>
+								<div class="flex middle">
+									<div
+										class="flex1 ellipsis"
+										style="text-align:left;"
+										v-uiPopover={{ onlyEllipsis: true, placement: "left" }}>
+										{i.name}
+									</div>
+									<xIcon
+										icon="delete"
+										class="delete-env-icon"
+										onClick={fnDelete}
+									/>
+								</div>
+							</aButton>
+						);
+					})}
+				</div>
+			);
+		},
+		xDomSaveButton() {
+			return (
+				<xButton
+					configs={{ preset: "save", onClick: this.onOk }}
+					class="ml10"
+				/>
+			);
 		},
 		vdomEnvconfigs() {
 			const vDomContent = (() => {
@@ -214,11 +259,21 @@ export const DialogUpsertProxyEnv = defineComponent({
 							width: "80px",
 							padding: "0 8px"
 						}}>
-						<xGap t="10" /> <xItem configs={this.configsForm.name} />
-						<xGap t="10" /> <xItem configs={this.configsForm.domain} />
-						<xGap t="10" /> <xItem configs={this.configsForm.header} />
-						<xGap t="10" /> <xItem configs={this.configsForm.cookie} />
-						<xGap t="10" /> <xItem configs={this.configsForm.global} />
+						<xGap t="10" />
+						<xItem configs={this.configsForm.name}>
+							{{
+								afterController: this.xDomSaveButton
+							}}
+						</xItem>
+						<xGap t="10" />
+						<xItem configs={this.configsForm.domain} />
+						<xGap t="10" />
+						<xItem configs={this.configsForm.global} />
+						<xGap t="10" />
+						<xItem configs={this.configsForm.header} />
+						<xGap t="10" />
+						<xItem configs={this.configsForm.cookie} />
+						<xGap t="10" />
 					</xForm>
 				);
 			})();
@@ -232,7 +287,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 	methods: {
 		async switchEvn(envItem, options: any = {}) {
 			const continu = () => {
-				this.currentSelected = envItem
+				this.currentSelected = envItem;
 				/* 数据动态更新后，能通过raw$EnvId找回来 */
 				this.raw$EnvId = envItem._id;
 			};
@@ -251,7 +306,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
-				} catch (e) { }
+				} catch (e) {}
 			} else {
 				continu();
 			}
@@ -289,6 +344,11 @@ export const DialogUpsertProxyEnv = defineComponent({
 			}, 64);
 		},
 		async onOk() {
+			const validateResults = await validateForm(this.configsForm);
+			if (!AllWasWell(validateResults)) {
+				return;
+			}
+
 			let { name, domain, protocol, header, cookie, global } = pickValueFrom(
 				this.configsForm
 			);
@@ -302,7 +362,6 @@ export const DialogUpsertProxyEnv = defineComponent({
 					value: cookie.map(item => item.name + "=" + item.value).join(";")
 				});
 			}
-
 			const env = {
 				_id: this.currentSelected._id,
 				name,
@@ -310,11 +369,12 @@ export const DialogUpsertProxyEnv = defineComponent({
 				header: header,
 				global
 			};
-
 			const envIndex = xU.findIndex(this.privateEnv, {
 				_id: env._id
 			});
-
+			if (/^new_env/.test(this.currentSelected._id)) {
+				delete env._id;
+			}
 			const envArray = xU.cloneDeep(this.privateEnv);
 			if (~envIndex) {
 				envArray.splice(envIndex, 1, env);
@@ -328,37 +388,58 @@ export const DialogUpsertProxyEnv = defineComponent({
 			UI.message.success(this.$t("环境设置成功").label);
 			Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
 		},
-		async addEnv() { }
+		async addEnv() {
+			const newItem = {
+				header: [],
+				global: [],
+				_id: xU.genId("new_env"),
+				name: xU.genId("env_name"),
+				domain: "http://"
+			};
+			/* 更新之后Id是全新的，所以默认第一个 */
+			this.privateEnv.unshift(newItem);
+			this.switchEvn(newItem, { isEnforce: true });
+		},
+		async deleteEnv(item) {
+			const id = item._id;
+			try {
+				await UI.dialog.confirm({ content: `您确认删除环境变量${item.name}?` });
+				const envIndex = xU.findIndex(this.privateEnv, {
+					_id: id
+				});
+				const envArray = xU.cloneDeep(this.privateEnv);
+				envArray.splice(envIndex, 1);
+				await API.project.updateProxyEnv({
+					id: this.propProjectId,
+					env: envArray
+				});
+				UI.message.success(this.$t("环境设置成功").label);
+				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
+			} catch (error) {}
+		}
 	},
 	render() {
 		const vm = this;
 		return (
 			<>
 				<div
-					class="DialogUpsertProxyEnv flex1 flex horizon padding20"
+					class="DialogUpsertProxyEnv flex1 flex horizon padding10"
 					style="overflow:auto;">
-					<div class="env-list flex vertical">{this.vDomLeftSide}</div>
-					<div class="env-configs-wrapper flex1 flex padding10">
+					<div class="env-list-wrapper flex vertical">
+						<div class="flex center mb10">
+							<xIcon
+								icon="add"
+								onClick={this.addEnv}
+								class="flex middle color-primary pointer"
+								v-uiPopover={{ content: "添加新环境", delay: 1000 }}
+							/>
+						</div>
+						{this.vDomLeftSide}
+					</div>
+					<div class="env-configs-wrapper flex1 flex">
 						{this.vdomEnvconfigs}
-						{JSON.stringify(this.dataForm)}
 					</div>
 				</div>
-				<xDialogFooter>
-					<xButton onClick={this.addEnv} class="flex middle">
-						<xIcon icon="add" /> 添加新的环境
-					</xButton>
-					<xButton onClick={this.addEnv} class="flex middle">
-						<xIcon icon="delete" /> 删除当前环境
-					</xButton>
-					<xGap f="1" />
-					<xButton
-						configs={{
-							preset: "cancel",
-							onClick: this.propDialogOptions.closeDialog
-						}}
-					/>
-					<xButton configs={{ preset: "save", onClick: this.onOk }} />
-				</xDialogFooter>
 			</>
 		);
 	}
@@ -366,10 +447,6 @@ export const DialogUpsertProxyEnv = defineComponent({
 
 const KeyValuePanel = args => {
 	args.property.value = args.property.value || [];
-	console.log(
-		"🚀 ~ file: DialogUpsertProxyEnv.tsx:296 ~ KeyValuePanel ~ args.property.value",
-		args.property.value
-	);
 	args.property.fnCheck = args.property.fnCheck || false;
 	args.fnUpdate = val => {
 		args.listeners["onUpdate:value"](val);

@@ -14,12 +14,12 @@ export const PAGE_LIMIT = 10;
 // 限制名称的字符长度(中文算两个长度)
 export const NAME_LIMIT = 100;
 export const HTTP_METHOD = {
-	GET: { color: "green", request_body: false, default_tab: "query" },
+	GET: { color: "green", default_tab: "query" },
+	HEAD: { color: "purple", default_tab: "query" },
+	OPTIONS: { color: "default", default_tab: "query" },
 	POST: { color: "pink", request_body: true, default_tab: "body" },
 	PUT: { color: "orange", request_body: true, default_tab: "body" },
 	DELETE: { color: "red", request_body: true, default_tab: "body" },
-	HEAD: { color: "purple", request_body: false, default_tab: "query" },
-	OPTIONS: { color: "default", request_body: false, default_tab: "query" },
 	PATCH: { color: "blue", request_body: true, default_tab: "body" }
 };
 

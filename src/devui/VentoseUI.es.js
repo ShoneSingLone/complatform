@@ -184,6 +184,7 @@ html #layuicss-layer {
   animation-name: layer-shake;
 }
 .layui-layer-title {
+  font-weight: 500;
   padding: 0 80px 0 20px;
   height: 50px;
   line-height: 50px;
@@ -192,6 +193,8 @@ html #layuicss-layer {
   color: #333;
   overflow: hidden;
   border-radius: 2px 2px 0 0;
+  text-shadow: 1px 1px #e9e4ed;
+  font-family: sans-serif;
 }
 .layui-layer-setwin {
   position: absolute;
@@ -1582,6 +1585,14 @@ div[id^=svg-icon_] {
   background-color: rgba(255, 255, 255, 0.2);
   overflow: hidden;
   z-index: 10;
+}
+
+.color-error {
+  color: red;
+}
+
+.color-primary {
+  color: #1890ff;
 }
 
 ::-webkit-scrollbar {
@@ -31421,7 +31432,7 @@ const _sfc_main$b = defineComponent({
 						this.tipsVNode
 					]
 				),
-				this.$slots.afterControll && this.$slots.afterControll()
+				this.$slots.afterController && this.$slots.afterController()
 			]
 		);
 	}
