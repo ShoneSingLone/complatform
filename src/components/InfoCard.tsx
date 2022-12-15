@@ -10,7 +10,7 @@ export const InfoCardCol = defineComponent({
 		},
 		vDomContent() {
 			return this.col.value;
-		}
+		},
 	},
 	render() {
 		return (
@@ -25,25 +25,37 @@ export const InfoCardCol = defineComponent({
 });
 
 export const InfoCardRow = defineComponent({
-	props: ["item"],
+	props: ["row"],
 	computed: {
+		colArray() {
+			return this?.row?.colArray || false
+		},
 		vDomCol() {
-			if (this.item) {
-				return xU.map(this.item, col => {
+			if (this.row) {
+				return xU.map(this.colArray, col => {
 					return <InfoCardCol col={col} />;
 				});
 			}
 			return null;
+		},
+		styleRow() {
+			if (this?.row?.style) {
+				return this.row.style
+			}
+			return ""
 		}
 	},
 	render() {
-		return <div class="ant-descriptions-row flex middle">{this.vDomCol}</div>;
+		return <div class="InfoCardRow ant-descriptions-row flex middle" style={this.styleRow}>{this.vDomCol}</div>;
 	}
 });
 
 export const InfoCard = defineComponent({
-	props: ["items", "title"],
+	props: ["info", "title"],
 	computed: {
+		rowArray() {
+			return this?.info?.rowArray || false
+		},
 		vDomTitle() {
 			if (!this.title) {
 				return null;
@@ -55,11 +67,11 @@ export const InfoCard = defineComponent({
 			);
 		},
 		vDomDescriptions() {
-			if (this.items) {
+			if (this.rowArray) {
 				return (
 					<div class="ant-descriptions-view">
-						{xU.map(this.items, row => {
-							return <InfoCardRow item={row} />;
+						{xU.map(this.rowArray, row => {
+							return <InfoCardRow row={row} />;
 						})}
 					</div>
 				);

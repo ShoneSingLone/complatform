@@ -14,6 +14,7 @@ specifiers:
   jsondiffpatch: ^0.4.1
   less: ^4.1.2
   lodash: ^4.17.21
+  monaco-editor: ^0.34.1
   nprogress: ^0.2.0
   prettier: ^2.2.1
   qs: ^6.11.0
@@ -33,6 +34,7 @@ dependencies:
   json5: 2.2.1
   jsondiffpatch: 0.4.1
   lodash: 4.17.21
+  monaco-editor: 0.34.1
   nprogress: 0.2.0
   qs: 6.11.0
   vue: 3.2.45
@@ -1234,7 +1236,7 @@ packages:
     optional: true
 
   /image-size/0.5.5:
-    resolution: {integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==}
+    resolution: {integrity: sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=}
     engines: {node: '>=0.10.0'}
     hasBin: true
     requiresBuild: true
@@ -1411,6 +1413,10 @@ packages:
     dependencies:
       brace-expansion: 2.0.1
     dev: true
+
+  /monaco-editor/0.34.1:
+    resolution: {integrity: sha512-FKc80TyiMaruhJKKPz5SpJPIjL+dflGvz4CpuThaPMc94AyN7SeC9HQ8hrvaxX7EyHdJcUY5i4D0gNyJj1vSZQ==}
+    dev: false
 
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}

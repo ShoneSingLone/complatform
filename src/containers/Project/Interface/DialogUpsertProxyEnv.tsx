@@ -200,14 +200,19 @@ export const DialogUpsertProxyEnv = defineComponent({
 
 						const fnDelete = (() => {
 							if (/^new_env/.test(i._id)) {
-								return () => {
-									const envIndex = xU.findIndex(this.privateEnv, {
-										_id: i._id
-									});
-									this.privateEnv.splice(envIndex, 1);
+								return async () => {
+									try {
+										await UI.dialog.confirm({ content: `删除环境变量${i.name}?` });
+										const envIndex = xU.findIndex(this.privateEnv, {
+											_id: i._id
+										});
+										this.privateEnv.splice(envIndex, 1);
+									} catch (error) {
+
+									}
 								};
 							}
-							return () => this.deleteEnv(i);
+							return async () => this.deleteEnv(i);
 						})();
 
 						return (
@@ -306,7 +311,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
-				} catch (e) {}
+				} catch (e) { }
 			} else {
 				continu();
 			}
@@ -403,7 +408,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		async deleteEnv(item) {
 			const id = item._id;
 			try {
-				await UI.dialog.confirm({ content: `您确认删除环境变量${item.name}?` });
+				await UI.dialog.confirm({ content: `删除环境变量${item.name}?` });
 				const envIndex = xU.findIndex(this.privateEnv, {
 					_id: id
 				});
@@ -415,7 +420,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				});
 				UI.message.success(this.$t("环境设置成功").label);
 				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
-			} catch (error) {}
+			} catch (error) { }
 		}
 	},
 	render() {

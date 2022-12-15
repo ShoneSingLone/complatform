@@ -4,13 +4,14 @@ import { API } from "../../../api";
 import { Methods_Project, State_Project } from "./State_Project";
 import { Cpt_url } from "../../../router/router";
 import { InfoCard, InfoCardCol } from "../../../components/InfoCard";
-import { ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
+import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { State_App } from "./../../../state/State_App";
 import {
 	DialogModifyInterface,
-	openProxyEnvDialog
 } from "./DialogModifyInterface";
 import { makeAhref } from "src/components/RouterView/RouterView";
+import copy from 'copy-to-clipboard';
+
 
 export const InterfaceDetail = defineComponent({
 	setup() {
@@ -37,10 +38,13 @@ export const InterfaceDetail = defineComponent({
 		}
 	},
 	mounted() {
-		openProxyEnvDialog();
-		// this.showModifyInterfaceDialog();
+		this.showModifyInterfaceDialog();
 	},
 	methods: {
+		copyUrl(url) {
+			copy(url);
+			UI.message.success('已经成功复制到剪切板');
+		},
 		flagMsg(mock, strice) {
 			if (mock && strice) {
 				return <span>( 全局mock & 严格模式 )</span>;
@@ -151,12 +155,63 @@ export const InterfaceDetail = defineComponent({
 
 			return status[this.detailInfo?.status];
 		},
+		labelProxyEnv() {
+			if (!this.detailInfo.isProxy) {
+				return 'Y-api Mock 数据';
+			}
+			const envId = this.detailInfo.witchEnv;
+			if (!envId) {
+				return '任意';
+			}
+			if (envId) {
+				const envArray = this.State_App.currProject.env;
+				let env = xU.find(envArray, { _id: envId });
+				if (env) {
+					return <div>
+						<aTag color="cyan">{env.name}</aTag>
+						<span>{env.domain}</span>
+					</div>;
+				}
+			} else {
+				return '--';
+			}
+		},
+		vDomCopyAjaxCodePanel() {
+			const { tag, up_time, title, uid, username, path, method } = this.detailInfo;
+
+			const ajaxCode = `/**
+*  ${title}
+*  ${window.location.href}
+*/
+async ${xU.camelCase(path)}({params,data}) {
+	return ajax({
+	method: "${method}",
+	url: \`${path}\`,
+	params:params||{},
+	data:data||{}
+	});
+}`;
+
+			return <pre style="position:relative;overflow:auto;height:100%;">
+				<Button
+					onClick={() => this.copyUrl(ajaxCode)}
+					style={{
+						position: 'absolute',
+						top: 0,
+						right: 0,
+						zIndex: 1
+					}}
+				>
+					复制代码
+				</Button>
+				<code v-html={ajaxCode} readOnly={true} mode='text' style={{ minHeight: 180 }} />
+			</pre>
+		},
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
-				this.State_App.currProject._id
-			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
+				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {
@@ -168,85 +223,58 @@ export const InterfaceDetail = defineComponent({
 				status,
 				path,
 				method,
+				isProxy,
 				custom_field_value,
 				desc
 			} = this.detailInfo || {};
 
-			const items = [
-				[
-					{
-						label: "接口名称",
-						col: 3,
-						value: this.detailInfo?.title
-					}
-				],
-				[
-					{
-						label: "维护人",
-						value: (
-							<>
-								<aAvatar
-									src={"/api/user/avatar?uid=" + uid}
-									class="mr8"
-									style="height:24px;width:24px;"
-								/>
-								<a>{username}</a>
-							</>
-						)
-					},
-					{ label: "状态", value: ITEM_OPTIONS_VDOM.status(status) },
-					{ label: "更新时间", value: xU.dateFormat(up_time) }
-				],
-				[
-					{
-						label: "接口路径",
-						col: 3,
-						value: (
-							<CopyContent class="flex middle">
-								{ITEM_OPTIONS_VDOM.httpMethod(method)}
-								{this.State_App.currProject.basepath}
-								{path}
-							</CopyContent>
-						)
-					}
-				],
-				[
-					{
-						label: "Tag",
-						col: 3,
-						value: ITEM_OPTIONS_VDOM.tags(tag)
-					}
-				],
-				[
-					{
-						label: (
-							<div class="flex middle">
-								<span class="mr10">Mock地址</span>
-								<aButton type="primary">运行</aButton>
-							</div>
-						),
-						col: 3,
-						value: (
-							<div class="flex middle width100">
-								{this.flagMsg(
-									this.State_App.currProject.is_mock_open,
-									this.State_App.currProject.strice
-								)}
-								<CopyContent>
-									<span class="href">{this.vDomMockHref}</span>
-								</CopyContent>
-								<xGap f="1" />
-							</div>
-						)
-					}
-				]
+			const rowArray = [
+				{
+					colArray: [
+						{
+							label: "接口名称",
+							col: 3,
+							value: this.detailInfo?.title
+						}
+					],
+				},
+				{
+					colArray: [
+						{
+							label: "维护人",
+							value: (
+								<>
+									<aAvatar
+										src={"/api/user/avatar?uid=" + uid}
+										class="mr8"
+										style="height:24px;width:24px;"
+									/>
+									<a>{username}</a>
+								</>
+							)
+						},
+						{ label: "状态", value: ITEM_OPTIONS_VDOM.status(status) },
+						{ label: "更新时间", value: xU.dateFormat(up_time) }
+					]
+				},
+				{ colArray: [{ label: "接口路径", col: 3, value: (<CopyContent class="flex middle"> {ITEM_OPTIONS_VDOM.httpMethod(method)} {this.State_App.currProject.basepath} {path} </CopyContent>) }] },
+				{ colArray: [{ label: "Tag", col: 3, value: ITEM_OPTIONS_VDOM.tags(tag) }] },
+				{ colArray: [{ label: "是否开启转发", col: 1, value: xU.find(ITEM_OPTIONS.YesOrNo, { value: isProxy })?.label }, { label: "转发环境", col: 2, value: this.labelProxyEnv }] },
+				{ colArray: [{ label: (<div class="flex middle"> <span class="mr10">Mock地址</span> <aButton type="primary">运行</aButton> </div>), col: 3, value: (<div class="flex middle width100"> {this.flagMsg(this.State_App.currProject.is_mock_open, this.State_App.currProject.strice)} <CopyContent> <span class="href">{this.vDomMockHref}</span> </CopyContent> <xGap f="1" /> </div>) }] },
+				{
+					style: `height:200px;`,
+					colArray: [{
+						label: "ajax代码", col: 3,
+						value: this.vDomCopyAjaxCodePanel
+					}]
+				},
 			];
 
 			if (
 				custom_field_value &&
 				this.State_App.currGroup?.custom_field?.enable
 			) {
-				items.push([
+				rowArray.push([
 					{
 						label: this.State_App.currGroup.custom_field.enable,
 						col: 3,
@@ -255,7 +283,7 @@ export const InterfaceDetail = defineComponent({
 				]);
 			}
 			if (desc) {
-				items.push([
+				rowArray.push([
 					{
 						label: "备注",
 						col: 3,
@@ -264,7 +292,7 @@ export const InterfaceDetail = defineComponent({
 				]);
 			}
 
-			return items;
+			return { rowArray };
 		}
 	},
 	render() {
@@ -285,7 +313,7 @@ export const InterfaceDetail = defineComponent({
 					<xGap f="1" />
 				</div>
 				<div class="flex1 overflow-auto mt10">
-					<InfoCard title={<span>基本信息</span>} items={this.descriptions} />
+					<InfoCard title={<span>基本信息</span>} info={this.descriptions} />
 					<xGap t="20" />
 					<InfoCard title={"请求参数"}>
 						<aCard title="Headers">
