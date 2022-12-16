@@ -163,16 +163,19 @@ export const ViewGroup = defineComponent({
 
 			if (isGroupRoleAuth || isUserRoleAuth) {
 				return (
-					<aTooltip title="修改分组信息">
-						<xIcon
-							class="btn editSet pointer"
-							icon="edit"
-							onClick={() =>
-								this.fnShowUpsertGroupDialog(this.State_App.currGroup)
-							}
-							style="width:16px;"
-						/>
-					</aTooltip>
+					<xIcon
+						class="btn editSet pointer"
+						icon="edit"
+						onClick={() =>
+							this.fnShowUpsertGroupDialog(this.State_App.currGroup)
+						}
+						v-uiPopover={{
+							content: "修改分组信息",
+							placement: "bottom",
+							delay: 1500
+						}}
+						style="width:16px;"
+					/>
 				);
 			}
 		},

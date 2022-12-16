@@ -202,14 +202,14 @@ export const DialogUpsertProxyEnv = defineComponent({
 							if (/^new_env/.test(i._id)) {
 								return async () => {
 									try {
-										await UI.dialog.confirm({ content: `删除环境变量${i.name}?` });
+										await UI.dialog.confirm({
+											content: `删除环境变量${i.name}?`
+										});
 										const envIndex = xU.findIndex(this.privateEnv, {
 											_id: i._id
 										});
 										this.privateEnv.splice(envIndex, 1);
-									} catch (error) {
-
-									}
+									} catch (error) {}
 								};
 							}
 							return async () => this.deleteEnv(i);
@@ -311,7 +311,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
-				} catch (e) { }
+				} catch (e) {}
 			} else {
 				continu();
 			}
@@ -420,7 +420,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				});
 				UI.message.success(this.$t("环境设置成功").label);
 				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
-			} catch (error) { }
+			} catch (error) {}
 		}
 	},
 	render() {

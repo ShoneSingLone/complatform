@@ -7,6 +7,16 @@ export const ITEM_OPTIONS = {
 		value: prop,
 		color: item.color
 	})),
+	interfaceBodyType: [
+		{ label: "form", value: "form", isForm: true },
+		{ label: "json", value: "json" },
+		{ label: "file", value: "file" },
+		{ label: "raw", value: "raw" }
+	],
+	interfaceBodyFormType: [
+		{ label: "text", value: "text" },
+		{ label: "file", value: "file" }
+	],
 	httpProtocol: [
 		{ label: "http://", value: "http://" },
 		{ label: "https://", value: "https://" }
@@ -23,6 +33,10 @@ export const ITEM_OPTIONS = {
 		{ label: "是", value: true },
 		{ label: "否", value: false }
 	],
+	required: [
+		{ label: "必需", value: "1", color: "red" },
+		{ label: "非必需", value: "0" }
+	],
 	statusFn(action) {
 		if (action === "all") {
 			return [{ label: "所有状态", value: "" }].concat(this.status);
@@ -33,6 +47,14 @@ export const ITEM_OPTIONS = {
 
 /*状态显示样式统一处理*/
 export const ITEM_OPTIONS_VDOM = {
+	required(cell) {
+		if (!xU.isInput(cell)) return null;
+		const i = xU.find(ITEM_OPTIONS.required, {
+			value: String(cell).toLocaleUpperCase()
+		});
+		/*@ts-ignore*/
+		return <aTag color={i.color}>{i.label}</aTag>;
+	},
 	httpMethod(cell) {
 		if (!xU.isInput(cell)) return null;
 		const i = xU.find(ITEM_OPTIONS.httpMethod, {

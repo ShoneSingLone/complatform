@@ -138,13 +138,13 @@ export const Methods_App = {
 		let { data } = await API.project.getProjectById(Number(project_id));
 		_State_App.currProject = data;
 	},
-	async fetchNewsData(typeid, type, page, limit, selectValue) {
+	async fetchNewsData({ id, type, page = 1, size = 10, selectValue = "" }) {
 		try {
 			const { data } = await API.news.getLogList({
-				typeid,
+				typeid: id,
 				type,
 				page,
-				limit,
+				limit: size,
 				selectValue
 			});
 			Methods_App.setNews({

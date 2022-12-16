@@ -10,7 +10,7 @@ export const InfoCardCol = defineComponent({
 		},
 		vDomContent() {
 			return this.col.value;
-		},
+		}
 	},
 	render() {
 		return (
@@ -28,7 +28,7 @@ export const InfoCardRow = defineComponent({
 	props: ["row"],
 	computed: {
 		colArray() {
-			return this?.row?.colArray || false
+			return this?.row?.colArray || false;
 		},
 		vDomCol() {
 			if (this.row) {
@@ -40,13 +40,19 @@ export const InfoCardRow = defineComponent({
 		},
 		styleRow() {
 			if (this?.row?.style) {
-				return this.row.style
+				return this.row.style;
 			}
-			return ""
+			return "";
 		}
 	},
 	render() {
-		return <div class="InfoCardRow ant-descriptions-row flex middle" style={this.styleRow}>{this.vDomCol}</div>;
+		return (
+			<div
+				class="InfoCardRow ant-descriptions-row flex middle"
+				style={this.styleRow}>
+				{this.vDomCol}
+			</div>
+		);
 	}
 });
 
@@ -54,7 +60,7 @@ export const InfoCard = defineComponent({
 	props: ["info", "title"],
 	computed: {
 		rowArray() {
-			return this?.info?.rowArray || false
+			return this?.info?.rowArray || false;
 		},
 		vDomTitle() {
 			if (!this.title) {

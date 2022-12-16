@@ -20,7 +20,10 @@ export async function fnUpsertGroupInfo(formData = {}) {
 	/*TODO:*/
 	await Methods_App.fetchGroupList();
 	await Methods_App.setCurrGroup(State_App.currGroup._id);
-	await Methods_App.fetchNewsData(State_App.currGroup._id, "group", 1, 10);
+	await Methods_App.fetchNewsData({
+		id: State_App.currGroup._id,
+		type: "group"
+	});
 }
 
 export function fnShowUpsertGroupDialog(row = {}) {
@@ -29,7 +32,6 @@ export function fnShowUpsertGroupDialog(row = {}) {
 	UI.dialog.component({
 		title: isUpdate ? $t("修改分组信息").label : $t("添加分组").label,
 		component: isUpdate ? DialogEditGroup : DialogAddGroup,
-		fullscreen: isUpdate,
 		row,
 		area: ["580px", "460px"],
 		onOk: async ({ formItems, closeDialog }) => {
@@ -148,7 +150,7 @@ export const GroupLeftSider = defineComponent({
 		async selectGroup({ key: groupId }) {
 			await Methods_App.setCurrGroup(groupId);
 			this.Cpt_url.go("/group", { group_id: groupId });
-			await Methods_App.fetchNewsData(groupId, "group", 1, 10);
+			await Methods_App.fetchNewsData({ id: groupId, type: "group" });
 		},
 		searchGroup: xU.debounce(function () {
 			const { groupList } = this.State_App;

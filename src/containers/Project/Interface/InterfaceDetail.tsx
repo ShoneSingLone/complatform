@@ -6,12 +6,9 @@ import { Cpt_url } from "../../../router/router";
 import { InfoCard, InfoCardCol } from "../../../components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { State_App } from "./../../../state/State_App";
-import {
-	DialogModifyInterface,
-} from "./DialogModifyInterface";
+import { DialogModifyInterface } from "./DialogModifyInterface";
 import { makeAhref } from "src/components/RouterView/RouterView";
-import copy from 'copy-to-clipboard';
-
+import copy from "copy-to-clipboard";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
@@ -43,7 +40,7 @@ export const InterfaceDetail = defineComponent({
 	methods: {
 		copyUrl(url) {
 			copy(url);
-			UI.message.success('已经成功复制到剪切板');
+			UI.message.success("已经成功复制到剪切板");
 		},
 		flagMsg(mock, strice) {
 			if (mock && strice) {
@@ -157,27 +154,30 @@ export const InterfaceDetail = defineComponent({
 		},
 		labelProxyEnv() {
 			if (!this.detailInfo.isProxy) {
-				return 'Y-api Mock 数据';
+				return "Y-api Mock 数据";
 			}
 			const envId = this.detailInfo.witchEnv;
 			if (!envId) {
-				return '任意';
+				return "任意";
 			}
 			if (envId) {
 				const envArray = this.State_App.currProject.env;
 				let env = xU.find(envArray, { _id: envId });
 				if (env) {
-					return <div>
-						<aTag color="cyan">{env.name}</aTag>
-						<span>{env.domain}</span>
-					</div>;
+					return (
+						<div>
+							<aTag color="cyan">{env.name}</aTag>
+							<span>{env.domain}</span>
+						</div>
+					);
 				}
 			} else {
-				return '--';
+				return "--";
 			}
 		},
 		vDomCopyAjaxCodePanel() {
-			const { tag, up_time, title, uid, username, path, method } = this.detailInfo;
+			const { tag, up_time, title, uid, username, path, method } =
+				this.detailInfo;
 
 			const ajaxCode = `/**
 *  ${title}
@@ -192,26 +192,33 @@ async ${xU.camelCase(path)}({params,data}) {
 	});
 }`;
 
-			return <pre style="position:relative;overflow:auto;height:100%;">
-				<Button
-					onClick={() => this.copyUrl(ajaxCode)}
-					style={{
-						position: 'absolute',
-						top: 0,
-						right: 0,
-						zIndex: 1
-					}}
-				>
-					复制代码
-				</Button>
-				<code v-html={ajaxCode} readOnly={true} mode='text' style={{ minHeight: 180 }} />
-			</pre>
+			return (
+				<pre style="position:relative;overflow:auto;height:100%;">
+					<Button
+						onClick={() => this.copyUrl(ajaxCode)}
+						style={{
+							position: "absolute",
+							top: 0,
+							right: 0,
+							zIndex: 1
+						}}>
+						复制代码
+					</Button>
+					<code
+						v-html={ajaxCode}
+						readOnly={true}
+						mode="text"
+						style={{ minHeight: 180 }}
+					/>
+				</pre>
+			);
 		},
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
-				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
+				this.State_App.currProject._id
+			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {
@@ -236,7 +243,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							col: 3,
 							value: this.detailInfo?.title
 						}
-					],
+					]
 				},
 				{
 					colArray: [
@@ -257,17 +264,74 @@ async ${xU.camelCase(path)}({params,data}) {
 						{ label: "更新时间", value: xU.dateFormat(up_time) }
 					]
 				},
-				{ colArray: [{ label: "接口路径", col: 3, value: (<CopyContent class="flex middle"> {ITEM_OPTIONS_VDOM.httpMethod(method)} {this.State_App.currProject.basepath} {path} </CopyContent>) }] },
-				{ colArray: [{ label: "Tag", col: 3, value: ITEM_OPTIONS_VDOM.tags(tag) }] },
-				{ colArray: [{ label: "是否开启转发", col: 1, value: xU.find(ITEM_OPTIONS.YesOrNo, { value: isProxy })?.label }, { label: "转发环境", col: 2, value: this.labelProxyEnv }] },
-				{ colArray: [{ label: (<div class="flex middle"> <span class="mr10">Mock地址</span> <aButton type="primary">运行</aButton> </div>), col: 3, value: (<div class="flex middle width100"> {this.flagMsg(this.State_App.currProject.is_mock_open, this.State_App.currProject.strice)} <CopyContent> <span class="href">{this.vDomMockHref}</span> </CopyContent> <xGap f="1" /> </div>) }] },
+				{
+					colArray: [
+						{
+							label: "接口路径",
+							col: 3,
+							value: (
+								<CopyContent class="flex middle">
+									{" "}
+									{ITEM_OPTIONS_VDOM.httpMethod(method)}{" "}
+									{this.State_App.currProject.basepath} {path}{" "}
+								</CopyContent>
+							)
+						}
+					]
+				},
+				{
+					colArray: [
+						{ label: "Tag", col: 3, value: ITEM_OPTIONS_VDOM.tags(tag) }
+					]
+				},
+				{
+					colArray: [
+						{
+							label: "是否开启转发",
+							col: 1,
+							value: xU.find(ITEM_OPTIONS.YesOrNo, { value: isProxy })?.label
+						},
+						{ label: "转发环境", col: 2, value: this.labelProxyEnv }
+					]
+				},
+				{
+					colArray: [
+						{
+							label: (
+								<div class="flex middle">
+									{" "}
+									<span class="mr10">Mock地址</span>{" "}
+									<aButton type="primary">运行</aButton>{" "}
+								</div>
+							),
+							col: 3,
+							value: (
+								<div class="flex middle width100">
+									{" "}
+									{this.flagMsg(
+										this.State_App.currProject.is_mock_open,
+										this.State_App.currProject.strice
+									)}{" "}
+									<CopyContent>
+										{" "}
+										<span class="href">{this.vDomMockHref}</span>{" "}
+									</CopyContent>{" "}
+									<xGap f="1" />{" "}
+								</div>
+							)
+						}
+					]
+				},
 				{
 					style: `height:200px;`,
-					colArray: [{
-						label: "ajax代码", col: 3,
-						value: this.vDomCopyAjaxCodePanel
-					}]
-				},
+					colArray: [
+						{
+							label: "ajax代码",
+							col: 3,
+							value: this.vDomCopyAjaxCodePanel
+						}
+					]
+				}
 			];
 
 			if (

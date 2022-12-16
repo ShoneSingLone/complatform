@@ -1,45 +1,65 @@
 import { xU } from "@ventose/ui";
-import { HTTP_METHOD } from "src/utils/variable";
+import { BODY, GET, HTTP_METHOD, QUERY } from "src/utils/variable";
 import { defineComponent } from "vue";
+import { BodyParamsPanel } from "./interfaceParams/BodyParamsPanel";
 
+/* 
+1.接收apimethod 默认打开
+*/
 export const RequestArgsPanel = defineComponent({
-	props: ["params"],
-	/*
-	 */
+	props: ["params", "apiMethod"],
+	/* */
 	emits: ["update:params"],
 	data() {
 		return {
-			reqArgs: "1",
+			collapseActive: QUERY,
+			privateHttpMethod: GET,
 			privateParams: {}
 		};
 	},
 	watch: {
 		params() {
 			this.privateParams = xU.cloneDeep(this.params);
+		},
+		apiMethod: {
+			immediate: true,
+			handler(apiMethod) {
+				this.privateHttpMethod = apiMethod || GET;
+				this.collapseActive = HTTP_METHOD[this.privateHttpMethod].default_tab;
+			}
 		}
 	},
 	computed: {
-		httpMethod() {
-			return this.privateParams.method || "GET";
-		},
 		bodyCollapsible() {
-			return HTTP_METHOD[this.httpMethod].request_body ? "" : "disabled";
+			/* 与编辑的 接口路径下的apiMethod */
+			return HTTP_METHOD[this.privateHttpMethod].request_body ? "" : "disabled";
 		}
 	},
 	render() {
 		return (
-			<aCollapse v-model:activeKey={this.reqArgs}>
+			<aCollapse v-model:activeKey={this.collapseActive}>
 				<aCollapsePanel key="header" header="header">
 					<p>asdfasfsafsf</p>
 				</aCollapsePanel>
-				<aCollapsePanel key="query" header="query">
-					<p>asdfasfsafsf</p>
+				<aCollapsePanel key={QUERY} header={QUERY}>
+					<aButton
+						size="small"
+						type="primary"
+						onClick={() => this.addParams("req_query")}>
+						添加Query参数
+					</aButton>
+
+					<div
+						className="bulk-import"
+						onClick={() => this.showBulk("req_query")}>
+						批量添加
+					</div>
 				</aCollapsePanel>
 				<aCollapsePanel
-					key="body"
-					header="body"
+					key={BODY}
+					header={BODY}
 					collapsible={this.bodyCollapsible}>
-					<p>asdfasfsafsf</p>
+					<BodyParamsPanel params={this.params} />
 				</aCollapsePanel>
 			</aCollapse>
 		);

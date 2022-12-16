@@ -110,6 +110,10 @@ export const DialogModifyInterface = defineComponent({
 					itemType: "Select",
 					prop: "apiMethod",
 					options: ITEM_OPTIONS.httpMethod,
+					onChange(val) {
+						/* 控制body是否可以编辑 */
+						vm.dataXItem.requestArgs.apiMethod = val;
+					},
 					rules: [FormRules.required()],
 					style: { width: "120px" }
 				}),
@@ -224,6 +228,7 @@ export const DialogModifyInterface = defineComponent({
 					label: "请求参数设置",
 					value: [],
 					activeKey: "1",
+					apiMethod: "",
 					itemType: RequestArgsRender
 				})
 			}
@@ -250,8 +255,20 @@ export const DialogModifyInterface = defineComponent({
 		setFormDataValues() {
 			this.detailInfo = this.initState(this.propDialogOptions.oldInterface);
 			console.log(JSON.stringify(this.detailInfo, null, 2));
-			const { catid, title, path, req_params, tag, isProxy, witchEnv, method } =
-				this.detailInfo;
+
+			const {
+				catid,
+				title,
+				path,
+				req_params,
+				tag,
+				isProxy,
+				witchEnv,
+				method,
+				req_body_type,
+				req_body_form
+			} = this.detailInfo;
+
 			setValueTo(this.dataXItem, {
 				witchEnv,
 				catid,
@@ -262,7 +279,11 @@ export const DialogModifyInterface = defineComponent({
 				tag: String(tag).split(","),
 				isProxy,
 				requestArgs: {
-					method
+					method,
+					/* body的编辑类型 */
+					req_body_type,
+					/* req_body_form 的数据 */
+					req_body_form
 				}
 			});
 		},
@@ -354,6 +375,7 @@ export const DialogModifyInterface = defineComponent({
 						path,
 						method: apiMethod
 					});
+
 					if (res) {
 						return true;
 					}
@@ -530,14 +552,17 @@ const RequestArgsRender = args => {
 	args.fnUpdate = val => {
 		args.listeners["onUpdate:value"](val);
 	};
+
 	/* TODO: miss readonly 
 	if(args.property.isReadonly){
 		return <ReadonlyView />
 	}
 	*/
+
 	return (
 		<RequestArgsPanel
 			params={args.property.value}
+			apiMethod={args.property.apiMethod}
 			onUpdate:params={args.fnUpdate}
 		/>
 	);

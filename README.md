@@ -2,7 +2,7 @@
 - [ant-design-vue](https://next.antdv.com/components/overview-cn/)
 
 
-raw$ 开头的是直接加载this上，没有在data中申明的
+raw$ 开头的是直接加载this上，没有在data中声明的
 brew services start mongodb-community@6.0
 brew services stop mongodb-community@6.0
 mongod --config /usr/local/etc/mongod.conf

@@ -1,5 +1,15 @@
-export const ALL = "ALL";
 import { State_UI } from "@ventose/ui";
+export const ALL = "ALL";
+export const GET = "GET";
+export const HEAD = "HEAD";
+export const OPTIONS = "OPTIONS";
+export const POST = "POST";
+export const PUT = "PUT";
+export const DELETE = "DELETE";
+export const PATCH = "PATCH";
+export const QUERY = "query";
+export const BODY = "body";
+
 export const DefaultInterfaceMenu = [
 	{
 		_id: ALL,
@@ -14,13 +24,13 @@ export const PAGE_LIMIT = 10;
 // 限制名称的字符长度(中文算两个长度)
 export const NAME_LIMIT = 100;
 export const HTTP_METHOD = {
-	GET: { color: "green", default_tab: "query" },
-	HEAD: { color: "purple", default_tab: "query" },
-	OPTIONS: { color: "default", default_tab: "query" },
-	POST: { color: "pink", request_body: true, default_tab: "body" },
-	PUT: { color: "orange", request_body: true, default_tab: "body" },
-	DELETE: { color: "red", request_body: true, default_tab: "body" },
-	PATCH: { color: "blue", request_body: true, default_tab: "body" }
+	[GET]: { color: "green", default_tab: QUERY },
+	[HEAD]: { color: "purple", default_tab: QUERY },
+	[OPTIONS]: { color: "default", default_tab: QUERY },
+	[POST]: { color: "pink", request_body: true, default_tab: BODY },
+	[PUT]: { color: "orange", request_body: true, default_tab: BODY },
+	[DELETE]: { color: "red", request_body: true, default_tab: BODY },
+	[PATCH]: { color: "blue", request_body: true, default_tab: BODY }
 };
 
 export const STATIC_WORD = {

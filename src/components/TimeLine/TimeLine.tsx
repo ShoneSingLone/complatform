@@ -99,7 +99,7 @@ export const TimeLine = defineComponent({
 
 		handleSelectApi(selectValue) {
 			this.curSelectValue = selectValue;
-			this.props.fetchNewsData(this.typeid, this.type, 1, 10, selectValue);
+			Methods_App.fetchNewsData({ id: this.typeid, type: this.type });
 		}
 	},
 	computed: {
