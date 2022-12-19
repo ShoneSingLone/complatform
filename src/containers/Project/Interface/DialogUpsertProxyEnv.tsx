@@ -267,7 +267,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						<xGap t="10" />
 						<xItem configs={this.configsForm.name}>
 							{{
-								afterController: this.xDomSaveButton
+								afterControll: this.xDomSaveButton
 							}}
 						</xItem>
 						<xGap t="10" />

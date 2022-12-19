@@ -25,11 +25,7 @@ export const BodyParamsPanel = defineComponent({
 								value: this.params.req_body_type
 							})?.isForm
 						) {
-							return (
-								<aButton type="primary" size="small">
-									批量添加
-								</aButton>
-							);
+							return (<a>批量添加</a>);
 						}
 						return null;
 					},

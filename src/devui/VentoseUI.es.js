@@ -29565,18 +29565,18 @@ div[id^=lazy-svg_] {
   z-index: 4;
   text-align: center;
 }
-.table-options {\r
-	display: flex;\r
-	flex-flow: row nowrap;\r
-	align-items: center;\r
+.table-options {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
 	padding: 10px 0;
 }
-.table-filter {\r
+.table-filter {
 	margin-left: 4px;
 }
-.table-pagination {\r
+.table-pagination {
 	padding: 10px 0;
-}\r
+}
 .vir-item-component {
   height: 100%;
   overflow: auto;
@@ -29656,8 +29656,7 @@ import {
 	normalizeStyle,
 	resolveDynamicComponent,
 	resolveDirective,
-	createApp,
-	compile
+	createApp
 } from "vue";
 import dayjs from "dayjs";
 import { default as default3, default as default4 } from "dayjs";
@@ -30298,6 +30297,20 @@ const privateLodash = {
 	WORDS: {
 		INVALID_DATE: "Invalid Date",
 		format_ymd: "YYYY-MM-DD"
+	},
+	hashCode(str) {
+		var hash = 0,
+			i,
+			chr;
+		if (str.length === 0) {
+			return "0";
+		}
+		for (i = 0; i < str.length; i++) {
+			chr = str.charCodeAt(i);
+			hash = (hash << 5) - hash + chr;
+			hash |= 0;
+		}
+		return String(hash);
 	},
 	getLeftTopFromAbsolute($ele) {
 		const _top = $ele.css("top");
@@ -31136,9 +31149,13 @@ const _sfc_main$b = defineComponent({
 		};
 		const listeners = {
 			"onUpdate:value": (val, ...args2) => {
-				configs.value = val;
-				vm.raw$Value = val;
-				vm.raw$Args = args2;
+				if (configs.value !== void 0) {
+					if (configs.value === val) {
+						return;
+					} else {
+						configs.value = val;
+					}
+				}
 				this.$emit("update:modelValue", val);
 				if (privateLodash.isFunction(listeners.onAfterValueEmit)) {
 					listeners.onAfterValueEmit.call(vm, val, {
@@ -31172,7 +31189,6 @@ const _sfc_main$b = defineComponent({
 			const propsWillDeleteFromConfigs = [];
 			privateLodash.each(currentConfigs, (value, prop) => {
 				if (privateLodash.isListener(prop)) {
-					propsWillDeleteFromConfigs.push(prop);
 					if (listeners[prop]) {
 						listeners[prop].queue.push(value);
 						return;
@@ -31235,8 +31251,14 @@ const _sfc_main$b = defineComponent({
 		componentSettings() {
 			const vm = this;
 			const configs = vm.configs;
-			configs.value = configs.value !== void 0 ? configs.value : vm.modelValue;
-			const property = {};
+			const property = {
+				value:
+					vm.modelValue !== void 0
+						? vm.modelValue
+						: configs.value !== void 0
+						? configs.value
+						: (cosole.error("either configs.value or modelValue"), "")
+			};
 			let slots = {};
 			const pickAttrs = properties => {
 				privateLodash.each(properties, (value, prop) => {
@@ -33982,6 +34004,13 @@ const xVirTable = defineComponent({
 		};
 	},
 	computed: {
+		dataFilter() {
+			if (privateLodash.isFunction(this.configs.dataSourceFilter)) {
+				return this.configs.dataSourceFilter;
+			} else {
+				return i => i;
+			}
+		},
 		selectedIndeterminate() {
 			var _a, _b;
 			const dataLength =
@@ -34252,7 +34281,7 @@ const xVirTable = defineComponent({
 				createVNode(
 					xVirTableBody,
 					{
-						dataSource: this.configs.dataSource,
+						dataSource: this.dataFilter(this.configs.dataSource),
 						columnOrder: this.columnOrder,
 						columns: (_a = this.configs) == null ? void 0 : _a.columns,
 						rowHeight: this.rowHeight,
@@ -35535,7 +35564,6 @@ const EcsPressHandler = privateLodash.debounce(async function (
 	if ($antModal.length > 0) {
 		return;
 	}
-	console.log(event2);
 	if (event2.keyCode === KEY.esc) {
 		await dialogOptions.closeDialog();
 	}
@@ -36040,7 +36068,6 @@ function defItem(options) {
 defItem.item = options => {
 	if (!options.prop) {
 		options.prop = `xItem${xItemNoPropCount++}`;
-		console.error(`no xItem prop replace by ${options.prop}`);
 	}
 	const configs = reactive(
 		privateLodash.merge(
@@ -36346,9 +36373,61 @@ const VNodeCollection = {
 		);
 	}
 };
-function compileVNode(template, state) {
-	const render2 = compile(template);
-	return render2.call(state, state);
+const DELAY = 60 * 5;
+const CACHE = {};
+const WILL_DELETE_PROPS = {
+	cache: {},
+	add(prop) {
+		const count = this.cache[prop] || 0;
+		this.cache[prop] = count + 1;
+	},
+	remove(prop) {
+		const count = this.cache[prop] || 0;
+		const val = count - 1;
+		this.cache[prop] = val < 0 ? 0 : val;
+	}
+};
+const deleteUnmountedInstance = prop => {
+	WILL_DELETE_PROPS.add(prop);
+	delayDeleteUnmountedInstance();
+};
+const delayDeleteUnmountedInstance = privateLodash.debounce(function () {
+	privateLodash.each(WILL_DELETE_PROPS.cache, (count, prop) => {
+		if (count > 0) {
+			delete CACHE[prop];
+			delete this.cache[prop];
+		}
+		if (!Object.keys(CACHE).includes(prop)) {
+			console.log(prop, this.cache[prop]);
+			delete this.cache[prop];
+		}
+	});
+}, 1e3 * DELAY);
+function compileVNode(template, setupReturn, prop) {
+	if (!prop) {
+		alert("miss uniq id" + template);
+	}
+	if (CACHE[prop]) {
+		WILL_DELETE_PROPS.remove(prop);
+		delayDeleteUnmountedInstance();
+		return CACHE[prop];
+	} else {
+		return h(
+			defineComponent({
+				template,
+				mounted() {
+					WILL_DELETE_PROPS.remove(prop);
+					CACHE[prop] = this._.vnode;
+				},
+				unmounted() {
+					deleteUnmountedInstance(prop);
+				},
+				setup() {
+					return setupReturn;
+				}
+			})
+		);
+	}
 }
 window.dayjs = dayjs;
 window.moment = dayjs;

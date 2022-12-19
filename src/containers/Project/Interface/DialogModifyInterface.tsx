@@ -279,7 +279,6 @@ export const DialogModifyInterface = defineComponent({
 				tag: String(tag).split(","),
 				isProxy,
 				requestArgs: {
-					method,
 					/* body的编辑类型 */
 					req_body_type,
 					/* req_body_form 的数据 */
@@ -391,7 +390,7 @@ export const DialogModifyInterface = defineComponent({
 			<>
 				<div class="dialog-modify-interface g-row flex1 flex horizon height100 width100 overflow-auto">
 					<div class="flex1">
-						{JSON.stringify(pickValueFrom(this.dataXItem))}
+						{/* {JSON.stringify(pickValueFrom(this.dataXItem))} */}
 						<xGap t="10" />
 						<xForm labelStyle={{ "min-width": "120px", width: "unset" }}>
 							<xGap t="10" />
