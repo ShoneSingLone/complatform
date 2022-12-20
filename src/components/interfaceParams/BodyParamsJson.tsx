@@ -42,7 +42,7 @@ const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
 	"ID_OPERATIONS"
 ].map(xU.genId);
 
-export const BodyParamsForm = defineComponent({
+export const BodyParamsJson = defineComponent({
 	props: ["params"],
 	watch: {
 		"params.req_body_form": {

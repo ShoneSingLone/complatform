@@ -1,7 +1,10 @@
-import { defItem, xU } from "@ventose/ui";
+import { defItem, UI, xU } from "@ventose/ui";
 import { ITEM_OPTIONS } from "src/utils/common.options";
 import { defineComponent } from "vue";
 import { BodyParamsForm } from "./BodyParamsForm";
+import { BodyParamsJson } from "./BodyParamsJson";
+import { BodyParamsRaw } from "./BodyParamsRaw";
+import { DialogBulkValues } from "./DialogBulkValues";
 
 export const BodyParamsPanel = defineComponent({
 	/* req_body_type */
@@ -15,6 +18,18 @@ export const BodyParamsPanel = defineComponent({
 			})
 		};
 	},
+	methods: {
+		openBulkValuesDialog() {
+			UI.dialog.component({
+				title: this.$t("批量添加参数").label,
+				component: DialogBulkValues,
+				formValues: this.params.req_body_form,
+				onOk: async req_body_form => {
+					this.params.req_body_form = req_body_form;
+				}
+			});
+		}
+	},
 	render() {
 		return (
 			<aCard>
@@ -25,11 +40,12 @@ export const BodyParamsPanel = defineComponent({
 								value: this.params.req_body_type
 							})?.isForm
 						) {
-							return (<a>批量添加</a>);
+							return <a onClick={this.openBulkValuesDialog}>批量添加</a>;
 						}
 						return null;
 					},
 					title: () => {
+						/* 类型选择 */
 						return (
 							<>
 								<xItem
@@ -42,7 +58,14 @@ export const BodyParamsPanel = defineComponent({
 					default: () => {
 						return (
 							<>
-								<BodyParamsForm params={this.params} />
+								{this.params.req_body_type == "form" ? (
+									<BodyParamsForm params={this.params} />
+								) : null}
+								{this.params.req_body_type == "json" ? "开发中......" : null}
+								{this.params.req_body_type == "file" ? "开发中......" : null}
+								{this.params.req_body_type == "raw" ? (
+									<BodyParamsRaw params={this.params} />
+								) : null}
 							</>
 						);
 					}

@@ -266,7 +266,8 @@ export const DialogModifyInterface = defineComponent({
 				witchEnv,
 				method,
 				req_body_type,
-				req_body_form
+				req_body_form,
+				req_body_other
 			} = this.detailInfo;
 
 			setValueTo(this.dataXItem, {
@@ -282,7 +283,9 @@ export const DialogModifyInterface = defineComponent({
 					/* body的编辑类型 */
 					req_body_type,
 					/* req_body_form 的数据 */
-					req_body_form
+					req_body_form,
+					/* req_body file raw 的数据 */
+					req_body_other
 				}
 			});
 		},
