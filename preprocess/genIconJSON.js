@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const icons = fs.readdirSync(
-	path.resolve(__dirname, "..", "public/assets/img/svg")
+	path.resolve(__dirname, "../public/assets/svg")
 );
 
 const content = `export default ${JSON.stringify(
