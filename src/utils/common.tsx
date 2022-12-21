@@ -6,6 +6,7 @@ import { ErrMsg } from "../components/ErrMsg/ErrMsg";
 import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
 export { ITEM_OPTIONS } from "./common.options";
 import CopyContent from "../components/CopyContent.vue";
+import { MonacoEditor } from "src/components/MonacoEditor/MonacoEditor";
 
 dayjs.locale("zh-cn");
 
@@ -30,6 +31,7 @@ export const appPlugins = {
 				app.component("RouterView", RouterView);
 				app.component("ErrMsg", ErrMsg);
 				app.component("CopyContent", CopyContent);
+				app.component("MonacoEditor", MonacoEditor);
 				//注册i8n实例并引入语言文件
 				app.config.globalProperties.$t = State_UI.$t;
 				State_UI.setAssetsBaseById("favicon-icon");

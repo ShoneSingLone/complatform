@@ -2,6 +2,7 @@ import { xU } from "@ventose/ui";
 import { BODY, GET, HTTP_METHOD, QUERY } from "src/utils/variable";
 import { defineComponent } from "vue";
 import { BodyParamsPanel } from "./interfaceParams/BodyParamsPanel";
+import { HeaderParamsPanel } from "./interfaceParams/HeaderParamsPanel";
 
 /* 
 1.接收apimethod 默认打开
@@ -39,7 +40,7 @@ export const RequestArgsPanel = defineComponent({
 		return (
 			<aCollapse v-model:activeKey={this.collapseActive}>
 				<aCollapsePanel key="header" header="header">
-					<p>asdfasfsafsf</p>
+					<HeaderParamsPanel params={this.params} />
 				</aCollapsePanel>
 				<aCollapsePanel key={QUERY} header={QUERY}>
 					<aButton

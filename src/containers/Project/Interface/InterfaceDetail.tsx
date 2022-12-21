@@ -193,7 +193,7 @@ async ${xU.camelCase(path)}({params,data}) {
 }`;
 
 			return (
-				<pre style="position:relative;overflow:auto;height:100%;">
+				<div style="position:relative;overflow:auto;height:100%;">
 					<Button
 						onClick={() => this.copyUrl(ajaxCode)}
 						style={{
@@ -204,21 +204,15 @@ async ${xU.camelCase(path)}({params,data}) {
 						}}>
 						复制代码
 					</Button>
-					<code
-						v-html={ajaxCode}
-						readOnly={true}
-						mode="text"
-						style={{ minHeight: 180 }}
-					/>
-				</pre>
+					<MonacoEditor code={ajaxCode} style={{ minHeight: 180 }} readOnly={true} />
+				</div>
 			);
 		},
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
-				this.State_App.currProject._id
-			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
+				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {
@@ -271,9 +265,9 @@ async ${xU.camelCase(path)}({params,data}) {
 							col: 3,
 							value: (
 								<CopyContent class="flex middle">
-									{" "}
-									{ITEM_OPTIONS_VDOM.httpMethod(method)}{" "}
-									{this.State_App.currProject.basepath} {path}{" "}
+
+									{ITEM_OPTIONS_VDOM.httpMethod(method)}
+									{this.State_App.currProject.basepath} {path}
 								</CopyContent>
 							)
 						}
@@ -299,24 +293,24 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: (
 								<div class="flex middle">
-									{" "}
-									<span class="mr10">Mock地址</span>{" "}
-									<aButton type="primary">运行</aButton>{" "}
+
+									<span class="mr10">Mock地址</span>
+									<aButton type="primary">运行</aButton>
 								</div>
 							),
 							col: 3,
 							value: (
 								<div class="flex middle width100">
-									{" "}
+
 									{this.flagMsg(
 										this.State_App.currProject.is_mock_open,
 										this.State_App.currProject.strice
-									)}{" "}
+									)}
 									<CopyContent>
-										{" "}
-										<span class="href">{this.vDomMockHref}</span>{" "}
-									</CopyContent>{" "}
-									<xGap f="1" />{" "}
+
+										<span class="href">{this.vDomMockHref}</span>
+									</CopyContent>
+									<xGap f="1" />
 								</div>
 							)
 						}
