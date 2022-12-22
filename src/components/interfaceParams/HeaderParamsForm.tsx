@@ -9,30 +9,23 @@ import {
 import { State_Project } from "src/containers/Project/Interface/State_Project";
 import { Cpt_url } from "src/router/router";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "src/utils/common.options";
-import { defineComponent } from "vue";
+import { defineComponent, markRaw, reactive } from "vue";
 import { DialogBulkValues } from "./DialogBulkValues";
 
-function newFormData() {
+function newFormData([name, value] = ["", ""]) {
 	return {
-		_id: xU.genId("body_params"),
-		name: "",
-		type: "text",
+		_id: xU.genId("req_header_item"),
+		name,
+		value,
+		example: "",
 		required: "1",
 		desc: "",
-		example: ""
 	};
 }
 
 const STRATEGY_CELL_ITEM_CONFIGS = {
 	name: {},
-	type: {
-		itemType: "Select",
-		options: ITEM_OPTIONS.interfaceBodyFormType
-	},
-	required: {
-		itemType: "Select",
-		options: ITEM_OPTIONS.required
-	},
+	value: {},
 	example: {},
 	desc: {}
 };
@@ -46,8 +39,9 @@ const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
 
 export const HeaderParamsForm = defineComponent({
 	props: ["params"],
+	emits: ["update:params"],
 	watch: {
-		"params.req_body_form": {
+		"params.req_headers": {
 			immediate: true,
 			handler(formDataArray) {
 				this.resetDataForm(formDataArray);
@@ -59,11 +53,14 @@ export const HeaderParamsForm = defineComponent({
 			UI.dialog.component({
 				title: this.$t("批量添加参数").label,
 				component: DialogBulkValues,
-				formValues: this.params.req_body_form,
-				onOk: async formArray => {
-					this.params.req_body_form = xU.map(formArray, ([name, example]) => {
-						return { name, example, required: "0", type: "text" };
-					});
+				formValues: xU.map(this.configs_table.dataSource, i => {
+					return {
+						key: i.name,
+						value: i.value
+					}
+				}),
+				onOk: (formDataArray: any) => {
+					this.configs_table.dataSource = xU.map(formDataArray, newFormData);
 				}
 			});
 		},
@@ -84,9 +81,16 @@ export const HeaderParamsForm = defineComponent({
 					rowData[prop] = rowData[`configs_${prop}`].value;
 				});
 			});
+			debugger;
+			this.params.req_headers = this.configs_table.dataSource;
 		},
 		resetDataForm(newFormDataArray) {
-			this.configs_table.dataSource = newFormDataArray;
+			debugger;
+			this.resetDataForm.origin = newFormDataArray;
+			this.configs_table.dataSource = [...newFormDataArray];
+		},
+		getDataForm() {
+
 		}
 	},
 	data(vm) {
@@ -103,15 +107,20 @@ export const HeaderParamsForm = defineComponent({
 				dataSourceFilter(dataSource) {
 					return xU.map(dataSource, rowRecord => {
 						xU.each(STRATEGY_CELL_ITEM_CONFIGS, (options, prop) => {
-							rowRecord[`configs_${prop}`] = defItem.item(
-								xU.merge(
-									{
-										value: rowRecord[prop],
-										itemWrapperClass: "input-width100"
-									},
-									options
-								)
-							);
+							if (!rowRecord[`configs_${prop}`]) {
+								rowRecord[`configs_${prop}`] = markRaw(defItem.item(
+									xU.merge(
+										{
+											value: rowRecord[prop],
+											itemWrapperClass: "input-width100",
+											onAfterValueEmit(val) {
+
+											}
+										},
+										options
+									)
+								))
+							}
 						});
 						return rowRecord;
 					});
@@ -120,26 +129,21 @@ export const HeaderParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_name" />`,
-								{
-									record
-								},
-								`${ID_NAME}${record._id}`
-							)
+						renderCell: ({ record }) => compileVNode(
+							`<xItem :configs="record.configs_name" />`,
+							{ record },
+							`${ID_NAME}${record._id}`
+						)
+
 					}),
 					...defCol({
-						label: vm.$t("类型").label,
-						prop: "type",
-						width: "100px",
+						label: vm.$t("参数值").label,
+						prop: "value",
 						renderCell: ({ record }) =>
 							compileVNode(
-								`<xItem :configs="record.configs_type" />`,
-								{
-									record
-								},
-								`${ID_TYPE}${record._id}`
+								`<xItem :configs="record.configs_value" />`,
+								{ record },
+								`${ID_RECORD}${record._id}`
 							)
 					}),
 					...defCol({
@@ -186,13 +190,11 @@ export const HeaderParamsForm = defineComponent({
 			<>
 				<div class="flex middle">
 					<aButton class="mb10" onClick={this.addRow}>
-						{" "}
-						添加一行{" "}
+						添加一行
 					</aButton>
 					<xGap f="1" />
 					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
-						{" "}
-						批量添加{" "}
+						批量添加
 					</a>
 				</div>
 				<div style={{ height: "300px" }}>

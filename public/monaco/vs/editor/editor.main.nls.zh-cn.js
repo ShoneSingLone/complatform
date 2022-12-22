@@ -6,51 +6,38 @@
  *-----------------------------------------------------------*/
 
 define("vs/editor/editor.main.nls.zh-cn", {
-	"vs/base/browser/ui/actionbar/actionViewItems": [
-		"{0} ({1})",
-	],
-	"vs/base/browser/ui/findinput/findInput": [
-		"输入",
-	],
+	"vs/base/browser/ui/actionbar/actionViewItems": ["{0} ({1})"],
+	"vs/base/browser/ui/findinput/findInput": ["输入"],
 	"vs/base/browser/ui/findinput/findInputToggles": [
 		"区分大小写",
 		"全字匹配",
-		"使用正则表达式",
+		"使用正则表达式"
 	],
-	"vs/base/browser/ui/findinput/replaceInput": [
-		"输入",
-		"保留大小写",
-	],
-	"vs/base/browser/ui/iconLabel/iconLabelHover": [
-		"正在加载…",
-	],
+	"vs/base/browser/ui/findinput/replaceInput": ["输入", "保留大小写"],
+	"vs/base/browser/ui/iconLabel/iconLabelHover": ["正在加载…"],
 	"vs/base/browser/ui/inputbox/inputBox": [
 		"错误: {0}",
 		"警告: {0}",
 		"信息: {0}",
-		"对于历史记录",
+		"对于历史记录"
 	],
-	"vs/base/browser/ui/keybindingLabel/keybindingLabel": [
-		"未绑定",
-	],
+	"vs/base/browser/ui/keybindingLabel/keybindingLabel": ["未绑定"],
 	"vs/base/browser/ui/tree/abstractTree": [
 		"筛选器",
 		"要筛选的类型",
 		"要搜索的类型",
 		"要搜索的类型",
 		"关闭",
-		"未找到元素。",
+		"未找到元素。"
 	],
-	"vs/base/common/actions": [
-		"(空)",
-	],
+	"vs/base/common/actions": ["(空)"],
 	"vs/base/common/errorMessage": [
 		"{0}: {1}",
 		"发生了系统错误 ({0})",
 		"出现未知错误。有关详细信息，请参阅日志。",
 		"出现未知错误。有关详细信息，请参阅日志。",
 		"{0} 个(共 {1} 个错误)",
-		"出现未知错误。有关详细信息，请参阅日志。",
+		"出现未知错误。有关详细信息，请参阅日志。"
 	],
 	"vs/base/common/keybindingLabels": [
 		"Ctrl",
@@ -72,14 +59,12 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"Control",
 		"Shift",
 		"Alt",
-		"超键",
+		"超键"
 	],
-	"vs/base/common/platform": [
-		"_",
-	],
+	"vs/base/common/platform": ["_"],
 	"vs/base/parts/quickinput/browser/quickInput": [
 		"上一步",
-		"按 \"Enter\" 以确认或按 \"Esc\" 以取消",
+		'按 "Enter" 以确认或按 "Esc" 以取消',
 		"{0}/{1}",
 		"在此输入可缩小结果范围。",
 		"切换所有复选框",
@@ -88,19 +73,17 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"确定",
 		"自定义",
 		"后退 ({0})",
-		"上一步",
+		"上一步"
 	],
-	"vs/base/parts/quickinput/browser/quickInputList": [
-		"快速输入",
-	],
+	"vs/base/parts/quickinput/browser/quickInputList": ["快速输入"],
 	"vs/editor/browser/controller/textAreaHandler": [
 		"编辑器",
-		"现在无法访问编辑器。按 {0} 获取选项。",
+		"现在无法访问编辑器。按 {0} 获取选项。"
 	],
 	"vs/editor/browser/coreCommands": [
 		"即使转到较长的行，也一直到末尾",
 		"即使转到较长的行，也一直到末尾",
-		"已删除辅助游标",
+		"已删除辅助游标"
 	],
 	"vs/editor/browser/editorExtensions": [
 		"撤消(&&U)",
@@ -108,15 +91,13 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"恢复(&&R)",
 		"恢复",
 		"全选(&&S)",
-		"选择全部",
+		"选择全部"
 	],
-	"vs/editor/browser/widget/codeEditorWidget": [
-		"光标数量被限制为 {0}。",
-	],
+	"vs/editor/browser/widget/codeEditorWidget": ["光标数量被限制为 {0}。"],
 	"vs/editor/browser/widget/diffEditorWidget": [
 		"差异编辑器中插入项的线条修饰。",
 		"差异编辑器中删除项的线条修饰。",
-		"文件过大，无法比较。",
+		"文件过大，无法比较。"
 	],
 	"vs/editor/browser/widget/diffReview": [
 		"差异评审中的“插入”图标。",
@@ -133,7 +114,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"+ {0}修改的行{1}",
 		"- {0}原始行{1}",
 		"转至下一个差异",
-		"转至上一个差异",
+		"转至上一个差异"
 	],
 	"vs/editor/browser/widget/inlineDiffMargin": [
 		"复制已删除的行",
@@ -144,7 +125,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"复制更改的行({0})",
 		"还原此更改",
 		"复制已删除的行({0})",
-		"复制更改的行({0})",
+		"复制更改的行({0})"
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"编辑器",
@@ -160,7 +141,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制通过哪些文档计算基于字词的补全。",
 		"对所有颜色主题启用语义突出显示。",
 		"对所有颜色主题禁用语义突出显示。",
-		"语义突出显示是由当前颜色主题的 \"semanticHighlighting\" 设置配置的。",
+		'语义突出显示是由当前颜色主题的 "semanticHighlighting" 设置配置的。',
 		"控制是否为支持它的语言显示语义突出显示。",
 		"在速览编辑器中，即使双击其中的内容或者按 `Esc` 键，也保持其打开状态。",
 		"由于性能原因，超过这个长度的行将不会被标记",
@@ -179,7 +160,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制是否在编辑器中显示 CodeLens。",
 		"永不换行。",
 		"将在视区宽度处换行。",
-		"行将根据 {0} 设置进行换行。",
+		"行将根据 {0} 设置进行换行。"
 	],
 	"vs/editor/common/config/editorOptions": [
 		"编辑器将使用平台 API 以检测是否附加了屏幕阅读器。",
@@ -199,28 +180,28 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"选择多行内容时，自动打开“在选定内容中查找”。",
 		"控制自动打开“在选定内容中查找”的条件。",
 		"控制“查找”小组件是否读取或修改 macOS 的共享查找剪贴板。",
-		"控制 \"查找小部件\" 是否应在编辑器顶部添加额外的行。如果为 true, 则可以在 \"查找小工具\" 可见时滚动到第一行之外。",
+		'控制 "查找小部件" 是否应在编辑器顶部添加额外的行。如果为 true, 则可以在 "查找小工具" 可见时滚动到第一行之外。',
 		"控制在找不到其他匹配项时，是否自动从开头(或结尾)重新开始搜索。",
-		"启用/禁用字体连字(\"calt\" 和 \"liga\" 字体特性)。将此更改为字符串，可对 \"font-feature-settings\" CSS 属性进行精细控制。",
-		"显式 \"font-feature-settings\" CSS 属性。如果只需打开/关闭连字，可以改为传递布尔值。",
-		"配置字体连字或字体特性。可以是用于启用/禁用连字的布尔值，或用于设置 CSS \"font-feature-settings\" 属性值的字符串。",
+		'启用/禁用字体连字("calt" 和 "liga" 字体特性)。将此更改为字符串，可对 "font-feature-settings" CSS 属性进行精细控制。',
+		'显式 "font-feature-settings" CSS 属性。如果只需打开/关闭连字，可以改为传递布尔值。',
+		'配置字体连字或字体特性。可以是用于启用/禁用连字的布尔值，或用于设置 CSS "font-feature-settings" 属性值的字符串。',
 		"控制字体大小(像素)。",
 		"仅允许使用关键字“正常”和“加粗”，或使用介于 1 至 1000 之间的数字。",
 		"控制字体粗细。接受关键字“正常”和“加粗”，或者接受介于 1 至 1000 之间的数字。",
 		"显示结果的预览视图 (默认值)",
 		"转到主结果并显示预览视图",
 		"转到主结果，并对其他人启用防偷窥导航",
-		"此设置已弃用，请改用单独的设置，如\"editor.editor.gotoLocation.multipleDefinitions\"或\"editor.editor.gotoLocation.multipleImplementations\"。",
-		"控制存在多个目标位置时\"转到定义\"命令的行为。",
-		"控制存在多个目标位置时\"转到类型定义\"命令的行为。",
-		"控制存在多个目标位置时\"转到声明\"命令的行为。",
-		"控制存在多个目标位置时\"转到实现\"命令的行为。",
-		"控制存在多个目标位置时\"转到引用\"命令的行为。",
-		"当\"转到定义\"的结果为当前位置时将要执行的替代命令的 ID。",
-		"当\"转到类型定义\"的结果是当前位置时正在执行的备用命令 ID。",
-		"当\"转到声明\"的结果为当前位置时将要执行的替代命令的 ID。",
-		"当\"转到实现\"的结果为当前位置时将要执行的替代命令的 ID。",
-		"当\"转到引用\"的结果是当前位置时正在执行的替代命令 ID。",
+		'此设置已弃用，请改用单独的设置，如"editor.editor.gotoLocation.multipleDefinitions"或"editor.editor.gotoLocation.multipleImplementations"。',
+		'控制存在多个目标位置时"转到定义"命令的行为。',
+		'控制存在多个目标位置时"转到类型定义"命令的行为。',
+		'控制存在多个目标位置时"转到声明"命令的行为。',
+		'控制存在多个目标位置时"转到实现"命令的行为。',
+		'控制存在多个目标位置时"转到引用"命令的行为。',
+		'当"转到定义"的结果为当前位置时将要执行的替代命令的 ID。',
+		'当"转到类型定义"的结果是当前位置时正在执行的备用命令 ID。',
+		'当"转到声明"的结果为当前位置时将要执行的替代命令的 ID。',
+		'当"转到实现"的结果为当前位置时将要执行的替代命令的 ID。',
+		'当"转到引用"的结果是当前位置时正在执行的替代命令 ID。',
 		"控制是否显示悬停提示。",
 		"控制显示悬停提示前的等待时间 (毫秒)。",
 		"控制当鼠标移动到悬停提示上时，其是否保持可见。",
@@ -313,7 +294,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制是否在编辑器中预览建议结果。",
 		"控制建议详细信息是随标签一起显示还是仅显示在详细信息小组件中",
 		"此设置已弃用。现在可以调整建议小组件的大小。",
-		"此设置已弃用，请改用单独的设置，如\"editor.suggest.showKeywords\"或\"editor.suggest.showSnippets\"。",
+		'此设置已弃用，请改用单独的设置，如"editor.suggest.showKeywords"或"editor.suggest.showSnippets"。',
 		"启用后，IntelliSense 将显示“方法”建议。",
 		"启用后，IntelliSense 将显示“函数”建议。",
 		"启用后，IntelliSense 将显示“构造函数”建议。",
@@ -331,7 +312,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"启用后，IntelliSense 将显示“值”建议。",
 		"启用后，IntelliSense 将显示“常量”建议。",
 		"启用后，IntelliSense 将显示“枚举”建议。",
-		"启用后，IntelliSense 将显示 \"enumMember\" 建议。",
+		'启用后，IntelliSense 将显示 "enumMember" 建议。',
 		"启用后，IntelliSense 将显示“关键字”建议。",
 		"启用后，IntelliSense 将显示“文本”建议。",
 		"启用后，IntelliSense 将显示“颜色”建议。",
@@ -339,10 +320,10 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"启用后，IntelliSense 将显示“参考”建议。",
 		"启用后，IntelliSense 将显示“自定义颜色”建议。",
 		"启用后，IntelliSense 将显示“文件夹”建议。",
-		"启用后，IntelliSense 将显示 \"typeParameter\" 建议。",
+		'启用后，IntelliSense 将显示 "typeParameter" 建议。',
 		"启用后，IntelliSense 将显示“片段”建议。",
-		"启用后，IntelliSense 将显示\"用户\"建议。",
-		"启用后，IntelliSense 将显示\"问题\"建议。",
+		'启用后，IntelliSense 将显示"用户"建议。',
+		'启用后，IntelliSense 将显示"问题"建议。',
 		"是否应始终选择前导和尾随空格。",
 		"控制是否可以通过按住 `Shift` (而不是在编辑器中打开文件)将文件拖放到编辑器中。",
 		"控制是否应在提交字符时接受建议。例如，在 JavaScript 中，半角分号(`;`)可以为提交字符，能够接受建议并键入该字符。",
@@ -380,13 +361,13 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制光标的动画样式。",
 		"控制是否启用平滑插入动画。",
 		"控制光标样式。",
-		"控制光标周围可见的前置行和尾随行的最小数目。在其他一些编辑器中称为 \"scrollOff\" 或 \"scrollOffset\"。",
-		"仅当通过键盘或 API 触发时，才会强制执行\"光标环绕行\"。",
-		"始终强制执行 \"cursorSurroundingLines\"",
-		"控制何时应强制执行\"光标环绕行\"。",
+		'控制光标周围可见的前置行和尾随行的最小数目。在其他一些编辑器中称为 "scrollOff" 或 "scrollOffset"。',
+		'仅当通过键盘或 API 触发时，才会强制执行"光标环绕行"。',
+		'始终强制执行 "cursorSurroundingLines"',
+		'控制何时应强制执行"光标环绕行"。',
 		"当 `#editor.cursorStyle#` 设置为 `line` 时，控制光标的宽度。",
 		"控制在编辑器中是否允许通过拖放来移动选中内容。",
-		"按下\"Alt\"时滚动速度倍增。",
+		'按下"Alt"时滚动速度倍增。',
 		"控制编辑器是否启用了代码折叠。",
 		"使用特定于语言的折叠策略(如果可用)，否则使用基于缩进的策略。",
 		"使用基于缩进的折叠策略。",
@@ -418,10 +399,10 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"打开速览时聚焦树",
 		"打开预览时将焦点放在编辑器上",
 		"控制是将焦点放在内联编辑器上还是放在预览小部件中的树上。",
-		"控制\"转到定义\"鼠标手势是否始终打开预览小部件。",
+		'控制"转到定义"鼠标手势是否始终打开预览小部件。',
 		"控制显示快速建议前的等待时间 (毫秒)。",
 		"控制是否在编辑器中输入时自动重命名。",
-		"已弃用，请改用 \"editor.linkedEditing\"。",
+		'已弃用，请改用 "editor.linkedEditing"。',
 		"控制编辑器是否显示控制字符。",
 		"当文件以换行符结束时, 呈现最后一行的行号。",
 		"同时突出显示导航线和当前行。",
@@ -458,7 +439,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制在建议列表中如何预先选择建议。",
 		"在按下 Tab 键时进行 Tab 补全，将插入最佳匹配建议。",
 		"禁用 Tab 补全。",
-		"在前缀匹配时进行 Tab 补全。在 \"quickSuggestions\" 未启用时体验最好。",
+		'在前缀匹配时进行 Tab 补全。在 "quickSuggestions" 未启用时体验最好。',
 		"启用 Tab 补全。",
 		"自动删除异常的行终止符。",
 		"忽略异常的行终止符。",
@@ -479,7 +460,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制折行的缩进。",
 		"假定所有字符的宽度相同。这是一种快速算法，适用于等宽字体和某些字形宽度相等的文字(如拉丁字符)。",
 		"将包装点计算委托给浏览器。这是一个缓慢算法，可能会导致大型文件被冻结，但它在所有情况下都正常工作。",
-		"控制计算包裹点的算法。",
+		"控制计算包裹点的算法。"
 	],
 	"vs/editor/common/core/editorColorRegistry": [
 		"光标所在行高亮内容的背景颜色。",
@@ -495,7 +476,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"编辑器活动缩进参考线的颜色。",
 		"编辑器行号的颜色。",
 		"编辑器活动行号的颜色",
-		"\"Id\" 已被弃用，请改用 \"editorLineNumber.activeForeground\"。",
+		'"Id" 已被弃用，请改用 "editorLineNumber.activeForeground"。',
 		"编辑器活动行号的颜色",
 		"编辑器标尺的颜色。",
 		"编辑器 CodeLens 的前景色",
@@ -505,7 +486,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"编辑器概述标尺的背景色。",
 		"编辑器导航线的背景色。导航线包括边缘符号和行号。",
 		"编辑器中不必要(未使用)的源代码的边框颜色。",
-		"非必须(未使用)代码的在编辑器中显示的不透明度。例如，\"#000000c0\" 将以 75% 的不透明度显示代码。对于高对比度主题，请使用 ”editorUnnecessaryCode.border“ 主题来为非必须代码添加下划线，以避免颜色淡化。",
+		'非必须(未使用)代码的在编辑器中显示的不透明度。例如，"#000000c0" 将以 75% 的不透明度显示代码。对于高对比度主题，请使用 ”editorUnnecessaryCode.border“ 主题来为非必须代码添加下划线，以避免颜色淡化。',
 		"编辑器中虚影文本的边框颜色。",
 		"编辑器中虚影文本的前景色。",
 		"编辑器中虚影文本的背景色。",
@@ -533,7 +514,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"活动括号对指南的背景色(5)。需要启用括号对指南。",
 		"活动括号对指南的背景色(6)。需要启用括号对指南。",
 		"用于突出显示 Unicode 字符的边框颜色。",
-		"用于突出显示 Unicode 字符的背景颜色。",
+		"用于突出显示 Unicode 字符的背景颜色。"
 	],
 	"vs/editor/common/editorContextKeys": [
 		"编辑器文本是否具有焦点(光标是否闪烁)",
@@ -541,10 +522,10 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"编辑器或 RTF 输入是否有焦点(光标是否闪烁)",
 		"编辑器是否为只读",
 		"上下文是否为差异编辑器",
-		"是否已启用 \"editor.columnSelection\"",
+		'是否已启用 "editor.columnSelection"',
 		"编辑器是否已选定文本",
 		"编辑器是否有多个选择",
-		"\"Tab\" 是否将焦点移出编辑器",
+		'"Tab" 是否将焦点移出编辑器',
 		"编辑器软键盘是否可见",
 		"该编辑器是否是更大的编辑器(例如笔记本)的一部分",
 		"编辑器的语言标识符",
@@ -565,21 +546,17 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"编辑器是否具有文档格式设置提供程序",
 		"编辑器是否具有文档选择格式设置提供程序",
 		"编辑器是否具有多个文档格式设置提供程序",
-		"编辑器是否有多个文档选择格式设置提供程序",
+		"编辑器是否有多个文档选择格式设置提供程序"
 	],
-	"vs/editor/common/languages/modesRegistry": [
-		"纯文本",
-	],
-	"vs/editor/common/model/editStack": [
-		"输入",
-	],
+	"vs/editor/common/languages/modesRegistry": ["纯文本"],
+	"vs/editor/common/model/editStack": ["输入"],
 	"vs/editor/common/standaloneStrings": [
 		"无选择",
 		"行 {0}, 列 {1} (选中 {2})",
 		"行 {0}, 列 {1}",
 		"{0} 选择(已选择 {1} 个字符)",
 		"{0} 选择",
-		"现在将 \"辅助功能支持\" 设置更改为 \"打开\"。",
+		'现在将 "辅助功能支持" 设置更改为 "打开"。',
 		"现在正在打开“编辑器辅助功能”文档页。",
 		"在差异编辑器的只读窗格中。",
 		"在一个差异编辑器的窗格中。",
@@ -607,7 +584,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"编辑器内容",
 		"按 Alt+F1 可打开辅助功能选项。",
 		"切换高对比度主题",
-		"在 {1} 个文件中进行了 {0} 次编辑",
+		"在 {1} 个文件中进行了 {0} 次编辑"
 	],
 	"vs/editor/contrib/anchorSelect/browser/anchorSelect": [
 		"选择定位点",
@@ -615,21 +592,19 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"设置选择定位点",
 		"转到选择定位点",
 		"选择从定位点到光标",
-		"取消选择定位点",
+		"取消选择定位点"
 	],
 	"vs/editor/contrib/bracketMatching/browser/bracketMatching": [
 		"概览标尺上表示匹配括号的标记颜色。",
 		"转到括号",
 		"选择括号所有内容",
-		"转到括号(&&B)",
+		"转到括号(&&B)"
 	],
 	"vs/editor/contrib/caretOperations/browser/caretOperations": [
 		"向左移动所选文本",
-		"向右移动所选文本",
+		"向右移动所选文本"
 	],
-	"vs/editor/contrib/caretOperations/browser/transpose": [
-		"转置字母",
-	],
+	"vs/editor/contrib/caretOperations/browser/transpose": ["转置字母"],
 	"vs/editor/contrib/clipboard/browser/clipboard": [
 		"剪切(&&T)",
 		"剪切",
@@ -646,11 +621,11 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"粘贴",
 		"粘贴",
 		"粘贴",
-		"复制并突出显示语法",
+		"复制并突出显示语法"
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionCommands": [
-		"没有适用于\"{0}\"的首选重构",
-		"没有可用的\"{0}\"重构",
+		'没有适用于"{0}"的首选重构',
+		'没有可用的"{0}"重构',
 		"没有可用的首选重构",
 		"没有可用的重构操作",
 		"要运行的代码操作的种类。",
@@ -662,14 +637,14 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"应用代码操作时发生未知错误",
 		"快速修复...",
 		"没有可用的代码操作",
-		"没有适用于\"{0}\"的首选代码操作",
-		"没有适用于\"{0}\"的代码操作",
+		'没有适用于"{0}"的首选代码操作',
+		'没有适用于"{0}"的代码操作',
 		"没有可用的首选代码操作",
 		"没有可用的代码操作",
 		"重构...",
 		"使用预览重构...",
 		"源代码操作...",
-		"没有适用于\"{0}\"的首选源操作",
+		'没有适用于"{0}"的首选源操作',
 		"没有适用于“ {0}”的源操作",
 		"没有可用的首选源操作",
 		"没有可用的源代码操作",
@@ -678,25 +653,25 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"全部修复",
 		"没有可用的“全部修复”操作",
 		"自动修复...",
-		"没有可用的自动修复程序",
+		"没有可用的自动修复程序"
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
 		"Whether the code action list widget is visible",
-		"{0} to Refactor, {1} to Preview",
+		"{0} to Refactor, {1} to Preview"
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"Enabling this adjusts how the code action menu is rendered.",
+		"Enabling this adjusts how the code action menu is rendered."
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"显示代码操作。首选可用的快速修复({0})",
 		"显示代码操作({0})",
-		"显示代码操作",
+		"显示代码操作"
 	],
 	"vs/editor/contrib/codelens/browser/codelensController": [
-		"显示当前行的 Code Lens 命令",
+		"显示当前行的 Code Lens 命令"
 	],
 	"vs/editor/contrib/colorPicker/browser/colorPickerWidget": [
-		"单击以切换颜色选项 (rgb/hsl/hex)",
+		"单击以切换颜色选项 (rgb/hsl/hex)"
 	],
 	"vs/editor/contrib/comment/browser/comment": [
 		"切换行注释",
@@ -704,7 +679,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"添加行注释",
 		"删除行注释",
 		"切换块注释",
-		"切换块注释(&&B)",
+		"切换块注释(&&B)"
 	],
 	"vs/editor/contrib/contextmenu/browser/contextmenu": [
 		"缩略图",
@@ -716,20 +691,17 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"滑块",
 		"鼠标悬停",
 		"始终",
-		"显示编辑器上下文菜单",
+		"显示编辑器上下文菜单"
 	],
 	"vs/editor/contrib/copyPaste/browser/copyPasteContribution": [
-		"启用/禁用粘贴时从扩展运行编辑。",
+		"启用/禁用粘贴时从扩展运行编辑。"
 	],
-	"vs/editor/contrib/cursorUndo/browser/cursorUndo": [
-		"光标撤消",
-		"光标重做",
-	],
+	"vs/editor/contrib/cursorUndo/browser/cursorUndo": ["光标撤消", "光标重做"],
 	"vs/editor/contrib/dropIntoEditor/browser/dropIntoEditorContribution": [
-		"正在运行放置处理程序...",
+		"正在运行放置处理程序..."
 	],
 	"vs/editor/contrib/editorState/browser/keybindingCancellation": [
-		"编辑器是否运行可取消的操作，例如“预览引用”",
+		"编辑器是否运行可取消的操作，例如“预览引用”"
 	],
 	"vs/editor/contrib/find/browser/findController": [
 		"查找",
@@ -745,7 +717,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"查找下一个选择",
 		"查找上一个选择",
 		"替换",
-		"替换(&&R)",
+		"替换(&&R)"
 	],
 	"vs/editor/contrib/find/browser/findWidget": [
 		"编辑器查找小组件中的“在选定内容中查找”图标。",
@@ -773,10 +745,10 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"为“{1}”找到 {0}",
 		"在 {2} 处找到“{1}”的 {0}",
 		"为“{1}”找到 {0}",
-		"Ctrl+Enter 现在由全部替换改为插入换行。你可以修改editor.action.replaceAll 的按键绑定以覆盖此行为。",
+		"Ctrl+Enter 现在由全部替换改为插入换行。你可以修改editor.action.replaceAll 的按键绑定以覆盖此行为。"
 	],
 	"vs/editor/contrib/folding/browser/folding": [
-		"可折叠区域的数量限制为最多 {0} 个。增加配置选项[“最大折叠区域数”](command:workbench.action.openSettings?[\"editor.foldingMaximumRegions\"])以启用更多功能。",
+		'可折叠区域的数量限制为最多 {0} 个。增加配置选项[“最大折叠区域数”](command:workbench.action.openSettings?["editor.foldingMaximumRegions"])以启用更多功能。',
 		"展开",
 		"以递归方式展开",
 		"折叠",
@@ -796,28 +768,28 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"删除手动折叠范围",
 		"折叠级别 {0}",
 		"折叠范围后面的背景颜色。颜色必须设为透明，以免隐藏底层装饰。",
-		"编辑器装订线中折叠控件的颜色。",
+		"编辑器装订线中折叠控件的颜色。"
 	],
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"编辑器字形边距中已展开的范围的图标。",
 		"编辑器字形边距中已折叠的范围的图标。",
 		"编辑器字形边距中手动折叠的范围的图标。",
-		"编辑器字形边距中手动展开的范围的图标。",
+		"编辑器字形边距中手动展开的范围的图标。"
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"放大编辑器字体",
 		"缩小编辑器字体",
-		"重置编辑器字体大小",
+		"重置编辑器字体大小"
 	],
 	"vs/editor/contrib/format/browser/format": [
 		"在第 {0} 行进行了 1 次格式编辑",
 		"在第 {1} 行进行了 {0} 次格式编辑",
 		"第 {0} 行到第 {1} 行间进行了 1 次格式编辑",
-		"第 {1} 行到第 {2} 行间进行了 {0} 次格式编辑",
+		"第 {1} 行到第 {2} 行间进行了 {0} 次格式编辑"
 	],
 	"vs/editor/contrib/format/browser/formatActions": [
 		"格式化文档",
-		"格式化选定内容",
+		"格式化选定内容"
 	],
 	"vs/editor/contrib/gotoError/browser/gotoError": [
 		"转到下一个问题 (错误、警告、信息)",
@@ -827,7 +799,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"转到文件中的下一个问题 (错误、警告、信息)",
 		"下一个问题(&&P)",
 		"转到文件中的上一个问题 (错误、警告、信息)",
-		"上一个问题(&&P)",
+		"上一个问题(&&P)"
 	],
 	"vs/editor/contrib/gotoError/browser/gotoErrorWidget": [
 		"错误",
@@ -843,7 +815,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"编辑器标记导航小组件警告标题背景色。",
 		"编辑器标记导航小组件信息颜色。",
 		"编辑器标记导航小组件信息标题背景色。",
-		"编辑器标记导航小组件背景色。",
+		"编辑器标记导航小组件背景色。"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/goToCommands": [
 		"快速查看",
@@ -870,7 +842,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"未找到实现",
 		"转到实现",
 		"查看实现",
-		"未找到\"{0}\"的引用",
+		'未找到"{0}"的引用',
 		"未找到引用",
 		"转到引用",
 		"引用",
@@ -884,25 +856,25 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"转到声明(&&D)",
 		"转到类型定义(&&T)",
 		"转到实现(&&I)",
-		"转到引用(&&R)",
+		"转到引用(&&R)"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/link/goToDefinitionAtPosition": [
-		"单击显示 {0} 个定义。",
+		"单击显示 {0} 个定义。"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/peek/referencesController": [
 		"引用速览是否可见，例如“速览引用”或“速览定义”",
 		"正在加载...",
-		"{0} ({1})",
+		"{0} ({1})"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/peek/referencesTree": [
 		"{0} 个引用",
 		"{0} 个引用",
-		"引用",
+		"引用"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/peek/referencesWidget": [
 		"无可用预览",
 		"无结果",
-		"引用",
+		"引用"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/referencesModel": [
 		"在文件 {0} 的 {1} 行 {2} 列的符号",
@@ -912,42 +884,39 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"未找到结果",
 		"在 {0} 中找到 1 个符号",
 		"在 {1} 中找到 {0} 个符号",
-		"在 {1} 个文件中找到 {0} 个符号",
+		"在 {1} 个文件中找到 {0} 个符号"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/symbolNavigation": [
 		"是否存在只能通过键盘导航的符号位置。",
 		"{1} 的符号 {0}，下一个使用 {2}",
-		"{1} 的符号 {0}",
+		"{1} 的符号 {0}"
 	],
-	"vs/editor/contrib/hover/browser/hover": [
-		"显示悬停",
-		"显示定义预览悬停",
-	],
+	"vs/editor/contrib/hover/browser/hover": ["显示悬停", "显示定义预览悬停"],
 	"vs/editor/contrib/hover/browser/markdownHoverParticipant": [
 		"正在加载...",
-		"出于性能原因，未对长行进行解析。解析长度阈值可通过“editor.maxTokenizationLineLength”进行配置。",
+		"出于性能原因，未对长行进行解析。解析长度阈值可通过“editor.maxTokenizationLineLength”进行配置。"
 	],
 	"vs/editor/contrib/hover/browser/markerHoverParticipant": [
 		"查看问题",
 		"没有可用的快速修复",
 		"正在检查快速修复...",
 		"没有可用的快速修复",
-		"快速修复...",
+		"快速修复..."
 	],
 	"vs/editor/contrib/inPlaceReplace/browser/inPlaceReplace": [
 		"替换为上一个值",
-		"替换为下一个值",
+		"替换为下一个值"
 	],
 	"vs/editor/contrib/indentation/browser/indentation": [
 		"将缩进转换为空格",
 		"将缩进转换为制表符",
 		"已配置制表符大小",
 		"选择当前文件的制表符大小",
-		"使用 \"Tab\" 缩进",
+		'使用 "Tab" 缩进',
 		"使用空格缩进",
 		"从内容中检测缩进方式",
 		"重新缩进行",
-		"重新缩进所选行",
+		"重新缩进所选行"
 	],
 	"vs/editor/contrib/inlayHints/browser/inlayHintsHover": [
 		"双击以插入",
@@ -957,7 +926,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"alt + 点击",
 		"转到定义 ({0})，点击右键以查看详细信息",
 		"转到定义（{0}）",
-		"执行命令",
+		"执行命令"
 	],
 	"vs/editor/contrib/inlineCompletions/browser/ghostTextController": [
 		"内联建议是否可见",
@@ -965,17 +934,15 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"内联建议是否以小于选项卡插入内容的空格开头",
 		"显示下一个内联建议",
 		"显示上一个内联建议",
-		"触发内联建议",
+		"触发内联建议"
 	],
 	"vs/editor/contrib/inlineCompletions/browser/ghostTextHoverParticipant": [
 		"下一个",
 		"上一个",
 		"接受",
-		"建议:",
+		"建议:"
 	],
-	"vs/editor/contrib/lineSelection/browser/lineSelection": [
-		"展开行选择",
-	],
+	"vs/editor/contrib/lineSelection/browser/lineSelection": ["展开行选择"],
 	"vs/editor/contrib/linesOperations/browser/linesOperations": [
 		"向上复制行",
 		"向上复制一行(&&C)",
@@ -1004,11 +971,11 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"转换为小写",
 		"转换为词首字母大写",
 		"转换为蛇形命名法",
-		"转换为 Kebab 案例",
+		"转换为 Kebab 案例"
 	],
 	"vs/editor/contrib/linkedEditing/browser/linkedEditing": [
 		"启动链接编辑",
-		"编辑器根据类型自动重命名时的背景色。",
+		"编辑器根据类型自动重命名时的背景色。"
 	],
 	"vs/editor/contrib/links/browser/links": [
 		"此链接格式不正确，无法打开: {0}",
@@ -1020,10 +987,10 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"option + 单击",
 		"alt + 单击",
 		"执行命令 {0}",
-		"打开链接",
+		"打开链接"
 	],
 	"vs/editor/contrib/message/browser/messageController": [
-		"编辑器当前是否正在显示内联消息",
+		"编辑器当前是否正在显示内联消息"
 	],
 	"vs/editor/contrib/multicursor/browser/multicursor": [
 		"添加的光标: {0}",
@@ -1048,16 +1015,14 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"聚焦下一个光标",
 		"聚焦下一个光标",
 		"聚焦上一个光标",
-		"聚焦上一个光标",
+		"聚焦上一个光标"
 	],
-	"vs/editor/contrib/parameterHints/browser/parameterHints": [
-		"触发参数提示",
-	],
+	"vs/editor/contrib/parameterHints/browser/parameterHints": ["触发参数提示"],
 	"vs/editor/contrib/parameterHints/browser/parameterHintsWidget": [
 		"“显示下一个参数”提示的图标。",
 		"“显示上一个参数”提示的图标。",
 		"{0}，提示",
-		"参数提示中活动项的前景色。",
+		"参数提示中活动项的前景色。"
 	],
 	"vs/editor/contrib/peekView/browser/peekView": [
 		"速览中是否嵌入了当前代码编辑器",
@@ -1075,14 +1040,14 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"速览视图编辑器中装订线的背景色。",
 		"在速览视图结果列表中匹配突出显示颜色。",
 		"在速览视图编辑器中匹配突出显示颜色。",
-		"在速览视图编辑器中匹配项的突出显示边框。",
+		"在速览视图编辑器中匹配项的突出显示边框。"
 	],
 	"vs/editor/contrib/quickAccess/browser/gotoLineQuickAccess": [
 		"先打开文本编辑器然后跳转到行。",
 		"转到第 {0} 行第 {1} 个字符。",
 		"转到行 {0}。",
 		"当前行: {0}，字符: {1}。键入要导航到的行号(介于 1 至 {2} 之间)。",
-		"当前行: {0}，字符: {1}。 键入要导航到的行号。",
+		"当前行: {0}，字符: {1}。 键入要导航到的行号。"
 	],
 	"vs/editor/contrib/quickAccess/browser/gotoSymbolQuickAccess": [
 		"要转到符号，首先打开具有符号信息的文本编辑器。",
@@ -1117,11 +1082,11 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"对象({0})",
 		"键({0})",
 		"字段({0})",
-		"常量({0})",
+		"常量({0})"
 	],
 	"vs/editor/contrib/readOnlyMessage/browser/contribution": [
 		"无法在只读输入中编辑",
-		"无法在只读编辑器中编辑",
+		"无法在只读编辑器中编辑"
 	],
 	"vs/editor/contrib/rename/browser/rename": [
 		"无结果。",
@@ -1132,24 +1097,24 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"重命名无法应用修改",
 		"重命名无法计算修改",
 		"重命名符号",
-		"启用/禁用重命名之前预览更改的功能",
+		"启用/禁用重命名之前预览更改的功能"
 	],
 	"vs/editor/contrib/rename/browser/renameInputField": [
 		"重命名输入小组件是否可见",
-		"重命名输入。键入新名称并按 \"Enter\" 提交。",
-		"按 {0} 进行重命名，按 {1} 进行预览",
+		'重命名输入。键入新名称并按 "Enter" 提交。',
+		"按 {0} 进行重命名，按 {1} 进行预览"
 	],
 	"vs/editor/contrib/smartSelect/browser/smartSelect": [
 		"展开选择",
 		"扩大选区(&&E)",
 		"收起选择",
-		"缩小选区(&&S)",
+		"缩小选区(&&S)"
 	],
 	"vs/editor/contrib/snippet/browser/snippetController2": [
 		"编辑器目前是否在代码片段模式下",
 		"在代码片段模式下时是否存在下一制表位",
 		"在代码片段模式下时是否存在上一制表位",
-		"转到下一个占位符...",
+		"转到下一个占位符..."
 	],
 	"vs/editor/contrib/snippet/browser/snippetVariables": [
 		"星期天",
@@ -1189,7 +1154,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"9月",
 		"10月",
 		"11 月",
-		"12月",
+		"12月"
 	],
 	"vs/editor/contrib/suggest/browser/suggest": [
 		"是否以任何建议为中心",
@@ -1199,7 +1164,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"按 Enter 时是否会插入建议",
 		"当前建议是否具有插入和替换行为",
 		"默认行为是否是插入或替换",
-		"当前建议是否支持解析更多详细信息",
+		"当前建议是否支持解析更多详细信息"
 	],
 	"vs/editor/contrib/suggest/browser/suggestController": [
 		"选择“{0}”后进行了其他 {1} 次编辑",
@@ -1211,7 +1176,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"插入",
 		"显示更少",
 		"显示更多",
-		"重置建议小组件大小",
+		"重置建议小组件大小"
 	],
 	"vs/editor/contrib/suggest/browser/suggestWidget": [
 		"建议小组件的背景色。",
@@ -1229,19 +1194,17 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"{0}{1}，{2}",
 		"{0}{1}",
 		"{0}，{1}",
-		"{0}，文档: {1}",
+		"{0}，文档: {1}"
 	],
 	"vs/editor/contrib/suggest/browser/suggestWidgetDetails": [
 		"关闭",
-		"正在加载…",
+		"正在加载…"
 	],
 	"vs/editor/contrib/suggest/browser/suggestWidgetRenderer": [
 		"建议小组件中的详细信息的图标。",
-		"了解详细信息",
+		"了解详细信息"
 	],
-	"vs/editor/contrib/suggest/browser/suggestWidgetStatus": [
-		"{0} ({1})",
-	],
+	"vs/editor/contrib/suggest/browser/suggestWidgetStatus": ["{0} ({1})"],
 	"vs/editor/contrib/symbolIcons/browser/symbolIcons": [
 		"数组符号的前景色。这些符号将显示在大纲、痕迹导航栏和建议小组件中。",
 		"布尔符号的前景颜色。这些符号出现在大纲、痕迹导航栏和建议小部件中。",
@@ -1275,15 +1238,15 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"文本符号的前景颜色。这些符号出现在大纲、痕迹导航栏和建议小部件中。",
 		"类型参数符号的前景颜色。这些符号出现在大纲、痕迹导航栏和建议小部件中。",
 		"单位符号的前景颜色。这些符号出现在大纲、痕迹导航栏和建议小部件中。",
-		"变量符号的前景颜色。这些符号出现在大纲、痕迹导航栏和建议小部件中。",
+		"变量符号的前景颜色。这些符号出现在大纲、痕迹导航栏和建议小部件中。"
 	],
 	"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
 		"切换 Tab 键移动焦点",
 		"Tab 键将移动到下一可聚焦的元素",
-		"Tab 键将插入制表符",
+		"Tab 键将插入制表符"
 	],
 	"vs/editor/contrib/tokenization/browser/tokenization": [
-		"开发人员: 强制重新进行标记",
+		"开发人员: 强制重新进行标记"
 	],
 	"vs/editor/contrib/unicodeHighlighter/browser/unicodeHighlighter": [
 		"扩展编辑器中随警告消息一同显示的图标。",
@@ -1308,14 +1271,14 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"不突出显示 {0} (不可见字符)",
 		"在突出显示内容中排除{0}",
 		"允许语言“{0}”中更常见的 unicode 字符。",
-		"配置 Unicode 突出显示选项",
+		"配置 Unicode 突出显示选项"
 	],
 	"vs/editor/contrib/unusualLineTerminators/browser/unusualLineTerminators": [
 		"异常行终止符",
 		"检测到异常行终止符",
 		"文件“{0}”包含一个或多个异常的行终止符，例如行分隔符(LS)或段落分隔符(PS)。\r\n\r\n建议从文件中删除它们。可通过“editor.unusualLineTerminators”进行配置。",
 		"删除异常行终止符",
-		"忽略",
+		"忽略"
 	],
 	"vs/editor/contrib/wordHighlighter/browser/wordHighlighter": [
 		"读取访问期间符号的背景色，例如读取变量时。颜色必须透明，以免隐藏下面的修饰效果。",
@@ -1326,19 +1289,15 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"用于突出显示写权限符号的概述标尺标记颜色。颜色必须透明，以免隐藏下面的修饰效果。",
 		"转到下一个突出显示的符号",
 		"转到上一个突出显示的符号",
-		"触发符号高亮",
+		"触发符号高亮"
 	],
-	"vs/editor/contrib/wordOperations/browser/wordOperations": [
-		"删除 Word",
-	],
+	"vs/editor/contrib/wordOperations/browser/wordOperations": ["删除 Word"],
 	"vs/platform/actions/browser/menuEntryActionViewItem": [
 		"{0} ({1})",
 		"{0} ({1})",
-		"{0}\r\n[{1}] {2}",
+		"{0}\r\n[{1}] {2}"
 	],
-	"vs/platform/actions/common/menuService": [
-		"隐藏“{0}”",
-	],
+	"vs/platform/actions/common/menuService": ["隐藏“{0}”"],
 	"vs/platform/configuration/common/configurationRegistry": [
 		"默认语言配置替代",
 		"配置要为 {0} 语言替代的设置。",
@@ -1347,12 +1306,12 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"针对某种语言，配置替代编辑器设置。",
 		"此设置不支持按语言配置。",
 		"无法注册空属性",
-		"无法注册“{0}”。其符合描述特定语言编辑器设置的表达式 \"\\\\[.*\\\\]$\"。请使用 \"configurationDefaults\"。",
+		'无法注册“{0}”。其符合描述特定语言编辑器设置的表达式 "\\\\[.*\\\\]$"。请使用 "configurationDefaults"。',
 		"无法注册“{0}”。此属性已注册。",
-		"无法注册 \"{0}\"。关联的策略 {1} 已向 {2} 注册。",
+		'无法注册 "{0}"。关联的策略 {1} 已向 {2} 注册。'
 	],
 	"vs/platform/contextkey/browser/contextKeyService": [
-		"用于返回上下文键的相关信息的命令",
+		"用于返回上下文键的相关信息的命令"
 	],
 	"vs/platform/contextkey/common/contextkeys": [
 		"操作系统是否 macOS",
@@ -1362,14 +1321,12 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"操作系统是否是非浏览器平台上的 macOS",
 		"操作系统是否为 iOS",
 		"VS Code 的质量类型",
-		"键盘焦点是否在输入框中",
+		"键盘焦点是否在输入框中"
 	],
-	"vs/platform/history/browser/contextScopedHistoryWidget": [
-		"建议是否可见",
-	],
+	"vs/platform/history/browser/contextScopedHistoryWidget": ["建议是否可见"],
 	"vs/platform/keybinding/common/abstractKeybindingService": [
 		"({0})已按下。正在等待按下第二个键...",
-		"组合键({0}，{1})不是命令。",
+		"组合键({0}，{1})不是命令。"
 	],
 	"vs/platform/list/browser/listService": [
 		"工作台",
@@ -1382,7 +1339,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制树是否应呈现缩进参考线。",
 		"控制列表和树是否具有平滑滚动效果。",
 		"对鼠标滚轮滚动事件的 `deltaX` 和 `deltaY` 乘上的系数。",
-		"按下\"Alt\"时滚动速度倍增。",
+		'按下"Alt"时滚动速度倍增。',
 		"搜索时突出显示元素。进一步向上和向下导航将仅遍历突出显示的元素。",
 		"搜索时筛选元素。",
 		"控制工作台中列表和树的默认查找模式。",
@@ -1391,22 +1348,16 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"筛选器键盘导航将筛选出并隐藏与键盘输入不匹配的所有元素。",
 		"控制工作台中的列表和树的键盘导航样式。它可为“简单”、“突出显示”或“筛选”。",
 		"请改用 “workbench.list.defaultFindMode”。",
-		"控制在单击文件夹名称时如何扩展树文件夹。请注意，如果不适用，某些树和列表可能会选择忽略此设置。",
+		"控制在单击文件夹名称时如何扩展树文件夹。请注意，如果不适用，某些树和列表可能会选择忽略此设置。"
 	],
-	"vs/platform/markers/common/markers": [
-		"错误",
-		"警告",
-		"信息",
-	],
+	"vs/platform/markers/common/markers": ["错误", "警告", "信息"],
 	"vs/platform/quickinput/browser/commandsQuickAccess": [
 		"{0}, {1}",
 		"最近使用",
 		"其他命令",
-		"命令\"{0}\"导致错误 ({1})",
+		'命令"{0}"导致错误 ({1})'
 	],
-	"vs/platform/quickinput/browser/helpQuickAccess": [
-		"{0}, {1}",
-	],
+	"vs/platform/quickinput/browser/helpQuickAccess": ["{0}, {1}"],
 	"vs/platform/theme/common/colorRegistry": [
 		"整体前景色。此颜色仅在不被组件覆盖时适用。",
 		"已禁用元素的整体前景色。仅在未由组件替代时才能使用此颜色。",
@@ -1603,7 +1554,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"用于错误的迷你地图标记颜色。",
 		"用于警告的迷你地图标记颜色。",
 		"迷你地图背景颜色。",
-		"在缩略图中呈现的前景元素的不透明度。例如，\"#000000c0\" 将呈现不透明度为 75% 的元素。",
+		'在缩略图中呈现的前景元素的不透明度。例如，"#000000c0" 将呈现不透明度为 75% 的元素。',
 		"迷你地图滑块背景颜色。",
 		"悬停时，迷你地图滑块的背景颜色。",
 		"单击时，迷你地图滑块的背景颜色。",
@@ -1617,14 +1568,14 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"图表可视化效果中使用的黄色。",
 		"图表可视化效果中使用的橙色。",
 		"图表可视化效果中使用的绿色。",
-		"图表可视化效果中使用的紫色。",
+		"图表可视化效果中使用的紫色。"
 	],
 	"vs/platform/theme/common/iconRegistry": [
 		"要使用的字体的 ID。如果未设置，则使用最先定义的字体。",
 		"与图标定义关联的字体字符。",
 		"小组件中“关闭”操作的图标。",
 		"“转到上一个编辑器位置”图标。",
-		"“转到下一个编辑器位置”图标。",
+		"“转到下一个编辑器位置”图标。"
 	],
 	"vs/platform/undoRedo/common/undoRedoService": [
 		"以下文件已关闭并且已在磁盘上修改: {0}。",
@@ -1647,9 +1598,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"无法对所有文件重做“{0}”，因为已更改 {1}",
 		"无法跨所有文件重做“{0}”，因为 {1} 上已有一项撤消或重做操作正在运行",
 		"无法跨所有文件重做“{0}”，因为同时发生了一项撤消或重做操作",
-		"无法重做“{0}”，因为已有一项撤消或重做操作正在运行。",
+		"无法重做“{0}”，因为已有一项撤消或重做操作正在运行。"
 	],
-	"vs/platform/workspace/common/workspace": [
-		"Code 工作区",
-	]
+	"vs/platform/workspace/common/workspace": ["Code 工作区"]
 });

@@ -1,10 +1,4 @@
-(function () {
-	"use strict";
-	try {
-		if (typeof document != "undefined") {
-			var n = document.createElement("style");
-			n.appendChild(
-				document.createTextNode(`.x-item > .ant-form-item-control {
+(function(){"use strict";try{if(typeof document!="undefined"){var n=document.createElement("style");n.appendChild(document.createTextNode(`.x-item > .ant-form-item-control {
   position: relative;
 }
 .x-item > .ant-form-item-control .ant-input-number {
@@ -643,10 +637,6 @@ div[id^="xDialog_"] {
   height: 100%;
 }
 /* diallog move \u7528 */
-[layer-wrapper][type=page],
-[layer-wrapper][type=iframe] {
-  transition: 0.1s linear;
-}
 [layer-wrapper][type=iframe] .layui-layer-content {
   display: flex;
   flex: 1;
@@ -29596,4850 +29586,3851 @@ div[id^=lazy-svg_] {
   box-sizing: border-box;
   font-size: 14px;
   margin: 10px 10px 0;
-}`)
-			),
-				document.head.appendChild(n);
-		}
-	} catch (t) {
-		console.error("vite-plugin-css-injected-by-js", t);
-	}
-})();
+}`)),document.head.appendChild(n)}}catch(t){console.error("vite-plugin-css-injected-by-js",t)}})();
 var __defProp = Object.defineProperty;
-var __defNormalProp = (obj, key, value) =>
-	key in obj
-		? __defProp(obj, key, {
-				enumerable: true,
-				configurable: true,
-				writable: true,
-				value
-		  })
-		: (obj[key] = value);
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => {
-	__defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-	return value;
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
 };
-import Antd, {
-	DatePicker as DatePicker$3,
-	Checkbox as Checkbox$1,
-	Switch as Switch$1,
-	Table,
-	Modal,
-	message,
-	notification
-} from "ant-design-vue";
+import Antd, { DatePicker as DatePicker$3, Checkbox as Checkbox$1, Switch as Switch$1, Table, Modal, message, notification } from "ant-design-vue";
 import $ from "jquery";
 import { default as default2 } from "jquery";
-import {
-	defineComponent,
-	markRaw,
-	h,
-	resolveComponent,
-	createVNode,
-	mergeProps,
-	reactive,
-	watch,
-	computed,
-	createTextVNode,
-	openBlock,
-	createElementBlock,
-	renderSlot,
-	Fragment,
-	createBlock,
-	withDirectives,
-	vShow,
-	createElementVNode,
-	isVNode,
-	withCtx,
-	renderList,
-	toDisplayString,
-	createCommentVNode,
-	normalizeStyle,
-	resolveDynamicComponent,
-	resolveDirective,
-	createApp
-} from "vue";
+import { defineComponent, markRaw, h, resolveComponent, createVNode, mergeProps, reactive, watch, computed, createTextVNode, openBlock, createElementBlock, renderSlot, Fragment, createBlock, withDirectives, vShow, createElementVNode, isVNode, withCtx, renderList, toDisplayString, createCommentVNode, normalizeStyle, resolveDynamicComponent, resolveDirective, createApp } from "vue";
 import dayjs from "dayjs";
 import { default as default3, default as default4 } from "dayjs";
 import _ from "lodash";
 const index = "";
 const ui = "";
 const antd = "";
-const xRender = defineComponent(
-	markRaw({
-		name: "xRender",
-		props: {
-			render: {
-				type: Function,
-				required: true
-			}
-		},
-		render() {
-			return h(this.render, {
-				vm: this,
-				props: this.$props,
-				attrs: this.$attrs
-			});
-		}
-	})
-);
-const Input = ({ property, slots, listeners }) => {
-	let component = resolveComponent("aInput");
-	if (property.isPassword) {
-		component = resolveComponent("aInputPassword");
-	} else if (property.isNumber) {
-		component = resolveComponent("aInputNumber");
-	} else if (property.isTextarea) {
-		component = resolveComponent("aTextarea");
-		property.autoSize = property.autoSize || {
-			minRows: 4,
-			maxRows: 6
-		};
-	} else if (property.isSearch) {
-		component = resolveComponent("aInputSearch");
-	}
-	return createVNode(component, mergeProps(property, listeners), slots);
+const xRender = defineComponent(markRaw({
+  name: "xRender",
+  props: {
+    render: {
+      type: Function,
+      required: true
+    }
+  },
+  render() {
+    return h(this.render, {
+      vm: this,
+      props: this.$props,
+      attrs: this.$attrs
+    });
+  }
+}));
+const Input = ({
+  property,
+  slots,
+  listeners
+}) => {
+  let component = resolveComponent("aInput");
+  if (property.isPassword) {
+    component = resolveComponent("aInputPassword");
+  } else if (property.isNumber) {
+    component = resolveComponent("aInputNumber");
+  } else if (property.isTextarea) {
+    component = resolveComponent("aTextarea");
+    property.autoSize = property.autoSize || {
+      minRows: 4,
+      maxRows: 6
+    };
+  } else if (property.isSearch) {
+    component = resolveComponent("aInputSearch");
+  }
+  return createVNode(component, mergeProps(property, listeners), slots);
 };
 const Pagination$1 = {
-	items_per_page: "/ page",
-	jump_to: "Go to",
-	jump_to_confirm: "confirm",
-	page: "",
-	prev_page: "Previous Page",
-	next_page: "Next Page",
-	prev_5: "Previous 5 Pages",
-	next_5: "Next 5 Pages",
-	prev_3: "Previous 3 Pages",
-	next_3: "Next 3 Pages"
+  items_per_page: "/ page",
+  jump_to: "Go to",
+  jump_to_confirm: "confirm",
+  page: "",
+  prev_page: "Previous Page",
+  next_page: "Next Page",
+  prev_5: "Previous 5 Pages",
+  next_5: "Next 5 Pages",
+  prev_3: "Previous 3 Pages",
+  next_3: "Next 3 Pages"
 };
 function _defineProperty(obj, key, value) {
-	if (key in obj) {
-		Object.defineProperty(obj, key, {
-			value,
-			enumerable: true,
-			configurable: true,
-			writable: true
-		});
-	} else {
-		obj[key] = value;
-	}
-	return obj;
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
 }
 function ownKeys(object, enumerableOnly) {
-	var keys = Object.keys(object);
-	if (Object.getOwnPropertySymbols) {
-		var symbols = Object.getOwnPropertySymbols(object);
-		enumerableOnly &&
-			(symbols = symbols.filter(function (sym) {
-				return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-			})),
-			keys.push.apply(keys, symbols);
-	}
-	return keys;
+  var keys = Object.keys(object);
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    enumerableOnly && (symbols = symbols.filter(function(sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
+  }
+  return keys;
 }
 function _objectSpread2(target) {
-	for (var i = 1; i < arguments.length; i++) {
-		var source = null != arguments[i] ? arguments[i] : {};
-		i % 2
-			? ownKeys(Object(source), true).forEach(function (key) {
-					_defineProperty(target, key, source[key]);
-			  })
-			: Object.getOwnPropertyDescriptors
-			? Object.defineProperties(
-					target,
-					Object.getOwnPropertyDescriptors(source)
-			  )
-			: ownKeys(Object(source)).forEach(function (key) {
-					Object.defineProperty(
-						target,
-						key,
-						Object.getOwnPropertyDescriptor(source, key)
-					);
-			  });
-	}
-	return target;
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {};
+    i % 2 ? ownKeys(Object(source), true).forEach(function(key) {
+      _defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    });
+  }
+  return target;
 }
 var locale$5 = {
-	locale: "en_US",
-	today: "Today",
-	now: "Now",
-	backToToday: "Back to today",
-	ok: "Ok",
-	clear: "Clear",
-	month: "Month",
-	year: "Year",
-	timeSelect: "select time",
-	dateSelect: "select date",
-	weekSelect: "Choose a week",
-	monthSelect: "Choose a month",
-	yearSelect: "Choose a year",
-	decadeSelect: "Choose a decade",
-	yearFormat: "YYYY",
-	dateFormat: "M/D/YYYY",
-	dayFormat: "D",
-	dateTimeFormat: "M/D/YYYY HH:mm:ss",
-	monthBeforeYear: true,
-	previousMonth: "Previous month (PageUp)",
-	nextMonth: "Next month (PageDown)",
-	previousYear: "Last year (Control + left)",
-	nextYear: "Next year (Control + right)",
-	previousDecade: "Last decade",
-	nextDecade: "Next decade",
-	previousCentury: "Last century",
-	nextCentury: "Next century"
+  locale: "en_US",
+  today: "Today",
+  now: "Now",
+  backToToday: "Back to today",
+  ok: "Ok",
+  clear: "Clear",
+  month: "Month",
+  year: "Year",
+  timeSelect: "select time",
+  dateSelect: "select date",
+  weekSelect: "Choose a week",
+  monthSelect: "Choose a month",
+  yearSelect: "Choose a year",
+  decadeSelect: "Choose a decade",
+  yearFormat: "YYYY",
+  dateFormat: "M/D/YYYY",
+  dayFormat: "D",
+  dateTimeFormat: "M/D/YYYY HH:mm:ss",
+  monthBeforeYear: true,
+  previousMonth: "Previous month (PageUp)",
+  nextMonth: "Next month (PageDown)",
+  previousYear: "Last year (Control + left)",
+  nextYear: "Next year (Control + right)",
+  previousDecade: "Last decade",
+  nextDecade: "Next decade",
+  previousCentury: "Last century",
+  nextCentury: "Next century"
 };
 const CalendarLocale$1 = locale$5;
 var locale$4 = {
-	placeholder: "Select time",
-	rangePlaceholder: ["Start time", "End time"]
+  placeholder: "Select time",
+  rangePlaceholder: ["Start time", "End time"]
 };
 const TimePicker$1 = locale$4;
 var locale$3 = {
-	lang: _objectSpread2(
-		{
-			placeholder: "Select date",
-			yearPlaceholder: "Select year",
-			quarterPlaceholder: "Select quarter",
-			monthPlaceholder: "Select month",
-			weekPlaceholder: "Select week",
-			rangePlaceholder: ["Start date", "End date"],
-			rangeYearPlaceholder: ["Start year", "End year"],
-			rangeQuarterPlaceholder: ["Start quarter", "End quarter"],
-			rangeMonthPlaceholder: ["Start month", "End month"],
-			rangeWeekPlaceholder: ["Start week", "End week"]
-		},
-		CalendarLocale$1
-	),
-	timePickerLocale: _objectSpread2({}, TimePicker$1)
+  lang: _objectSpread2({
+    placeholder: "Select date",
+    yearPlaceholder: "Select year",
+    quarterPlaceholder: "Select quarter",
+    monthPlaceholder: "Select month",
+    weekPlaceholder: "Select week",
+    rangePlaceholder: ["Start date", "End date"],
+    rangeYearPlaceholder: ["Start year", "End year"],
+    rangeQuarterPlaceholder: ["Start quarter", "End quarter"],
+    rangeMonthPlaceholder: ["Start month", "End month"],
+    rangeWeekPlaceholder: ["Start week", "End week"]
+  }, CalendarLocale$1),
+  timePickerLocale: _objectSpread2({}, TimePicker$1)
 };
 const DatePicker$2 = locale$3;
 var typeTemplate$1 = "${label} is not a valid ${type}";
 var localeValues$1 = {
-	locale: "en",
-	Pagination: Pagination$1,
-	DatePicker: DatePicker$2,
-	TimePicker: TimePicker$1,
-	Calendar: DatePicker$2,
-	global: {
-		placeholder: "Please select"
-	},
-	Table: {
-		filterTitle: "Filter menu",
-		filterConfirm: "OK",
-		filterReset: "Reset",
-		filterEmptyText: "No filters",
-		filterCheckall: "Select all items",
-		filterSearchPlaceholder: "Search in filters",
-		emptyText: "No data",
-		selectAll: "Select current page",
-		selectInvert: "Invert current page",
-		selectNone: "Clear all data",
-		selectionAll: "Select all data",
-		sortTitle: "Sort",
-		expand: "Expand row",
-		collapse: "Collapse row",
-		triggerDesc: "Click to sort descending",
-		triggerAsc: "Click to sort ascending",
-		cancelSort: "Click to cancel sorting"
-	},
-	Modal: {
-		okText: "OK",
-		cancelText: "Cancel",
-		justOkText: "OK"
-	},
-	Popconfirm: {
-		okText: "OK",
-		cancelText: "Cancel"
-	},
-	Transfer: {
-		titles: ["", ""],
-		searchPlaceholder: "Search here",
-		itemUnit: "item",
-		itemsUnit: "items",
-		remove: "Remove",
-		selectCurrent: "Select current page",
-		removeCurrent: "Remove current page",
-		selectAll: "Select all data",
-		removeAll: "Remove all data",
-		selectInvert: "Invert current page"
-	},
-	Upload: {
-		uploading: "Uploading...",
-		removeFile: "Remove file",
-		uploadError: "Upload error",
-		previewFile: "Preview file",
-		downloadFile: "Download file"
-	},
-	Empty: {
-		description: "No Data"
-	},
-	Icon: {
-		icon: "icon"
-	},
-	Text: {
-		edit: "Edit",
-		copy: "Copy",
-		copied: "Copied",
-		expand: "Expand"
-	},
-	PageHeader: {
-		back: "Back"
-	},
-	Form: {
-		optional: "(optional)",
-		defaultValidateMessages: {
-			default: "Field validation error for ${label}",
-			required: "Please enter ${label}",
-			enum: "${label} must be one of [${enum}]",
-			whitespace: "${label} cannot be a blank character",
-			date: {
-				format: "${label} date format is invalid",
-				parse: "${label} cannot be converted to a date",
-				invalid: "${label} is an invalid date"
-			},
-			types: {
-				string: typeTemplate$1,
-				method: typeTemplate$1,
-				array: typeTemplate$1,
-				object: typeTemplate$1,
-				number: typeTemplate$1,
-				date: typeTemplate$1,
-				boolean: typeTemplate$1,
-				integer: typeTemplate$1,
-				float: typeTemplate$1,
-				regexp: typeTemplate$1,
-				email: typeTemplate$1,
-				url: typeTemplate$1,
-				hex: typeTemplate$1
-			},
-			string: {
-				len: "${label} must be ${len} characters",
-				min: "${label} must be at least ${min} characters",
-				max: "${label} must be up to ${max} characters",
-				range: "${label} must be between ${min}-${max} characters"
-			},
-			number: {
-				len: "${label} must be equal to ${len}",
-				min: "${label} must be minimum ${min}",
-				max: "${label} must be maximum ${max}",
-				range: "${label} must be between ${min}-${max}"
-			},
-			array: {
-				len: "Must be ${len} ${label}",
-				min: "At least ${min} ${label}",
-				max: "At most ${max} ${label}",
-				range: "The amount of ${label} must be between ${min}-${max}"
-			},
-			pattern: {
-				mismatch: "${label} does not match the pattern ${pattern}"
-			}
-		}
-	},
-	Image: {
-		preview: "Preview"
-	}
+  locale: "en",
+  Pagination: Pagination$1,
+  DatePicker: DatePicker$2,
+  TimePicker: TimePicker$1,
+  Calendar: DatePicker$2,
+  global: {
+    placeholder: "Please select"
+  },
+  Table: {
+    filterTitle: "Filter menu",
+    filterConfirm: "OK",
+    filterReset: "Reset",
+    filterEmptyText: "No filters",
+    filterCheckall: "Select all items",
+    filterSearchPlaceholder: "Search in filters",
+    emptyText: "No data",
+    selectAll: "Select current page",
+    selectInvert: "Invert current page",
+    selectNone: "Clear all data",
+    selectionAll: "Select all data",
+    sortTitle: "Sort",
+    expand: "Expand row",
+    collapse: "Collapse row",
+    triggerDesc: "Click to sort descending",
+    triggerAsc: "Click to sort ascending",
+    cancelSort: "Click to cancel sorting"
+  },
+  Modal: {
+    okText: "OK",
+    cancelText: "Cancel",
+    justOkText: "OK"
+  },
+  Popconfirm: {
+    okText: "OK",
+    cancelText: "Cancel"
+  },
+  Transfer: {
+    titles: ["", ""],
+    searchPlaceholder: "Search here",
+    itemUnit: "item",
+    itemsUnit: "items",
+    remove: "Remove",
+    selectCurrent: "Select current page",
+    removeCurrent: "Remove current page",
+    selectAll: "Select all data",
+    removeAll: "Remove all data",
+    selectInvert: "Invert current page"
+  },
+  Upload: {
+    uploading: "Uploading...",
+    removeFile: "Remove file",
+    uploadError: "Upload error",
+    previewFile: "Preview file",
+    downloadFile: "Download file"
+  },
+  Empty: {
+    description: "No Data"
+  },
+  Icon: {
+    icon: "icon"
+  },
+  Text: {
+    edit: "Edit",
+    copy: "Copy",
+    copied: "Copied",
+    expand: "Expand"
+  },
+  PageHeader: {
+    back: "Back"
+  },
+  Form: {
+    optional: "(optional)",
+    defaultValidateMessages: {
+      default: "Field validation error for ${label}",
+      required: "Please enter ${label}",
+      enum: "${label} must be one of [${enum}]",
+      whitespace: "${label} cannot be a blank character",
+      date: {
+        format: "${label} date format is invalid",
+        parse: "${label} cannot be converted to a date",
+        invalid: "${label} is an invalid date"
+      },
+      types: {
+        string: typeTemplate$1,
+        method: typeTemplate$1,
+        array: typeTemplate$1,
+        object: typeTemplate$1,
+        number: typeTemplate$1,
+        date: typeTemplate$1,
+        boolean: typeTemplate$1,
+        integer: typeTemplate$1,
+        float: typeTemplate$1,
+        regexp: typeTemplate$1,
+        email: typeTemplate$1,
+        url: typeTemplate$1,
+        hex: typeTemplate$1
+      },
+      string: {
+        len: "${label} must be ${len} characters",
+        min: "${label} must be at least ${min} characters",
+        max: "${label} must be up to ${max} characters",
+        range: "${label} must be between ${min}-${max} characters"
+      },
+      number: {
+        len: "${label} must be equal to ${len}",
+        min: "${label} must be minimum ${min}",
+        max: "${label} must be maximum ${max}",
+        range: "${label} must be between ${min}-${max}"
+      },
+      array: {
+        len: "Must be ${len} ${label}",
+        min: "At least ${min} ${label}",
+        max: "At most ${max} ${label}",
+        range: "The amount of ${label} must be between ${min}-${max}"
+      },
+      pattern: {
+        mismatch: "${label} does not match the pattern ${pattern}"
+      }
+    }
+  },
+  Image: {
+    preview: "Preview"
+  }
 };
 const defaultLocale = localeValues$1;
 const Pagination = {
-	items_per_page: "\u6761/\u9875",
-	jump_to: "\u8DF3\u81F3",
-	jump_to_confirm: "\u786E\u5B9A",
-	page: "\u9875",
-	prev_page: "\u4E0A\u4E00\u9875",
-	next_page: "\u4E0B\u4E00\u9875",
-	prev_5: "\u5411\u524D 5 \u9875",
-	next_5: "\u5411\u540E 5 \u9875",
-	prev_3: "\u5411\u524D 3 \u9875",
-	next_3: "\u5411\u540E 3 \u9875"
+  items_per_page: "\u6761/\u9875",
+  jump_to: "\u8DF3\u81F3",
+  jump_to_confirm: "\u786E\u5B9A",
+  page: "\u9875",
+  prev_page: "\u4E0A\u4E00\u9875",
+  next_page: "\u4E0B\u4E00\u9875",
+  prev_5: "\u5411\u524D 5 \u9875",
+  next_5: "\u5411\u540E 5 \u9875",
+  prev_3: "\u5411\u524D 3 \u9875",
+  next_3: "\u5411\u540E 3 \u9875"
 };
 var locale$2 = {
-	locale: "zh_CN",
-	today: "\u4ECA\u5929",
-	now: "\u6B64\u523B",
-	backToToday: "\u8FD4\u56DE\u4ECA\u5929",
-	ok: "\u786E\u5B9A",
-	timeSelect: "\u9009\u62E9\u65F6\u95F4",
-	dateSelect: "\u9009\u62E9\u65E5\u671F",
-	weekSelect: "\u9009\u62E9\u5468",
-	clear: "\u6E05\u9664",
-	month: "\u6708",
-	year: "\u5E74",
-	previousMonth: "\u4E0A\u4E2A\u6708 (\u7FFB\u9875\u4E0A\u952E)",
-	nextMonth: "\u4E0B\u4E2A\u6708 (\u7FFB\u9875\u4E0B\u952E)",
-	monthSelect: "\u9009\u62E9\u6708\u4EFD",
-	yearSelect: "\u9009\u62E9\u5E74\u4EFD",
-	decadeSelect: "\u9009\u62E9\u5E74\u4EE3",
-	yearFormat: "YYYY\u5E74",
-	dayFormat: "D\u65E5",
-	dateFormat: "YYYY\u5E74M\u6708D\u65E5",
-	dateTimeFormat: "YYYY\u5E74M\u6708D\u65E5 HH\u65F6mm\u5206ss\u79D2",
-	previousYear:
-		"\u4E0A\u4E00\u5E74 (Control\u952E\u52A0\u5DE6\u65B9\u5411\u952E)",
-	nextYear: "\u4E0B\u4E00\u5E74 (Control\u952E\u52A0\u53F3\u65B9\u5411\u952E)",
-	previousDecade: "\u4E0A\u4E00\u5E74\u4EE3",
-	nextDecade: "\u4E0B\u4E00\u5E74\u4EE3",
-	previousCentury: "\u4E0A\u4E00\u4E16\u7EAA",
-	nextCentury: "\u4E0B\u4E00\u4E16\u7EAA"
+  locale: "zh_CN",
+  today: "\u4ECA\u5929",
+  now: "\u6B64\u523B",
+  backToToday: "\u8FD4\u56DE\u4ECA\u5929",
+  ok: "\u786E\u5B9A",
+  timeSelect: "\u9009\u62E9\u65F6\u95F4",
+  dateSelect: "\u9009\u62E9\u65E5\u671F",
+  weekSelect: "\u9009\u62E9\u5468",
+  clear: "\u6E05\u9664",
+  month: "\u6708",
+  year: "\u5E74",
+  previousMonth: "\u4E0A\u4E2A\u6708 (\u7FFB\u9875\u4E0A\u952E)",
+  nextMonth: "\u4E0B\u4E2A\u6708 (\u7FFB\u9875\u4E0B\u952E)",
+  monthSelect: "\u9009\u62E9\u6708\u4EFD",
+  yearSelect: "\u9009\u62E9\u5E74\u4EFD",
+  decadeSelect: "\u9009\u62E9\u5E74\u4EE3",
+  yearFormat: "YYYY\u5E74",
+  dayFormat: "D\u65E5",
+  dateFormat: "YYYY\u5E74M\u6708D\u65E5",
+  dateTimeFormat: "YYYY\u5E74M\u6708D\u65E5 HH\u65F6mm\u5206ss\u79D2",
+  previousYear: "\u4E0A\u4E00\u5E74 (Control\u952E\u52A0\u5DE6\u65B9\u5411\u952E)",
+  nextYear: "\u4E0B\u4E00\u5E74 (Control\u952E\u52A0\u53F3\u65B9\u5411\u952E)",
+  previousDecade: "\u4E0A\u4E00\u5E74\u4EE3",
+  nextDecade: "\u4E0B\u4E00\u5E74\u4EE3",
+  previousCentury: "\u4E0A\u4E00\u4E16\u7EAA",
+  nextCentury: "\u4E0B\u4E00\u4E16\u7EAA"
 };
 const CalendarLocale = locale$2;
 var locale$1 = {
-	placeholder: "\u8BF7\u9009\u62E9\u65F6\u95F4",
-	rangePlaceholder: ["\u5F00\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4"]
+  placeholder: "\u8BF7\u9009\u62E9\u65F6\u95F4",
+  rangePlaceholder: ["\u5F00\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4"]
 };
 const TimePicker = locale$1;
 var locale = {
-	lang: _objectSpread2(
-		{
-			placeholder: "\u8BF7\u9009\u62E9\u65E5\u671F",
-			yearPlaceholder: "\u8BF7\u9009\u62E9\u5E74\u4EFD",
-			quarterPlaceholder: "\u8BF7\u9009\u62E9\u5B63\u5EA6",
-			monthPlaceholder: "\u8BF7\u9009\u62E9\u6708\u4EFD",
-			weekPlaceholder: "\u8BF7\u9009\u62E9\u5468",
-			rangePlaceholder: [
-				"\u5F00\u59CB\u65E5\u671F",
-				"\u7ED3\u675F\u65E5\u671F"
-			],
-			rangeYearPlaceholder: [
-				"\u5F00\u59CB\u5E74\u4EFD",
-				"\u7ED3\u675F\u5E74\u4EFD"
-			],
-			rangeMonthPlaceholder: [
-				"\u5F00\u59CB\u6708\u4EFD",
-				"\u7ED3\u675F\u6708\u4EFD"
-			],
-			rangeQuarterPlaceholder: [
-				"\u5F00\u59CB\u5B63\u5EA6",
-				"\u7ED3\u675F\u5B63\u5EA6"
-			],
-			rangeWeekPlaceholder: ["\u5F00\u59CB\u5468", "\u7ED3\u675F\u5468"]
-		},
-		CalendarLocale
-	),
-	timePickerLocale: _objectSpread2({}, TimePicker)
+  lang: _objectSpread2({
+    placeholder: "\u8BF7\u9009\u62E9\u65E5\u671F",
+    yearPlaceholder: "\u8BF7\u9009\u62E9\u5E74\u4EFD",
+    quarterPlaceholder: "\u8BF7\u9009\u62E9\u5B63\u5EA6",
+    monthPlaceholder: "\u8BF7\u9009\u62E9\u6708\u4EFD",
+    weekPlaceholder: "\u8BF7\u9009\u62E9\u5468",
+    rangePlaceholder: ["\u5F00\u59CB\u65E5\u671F", "\u7ED3\u675F\u65E5\u671F"],
+    rangeYearPlaceholder: ["\u5F00\u59CB\u5E74\u4EFD", "\u7ED3\u675F\u5E74\u4EFD"],
+    rangeMonthPlaceholder: ["\u5F00\u59CB\u6708\u4EFD", "\u7ED3\u675F\u6708\u4EFD"],
+    rangeQuarterPlaceholder: ["\u5F00\u59CB\u5B63\u5EA6", "\u7ED3\u675F\u5B63\u5EA6"],
+    rangeWeekPlaceholder: ["\u5F00\u59CB\u5468", "\u7ED3\u675F\u5468"]
+  }, CalendarLocale),
+  timePickerLocale: _objectSpread2({}, TimePicker)
 };
 locale.lang.ok = "\u786E\u5B9A";
 const DatePicker$1 = locale;
 var typeTemplate = "${label}\u4E0D\u662F\u4E00\u4E2A\u6709\u6548\u7684${type}";
 var localeValues = {
-	locale: "zh-cn",
-	Pagination,
-	DatePicker: DatePicker$1,
-	TimePicker,
-	Calendar: DatePicker$1,
-	global: {
-		placeholder: "\u8BF7\u9009\u62E9"
-	},
-	Table: {
-		filterTitle: "\u7B5B\u9009",
-		filterConfirm: "\u786E\u5B9A",
-		filterReset: "\u91CD\u7F6E",
-		filterEmptyText: "\u65E0\u7B5B\u9009\u9879",
-		filterCheckall: "\u5168\u9009",
-		filterSearchPlaceholder: "\u5728\u7B5B\u9009\u9879\u4E2D\u641C\u7D22",
-		selectAll: "\u5168\u9009\u5F53\u9875",
-		selectInvert: "\u53CD\u9009\u5F53\u9875",
-		selectNone: "\u6E05\u7A7A\u6240\u6709",
-		selectionAll: "\u5168\u9009\u6240\u6709",
-		sortTitle: "\u6392\u5E8F",
-		expand: "\u5C55\u5F00\u884C",
-		collapse: "\u5173\u95ED\u884C",
-		triggerDesc: "\u70B9\u51FB\u964D\u5E8F",
-		triggerAsc: "\u70B9\u51FB\u5347\u5E8F",
-		cancelSort: "\u53D6\u6D88\u6392\u5E8F"
-	},
-	Modal: {
-		okText: "\u786E\u5B9A",
-		cancelText: "\u53D6\u6D88",
-		justOkText: "\u77E5\u9053\u4E86"
-	},
-	Popconfirm: {
-		cancelText: "\u53D6\u6D88",
-		okText: "\u786E\u5B9A"
-	},
-	Transfer: {
-		searchPlaceholder: "\u8BF7\u8F93\u5165\u641C\u7D22\u5185\u5BB9",
-		itemUnit: "\u9879",
-		itemsUnit: "\u9879",
-		remove: "\u5220\u9664",
-		selectCurrent: "\u5168\u9009\u5F53\u9875",
-		removeCurrent: "\u5220\u9664\u5F53\u9875",
-		selectAll: "\u5168\u9009\u6240\u6709",
-		removeAll: "\u5220\u9664\u5168\u90E8",
-		selectInvert: "\u53CD\u9009\u5F53\u9875"
-	},
-	Upload: {
-		uploading: "\u6587\u4EF6\u4E0A\u4F20\u4E2D",
-		removeFile: "\u5220\u9664\u6587\u4EF6",
-		uploadError: "\u4E0A\u4F20\u9519\u8BEF",
-		previewFile: "\u9884\u89C8\u6587\u4EF6",
-		downloadFile: "\u4E0B\u8F7D\u6587\u4EF6"
-	},
-	Empty: {
-		description: "\u6682\u65E0\u6570\u636E"
-	},
-	Icon: {
-		icon: "\u56FE\u6807"
-	},
-	Text: {
-		edit: "\u7F16\u8F91",
-		copy: "\u590D\u5236",
-		copied: "\u590D\u5236\u6210\u529F",
-		expand: "\u5C55\u5F00"
-	},
-	PageHeader: {
-		back: "\u8FD4\u56DE"
-	},
-	Form: {
-		optional: "\uFF08\u53EF\u9009\uFF09",
-		defaultValidateMessages: {
-			default: "\u5B57\u6BB5\u9A8C\u8BC1\u9519\u8BEF${label}",
-			required: "\u8BF7\u8F93\u5165${label}",
-			enum: "${label}\u5FC5\u987B\u662F\u5176\u4E2D\u4E00\u4E2A[${enum}]",
-			whitespace: "${label}\u4E0D\u80FD\u4E3A\u7A7A\u5B57\u7B26",
-			date: {
-				format: "${label}\u65E5\u671F\u683C\u5F0F\u65E0\u6548",
-				parse: "${label}\u4E0D\u80FD\u8F6C\u6362\u4E3A\u65E5\u671F",
-				invalid: "${label}\u662F\u4E00\u4E2A\u65E0\u6548\u65E5\u671F"
-			},
-			types: {
-				string: typeTemplate,
-				method: typeTemplate,
-				array: typeTemplate,
-				object: typeTemplate,
-				number: typeTemplate,
-				date: typeTemplate,
-				boolean: typeTemplate,
-				integer: typeTemplate,
-				float: typeTemplate,
-				regexp: typeTemplate,
-				email: typeTemplate,
-				url: typeTemplate,
-				hex: typeTemplate
-			},
-			string: {
-				len: "${label}\u987B\u4E3A${len}\u4E2A\u5B57\u7B26",
-				min: "${label}\u6700\u5C11${min}\u4E2A\u5B57\u7B26",
-				max: "${label}\u6700\u591A${max}\u4E2A\u5B57\u7B26",
-				range: "${label}\u987B\u5728${min}-${max}\u5B57\u7B26\u4E4B\u95F4"
-			},
-			number: {
-				len: "${label}\u5FC5\u987B\u7B49\u4E8E${len}",
-				min: "${label}\u6700\u5C0F\u503C\u4E3A${min}",
-				max: "${label}\u6700\u5927\u503C\u4E3A${max}",
-				range: "${label}\u987B\u5728${min}-${max}\u4E4B\u95F4"
-			},
-			array: {
-				len: "\u987B\u4E3A${len}\u4E2A${label}",
-				min: "\u6700\u5C11${min}\u4E2A${label}",
-				max: "\u6700\u591A${max}\u4E2A${label}",
-				range: "${label}\u6570\u91CF\u987B\u5728${min}-${max}\u4E4B\u95F4"
-			},
-			pattern: {
-				mismatch: "${label}\u4E0E\u6A21\u5F0F\u4E0D\u5339\u914D${pattern}"
-			}
-		}
-	},
-	Image: {
-		preview: "\u9884\u89C8"
-	}
+  locale: "zh-cn",
+  Pagination,
+  DatePicker: DatePicker$1,
+  TimePicker,
+  Calendar: DatePicker$1,
+  global: {
+    placeholder: "\u8BF7\u9009\u62E9"
+  },
+  Table: {
+    filterTitle: "\u7B5B\u9009",
+    filterConfirm: "\u786E\u5B9A",
+    filterReset: "\u91CD\u7F6E",
+    filterEmptyText: "\u65E0\u7B5B\u9009\u9879",
+    filterCheckall: "\u5168\u9009",
+    filterSearchPlaceholder: "\u5728\u7B5B\u9009\u9879\u4E2D\u641C\u7D22",
+    selectAll: "\u5168\u9009\u5F53\u9875",
+    selectInvert: "\u53CD\u9009\u5F53\u9875",
+    selectNone: "\u6E05\u7A7A\u6240\u6709",
+    selectionAll: "\u5168\u9009\u6240\u6709",
+    sortTitle: "\u6392\u5E8F",
+    expand: "\u5C55\u5F00\u884C",
+    collapse: "\u5173\u95ED\u884C",
+    triggerDesc: "\u70B9\u51FB\u964D\u5E8F",
+    triggerAsc: "\u70B9\u51FB\u5347\u5E8F",
+    cancelSort: "\u53D6\u6D88\u6392\u5E8F"
+  },
+  Modal: {
+    okText: "\u786E\u5B9A",
+    cancelText: "\u53D6\u6D88",
+    justOkText: "\u77E5\u9053\u4E86"
+  },
+  Popconfirm: {
+    cancelText: "\u53D6\u6D88",
+    okText: "\u786E\u5B9A"
+  },
+  Transfer: {
+    searchPlaceholder: "\u8BF7\u8F93\u5165\u641C\u7D22\u5185\u5BB9",
+    itemUnit: "\u9879",
+    itemsUnit: "\u9879",
+    remove: "\u5220\u9664",
+    selectCurrent: "\u5168\u9009\u5F53\u9875",
+    removeCurrent: "\u5220\u9664\u5F53\u9875",
+    selectAll: "\u5168\u9009\u6240\u6709",
+    removeAll: "\u5220\u9664\u5168\u90E8",
+    selectInvert: "\u53CD\u9009\u5F53\u9875"
+  },
+  Upload: {
+    uploading: "\u6587\u4EF6\u4E0A\u4F20\u4E2D",
+    removeFile: "\u5220\u9664\u6587\u4EF6",
+    uploadError: "\u4E0A\u4F20\u9519\u8BEF",
+    previewFile: "\u9884\u89C8\u6587\u4EF6",
+    downloadFile: "\u4E0B\u8F7D\u6587\u4EF6"
+  },
+  Empty: {
+    description: "\u6682\u65E0\u6570\u636E"
+  },
+  Icon: {
+    icon: "\u56FE\u6807"
+  },
+  Text: {
+    edit: "\u7F16\u8F91",
+    copy: "\u590D\u5236",
+    copied: "\u590D\u5236\u6210\u529F",
+    expand: "\u5C55\u5F00"
+  },
+  PageHeader: {
+    back: "\u8FD4\u56DE"
+  },
+  Form: {
+    optional: "\uFF08\u53EF\u9009\uFF09",
+    defaultValidateMessages: {
+      default: "\u5B57\u6BB5\u9A8C\u8BC1\u9519\u8BEF${label}",
+      required: "\u8BF7\u8F93\u5165${label}",
+      enum: "${label}\u5FC5\u987B\u662F\u5176\u4E2D\u4E00\u4E2A[${enum}]",
+      whitespace: "${label}\u4E0D\u80FD\u4E3A\u7A7A\u5B57\u7B26",
+      date: {
+        format: "${label}\u65E5\u671F\u683C\u5F0F\u65E0\u6548",
+        parse: "${label}\u4E0D\u80FD\u8F6C\u6362\u4E3A\u65E5\u671F",
+        invalid: "${label}\u662F\u4E00\u4E2A\u65E0\u6548\u65E5\u671F"
+      },
+      types: {
+        string: typeTemplate,
+        method: typeTemplate,
+        array: typeTemplate,
+        object: typeTemplate,
+        number: typeTemplate,
+        date: typeTemplate,
+        boolean: typeTemplate,
+        integer: typeTemplate,
+        float: typeTemplate,
+        regexp: typeTemplate,
+        email: typeTemplate,
+        url: typeTemplate,
+        hex: typeTemplate
+      },
+      string: {
+        len: "${label}\u987B\u4E3A${len}\u4E2A\u5B57\u7B26",
+        min: "${label}\u6700\u5C11${min}\u4E2A\u5B57\u7B26",
+        max: "${label}\u6700\u591A${max}\u4E2A\u5B57\u7B26",
+        range: "${label}\u987B\u5728${min}-${max}\u5B57\u7B26\u4E4B\u95F4"
+      },
+      number: {
+        len: "${label}\u5FC5\u987B\u7B49\u4E8E${len}",
+        min: "${label}\u6700\u5C0F\u503C\u4E3A${min}",
+        max: "${label}\u6700\u5927\u503C\u4E3A${max}",
+        range: "${label}\u987B\u5728${min}-${max}\u4E4B\u95F4"
+      },
+      array: {
+        len: "\u987B\u4E3A${len}\u4E2A${label}",
+        min: "\u6700\u5C11${min}\u4E2A${label}",
+        max: "\u6700\u591A${max}\u4E2A${label}",
+        range: "${label}\u6570\u91CF\u987B\u5728${min}-${max}\u4E4B\u95F4"
+      },
+      pattern: {
+        mismatch: "${label}\u4E0E\u6A21\u5F0F\u4E0D\u5339\u914D${pattern}"
+      }
+    }
+  },
+  Image: {
+    preview: "\u9884\u89C8"
+  }
 };
 const zhCn$1 = localeValues;
-var commonjsGlobal =
-	typeof globalThis !== "undefined"
-		? globalThis
-		: typeof window !== "undefined"
-		? window
-		: typeof global !== "undefined"
-		? global
-		: typeof self !== "undefined"
-		? self
-		: {};
+var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var zhCn = { exports: {} };
-(function (module, exports) {
-	!(function (e, _2) {
-		module.exports = _2(dayjs);
-	})(commonjsGlobal, function (e) {
-		function _2(e2) {
-			return e2 && "object" == typeof e2 && "default" in e2
-				? e2
-				: { default: e2 };
-		}
-		var t = _2(e),
-			d = {
-				name: "zh-cn",
-				weekdays:
-					"\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split(
-						"_"
-					),
-				weekdaysShort:
-					"\u5468\u65E5_\u5468\u4E00_\u5468\u4E8C_\u5468\u4E09_\u5468\u56DB_\u5468\u4E94_\u5468\u516D".split(
-						"_"
-					),
-				weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split(
-					"_"
-				),
-				months:
-					"\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split(
-						"_"
-					),
-				monthsShort:
-					"1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split(
-						"_"
-					),
-				ordinal: function (e2, _3) {
-					return "W" === _3 ? e2 + "\u5468" : e2 + "\u65E5";
-				},
-				weekStart: 1,
-				yearStart: 4,
-				formats: {
-					LT: "HH:mm",
-					LTS: "HH:mm:ss",
-					L: "YYYY/MM/DD",
-					LL: "YYYY\u5E74M\u6708D\u65E5",
-					LLL: "YYYY\u5E74M\u6708D\u65E5Ah\u70B9mm\u5206",
-					LLLL: "YYYY\u5E74M\u6708D\u65E5ddddAh\u70B9mm\u5206",
-					l: "YYYY/M/D",
-					ll: "YYYY\u5E74M\u6708D\u65E5",
-					lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
-					llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm"
-				},
-				relativeTime: {
-					future: "%s\u5185",
-					past: "%s\u524D",
-					s: "\u51E0\u79D2",
-					m: "1 \u5206\u949F",
-					mm: "%d \u5206\u949F",
-					h: "1 \u5C0F\u65F6",
-					hh: "%d \u5C0F\u65F6",
-					d: "1 \u5929",
-					dd: "%d \u5929",
-					M: "1 \u4E2A\u6708",
-					MM: "%d \u4E2A\u6708",
-					y: "1 \u5E74",
-					yy: "%d \u5E74"
-				},
-				meridiem: function (e2, _3) {
-					var t2 = 100 * e2 + _3;
-					return t2 < 600
-						? "\u51CC\u6668"
-						: t2 < 900
-						? "\u65E9\u4E0A"
-						: t2 < 1100
-						? "\u4E0A\u5348"
-						: t2 < 1300
-						? "\u4E2D\u5348"
-						: t2 < 1800
-						? "\u4E0B\u5348"
-						: "\u665A\u4E0A";
-				}
-			};
-		return t.default.locale(d, null, true), d;
-	});
+(function(module, exports) {
+  !function(e, _2) {
+    module.exports = _2(dayjs);
+  }(commonjsGlobal, function(e) {
+    function _2(e2) {
+      return e2 && "object" == typeof e2 && "default" in e2 ? e2 : { default: e2 };
+    }
+    var t = _2(e), d = { name: "zh-cn", weekdays: "\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split("_"), weekdaysShort: "\u5468\u65E5_\u5468\u4E00_\u5468\u4E8C_\u5468\u4E09_\u5468\u56DB_\u5468\u4E94_\u5468\u516D".split("_"), weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split("_"), months: "\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split("_"), monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split("_"), ordinal: function(e2, _3) {
+      return "W" === _3 ? e2 + "\u5468" : e2 + "\u65E5";
+    }, weekStart: 1, yearStart: 4, formats: { LT: "HH:mm", LTS: "HH:mm:ss", L: "YYYY/MM/DD", LL: "YYYY\u5E74M\u6708D\u65E5", LLL: "YYYY\u5E74M\u6708D\u65E5Ah\u70B9mm\u5206", LLLL: "YYYY\u5E74M\u6708D\u65E5ddddAh\u70B9mm\u5206", l: "YYYY/M/D", ll: "YYYY\u5E74M\u6708D\u65E5", lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm", llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm" }, relativeTime: { future: "%s\u5185", past: "%s\u524D", s: "\u51E0\u79D2", m: "1 \u5206\u949F", mm: "%d \u5206\u949F", h: "1 \u5C0F\u65F6", hh: "%d \u5C0F\u65F6", d: "1 \u5929", dd: "%d \u5929", M: "1 \u4E2A\u6708", MM: "%d \u4E2A\u6708", y: "1 \u5E74", yy: "%d \u5E74" }, meridiem: function(e2, _3) {
+      var t2 = 100 * e2 + _3;
+      return t2 < 600 ? "\u51CC\u6668" : t2 < 900 ? "\u65E9\u4E0A" : t2 < 1100 ? "\u4E0A\u5348" : t2 < 1300 ? "\u4E2D\u5348" : t2 < 1800 ? "\u4E0B\u5348" : "\u665A\u4E0A";
+    } };
+    return t.default.locale(d, null, true), d;
+  });
 })(zhCn);
 var enAu = { exports: {} };
-(function (module, exports) {
-	!(function (e, a) {
-		module.exports = a(dayjs);
-	})(commonjsGlobal, function (e) {
-		function a(e2) {
-			return e2 && "object" == typeof e2 && "default" in e2
-				? e2
-				: { default: e2 };
-		}
-		var t = a(e),
-			_2 = {
-				name: "en-au",
-				weekdays:
-					"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
-				months:
-					"January_February_March_April_May_June_July_August_September_October_November_December".split(
-						"_"
-					),
-				weekStart: 1,
-				weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
-				monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split(
-					"_"
-				),
-				weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
-				ordinal: function (e2) {
-					return e2;
-				},
-				formats: {
-					LT: "h:mm A",
-					LTS: "h:mm:ss A",
-					L: "DD/MM/YYYY",
-					LL: "D MMMM YYYY",
-					LLL: "D MMMM YYYY h:mm A",
-					LLLL: "dddd, D MMMM YYYY h:mm A"
-				},
-				relativeTime: {
-					future: "in %s",
-					past: "%s ago",
-					s: "a few seconds",
-					m: "a minute",
-					mm: "%d minutes",
-					h: "an hour",
-					hh: "%d hours",
-					d: "a day",
-					dd: "%d days",
-					M: "a month",
-					MM: "%d months",
-					y: "a year",
-					yy: "%d years"
-				}
-			};
-		return t.default.locale(_2, null, true), _2;
-	});
+(function(module, exports) {
+  !function(e, a) {
+    module.exports = a(dayjs);
+  }(commonjsGlobal, function(e) {
+    function a(e2) {
+      return e2 && "object" == typeof e2 && "default" in e2 ? e2 : { default: e2 };
+    }
+    var t = a(e), _2 = { name: "en-au", weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), weekStart: 1, weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"), weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"), ordinal: function(e2) {
+      return e2;
+    }, formats: { LT: "h:mm A", LTS: "h:mm:ss A", L: "DD/MM/YYYY", LL: "D MMMM YYYY", LLL: "D MMMM YYYY h:mm A", LLLL: "dddd, D MMMM YYYY h:mm A" }, relativeTime: { future: "in %s", past: "%s ago", s: "a few seconds", m: "a minute", mm: "%d minutes", h: "an hour", hh: "%d hours", d: "a day", dd: "%d days", M: "a month", MM: "%d months", y: "a year", yy: "%d years" } };
+    return t.default.locale(_2, null, true), _2;
+  });
 })(enAu);
 const onRE = /^on[^a-z]/;
 const VueComponents = {};
 const privateLodash = {
-	..._,
-	WORDS: {
-		INVALID_DATE: "Invalid Date",
-		format_ymd: "YYYY-MM-DD"
-	},
-	hashCode(str) {
-		var hash = 0,
-			i,
-			chr;
-		if (str.length === 0) {
-			return "0";
-		}
-		for (i = 0; i < str.length; i++) {
-			chr = str.charCodeAt(i);
-			hash = (hash << 5) - hash + chr;
-			hash |= 0;
-		}
-		return String(hash);
-	},
-	getLeftTopFromAbsolute($ele) {
-		const _top = $ele.css("top");
-		const _left = $ele.css("left");
-		const getNum = x => {
-			const match = String(x).match(/^(.*)px$/);
-			if (match && match[1]) {
-				return Number(match[1]);
-			} else {
-				return 0;
-			}
-		};
-		const top = getNum(_top);
-		const left = getNum(_left);
-		console.log(left, top);
-		return { top, left };
-	},
-	getLeftTopFromTranslate($ele) {
-		const transform = $ele.css("transform");
-		const match = String(transform).match(/^matrix\((.*)\)$/);
-		if (!match) {
-			return { top: 0, left: 0 };
-		}
-		if (match && match[1]) {
-			const [a, b, c, d, e, f] = String(match[1])
-				.split(",")
-				.map(i => Number(privateLodash.trim(i)));
-			return {
-				left: a + c + e,
-				top: b + d + f
-			};
-		}
-	},
-	async asyncImportSFC(url, __Vue) {
-		if (VueComponents[url]) {
-			return VueComponents[url];
-		}
-		const scfSourceCode = await privateLodash.asyncLoadText(url);
-		const scfObjSourceCode = privateLodash.VueLoader(scfSourceCode);
-		VueComponents[url] = await privateLodash.getVueComponentBySourceCode(
-			url,
-			scfObjSourceCode,
-			__Vue
-		);
-		return VueComponents[url];
-	},
-	async getVueComponentBySourceCode(url, scfObjSourceCode, __Vue) {
-		const scfObjAsyncFn = new Function(
-			"argVue",
-			"argPayload",
-			`console.log(\`${url}\`)
+  ..._,
+  WORDS: {
+    INVALID_DATE: "Invalid Date",
+    format_ymd: "YYYY-MM-DD"
+  },
+  launchFullscreen(element) {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullScreen();
+    }
+  },
+  exitFullscreen() {
+    document.exitFullscreen();
+  },
+  hashCode(str) {
+    var hash = 0, i, chr;
+    if (str.length === 0) {
+      return "0";
+    }
+    for (i = 0; i < str.length; i++) {
+      chr = str.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
+      hash |= 0;
+    }
+    return String(hash);
+  },
+  getLeftTopFromAbsolute($ele) {
+    const _top = $ele.css("top");
+    const _left = $ele.css("left");
+    const getNum = (x) => {
+      const match = String(x).match(/^(.*)px$/);
+      if (match && match[1]) {
+        return Number(match[1]);
+      } else {
+        return 0;
+      }
+    };
+    const top = getNum(_top);
+    const left = getNum(_left);
+    console.log(left, top);
+    return { top, left };
+  },
+  getLeftTopFromTranslate($ele) {
+    const transform = $ele.css("transform");
+    const match = String(transform).match(/^matrix\((.*)\)$/);
+    if (!match) {
+      return { top: 0, left: 0 };
+    }
+    if (match && match[1]) {
+      const [a, b, c, d, e, f] = String(match[1]).split(",").map((i) => Number(privateLodash.trim(i)));
+      return {
+        left: a + c + e,
+        top: b + d + f
+      };
+    }
+  },
+  async asyncImportSFC(url, __Vue) {
+    if (VueComponents[url]) {
+      return VueComponents[url];
+    }
+    const scfSourceCode = await privateLodash.asyncLoadText(url);
+    const scfObjSourceCode = privateLodash.VueLoader(scfSourceCode);
+    VueComponents[url] = await privateLodash.getVueComponentBySourceCode(
+      url,
+      scfObjSourceCode,
+      __Vue
+    );
+    return VueComponents[url];
+  },
+  async getVueComponentBySourceCode(url, scfObjSourceCode, __Vue) {
+    const scfObjAsyncFn = new Function(
+      "argVue",
+      "argPayload",
+      `console.log(\`${url}\`)
 return (${scfObjSourceCode})(argVue,argPayload);`
-		);
-		const scfObj = await scfObjAsyncFn(__Vue, {
-			url
-		});
-		return scfObj;
-	},
-	parseContent: returnSentence => {
-		if (!returnSentence) return;
-		return new Function(`${returnSentence} return module();`);
-	},
-	payloadIdCount: 1,
-	payloadIdCountMax: 4e4,
-	payloadDateNow: Date.now(),
-	genId: category => {
-		const { payloadIdCount, payloadIdCountMax, payloadDateNow } = privateLodash;
-		if (payloadIdCount > payloadIdCountMax) {
-			privateLodash.payloadIdCount = 1;
-			privateLodash.payloadDateNow = Date.now();
-		}
-		return `${category}_${payloadDateNow}_${privateLodash.payloadIdCount++}`;
-	},
-	VueLoader: code => {
-		function getSource(source, type2) {
-			var regex = new RegExp("<" + type2 + "[^>]*>");
-			var openingTag = source.match(regex);
-			if (!openingTag) return "";
-			else openingTag = openingTag[0];
-			var targetSource = source.slice(
-				source.indexOf(openingTag) + openingTag.length,
-				source.lastIndexOf("</" + type2 + ">")
-			);
-			return type2 === "template"
-				? targetSource.replace(/`/g, "\\`")
-				: targetSource;
-		}
-		function splitCode() {
-			if (!/TEMPLATE_PLACEHOLDER/.test(code)) {
-				alert("SFC miss TEMPLATE_PLACEHOLDER");
-				console.error(code);
-			}
-			return getSource(code, "script").replace(
-				/TEMPLATE_PLACEHOLDER/,
-				`template: \`${getSource(code, "template")}\``
-			);
-		}
-		return splitCode();
-	},
-	async asyncExecFnString(url) {
-		const data = await privateLodash.asyncLoadText(url);
-		return privateLodash.parseContent(data);
-	},
-	doNothing: (...args2) => {
-		var _a;
-		if (localStorage.isShowDevLog) {
-			const e = new Error();
-			console.log(
-				"\u{1F680}:",
-				(_a = e == null ? void 0 : e.stack) == null
-					? void 0
-					: _a.split("\n")[2].replace("    at ", "")
-			);
-			console.log.apply(console, args2);
-		}
-	},
-	sleep: t => new Promise(r => setTimeout(r, t)),
-	isOn: key => onRE.test(key),
-	isModelListener: key => {
-		key = String(key);
-		if (!key) {
-			return false;
-		}
-		return key.startsWith("onUpdate:");
-	},
-	isListener: key => {
-		key = String(key);
-		if (!key) {
-			return false;
-		}
-		return privateLodash.isOn(key) || privateLodash.isModelListener(key);
-	},
-	isArrayFill: arr => {
-		if (Array.isArray(arr)) {
-			if (arr.length > 0) {
-				return true;
-			}
-		}
-		return false;
-	},
-	isObjectFill: obj =>
-		privateLodash.isPlainObject(obj) && Object.keys(obj).length > 0,
-	safeFirst: (arr, fnCheck) => {
-		fnCheck = fnCheck || (value => privateLodash.isInput(value));
-		const obj = privateLodash.first(arr);
-		return fnCheck(obj) ? obj : false;
-	},
-	safeToString: (val, isBeautiful = false) => {
-		try {
-			if (isBeautiful) {
-				return JSON.stringify(val, null, 2);
-			} else {
-				return JSON.stringify(val);
-			}
-		} catch (error) {
-			return "";
-		}
-	},
-	safeParse: (val, defaultObj) => {
-		let obj = defaultObj;
-		try {
-			obj = JSON.parse(val);
-			if (!val) {
-				obj = defaultObj;
-				throw new Error("json parse error");
-			}
-		} catch (error) {
-			privateLodash.doNothing(error);
-		}
-		return obj;
-	},
-	safeSplit: (target, sp = "") => {
-		return (target == null ? void 0 : target.split) ? target.split(sp) : [];
-	},
-	safeDate: val => {
-		if (!val) {
-			return "";
-		}
-		let date = dayjs(val);
-		if (date === privateLodash.WORDS.INVALID_DATE) {
-			return "";
-		} else {
-			return date;
-		}
-	},
-	isInput: val => {
-		if (val === void 0) {
-			return false;
-		}
-		val = JSON.parse(JSON.stringify(val));
-		if (val === 0) {
-			return true;
-		}
-		if (val === false) {
-			return true;
-		}
-		if (privateLodash.isArray(val)) {
-			return val.length > 0;
-		} else if (val) {
-			return true;
-		}
-		return false;
-	},
-	is$Selected: $ele => $ele && $ele.jquery && $ele.length > 0,
-	getObjectFirstKeyValue: (obj, defaultValue) => {
-		if (!obj) {
-			return defaultValue;
-		}
-		const keyArray = Object.keys(obj);
-		if (!privateLodash.isArrayFill(keyArray)) return defaultValue;
-		const prop = keyArray[0];
-		return privateLodash.isInput(prop) && obj[prop] ? obj[prop] : defaultValue;
-	},
-	loadCss(cssname) {
-		const cssPath = `${cssname}`;
-		let $link = $("<link/>", { rel: "stylesheet", type: "text/css" });
-		$link.appendTo($("head"));
-		$link[0].href = `${cssPath}?_t=${Date.now()}`;
-		return () => {
-			$link.remove();
-			$link = null;
-		};
-	},
-	async asyncLoadStyle(cssURL, options) {
-		let { isReplace, id } = options || { isReplace: false, id: "" };
-		id = id || _.camelCase(cssURL);
-		let content;
-		const $style = $(`#${id}`);
-		if ($style.length == 0) {
-			$("body").append($("<style/>", { id }));
-			content = await privateLodash.asyncLoadText(cssURL);
-			$style.html(content);
-		} else if (isReplace) {
-			content = await privateLodash.asyncLoadText(cssURL);
-			$style.html(content);
-		}
-	},
-	asyncLoadText: async function (url) {
-		if (localStorage.___VENTOSE_UI_IS_DEV_MODE !== "VENTOSE_UI_IS_DEV_MODE") {
-			const res = await iStorage(url);
-			if (res) {
-				return res;
-			}
-		}
-		return new Promise((resolve, reject) =>
-			$.ajax({
-				type: "GET",
-				async: true,
-				url,
-				dataType: "text",
-				success(...args2) {
-					if (
-						localStorage.___VENTOSE_UI_IS_DEV_MODE !== "VENTOSE_UI_IS_DEV_MODE"
-					) {
-						iStorage(url, args2[0]);
-					}
-					resolve.apply(null, args2);
-				},
-				error: reject
-			})
-		);
-	},
-	asyncLoadJS: async (url, globalName) => {
-		if (window[globalName]) {
-			return window[globalName];
-		}
-		const $style = $("<style/>").attr("id", `asyncLoadJS_${globalName}`);
-		$style.appendTo($("body")).on("load", function () {
-			return window[globalName];
-		});
-		$style.attr("src", url);
-	},
-	asyncGlobalJS: async (globalName, url) => {
-		if (window[globalName]) {
-			return window[globalName];
-		}
-		if (!url) {
-			alert("asyncGlobalJS miss url " + globalName);
-			return {};
-		}
-		const jsString = await privateLodash.asyncLoadText(url);
-		const fn = new Function(`with(window){${jsString}}`);
-		fn();
-		return window[globalName];
-	},
-	ensureValueDone: async fnGetValue => {
-		return new Promise(async resolve => {
-			let exeFnGetValue = async function () {
-				const value = await fnGetValue();
-				if (value) {
-					exeFnGetValue = null;
-					resolve(value);
-				} else {
-					setTimeout(exeFnGetValue, 1e3 * exeFnGetValue.count++);
-				}
-			};
-			exeFnGetValue.count = 1;
-			exeFnGetValue();
-		});
-	},
-	genProp: someString => {
-		return `k${privateLodash.camelCase(someString)}`;
-	},
-	dateFormat: (date, format = "YYYY-MM-DD") => {
-		if (typeof date === "number") {
-			date = dayjs.unix(date);
-		}
-		if (format === 1) {
-			format = "YYYY-MM-DD HH:mm:ss";
-		}
-		const label = dayjs(date).format(format);
-		return label === privateLodash.WORDS.INVALID_DATE ? "--" : label;
-	},
-	keepDecimals: function (val, fractionDigits) {
-		let num = Number((val * 100) / 1024 / 100).toFixed(fractionDigits);
-		if (num === "NaN") {
-			num = "-";
-		}
-		return num;
-	},
-	valueToLabel: function (value, options) {
-		const target = privateLodash.find(options, {
-			value
-		});
-		if (target) {
-			return target.label;
-		} else {
-			return "--";
-		}
-	},
-	timego: function (timestamp) {
-		let minutes, hours, days, seconds, mouth, year;
-		const timeNow = parseInt(new Date().getTime() / 1e3);
-		seconds = timeNow - timestamp;
-		if (seconds > 86400 * 30 * 12) {
-			year = parseInt(seconds / (86400 * 30 * 12));
-		} else {
-			year = 0;
-		}
-		if (seconds > 86400 * 30) {
-			mouth = parseInt(seconds / (86400 * 30));
-		} else {
-			mouth = 0;
-		}
-		if (seconds > 86400) {
-			days = parseInt(seconds / 86400);
-		} else {
-			days = 0;
-		}
-		if (seconds > 3600) {
-			hours = parseInt(seconds / 3600);
-		} else {
-			hours = 0;
-		}
-		minutes = parseInt(seconds / 60);
-		if (year > 0) {
-			return year + "\u5E74\u524D";
-		} else if (mouth > 0 && year <= 0) {
-			return mouth + "\u6708\u524D";
-		} else if (days > 0 && mouth <= 0) {
-			return days + "\u5929\u524D";
-		} else if (days <= 0 && hours > 0) {
-			return hours + "\u5C0F\u65F6\u524D";
-		} else if (hours <= 0 && minutes > 0) {
-			return minutes + "\u5206\u949F\u524D";
-		} else if (minutes <= 0 && seconds > 0) {
-			if (seconds < 30) {
-				return "\u521A\u521A";
-			} else {
-				return seconds + "\u79D2\u524D";
-			}
-		} else {
-			return "\u521A\u521A";
-		}
-	},
-	htmlFilter: html => {
-		if (!html) return;
-		let reg = /<\/?.+?\/?>/g;
-		return html.replace(reg, "") || "";
-	},
-	MutatingProps: (item, prop, val = null) => {
-		item = item || {};
-		const propArray = prop.split(".");
-		let key = "";
-		let nextItem = item;
-		const setVal = () => {
-			while ((key = propArray.shift())) {
-				if (!key) {
-					debugger;
-				}
-				if (propArray.length === 0) {
-					nextItem[key] = val;
-					return;
-				} else {
-					const _nextItem = nextItem[key];
-					if (!_nextItem) {
-						nextItem[key] = {};
-					}
-					nextItem = nextItem[key];
-				}
-			}
-		};
-		const getVal = () => {
-			while ((key = propArray.shift())) {
-				const _nextItem = nextItem[key];
-				if (!_nextItem) {
-					return nextItem[key];
-				} else {
-					if (propArray.length === 0) {
-						return _nextItem;
-					} else {
-						nextItem = nextItem[key];
-					}
-				}
-			}
-			return nextItem;
-		};
-		if (
-			val ||
-			privateLodash.isString(val) ||
-			privateLodash.isBoolean(val) ||
-			(privateLodash.isNumber(val) && !privateLodash.isNaN(val))
-		) {
-			setVal();
-		} else {
-			return getVal();
-		}
-		return item;
-	}
+    );
+    const scfObj = await scfObjAsyncFn(__Vue, {
+      url
+    });
+    return scfObj;
+  },
+  parseContent: (returnSentence) => {
+    if (!returnSentence)
+      return;
+    return new Function(`${returnSentence} return module();`);
+  },
+  payloadIdCount: 1,
+  payloadIdCountMax: 4e4,
+  payloadDateNow: Date.now(),
+  genId: (category) => {
+    const { payloadIdCount, payloadIdCountMax, payloadDateNow } = privateLodash;
+    if (payloadIdCount > payloadIdCountMax) {
+      privateLodash.payloadIdCount = 1;
+      privateLodash.payloadDateNow = Date.now();
+    }
+    return `${category}_${payloadDateNow}_${privateLodash.payloadIdCount++}`;
+  },
+  VueLoader: (code) => {
+    function getSource(source, type2) {
+      var regex = new RegExp("<" + type2 + "[^>]*>");
+      var openingTag = source.match(regex);
+      if (!openingTag)
+        return "";
+      else
+        openingTag = openingTag[0];
+      var targetSource = source.slice(
+        source.indexOf(openingTag) + openingTag.length,
+        source.lastIndexOf("</" + type2 + ">")
+      );
+      return type2 === "template" ? targetSource.replace(/`/g, "\\`") : targetSource;
+    }
+    function splitCode() {
+      if (!/TEMPLATE_PLACEHOLDER/.test(code)) {
+        alert("SFC miss TEMPLATE_PLACEHOLDER");
+        console.error(code);
+      }
+      return getSource(code, "script").replace(
+        /TEMPLATE_PLACEHOLDER/,
+        `template: \`${getSource(code, "template")}\``
+      );
+    }
+    return splitCode();
+  },
+  async asyncExecFnString(url) {
+    const data = await privateLodash.asyncLoadText(url);
+    return privateLodash.parseContent(data);
+  },
+  doNothing: (...args2) => {
+    var _a;
+    if (localStorage.isShowDevLog) {
+      const e = new Error();
+      console.log("\u{1F680}:", (_a = e == null ? void 0 : e.stack) == null ? void 0 : _a.split("\n")[2].replace("    at ", ""));
+      console.log.apply(console, args2);
+    }
+  },
+  sleep: (t) => new Promise((r) => setTimeout(r, t)),
+  isOn: (key) => onRE.test(key),
+  isModelListener: (key) => {
+    key = String(key);
+    if (!key) {
+      return false;
+    }
+    return key.startsWith("onUpdate:");
+  },
+  isListener: (key) => {
+    key = String(key);
+    if (!key) {
+      return false;
+    }
+    return privateLodash.isOn(key) || privateLodash.isModelListener(key);
+  },
+  isArrayFill: (arr) => {
+    if (Array.isArray(arr)) {
+      if (arr.length > 0) {
+        return true;
+      }
+    }
+    return false;
+  },
+  isObjectFill: (obj) => privateLodash.isPlainObject(obj) && Object.keys(obj).length > 0,
+  safeFirst: (arr, fnCheck) => {
+    fnCheck = fnCheck || ((value) => privateLodash.isInput(value));
+    const obj = privateLodash.first(arr);
+    return fnCheck(obj) ? obj : false;
+  },
+  safeToString: (val, isBeautiful = false) => {
+    try {
+      if (isBeautiful) {
+        return JSON.stringify(val, null, 2);
+      } else {
+        return JSON.stringify(val);
+      }
+    } catch (error) {
+      return "";
+    }
+  },
+  safeParse: (val, defaultObj) => {
+    let obj = defaultObj;
+    try {
+      obj = JSON.parse(val);
+      if (!val) {
+        obj = defaultObj;
+        throw new Error("json parse error");
+      }
+    } catch (error) {
+      privateLodash.doNothing(error);
+    }
+    return obj;
+  },
+  safeSplit: (target, sp = "") => {
+    return (target == null ? void 0 : target.split) ? target.split(sp) : [];
+  },
+  safeDate: (val) => {
+    if (!val) {
+      return "";
+    }
+    let date = dayjs(val);
+    if (date === privateLodash.WORDS.INVALID_DATE) {
+      return "";
+    } else {
+      return date;
+    }
+  },
+  isInput: (val) => {
+    if (val === void 0) {
+      return false;
+    }
+    val = JSON.parse(JSON.stringify(val));
+    if (val === 0) {
+      return true;
+    }
+    if (val === false) {
+      return true;
+    }
+    if (privateLodash.isArray(val)) {
+      return val.length > 0;
+    } else if (val) {
+      return true;
+    }
+    return false;
+  },
+  is$Selected: ($ele) => $ele && $ele.jquery && $ele.length > 0,
+  getObjectFirstKeyValue: (obj, defaultValue) => {
+    if (!obj) {
+      return defaultValue;
+    }
+    const keyArray = Object.keys(obj);
+    if (!privateLodash.isArrayFill(keyArray))
+      return defaultValue;
+    const prop = keyArray[0];
+    return privateLodash.isInput(prop) && obj[prop] ? obj[prop] : defaultValue;
+  },
+  loadCss(cssname) {
+    const cssPath = `${cssname}`;
+    let $link = $("<link/>", { rel: "stylesheet", type: "text/css" });
+    $link.appendTo($("head"));
+    $link[0].href = `${cssPath}?_t=${Date.now()}`;
+    return () => {
+      $link.remove();
+      $link = null;
+    };
+  },
+  async asyncLoadStyle(cssURL, options) {
+    let { isReplace, id } = options || { isReplace: false, id: "" };
+    id = id || _.camelCase(cssURL);
+    let content;
+    const $style = $(`#${id}`);
+    if ($style.length == 0) {
+      $("body").append($("<style/>", { id }));
+      content = await privateLodash.asyncLoadText(cssURL);
+      $style.html(content);
+    } else if (isReplace) {
+      content = await privateLodash.asyncLoadText(cssURL);
+      $style.html(content);
+    }
+  },
+  asyncLoadText: async function(url) {
+    if (localStorage.___VENTOSE_UI_IS_DEV_MODE !== "VENTOSE_UI_IS_DEV_MODE") {
+      const res = await iStorage(url);
+      if (res) {
+        return res;
+      }
+    }
+    return new Promise(
+      (resolve, reject) => $.ajax({
+        type: "GET",
+        async: true,
+        url,
+        dataType: "text",
+        success(...args2) {
+          if (localStorage.___VENTOSE_UI_IS_DEV_MODE !== "VENTOSE_UI_IS_DEV_MODE") {
+            iStorage(url, args2[0]);
+          }
+          resolve.apply(null, args2);
+        },
+        error: reject
+      })
+    );
+  },
+  asyncLoadJS: async (url, globalName) => {
+    if (window[globalName]) {
+      return window[globalName];
+    }
+    const $style = $("<style/>").attr("id", `asyncLoadJS_${globalName}`);
+    $style.appendTo($("body")).on("load", function() {
+      return window[globalName];
+    });
+    $style.attr("src", url);
+  },
+  asyncGlobalJS: async (globalName, url) => {
+    if (window[globalName]) {
+      return window[globalName];
+    }
+    if (!url) {
+      alert("asyncGlobalJS miss url " + globalName);
+      return {};
+    }
+    const jsString = await privateLodash.asyncLoadText(url);
+    const fn = new Function(`with(window){${jsString}}`);
+    fn();
+    return window[globalName];
+  },
+  ensureValueDone: async (fnGetValue) => {
+    return new Promise(async (resolve) => {
+      let exeFnGetValue = async function() {
+        const value = await fnGetValue();
+        if (value) {
+          exeFnGetValue = null;
+          resolve(value);
+        } else {
+          setTimeout(exeFnGetValue, 1e3 * exeFnGetValue.count++);
+        }
+      };
+      exeFnGetValue.count = 1;
+      exeFnGetValue();
+    });
+  },
+  genProp: (someString) => {
+    return `k${privateLodash.camelCase(someString)}`;
+  },
+  dateFormat: (date, format = "YYYY-MM-DD") => {
+    if (typeof date === "number") {
+      date = dayjs.unix(date);
+    }
+    if (format === 1) {
+      format = "YYYY-MM-DD HH:mm:ss";
+    }
+    const label = dayjs(date).format(format);
+    return label === privateLodash.WORDS.INVALID_DATE ? "--" : label;
+  },
+  keepDecimals: function(val, fractionDigits) {
+    let num = Number(val * 100 / 1024 / 100).toFixed(fractionDigits);
+    if (num === "NaN") {
+      num = "-";
+    }
+    return num;
+  },
+  valueToLabel: function(value, options) {
+    const target = privateLodash.find(options, {
+      value
+    });
+    if (target) {
+      return target.label;
+    } else {
+      return "--";
+    }
+  },
+  timego: function(timestamp) {
+    let minutes, hours, days, seconds, mouth, year;
+    const timeNow = parseInt(new Date().getTime() / 1e3);
+    seconds = timeNow - timestamp;
+    if (seconds > 86400 * 30 * 12) {
+      year = parseInt(seconds / (86400 * 30 * 12));
+    } else {
+      year = 0;
+    }
+    if (seconds > 86400 * 30) {
+      mouth = parseInt(seconds / (86400 * 30));
+    } else {
+      mouth = 0;
+    }
+    if (seconds > 86400) {
+      days = parseInt(seconds / 86400);
+    } else {
+      days = 0;
+    }
+    if (seconds > 3600) {
+      hours = parseInt(seconds / 3600);
+    } else {
+      hours = 0;
+    }
+    minutes = parseInt(seconds / 60);
+    if (year > 0) {
+      return year + "\u5E74\u524D";
+    } else if (mouth > 0 && year <= 0) {
+      return mouth + "\u6708\u524D";
+    } else if (days > 0 && mouth <= 0) {
+      return days + "\u5929\u524D";
+    } else if (days <= 0 && hours > 0) {
+      return hours + "\u5C0F\u65F6\u524D";
+    } else if (hours <= 0 && minutes > 0) {
+      return minutes + "\u5206\u949F\u524D";
+    } else if (minutes <= 0 && seconds > 0) {
+      if (seconds < 30) {
+        return "\u521A\u521A";
+      } else {
+        return seconds + "\u79D2\u524D";
+      }
+    } else {
+      return "\u521A\u521A";
+    }
+  },
+  htmlFilter: (html) => {
+    if (!html)
+      return;
+    let reg = /<\/?.+?\/?>/g;
+    return html.replace(reg, "") || "";
+  },
+  MutatingProps: (item, prop, val = null) => {
+    item = item || {};
+    const propArray = prop.split(".");
+    let key = "";
+    let nextItem = item;
+    const setVal = () => {
+      while (key = propArray.shift()) {
+        if (!key) {
+          debugger;
+        }
+        if (propArray.length === 0) {
+          nextItem[key] = val;
+          return;
+        } else {
+          const _nextItem = nextItem[key];
+          if (!_nextItem) {
+            nextItem[key] = {};
+          }
+          nextItem = nextItem[key];
+        }
+      }
+    };
+    const getVal = () => {
+      while (key = propArray.shift()) {
+        const _nextItem = nextItem[key];
+        if (!_nextItem) {
+          return nextItem[key];
+        } else {
+          if (propArray.length === 0) {
+            return _nextItem;
+          } else {
+            nextItem = nextItem[key];
+          }
+        }
+      }
+      return nextItem;
+    };
+    if (val || privateLodash.isString(val) || privateLodash.isBoolean(val) || privateLodash.isNumber(val) && !privateLodash.isNaN(val)) {
+      setVal();
+    } else {
+      return getVal();
+    }
+    return item;
+  }
 };
 function promisifyRequest(request) {
-	return new Promise((resolve, reject) => {
-		request.oncomplete = request.onsuccess = () => resolve(request.result);
-		request.onabort = request.onerror = () => reject(request.error);
-	});
+  return new Promise((resolve, reject) => {
+    request.oncomplete = request.onsuccess = () => resolve(request.result);
+    request.onabort = request.onerror = () => reject(request.error);
+  });
 }
 function createStore(dbName, storeName) {
-	const request = indexedDB.open(dbName);
-	request.onupgradeneeded = () => request.result.createObjectStore(storeName);
-	const dbp = promisifyRequest(request);
-	return (txMode, callback) =>
-		dbp.then(db =>
-			callback(db.transaction(storeName, txMode).objectStore(storeName))
-		);
+  const request = indexedDB.open(dbName);
+  request.onupgradeneeded = () => request.result.createObjectStore(storeName);
+  const dbp = promisifyRequest(request);
+  return (txMode, callback) => dbp.then((db) => callback(db.transaction(storeName, txMode).objectStore(storeName)));
 }
 let defaultGetStoreFunc;
 function defaultGetStore() {
-	if (!defaultGetStoreFunc) {
-		defaultGetStoreFunc = createStore("keyval-store", "keyval");
-	}
-	return defaultGetStoreFunc;
+  if (!defaultGetStoreFunc) {
+    defaultGetStoreFunc = createStore("keyval-store", "keyval");
+  }
+  return defaultGetStoreFunc;
 }
 function get(key, customStore = defaultGetStore()) {
-	return customStore("readonly", store => promisifyRequest(store.get(key)));
+  return customStore("readonly", (store) => promisifyRequest(store.get(key)));
 }
 function set(key, value, customStore = defaultGetStore()) {
-	return customStore("readwrite", store => {
-		store.put(value, key);
-		return promisifyRequest(store.transaction);
-	});
+  return customStore("readwrite", (store) => {
+    store.put(value, key);
+    return promisifyRequest(store.transaction);
+  });
 }
 const lStorage = new Proxy(localStorage, {
-	set(_localStorage, prop, value) {
-		if (privateLodash.isPlainObject(value)) {
-			_localStorage[prop] = JSON.stringify(value);
-		} else {
-			_localStorage[prop] = value;
-		}
-		return true;
-	},
-	get(_localStorage, prop) {
-		const objString = _localStorage[prop];
-		try {
-			return JSON.parse(objString);
-		} catch (error) {
-			if (objString === "undefined") {
-				return false;
-			}
-			return objString || false;
-		}
-	}
+  set(_localStorage, prop, value) {
+    if (privateLodash.isPlainObject(value)) {
+      _localStorage[prop] = JSON.stringify(value);
+    } else {
+      _localStorage[prop] = value;
+    }
+    return true;
+  },
+  get(_localStorage, prop) {
+    const objString = _localStorage[prop];
+    try {
+      return JSON.parse(objString);
+    } catch (error) {
+      if (objString === "undefined") {
+        return false;
+      }
+      return objString || false;
+    }
+  }
 });
 lStorage.appConfigs = lStorage.appConfigs || {
-	pagination: {
-		page: "page",
-		size: "size",
-		total: "total"
-	}
+  pagination: {
+    page: "page",
+    size: "size",
+    total: "total"
+  }
 };
 const iStorage = async (key, val) => {
-	const keyPrefix = window.location.hostname;
-	key = privateLodash.camelCase(keyPrefix + key);
-	let res;
-	try {
-		if (privateLodash.isInput(val)) {
-			await set(key, val);
-			res = true;
-		} else {
-			res = await get(key);
-		}
-	} catch (error) {
-		console.error(error);
-	} finally {
-		return res;
-	}
+  const keyPrefix = window.location.hostname;
+  key = privateLodash.camelCase(keyPrefix + key);
+  let res;
+  try {
+    if (privateLodash.isInput(val)) {
+      await set(key, val);
+      res = true;
+    } else {
+      res = await get(key);
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    return res;
+  }
 };
 let _State_UI = {
-	language: lStorage["language"] || "zh-CN",
-	onLanguageChange: false,
-	LANGUAGE: {
-		enUs: defaultLocale,
-		zhCn: zhCn$1
-	},
-	i18nMessage: {},
-	assetsSvgPath: "",
-	assetsPath: "",
-	bashPath: "",
-	setAssetsBaseById(eleId) {
-		var _a;
-		const img = document.getElementById(eleId);
-		if (img) {
-			const src = String(img.href);
-			const index2 =
-				((_a = src.match(/assets(.*)/)) == null ? void 0 : _a.index) || 0;
-			this.assetsSvgPath = src.substring(0, index2) + "assets/svg";
-			this.assetsPath = src.substring(0, index2) + "assets";
-			this.bashPath = src.substring(0, index2);
-		}
-	},
-	$t(prop, payload = {}, i18nMessage = false) {
-		const result = {
-			label: prop,
-			prop
-		};
-		privateLodash.templateSettings.interpolate = /{([\s\S]+?)}/g;
-		if (State_UI.i18nMessage) {
-			const temp = i18nMessage ? i18nMessage[prop] : State_UI.i18nMessage[prop];
-			if (temp) {
-				result.label = privateLodash.template(temp)(payload);
-				if (!result.label) {
-					result.label = prop;
-					console.error(`i18n:${prop} "NOT_FOUND"`);
-				}
-			}
-		}
-		return result;
-	}
+  language: lStorage["language"] || "zh-CN",
+  onLanguageChange: false,
+  LANGUAGE: {
+    enUs: defaultLocale,
+    zhCn: zhCn$1
+  },
+  i18nMessage: {},
+  assetsSvgPath: "",
+  assetsPath: "",
+  bashPath: "",
+  setAssetsBaseById(eleId) {
+    var _a;
+    const img = document.getElementById(eleId);
+    if (img) {
+      const src = String(img.href);
+      const index2 = ((_a = src.match(/assets(.*)/)) == null ? void 0 : _a.index) || 0;
+      this.assetsSvgPath = src.substring(0, index2) + "assets/svg";
+      this.assetsPath = src.substring(0, index2) + "assets";
+      this.bashPath = src.substring(0, index2);
+    }
+  },
+  $t(prop, payload = {}, i18nMessage = false) {
+    const result = {
+      label: prop,
+      prop
+    };
+    privateLodash.templateSettings.interpolate = /{([\s\S]+?)}/g;
+    if (State_UI.i18nMessage) {
+      const temp = i18nMessage ? i18nMessage[prop] : State_UI.i18nMessage[prop];
+      if (temp) {
+        result.label = privateLodash.template(temp)(payload);
+        if (!result.label) {
+          result.label = prop;
+          console.error(`i18n:${prop} "NOT_FOUND"`);
+        }
+      }
+    }
+    return result;
+  }
 };
 const State_UI = reactive(_State_UI);
-watch(
-	() => State_UI.language,
-	language => {
-		lStorage["language"] = language;
-		dayjs.locale(language === "zh-CN" ? "zh-cn" : "en");
-		if (State_UI.onLanguageChange) {
-			State_UI.onLanguageChange(language, State_UI);
-		}
-	},
-	{
-		immediate: true
-	}
-);
-const Cpt_UI_locale = computed(() => {
-	const currentLanguage = privateLodash.camelCase(State_UI.language);
-	const locale2 = State_UI.LANGUAGE[currentLanguage];
-	return locale2;
+watch(() => State_UI.language, (language) => {
+  lStorage["language"] = language;
+  dayjs.locale(language === "zh-CN" ? "zh-cn" : "en");
+  if (State_UI.onLanguageChange) {
+    State_UI.onLanguageChange(language, State_UI);
+  }
+}, {
+  immediate: true
 });
-const DatePicker = ({ property, slots, listeners }) => {
-	let value = "";
-	if (property.value) {
-		value = dayjs(property.value);
-		privateLodash.doNothing(value, property.value);
-		if (value === "Invalid Date") {
-			privateLodash.doNothing("property.value", property.value);
-			value = "";
-		}
-	}
-	return createVNode(
-		DatePicker$3,
-		mergeProps(property, listeners, {
-			value: value,
-			locale: Cpt_UI_locale.value.DatePicker
-		}),
-		slots
-	);
+const Cpt_UI_locale = computed(() => {
+  const currentLanguage = privateLodash.camelCase(State_UI.language);
+  const locale2 = State_UI.LANGUAGE[currentLanguage];
+  return locale2;
+});
+const DatePicker = ({
+  property,
+  slots,
+  listeners
+}) => {
+  let value = "";
+  if (property.value) {
+    value = dayjs(property.value);
+    privateLodash.doNothing(value, property.value);
+    if (value === "Invalid Date") {
+      privateLodash.doNothing("property.value", property.value);
+      value = "";
+    }
+  }
+  return createVNode(DatePicker$3, mergeProps(property, listeners, {
+    "value": value,
+    "locale": Cpt_UI_locale.value.DatePicker
+  }), slots);
 };
-const RangePicker = ({ property, slots, listeners }) => {
-	const RangePicker2 = resolveComponent("aRangePicker");
-	console.log("property", property.value);
-	return createVNode(
-		RangePicker2,
-		mergeProps(property, listeners, {
-			locale: Cpt_UI_locale.value.DatePicker
-		}),
-		slots
-	);
+const RangePicker = ({
+  property,
+  slots,
+  listeners
+}) => {
+  const RangePicker2 = resolveComponent("aRangePicker");
+  console.log("property", property.value);
+  return createVNode(RangePicker2, mergeProps(property, listeners, {
+    "locale": Cpt_UI_locale.value.DatePicker
+  }), slots);
 };
 const EVENT_TYPE = {
-	validateForm: "validateForm",
-	update: "update",
-	change: "change",
-	input: "input",
-	blur: "blur",
-	focus: "focus"
+  validateForm: "validateForm",
+  update: "update",
+  change: "change",
+  input: "input",
+  blur: "blur",
+  focus: "focus"
 };
 const TIPS_TYPE = {
-	success: "success",
-	error: "error"
+  success: "success",
+  error: "error"
 };
 async function validateForm(configsForm) {
-	return Promise.all(
-		privateLodash.map(
-			configsForm,
-			(configs, prop) =>
-				new Promise(resolve => {
-					if (privateLodash.isInput(configs.isShow)) {
-						const isFalse = !configs.isShow;
-						if (isFalse) {
-							return resolve();
-						}
-						const isResFalse =
-							privateLodash.isFunction(configs.isShow) && !configs.isShow();
-						if (isResFalse) {
-							return resolve();
-						}
-					}
-					if (configs.validate) {
-						configs.__onAfterValidate = function (result) {
-							delete configs.__onAfterValidate;
-							resolve(result);
-						};
-						configs.validate.call(configs, EVENT_TYPE.validateForm);
-					} else {
-						resolve();
-					}
-				})
-		)
-	)
-		.then(results => {
-			results = results.filter(res => res && res[0] && res[1]);
-			return results;
-		})
-		.catch(error => {
-			return error;
-		});
+  return Promise.all(
+    privateLodash.map(
+      configsForm,
+      (configs, prop) => new Promise((resolve) => {
+        if (privateLodash.isInput(configs.isShow)) {
+          const isFalse = !configs.isShow;
+          if (isFalse) {
+            return resolve();
+          }
+          const isResFalse = privateLodash.isFunction(configs.isShow) && !configs.isShow();
+          if (isResFalse) {
+            return resolve();
+          }
+        }
+        if (configs.validate) {
+          configs.__onAfterValidate = function(result) {
+            delete configs.__onAfterValidate;
+            resolve(result);
+          };
+          configs.validate.call(configs, EVENT_TYPE.validateForm);
+        } else {
+          resolve();
+        }
+      })
+    )
+  ).then((results) => {
+    results = results.filter((res) => res && res[0] && res[1]);
+    return results;
+  }).catch((error) => {
+    return error;
+  });
 }
-const AllWasWell = res => {
-	return privateLodash.isArray(res) && res.length === 0;
+const AllWasWell = (res) => {
+  return privateLodash.isArray(res) && res.length === 0;
 };
 const checkXItem = async (xItemConfigs, handlerResult) => {
-	xItemConfigs.checking = true;
-	let result;
-	try {
-		const { rules, prop } = xItemConfigs;
-		result = await (async () => {
-			let dontCheck = 0;
-			for (const element of rules) {
-				const rule = element;
-				const trigger = rule.trigger || [];
-				let isFail = await (async () => {
-					let trigBy;
-					const isNeedVerify = (() => {
-						if (
-							xItemConfigs.validate.triggerEventsObj[EVENT_TYPE.validateForm]
-						) {
-							trigBy = "validateForm";
-							return true;
-						}
-						const isInTrigger = eventName =>
-							xItemConfigs.validate.triggerEventsObj[eventName];
-						if (privateLodash.some(trigger, isInTrigger)) {
-							trigBy = `triggerEvent ${trigger.toString()}`;
-							return true;
-						}
-						if (trigger.includes(EVENT_TYPE.update)) {
-							const updateTrigger = [
-								EVENT_TYPE.change,
-								EVENT_TYPE.input,
-								EVENT_TYPE.blur
-							];
-							if (privateLodash.some(updateTrigger, isInTrigger)) {
-								trigBy = "update";
-								return true;
-							}
-						}
-						return false;
-					})();
-					trigBy &&
-						privateLodash.doNothing(
-							`%cValidate trigger off by [${trigBy}]`,
-							"color:yellow;background:green;"
-						);
-					if (isNeedVerify) {
-						const validateResult = await rule.validator(
-							JSON.parse(JSON.stringify(xItemConfigs.value)),
-							{
-								configs: xItemConfigs,
-								rule
-							}
-						);
-						if (validateResult) {
-							return validateResult;
-						}
-					} else {
-						dontCheck++;
-					}
-					return false;
-				})();
-				if (isFail) {
-					return [prop, rule.msg, xItemConfigs.FormItemId];
-				}
-			}
-			if (dontCheck === rules.length) {
-				return [false, false];
-			} else {
-				return [prop, false];
-			}
-		})();
-		handlerResult(result);
-	} catch (error) {
-		console.error(error);
-	} finally {
-		if (privateLodash.isFunction(xItemConfigs.__onAfterValidate)) {
-			xItemConfigs.__onAfterValidate.call(xItemConfigs, result);
-		}
-		xItemConfigs.validate.triggerEventsObj = {};
-	}
+  xItemConfigs.checking = true;
+  let result;
+  try {
+    const { rules, prop } = xItemConfigs;
+    result = await (async () => {
+      let dontCheck = 0;
+      for (const element of rules) {
+        const rule = element;
+        const trigger = rule.trigger || [];
+        let isFail = await (async () => {
+          let trigBy;
+          const isNeedVerify = (() => {
+            if (xItemConfigs.validate.triggerEventsObj[EVENT_TYPE.validateForm]) {
+              trigBy = "validateForm";
+              return true;
+            }
+            const isInTrigger = (eventName) => xItemConfigs.validate.triggerEventsObj[eventName];
+            if (privateLodash.some(trigger, isInTrigger)) {
+              trigBy = `triggerEvent ${trigger.toString()}`;
+              return true;
+            }
+            if (trigger.includes(EVENT_TYPE.update)) {
+              const updateTrigger = [
+                EVENT_TYPE.change,
+                EVENT_TYPE.input,
+                EVENT_TYPE.blur
+              ];
+              if (privateLodash.some(updateTrigger, isInTrigger)) {
+                trigBy = "update";
+                return true;
+              }
+            }
+            return false;
+          })();
+          trigBy && privateLodash.doNothing(
+            `%cValidate trigger off by [${trigBy}]`,
+            "color:yellow;background:green;"
+          );
+          if (isNeedVerify) {
+            const validateResult = await rule.validator(
+              JSON.parse(JSON.stringify(xItemConfigs.value)),
+              {
+                configs: xItemConfigs,
+                rule
+              }
+            );
+            if (validateResult) {
+              return validateResult;
+            }
+          } else {
+            dontCheck++;
+          }
+          return false;
+        })();
+        if (isFail) {
+          return [prop, rule.msg, xItemConfigs.FormItemId];
+        }
+      }
+      if (dontCheck === rules.length) {
+        return [false, false];
+      } else {
+        return [prop, false];
+      }
+    })();
+    handlerResult(result);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    if (privateLodash.isFunction(xItemConfigs.__onAfterValidate)) {
+      xItemConfigs.__onAfterValidate.call(xItemConfigs, result);
+    }
+    xItemConfigs.validate.triggerEventsObj = {};
+  }
 };
-const Checkbox = ({ property }) => {
-	const _property = xU.merge({}, property, {
-		checked: property.value,
-		onClick() {
-			_property["onUpdate:value"](!_property.value, EVENT_TYPE.update);
-		}
-	});
-	return h(Checkbox$1, _property);
+const Checkbox = ({
+  property
+}) => {
+  const _property = xU.merge({}, property, {
+    checked: property.value,
+    onClick() {
+      _property["onUpdate:value"](!_property.value, EVENT_TYPE.update);
+    }
+  });
+  return h(Checkbox$1, _property);
 };
-const Select = ({ property, listeners }) => {
-	const Select2 = resolveComponent("aSelect");
-	const SelectOption = resolveComponent("aSelectOption");
-	const _property = privateLodash.omit(property, ["options"]);
-	const renderOptions = () => {
-		return privateLodash.map(property.options, option => {
-			return createVNode(
-				SelectOption,
-				{
-					value: option.value
-				},
-				{
-					default: () => [option.label]
-				}
-			);
-		});
-	};
-	return createVNode(Select2, mergeProps(listeners, _property), {
-		default: renderOptions
-	});
+const Select = ({
+  property,
+  listeners
+}) => {
+  const Select2 = resolveComponent("aSelect");
+  const SelectOption = resolveComponent("aSelectOption");
+  const _property = privateLodash.omit(property, ["options"]);
+  const renderOptions = () => {
+    return privateLodash.map(property.options, (option) => {
+      return createVNode(SelectOption, {
+        "value": option.value
+      }, {
+        default: () => [option.label]
+      });
+    });
+  };
+  return createVNode(Select2, mergeProps(listeners, _property), {
+    default: renderOptions
+  });
 };
-const RadioGroup = ({ property, slots, listeners }) => {
-	const Radio = resolveComponent("aRadio");
-	const RadioGroup2 = resolveComponent("aRadioGroup");
-	const RadioButton = resolveComponent("aRadioButton");
-	const PROPERTY_OPTIONS = property.options;
-	const componentPropertyOmitOptions = privateLodash.omit(property, [
-		"options"
-	]);
-	const renderOptions = () => {
-		if (property.isButton) {
-			return privateLodash.map(PROPERTY_OPTIONS, option => {
-				return createVNode(
-					RadioButton,
-					{
-						value: option.value
-					},
-					{
-						default: () => [option.label]
-					}
-				);
-			});
-		}
-		return privateLodash.map(PROPERTY_OPTIONS, option => {
-			return createVNode(
-				Radio,
-				{
-					value: option.value
-				},
-				{
-					default: () => [option.label]
-				}
-			);
-		});
-	};
-	return createVNode(
-		RadioGroup2,
-		mergeProps(componentPropertyOmitOptions, listeners),
-		{
-			default: renderOptions
-		}
-	);
+const RadioGroup = ({
+  property,
+  slots,
+  listeners
+}) => {
+  const Radio = resolveComponent("aRadio");
+  const RadioGroup2 = resolveComponent("aRadioGroup");
+  const RadioButton = resolveComponent("aRadioButton");
+  const PROPERTY_OPTIONS = property.options;
+  const componentPropertyOmitOptions = privateLodash.omit(property, ["options"]);
+  const renderOptions = () => {
+    if (property.isButton) {
+      return privateLodash.map(PROPERTY_OPTIONS, (option) => {
+        return createVNode(RadioButton, {
+          "value": option.value
+        }, {
+          default: () => [option.label]
+        });
+      });
+    }
+    return privateLodash.map(PROPERTY_OPTIONS, (option) => {
+      return createVNode(Radio, {
+        "value": option.value
+      }, {
+        default: () => [option.label]
+      });
+    });
+  };
+  return createVNode(RadioGroup2, mergeProps(componentPropertyOmitOptions, listeners), {
+    default: renderOptions
+  });
 };
-const CheckboxGroup = ({ property, slots, listeners }) => {
-	return createVNode(
-		resolveComponent("aCheckboxGroup"),
-		mergeProps(property, listeners),
-		slots
-	);
+const CheckboxGroup = ({
+  property,
+  slots,
+  listeners
+}) => {
+  return createVNode(resolveComponent("aCheckboxGroup"), mergeProps(property, listeners), slots);
 };
-const Switch = ({ property, slots, listeners }) => {
-	const _property = privateLodash.merge({}, property, {
-		checked: property.value,
-		onClick() {
-			listeners["onUpdate:value"](!_property.value);
-		}
-	});
-	return createVNode("span", null, [
-		h(Switch$1, privateLodash.omit(_property, ["value"]))
-	]);
+const Switch = ({
+  property,
+  slots,
+  listeners
+}) => {
+  const _property = privateLodash.merge({}, property, {
+    checked: property.value,
+    onClick() {
+      listeners["onUpdate:value"](!_property.value);
+    }
+  });
+  return createVNode("span", null, [h(Switch$1, privateLodash.omit(_property, ["value"]))]);
 };
 const itemRenders = {
-	Input,
-	Checkbox,
-	Select,
-	Switch,
-	DatePicker,
-	RangePicker,
-	RadioGroup,
-	CheckboxGroup
+  Input,
+  Checkbox,
+  Select,
+  Switch,
+  DatePicker,
+  RangePicker,
+  RadioGroup,
+  CheckboxGroup
 };
-const { MutatingProps } = privateLodash;
+const {
+  MutatingProps
+} = privateLodash;
 const domClass = {
-	tipsError: "ant-form-item-explain ant-form-item-explain-error"
+  tipsError: "ant-form-item-explain ant-form-item-explain-error"
 };
 const _sfc_main$b = defineComponent({
-	name: "XItem",
-	props: {
-		modelValue: {
-			type: [Object, String, Number, Boolean]
-		},
-		configs: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	emits: ["update:modelValue"],
-	setup(props, { attrs, slots, emit, expose }) {
-		let Cpt_isShowXItem = true;
-		let Cpt_isDisabled = false;
-		if (privateLodash.isFunction(props.configs.isShow)) {
-			Cpt_isShowXItem = computed(props.configs.isShow);
-		} else if (privateLodash.isBoolean(props.configs.isShow)) {
-			Cpt_isShowXItem = computed(() => props.configs.isShow);
-		} else {
-			props.configs.isShow = true;
-			Cpt_isShowXItem = computed(() => props.configs.isShow);
-		}
-		if (privateLodash.isFunction(props.configs.disabled)) {
-			Cpt_isDisabled = computed(props.configs.disabled);
-		} else if (privateLodash.isBoolean(props.configs.disabled)) {
-			Cpt_isDisabled = computed(() => props.configs.disabled);
-		}
-		return {
-			Cpt_isShowXItem,
-			Cpt_isDisabled
-		};
-	},
-	data() {
-		const vm = this;
-		const configs = vm.configs;
-		const handleConfigsValidate = eventType => {
-			configs.validate && configs.validate(eventType);
-		};
-		const listeners = {
-			"onUpdate:value": (val, ...args2) => {
-				if (configs.value !== void 0) {
-					if (configs.value === val) {
-						return;
-					} else {
-						configs.value = val;
-					}
-				}
-				this.$emit("update:modelValue", val);
-				if (privateLodash.isFunction(listeners.onAfterValueEmit)) {
-					listeners.onAfterValueEmit.call(vm, val, {
-						xItemVm: vm
-					});
-				}
-				handleConfigsValidate(EVENT_TYPE.update);
-			},
-			onChange: () => {
-				handleConfigsValidate(EVENT_TYPE.change);
-			},
-			onInput: () => {
-				handleConfigsValidate(EVENT_TYPE.input);
-			},
-			onBlur: () => {
-				handleConfigsValidate(EVENT_TYPE.blur);
-			},
-			onFocus: () => {
-				handleConfigsValidate(EVENT_TYPE.focus);
-			}
-		};
-		function initListenerHandler(prop, value) {
-			listeners[prop] = function (...args2) {
-				privateLodash.each(listeners[prop].queue, listener => {
-					listener == null ? void 0 : listener.apply(vm.configs, args2);
-				});
-			};
-			listeners[prop].queue = [value];
-		}
-		function addListenerFromConfigs(currentConfigs) {
-			const propsWillDeleteFromConfigs = [];
-			privateLodash.each(currentConfigs, (value, prop) => {
-				if (privateLodash.isListener(prop)) {
-					if (listeners[prop]) {
-						listeners[prop].queue.push(value);
-						return;
-					} else {
-						initListenerHandler(prop, value);
-						return;
-					}
-				}
-			});
-			privateLodash.each(propsWillDeleteFromConfigs, prop => {
-				delete currentConfigs[prop];
-			});
-			return listeners;
-		}
-		privateLodash.each(listeners, (value, prop) =>
-			initListenerHandler(prop, value)
-		);
-		addListenerFromConfigs(vm.configs);
-		return {
-			listeners,
-			isRequired: false
-		};
-	},
-	computed: {
-		isChecking() {
-			return Boolean(this.configs.checking);
-		},
-		FormItemId() {
-			return `xItem_${this._.uid}`;
-		},
-		itemTips() {
-			var _a, _b;
-			const _itemTips = {
-				type: "",
-				msg: ""
-			};
-			if (
-				(_b = (_a = this.configs) == null ? void 0 : _a.itemTips) == null
-					? void 0
-					: _b.type
-			) {
-				return {
-					type: this.configs.itemTips.type,
-					msg: privateLodash.isFunction(this.configs.itemTips.msg)
-						? this.configs.itemTips.msg()
-						: this.configs.itemTips.msg
-				};
-			} else {
-				this.configs.itemTips = _itemTips;
-				return _itemTips;
-			}
-		},
-		itemWrapperClass() {
-			return [
-				this.configs.itemWrapperClass,
-				"ant-form-item ant-form-item-with-help x-item flex",
-				this.itemTips.type === TIPS_TYPE.error ? "ant-form-item-has-error" : ""
-			].join(" ");
-		},
-		componentSettings() {
-			const vm = this;
-			const configs = vm.configs;
-			const property = {
-				value:
-					vm.modelValue !== void 0
-						? vm.modelValue
-						: configs.value !== void 0
-						? configs.value
-						: (cosole.error("either configs.value or modelValue"), "")
-			};
-			let slots = {};
-			const pickAttrs = properties => {
-				privateLodash.each(properties, (value, prop) => {
-					if ("slots" === prop) {
-						slots = value;
-						return;
-					}
-					if (
-						["placeholder"].includes(prop) &&
-						privateLodash.isFunction(value)
-					) {
-						property[prop] = value(vm);
-						return;
-					}
-					if (["itemTips", "rules", "labelVNodeRender"].includes(prop)) {
-						return;
-					}
-					property[prop] = value;
-					return;
-				});
-			};
-			pickAttrs(this.configs);
-			pickAttrs(this.$attrs);
-			if (this.Cpt_isDisabled) {
-				property.disabled = true;
-			} else {
-				delete property.disabled;
-			}
-			return {
-				property,
-				slots,
-				listeners: this.listeners
-			};
-		},
-		tipsVNode() {
-			if (this.isChecking) {
-				return createVNode("div", null, [
-					createVNode(
-						"div",
-						{
-							"data-type": "checking"
-						},
-						[createTextVNode("checking...")]
-					)
-				]);
-			}
-			if (this.configs.tipsVNodeRender) {
-				return this.configs.tipsVNodeRender({
-					xItem: this,
-					configs: this.configs,
-					itemTips: this.itemTips
-				});
-			}
-			if (this.itemTips.msg) {
-				if (this.itemTips.type === TIPS_TYPE.error) {
-					return createVNode(
-						"div",
-						{
-							class: domClass.tipsError
-						},
-						[
-							createVNode(
-								"div",
-								{
-									"data-type": "error"
-								},
-								[this.itemTips.msg]
-							)
-						]
-					);
-				}
-			}
-			return null;
-		},
-		labelVNode() {
-			const classString = this.isRequired ? "ant-form-item-required" : "";
-			if (this.configs.labelVNodeRender) {
-				return this.configs.labelVNodeRender(this.configs, classString);
-			}
-			let label = (() => {
-				const _label = this.configs.label;
-				if (_label) {
-					if (privateLodash.isFunction(_label)) {
-						return _label();
-					}
-					if (privateLodash.isString(_label) || _label.__v_isVNode) {
-						return _label;
-					}
-				}
-				return false;
-			})();
-			if (label === false) {
-				return null;
-			}
-			return createVNode(
-				"div",
-				{
-					class: "ant-form-item-label"
-				},
-				[
-					createVNode(
-						"label",
-						{
-							for: this.configs.prop,
-							class: classString
-						},
-						[label]
-					)
-				]
-			);
-		}
-	},
-	watch: {
-		"configs.rules": {
-			immediate: true,
-			deep: true,
-			handler(rules) {
-				this.setValidateInfo(rules);
-			}
-		}
-	},
-	mounted() {
-		var _a;
-		if ((_a = this.configs) == null ? void 0 : _a.once) {
-			this.configs.once.call(this.configs, this);
-		}
-	},
-	created() {
-		MutatingProps(this, "configs.FormItemId", this.FormItemId);
-	},
-	methods: {
-		setTips(type2 = "", msg = "") {
-			MutatingProps(this, "configs.itemTips", {
-				type: type2,
-				msg
-			});
-		},
-		setValidateInfo(rules) {
-			let isRequired = false;
-			if (privateLodash.isArrayFill(rules)) {
-				isRequired = privateLodash.some(rules, {
-					name: "required"
-				});
-				const handleAfterCheck = ([prop, msg]) => {
-					MutatingProps(this, "configs.checking", false);
-					if (prop) {
-						if (msg) {
-							this.setTips(TIPS_TYPE.error, msg);
-							if (privateLodash.isFunction(this.configs.onValidateFail)) {
-								this.configs.onValidateFail(this.configs);
-							}
-						} else {
-							this.setTips();
-						}
-					}
-				};
-				const debounceCheckXItem = privateLodash.debounce(checkXItem, 300);
-				MutatingProps(this, "configs.validate", eventType => {
-					const prop = `configs.validate.triggerEventsObj.${eventType}`;
-					MutatingProps(this, prop, true);
-					debounceCheckXItem(this.configs, handleAfterCheck);
-				});
-				MutatingProps(this, "configs.validate.triggerEventsObj", {});
-			} else {
-				if (privateLodash.isFunction(this.configs.validate)) {
-					delete this.configs.validate;
-				}
-			}
-			this.isRequired = isRequired;
-		}
-	},
-	render(h2) {
-		if (!this.Cpt_isShowXItem) {
-			return null;
-		}
-		const CurrentXItem = (() => {
-			if (privateLodash.isFunction(this.configs.itemType)) {
-				return this.configs.itemType;
-			}
-			return itemRenders[this.configs.itemType] || itemRenders.Input;
-		})();
-		return createVNode(
-			"div",
-			{
-				id: this.FormItemId,
-				class: this.itemWrapperClass
-			},
-			[
-				this.labelVNode,
-				createVNode(
-					"div",
-					{
-						class: "ant-form-item-control"
-					},
-					[
-						createVNode(CurrentXItem, this.componentSettings, null),
-						this.tipsVNode
-					]
-				),
-				this.$slots.afterControll && this.$slots.afterControll()
-			]
-		);
-	}
+  name: "XItem",
+  props: {
+    modelValue: {
+      type: [Object, String, Number, Boolean]
+    },
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  emits: ["update:modelValue"],
+  setup(props, {
+    attrs,
+    slots,
+    emit,
+    expose
+  }) {
+    let Cpt_isShowXItem = true;
+    let Cpt_isDisabled = false;
+    if (privateLodash.isFunction(props.configs.isShow)) {
+      Cpt_isShowXItem = computed(props.configs.isShow);
+    } else if (privateLodash.isBoolean(props.configs.isShow)) {
+      Cpt_isShowXItem = computed(() => props.configs.isShow);
+    } else {
+      props.configs.isShow = true;
+      Cpt_isShowXItem = computed(() => props.configs.isShow);
+    }
+    if (privateLodash.isFunction(props.configs.disabled)) {
+      Cpt_isDisabled = computed(props.configs.disabled);
+    } else if (privateLodash.isBoolean(props.configs.disabled)) {
+      Cpt_isDisabled = computed(() => props.configs.disabled);
+    }
+    return {
+      Cpt_isShowXItem,
+      Cpt_isDisabled
+    };
+  },
+  data() {
+    const vm = this;
+    const configs = vm.configs;
+    const handleConfigsValidate = (eventType) => {
+      configs.validate && configs.validate(eventType);
+    };
+    const listeners = {
+      "onUpdate:value": (val, ...args2) => {
+        if (configs.value !== void 0) {
+          if (vm.raw$value === val) {
+            return;
+          } else {
+            vm.raw$value = val;
+            configs.value = val;
+          }
+        }
+        vm.raw$value = val;
+        this.$emit("update:modelValue", val);
+        if (privateLodash.isFunction(listeners.onAfterValueEmit)) {
+          listeners.onAfterValueEmit.call(vm, val, {
+            xItemVm: vm
+          });
+        }
+        handleConfigsValidate(EVENT_TYPE.update);
+      },
+      onChange: () => {
+        handleConfigsValidate(EVENT_TYPE.change);
+      },
+      onInput: () => {
+        handleConfigsValidate(EVENT_TYPE.input);
+      },
+      onBlur: () => {
+        handleConfigsValidate(EVENT_TYPE.blur);
+      },
+      onFocus: () => {
+        handleConfigsValidate(EVENT_TYPE.focus);
+      }
+    };
+    function initListenerHandler(prop, value) {
+      listeners[prop] = function(...args2) {
+        privateLodash.each(listeners[prop].queue, (listener) => {
+          listener == null ? void 0 : listener.apply(vm.configs, args2);
+        });
+      };
+      listeners[prop].queue = [value];
+    }
+    function addListenerFromConfigs(currentConfigs) {
+      const propsWillDeleteFromConfigs = [];
+      privateLodash.each(currentConfigs, (value, prop) => {
+        if (privateLodash.isListener(prop)) {
+          if (listeners[prop]) {
+            listeners[prop].queue.push(value);
+            return;
+          } else {
+            initListenerHandler(prop, value);
+            return;
+          }
+        }
+      });
+      privateLodash.each(propsWillDeleteFromConfigs, (prop) => {
+        delete currentConfigs[prop];
+      });
+      return listeners;
+    }
+    privateLodash.each(listeners, (value, prop) => initListenerHandler(prop, value));
+    addListenerFromConfigs(vm.configs);
+    return {
+      listeners,
+      isRequired: false
+    };
+  },
+  computed: {
+    isChecking() {
+      return Boolean(this.configs.checking);
+    },
+    FormItemId() {
+      return `xItem_${this._.uid}`;
+    },
+    itemTips() {
+      var _a, _b;
+      const _itemTips = {
+        type: "",
+        msg: ""
+      };
+      if ((_b = (_a = this.configs) == null ? void 0 : _a.itemTips) == null ? void 0 : _b.type) {
+        return {
+          type: this.configs.itemTips.type,
+          msg: privateLodash.isFunction(this.configs.itemTips.msg) ? this.configs.itemTips.msg() : this.configs.itemTips.msg
+        };
+      } else {
+        this.configs.itemTips = _itemTips;
+        return _itemTips;
+      }
+    },
+    itemWrapperClass() {
+      return [
+        this.configs.itemWrapperClass,
+        "ant-form-item ant-form-item-with-help x-item flex",
+        this.itemTips.type === TIPS_TYPE.error ? "ant-form-item-has-error" : ""
+      ].join(" ");
+    },
+    componentSettings() {
+      const vm = this;
+      const configs = vm.configs;
+      const property = {
+        value: vm.modelValue !== void 0 ? vm.modelValue : configs.value !== void 0 ? configs.value : (cosole.error("either configs.value or modelValue"), "")
+      };
+      let slots = {};
+      const pickAttrs = (properties) => {
+        privateLodash.each(properties, (value, prop) => {
+          if ("slots" === prop) {
+            slots = value;
+            return;
+          }
+          if (["placeholder"].includes(prop) && privateLodash.isFunction(value)) {
+            property[prop] = value(vm);
+            return;
+          }
+          if (["itemTips", "rules", "labelVNodeRender"].includes(prop)) {
+            return;
+          }
+          property[prop] = value;
+          return;
+        });
+      };
+      pickAttrs(this.configs);
+      pickAttrs(this.$attrs);
+      if (this.Cpt_isDisabled) {
+        property.disabled = true;
+      } else {
+        delete property.disabled;
+      }
+      return {
+        property,
+        slots,
+        listeners: this.listeners
+      };
+    },
+    tipsVNode() {
+      if (this.isChecking) {
+        return createVNode("div", null, [createVNode("div", {
+          "data-type": "checking"
+        }, [createTextVNode("checking...")])]);
+      }
+      if (this.configs.tipsVNodeRender) {
+        return this.configs.tipsVNodeRender({
+          xItem: this,
+          configs: this.configs,
+          itemTips: this.itemTips
+        });
+      }
+      if (this.itemTips.msg) {
+        if (this.itemTips.type === TIPS_TYPE.error) {
+          return createVNode("div", {
+            "class": domClass.tipsError
+          }, [createVNode("div", {
+            "data-type": "error"
+          }, [this.itemTips.msg])]);
+        }
+      }
+      return null;
+    },
+    labelVNode() {
+      const classString = this.isRequired ? "ant-form-item-required" : "";
+      if (this.configs.labelVNodeRender) {
+        return this.configs.labelVNodeRender(this.configs, classString);
+      }
+      let label = (() => {
+        const _label = this.configs.label;
+        if (_label) {
+          if (privateLodash.isFunction(_label)) {
+            return _label();
+          }
+          if (privateLodash.isString(_label) || _label.__v_isVNode) {
+            return _label;
+          }
+        }
+        return false;
+      })();
+      if (label === false) {
+        return null;
+      }
+      return createVNode("div", {
+        "class": "ant-form-item-label"
+      }, [createVNode("label", {
+        "for": this.configs.prop,
+        "class": classString
+      }, [label])]);
+    }
+  },
+  watch: {
+    "configs.rules": {
+      immediate: true,
+      deep: true,
+      handler(rules) {
+        this.setValidateInfo(rules);
+      }
+    }
+  },
+  mounted() {
+    var _a;
+    if ((_a = this.configs) == null ? void 0 : _a.once) {
+      this.configs.once.call(this.configs, this);
+    }
+  },
+  created() {
+    MutatingProps(this, "configs.FormItemId", this.FormItemId);
+  },
+  methods: {
+    setTips(type2 = "", msg = "") {
+      MutatingProps(this, "configs.itemTips", {
+        type: type2,
+        msg
+      });
+    },
+    setValidateInfo(rules) {
+      let isRequired = false;
+      if (privateLodash.isArrayFill(rules)) {
+        isRequired = privateLodash.some(rules, {
+          name: "required"
+        });
+        const handleAfterCheck = ([prop, msg]) => {
+          MutatingProps(this, "configs.checking", false);
+          if (prop) {
+            if (msg) {
+              this.setTips(TIPS_TYPE.error, msg);
+              if (privateLodash.isFunction(this.configs.onValidateFail)) {
+                this.configs.onValidateFail(this.configs);
+              }
+            } else {
+              this.setTips();
+            }
+          }
+        };
+        const debounceCheckXItem = privateLodash.debounce(checkXItem, 300);
+        MutatingProps(this, "configs.validate", (eventType) => {
+          const prop = `configs.validate.triggerEventsObj.${eventType}`;
+          MutatingProps(this, prop, true);
+          debounceCheckXItem(this.configs, handleAfterCheck);
+        });
+        MutatingProps(this, "configs.validate.triggerEventsObj", {});
+      } else {
+        if (privateLodash.isFunction(this.configs.validate)) {
+          delete this.configs.validate;
+        }
+      }
+      this.isRequired = isRequired;
+    }
+  },
+  render(h2) {
+    if (!this.Cpt_isShowXItem) {
+      return null;
+    }
+    const CurrentXItem = (() => {
+      if (privateLodash.isFunction(this.configs.itemType)) {
+        return this.configs.itemType;
+      }
+      return itemRenders[this.configs.itemType] || itemRenders.Input;
+    })();
+    return createVNode("div", {
+      "id": this.FormItemId,
+      "class": this.itemWrapperClass
+    }, [this.labelVNode, createVNode("div", {
+      "class": "ant-form-item-control"
+    }, [createVNode(CurrentXItem, this.componentSettings, null), this.tipsVNode]), this.$slots.afterControll && this.$slots.afterControll()]);
+  }
 });
 const _sfc_main$a = defineComponent({
-	name: "xForm",
-	props: {
-		labelStyle: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	emits: [],
-	data() {
-		return {};
-	},
-	computed: {
-		xFormId() {
-			return `xForm_${this._.uid}`;
-		},
-		labelStyleText() {
-			return privateLodash
-				.map(
-					privateLodash.merge(
-						{
-							width: "120px",
-							"text-align": "right"
-						},
-						this.labelStyle
-					),
-					(value, prop) => `${prop}: ${value}`
-				)
-				.join(";");
-		},
-		styleContent() {
-			return `#${this.xFormId} { width:100%; padding:0 16px; }
+  name: "xForm",
+  props: {
+    labelStyle: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  emits: [],
+  data() {
+    return {};
+  },
+  computed: {
+    xFormId() {
+      return `xForm_${this._.uid}`;
+    },
+    labelStyleText() {
+      return privateLodash.map(privateLodash.merge({
+        width: "120px",
+        "text-align": "right"
+      }, this.labelStyle), (value, prop) => `${prop}: ${value}`).join(";");
+    },
+    styleContent() {
+      return `#${this.xFormId} { width:100%; padding:0 16px; }
  #${this.xFormId} div.ant-form-item-label { ${this.labelStyleText} }`;
-		}
-	},
-	mounted() {
-		const $form = $(`#${this.xFormId}`);
-		const $style = $("<style/>", {
-			id: `style_${this.xFormId}`
-		}).append(this.styleContent);
-		$form.prepend($style);
-	},
-	watch: {
-		styleContent() {
-			this.updateStyle(this.styleContent);
-		}
-	},
-	methods: {
-		updateStyle(styleContent) {
-			const $style = $(`#style_${this.xFormId}`);
-			$style.html(styleContent);
-		}
-	}
+    }
+  },
+  mounted() {
+    const $form = $(`#${this.xFormId}`);
+    const $style = $("<style/>", {
+      id: `style_${this.xFormId}`
+    }).append(this.styleContent);
+    $form.prepend($style);
+  },
+  watch: {
+    styleContent() {
+      this.updateStyle(this.styleContent);
+    }
+  },
+  methods: {
+    updateStyle(styleContent) {
+      const $style = $(`#style_${this.xFormId}`);
+      $style.html(styleContent);
+    }
+  }
 });
 const _export_sfc = (sfc, props) => {
-	const target = sfc.__vccOpts || sfc;
-	for (const [key, val] of props) {
-		target[key] = val;
-	}
-	return target;
+  const target = sfc.__vccOpts || sfc;
+  for (const [key, val] of props) {
+    target[key] = val;
+  }
+  return target;
 };
 const _hoisted_1$e = ["id"];
 function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
-	return (
-		openBlock(),
-		createElementBlock(
-			"form",
-			{ id: _ctx.xFormId },
-			[renderSlot(_ctx.$slots, "default")],
-			8,
-			_hoisted_1$e
-		)
-	);
+  return openBlock(), createElementBlock("form", { id: _ctx.xFormId }, [
+    renderSlot(_ctx.$slots, "default")
+  ], 8, _hoisted_1$e);
 }
-const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$a, [
-	["render", _sfc_render$7]
-]);
+const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$7]]);
 const BTN_PRESET_MAP = {
-	query: () => ({
-		icon: createVNode(
-			resolveComponent("xIcon"),
-			{
-				class: "x-button_icon-wrapper",
-				icon: "InsideSearchOutlined"
-			},
-			null
-		),
-		text: State_UI.$t("\u67E5\u8BE2").label
-	}),
-	refresh: () => ({
-		icon: createVNode(
-			resolveComponent("xIcon"),
-			{
-				class: "x-button_icon-wrapper",
-				icon: "InsideSyncOutlined"
-			},
-			null
-		),
-		text: State_UI.$t("\u5237\u65B0").label
-	}),
-	cancel: () => ({
-		text: State_UI.$t("\u53D6\u6D88").label
-	}),
-	save: () => ({
-		icon: createVNode(
-			resolveComponent("xIcon"),
-			{
-				class: "x-button_icon-wrapper",
-				icon: "InsideSaveOutlined"
-			},
-			null
-		),
-		text: State_UI.$t("\u4FDD\u5B58").label
-	}),
-	upload: () => ({
-		icon: createVNode(
-			resolveComponent("xIcon"),
-			{
-				class: "x-button_icon-wrapper",
-				icon: "InsideUploadOutlined"
-			},
-			null
-		),
-		text: State_UI.$t("\u4E0A\u4F20").label
-	}),
-	delete: configs => {
-		configs.type = "danger";
-		configs.ghost = true;
-		return {
-			icon: createVNode(
-				resolveComponent("xIcon"),
-				{
-					class: "x-button_icon-wrapper",
-					icon: "InsideDeleteOutlined"
-				},
-				null
-			),
-			text: State_UI.$t("\u5220\u9664").label
-		};
-	}
+  query: () => ({
+    icon: createVNode(resolveComponent("xIcon"), {
+      "class": "x-button_icon-wrapper",
+      "icon": "InsideSearchOutlined"
+    }, null),
+    text: State_UI.$t("\u67E5\u8BE2").label
+  }),
+  refresh: () => ({
+    icon: createVNode(resolveComponent("xIcon"), {
+      "class": "x-button_icon-wrapper",
+      "icon": "InsideSyncOutlined"
+    }, null),
+    text: State_UI.$t("\u5237\u65B0").label
+  }),
+  cancel: () => ({
+    text: State_UI.$t("\u53D6\u6D88").label
+  }),
+  save: () => ({
+    icon: createVNode(resolveComponent("xIcon"), {
+      "class": "x-button_icon-wrapper",
+      "icon": "InsideSaveOutlined"
+    }, null),
+    text: State_UI.$t("\u4FDD\u5B58").label
+  }),
+  upload: () => ({
+    icon: createVNode(resolveComponent("xIcon"), {
+      "class": "x-button_icon-wrapper",
+      "icon": "InsideUploadOutlined"
+    }, null),
+    text: State_UI.$t("\u4E0A\u4F20").label
+  }),
+  delete: (configs) => {
+    configs.type = "danger";
+    configs.ghost = true;
+    return {
+      icon: createVNode(resolveComponent("xIcon"), {
+        "class": "x-button_icon-wrapper",
+        "icon": "InsideDeleteOutlined"
+      }, null),
+      text: State_UI.$t("\u5220\u9664").label
+    };
+  }
 };
 const xButton = defineComponent({
-	name: "xButton",
-	props: {
-		payload: {
-			type: Object,
-			default() {
-				return {};
-			}
-		},
-		configs: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	beforeMount() {
-		if (!this.configs) {
-			debugger;
-			return;
-		}
-		const presetFn = BTN_PRESET_MAP[this.configs.preset];
-		if (presetFn) {
-			const preset = presetFn(this.configs);
-			this.configs.text = createVNode(Fragment, null, [
-				preset.icon,
-				createVNode(
-					"span",
-					{
-						class: "ml4"
-					},
-					[preset.text]
-				)
-			]);
-		}
-	},
-	data() {
-		return {
-			loading: true
-		};
-	},
-	computed: {
-		type() {
-			if (["query", "save"].includes(this.configs.preset)) {
-				return "primary";
-			}
-			return this.configs.type;
-		},
-		title() {
-			if (privateLodash.isString(this.disabled) && this.disabled.length > 0) {
-				return this.disabled;
-			}
-			if (
-				privateLodash.isString(this.configs.title) &&
-				this.configs.title.length > 0
-			) {
-				return this.configs.title;
-			}
-			return false;
-		},
-		disabled() {
-			if (privateLodash.isBoolean(this.configs.disabled)) {
-				return this.configs.disabled;
-			}
-			if (privateLodash.isFunction(this.configs.disabled)) {
-				return this.configs.disabled(this);
-			}
-			return false;
-		},
-		text() {
-			if (privateLodash.isFunction(this.configs.text)) {
-				return this.configs.text(this) || "";
-			}
-			return this.configs.text || "";
-		}
-	},
-	watch: {
-		configs: {
-			immediate: true,
-			handler(configs) {
-				this.loading = !!configs.loading;
-			}
-		}
-	},
-	created() {},
-	methods: {
-		async onClick() {
-			var _a, _b, _c;
-			if (
-				privateLodash.isFunction(
-					(_a = this.$attrs) == null ? void 0 : _a.onClick
-				)
-			) {
-				return false;
-			}
-			if (
-				privateLodash.isFunction(
-					(_b = this == null ? void 0 : this.configs) == null
-						? void 0
-						: _b.onClick
-				)
-			) {
-				this.loading = true;
-				try {
-					await ((_c = this == null ? void 0 : this.configs) == null
-						? void 0
-						: _c.onClick.call(this.configs, this));
-				} catch (e) {
-					console.error(e);
-				} finally {
-					this.loading = false;
-				}
-			}
-		}
-	},
-	render(h2) {
-		const configs = privateLodash.omit(this.configs, [
-			"text",
-			"onClick",
-			"disabled"
-		]);
-		if (this.title) {
-			configs.title = this.title;
-		}
-		return createVNode(
-			resolveComponent("aButton"),
-			mergeProps(
-				{
-					class: "x-button antdv-button",
-					onClick: this.onClick,
-					loading: this.loading,
-					disabled: !!this.disabled,
-					type: this.type
-				},
-				configs
-			),
-			{
-				default: () => {
-					const vDomDefautl = this.$slots.default && this.$slots.default();
-					return createVNode(Fragment, null, [this.text, vDomDefautl]);
-				}
-			}
-		);
-	}
+  name: "xButton",
+  props: {
+    payload: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  beforeMount() {
+    if (!this.configs) {
+      debugger;
+      return;
+    }
+    const presetFn = BTN_PRESET_MAP[this.configs.preset];
+    if (presetFn) {
+      const preset = presetFn(this.configs);
+      this.configs.text = createVNode(Fragment, null, [preset.icon, createVNode("span", {
+        "class": "ml4"
+      }, [preset.text])]);
+    }
+  },
+  data() {
+    return {
+      loading: true
+    };
+  },
+  computed: {
+    type() {
+      if (["query", "save"].includes(this.configs.preset)) {
+        return "primary";
+      }
+      return this.configs.type;
+    },
+    title() {
+      if (privateLodash.isString(this.disabled) && this.disabled.length > 0) {
+        return this.disabled;
+      }
+      if (privateLodash.isString(this.configs.title) && this.configs.title.length > 0) {
+        return this.configs.title;
+      }
+      return false;
+    },
+    disabled() {
+      if (privateLodash.isBoolean(this.configs.disabled)) {
+        return this.configs.disabled;
+      }
+      if (privateLodash.isFunction(this.configs.disabled)) {
+        return this.configs.disabled(this);
+      }
+      return false;
+    },
+    text() {
+      if (privateLodash.isFunction(this.configs.text)) {
+        return this.configs.text(this) || "";
+      }
+      return this.configs.text || "";
+    }
+  },
+  watch: {
+    configs: {
+      immediate: true,
+      handler(configs) {
+        this.loading = !!configs.loading;
+      }
+    }
+  },
+  created() {
+  },
+  methods: {
+    async onClick() {
+      var _a, _b, _c;
+      if (privateLodash.isFunction((_a = this.$attrs) == null ? void 0 : _a.onClick)) {
+        return false;
+      }
+      if (privateLodash.isFunction((_b = this == null ? void 0 : this.configs) == null ? void 0 : _b.onClick)) {
+        this.loading = true;
+        try {
+          await ((_c = this == null ? void 0 : this.configs) == null ? void 0 : _c.onClick.call(this.configs, this));
+        } catch (e) {
+          console.error(e);
+        } finally {
+          this.loading = false;
+        }
+      }
+    }
+  },
+  render(h2) {
+    const configs = privateLodash.omit(this.configs, ["text", "onClick", "disabled"]);
+    if (this.title) {
+      configs.title = this.title;
+    }
+    return createVNode(resolveComponent("aButton"), mergeProps({
+      "class": "x-button antdv-button",
+      "onClick": this.onClick,
+      "loading": this.loading,
+      "disabled": !!this.disabled,
+      "type": this.type
+    }, configs), {
+      default: () => {
+        const vDomDefautl = this.$slots.default && this.$slots.default();
+        return createVNode(Fragment, null, [this.text, vDomDefautl]);
+      }
+    });
+  }
 });
 const _sfc_main$9 = defineComponent({
-	name: "XButtonCountDown",
-	props: {
-		configs: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	data() {
-		const vm = this;
-		return {
-			state: {
-				captchaCount: 0
-			},
-			btnConfigs: {
-				disabled: false,
-				size: "large",
-				style: {
-					minWidth: "112px"
-				},
-				class: "center",
-				text: vm.configs.text.normal,
-				async onClick() {
-					if (privateLodash.isFunction(vm.configs.onClick)) {
-						await vm.configs.onClick({
-							countDown: vm.countDown
-						});
-					}
-				}
-			}
-		};
-	},
-	watch: {
-		"state.captchaCount"(captchaCount) {
-			this.handleCaptchaCountChange(captchaCount);
-		}
-	},
-	methods: {
-		countDown() {
-			this.state.captchaCount++;
-			if (this.state.captchaCount <= this.configs.countMax) {
-				setTimeout(this.countDown, 1e3);
-			} else {
-				this.state.captchaCount = 0;
-			}
-		},
-		handleCaptchaCountChange(captchaCount) {
-			if (captchaCount === 0) {
-				this.btnConfigs.text = this.configs.text.normal;
-				this.btnConfigs.disabled = false;
-				return;
-			}
-			const setCounDownText = () => {
-				return (this.btnConfigs.text = `${
-					this.configs.countMax - captchaCount
-				} s`);
-			};
-			if (captchaCount === 1) {
-				setCounDownText();
-				this.btnConfigs.disabled = true;
-				return;
-			}
-			if (captchaCount && captchaCount <= this.configs.countMax) {
-				setCounDownText();
-				return;
-			}
-		}
-	}
+  name: "XButtonCountDown",
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  data() {
+    const vm = this;
+    return {
+      state: {
+        captchaCount: 0
+      },
+      btnConfigs: {
+        disabled: false,
+        size: "large",
+        style: {
+          minWidth: "112px"
+        },
+        class: "center",
+        text: vm.configs.text.normal,
+        async onClick() {
+          if (privateLodash.isFunction(vm.configs.onClick)) {
+            await vm.configs.onClick({
+              countDown: vm.countDown
+            });
+          }
+        }
+      }
+    };
+  },
+  watch: {
+    "state.captchaCount"(captchaCount) {
+      this.handleCaptchaCountChange(captchaCount);
+    }
+  },
+  methods: {
+    countDown() {
+      this.state.captchaCount++;
+      if (this.state.captchaCount <= this.configs.countMax) {
+        setTimeout(this.countDown, 1e3);
+      } else {
+        this.state.captchaCount = 0;
+      }
+    },
+    handleCaptchaCountChange(captchaCount) {
+      if (captchaCount === 0) {
+        this.btnConfigs.text = this.configs.text.normal;
+        this.btnConfigs.disabled = false;
+        return;
+      }
+      const setCounDownText = () => {
+        return this.btnConfigs.text = `${this.configs.countMax - captchaCount} s`;
+      };
+      if (captchaCount === 1) {
+        setCounDownText();
+        this.btnConfigs.disabled = true;
+        return;
+      }
+      if (captchaCount && captchaCount <= this.configs.countMax) {
+        setCounDownText();
+        return;
+      }
+    }
+  }
 });
 function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
-	const _component_xButton = resolveComponent("xButton");
-	return (
-		openBlock(),
-		createBlock(_component_xButton, { configs: _ctx.btnConfigs }, null, 8, [
-			"configs"
-		])
-	);
+  const _component_xButton = resolveComponent("xButton");
+  return openBlock(), createBlock(_component_xButton, { configs: _ctx.btnConfigs }, null, 8, ["configs"]);
 }
-const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$9, [
-	["render", _sfc_render$6]
-]);
+const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$6]]);
 const _sfc_main$8 = defineComponent({
-	name: "xGap",
-	props: ["t", "l", "r", "b", "a", "f"],
-	computed: {
-		gapClass: {
-			get() {
-				let basic = "x-gap";
-				if (this.f) {
-					basic += ` flex${this.f}`;
-				}
-				return basic;
-			}
-		},
-		gapStyle: {
-			get() {
-				const POSITION_MAP = {
-					t: "top",
-					r: "right",
-					b: "bottom",
-					l: "left"
-				};
-				const gapStyle = {};
-				if (this.a) {
-					gapStyle.margin = `${this.a}px`;
-				} else {
-					privateLodash.map(POSITION_MAP, (prop, key) => {
-						const value = this[key];
-						if (value) {
-							gapStyle[`margin-${prop}`] = `${value}px`;
-						}
-					});
-				}
-				return gapStyle;
-			}
-		}
-	},
-	render(h2) {
-		return createVNode(
-			"div",
-			{
-				style: this.gapStyle,
-				class: this.gapClass
-			},
-			null
-		);
-	}
+  name: "xGap",
+  props: ["t", "l", "r", "b", "a", "f"],
+  computed: {
+    gapClass: {
+      get() {
+        let basic = "x-gap";
+        if (this.f) {
+          basic += ` flex${this.f}`;
+        }
+        return basic;
+      }
+    },
+    gapStyle: {
+      get() {
+        const POSITION_MAP = {
+          t: "top",
+          r: "right",
+          b: "bottom",
+          l: "left"
+        };
+        const gapStyle = {};
+        if (this.a) {
+          gapStyle.margin = `${this.a}px`;
+        } else {
+          privateLodash.map(POSITION_MAP, (prop, key) => {
+            const value = this[key];
+            if (value) {
+              gapStyle[`margin-${prop}`] = `${value}px`;
+            }
+          });
+        }
+        return gapStyle;
+      }
+    }
+  },
+  render(h2) {
+    return createVNode("div", {
+      "style": this.gapStyle,
+      "class": this.gapClass
+    }, null);
+  }
 });
 const line = {};
 const CONFIGS_MAP = {
-	line
+  line
 };
 const _sfc_main$7 = defineComponent({
-	name: "xCharts",
-	props: {
-		payload: {
-			type: Object,
-			default: ""
-		},
-		configs: {
-			type: [String, Object],
-			required: true
-		},
-		dataset: {
-			type: [Array, Object],
-			default() {
-				return [];
-			}
-		}
-	},
-	data() {
-		const id = privateLodash.genId("xChart");
-		return {
-			id
-		};
-	},
-	computed: {
-		helper() {
-			if (privateLodash.isPlainObject(this.configs)) {
-				return this.configs;
-			}
-			return CONFIGS_MAP[this.configs];
-		}
-	},
-	mounted() {
-		this.init();
-	},
-	methods: {
-		init() {
-			this.updateOptions();
-			this.observe();
-		},
-		updateOptions() {
-			if (this.myChart) {
-				this.myChart.dispose();
-			}
-			const options = this.helper.initOptions(this.$props);
-			this.options = this.helper.updateOptions(options, this.dataset);
-			const dom = document.querySelector(`#${this.id}`);
-			this.myChart = this.$echarts.init(dom);
-			this.myChart.showLoading();
-			this.myChart.setOption(this.options);
-			this.myChart.hideLoading();
-		},
-		observe() {
-			this.resizeObserver = new ResizeObserver(() => {
-				var _a;
-				if (this.myChart) {
-					((_a = this.myChart) == null ? void 0 : _a.resize) &&
-						this.myChart.resize();
-				}
-			});
-			this.resizeObserver.observe(this.$el);
-		}
-	}
+  name: "xCharts",
+  props: {
+    payload: {
+      type: Object,
+      default: ""
+    },
+    configs: {
+      type: [String, Object],
+      required: true
+    },
+    dataset: {
+      type: [Array, Object],
+      default() {
+        return [];
+      }
+    }
+  },
+  data() {
+    const id = privateLodash.genId("xChart");
+    return {
+      id
+    };
+  },
+  computed: {
+    helper() {
+      if (privateLodash.isPlainObject(this.configs)) {
+        return this.configs;
+      }
+      return CONFIGS_MAP[this.configs];
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      this.updateOptions();
+      this.observe();
+    },
+    updateOptions() {
+      if (this.myChart) {
+        this.myChart.dispose();
+      }
+      const options = this.helper.initOptions(this.$props);
+      this.options = this.helper.updateOptions(options, this.dataset);
+      const dom = document.querySelector(`#${this.id}`);
+      this.myChart = this.$echarts.init(dom);
+      this.myChart.showLoading();
+      this.myChart.setOption(this.options);
+      this.myChart.hideLoading();
+    },
+    observe() {
+      this.resizeObserver = new ResizeObserver(() => {
+        var _a;
+        if (this.myChart) {
+          ((_a = this.myChart) == null ? void 0 : _a.resize) && this.myChart.resize();
+        }
+      });
+      this.resizeObserver.observe(this.$el);
+    }
+  }
 });
 const _hoisted_1$d = ["id"];
 function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
-	return (
-		openBlock(),
-		createElementBlock(
-			"div",
-			{
-				id: _ctx.id,
-				class: "x-charts flex flex1 center middle"
-			},
-			null,
-			8,
-			_hoisted_1$d
-		)
-	);
+  return openBlock(), createElementBlock("div", {
+    id: _ctx.id,
+    class: "x-charts flex flex1 center middle"
+  }, null, 8, _hoisted_1$d);
 }
-const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$7, [
-	["render", _sfc_render$5]
-]);
+const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$5]]);
 const _sfc_main$6 = defineComponent({
-	name: "xView",
-	props: {
-		isShow: {
-			type: Boolean,
-			default: true
-		}
-	},
-	data() {
-		return {};
-	},
-	computed: {
-		id() {
-			return `xView_${this._.uid}`;
-		}
-	}
+  name: "xView",
+  props: {
+    isShow: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    id() {
+      return `xView_${this._.uid}`;
+    }
+  }
 });
 const _hoisted_1$c = ["id"];
 function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
-	return withDirectives(
-		(openBlock(),
-		createElementBlock(
-			"div",
-			{ id: _ctx.id },
-			[renderSlot(_ctx.$slots, "default")],
-			8,
-			_hoisted_1$c
-		)),
-		[[vShow, !!_ctx.isShow]]
-	);
+  return withDirectives((openBlock(), createElementBlock("div", { id: _ctx.id }, [
+    renderSlot(_ctx.$slots, "default")
+  ], 8, _hoisted_1$c)), [
+    [vShow, !!_ctx.isShow]
+  ]);
 }
-const xView = /* @__PURE__ */ _export_sfc(_sfc_main$6, [
-	["render", _sfc_render$4]
-]);
+const xView = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$4]]);
 const _hoisted_1$b = {
-	xmlns: "http://www.w3.org/2000/svg",
-	class: "icon",
-	style: {
-		width: "1em",
-		height: "1em",
-		"vertical-align": "middle",
-		fill: "currentColor",
-		overflow: "hidden"
-	},
-	viewBox: "0 0 1024 1024"
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
 };
-const _hoisted_2$8 = /* @__PURE__ */ createElementVNode(
-	"path",
-	{
-		d: "M338.261 137.045h-9.13a9.16 9.16 0 0 0 9.13-9.159v9.16h347.45v-9.16c0 5.035 4.095 9.16 9.101 9.16h-9.102v82.26h82.262v-91.42a73.216 73.216 0 0 0-73.131-73.13H329.102a73.216 73.216 0 0 0-73.159 73.13v91.45h82.29v-82.29zm576 82.29h-804.55c-20.253 0-36.58 16.327-36.58 36.551v36.58c0 5.034 4.096 9.159 9.13 9.159h69.063l28.217 597.703a73.216 73.216 0 0 0 73.046 69.689h518.826a73.045 73.045 0 0 0 73.046-69.689l28.245-597.732h69.006a9.16 9.16 0 0 0 9.16-9.102v-36.636c0-20.196-16.356-36.551-36.58-36.551zm-151.665 667.42h-501.22l-27.648-585.159H790.3l-27.676 585.16z"
-	},
-	null,
-	-1
-);
-const _hoisted_3$8 = [_hoisted_2$8];
+const _hoisted_2$8 = /* @__PURE__ */ createElementVNode("path", { d: "M338.261 137.045h-9.13a9.16 9.16 0 0 0 9.13-9.159v9.16h347.45v-9.16c0 5.035 4.095 9.16 9.101 9.16h-9.102v82.26h82.262v-91.42a73.216 73.216 0 0 0-73.131-73.13H329.102a73.216 73.216 0 0 0-73.159 73.13v91.45h82.29v-82.29zm576 82.29h-804.55c-20.253 0-36.58 16.327-36.58 36.551v36.58c0 5.034 4.096 9.159 9.13 9.159h69.063l28.217 597.703a73.216 73.216 0 0 0 73.046 69.689h518.826a73.045 73.045 0 0 0 73.046-69.689l28.245-597.732h69.006a9.16 9.16 0 0 0 9.16-9.102v-36.636c0-20.196-16.356-36.551-36.58-36.551zm-151.665 667.42h-501.22l-27.648-585.159H790.3l-27.676 585.16z" }, null, -1);
+const _hoisted_3$8 = [
+  _hoisted_2$8
+];
 function render$7(_ctx, _cache) {
-	return openBlock(), createElementBlock("svg", _hoisted_1$b, _hoisted_3$8);
+  return openBlock(), createElementBlock("svg", _hoisted_1$b, _hoisted_3$8);
 }
 const InsideDeleteOutlined = { name: "DeleteOutlined", render: render$7 };
 const _hoisted_1$a = {
-	xmlns: "http://www.w3.org/2000/svg",
-	class: "icon",
-	style: {
-		width: "1em",
-		height: "1em",
-		"vertical-align": "middle",
-		fill: "currentColor",
-		overflow: "hidden"
-	},
-	viewBox: "0 0 1024 1024"
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
 };
-const _hoisted_2$7 = /* @__PURE__ */ createElementVNode(
-	"path",
-	{
-		d: "M512 628c17.6 0 32-14.4 32-32V308c0-17.6-14.4-32-32-32s-32 14.4-32 32v288c0 17.6 14.4 32 32 32zm-44 76a44 44 0 1 0 88 0 44 44 0 1 0-88 0Zm44-640C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm271.5 719.5c-35.3 35.3-76.4 63-122.1 82.3-47.3 20-97.6 30.2-149.5 30.2s-102.2-10.1-149.5-30.2c-45.7-19.3-86.8-47-122.1-82.3s-63-76.4-82.3-122.1c-20-47.3-30.2-97.6-30.2-149.5s10.1-102.2 30.2-149.5c19.3-45.7 47-86.8 82.3-122.1s76.4-63 122.1-82.3c47.3-20 97.6-30.2 149.5-30.2s102.2 10.1 149.5 30.2c45.7 19.3 86.8 47 122.1 82.3s63 76.4 82.3 122.1c20 47.3 30.2 97.6 30.2 149.5s-10.1 102.2-30.2 149.5c-19.3 45.8-47 86.8-82.3 122.1z"
-	},
-	null,
-	-1
-);
-const _hoisted_3$7 = [_hoisted_2$7];
+const _hoisted_2$7 = /* @__PURE__ */ createElementVNode("path", { d: "M512 628c17.6 0 32-14.4 32-32V308c0-17.6-14.4-32-32-32s-32 14.4-32 32v288c0 17.6 14.4 32 32 32zm-44 76a44 44 0 1 0 88 0 44 44 0 1 0-88 0Zm44-640C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm271.5 719.5c-35.3 35.3-76.4 63-122.1 82.3-47.3 20-97.6 30.2-149.5 30.2s-102.2-10.1-149.5-30.2c-45.7-19.3-86.8-47-122.1-82.3s-63-76.4-82.3-122.1c-20-47.3-30.2-97.6-30.2-149.5s10.1-102.2 30.2-149.5c19.3-45.7 47-86.8 82.3-122.1s76.4-63 122.1-82.3c47.3-20 97.6-30.2 149.5-30.2s102.2 10.1 149.5 30.2c45.7 19.3 86.8 47 122.1 82.3s63 76.4 82.3 122.1c20 47.3 30.2 97.6 30.2 149.5s-10.1 102.2-30.2 149.5c-19.3 45.8-47 86.8-82.3 122.1z" }, null, -1);
+const _hoisted_3$7 = [
+  _hoisted_2$7
+];
 function render$6(_ctx, _cache) {
-	return openBlock(), createElementBlock("svg", _hoisted_1$a, _hoisted_3$7);
+  return openBlock(), createElementBlock("svg", _hoisted_1$a, _hoisted_3$7);
 }
-const InsideExclamationCircleOutlined = {
-	name: "ExclamationCircleOutlined",
-	render: render$6
-};
+const InsideExclamationCircleOutlined = { name: "ExclamationCircleOutlined", render: render$6 };
 const _hoisted_1$9 = {
-	xmlns: "http://www.w3.org/2000/svg",
-	class: "icon",
-	style: {
-		width: "1em",
-		height: "1em",
-		"vertical-align": "middle",
-		fill: "currentColor",
-		overflow: "hidden"
-	},
-	viewBox: "0 0 1024 1024"
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
 };
-const _hoisted_2$6 = /* @__PURE__ */ createElementVNode(
-	"path",
-	{
-		d: "M448 128a64 64 0 1 0 128 0 64 64 0 1 0-128 0ZM257.1 180.5a61.3 61.3 0 1 0 122.6 0 61.3 61.3 0 1 0-122.6 0ZM121.8 318.4a58.7 58.7 0 1 0 117.4 0 58.7 58.7 0 1 0-117.4 0ZM72 512a56 56 0 1 0 112 0 56 56 0 1 0-112 0Zm55.2 193.6a53.3 53.3 0 1 0 106.6 0 53.3 53.3 0 1 0-106.6 0Zm140.5 137.9a50.7 50.7 0 1 0 101.4 0 50.7 50.7 0 1 0-101.4 0ZM464 896a48 48 0 1 0 96 0 48 48 0 1 0-96 0Zm196.3-52.5a45.3 45.3 0 1 0 90.6 0 45.3 45.3 0 1 0-90.6 0Zm140.5-137.9a42.7 42.7 0 1 0 85.4 0 42.7 42.7 0 1 0-85.4 0ZM856 512a40 40 0 1 0 80 0 40 40 0 1 0-80 0ZM837.9 377.7a33.8 33.8 0 1 0 67.6 0 33.8 33.8 0 1 0-67.6 0Zm-61.5-113.5a28.3 28.3 0 1 0 56.6 0 28.3 28.3 0 1 0-56.6 0ZM680 180a24 24 0 1 0 48 0 24 24 0 1 0-48 0Z"
-	},
-	null,
-	-1
-);
-const _hoisted_3$6 = /* @__PURE__ */ createElementVNode(
-	"animateTransform",
-	{
-		additive: "sum",
-		attributeName: "transform",
-		attributeType: "XML",
-		begin: "0s",
-		dur: "4s",
-		from: "0",
-		repeatCount: "indefinite",
-		to: "360",
-		type: "rotate"
-	},
-	null,
-	-1
-);
-const _hoisted_4 = [_hoisted_2$6, _hoisted_3$6];
+const _hoisted_2$6 = /* @__PURE__ */ createElementVNode("path", { d: "M448 128a64 64 0 1 0 128 0 64 64 0 1 0-128 0ZM257.1 180.5a61.3 61.3 0 1 0 122.6 0 61.3 61.3 0 1 0-122.6 0ZM121.8 318.4a58.7 58.7 0 1 0 117.4 0 58.7 58.7 0 1 0-117.4 0ZM72 512a56 56 0 1 0 112 0 56 56 0 1 0-112 0Zm55.2 193.6a53.3 53.3 0 1 0 106.6 0 53.3 53.3 0 1 0-106.6 0Zm140.5 137.9a50.7 50.7 0 1 0 101.4 0 50.7 50.7 0 1 0-101.4 0ZM464 896a48 48 0 1 0 96 0 48 48 0 1 0-96 0Zm196.3-52.5a45.3 45.3 0 1 0 90.6 0 45.3 45.3 0 1 0-90.6 0Zm140.5-137.9a42.7 42.7 0 1 0 85.4 0 42.7 42.7 0 1 0-85.4 0ZM856 512a40 40 0 1 0 80 0 40 40 0 1 0-80 0ZM837.9 377.7a33.8 33.8 0 1 0 67.6 0 33.8 33.8 0 1 0-67.6 0Zm-61.5-113.5a28.3 28.3 0 1 0 56.6 0 28.3 28.3 0 1 0-56.6 0ZM680 180a24 24 0 1 0 48 0 24 24 0 1 0-48 0Z" }, null, -1);
+const _hoisted_3$6 = /* @__PURE__ */ createElementVNode("animateTransform", {
+  additive: "sum",
+  attributeName: "transform",
+  attributeType: "XML",
+  begin: "0s",
+  dur: "4s",
+  from: "0",
+  repeatCount: "indefinite",
+  to: "360",
+  type: "rotate"
+}, null, -1);
+const _hoisted_4 = [
+  _hoisted_2$6,
+  _hoisted_3$6
+];
 function render$5(_ctx, _cache) {
-	return openBlock(), createElementBlock("svg", _hoisted_1$9, _hoisted_4);
+  return openBlock(), createElementBlock("svg", _hoisted_1$9, _hoisted_4);
 }
 const InsideLoadingOutlined = { name: "LoadingOutlined", render: render$5 };
 const _hoisted_1$8 = {
-	xmlns: "http://www.w3.org/2000/svg",
-	class: "icon",
-	style: {
-		width: "1em",
-		height: "1em",
-		"vertical-align": "middle",
-		fill: "currentColor",
-		overflow: "hidden"
-	},
-	viewBox: "0 0 1024 1024"
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
 };
-const _hoisted_2$5 = /* @__PURE__ */ createElementVNode(
-	"path",
-	{
-		d: "M144 928a48 48 0 0 1-48-48V144a48 48 0 0 1 48-48h592v.448a48 48 0 0 1 27.328 13.6l150.624 150.624A48 48 0 0 1 928 294.624V880a48 48 0 0 1-48 48H144zm144-768H160v704h128V496a48 48 0 0 1 43.392-47.776L336 448h352a48 48 0 0 1 48 48v368h128V301.248l-128-128V272a48 48 0 0 1-48 48H336a48 48 0 0 1-48-48V160zm384 352H352v352h320V512zm0-352H352v96h320v-96z"
-	},
-	null,
-	-1
-);
-const _hoisted_3$5 = [_hoisted_2$5];
+const _hoisted_2$5 = /* @__PURE__ */ createElementVNode("path", { d: "M144 928a48 48 0 0 1-48-48V144a48 48 0 0 1 48-48h592v.448a48 48 0 0 1 27.328 13.6l150.624 150.624A48 48 0 0 1 928 294.624V880a48 48 0 0 1-48 48H144zm144-768H160v704h128V496a48 48 0 0 1 43.392-47.776L336 448h352a48 48 0 0 1 48 48v368h128V301.248l-128-128V272a48 48 0 0 1-48 48H336a48 48 0 0 1-48-48V160zm384 352H352v352h320V512zm0-352H352v96h320v-96z" }, null, -1);
+const _hoisted_3$5 = [
+  _hoisted_2$5
+];
 function render$4(_ctx, _cache) {
-	return openBlock(), createElementBlock("svg", _hoisted_1$8, _hoisted_3$5);
+  return openBlock(), createElementBlock("svg", _hoisted_1$8, _hoisted_3$5);
 }
 const InsideSaveOutlined = { name: "SaveOutlined", render: render$4 };
 const _hoisted_1$7 = {
-	xmlns: "http://www.w3.org/2000/svg",
-	class: "icon",
-	style: {
-		width: "1em",
-		height: "1em",
-		"vertical-align": "middle",
-		fill: "currentColor",
-		overflow: "hidden"
-	},
-	viewBox: "0 0 1024 1024"
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
 };
-const _hoisted_2$4 = /* @__PURE__ */ createElementVNode(
-	"path",
-	{
-		d: "M479.04 128c176.16 0 318.976 142.848 318.976 319.04a317.984 317.984 0 0 1-86.976 218.976l175.616 175.552c11.52 11.52 12.384 29.568 2.656 42.08l-2.656 3.008a31.872 31.872 0 0 1-45.088 0L662.784 707.904a317.504 317.504 0 0 1-183.776 58.24C302.816 766.144 160 623.296 160 447.04S302.816 128 479.04 128zm0 63.808a255.232 255.232 0 0 0-255.232 255.264 255.232 255.232 0 1 0 510.4 0 255.232 255.232 0 0 0-255.2-255.264z"
-	},
-	null,
-	-1
-);
-const _hoisted_3$4 = [_hoisted_2$4];
+const _hoisted_2$4 = /* @__PURE__ */ createElementVNode("path", { d: "M479.04 128c176.16 0 318.976 142.848 318.976 319.04a317.984 317.984 0 0 1-86.976 218.976l175.616 175.552c11.52 11.52 12.384 29.568 2.656 42.08l-2.656 3.008a31.872 31.872 0 0 1-45.088 0L662.784 707.904a317.504 317.504 0 0 1-183.776 58.24C302.816 766.144 160 623.296 160 447.04S302.816 128 479.04 128zm0 63.808a255.232 255.232 0 0 0-255.232 255.264 255.232 255.232 0 1 0 510.4 0 255.232 255.232 0 0 0-255.2-255.264z" }, null, -1);
+const _hoisted_3$4 = [
+  _hoisted_2$4
+];
 function render$3(_ctx, _cache) {
-	return openBlock(), createElementBlock("svg", _hoisted_1$7, _hoisted_3$4);
+  return openBlock(), createElementBlock("svg", _hoisted_1$7, _hoisted_3$4);
 }
 const InsideSearchOutlined = { name: "SearchOutlined", render: render$3 };
 const _hoisted_1$6 = {
-	xmlns: "http://www.w3.org/2000/svg",
-	class: "icon",
-	style: {
-		width: "1em",
-		height: "1em",
-		"vertical-align": "middle",
-		fill: "currentColor",
-		overflow: "hidden"
-	},
-	viewBox: "0 0 1024 1024"
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
 };
-const _hoisted_2$3 = /* @__PURE__ */ createElementVNode(
-	"path",
-	{
-		d: "M168 504.2c1-43.7 10-86.1 26.9-126 17.3-41 42.1-77.7 73.7-109.4S337 212.3 378 195c42.4-17.9 87.4-27 133.9-27s91.5 9.1 133.8 27c40.9 17.3 77.7 42.1 109.3 73.8 9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47c-5.3 4.1-3.5 12.5 3 14.1l175.7 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c0-6.7-7.7-10.5-12.9-6.3l-56.4 44.1C765.8 155.1 646.2 92 511.8 92 282.7 92 96.3 275.6 92 503.8c-.1 4.5 3.5 8.2 8 8.2h60c4.4 0 7.9-3.5 8-7.8zm756 7.8h-60c-4.4 0-7.9 3.5-8 7.8-1 43.7-10 86.1-26.9 126-17.3 41-42.1 77.8-73.7 109.4S687 811.7 646 829c-42.4 17.9-87.4 27-133.9 27s-91.5-9.1-133.9-27c-40.9-17.3-77.7-42.1-109.3-73.8-9.9-9.9-19.2-20.4-27.8-31.4l60.2-47c5.3-4.1 3.5-12.5-3-14.1l-175.7-43c-5-1.2-9.9 2.6-9.9 7.7l-.7 181c0 6.7 7.7 10.5 12.9 6.3l56.4-44.1C258.2 868.9 377.8 932 512.2 932c229.2 0 415.5-183.7 419.8-411.8.1-4.5-3.5-8.2-8-8.2z"
-	},
-	null,
-	-1
-);
-const _hoisted_3$3 = [_hoisted_2$3];
+const _hoisted_2$3 = /* @__PURE__ */ createElementVNode("path", { d: "M168 504.2c1-43.7 10-86.1 26.9-126 17.3-41 42.1-77.7 73.7-109.4S337 212.3 378 195c42.4-17.9 87.4-27 133.9-27s91.5 9.1 133.8 27c40.9 17.3 77.7 42.1 109.3 73.8 9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47c-5.3 4.1-3.5 12.5 3 14.1l175.7 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c0-6.7-7.7-10.5-12.9-6.3l-56.4 44.1C765.8 155.1 646.2 92 511.8 92 282.7 92 96.3 275.6 92 503.8c-.1 4.5 3.5 8.2 8 8.2h60c4.4 0 7.9-3.5 8-7.8zm756 7.8h-60c-4.4 0-7.9 3.5-8 7.8-1 43.7-10 86.1-26.9 126-17.3 41-42.1 77.8-73.7 109.4S687 811.7 646 829c-42.4 17.9-87.4 27-133.9 27s-91.5-9.1-133.9-27c-40.9-17.3-77.7-42.1-109.3-73.8-9.9-9.9-19.2-20.4-27.8-31.4l60.2-47c5.3-4.1 3.5-12.5-3-14.1l-175.7-43c-5-1.2-9.9 2.6-9.9 7.7l-.7 181c0 6.7 7.7 10.5 12.9 6.3l56.4-44.1C258.2 868.9 377.8 932 512.2 932c229.2 0 415.5-183.7 419.8-411.8.1-4.5-3.5-8.2-8-8.2z" }, null, -1);
+const _hoisted_3$3 = [
+  _hoisted_2$3
+];
 function render$2(_ctx, _cache) {
-	return openBlock(), createElementBlock("svg", _hoisted_1$6, _hoisted_3$3);
+  return openBlock(), createElementBlock("svg", _hoisted_1$6, _hoisted_3$3);
 }
 const InsideSyncOutlined = { name: "SyncOutlined", render: render$2 };
 const _hoisted_1$5 = {
-	xmlns: "http://www.w3.org/2000/svg",
-	class: "icon",
-	style: {
-		width: "1em",
-		height: "1em",
-		"vertical-align": "middle",
-		fill: "currentColor",
-		overflow: "hidden"
-	},
-	viewBox: "0 0 1024 1024"
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
 };
-const _hoisted_2$2 = /* @__PURE__ */ createElementVNode(
-	"path",
-	{
-		d: "M512 85.333A426.667 426.667 0 1 0 938.667 512 426.667 426.667 0 0 0 512 85.333zm0 768A341.333 341.333 0 1 1 853.333 512 341.333 341.333 0 0 1 512 853.333zm30.72-587.946A32.853 32.853 0 0 0 520.107 256h-16.214a32 32 0 0 0-22.613 9.387L347.733 399.36a21.333 21.333 0 0 0 0 30.293l29.867 30.294a21.333 21.333 0 0 0 30.293 0l61.44-61.867v348.587A21.333 21.333 0 0 0 490.667 768h42.666a21.333 21.333 0 0 0 21.334-21.333V398.08l61.44 61.44a20.907 20.907 0 0 0 29.866 0l30.294-30.293a21.333 21.333 0 0 0 0-30.294z"
-	},
-	null,
-	-1
-);
-const _hoisted_3$2 = [_hoisted_2$2];
+const _hoisted_2$2 = /* @__PURE__ */ createElementVNode("path", { d: "M512 85.333A426.667 426.667 0 1 0 938.667 512 426.667 426.667 0 0 0 512 85.333zm0 768A341.333 341.333 0 1 1 853.333 512 341.333 341.333 0 0 1 512 853.333zm30.72-587.946A32.853 32.853 0 0 0 520.107 256h-16.214a32 32 0 0 0-22.613 9.387L347.733 399.36a21.333 21.333 0 0 0 0 30.293l29.867 30.294a21.333 21.333 0 0 0 30.293 0l61.44-61.867v348.587A21.333 21.333 0 0 0 490.667 768h42.666a21.333 21.333 0 0 0 21.334-21.333V398.08l61.44 61.44a20.907 20.907 0 0 0 29.866 0l30.294-30.293a21.333 21.333 0 0 0 0-30.294z" }, null, -1);
+const _hoisted_3$2 = [
+  _hoisted_2$2
+];
 function render$1(_ctx, _cache) {
-	return openBlock(), createElementBlock("svg", _hoisted_1$5, _hoisted_3$2);
+  return openBlock(), createElementBlock("svg", _hoisted_1$5, _hoisted_3$2);
 }
 const InsideUploadOutlined = { name: "UploadOutlined", render: render$1 };
 const _hoisted_1$4 = {
-	xmlns: "http://www.w3.org/2000/svg",
-	class: "icon",
-	style: {
-		width: "1em",
-		height: "1em",
-		"vertical-align": "middle",
-		fill: "currentColor",
-		overflow: "hidden"
-	},
-	viewBox: "0 0 1024 1024"
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
 };
-const _hoisted_2$1 = /* @__PURE__ */ createElementVNode(
-	"path",
-	{
-		d: "M512 128c212 0 384 172 384 384S724 896 512 896 128 724 128 512s172-384 384-384m0-64C264.8 64 64 264.8 64 512s200.8 448 448 448 448-200.8 448-448S759.2 64 512 64zm32 704h-64v-64h64v64zm11.2-203.2-5.6 4.8c-3.2 2.4-5.6 8-5.6 12.8v58.4h-64v-58.4c0-24.8 11.2-48 29.6-63.2l5.6-4.8c56-44.8 83.2-68 83.2-108 0-48-38.4-86.4-86.4-86.4-49.6 0-86.4 36.8-86.4 86.4h-64c0-84 66.4-150.4 150.4-150.4 83.2 0 150.4 67.2 150.4 150.4 0 72.8-49.6 112.8-107.2 158.4z"
-	},
-	null,
-	-1
-);
-const _hoisted_3$1 = [_hoisted_2$1];
+const _hoisted_2$1 = /* @__PURE__ */ createElementVNode("path", { d: "M512 128c212 0 384 172 384 384S724 896 512 896 128 724 128 512s172-384 384-384m0-64C264.8 64 64 264.8 64 512s200.8 448 448 448 448-200.8 448-448S759.2 64 512 64zm32 704h-64v-64h64v64zm11.2-203.2-5.6 4.8c-3.2 2.4-5.6 8-5.6 12.8v58.4h-64v-58.4c0-24.8 11.2-48 29.6-63.2l5.6-4.8c56-44.8 83.2-68 83.2-108 0-48-38.4-86.4-86.4-86.4-49.6 0-86.4 36.8-86.4 86.4h-64c0-84 66.4-150.4 150.4-150.4 83.2 0 150.4 67.2 150.4 150.4 0 72.8-49.6 112.8-107.2 158.4z" }, null, -1);
+const _hoisted_3$1 = [
+  _hoisted_2$1
+];
 function render(_ctx, _cache) {
-	return openBlock(), createElementBlock("svg", _hoisted_1$4, _hoisted_3$1);
+  return openBlock(), createElementBlock("svg", _hoisted_1$4, _hoisted_3$1);
 }
 const Insidetips = { name: "tips", render };
 const insideIcons = {
-	InsideDeleteOutlined,
-	InsideExclamationCircleOutlined,
-	InsideLoadingOutlined,
-	InsideSaveOutlined,
-	InsideSearchOutlined,
-	InsideSyncOutlined,
-	InsideUploadOutlined,
-	Insidetips
+  InsideDeleteOutlined,
+  InsideExclamationCircleOutlined,
+  InsideLoadingOutlined,
+  InsideSaveOutlined,
+  InsideSearchOutlined,
+  InsideSyncOutlined,
+  InsideUploadOutlined,
+  Insidetips
 };
-const _sfc_main$5 = defineComponent(
-	markRaw({
-		name: "xIcon",
-		props: ["icon"],
-		data() {
-			const id = "lazy-svg_" + this._.uid;
-			return {
-				id,
-				svgIcon: null
-			};
-		},
-		computed: {
-			baseAttrs() {
-				return {
-					id: this.id,
-					role: "img",
-					ariaLabel: this.icon,
-					class: "xIcon anticon"
-				};
-			},
-			iconKey() {
-				const _iconKey = privateLodash
-					.camelCase(this.getIconPath())
-					.replace(/\s/, "");
-				return _iconKey;
-			}
-		},
-		methods: {
-			getIconPath() {
-				return `${State_UI.assetsSvgPath}/${this.icon}.svg`;
-			},
-			async setIcon() {
-				if (!this.icon) return;
-				try {
-					let SvgIconAny = await (async () => {
-						let _SvgIconAny = insideIcons[this.icon];
-						if (_SvgIconAny) {
-							return _SvgIconAny;
-						}
-						_SvgIconAny = await iStorage(this.iconKey);
-						if (_SvgIconAny) {
-							return _SvgIconAny;
-						}
-						try {
-							_SvgIconAny = await privateLodash.asyncLoadText(
-								this.getIconPath()
-							);
-						} catch (error) {}
-						return _SvgIconAny;
-					})();
-					if (privateLodash.isString(SvgIconAny) && SvgIconAny.length > 0) {
-						const SvgComponentByString = {
-							name: this.icon,
-							template: SvgIconAny
-						};
-						await iStorage(this.iconKey, SvgIconAny);
-						insideIcons[this.icon] = SvgComponentByString;
-						this.svgIcon = createVNode(
-							SvgComponentByString,
-							this.baseAttrs,
-							null
-						);
-					} else if (
-						(SvgIconAny == null ? void 0 : SvgIconAny.render) ||
-						(SvgIconAny == null ? void 0 : SvgIconAny.template)
-					) {
-						this.svgIcon = createVNode(SvgIconAny, this.baseAttrs, null);
-					} else {
-						console.error("component xIcon miss svg: " + this.icon);
-					}
-				} catch (error) {
-					console.error(error);
-				}
-			}
-		},
-		render() {
-			if (this.svgIcon) {
-				return this.svgIcon;
-			}
-			return createVNode(InsideLoadingOutlined, this.baseAttrs, null);
-		},
-		watch: {
-			icon: {
-				immediate: true,
-				handler() {
-					this.setIcon();
-				}
-			}
-		}
-	})
-);
+const _sfc_main$5 = defineComponent(markRaw({
+  name: "xIcon",
+  props: ["icon"],
+  data() {
+    const id = "lazy-svg_" + this._.uid;
+    return {
+      id,
+      svgIcon: null
+    };
+  },
+  computed: {
+    baseAttrs() {
+      return {
+        id: this.id,
+        role: "img",
+        ariaLabel: this.icon,
+        class: "xIcon anticon"
+      };
+    },
+    iconKey() {
+      const _iconKey = privateLodash.camelCase(this.getIconPath()).replace(/\s/, "");
+      return _iconKey;
+    }
+  },
+  methods: {
+    getIconPath() {
+      return `${State_UI.assetsSvgPath}/${this.icon}.svg`;
+    },
+    async setIcon() {
+      if (!this.icon)
+        return;
+      try {
+        let SvgIconAny = await (async () => {
+          let _SvgIconAny = insideIcons[this.icon];
+          if (_SvgIconAny) {
+            return _SvgIconAny;
+          }
+          _SvgIconAny = await iStorage(this.iconKey);
+          if (_SvgIconAny) {
+            return _SvgIconAny;
+          }
+          try {
+            _SvgIconAny = await privateLodash.asyncLoadText(this.getIconPath());
+          } catch (error) {
+          }
+          return _SvgIconAny;
+        })();
+        if (privateLodash.isString(SvgIconAny) && SvgIconAny.length > 0) {
+          const SvgComponentByString = {
+            name: this.icon,
+            template: SvgIconAny
+          };
+          await iStorage(this.iconKey, SvgIconAny);
+          insideIcons[this.icon] = SvgComponentByString;
+          this.svgIcon = createVNode(SvgComponentByString, this.baseAttrs, null);
+        } else if ((SvgIconAny == null ? void 0 : SvgIconAny.render) || (SvgIconAny == null ? void 0 : SvgIconAny.template)) {
+          this.svgIcon = createVNode(SvgIconAny, this.baseAttrs, null);
+        } else {
+          console.error("component xIcon miss svg: " + this.icon);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+  render() {
+    if (this.svgIcon) {
+      return this.svgIcon;
+    }
+    return createVNode(InsideLoadingOutlined, this.baseAttrs, null);
+  },
+  watch: {
+    icon: {
+      immediate: true,
+      handler() {
+        this.setIcon();
+      }
+    }
+  }
+}));
 const xIcon_vue_vue_type_style_index_0_lang = "";
 function _isSlot$1(s) {
-	return (
-		typeof s === "function" ||
-		(Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s))
-	);
+  return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 const static_word = {
-	operation: "operation"
+  operation: "operation"
 };
 function defDataGridOption(options) {
-	options.pagination = options.pagination || defPagination();
-	options.isLoading = Boolean(options.isLoading);
-	if (options.queryTableList) {
-		options._queryTableList_origin = options.queryTableList;
-		options.queryTableList = async function (...args2) {
-			this.isLoading = true;
-			await this._queryTableList_origin.apply(this, args2);
-			this.isLoading = false;
-		};
-	}
-	options.onPaginationChange =
-		options.onPaginationChange ||
-		async function (pagination) {
-			await this.queryTableList({
-				pagination
-			});
-		};
-	return options;
+  options.pagination = options.pagination || defPagination();
+  options.isLoading = Boolean(options.isLoading);
+  if (options.queryTableList) {
+    options._queryTableList_origin = options.queryTableList;
+    options.queryTableList = async function(...args2) {
+      this.isLoading = true;
+      await this._queryTableList_origin.apply(this, args2);
+      this.isLoading = false;
+    };
+  }
+  options.onPaginationChange = options.onPaginationChange || async function(pagination) {
+    await this.queryTableList({
+      pagination
+    });
+  };
+  return options;
 }
 function defPagination(num_page = 1, num_size = 10, num_total = 0) {
-	const {
-		page: page2,
-		size: size2,
-		total: total2
-	} = lStorage.appConfigs.pagination;
-	return {
-		[page2]: num_page || 1,
-		[size2]: num_size || 10,
-		[total2]: num_total || 0
-	};
+  const {
+    page: page2,
+    size: size2,
+    total: total2
+  } = lStorage.appConfigs.pagination;
+  return {
+    [page2]: num_page || 1,
+    [size2]: num_size || 10,
+    [total2]: num_total || 0
+  };
 }
 function setPagination(StateTable, pagination) {
-	const PAGINATION_MAP = lStorage.appConfigs.pagination;
-	privateLodash.each(pagination, (value, prop) => {
-		StateTable.pagination[PAGINATION_MAP[prop]] = value;
-	});
+  const PAGINATION_MAP = lStorage.appConfigs.pagination;
+  privateLodash.each(pagination, (value, prop) => {
+    StateTable.pagination[PAGINATION_MAP[prop]] = value;
+  });
 }
 function getPaginationPageSize(StateTable) {
-	const PAGINATION_MAP = lStorage.appConfigs.pagination;
-	const pagination = StateTable.pagination;
-	const { page: page2, size: size2 } = PAGINATION_MAP;
-	return {
-		[page2]: pagination[page2],
-		[size2]: pagination[size2]
-	};
+  const PAGINATION_MAP = lStorage.appConfigs.pagination;
+  const pagination = StateTable.pagination;
+  const {
+    page: page2,
+    size: size2
+  } = PAGINATION_MAP;
+  return {
+    [page2]: pagination[page2],
+    [size2]: pagination[size2]
+  };
 }
 function defCol(options) {
-	return {
-		[options.prop]: {
-			...options,
-			key: options.prop,
-			title: options.label,
-			dataIndex: options.prop
-		}
-	};
+  return {
+    [options.prop]: {
+      ...options,
+      key: options.prop,
+      title: options.label,
+      dataIndex: options.prop
+    }
+  };
 }
 function defColActions(options) {
-	return {
-		[static_word.operation]: privateLodash.merge(
-			{
-				title: State_UI.$t("\u64CD\u4F5C").label,
-				key: static_word.operation,
-				prop: static_word.operation,
-				fixed: "right",
-				minWidth: 100
-			},
-			options
-		)
-	};
+  return {
+    [static_word.operation]: privateLodash.merge({
+      title: State_UI.$t("\u64CD\u4F5C").label,
+      key: static_word.operation,
+      prop: static_word.operation,
+      fixed: "right",
+      minWidth: 100
+    }, options)
+  };
 }
 function defColActionsBtnlist(options) {
-	const { fold = 3, btns = [] } = options;
-	const [always, more] = (() => {
-		if (btns.length > fold) {
-			return [btns.slice(0, fold - 1), btns.slice(fold - 1)];
-		} else {
-			return [btns, []];
-		}
-	})();
-	return createVNode(
-		"div",
-		{
-			class: "flex middle"
-		},
-		[
-			createVNode(
-				resolveComponent("xGap"),
-				{
-					l: "4"
-				},
-				null
-			),
-			privateLodash.map(always, btn => {
-				const configs = privateLodash.merge(
-					{
-						type: "link",
-						size: "small"
-					},
-					btn
-				);
-				return createVNode(Fragment, null, [
-					createVNode(
-						resolveComponent("xButton"),
-						{
-							configs: configs
-						},
-						null
-					),
-					createVNode(
-						resolveComponent("xGap"),
-						{
-							l: "4"
-						},
-						null
-					)
-				]);
-			}),
-			(() => {
-				if (more.length === 0) {
-					return null;
-				}
-				return createVNode(Fragment, null, [
-					createVNode(resolveComponent("aDropdown"), null, {
-						default: () => {
-							return createVNode(
-								resolveComponent("aButton"),
-								{
-									type: "link"
-								},
-								{
-									default: () => [State_UI.$t("\u66F4\u591A").label]
-								}
-							);
-						},
-						overlay: () => {
-							let _slot;
-							return createVNode(Fragment, null, [
-								createVNode(
-									resolveComponent("aMenu"),
-									null,
-									_isSlot$1(
-										(_slot = privateLodash.map(more, btn => {
-											const configs = privateLodash.merge(
-												{
-													type: "link",
-													size: "small"
-												},
-												btn
-											);
-											return createVNode(
-												resolveComponent("aMenuItem"),
-												{
-													key: btn.text
-												},
-												{
-													default: () => [
-														createVNode(
-															resolveComponent("xButton"),
-															{
-																configs: configs
-															},
-															null
-														)
-													]
-												}
-											);
-										}))
-									)
-										? _slot
-										: {
-												default: () => [_slot]
-										  }
-								)
-							]);
-						}
-					}),
-					createVNode(
-						resolveComponent("xGap"),
-						{
-							l: "4"
-						},
-						null
-					)
-				]);
-			})()
-		]
-	);
+  const {
+    fold = 3,
+    btns = []
+  } = options;
+  const [always, more] = (() => {
+    if (btns.length > fold) {
+      return [btns.slice(0, fold - 1), btns.slice(fold - 1)];
+    } else {
+      return [btns, []];
+    }
+  })();
+  return createVNode("div", {
+    "class": "flex middle"
+  }, [createVNode(resolveComponent("xGap"), {
+    "l": "4"
+  }, null), privateLodash.map(always, (btn) => {
+    const configs = privateLodash.merge({
+      type: "link",
+      size: "small"
+    }, btn);
+    return createVNode(Fragment, null, [createVNode(resolveComponent("xButton"), {
+      "configs": configs
+    }, null), createVNode(resolveComponent("xGap"), {
+      "l": "4"
+    }, null)]);
+  }), (() => {
+    if (more.length === 0) {
+      return null;
+    }
+    return createVNode(Fragment, null, [createVNode(resolveComponent("aDropdown"), null, {
+      default: () => {
+        return createVNode(resolveComponent("aButton"), {
+          "type": "link"
+        }, {
+          default: () => [State_UI.$t("\u66F4\u591A").label]
+        });
+      },
+      overlay: () => {
+        let _slot;
+        return createVNode(Fragment, null, [createVNode(resolveComponent("aMenu"), null, _isSlot$1(_slot = privateLodash.map(more, (btn) => {
+          const configs = privateLodash.merge({
+            type: "link",
+            size: "small"
+          }, btn);
+          return createVNode(resolveComponent("aMenuItem"), {
+            "key": btn.text
+          }, {
+            default: () => [createVNode(resolveComponent("xButton"), {
+              "configs": configs
+            }, null)]
+          });
+        })) ? _slot : {
+          default: () => [_slot]
+        })]);
+      }
+    }), createVNode(resolveComponent("xGap"), {
+      "l": "4"
+    }, null)]);
+  })()]);
 }
 function filterColIsShow(isShow, prop) {
-	if (privateLodash.isBoolean(isShow)) {
-		return isShow;
-	} else {
-		return true;
-	}
+  if (privateLodash.isBoolean(isShow)) {
+    return isShow;
+  } else {
+    return true;
+  }
 }
-function setDataGridInfo(
-	StateBind,
-	result = {
-		data: []
-	}
-) {
-	const { data = [], total: total2 = false } = result;
-	StateBind.dataSource = data;
-	if (total2 || total2 === 0) {
-		setPagination(StateBind, {
-			total: total2
-		});
-	}
+function setDataGridInfo(StateBind, result = {
+  data: []
+}) {
+  const {
+    data = [],
+    total: total2 = false
+  } = result;
+  StateBind.dataSource = data;
+  if (total2 || total2 === 0) {
+    setPagination(StateBind, {
+      total: total2
+    });
+  }
 }
 const PAGE_SIZE_OPTIONS = ["10", "20", "30"];
-const { page, size, total } = lStorage.appConfigs.pagination;
+const {
+  page,
+  size,
+  total
+} = lStorage.appConfigs.pagination;
 const xPagination = defineComponent({
-	name: "xPagination",
-	setup() {
-		return {
-			State_UI
-		};
-	},
-	props: {
-		onPaginationChange: {
-			type: Function,
-			default: false
-		},
-		pagination: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	data() {
-		const {
-			page: page2,
-			size: size2,
-			total: total2
-		} = lStorage.appConfigs.pagination;
-		return {
-			pageSizeOptions: PAGE_SIZE_OPTIONS,
-			page: page2,
-			size: size2,
-			total: total2
-		};
-	},
-	methods: {
-		onShowSizeChange: privateLodash.debounce(function (page2, size2) {
-			setPagination(this, {
-				page: page2,
-				size: size2
-			});
-			if (this.onPaginationChange) {
-				this.onPaginationChange(this.pagination);
-			}
-		}, 30)
-	},
-	computed: {
-		i18nMessage() {
-			return {
-				总条数: "\u603B\u6761\u6570 {total}",
-				条页: "{size}\u6761/\u9875",
-				...this.State_UI.i18nMessage
-			};
-		}
-	},
-	render() {
-		return createVNode(
-			resolveComponent("aPagination"),
-			{
-				current: this.pagination[page],
-				"onUpdate:current": $event => (this.pagination[page] = $event),
-				pageSizeOptions: this.pageSizeOptions,
-				total: this.pagination[total],
-				pageSize: this.pagination[size],
-				"show-size-changer": true,
-				showTotal: total2 =>
-					this.$t(
-						"\u603B\u6761\u6570",
-						{
-							total: total2
-						},
-						this.i18nMessage
-					).label,
-				onShowSizeChange: this.onShowSizeChange,
-				onChange: this.onShowSizeChange
-			},
-			{
-				buildOptionText: props => {
-					return createVNode("span", null, [
-						this.$t(
-							"\u6761\u9875",
-							{
-								size: props.value
-							},
-							this.i18nMessage
-						).label
-					]);
-				}
-			}
-		);
-	}
+  name: "xPagination",
+  setup() {
+    return {
+      State_UI
+    };
+  },
+  props: {
+    onPaginationChange: {
+      type: Function,
+      default: false
+    },
+    pagination: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  data() {
+    const {
+      page: page2,
+      size: size2,
+      total: total2
+    } = lStorage.appConfigs.pagination;
+    return {
+      pageSizeOptions: PAGE_SIZE_OPTIONS,
+      page: page2,
+      size: size2,
+      total: total2
+    };
+  },
+  methods: {
+    onShowSizeChange: privateLodash.debounce(function(page2, size2) {
+      setPagination(this, {
+        page: page2,
+        size: size2
+      });
+      if (this.onPaginationChange) {
+        this.onPaginationChange(this.pagination);
+      }
+    }, 30)
+  },
+  computed: {
+    i18nMessage() {
+      return {
+        \u603B\u6761\u6570: "\u603B\u6761\u6570 {total}",
+        \u6761\u9875: "{size}\u6761/\u9875",
+        ...this.State_UI.i18nMessage
+      };
+    }
+  },
+  render() {
+    return createVNode(resolveComponent("aPagination"), {
+      "current": this.pagination[page],
+      "onUpdate:current": ($event) => this.pagination[page] = $event,
+      "pageSizeOptions": this.pageSizeOptions,
+      "total": this.pagination[total],
+      "pageSize": this.pagination[size],
+      "show-size-changer": true,
+      "showTotal": (total2) => this.$t("\u603B\u6761\u6570", {
+        total: total2
+      }, this.i18nMessage).label,
+      "onShowSizeChange": this.onShowSizeChange,
+      "onChange": this.onShowSizeChange
+    }, {
+      buildOptionText: (props) => {
+        return createVNode("span", null, [this.$t("\u6761\u9875", {
+          size: props.value
+        }, this.i18nMessage).label]);
+      }
+    });
+  }
 });
 const _sfc_main$4 = defineComponent({
-	name: "XDataGrid",
-	components: {
-		xPagination
-	},
-	props: {
-		configs: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	setup() {
-		return {
-			Cpt_UI_locale
-		};
-	},
-	data() {
-		return {
-			State: {
-				id: privateLodash.genId("xDataGrid")
-			}
-		};
-	},
-	computed: {
-		Cpt_Columns() {
-			if (this.configs.isGroupingColumns) {
-				return this.configs.columns;
-			}
-			let columns = null;
-			columns = privateLodash.map(this.Cpt_ColumnsOrder, prop =>
-				privateLodash.find(this.configs.columns, {
-					prop
-				})
-			);
-			columns = privateLodash.filter(columns, i =>
-				filterColIsShow(
-					i == null ? void 0 : i.isShow,
-					i == null ? void 0 : i.prop
-				)
-			);
-			return columns;
-		},
-		Cpt_ColumnsOrder() {
-			const order = (() => {
-				if (this.configs.columns_order) {
-					return this.configs.columns_order;
-				} else {
-					return privateLodash.map(this.configs.columns, i => i.prop);
-				}
-			})();
-			return privateLodash.filter(order, i => !!i);
-		},
-		Cpt_AntTableProperty() {
-			if (this.configs.antTableProperty) {
-				return this.configs.antTableProperty;
-			} else {
-				return {};
-			}
-		},
-		Cpt_VNodeTable() {
-			if (this.configs.renderTable) {
-				return this.configs.renderTable({
-					vm: this
-				});
-			} else {
-				const slots = {
-					emptyText: () =>
-						createVNode(
-							"div",
-							{
-								class: "ant-empty ant-empty-normal"
-							},
-							[
-								createVNode(
-									"div",
-									{
-										class: "ant-empty-image"
-									},
-									[
-										createVNode(
-											"svg",
-											{
-												class: "ant-empty-img-simple",
-												width: "64",
-												height: "41",
-												viewBox: "0 0 64 41"
-											},
-											[
-												createVNode(
-													"g",
-													{
-														transform: "translate(0 1)",
-														fill: "none",
-														"fill-rule": "evenodd"
-													},
-													[
-														createVNode(
-															"ellipse",
-															{
-																class: "ant-empty-img-simple-ellipse",
-																fill: "#F5F5F5",
-																cx: "32",
-																cy: "33",
-																rx: "32",
-																ry: "7"
-															},
-															null
-														),
-														createVNode(
-															"g",
-															{
-																class: "ant-empty-img-simple-g",
-																"fill-rule": "nonzero",
-																stroke: "#D9D9D9"
-															},
-															[
-																createVNode(
-																	"path",
-																	{
-																		d: "M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
-																	},
-																	null
-																),
-																createVNode(
-																	"path",
-																	{
-																		d: "M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z",
-																		fill: "#FAFAFA",
-																		class: "ant-empty-img-simple-path"
-																	},
-																	null
-																)
-															]
-														)
-													]
-												)
-											]
-										)
-									]
-								),
-								createVNode(
-									"p",
-									{
-										class: "ant-empty-description"
-									},
-									[this.Cpt_UI_locale.Empty.description]
-								)
-							]
-						),
-					bodyCell: args2 => {
-						const { column } = args2;
-						if (column && column.renderCell) {
-							const vNode = column.renderCell(args2);
-							if (
-								privateLodash.isNull(vNode) ||
-								privateLodash.isUndefined(vNode)
-							) {
-								return "";
-							}
-							return vNode;
-						}
-					}
-				};
-				const scroll = (() => {
-					if (this.configs.scroll) {
-						return this.configs.scroll;
-					}
-					return {
-						x: 300
-					};
-				})();
-				return createVNode(
-					Table,
-					mergeProps(
-						{
-							loading: this.configs.isLoading,
-							dataSource: this.configs.dataSource,
-							columns: this.Cpt_Columns,
-							scroll: scroll,
-							pagination: false,
-							locale: this.Cpt_UI_locale.Table
-						},
-						this.Cpt_AntTableProperty
-					),
-					slots
-				);
-			}
-		},
-		Cpt_VNodePagination() {
-			if (this.configs.isHidePagination) {
-				return null;
-			}
-			return createVNode(
-				xPagination,
-				{
-					class: "table-pagination",
-					pagination: this.configs.pagination,
-					onPaginationChange: this.handlePaginationChange
-				},
-				null
-			);
-		}
-	},
-	mounted() {
-		if (this.configs.onMounted) {
-			this.configs.onMounted({
-				id: this.State.id
-			});
-		}
-	},
-	methods: {
-		async handlePaginationChange(pagination) {
-			var _a;
-			if (
-				(_a = this == null ? void 0 : this.configs) == null
-					? void 0
-					: _a.onPaginationChange
-			) {
-				this.configs.isLoading = true;
-				await this.configs.onPaginationChange(pagination);
-				this.configs.isLoading = false;
-			}
-		}
-	},
-	render() {
-		return createVNode(
-			"div",
-			{
-				id: this.State.id
-			},
-			[this.Cpt_VNodeTable, this.Cpt_VNodePagination]
-		);
-	}
+  name: "XDataGrid",
+  components: {
+    xPagination
+  },
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  setup() {
+    return {
+      Cpt_UI_locale
+    };
+  },
+  data() {
+    return {
+      State: {
+        id: privateLodash.genId("xDataGrid")
+      }
+    };
+  },
+  computed: {
+    Cpt_Columns() {
+      if (this.configs.isGroupingColumns) {
+        return this.configs.columns;
+      }
+      let columns = null;
+      columns = privateLodash.map(this.Cpt_ColumnsOrder, (prop) => privateLodash.find(this.configs.columns, {
+        prop
+      }));
+      columns = privateLodash.filter(columns, (i) => filterColIsShow(i == null ? void 0 : i.isShow, i == null ? void 0 : i.prop));
+      return columns;
+    },
+    Cpt_ColumnsOrder() {
+      const order = (() => {
+        if (this.configs.columns_order) {
+          return this.configs.columns_order;
+        } else {
+          return privateLodash.map(this.configs.columns, (i) => i.prop);
+        }
+      })();
+      return privateLodash.filter(order, (i) => !!i);
+    },
+    Cpt_AntTableProperty() {
+      if (this.configs.antTableProperty) {
+        return this.configs.antTableProperty;
+      } else {
+        return {};
+      }
+    },
+    Cpt_VNodeTable() {
+      if (this.configs.renderTable) {
+        return this.configs.renderTable({
+          vm: this
+        });
+      } else {
+        const slots = {
+          emptyText: () => createVNode("div", {
+            "class": "ant-empty ant-empty-normal"
+          }, [createVNode("div", {
+            "class": "ant-empty-image"
+          }, [createVNode("svg", {
+            "class": "ant-empty-img-simple",
+            "width": "64",
+            "height": "41",
+            "viewBox": "0 0 64 41"
+          }, [createVNode("g", {
+            "transform": "translate(0 1)",
+            "fill": "none",
+            "fill-rule": "evenodd"
+          }, [createVNode("ellipse", {
+            "class": "ant-empty-img-simple-ellipse",
+            "fill": "#F5F5F5",
+            "cx": "32",
+            "cy": "33",
+            "rx": "32",
+            "ry": "7"
+          }, null), createVNode("g", {
+            "class": "ant-empty-img-simple-g",
+            "fill-rule": "nonzero",
+            "stroke": "#D9D9D9"
+          }, [createVNode("path", {
+            "d": "M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
+          }, null), createVNode("path", {
+            "d": "M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z",
+            "fill": "#FAFAFA",
+            "class": "ant-empty-img-simple-path"
+          }, null)])])])]), createVNode("p", {
+            "class": "ant-empty-description"
+          }, [this.Cpt_UI_locale.Empty.description])]),
+          bodyCell: (args2) => {
+            const {
+              column
+            } = args2;
+            if (column && column.renderCell) {
+              const vNode = column.renderCell(args2);
+              if (privateLodash.isNull(vNode) || privateLodash.isUndefined(vNode)) {
+                return "";
+              }
+              return vNode;
+            }
+          }
+        };
+        const scroll = (() => {
+          if (this.configs.scroll) {
+            return this.configs.scroll;
+          }
+          return {
+            x: 300
+          };
+        })();
+        return createVNode(Table, mergeProps({
+          "loading": this.configs.isLoading,
+          "dataSource": this.configs.dataSource,
+          "columns": this.Cpt_Columns,
+          "scroll": scroll,
+          "pagination": false,
+          "locale": this.Cpt_UI_locale.Table
+        }, this.Cpt_AntTableProperty), slots);
+      }
+    },
+    Cpt_VNodePagination() {
+      if (this.configs.isHidePagination) {
+        return null;
+      }
+      return createVNode(xPagination, {
+        "class": "table-pagination",
+        "pagination": this.configs.pagination,
+        "onPaginationChange": this.handlePaginationChange
+      }, null);
+    }
+  },
+  mounted() {
+    if (this.configs.onMounted) {
+      this.configs.onMounted({
+        id: this.State.id
+      });
+    }
+  },
+  methods: {
+    async handlePaginationChange(pagination) {
+      var _a;
+      if ((_a = this == null ? void 0 : this.configs) == null ? void 0 : _a.onPaginationChange) {
+        this.configs.isLoading = true;
+        await this.configs.onPaginationChange(pagination);
+        this.configs.isLoading = false;
+      }
+    }
+  },
+  render() {
+    return createVNode("div", {
+      "id": this.State.id
+    }, [this.Cpt_VNodeTable, this.Cpt_VNodePagination]);
+  }
 });
 const xDataGrid_vue_vue_type_style_index_0_lang = "";
 const _sfc_main$3 = defineComponent({
-	name: "xColFilter",
-	props: {
-		configs: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	methods: {
-		handleChecked(col) {
-			const target = privateLodash.find(this.configs.columns, {
-				key: col.key
-			});
-			target.isShow = privateLodash.isBoolean(target.isShow)
-				? !target.isShow
-				: false;
-		}
-	},
-	computed: {
-		Cpt_ColumnsOrder() {
-			const order = (() => {
-				if (this.configs.columns_order) {
-					return this.configs.columns_order;
-				} else {
-					return privateLodash.map(this.configs.columns, i => i.prop);
-				}
-			})();
-			return privateLodash.filter(order, i => !!i);
-		},
-		Cpt_Columns() {
-			return privateLodash.map(this.Cpt_ColumnsOrder, prop =>
-				privateLodash.find(this.configs.columns, {
-					prop
-				})
-			);
-		},
-		checkedList() {
-			return privateLodash.filter(this.Cpt_ColumnsOrder, prop => {
-				const { isShow } = this.configs.columns[prop];
-				return filterColIsShow(isShow);
-			});
-		}
-	}
+  name: "xColFilter",
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  methods: {
+    handleChecked(col) {
+      const target = privateLodash.find(this.configs.columns, {
+        key: col.key
+      });
+      target.isShow = privateLodash.isBoolean(target.isShow) ? !target.isShow : false;
+    }
+  },
+  computed: {
+    Cpt_ColumnsOrder() {
+      const order = (() => {
+        if (this.configs.columns_order) {
+          return this.configs.columns_order;
+        } else {
+          return privateLodash.map(this.configs.columns, (i) => i.prop);
+        }
+      })();
+      return privateLodash.filter(order, (i) => !!i);
+    },
+    Cpt_Columns() {
+      return privateLodash.map(this.Cpt_ColumnsOrder, (prop) => privateLodash.find(this.configs.columns, {
+        prop
+      }));
+    },
+    checkedList() {
+      return privateLodash.filter(this.Cpt_ColumnsOrder, (prop) => {
+        const {
+          isShow
+        } = this.configs.columns[prop];
+        return filterColIsShow(isShow);
+      });
+    }
+  }
 });
-const _hoisted_1$3 = /* @__PURE__ */ createElementVNode(
-	"link",
-	{
-		rel: "icon",
-		type: "image/svg+xml",
-		href: "/SettingOutlined.svg"
-	},
-	null,
-	-1
-);
+const _hoisted_1$3 = /* @__PURE__ */ createElementVNode("link", {
+  rel: "icon",
+  type: "image/svg+xml",
+  href: "/SettingOutlined.svg"
+}, null, -1);
 function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
-	const _component_aCheckbox = resolveComponent("aCheckbox");
-	const _component_aButton = resolveComponent("aButton");
-	const _component_aPopover = resolveComponent("aPopover");
-	return (
-		openBlock(),
-		createBlock(
-			_component_aPopover,
-			{
-				placement: "leftTop",
-				trigger: "click"
-			},
-			{
-				content: withCtx(() => [
-					(openBlock(true),
-					createElementBlock(
-						Fragment,
-						null,
-						renderList(_ctx.Cpt_Columns, col => {
-							return (
-								openBlock(),
-								createElementBlock(
-									"p",
-									{
-										key: col.key
-									},
-									[
-										createVNode(
-											_component_aCheckbox,
-											{
-												checked: _ctx.checkedList.includes(col.key),
-												onChange: $event => _ctx.handleChecked(col)
-											},
-											{
-												default: withCtx(() => [
-													createTextVNode(toDisplayString(col.title), 1)
-												]),
-												_: 2
-											},
-											1032,
-											["checked", "onChange"]
-										)
-									]
-								)
-							);
-						}),
-						128
-					))
-				]),
-				default: withCtx(() => [
-					createVNode(_component_aButton, null, {
-						icon: withCtx(() => [_hoisted_1$3]),
-						_: 1
-					})
-				]),
-				_: 1
-			}
-		)
-	);
+  const _component_aCheckbox = resolveComponent("aCheckbox");
+  const _component_aButton = resolveComponent("aButton");
+  const _component_aPopover = resolveComponent("aPopover");
+  return openBlock(), createBlock(_component_aPopover, {
+    placement: "leftTop",
+    trigger: "click"
+  }, {
+    content: withCtx(() => [
+      (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.Cpt_Columns, (col) => {
+        return openBlock(), createElementBlock("p", {
+          key: col.key
+        }, [
+          createVNode(_component_aCheckbox, {
+            checked: _ctx.checkedList.includes(col.key),
+            onChange: ($event) => _ctx.handleChecked(col)
+          }, {
+            default: withCtx(() => [
+              createTextVNode(toDisplayString(col.title), 1)
+            ]),
+            _: 2
+          }, 1032, ["checked", "onChange"])
+        ]);
+      }), 128))
+    ]),
+    default: withCtx(() => [
+      createVNode(_component_aButton, null, {
+        icon: withCtx(() => [
+          _hoisted_1$3
+        ]),
+        _: 1
+      })
+    ]),
+    _: 1
+  });
 }
-const xColFilter = /* @__PURE__ */ _export_sfc(_sfc_main$3, [
-	["render", _sfc_render$3]
-]);
+const xColFilter = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
 const _sfc_main$2 = defineComponent({
-	name: "xDataGridToolbar",
-	components: {
-		xColFilter
-	},
-	props: {
-		configs: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	computed: {
-		Cpt_btn_query() {
-			return {
-				preset: "query",
-				onClick: async () => {
-					if (this.configs.queryTableList) {
-						setPagination(this.configs, {
-							page: 1
-						});
-						await this.configs.queryTableList({
-							pagination: {
-								page: 1
-							}
-						});
-					}
-				}
-			};
-		},
-		Cpt_btn_refresh() {
-			return {
-				preset: "refresh",
-				onClick: async () => {
-					if (this.configs.queryTableList) {
-						await this.configs.queryTableList();
-					}
-				}
-			};
-		},
-		Cpt_isShowQuery() {
-			if (!this.configs.queryTableList) {
-				return false;
-			}
-			return !this.configs.isHideQuery;
-		},
-		Cpt_isShowRefresh() {
-			if (!this.configs.queryTableList) {
-				return false;
-			}
-			return !this.configs.isHideRefresh;
-		},
-		Cpt_isShowFilter() {
-			if (this.configs.isGroupingColumns) {
-				return false;
-			}
-			if (this.configs.isHideFilter) {
-				return false;
-			}
-			return true;
-		},
-		Cpt_isSetConfigs() {
-			return this.configs && this.configs.pagination;
-		}
-	}
+  name: "xDataGridToolbar",
+  components: {
+    xColFilter
+  },
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  computed: {
+    Cpt_btn_query() {
+      return {
+        preset: "query",
+        onClick: async () => {
+          if (this.configs.queryTableList) {
+            setPagination(this.configs, {
+              page: 1
+            });
+            await this.configs.queryTableList({
+              pagination: {
+                page: 1
+              }
+            });
+          }
+        }
+      };
+    },
+    Cpt_btn_refresh() {
+      return {
+        preset: "refresh",
+        onClick: async () => {
+          if (this.configs.queryTableList) {
+            await this.configs.queryTableList();
+          }
+        }
+      };
+    },
+    Cpt_isShowQuery() {
+      if (!this.configs.queryTableList) {
+        return false;
+      }
+      return !this.configs.isHideQuery;
+    },
+    Cpt_isShowRefresh() {
+      if (!this.configs.queryTableList) {
+        return false;
+      }
+      return !this.configs.isHideRefresh;
+    },
+    Cpt_isShowFilter() {
+      if (this.configs.isGroupingColumns) {
+        return false;
+      }
+      if (this.configs.isHideFilter) {
+        return false;
+      }
+      return true;
+    },
+    Cpt_isSetConfigs() {
+      return this.configs && this.configs.pagination;
+    }
+  }
 });
 const _hoisted_1$2 = { class: "table-options" };
 const _hoisted_2 = { class: "table-option-left flex flex1" };
 const _hoisted_3 = {
-	key: 0,
-	class: "table-filter flex"
+  key: 0,
+  class: "table-filter flex"
 };
 function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-	const _component_xButton = resolveComponent("xButton");
-	const _component_xGap = resolveComponent("xGap");
-	const _component_xColFilter = resolveComponent("xColFilter");
-	return (
-		openBlock(),
-		createElementBlock("div", _hoisted_1$2, [
-			createElementVNode("div", _hoisted_2, [
-				renderSlot(_ctx.$slots, "default")
-			]),
-			_ctx.Cpt_isSetConfigs
-				? (openBlock(),
-				  createElementBlock("div", _hoisted_3, [
-						_ctx.Cpt_isShowQuery
-							? (openBlock(),
-							  createBlock(
-									_component_xButton,
-									{
-										key: 0,
-										configs: _ctx.Cpt_btn_query
-									},
-									null,
-									8,
-									["configs"]
-							  ))
-							: createCommentVNode("", true),
-						createVNode(_component_xGap, { l: "4" }),
-						_ctx.Cpt_isShowRefresh
-							? (openBlock(),
-							  createBlock(
-									_component_xButton,
-									{
-										key: 1,
-										configs: _ctx.Cpt_btn_refresh
-									},
-									null,
-									8,
-									["configs"]
-							  ))
-							: createCommentVNode("", true),
-						createVNode(_component_xGap, { l: "4" }),
-						_ctx.Cpt_isShowFilter
-							? (openBlock(),
-							  createBlock(
-									_component_xColFilter,
-									{
-										key: 2,
-										configs: _ctx.configs
-									},
-									null,
-									8,
-									["configs"]
-							  ))
-							: createCommentVNode("", true)
-				  ]))
-				: createCommentVNode("", true)
-		])
-	);
+  const _component_xButton = resolveComponent("xButton");
+  const _component_xGap = resolveComponent("xGap");
+  const _component_xColFilter = resolveComponent("xColFilter");
+  return openBlock(), createElementBlock("div", _hoisted_1$2, [
+    createElementVNode("div", _hoisted_2, [
+      renderSlot(_ctx.$slots, "default")
+    ]),
+    _ctx.Cpt_isSetConfigs ? (openBlock(), createElementBlock("div", _hoisted_3, [
+      _ctx.Cpt_isShowQuery ? (openBlock(), createBlock(_component_xButton, {
+        key: 0,
+        configs: _ctx.Cpt_btn_query
+      }, null, 8, ["configs"])) : createCommentVNode("", true),
+      createVNode(_component_xGap, { l: "4" }),
+      _ctx.Cpt_isShowRefresh ? (openBlock(), createBlock(_component_xButton, {
+        key: 1,
+        configs: _ctx.Cpt_btn_refresh
+      }, null, 8, ["configs"])) : createCommentVNode("", true),
+      createVNode(_component_xGap, { l: "4" }),
+      _ctx.Cpt_isShowFilter ? (openBlock(), createBlock(_component_xColFilter, {
+        key: 2,
+        configs: _ctx.configs
+      }, null, 8, ["configs"])) : createCommentVNode("", true)
+    ])) : createCommentVNode("", true)
+  ]);
 }
-const xDataGridToolbar = /* @__PURE__ */ _export_sfc(_sfc_main$2, [
-	["render", _sfc_render$2]
-]);
+const xDataGridToolbar = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
 const _sfc_main$1 = defineComponent({
-	name: "xCellLabel",
-	props: {
-		configs: {
-			type: Object,
-			default() {
-				return {};
-			}
-		}
-	},
-	data() {
-		return {
-			loading: false,
-			title: ""
-		};
-	},
-	computed: {
-		id() {
-			return `xLabel_${this._.uid}`;
-		}
-	},
-	watch: {
-		configs: {
-			immediate: true,
-			handler(configs) {
-				this.loading = !!configs.loading;
-			}
-		}
-	},
-	methods: {
-		updateTitle(title) {
-			if (this.title !== title) {
-				this.title = title;
-			}
-		}
-	},
-	updated() {
-		const $dom = $(`#${this.id}`);
-		const domWidth = $dom.width();
-		const $span = $(`#${this.id} > span`);
-		const spanWidth = $span.width();
-		if (domWidth < spanWidth) {
-			const text = $dom.text();
-			this.updateTitle(text);
-		} else {
-			this.updateTitle("");
-		}
-	}
+  name: "xCellLabel",
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      title: ""
+    };
+  },
+  computed: {
+    id() {
+      return `xLabel_${this._.uid}`;
+    }
+  },
+  watch: {
+    configs: {
+      immediate: true,
+      handler(configs) {
+        this.loading = !!configs.loading;
+      }
+    }
+  },
+  methods: {
+    updateTitle(title) {
+      if (this.title !== title) {
+        this.title = title;
+      }
+    }
+  },
+  updated() {
+    const $dom = $(`#${this.id}`);
+    const domWidth = $dom.width();
+    const $span = $(`#${this.id} > span`);
+    const spanWidth = $span.width();
+    if (domWidth < spanWidth) {
+      const text = $dom.text();
+      this.updateTitle(text);
+    } else {
+      this.updateTitle("");
+    }
+  }
 });
 const _hoisted_1$1 = ["title", "id"];
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-	return (
-		openBlock(),
-		createElementBlock(
-			"div",
-			{
-				class: "ellipsis",
-				title: _ctx.title,
-				id: _ctx.id
-			},
-			[createElementVNode("span", null, [renderSlot(_ctx.$slots, "default")])],
-			8,
-			_hoisted_1$1
-		)
-	);
+  return openBlock(), createElementBlock("div", {
+    class: "ellipsis",
+    title: _ctx.title,
+    id: _ctx.id
+  }, [
+    createElementVNode("span", null, [
+      renderSlot(_ctx.$slots, "default")
+    ])
+  ], 8, _hoisted_1$1);
 }
-const xCellLabel = /* @__PURE__ */ _export_sfc(_sfc_main$1, [
-	["render", _sfc_render$1]
-]);
+const xCellLabel = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
 const xVirScroll_vue_vue_type_style_index_0_lang = "";
 const itemHeight = 48;
 const oneBlockHeight = 580;
 const _sfc_main = defineComponent({
-	name: "XVirScroll",
-	props: {
-		configs: {
-			type: Object,
-			default() {
-				return {};
-			}
-		},
-		top: {
-			type: Number,
-			default: 0
-		},
-		height: {
-			type: Number,
-			default: 0
-		},
-		scrollHeight: {
-			type: Number,
-			default: 0
-		}
-	},
-	emits: ["update:top", "update:height", "update:scrollHeight"],
-	setup() {
-		return {};
-	},
-	data() {
-		return {
-			itemComponent: this.$slots.item,
-			blockCount: 0,
-			isLoading: false,
-			styleWrapperAll: {
-				height: 0
-			}
-		};
-	},
-	computed: {
-		allItems() {
-			return this.configs.items || [];
-		},
-		positionBlock() {
-			return this.blockCount % 3;
-		},
-		virs1() {
-			const position = Number(this.styleWrapper1.match(/(\d)/g).join("")) / 580;
-			const start = position * 10;
-			const end = start + 10;
-			return this.allItems.slice(start, end).map((i, index2) => ({
-				...i,
-				index: start + 1 + index2
-			}));
-		},
-		virs2() {
-			const position = Number(this.styleWrapper2.match(/(\d)/g).join("")) / 580;
-			const start = position * 10;
-			const end = start + 10;
-			return this.allItems.slice(start, end).map((i, index2) => ({
-				...i,
-				index: start + 1 + index2
-			}));
-		},
-		virs3() {
-			const position = Number(this.styleWrapper3.match(/(\d)/g).join("")) / 580;
-			const start = position * 10;
-			const end = start + 10;
-			return this.allItems.slice(start, end).map((i, index2) => ({
-				...i,
-				index: start + 1 + index2
-			}));
-		},
-		styleWrapper1() {
-			if (this.positionBlock === 0) {
-				return `transform:translateY(${this.blockCount * 580}px)`;
-			}
-			if (this.positionBlock === 1) {
-				return `transform:translateY(${(this.blockCount + 2) * 580}px)`;
-			}
-			return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
-		},
-		styleWrapper2() {
-			if (this.positionBlock === 0) {
-				return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
-			}
-			if (this.positionBlock === 1) {
-				return `transform:translateY(${this.blockCount * 580}px)`;
-			}
-			return `transform:translateY(${(this.blockCount - 1) * 580}px)`;
-		},
-		styleWrapper3() {
-			if (this.positionBlock === 0) {
-				return `transform:translateY(${(this.blockCount + 2) * 580}px)`;
-			}
-			if (this.positionBlock === 1) {
-				return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
-			}
-			return `transform:translateY(${this.blockCount * 580}px)`;
-		}
-	},
-	watch: {
-		top() {
-			this.setTop();
-		},
-		"allItems.length": {
-			immediate: true,
-			handler() {
-				this.updateTop();
-				this.setHeight();
-			}
-		}
-	},
-	updated() {
-		var _a, _b;
-		const height = (_a = this.$wrapperEle) == null ? void 0 : _a.height();
-		if (height !== this.height) {
-			this.$emit(
-				"update:height",
-				((_b = this.$wrapperEle) == null ? void 0 : _b.height()) || 0
-			);
-		}
-	},
-	mounted() {
-		this.init();
-	},
-	beforeUnmount() {
-		this.$wrapperEle.off("scroll");
-	},
-	methods: {
-		setTop: privateLodash.debounce(function () {
-			if (this.$refs.refWrapper) {
-				this.$refs.refWrapper.scrollTo({
-					top: this.top,
-					behavior: "smooth"
-				});
-			}
-		}, 1e3),
-		init() {
-			this.$wrapperEle = $(this.$refs.refWrapper);
-			this.$wrapperEle.on("scroll", () => this.updateTop());
-		},
-		updateTop(event2) {
-			if (this.$refs.refWrapper) {
-				const top = this.$refs.refWrapper.scrollTop;
-				this.blockCount = Math.floor(top / oneBlockHeight);
-				this.$emit("update:top", top);
-			}
-		},
-		setHeight() {
-			const height = this.allItems.length * itemHeight;
-			this.styleWrapperAll.height = `${height}px`;
-			this.$emit("update:scrollHeight", height);
-		}
-	}
+  name: "XVirScroll",
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    top: {
+      type: Number,
+      default: 0
+    },
+    height: {
+      type: Number,
+      default: 0
+    },
+    scrollHeight: {
+      type: Number,
+      default: 0
+    }
+  },
+  emits: ["update:top", "update:height", "update:scrollHeight"],
+  setup() {
+    return {};
+  },
+  data() {
+    return {
+      itemComponent: this.$slots.item,
+      blockCount: 0,
+      isLoading: false,
+      styleWrapperAll: {
+        height: 0
+      }
+    };
+  },
+  computed: {
+    allItems() {
+      return this.configs.items || [];
+    },
+    positionBlock() {
+      return this.blockCount % 3;
+    },
+    virs1() {
+      const position = Number(this.styleWrapper1.match(/(\d)/g).join("")) / 580;
+      const start = position * 10;
+      const end = start + 10;
+      return this.allItems.slice(start, end).map((i, index2) => ({
+        ...i,
+        index: start + 1 + index2
+      }));
+    },
+    virs2() {
+      const position = Number(this.styleWrapper2.match(/(\d)/g).join("")) / 580;
+      const start = position * 10;
+      const end = start + 10;
+      return this.allItems.slice(start, end).map((i, index2) => ({
+        ...i,
+        index: start + 1 + index2
+      }));
+    },
+    virs3() {
+      const position = Number(this.styleWrapper3.match(/(\d)/g).join("")) / 580;
+      const start = position * 10;
+      const end = start + 10;
+      return this.allItems.slice(start, end).map((i, index2) => ({
+        ...i,
+        index: start + 1 + index2
+      }));
+    },
+    styleWrapper1() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${this.blockCount * 580}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${(this.blockCount + 2) * 580}px)`;
+      }
+      return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
+    },
+    styleWrapper2() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${this.blockCount * 580}px)`;
+      }
+      return `transform:translateY(${(this.blockCount - 1) * 580}px)`;
+    },
+    styleWrapper3() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${(this.blockCount + 2) * 580}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
+      }
+      return `transform:translateY(${this.blockCount * 580}px)`;
+    }
+  },
+  watch: {
+    top() {
+      this.setTop();
+    },
+    "allItems.length": {
+      immediate: true,
+      handler() {
+        this.updateTop();
+        this.setHeight();
+      }
+    }
+  },
+  updated() {
+    var _a, _b;
+    const height = (_a = this.$wrapperEle) == null ? void 0 : _a.height();
+    if (height !== this.height) {
+      this.$emit("update:height", ((_b = this.$wrapperEle) == null ? void 0 : _b.height()) || 0);
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  beforeUnmount() {
+    this.$wrapperEle.off("scroll");
+  },
+  methods: {
+    setTop: privateLodash.debounce(function() {
+      if (this.$refs.refWrapper) {
+        this.$refs.refWrapper.scrollTo({
+          top: this.top,
+          behavior: "smooth"
+        });
+      }
+    }, 1e3),
+    init() {
+      this.$wrapperEle = $(this.$refs.refWrapper);
+      this.$wrapperEle.on("scroll", () => this.updateTop());
+    },
+    updateTop(event2) {
+      if (this.$refs.refWrapper) {
+        const top = this.$refs.refWrapper.scrollTop;
+        this.blockCount = Math.floor(top / oneBlockHeight);
+        this.$emit("update:top", top);
+      }
+    },
+    setHeight() {
+      const height = this.allItems.length * itemHeight;
+      this.styleWrapperAll.height = `${height}px`;
+      this.$emit("update:scrollHeight", height);
+    }
+  }
 });
 const _hoisted_1 = {
-	ref: "refWrapper",
-	class: "wrapper vir-item-component"
+  ref: "refWrapper",
+  class: "wrapper vir-item-component"
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-	return (
-		openBlock(),
-		createElementBlock(
-			"div",
-			_hoisted_1,
-			[
-				createElementVNode(
-					"div",
-					{
-						style: normalizeStyle(_ctx.styleWrapperAll)
-					},
-					[
-						createElementVNode(
-							"div",
-							{
-								class: "vir-item-wrapper item1",
-								style: normalizeStyle(_ctx.styleWrapper1)
-							},
-							[
-								(openBlock(true),
-								createElementBlock(
-									Fragment,
-									null,
-									renderList(_ctx.virs1, vir => {
-										return (
-											openBlock(),
-											createElementBlock(
-												"div",
-												{
-													key: vir.id,
-													class: "vir-item"
-												},
-												[
-													(openBlock(),
-													createBlock(
-														resolveDynamicComponent(_ctx.itemComponent),
-														{ item: vir },
-														null,
-														8,
-														["item"]
-													))
-												]
-											)
-										);
-									}),
-									128
-								))
-							],
-							4
-						),
-						createElementVNode(
-							"div",
-							{
-								class: "vir-item-wrapper item2",
-								style: normalizeStyle(_ctx.styleWrapper2)
-							},
-							[
-								(openBlock(true),
-								createElementBlock(
-									Fragment,
-									null,
-									renderList(_ctx.virs2, vir => {
-										return (
-											openBlock(),
-											createElementBlock(
-												"div",
-												{
-													key: vir.id,
-													class: "vir-item"
-												},
-												[
-													(openBlock(),
-													createBlock(
-														resolveDynamicComponent(_ctx.itemComponent),
-														{ item: vir },
-														null,
-														8,
-														["item"]
-													))
-												]
-											)
-										);
-									}),
-									128
-								))
-							],
-							4
-						),
-						createElementVNode(
-							"div",
-							{
-								class: "vir-item-wrapper item3",
-								style: normalizeStyle(_ctx.styleWrapper3)
-							},
-							[
-								(openBlock(true),
-								createElementBlock(
-									Fragment,
-									null,
-									renderList(_ctx.virs3, vir => {
-										return (
-											openBlock(),
-											createElementBlock(
-												"div",
-												{
-													key: vir.id,
-													class: "vir-item"
-												},
-												[
-													(openBlock(),
-													createBlock(
-														resolveDynamicComponent(_ctx.itemComponent),
-														{ item: vir },
-														null,
-														8,
-														["item"]
-													))
-												]
-											)
-										);
-									}),
-									128
-								))
-							],
-							4
-						)
-					],
-					4
-				)
-			],
-			512
-		)
-	);
+  return openBlock(), createElementBlock("div", _hoisted_1, [
+    createElementVNode("div", {
+      style: normalizeStyle(_ctx.styleWrapperAll)
+    }, [
+      createElementVNode("div", {
+        class: "vir-item-wrapper item1",
+        style: normalizeStyle(_ctx.styleWrapper1)
+      }, [
+        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs1, (vir) => {
+          return openBlock(), createElementBlock("div", {
+            key: vir.id,
+            class: "vir-item"
+          }, [
+            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
+          ]);
+        }), 128))
+      ], 4),
+      createElementVNode("div", {
+        class: "vir-item-wrapper item2",
+        style: normalizeStyle(_ctx.styleWrapper2)
+      }, [
+        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs2, (vir) => {
+          return openBlock(), createElementBlock("div", {
+            key: vir.id,
+            class: "vir-item"
+          }, [
+            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
+          ]);
+        }), 128))
+      ], 4),
+      createElementVNode("div", {
+        class: "vir-item-wrapper item3",
+        style: normalizeStyle(_ctx.styleWrapper3)
+      }, [
+        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs3, (vir) => {
+          return openBlock(), createElementBlock("div", {
+            key: vir.id,
+            class: "vir-item"
+          }, [
+            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
+          ]);
+        }), 128))
+      ], 4)
+    ], 4)
+  ], 512);
 }
-const xVirScroll = /* @__PURE__ */ _export_sfc(_sfc_main, [
-	["render", _sfc_render]
-]);
+const xVirScroll = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 const xVirTableTh = defineComponent({
-	props: ["column", "index"],
-	computed: {
-		prop() {
-			var _a;
-			return (_a = this.column) == null ? void 0 : _a.prop;
-		},
-		label() {
-			var _a;
-			return (_a = this.column) == null ? void 0 : _a.label;
-		},
-		renderHeader() {
-			var _a;
-			return ((_a = this.column) == null ? void 0 : _a.renderHeader) || false;
-		},
-		vDomCellContent() {
-			if (this.renderHeader) {
-				return this.renderHeader({
-					label: this.label,
-					prop: this.prop,
-					index: this.index
-				});
-			}
-			return this.label;
-		}
-	},
-	render() {
-		return createVNode(
-			"div",
-			{
-				role: "th",
-				class: "xVirTable-cell",
-				"data-prop": this.prop,
-				"data-index": this.index
-			},
-			[this.vDomCellContent]
-		);
-	}
+  props: ["column", "index"],
+  computed: {
+    prop() {
+      var _a;
+      return (_a = this.column) == null ? void 0 : _a.prop;
+    },
+    label() {
+      var _a;
+      return (_a = this.column) == null ? void 0 : _a.label;
+    },
+    renderHeader() {
+      var _a;
+      return ((_a = this.column) == null ? void 0 : _a.renderHeader) || false;
+    },
+    vDomCellContent() {
+      if (this.renderHeader) {
+        return this.renderHeader({
+          label: this.label,
+          prop: this.prop,
+          index: this.index
+        });
+      }
+      return this.label;
+    }
+  },
+  render() {
+    return createVNode("div", {
+      "role": "th",
+      "class": "xVirTable-cell",
+      "data-prop": this.prop,
+      "data-index": this.index
+    }, [this.vDomCellContent]);
+  }
 });
 const usefnObserveDomResize = () => {
-	function fnObserveDomResize($el, callback) {
-		this.resizeObserver = new ResizeObserver(callback);
-		this.resizeObserver.observe($el);
-	}
-	function fnUnobserveDomResize($el) {
-		this.resizeObserver.unobserve($el);
-	}
-	return {
-		fnObserveDomResize,
-		fnUnobserveDomResize
-	};
+  function fnObserveDomResize($el, callback) {
+    this.resizeObserver = new ResizeObserver(callback);
+    this.resizeObserver.observe($el);
+  }
+  function fnUnobserveDomResize($el) {
+    this.resizeObserver.unobserve($el);
+  }
+  return {
+    fnObserveDomResize,
+    fnUnobserveDomResize
+  };
 };
 const xVirTableTd = defineComponent({
-	props: ["column", "data", "rowIndex"],
-	computed: {
-		prop() {
-			var _a;
-			return (_a = this.column) == null ? void 0 : _a.prop;
-		},
-		cell() {
-			return this.data[this.prop];
-		},
-		renderCell() {
-			var _a;
-			return ((_a = this.column) == null ? void 0 : _a.renderCell) || false;
-		},
-		vDomCellContent() {
-			if (this.renderCell) {
-				return this.renderCell({
-					record: this.data,
-					cell: this.cell,
-					index: this.rowIndex
-				});
-			}
-			return this.data[this.prop];
-		}
-	},
-	render() {
-		return createVNode(
-			"div",
-			{
-				role: "td",
-				class: "xVirTable-cell",
-				"data-prop": this.prop
-			},
-			[this.vDomCellContent]
-		);
-	}
+  props: ["column", "data", "rowIndex"],
+  computed: {
+    prop() {
+      var _a;
+      return (_a = this.column) == null ? void 0 : _a.prop;
+    },
+    cell() {
+      return this.data[this.prop];
+    },
+    renderCell() {
+      var _a;
+      return ((_a = this.column) == null ? void 0 : _a.renderCell) || false;
+    },
+    vDomCellContent() {
+      if (this.renderCell) {
+        return this.renderCell({
+          record: this.data,
+          cell: this.cell,
+          index: this.rowIndex
+        });
+      }
+      return this.data[this.prop];
+    }
+  },
+  render() {
+    return createVNode("div", {
+      "role": "td",
+      "class": "xVirTable-cell",
+      "data-prop": this.prop
+    }, [this.vDomCellContent]);
+  }
 });
 const xVirTableBody = defineComponent({
-	props: [
-		"dataSource",
-		"columnOrder",
-		"columns",
-		"rowHeight",
-		"selectedConfigs",
-		"selected"
-	],
-	emits: ["selectedChange", "update:scrollHeight"],
-	components: {
-		xVirTableTd
-	},
-	setup() {
-		const { fnObserveDomResize, fnUnobserveDomResize } =
-			usefnObserveDomResize();
-		return {
-			fnObserveDomResize,
-			fnUnobserveDomResize
-		};
-	},
-	data(vm) {
-		return {
-			isLoading: false,
-			perBlockHeight: 1,
-			perBlockRowCount: 0,
-			blockInViewCount: 0,
-			styleWrapperAll: {
-				height: 0,
-				position: "relative"
-			},
-			virs1: [],
-			virs2: [],
-			virs3: []
-		};
-	},
-	mounted() {
-		this.fnObserveDomResize(this.$refs.wrapper, () => {
-			this.setPerBlockHeight(this.$refs.wrapper.offsetHeight);
-		});
-		this.$watch(
-			() => {
-				return `${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper1}`;
-			},
-			() => {
-				this.setVirs1();
-			}
-		);
-		this.$watch(
-			() =>
-				`${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper2}`,
-			() => {
-				this.setVirs2();
-			}
-		);
-		this.$watch(
-			() =>
-				`${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper3}`,
-			() => {
-				this.setVirs3();
-			}
-		);
-	},
-	beforeUnmount() {
-		this.fnUnobserveDomResize(this.$refs.wrapper);
-	},
-	computed: {
-		fnIsSelected() {
-			const { isSelect, prop } = this.selectedConfigs || {};
-			if (privateLodash.isFunction(isSelect)) {
-				return args2 => {
-					return isSelect.call(this, args2);
-				};
-			} else {
-				return ({ rowData }) => {
-					const id = rowData[prop];
-					return this.selected.includes(id);
-				};
-			}
-		},
-		fnIsDisabled() {
-			const { isDisabled } = this.selectedConfigs || {};
-			if (privateLodash.isFunction(isDisabled)) {
-				return () => {
-					return isDisabled.call(this, args);
-				};
-			} else {
-				return () => {
-					return false;
-				};
-			}
-		},
-		positionBlock() {
-			return this.blockInViewCount % 3;
-		},
-		styleWrapper1() {
-			if (this.positionBlock === 0) {
-				return `transform:translateY(${
-					this.blockInViewCount * this.perBlockHeight
-				}px)`;
-			}
-			if (this.positionBlock === 1) {
-				return `transform:translateY(${
-					(this.blockInViewCount + 2) * this.perBlockHeight
-				}px)`;
-			}
-			return `transform:translateY(${
-				(this.blockInViewCount + 1) * this.perBlockHeight
-			}px)`;
-		},
-		styleWrapper2() {
-			if (this.positionBlock === 0) {
-				return `transform:translateY(${
-					(this.blockInViewCount + 1) * this.perBlockHeight
-				}px)`;
-			}
-			if (this.positionBlock === 1) {
-				return `transform:translateY(${
-					this.blockInViewCount * this.perBlockHeight
-				}px)`;
-			}
-			return `transform:translateY(${
-				(this.blockInViewCount - 1) * this.perBlockHeight
-			}px)`;
-		},
-		styleWrapper3() {
-			if (this.positionBlock === 0) {
-				return `transform:translateY(${
-					(this.blockInViewCount + 2) * this.perBlockHeight
-				}px)`;
-			}
-			if (this.positionBlock === 1) {
-				return `transform:translateY(${
-					(this.blockInViewCount + 1) * this.perBlockHeight
-				}px)`;
-			}
-			return `transform:translateY(${
-				this.blockInViewCount * this.perBlockHeight
-			}px)`;
-		},
-		vDomBodyTr1() {
-			return privateLodash.map(this.virs1, (data, rowIndex) => {
-				return createVNode(
-					"div",
-					{
-						role: "tr",
-						class: "xVirTable-row flex horizon",
-						"data-row-key": rowIndex
-					},
-					[
-						this.genSelectedVDom({
-							rowIndex,
-							rowData: data
-						}),
-						privateLodash.map(this.columnOrder, (prop, index2) => {
-							return createVNode(
-								xVirTableTd,
-								{
-									column: this.columns[prop],
-									"data-index": index2,
-									rowIndex: rowIndex,
-									data: data
-								},
-								null
-							);
-						})
-					]
-				);
-			});
-		},
-		vDomBodyTr2() {
-			return privateLodash.map(this.virs2, (data, rowIndex) => {
-				return createVNode(
-					"div",
-					{
-						role: "tr",
-						class: "xVirTable-row flex horizon",
-						"data-row-key": rowIndex
-					},
-					[
-						this.genSelectedVDom({
-							rowIndex,
-							rowData: data
-						}),
-						privateLodash.map(this.columnOrder, (prop, index2) => {
-							return createVNode(
-								xVirTableTd,
-								{
-									column: this.columns[prop],
-									"data-index": index2,
-									rowIndex: rowIndex,
-									data: data
-								},
-								null
-							);
-						})
-					]
-				);
-			});
-		},
-		vDomBodyTr3() {
-			return privateLodash.map(this.virs3, (data, rowIndex) => {
-				return createVNode(
-					"div",
-					{
-						role: "tr",
-						class: "xVirTable-row flex horizon",
-						"data-row-key": rowIndex
-					},
-					[
-						this.genSelectedVDom({
-							rowIndex,
-							rowData: data
-						}),
-						privateLodash.map(this.columnOrder, (prop, index2) => {
-							return createVNode(
-								xVirTableTd,
-								{
-									column: this.columns[prop],
-									"data-index": index2,
-									rowIndex: rowIndex,
-									data: data
-								},
-								null
-							);
-						})
-					]
-				);
-			});
-		}
-	},
-	methods: {
-		setVirs1() {
-			const position =
-				Number(this.styleWrapper1.match(/(\d)/g).join("")) /
-				this.perBlockHeight;
-			const start = position * this.perBlockRowCount;
-			const end = start + this.perBlockRowCount;
-			this.virs1 = this.fragment(start, end);
-		},
-		setVirs2() {
-			const position =
-				Number(this.styleWrapper2.match(/(\d)/g).join("")) /
-				this.perBlockHeight;
-			const start = position * this.perBlockRowCount;
-			const end = start + this.perBlockRowCount;
-			this.virs2 = this.fragment(start, end);
-		},
-		setVirs3() {
-			const position =
-				Number(this.styleWrapper3.match(/(\d)/g).join("")) /
-				this.perBlockHeight;
-			const start = position * this.perBlockRowCount;
-			const end = start + this.perBlockRowCount;
-			this.virs3 = this.fragment(start, end);
-		},
-		fragment(start, end) {
-			return this.dataSource.slice(start, end).map((i, index2) => ({
-				...i,
-				index: start + 1 + index2
-			}));
-		},
-		genSelectedVDom(rowInfo) {
-			if (!this.selectedConfigs) {
-				return null;
-			}
-			const isSelected = this.fnIsSelected(rowInfo);
-			let isDisabled = this.fnIsDisabled(rowInfo);
-			const handleChange = e => {
-				const { prop } = this.selectedConfigs;
-				this.emitSelectedChange(e.target.checked, rowInfo.rowData[prop]);
-			};
-			let vDomChecked;
-			if (privateLodash.isString(isDisabled)) {
-				isDisabled = true;
-				const uiPopoverConfigs = {
-					content: isDisabled
-				};
-				vDomChecked = withDirectives(
-					createVNode(
-						resolveComponent("aCheckbox"),
-						{
-							checked: isSelected,
-							onChange: handleChange,
-							disabled: true
-						},
-						null
-					),
-					[[resolveDirective("uiPopover"), uiPopoverConfigs]]
-				);
-			} else {
-				vDomChecked = createVNode(
-					resolveComponent("aCheckbox"),
-					{
-						checked: isSelected,
-						onChange: handleChange,
-						disabled: isDisabled
-					},
-					null
-				);
-			}
-			return createVNode(
-				"div",
-				{
-					role: "td",
-					"data-prop": "xVirSelected",
-					class:
-						"flex middle center xVirTable-cell xVirSelected_inner_element xVirSelected_inner_element_check"
-				},
-				[vDomChecked]
-			);
-		},
-		emitSelectedChange(checked, id) {
-			this.$emit("selectedChange", {
-				checked,
-				id
-			});
-		},
-		setPerBlockHeight: privateLodash.debounce(function (viewportHeight) {
-			this.viewportHeight = viewportHeight;
-			this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
-			this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
-			this.setHeight();
-		}, 64),
-		setTop: privateLodash.debounce(function () {
-			if (this.$refs.refWrapper) {
-				this.$refs.refWrapper.scrollTo({
-					top: this.top,
-					behavior: "smooth"
-				});
-			}
-		}, 1e3),
-		updateTop(event2) {
-			if (event2) {
-				const top = event2.target.scrollTop;
-				this.blockInViewCount = Math.floor(top / this.perBlockHeight);
-			}
-		},
-		setHeight() {
-			const height = this.dataSource.length * this.rowHeight;
-			if (this.viewportHeight && height < this.viewportHeight) {
-				this.styleWrapperAll.width = `calc(100% - 6px)`;
-			} else {
-				delete this.styleWrapperAll.width;
-			}
-			this.styleWrapperAll.height = `${height}px`;
-		}
-	},
-	watch: {
-		rowHeight() {
-			this.setPerBlockHeight(this.$refs.wrapper.offsetHeight);
-		},
-		top() {
-			this.setTop();
-		},
-		"dataSource.length": {
-			immediate: true,
-			handler() {
-				this.updateTop(false);
-				this.setHeight();
-			}
-		}
-	},
-	render() {
-		return createVNode(
-			"div",
-			{
-				role: "body",
-				class: "xVirTable-body-wrapper flex1",
-				ref: "wrapper",
-				onScroll: this.updateTop
-			},
-			[
-				createVNode(
-					"div",
-					{
-						style: this.styleWrapperAll
-					},
-					[
-						createVNode(
-							"div",
-							{
-								class: "xVirTable-body-item item1",
-								style: this.styleWrapper1
-							},
-							[this.vDomBodyTr1]
-						),
-						createVNode(
-							"div",
-							{
-								class: "xVirTable-body-item item2",
-								style: this.styleWrapper2
-							},
-							[this.vDomBodyTr2]
-						),
-						createVNode(
-							"div",
-							{
-								class: "xVirTable-body-item item3",
-								style: this.styleWrapper3
-							},
-							[this.vDomBodyTr3]
-						)
-					]
-				)
-			]
-		);
-	}
+  props: ["dataSource", "columnOrder", "columns", "rowHeight", "selectedConfigs", "selected"],
+  emits: ["selectedChange", "update:scrollHeight"],
+  components: {
+    xVirTableTd
+  },
+  setup() {
+    const {
+      fnObserveDomResize,
+      fnUnobserveDomResize
+    } = usefnObserveDomResize();
+    return {
+      fnObserveDomResize,
+      fnUnobserveDomResize
+    };
+  },
+  data(vm) {
+    return {
+      isLoading: false,
+      perBlockHeight: 1,
+      perBlockRowCount: 0,
+      blockInViewCount: 0,
+      styleWrapperAll: {
+        height: 0,
+        position: "relative"
+      },
+      virs1: [],
+      virs2: [],
+      virs3: []
+    };
+  },
+  mounted() {
+    this.fnObserveDomResize(this.$refs.wrapper, () => {
+      this.setPerBlockHeight(this.$refs.wrapper.offsetHeight);
+    });
+    this.$watch(() => {
+      return `${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper1}`;
+    }, () => {
+      this.setVirs1();
+    });
+    this.$watch(() => `${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper2}`, () => {
+      this.setVirs2();
+    });
+    this.$watch(() => `${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper3}`, () => {
+      this.setVirs3();
+    });
+  },
+  beforeUnmount() {
+    this.fnUnobserveDomResize(this.$refs.wrapper);
+  },
+  computed: {
+    fnIsSelected() {
+      const {
+        isSelect,
+        prop
+      } = this.selectedConfigs || {};
+      if (privateLodash.isFunction(isSelect)) {
+        return (args2) => {
+          return isSelect.call(this, args2);
+        };
+      } else {
+        return ({
+          rowData
+        }) => {
+          const id = rowData[prop];
+          return this.selected.includes(id);
+        };
+      }
+    },
+    fnIsDisabled() {
+      const {
+        isDisabled
+      } = this.selectedConfigs || {};
+      if (privateLodash.isFunction(isDisabled)) {
+        return () => {
+          return isDisabled.call(this, args);
+        };
+      } else {
+        return () => {
+          return false;
+        };
+      }
+    },
+    positionBlock() {
+      return this.blockInViewCount % 3;
+    },
+    styleWrapper1() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${this.blockInViewCount * this.perBlockHeight}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${(this.blockInViewCount + 2) * this.perBlockHeight}px)`;
+      }
+      return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight}px)`;
+    },
+    styleWrapper2() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${this.blockInViewCount * this.perBlockHeight}px)`;
+      }
+      return `transform:translateY(${(this.blockInViewCount - 1) * this.perBlockHeight}px)`;
+    },
+    styleWrapper3() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${(this.blockInViewCount + 2) * this.perBlockHeight}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight}px)`;
+      }
+      return `transform:translateY(${this.blockInViewCount * this.perBlockHeight}px)`;
+    },
+    vDomBodyTr1() {
+      return privateLodash.map(this.virs1, (data, rowIndex) => {
+        return createVNode("div", {
+          "role": "tr",
+          "class": "xVirTable-row flex horizon",
+          "data-row-key": rowIndex
+        }, [this.genSelectedVDom({
+          rowIndex,
+          rowData: data
+        }), privateLodash.map(this.columnOrder, (prop, index2) => {
+          return createVNode(xVirTableTd, {
+            "column": this.columns[prop],
+            "data-index": index2,
+            "rowIndex": rowIndex,
+            "data": data
+          }, null);
+        })]);
+      });
+    },
+    vDomBodyTr2() {
+      return privateLodash.map(this.virs2, (data, rowIndex) => {
+        return createVNode("div", {
+          "role": "tr",
+          "class": "xVirTable-row flex horizon",
+          "data-row-key": rowIndex
+        }, [this.genSelectedVDom({
+          rowIndex,
+          rowData: data
+        }), privateLodash.map(this.columnOrder, (prop, index2) => {
+          return createVNode(xVirTableTd, {
+            "column": this.columns[prop],
+            "data-index": index2,
+            "rowIndex": rowIndex,
+            "data": data
+          }, null);
+        })]);
+      });
+    },
+    vDomBodyTr3() {
+      return privateLodash.map(this.virs3, (data, rowIndex) => {
+        return createVNode("div", {
+          "role": "tr",
+          "class": "xVirTable-row flex horizon",
+          "data-row-key": rowIndex
+        }, [this.genSelectedVDom({
+          rowIndex,
+          rowData: data
+        }), privateLodash.map(this.columnOrder, (prop, index2) => {
+          return createVNode(xVirTableTd, {
+            "column": this.columns[prop],
+            "data-index": index2,
+            "rowIndex": rowIndex,
+            "data": data
+          }, null);
+        })]);
+      });
+    }
+  },
+  methods: {
+    setVirs1() {
+      const position = Number(this.styleWrapper1.match(/(\d)/g).join("")) / this.perBlockHeight;
+      const start = position * this.perBlockRowCount;
+      const end = start + this.perBlockRowCount;
+      this.virs1 = this.fragment(start, end);
+    },
+    setVirs2() {
+      const position = Number(this.styleWrapper2.match(/(\d)/g).join("")) / this.perBlockHeight;
+      const start = position * this.perBlockRowCount;
+      const end = start + this.perBlockRowCount;
+      this.virs2 = this.fragment(start, end);
+    },
+    setVirs3() {
+      const position = Number(this.styleWrapper3.match(/(\d)/g).join("")) / this.perBlockHeight;
+      const start = position * this.perBlockRowCount;
+      const end = start + this.perBlockRowCount;
+      this.virs3 = this.fragment(start, end);
+    },
+    fragment(start, end) {
+      return this.dataSource.slice(start, end).map((i, index2) => ({
+        ...i,
+        index: start + 1 + index2
+      }));
+    },
+    genSelectedVDom(rowInfo) {
+      if (!this.selectedConfigs) {
+        return null;
+      }
+      const isSelected = this.fnIsSelected(rowInfo);
+      let isDisabled = this.fnIsDisabled(rowInfo);
+      const handleChange = (e) => {
+        const {
+          prop
+        } = this.selectedConfigs;
+        this.emitSelectedChange(e.target.checked, rowInfo.rowData[prop]);
+      };
+      let vDomChecked;
+      if (privateLodash.isString(isDisabled)) {
+        isDisabled = true;
+        const uiPopoverConfigs = {
+          content: isDisabled
+        };
+        vDomChecked = withDirectives(createVNode(resolveComponent("aCheckbox"), {
+          "checked": isSelected,
+          "onChange": handleChange,
+          "disabled": true
+        }, null), [[resolveDirective("uiPopover"), uiPopoverConfigs]]);
+      } else {
+        vDomChecked = createVNode(resolveComponent("aCheckbox"), {
+          "checked": isSelected,
+          "onChange": handleChange,
+          "disabled": isDisabled
+        }, null);
+      }
+      return createVNode("div", {
+        "role": "td",
+        "data-prop": "xVirSelected",
+        "class": "flex middle center xVirTable-cell xVirSelected_inner_element xVirSelected_inner_element_check"
+      }, [vDomChecked]);
+    },
+    emitSelectedChange(checked, id) {
+      this.$emit("selectedChange", {
+        checked,
+        id
+      });
+    },
+    setPerBlockHeight: privateLodash.debounce(function(viewportHeight) {
+      this.viewportHeight = viewportHeight;
+      this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
+      this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
+      this.setHeight();
+    }, 64),
+    setTop: privateLodash.debounce(function() {
+      if (this.$refs.refWrapper) {
+        this.$refs.refWrapper.scrollTo({
+          top: this.top,
+          behavior: "smooth"
+        });
+      }
+    }, 1e3),
+    updateTop(event2) {
+      if (event2) {
+        const top = event2.target.scrollTop;
+        this.blockInViewCount = Math.floor(top / this.perBlockHeight);
+      }
+    },
+    setHeight() {
+      const height = this.dataSource.length * this.rowHeight;
+      if (this.viewportHeight && height < this.viewportHeight) {
+        this.styleWrapperAll.width = `calc(100% - 6px)`;
+      } else {
+        delete this.styleWrapperAll.width;
+      }
+      this.styleWrapperAll.height = `${height}px`;
+    }
+  },
+  watch: {
+    rowHeight() {
+      this.setPerBlockHeight(this.$refs.wrapper.offsetHeight);
+    },
+    top() {
+      this.setTop();
+    },
+    "dataSource.length": {
+      immediate: true,
+      handler() {
+        this.updateTop(false);
+        this.setHeight();
+      }
+    }
+  },
+  render() {
+    return createVNode("div", {
+      "role": "body",
+      "class": "xVirTable-body-wrapper flex1",
+      "ref": "wrapper",
+      "onScroll": this.updateTop
+    }, [createVNode("div", {
+      "style": this.styleWrapperAll
+    }, [createVNode("div", {
+      "class": "xVirTable-body-item item1",
+      "style": this.styleWrapper1
+    }, [this.vDomBodyTr1]), createVNode("div", {
+      "class": "xVirTable-body-item item2",
+      "style": this.styleWrapper2
+    }, [this.vDomBodyTr2]), createVNode("div", {
+      "class": "xVirTable-body-item item3",
+      "style": this.styleWrapper3
+    }, [this.vDomBodyTr3])])]);
+  }
 });
 function defXVirTableConfigs(options) {
-	const required = ["rowHeight", "columns"];
-	if (
-		privateLodash.some(required, prop => {
-			if (!options[prop]) {
-				alert("defXVirTableConfigs miss required " + prop);
-				return true;
-			}
-			return false;
-		})
-	) {
-		throw new Error("defXVirTableConfigs miss required");
-	}
-	if (options.selectedConfigs) {
-		options.selected = options.selected || [];
-	}
-	return options;
+  const required = ["rowHeight", "columns"];
+  if (privateLodash.some(required, (prop) => {
+    if (!options[prop]) {
+      alert("defXVirTableConfigs miss required " + prop);
+      return true;
+    }
+    return false;
+  })) {
+    throw new Error("defXVirTableConfigs miss required");
+  }
+  if (options.selectedConfigs) {
+    options.selected = options.selected || [];
+  }
+  return options;
 }
 defXVirTableConfigs.type = {
-	many: "many",
-	one: "one"
+  many: "many",
+  one: "one"
 };
 const xVirTable = defineComponent({
-	props: ["configs"],
-	components: {
-		xVirTableTh,
-		xVirTableBody
-	},
-	mounted() {
-		this.initStyle();
-	},
-	data() {
-		return {
-			selectedAll: false
-		};
-	},
-	computed: {
-		selectedIndeterminate() {
-			var _a, _b;
-			const dataLength =
-				((_b = (_a = this.configs) == null ? void 0 : _a.dataSource) == null
-					? void 0
-					: _b.length) || 0;
-			const selectedLength = this.selected.length;
-			if (
-				dataLength == 0 ||
-				selectedLength == 0 ||
-				dataLength == selectedLength
-			) {
-				return false;
-			}
-			return true;
-		},
-		selected() {
-			var _a;
-			return ((_a = this.configs) == null ? void 0 : _a.selected) || [];
-		},
-		selectedType() {
-			var _a, _b, _c;
-			if (!((_a = this.configs) == null ? void 0 : _a.selectedConfigs)) {
-				return false;
-			}
-			return (
-				((_c = (_b = this.configs) == null ? void 0 : _b.selectedConfigs) ==
-				null
-					? void 0
-					: _c.type) || defXVirTableConfigs.type.many
-			);
-		},
-		selectedProp() {
-			var _a, _b, _c, _d;
-			if (!this.selectedType) {
-				return false;
-			}
-			if (
-				!((_b = (_a = this.configs) == null ? void 0 : _a.selectedConfigs) ==
-				null
-					? void 0
-					: _b.prop)
-			) {
-				alert("vVirTable miss this.selected id prop");
-			}
-			return (_d = (_c = this.configs) == null ? void 0 : _c.selectedConfigs) ==
-				null
-				? void 0
-				: _d.prop;
-		},
-		selectedBy() {
-			var _a, _b, _c, _d;
-			if (!this.selectedType) {
-				return false;
-			}
-			if (
-				privateLodash.isFunction(
-					(_b = (_a = this.configs) == null ? void 0 : _a.selectedConfigs) ==
-						null
-						? void 0
-						: _b.fn
-				)
-			) {
-				return (_d =
-					(_c = this.configs) == null ? void 0 : _c.selectedConfigs) == null
-					? void 0
-					: _d.fn;
-			} else {
-				return false;
-			}
-		},
-		customClass() {
-			var _a, _b;
-			if (
-				privateLodash.isFunction(
-					(_a = this.configs) == null ? void 0 : _a.customClass
-				)
-			) {
-				return (_b = this.configs) == null
-					? void 0
-					: _b.customClass(this.xVirTableId);
-			} else {
-				return "";
-			}
-		},
-		rowHeight() {
-			var _a;
-			return ((_a = this.configs) == null ? void 0 : _a.rowHeight) || 32;
-		},
-		xVirTableId() {
-			return `xVirTableId_${this._.uid}`;
-		},
-		columnOrder() {
-			var _a, _b, _c;
-			if ((_a = this.configs) == null ? void 0 : _a.columnOrder) {
-				return (_b = this.configs) == null ? void 0 : _b.columnOrder;
-			}
-			return Object.keys(
-				((_c = this.configs) == null ? void 0 : _c.columns) || {}
-			);
-		},
-		columnWidthArray() {
-			const _columnWidthArray = privateLodash.reduce(
-				this.columnOrder,
-				(columnStyle, prop) => {
-					const configsColumn = this.configs.columns[prop] || {};
-					const { width } = configsColumn;
-					if (width) {
-						columnStyle.push(
-							`#${this.xVirTableId} div[role=tr] div[role=th][data-prop=${prop}]{ width:${width}; min-width:${width}; max-width:${width}; }`
-						);
-						columnStyle.push(
-							`#${this.xVirTableId} div[role=tr] div[role=td][data-prop=${prop}]{ width:${width}; min-width:${width}; max-width:${width}; }`
-						);
-					}
-					return columnStyle;
-				},
-				[]
-			);
-			return _columnWidthArray;
-		},
-		vDomTheadSelect() {
-			if (!this.selectedType) {
-				return null;
-			}
-			let vDomTheadSelect = createVNode(
-				resolveComponent("aCheckbox"),
-				{
-					checked: this.selectedAll,
-					indeterminate: this.selectedIndeterminate,
-					onChange: this.handleSelectedChangeTh
-				},
-				null
-			);
-			if (this.selectedType == "one") {
-				vDomTheadSelect = null;
-			}
-			return createVNode(
-				"div",
-				{
-					role: "th",
-					class:
-						"flex middle center xVirTable-cell xVirSelected_inner_element xVirSelected_inner_element_check",
-					"data-prop": "xVirSelected"
-				},
-				[vDomTheadSelect]
-			);
-		},
-		vDomThead() {
-			return createVNode(
-				"div",
-				{
-					role: "thead",
-					class: "xVirTable-thead"
-				},
-				[
-					createVNode(
-						"div",
-						{
-							role: "tr",
-							class: "flex horizon"
-						},
-						[
-							this.vDomTheadSelect,
-							privateLodash.map(this.columnOrder, (prop, index2) => {
-								var _a;
-								const column =
-									(_a = this.configs) == null ? void 0 : _a.columns[prop];
-								return createVNode(
-									xVirTableTh,
-									{
-										column: column,
-										index: index2,
-										key: prop
-									},
-									null
-								);
-							})
-						]
-					)
-				]
-			);
-		},
-		styleContent() {
-			const allStyleArray = [
-				`#${this.xVirTableId} div[role=tr] >div{flex:1; }`,
-				`#${this.xVirTableId} div[role=tr] div[role=th]{ width:300px;overflow:hidden;text-align:center; }`,
-				`#${this.xVirTableId} div[role=tr] div[role=td]{ width:300px;overflow:hidden;height:${this.rowHeight}px;display: flex; justify-content: start; align-items: center;}`
-			].concat(this.columnWidthArray, this.customClass);
-			return allStyleArray.join("\n");
-		}
-	},
-	watch: {
-		"configs.selected"(selected) {
-			if ((selected == null ? void 0 : selected.length) === 0) {
-				this.selectedAll = false;
-			}
-		},
-		styleContent() {
-			this.updateStyle(this.styleContent);
-		}
-	},
-	methods: {
-		dataFilter(dataSourceArray) {
-			if (privateLodash.isFunction(this.configs.dataSourceFilter)) {
-				return this.configs.dataSourceFilter(dataSourceArray);
-			} else {
-				return dataSourceArray;
-			}
-		},
-		initStyle() {
-			const $form = $(`#${this.xVirTableId}`);
-			const $style = $("<style/>", {
-				id: `style_${this.xVirTableId}`
-			}).append(this.styleContent);
-			$form.prepend($style);
-		},
-		updateStyle(styleContent) {
-			const $style = $(`#style_${this.xVirTableId}`);
-			$style.html(styleContent);
-		},
-		handleSelectedChange() {},
-		handleSelectedChangeTh(e) {
-			const { checked } = e.target;
-			if (checked) {
-				this.selectedAll = true;
-				this.configs.selected = privateLodash.map(
-					this.configs.dataSource,
-					i => i[this.selectedProp]
-				);
-			} else {
-				this.configs.selected = [];
-			}
-		},
-		handleSelectedChangeTd({ id }) {
-			var _a;
-			const isOnlyOne = this.selectedType === "one";
-			const index2 = privateLodash.findIndex(
-				(_a = this.configs) == null ? void 0 : _a.selected,
-				i => i === id
-			);
-			if (index2 > -1) {
-				if (isOnlyOne) {
-					this.configs.selected = [];
-				} else {
-					this.configs.selected.splice(index2, 1);
-				}
-			} else {
-				if (isOnlyOne) {
-					this.configs.selected = [id];
-				} else {
-					this.configs.selected.push(id);
-				}
-			}
-		}
-	},
-	render() {
-		var _a, _b, _c;
-		return createVNode(
-			"div",
-			{
-				id: this.xVirTableId,
-				class: "xVirTable-wrapper flex vertical"
-			},
-			[
-				createVNode(
-					"div",
-					{
-						role: "table",
-						class: "xVirTable-header-wrapper",
-						style: "padding-right: 6px;"
-					},
-					[this.vDomThead]
-				),
-				createVNode(
-					xVirTableBody,
-					{
-						dataSource: this.dataFilter(this.configs.dataSource),
-						columnOrder: this.columnOrder,
-						columns: (_a = this.configs) == null ? void 0 : _a.columns,
-						rowHeight: this.rowHeight,
-						onSelectedChange: this.handleSelectedChangeTd,
-						selectedConfigs:
-							(_b = this.configs) == null ? void 0 : _b.selectedConfigs,
-						selected: (_c = this.configs) == null ? void 0 : _c.selected
-					},
-					null
-				)
-			]
-		);
-	}
+  props: ["configs"],
+  components: {
+    xVirTableTh,
+    xVirTableBody
+  },
+  mounted() {
+    this.initStyle();
+  },
+  data() {
+    return {
+      selectedAll: false
+    };
+  },
+  computed: {
+    selectedIndeterminate() {
+      var _a, _b;
+      const dataLength = ((_b = (_a = this.configs) == null ? void 0 : _a.dataSource) == null ? void 0 : _b.length) || 0;
+      const selectedLength = this.selected.length;
+      if (dataLength == 0 || selectedLength == 0 || dataLength == selectedLength) {
+        return false;
+      }
+      return true;
+    },
+    selected() {
+      var _a;
+      return ((_a = this.configs) == null ? void 0 : _a.selected) || [];
+    },
+    selectedType() {
+      var _a, _b, _c;
+      if (!((_a = this.configs) == null ? void 0 : _a.selectedConfigs)) {
+        return false;
+      }
+      return ((_c = (_b = this.configs) == null ? void 0 : _b.selectedConfigs) == null ? void 0 : _c.type) || defXVirTableConfigs.type.many;
+    },
+    selectedProp() {
+      var _a, _b, _c, _d;
+      if (!this.selectedType) {
+        return false;
+      }
+      if (!((_b = (_a = this.configs) == null ? void 0 : _a.selectedConfigs) == null ? void 0 : _b.prop)) {
+        alert("vVirTable miss this.selected id prop");
+      }
+      return (_d = (_c = this.configs) == null ? void 0 : _c.selectedConfigs) == null ? void 0 : _d.prop;
+    },
+    selectedBy() {
+      var _a, _b, _c, _d;
+      if (!this.selectedType) {
+        return false;
+      }
+      if (privateLodash.isFunction((_b = (_a = this.configs) == null ? void 0 : _a.selectedConfigs) == null ? void 0 : _b.fn)) {
+        return (_d = (_c = this.configs) == null ? void 0 : _c.selectedConfigs) == null ? void 0 : _d.fn;
+      } else {
+        return false;
+      }
+    },
+    customClass() {
+      var _a, _b;
+      if (privateLodash.isFunction((_a = this.configs) == null ? void 0 : _a.customClass)) {
+        return (_b = this.configs) == null ? void 0 : _b.customClass(this.xVirTableId);
+      } else {
+        return "";
+      }
+    },
+    rowHeight() {
+      var _a;
+      return ((_a = this.configs) == null ? void 0 : _a.rowHeight) || 32;
+    },
+    xVirTableId() {
+      return `xVirTableId_${this._.uid}`;
+    },
+    columnOrder() {
+      var _a, _b, _c;
+      if ((_a = this.configs) == null ? void 0 : _a.columnOrder) {
+        return (_b = this.configs) == null ? void 0 : _b.columnOrder;
+      }
+      return Object.keys(((_c = this.configs) == null ? void 0 : _c.columns) || {});
+    },
+    columnWidthArray() {
+      const _columnWidthArray = privateLodash.reduce(this.columnOrder, (columnStyle, prop) => {
+        const configsColumn = this.configs.columns[prop] || {};
+        const {
+          width
+        } = configsColumn;
+        if (width) {
+          columnStyle.push(`#${this.xVirTableId} div[role=tr] div[role=th][data-prop=${prop}]{ width:${width}; min-width:${width}; max-width:${width}; }`);
+          columnStyle.push(`#${this.xVirTableId} div[role=tr] div[role=td][data-prop=${prop}]{ width:${width}; min-width:${width}; max-width:${width}; }`);
+        }
+        return columnStyle;
+      }, []);
+      return _columnWidthArray;
+    },
+    vDomTheadSelect() {
+      if (!this.selectedType) {
+        return null;
+      }
+      let vDomTheadSelect = createVNode(resolveComponent("aCheckbox"), {
+        "checked": this.selectedAll,
+        "indeterminate": this.selectedIndeterminate,
+        "onChange": this.handleSelectedChangeTh
+      }, null);
+      if (this.selectedType == "one") {
+        vDomTheadSelect = null;
+      }
+      return createVNode("div", {
+        "role": "th",
+        "class": "flex middle center xVirTable-cell xVirSelected_inner_element xVirSelected_inner_element_check",
+        "data-prop": "xVirSelected"
+      }, [vDomTheadSelect]);
+    },
+    vDomThead() {
+      return createVNode("div", {
+        "role": "thead",
+        "class": "xVirTable-thead"
+      }, [createVNode("div", {
+        "role": "tr",
+        "class": "flex horizon"
+      }, [this.vDomTheadSelect, privateLodash.map(this.columnOrder, (prop, index2) => {
+        var _a;
+        const column = (_a = this.configs) == null ? void 0 : _a.columns[prop];
+        return createVNode(xVirTableTh, {
+          "column": column,
+          "index": index2,
+          "key": prop
+        }, null);
+      })])]);
+    },
+    styleContent() {
+      const allStyleArray = [
+        `#${this.xVirTableId} div[role=tr] >div{flex:1; }`,
+        `#${this.xVirTableId} div[role=tr] div[role=th]{ width:300px;overflow:hidden;text-align:center; }`,
+        `#${this.xVirTableId} div[role=tr] div[role=td]{ width:300px;overflow:hidden;height:${this.rowHeight}px;display: flex; justify-content: start; align-items: center;}`
+      ].concat(this.columnWidthArray, this.customClass);
+      return allStyleArray.join("\n");
+    }
+  },
+  watch: {
+    "configs.selected"(selected) {
+      if ((selected == null ? void 0 : selected.length) === 0) {
+        this.selectedAll = false;
+      }
+    },
+    styleContent() {
+      this.updateStyle(this.styleContent);
+    }
+  },
+  methods: {
+    dataFilter(dataSourceArray) {
+      if (privateLodash.isFunction(this.configs.dataSourceFilter)) {
+        return this.configs.dataSourceFilter(dataSourceArray);
+      } else {
+        return dataSourceArray;
+      }
+    },
+    initStyle() {
+      const $form = $(`#${this.xVirTableId}`);
+      const $style = $("<style/>", {
+        id: `style_${this.xVirTableId}`
+      }).append(this.styleContent);
+      $form.prepend($style);
+    },
+    updateStyle(styleContent) {
+      const $style = $(`#style_${this.xVirTableId}`);
+      $style.html(styleContent);
+    },
+    handleSelectedChange() {
+    },
+    handleSelectedChangeTh(e) {
+      const {
+        checked
+      } = e.target;
+      if (checked) {
+        this.selectedAll = true;
+        this.configs.selected = privateLodash.map(this.configs.dataSource, (i) => i[this.selectedProp]);
+      } else {
+        this.configs.selected = [];
+      }
+    },
+    handleSelectedChangeTd({
+      id
+    }) {
+      var _a;
+      const isOnlyOne = this.selectedType === "one";
+      const index2 = privateLodash.findIndex((_a = this.configs) == null ? void 0 : _a.selected, (i) => i === id);
+      if (index2 > -1) {
+        if (isOnlyOne) {
+          this.configs.selected = [];
+        } else {
+          this.configs.selected.splice(index2, 1);
+        }
+      } else {
+        if (isOnlyOne) {
+          this.configs.selected = [id];
+        } else {
+          this.configs.selected.push(id);
+        }
+      }
+    }
+  },
+  render() {
+    var _a, _b, _c;
+    return createVNode("div", {
+      "id": this.xVirTableId,
+      "class": "xVirTable-wrapper flex vertical"
+    }, [createVNode("div", {
+      "role": "table",
+      "class": "xVirTable-header-wrapper",
+      "style": "padding-right: 6px;"
+    }, [this.vDomThead]), createVNode(xVirTableBody, {
+      "dataSource": this.dataFilter(this.configs.dataSource),
+      "columnOrder": this.columnOrder,
+      "columns": (_a = this.configs) == null ? void 0 : _a.columns,
+      "rowHeight": this.rowHeight,
+      "onSelectedChange": this.handleSelectedChangeTd,
+      "selectedConfigs": (_b = this.configs) == null ? void 0 : _b.selectedConfigs,
+      "selected": (_c = this.configs) == null ? void 0 : _c.selected
+    }, null)]);
+  }
 });
-const { $t } = State_UI;
+const {
+  $t
+} = State_UI;
 const SUCCESS = false;
 const FAIL = true;
 const RegexFn = {
-	email: () => /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-	mobile: () => /^1[34578]\d{9}$/
+  email: () => /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+  mobile: () => /^1[34578]\d{9}$/
 };
-const makeFormRules = options => {
-	options.trigger = options.trigger || [EVENT_TYPE.update];
-	options.msg = options.msg || "";
-	return options;
+const makeFormRules = (options) => {
+  options.trigger = options.trigger || [EVENT_TYPE.update];
+  options.msg = options.msg || "";
+  return options;
 };
 const FormRules = {
-	SUCCESS,
-	FAIL,
-	required(msg, trigger = [EVENT_TYPE.update]) {
-		return makeFormRules({
-			name: "required",
-			msg: msg || $t("\u5FC5\u586B\u9879").label,
-			async validator(value) {
-				if (value) {
-					if (privateLodash.isArray(value)) {
-						if (value.length > 0) {
-							return SUCCESS;
-						} else {
-							return FAIL;
-						}
-					}
-					return SUCCESS;
-				}
-				if (privateLodash.isBoolean(value)) return SUCCESS;
-				if (privateLodash.isNumber(value) && !privateLodash.isNaN(value))
-					return SUCCESS;
-				return FAIL;
-			},
-			trigger
-		});
-	},
-	demo() {
-		return {
-			name: "Demo",
-			msg: "Demo",
-			async validator(value) {
-				await privateLodash.sleep(1e3);
-				return FAIL;
-			},
-			trigger: [
-				EVENT_TYPE.update,
-				EVENT_TYPE.input,
-				EVENT_TYPE.change,
-				EVENT_TYPE.blur
-			]
-		};
-	},
-	email() {
-		return {
-			name: "email",
-			msg: () => $t("\u8BF7\u8F93\u5165email").label,
-			async validator(value) {
-				if (RegexFn.email().test(value)) {
-					return SUCCESS;
-				}
-				return FAIL;
-			},
-			trigger: [
-				EVENT_TYPE.update,
-				EVENT_TYPE.input,
-				EVENT_TYPE.change,
-				EVENT_TYPE.blur
-			]
-		};
-	},
-	custom({ name, msg, validator, trigger }) {
-		return makeFormRules({
-			name,
-			msg,
-			validator,
-			trigger
-		});
-	}
+  SUCCESS,
+  FAIL,
+  required(msg, trigger = [EVENT_TYPE.update]) {
+    return makeFormRules({
+      name: "required",
+      msg: msg || $t("\u5FC5\u586B\u9879").label,
+      async validator(value) {
+        if (value) {
+          if (privateLodash.isArray(value)) {
+            if (value.length > 0) {
+              return SUCCESS;
+            } else {
+              return FAIL;
+            }
+          }
+          return SUCCESS;
+        }
+        if (privateLodash.isBoolean(value))
+          return SUCCESS;
+        if (privateLodash.isNumber(value) && !privateLodash.isNaN(value))
+          return SUCCESS;
+        return FAIL;
+      },
+      trigger
+    });
+  },
+  demo() {
+    return {
+      name: "Demo",
+      msg: "Demo",
+      async validator(value) {
+        await privateLodash.sleep(1e3);
+        return FAIL;
+      },
+      trigger: [EVENT_TYPE.update, EVENT_TYPE.input, EVENT_TYPE.change, EVENT_TYPE.blur]
+    };
+  },
+  email() {
+    return {
+      name: "email",
+      msg: () => $t("\u8BF7\u8F93\u5165email").label,
+      async validator(value) {
+        if (RegexFn.email().test(value)) {
+          return SUCCESS;
+        }
+        return FAIL;
+      },
+      trigger: [EVENT_TYPE.update, EVENT_TYPE.input, EVENT_TYPE.change, EVENT_TYPE.blur]
+    };
+  },
+  custom({
+    name,
+    msg,
+    validator,
+    trigger
+  }) {
+    return makeFormRules({
+      name,
+      msg,
+      validator,
+      trigger
+    });
+  }
 };
 const KEY = {
-	right: 39,
-	left: 37,
-	esc: 27
+  right: 39,
+  left: 37,
+  esc: 27
 };
 const $win = $(window);
 const $html = $("html");
@@ -34458,632 +33449,562 @@ const LAYUI_LAYER_CLOSE = "layui-layer-close";
 const LAYUI_LAYER_IFRAME = "layui-layer-iframe";
 const LAYUI_LAYER_TITLE = "layui-layer-title";
 const DOMS_ANIM = [
-	"layer-anim-00",
-	"layer-anim-01",
-	"layer-anim-02",
-	"layer-anim-03",
-	"layer-anim-04",
-	"layer-anim-05",
-	"layer-anim-06"
+  "layer-anim-00",
+  "layer-anim-01",
+  "layer-anim-02",
+  "layer-anim-03",
+  "layer-anim-04",
+  "layer-anim-05",
+  "layer-anim-06"
 ];
 const $MoveMask = $(
-	`<div class="${LAYUI_LAYER_MOVE}" id="${LAYUI_LAYER_MOVE}"></div>`
+  `<div class="${LAYUI_LAYER_MOVE}" id="${LAYUI_LAYER_MOVE}"></div>`
 );
 setTimeout(() => {
-	$body.append($MoveMask);
+  $body.append($MoveMask);
 }, 0);
 const READY = {
-	zIndex: 0,
-	pointMousedown: [],
-	basePath: (function () {
-		var jsPath = document.currentScript
-			? document.currentScript.src
-			: (function () {
-					var js = document.scripts,
-						last = js.length - 1,
-						src;
-					for (var i = last; i > 0; i--) {
-						if (js[i].readyState === "interactive") {
-							src = js[i].src;
-							break;
-						}
-					}
-					return src || js[last].src;
-			  })();
-		const GLOBAL = {};
-		return GLOBAL.layer_dir || jsPath.substring(0, jsPath.lastIndexOf("/") + 1);
-	})(),
-	config: {},
-	end: {},
-	minIndex: 0,
-	minLeft: [],
-	btn: ["&#x786E;&#x5B9A;", "&#x53D6;&#x6D88;"],
-	type: ["dialog", "page", "iframe", "loading", "tips"],
-	getStyle: function (node, name) {
-		var style = node.currentStyle
-			? node.currentStyle
-			: window.getComputedStyle(node, null);
-		return style[style.getPropertyValue ? "getPropertyValue" : "getAttribute"](
-			name
-		);
-	},
-	reselect() {
-		$.each($("select"), function (index2, value) {
-			var sthis = $(this);
-			if (!sthis.parents("." + LAYUI_LAYER)[0]) {
-				sthis.attr("layer") == 1 &&
-					$("." + LAYUI_LAYER).length < 1 &&
-					sthis.removeAttr("layer").show();
-			}
-			sthis = null;
-		});
-	},
-	record($eleLayer) {
-		var area = [
-			$eleLayer.width(),
-			$eleLayer.height(),
-			$eleLayer.position().top,
-			$eleLayer.position().left + parseFloat($eleLayer.css("margin-left"))
-		];
-		$eleLayer.find(".layui-layer-max").addClass("layui-layer-maxmin");
-		$eleLayer.attr({
-			area
-		});
-	},
-	rescollbar(index2) {
-		if ($html.attr("layer-full") == index2) {
-			if ($html[0].style.removeProperty) {
-				$html[0].style.removeProperty("overflow");
-			} else {
-				$html[0].style.removeAttribute("overflow");
-			}
-			$html.removeAttr("layer-full");
-		}
-	}
+  zIndex: 0,
+  pointMousedown: [],
+  basePath: function() {
+    var jsPath = document.currentScript ? document.currentScript.src : function() {
+      var js = document.scripts, last = js.length - 1, src;
+      for (var i = last; i > 0; i--) {
+        if (js[i].readyState === "interactive") {
+          src = js[i].src;
+          break;
+        }
+      }
+      return src || js[last].src;
+    }();
+    const GLOBAL = {};
+    return GLOBAL.layer_dir || jsPath.substring(0, jsPath.lastIndexOf("/") + 1);
+  }(),
+  config: {},
+  end: {},
+  minIndex: 0,
+  minLeft: [],
+  btn: ["&#x786E;&#x5B9A;", "&#x53D6;&#x6D88;"],
+  type: ["dialog", "page", "iframe", "loading", "tips"],
+  getStyle: function(node, name) {
+    var style = node.currentStyle ? node.currentStyle : window.getComputedStyle(node, null);
+    return style[style.getPropertyValue ? "getPropertyValue" : "getAttribute"](
+      name
+    );
+  },
+  reselect() {
+    $.each($("select"), function(index2, value) {
+      var sthis = $(this);
+      if (!sthis.parents("." + LAYUI_LAYER)[0]) {
+        sthis.attr("layer") == 1 && $("." + LAYUI_LAYER).length < 1 && sthis.removeAttr("layer").show();
+      }
+      sthis = null;
+    });
+  },
+  record($eleLayer) {
+    var area = [
+      $eleLayer.width(),
+      $eleLayer.height(),
+      $eleLayer.position().top,
+      $eleLayer.position().left + parseFloat($eleLayer.css("margin-left"))
+    ];
+    $eleLayer.find(".layui-layer-max").addClass("layui-layer-maxmin");
+    $eleLayer.attr({
+      area
+    });
+  },
+  rescollbar(index2) {
+    if ($html.attr("layer-full") == index2) {
+      if ($html[0].style.removeProperty) {
+        $html[0].style.removeProperty("overflow");
+      } else {
+        $html[0].style.removeAttribute("overflow");
+      }
+      $html.removeAttr("layer-full");
+    }
+  }
 };
 const LayerUtils = {
-	setZIndex(zIndex) {
-		READY.zIndex = zIndex;
-	},
-	MSG: 0,
-	DIALOG: 1,
-	IFRAME: 2,
-	LOADING: 3,
-	TIPS: 4,
-	UP: 1,
-	RIGHT: 2,
-	BOTTOM: 3,
-	LEFT: 4,
-	v: "3.5.1",
-	ie: (() => {
-		var agent = navigator.userAgent.toLowerCase();
-		if ("ActiveXObject" in window) {
-			let version = agent.match(/msie\s(\d+)/);
-			if (version) {
-				return Number(version[1]);
-			} else {
-				return 11;
-			}
-		}
-		return 0;
-	})(),
-	path: READY.basePath,
-	config: function (options, fn) {
-		options = options || {};
-		LayerUtils.cache = READY.config = $.extend({}, READY.config, options);
-		LayerUtils.path = READY.config.path || LayerUtils.path;
-		typeof options.extend === "string" && (options.extend = [options.extend]);
-		if (!options.extend) return this;
-		return this;
-	},
-	open(options) {
-		const { _layerKey } = new ClassLayer(options);
-		return _layerKey;
-	},
-	alert(content, options, yes) {
-		var type2 = typeof options === "function";
-		if (type2) yes = options;
-		return LayerUtils.open(
-			$.extend(
-				{
-					content,
-					yes
-				},
-				type2 ? {} : options
-			)
-		);
-	},
-	confirm(content, options, yes, cancel) {
-		if (privateLodash.isFunction(options)) {
-			cancel = yes;
-			yes = options;
-		}
-		return LayerUtils.open(
-			$.extend(
-				{
-					content,
-					btn: READY.btn,
-					yes,
-					btn2: cancel
-				},
-				type ? {} : options
-			)
-		);
-	},
-	msg(content, options, end = () => null) {
-		var isOptionsIsFunction = privateLodash.isFunction(options),
-			rskin = READY.config.skin;
-		var skin = (rskin ? rskin + " " + rskin + "-msg" : "") || "layui-layer-msg";
-		var anim = DOMS_ANIM.length - 1;
-		if (isOptionsIsFunction) end = options;
-		return LayerUtils.open(
-			$.extend(
-				{
-					content,
-					time: 3e3,
-					shade: false,
-					skin,
-					title: false,
-					closeBtn: false,
-					btn: false,
-					resize: false,
-					end
-				},
-				isOptionsIsFunction && !READY.config.skin
-					? {
-							skin: skin + " layui-layer-hui",
-							anim
-					  }
-					: (function () {
-							options = options || {};
-							if (
-								options.icon === -1 ||
-								(options.icon === void 0 && !READY.config.skin)
-							) {
-								options.skin = skin + " " + (options.skin || "layui-layer-hui");
-							}
-							return options;
-					  })()
-			)
-		);
-	},
-	load(icon, options) {
-		return LayerUtils.open(
-			$.extend(
-				{
-					type: 3,
-					icon: icon || 0,
-					resize: false,
-					shade: 0.01
-				},
-				options
-			)
-		);
-	},
-	tips(content, followSelector, options) {
-		return LayerUtils.open(
-			$.extend(
-				{
-					type: LayerUtils.TIPS,
-					content: [content, followSelector],
-					closeBtn: false,
-					time: 3e3,
-					shade: false,
-					resize: false,
-					fixed: false,
-					maxWidth: 260
-				},
-				options
-			)
-		);
-	},
-	close(layerKey) {
-		if (!layerKey) {
-			return Promise.reject();
-		}
-		return new Promise((resolve, reject) => {
-			try {
-				let removeLayerDomFromHtml = function () {
-					if (
-						type2 === "dialog" &&
-						$eleLayer.attr("data-content-type") === "object"
-					) {
-						$eleLayer.children(`:not(.${LAYUI_LAYER_IFRAME})`).remove();
-					} else {
-						if (type2 === TYPE_IFRAME) {
-							try {
-								var iframe = $(`#${LAYUI_LAYER_CONTENT}${layerKey}`)[0];
-								iframe.contentWindow.document.write("");
-								iframe.contentWindow.close();
-								$eleLayer.find(`.${LAYUI_LAYER_IFRAME}`)[0].removeChild(iframe);
-							} catch (e) {}
-						}
-					}
-					$eleLayer[0].innerHTML = "";
-					$eleLayer.remove();
-					try {
-						READY.end[layerKey] && READY.end[layerKey]();
-						delete READY.end[layerKey];
-					} catch (e) {}
-				};
-				var $eleLayer = $(`#${LAYUI_LAYER}${layerKey}`);
-				var type2 = $eleLayer.attr("type");
-				var closeAnim = "layer-anim-close";
-				if ($eleLayer.length === 0) {
-					return;
-				}
-				if ($eleLayer.data("isOutAnim")) {
-					$eleLayer.addClass("layer-anim " + closeAnim);
-				}
-				$(`#layui-layer-moves, #${LAYUI_LAYER_SHADE}${layerKey}`).remove();
-				LayerUtils.ie == 6 && READY.reselect();
-				READY.rescollbar(layerKey);
-				if ($eleLayer.attr("minLeft")) {
-					READY.minIndex--;
-					READY.minLeft.push($eleLayer.attr("minLeft"));
-				}
-				setTimeout(function () {
-					removeLayerDomFromHtml();
-					resolve(true);
-				}, 200);
-			} catch (error) {
-				console.error(error);
-				reject(false);
-			}
-		});
-	},
-	getChildFrame(selector, index2) {
-		index2 = index2 || $(`.${LAYUI_LAYER_CONTENT}`).attr("data-layer-key");
-		return $("#" + LAYUI_LAYER + index2)
-			.find("iframe")
-			.contents()
-			.find(selector);
-	},
-	getFrameIndex(name) {
-		return $("#" + name)
-			.parents(`.${LAYUI_LAYER_CONTENT}`)
-			.attr("data-layer-key");
-	},
-	iframeAuto(index2) {
-		if (!index2) return;
-		var heg = LayerUtils.getChildFrame("html", index2).outerHeight();
-		var $eleLayer = $("#" + LAYUI_LAYER + index2);
-		var titHeight = $eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0;
-		var btnHeight =
-			$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0;
-		$eleLayer.css({
-			height: heg + titHeight + btnHeight
-		});
-		$eleLayer.find("iframe").css({
-			height: heg
-		});
-	},
-	iframeSrc(index2, url) {
-		$("#" + LAYUI_LAYER + index2)
-			.find("iframe")
-			.attr("src", url);
-	},
-	style(index2, options, limit) {
-		var $$eleLayer = $("#" + LAYUI_LAYER + index2),
-			contElem = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`),
-			type2 = $$eleLayer.attr("type"),
-			titHeight = $$eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0,
-			btnHeight = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0;
-		$$eleLayer.attr("minLeft");
-		if (type2 === TYPE_LOADING || type2 === TYPE_TIPS) {
-			return;
-		}
-		if (!limit) {
-			if (parseFloat(options.width) <= 260) {
-				options.width = 260;
-			}
-			if (parseFloat(options.height) - titHeight - btnHeight <= 64) {
-				options.height = 64 + titHeight + btnHeight;
-			}
-		}
-		$$eleLayer.css(options);
-		btnHeight = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight();
-		if (type2 === TYPE_IFRAME) {
-			$$eleLayer.find("iframe").addClass("flex1");
-		} else {
-			contElem.css({
-				height:
-					parseFloat(options.height) -
-					titHeight -
-					btnHeight -
-					parseFloat(contElem.css("padding-top")) -
-					parseFloat(contElem.css("padding-bottom"))
-			});
-		}
-	},
-	min(index2, options) {
-		options = options || {};
-		var $eleLayer = $("#" + LAYUI_LAYER + index2),
-			shadeo = $("#" + LAYUI_LAYER_SHADE + index2),
-			titHeight = $eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0,
-			left = $eleLayer.attr("minLeft") || 181 * READY.minIndex + "px",
-			position = $eleLayer.css("position"),
-			settings = {
-				width: 180,
-				height: titHeight,
-				position: "fixed",
-				overflow: "hidden"
-			};
-		READY.record($eleLayer);
-		if (READY.minLeft[0]) {
-			left = READY.minLeft[0];
-			READY.minLeft.shift();
-		}
-		if (options.minStack) {
-			settings.left = left;
-			settings.top = $win.height() - titHeight;
-			$eleLayer.attr("minLeft") || READY.minIndex++;
-			$eleLayer.attr("minLeft", left);
-		}
-		$eleLayer.attr("position", position);
-		LayerUtils.style(index2, settings, true);
-		$eleLayer.find(".layui-layer-min").hide();
-		$eleLayer.attr("type") === "page" &&
-			$eleLayer.find(LAYUI_LAYER_CONTENT).hide();
-		READY.rescollbar(index2);
-		shadeo.hide();
-	},
-	restore(index2) {
-		var $eleLayer = $("#" + LAYUI_LAYER + index2),
-			shadeo = $("#" + LAYUI_LAYER_SHADE + index2),
-			area = $eleLayer.attr("area").split(",");
-		$eleLayer.attr("type");
-		LayerUtils.style(
-			index2,
-			{
-				width: parseFloat(area[0]),
-				height: parseFloat(area[1]),
-				top: parseFloat(area[2]),
-				left: parseFloat(area[3]),
-				position: $eleLayer.attr("position"),
-				overflow: "visible"
-			},
-			true
-		);
-		$eleLayer.find(".layui-layer-max").removeClass("layui-layer-maxmin");
-		$eleLayer.find(".layui-layer-min").show();
-		$eleLayer.attr("type") === "page" &&
-			$eleLayer.find(LAYUI_LAYER_CONTENT).show();
-		READY.rescollbar(index2);
-		shadeo.show();
-	},
-	full(index2) {
-		var $eleLayer = $("#" + LAYUI_LAYER + index2),
-			timer;
-		READY.record($eleLayer);
-		if (!$html.attr("layer-full")) {
-			$html.css("overflow", "hidden").attr("layer-full", index2);
-		}
-		clearTimeout(timer);
-		timer = setTimeout(function () {
-			var isfix = $eleLayer.css("position") === "fixed";
-			LayerUtils.style(
-				index2,
-				{
-					top: isfix ? 0 : $win.scrollTop(),
-					left: isfix ? 0 : $win.scrollLeft(),
-					width: $win.width(),
-					height: $win.height()
-				},
-				true
-			);
-			$eleLayer.find(".layui-layer-min").hide();
-		}, 100);
-	},
-	title(name, layerKey) {
-		$(`#${LAYUI_LAYER}${layerKey}`).find(`.${LAYUI_LAYER_TITLE}`).html(name);
-	},
-	async closeAll(type2) {
-		const needClose = [];
-		$(`.${LAYUI_LAYER}`).each(function () {
-			const $ele = $(this);
-			if (type2) {
-				if ($ele.attr("type") === type2) {
-					needClose.push($ele.attr("data-layer-key"));
-				}
-			} else {
-				needClose.push($ele.attr("data-layer-key"));
-			}
-		});
-		return await Promise.all(needClose.map(LayerUtils.close));
-	},
-	setLayerTop($current) {
-		if ($current.hasClass("set-layer-top")) {
-			return;
-		} else {
-			$(".set-layer-top").removeClass("set-layer-top");
-			$current.addClass("set-layer-top").appendTo($body);
-		}
-	}
+  setZIndex(zIndex) {
+    READY.zIndex = zIndex;
+  },
+  MSG: 0,
+  DIALOG: 1,
+  IFRAME: 2,
+  LOADING: 3,
+  TIPS: 4,
+  UP: 1,
+  RIGHT: 2,
+  BOTTOM: 3,
+  LEFT: 4,
+  v: "3.5.1",
+  ie: (() => {
+    var agent = navigator.userAgent.toLowerCase();
+    if ("ActiveXObject" in window) {
+      let version = agent.match(/msie\s(\d+)/);
+      if (version) {
+        return Number(version[1]);
+      } else {
+        return 11;
+      }
+    }
+    return 0;
+  })(),
+  path: READY.basePath,
+  config: function(options, fn) {
+    options = options || {};
+    LayerUtils.cache = READY.config = $.extend({}, READY.config, options);
+    LayerUtils.path = READY.config.path || LayerUtils.path;
+    typeof options.extend === "string" && (options.extend = [options.extend]);
+    if (!options.extend)
+      return this;
+    return this;
+  },
+  open(options) {
+    const { _layerKey } = new ClassLayer(options);
+    return _layerKey;
+  },
+  alert(content, options, yes) {
+    var type2 = typeof options === "function";
+    if (type2)
+      yes = options;
+    return LayerUtils.open(
+      $.extend(
+        {
+          content,
+          yes
+        },
+        type2 ? {} : options
+      )
+    );
+  },
+  confirm(content, options, yes, cancel) {
+    if (privateLodash.isFunction(options)) {
+      cancel = yes;
+      yes = options;
+    }
+    return LayerUtils.open(
+      $.extend(
+        {
+          content,
+          btn: READY.btn,
+          yes,
+          btn2: cancel
+        },
+        type ? {} : options
+      )
+    );
+  },
+  msg(content, options, end = () => null) {
+    var isOptionsIsFunction = privateLodash.isFunction(options), rskin = READY.config.skin;
+    var skin = (rskin ? rskin + " " + rskin + "-msg" : "") || "layui-layer-msg";
+    var anim = DOMS_ANIM.length - 1;
+    if (isOptionsIsFunction)
+      end = options;
+    return LayerUtils.open(
+      $.extend(
+        {
+          content,
+          time: 3e3,
+          shade: false,
+          skin,
+          title: false,
+          closeBtn: false,
+          btn: false,
+          resize: false,
+          end
+        },
+        isOptionsIsFunction && !READY.config.skin ? {
+          skin: skin + " layui-layer-hui",
+          anim
+        } : function() {
+          options = options || {};
+          if (options.icon === -1 || options.icon === void 0 && !READY.config.skin) {
+            options.skin = skin + " " + (options.skin || "layui-layer-hui");
+          }
+          return options;
+        }()
+      )
+    );
+  },
+  load(icon, options) {
+    return LayerUtils.open(
+      $.extend(
+        {
+          type: 3,
+          icon: icon || 0,
+          resize: false,
+          shade: 0.01
+        },
+        options
+      )
+    );
+  },
+  tips(content, followSelector, options) {
+    return LayerUtils.open(
+      $.extend(
+        {
+          type: LayerUtils.TIPS,
+          content: [content, followSelector],
+          closeBtn: false,
+          time: 3e3,
+          shade: false,
+          resize: false,
+          fixed: false,
+          maxWidth: 260
+        },
+        options
+      )
+    );
+  },
+  close(layerKey) {
+    if (!layerKey) {
+      return Promise.reject();
+    }
+    return new Promise((resolve, reject) => {
+      try {
+        let removeLayerDomFromHtml = function() {
+          if (type2 === "dialog" && $eleLayer.attr("data-content-type") === "object") {
+            $eleLayer.children(`:not(.${LAYUI_LAYER_IFRAME})`).remove();
+          } else {
+            if (type2 === TYPE_IFRAME) {
+              try {
+                var iframe = $(`#${LAYUI_LAYER_CONTENT}${layerKey}`)[0];
+                iframe.contentWindow.document.write("");
+                iframe.contentWindow.close();
+                $eleLayer.find(`.${LAYUI_LAYER_IFRAME}`)[0].removeChild(iframe);
+              } catch (e) {
+              }
+            }
+          }
+          $eleLayer[0].innerHTML = "";
+          $eleLayer.remove();
+          try {
+            READY.end[layerKey] && READY.end[layerKey]();
+            delete READY.end[layerKey];
+          } catch (e) {
+          }
+        };
+        var $eleLayer = $(`#${LAYUI_LAYER}${layerKey}`);
+        var type2 = $eleLayer.attr("type");
+        var closeAnim = "layer-anim-close";
+        if ($eleLayer.length === 0) {
+          return;
+        }
+        if ($eleLayer.data("isOutAnim")) {
+          $eleLayer.addClass("layer-anim " + closeAnim);
+        }
+        $(`#layui-layer-moves, #${LAYUI_LAYER_SHADE}${layerKey}`).remove();
+        LayerUtils.ie == 6 && READY.reselect();
+        READY.rescollbar(layerKey);
+        if ($eleLayer.attr("minLeft")) {
+          READY.minIndex--;
+          READY.minLeft.push($eleLayer.attr("minLeft"));
+        }
+        setTimeout(function() {
+          removeLayerDomFromHtml();
+          resolve(true);
+        }, 200);
+      } catch (error) {
+        console.error(error);
+        reject(false);
+      }
+    });
+  },
+  getChildFrame(selector, index2) {
+    index2 = index2 || $(`.${LAYUI_LAYER_CONTENT}`).attr("data-layer-key");
+    return $("#" + LAYUI_LAYER + index2).find("iframe").contents().find(selector);
+  },
+  getFrameIndex(name) {
+    return $("#" + name).parents(`.${LAYUI_LAYER_CONTENT}`).attr("data-layer-key");
+  },
+  iframeAuto(index2) {
+    if (!index2)
+      return;
+    var heg = LayerUtils.getChildFrame("html", index2).outerHeight();
+    var $eleLayer = $("#" + LAYUI_LAYER + index2);
+    var titHeight = $eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0;
+    var btnHeight = $eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0;
+    $eleLayer.css({
+      height: heg + titHeight + btnHeight
+    });
+    $eleLayer.find("iframe").css({
+      height: heg
+    });
+  },
+  iframeSrc(index2, url) {
+    $("#" + LAYUI_LAYER + index2).find("iframe").attr("src", url);
+  },
+  style(index2, options, limit) {
+    var $$eleLayer = $("#" + LAYUI_LAYER + index2), contElem = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`), type2 = $$eleLayer.attr("type"), titHeight = $$eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0, btnHeight = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0;
+    $$eleLayer.attr("minLeft");
+    if (type2 === TYPE_LOADING || type2 === TYPE_TIPS) {
+      return;
+    }
+    if (!limit) {
+      if (parseFloat(options.width) <= 260) {
+        options.width = 260;
+      }
+      if (parseFloat(options.height) - titHeight - btnHeight <= 64) {
+        options.height = 64 + titHeight + btnHeight;
+      }
+    }
+    $$eleLayer.css(options);
+    btnHeight = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight();
+    if (type2 === TYPE_IFRAME) {
+      $$eleLayer.find("iframe").addClass("flex1");
+    } else {
+      contElem.css({
+        height: parseFloat(options.height) - titHeight - btnHeight - parseFloat(contElem.css("padding-top")) - parseFloat(contElem.css("padding-bottom"))
+      });
+    }
+  },
+  min(index2, options) {
+    options = options || {};
+    var $eleLayer = $("#" + LAYUI_LAYER + index2), shadeo = $("#" + LAYUI_LAYER_SHADE + index2), titHeight = $eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0, left = $eleLayer.attr("minLeft") || 181 * READY.minIndex + "px", position = $eleLayer.css("position"), settings = {
+      width: 180,
+      height: titHeight,
+      position: "fixed",
+      overflow: "hidden"
+    };
+    READY.record($eleLayer);
+    if (READY.minLeft[0]) {
+      left = READY.minLeft[0];
+      READY.minLeft.shift();
+    }
+    if (options.minStack) {
+      settings.left = left;
+      settings.top = $win.height() - titHeight;
+      $eleLayer.attr("minLeft") || READY.minIndex++;
+      $eleLayer.attr("minLeft", left);
+    }
+    $eleLayer.attr("position", position);
+    LayerUtils.style(index2, settings, true);
+    $eleLayer.find(".layui-layer-min").hide();
+    $eleLayer.attr("type") === "page" && $eleLayer.find(LAYUI_LAYER_CONTENT).hide();
+    READY.rescollbar(index2);
+    shadeo.hide();
+  },
+  restore(index2) {
+    var $eleLayer = $("#" + LAYUI_LAYER + index2), shadeo = $("#" + LAYUI_LAYER_SHADE + index2), area = $eleLayer.attr("area").split(",");
+    $eleLayer.attr("type");
+    LayerUtils.style(
+      index2,
+      {
+        width: parseFloat(area[0]),
+        height: parseFloat(area[1]),
+        top: parseFloat(area[2]),
+        left: parseFloat(area[3]),
+        position: $eleLayer.attr("position"),
+        overflow: "visible"
+      },
+      true
+    );
+    $eleLayer.find(".layui-layer-max").removeClass("layui-layer-maxmin");
+    $eleLayer.find(".layui-layer-min").show();
+    $eleLayer.attr("type") === "page" && $eleLayer.find(LAYUI_LAYER_CONTENT).show();
+    READY.rescollbar(index2);
+    shadeo.show();
+  },
+  full(index2) {
+    var $eleLayer = $("#" + LAYUI_LAYER + index2), timer;
+    READY.record($eleLayer);
+    if (!$html.attr("layer-full")) {
+      $html.css("overflow", "hidden").attr("layer-full", index2);
+    }
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      var isfix = $eleLayer.css("position") === "fixed";
+      LayerUtils.style(
+        index2,
+        {
+          top: isfix ? 0 : $win.scrollTop(),
+          left: isfix ? 0 : $win.scrollLeft(),
+          width: $win.width(),
+          height: $win.height()
+        },
+        true
+      );
+      $eleLayer.find(".layui-layer-min").hide();
+    }, 100);
+  },
+  title(name, layerKey) {
+    $(`#${LAYUI_LAYER}${layerKey}`).find(`.${LAYUI_LAYER_TITLE}`).html(name);
+  },
+  async closeAll(type2) {
+    const needClose = [];
+    $(`.${LAYUI_LAYER}`).each(function() {
+      const $ele = $(this);
+      if (type2) {
+        if ($ele.attr("type") === type2) {
+          needClose.push($ele.attr("data-layer-key"));
+        }
+      } else {
+        needClose.push($ele.attr("data-layer-key"));
+      }
+    });
+    return await Promise.all(needClose.map(LayerUtils.close));
+  },
+  setLayerTop($current) {
+    if ($current.hasClass("set-layer-top")) {
+      return;
+    } else {
+      $(".set-layer-top").removeClass("set-layer-top");
+      $current.addClass("set-layer-top").appendTo($body);
+    }
+  }
 };
 class ClassLayer {
-	constructor(custumSettings) {
-		__publicField(this, "_layerKey", 0);
-		__publicField(this, "_IDLayer", LAYUI_LAYER);
-		__publicField(this, "_IDShade", LAYUI_LAYER_SHADE);
-		__publicField(this, "_IDContent", LAYUI_LAYER_CONTENT);
-		__publicField(this, "zIndex", 0);
-		__publicField(this, "typeName", "");
-		__publicField(this, "ismax", false);
-		__publicField(this, "isNeedTitle", false);
-		__publicField(this, "isContentTypeObject", false);
-		__publicField(this, "$eleLayer", null);
-		__publicField(this, "$eleShade", null);
-		__publicField(this, "config", {
-			type: 0,
-			title: "\u4FE1\u606F",
-			content: "",
-			skin: "",
-			area: "auto",
-			offset: "auto",
-			icon: -1,
-			btn: "\u786E\u8BA4",
-			btnAlign: "r",
-			closeBtn: "1",
-			shade: "0.3",
-			shadeClose: false,
-			during: 0,
-			id: "",
-			anim: 0,
-			isOutAnim: true,
-			maxmin: false,
-			fixed: true,
-			resize: true,
-			onResizing: false,
-			scrollbar: true,
-			maxWidth: 360,
-			maxHeight: 0,
-			zIndex: 1,
-			move: ".layui-layer-title",
-			moveOut: false,
-			onMoveEnd: false,
-			tips: 2,
-			tipsMore: false,
-			success: false,
-			yes: false,
-			onClickClose: false,
-			end: false,
-			full: false,
-			minStack: true
-		});
-		this.initConfig(custumSettings)
-			.insertLayer()
-			.addLayerListener()
-			.handleAnimation();
-	}
-	get cptDomShade() {
-		const { config, _IDShade } = this;
-		if (!config.shade) {
-			return "";
-		}
-		return `<div class="${LAYUI_LAYER_SHADE}" id="${_IDShade}" style="z-index:${
-			this.zIndex - 1
-		};"></div>`;
-	}
-	get cptDomTitle() {
-		const { config, _IDLayer } = this;
-		if (this.isContentTypeObject && !this.isNeedTitle) {
-			return "";
-		}
-		var isTitleObject = typeof config.title === "object";
-		if (!isTitleObject) {
-			config.title = [String(config.title), ""];
-		}
-		const [title, styleString] = config.title || ["", ""];
-		return `<div class="${LAYUI_LAYER_TITLE}" style="${styleString}" data-layer-id="${_IDLayer}"> ${title} </div >`;
-	}
-	get cptDomIcon() {
-		if (this.config.type == LayerUtils.MSG && this.config.icon !== -1) {
-			return `<i class="layui-layer-ico layui-layer-ico${this.config.icon}></i>`;
-		}
-		return "";
-	}
-	get cptDomContent() {
-		if (this.config.type == LayerUtils.DIALOG && this.isContentTypeObject) {
-			return "";
-		}
-		return this.config.content || "";
-	}
-	get cptDomSetDialogOperations() {
-		const { config, ismax, _IDLayer } = this;
-		return (
-			'<span class="layui-layer-setwin">' +
-			(function () {
-				var closebtn = ismax
-					? '<a class="layui-layer-min" href="javascript:;"><cite></cite></a><a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>'
-					: "";
-				if (config.closeBtn) {
-					closebtn +=
-						`<a data-layer-id="${_IDLayer}" class="layui-layer-ico ${LAYUI_LAYER_CLOSE} ` +
-						LAYUI_LAYER_CLOSE +
-						(config.title
-							? config.closeBtn
-							: config.type == LayerUtils.TIPS
-							? "1"
-							: "2") +
-						'" href="javascript:;"></a>';
-				}
-				return closebtn;
-			})() +
-			"</span>"
-		);
-	}
-	get cptDomFooterBtns() {
-		const { config } = this;
-		if (config.btn) {
-			if (typeof config.btn === "string") {
-				config.btn = [config.btn, ""];
-			}
-			if (privateLodash.every(config.btn, i => !i)) {
-				return "";
-			}
-			const domButtons = privateLodash.reduce(
-				config.btn,
-				(domButtonString, label) => {
-					if (label) {
-						domButtonString += `<a class="${LAYUI_LAYER_CONTENT}">${label}</a>`;
-					}
-					return domButtonString;
-				},
-				""
-			);
-			return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${
-				config.btnAlign || ""
-			}">${domButtons}</div>`;
-		}
-		return "";
-	}
-	get cptDomResizeBar() {
-		return this.config.resize ? '<span class="layui-layer-resize"></span>' : "";
-	}
-	get cptDomContainer() {
-		const {
-			config,
-			typeName,
-			isContentTypeObject,
-			zIndex,
-			_layerKey,
-			_IDLayer,
-			_IDContent
-		} = this;
-		const fnValid = i => !!i;
-		const layerWrapperClassname = [
-			"flex vertical",
-			"elevation-4",
-			`layui-layer-${typeName}`,
-			LAYUI_LAYER,
-			config.skin,
-			(() => {
-				if (
-					[LayerUtils.IFRAME, LayerUtils.MSG].includes(config.type) &&
-					!config.shade
-				) {
-					return "layui-layer-border";
-				}
-				return "";
-			})()
-		]
-			.filter(fnValid)
-			.join(" ");
-		const classContent = [
-			LAYUI_LAYER_CONTENT,
-			config.contentClass,
-			config.type == LayerUtils.MSG && config.icon !== -1
-				? "layui-layer-padding"
-				: "",
-			config.type == LayerUtils.LOADING
-				? `layui-layer-loading${config.icon}`
-				: ""
-		]
-			.filter(fnValid)
-			.join(" ");
-		config.area;
-		return `
+  constructor(custumSettings) {
+    __publicField(this, "_layerKey", 0);
+    __publicField(this, "_IDLayer", LAYUI_LAYER);
+    __publicField(this, "_IDShade", LAYUI_LAYER_SHADE);
+    __publicField(this, "_IDContent", LAYUI_LAYER_CONTENT);
+    __publicField(this, "zIndex", 0);
+    __publicField(this, "typeName", "");
+    __publicField(this, "ismax", false);
+    __publicField(this, "isNeedTitle", false);
+    __publicField(this, "isContentTypeObject", false);
+    __publicField(this, "$eleLayer", null);
+    __publicField(this, "$eleShade", null);
+    __publicField(this, "config", {
+      type: 0,
+      title: "\u4FE1\u606F",
+      content: "",
+      skin: "",
+      area: "auto",
+      offset: "auto",
+      icon: -1,
+      btn: "\u786E\u8BA4",
+      btnAlign: "r",
+      closeBtn: "1",
+      shade: "0.3",
+      shadeClose: false,
+      during: 0,
+      id: "",
+      anim: 0,
+      isOutAnim: true,
+      maxmin: false,
+      fixed: true,
+      resize: true,
+      onResizing: false,
+      scrollbar: true,
+      maxWidth: 360,
+      maxHeight: 0,
+      zIndex: 1,
+      move: ".layui-layer-title",
+      moveOut: false,
+      onMoveEnd: false,
+      tips: 2,
+      tipsMore: false,
+      success: false,
+      yes: false,
+      onClickClose: false,
+      end: false,
+      full: false,
+      minStack: true
+    });
+    this.initConfig(custumSettings).insertLayer().addLayerListener().handleAnimation();
+  }
+  get cptDomShade() {
+    const { config, _IDShade } = this;
+    if (!config.shade) {
+      return "";
+    }
+    return `<div class="${LAYUI_LAYER_SHADE}" id="${_IDShade}" style="z-index:${this.zIndex - 1};"></div>`;
+  }
+  get cptDomTitle() {
+    const { config, _IDLayer } = this;
+    if (this.isContentTypeObject && !this.isNeedTitle) {
+      return "";
+    }
+    var isTitleObject = typeof config.title === "object";
+    if (!isTitleObject) {
+      config.title = [String(config.title), ""];
+    }
+    const [title, styleString] = config.title || ["", ""];
+    return `<div class="${LAYUI_LAYER_TITLE}" style="${styleString}" data-layer-id="${_IDLayer}"> ${title} </div >`;
+  }
+  get cptDomIcon() {
+    if (this.config.type == LayerUtils.MSG && this.config.icon !== -1) {
+      return `<i class="layui-layer-ico layui-layer-ico${this.config.icon}></i>`;
+    }
+    return "";
+  }
+  get cptDomContent() {
+    if (this.config.type == LayerUtils.DIALOG && this.isContentTypeObject) {
+      return "";
+    }
+    return this.config.content || "";
+  }
+  get cptDomSetDialogOperations() {
+    const { config, ismax, _IDLayer } = this;
+    return '<span class="layui-layer-setwin">' + function() {
+      var closebtn = ismax ? '<a class="layui-layer-min" href="javascript:;"><cite></cite></a><a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>' : "";
+      if (config.closeBtn) {
+        closebtn += `<a data-layer-id="${_IDLayer}" class="layui-layer-ico ${LAYUI_LAYER_CLOSE} ` + LAYUI_LAYER_CLOSE + (config.title ? config.closeBtn : config.type == LayerUtils.TIPS ? "1" : "2") + '" href="javascript:;"></a>';
+      }
+      return closebtn;
+    }() + "</span>";
+  }
+  get cptDomFooterBtns() {
+    const { config } = this;
+    if (config.btn) {
+      if (typeof config.btn === "string") {
+        config.btn = [config.btn, ""];
+      }
+      if (privateLodash.every(config.btn, (i) => !i)) {
+        return "";
+      }
+      const domButtons = privateLodash.reduce(
+        config.btn,
+        (domButtonString, label) => {
+          if (label) {
+            domButtonString += `<a class="${LAYUI_LAYER_CONTENT}">${label}</a>`;
+          }
+          return domButtonString;
+        },
+        ""
+      );
+      return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${config.btnAlign || ""}">${domButtons}</div>`;
+    }
+    return "";
+  }
+  get cptDomResizeBar() {
+    return this.config.resize ? '<span class="layui-layer-resize"></span>' : "";
+  }
+  get cptDomContainer() {
+    const {
+      config,
+      typeName,
+      isContentTypeObject,
+      zIndex,
+      _layerKey,
+      _IDLayer,
+      _IDContent
+    } = this;
+    const fnValid = (i) => !!i;
+    const layerWrapperClassname = [
+      "flex vertical",
+      "elevation-4",
+      `layui-layer-${typeName}`,
+      LAYUI_LAYER,
+      config.skin,
+      (() => {
+        if ([LayerUtils.IFRAME, LayerUtils.MSG].includes(config.type) && !config.shade) {
+          return "layui-layer-border";
+        }
+        return "";
+      })()
+    ].filter(fnValid).join(" ");
+    const classContent = [
+      LAYUI_LAYER_CONTENT,
+      config.contentClass,
+      config.type == LayerUtils.MSG && config.icon !== -1 ? "layui-layer-padding" : "",
+      config.type == LayerUtils.LOADING ? `layui-layer-loading${config.icon}` : ""
+    ].filter(fnValid).join(" ");
+    config.area;
+    return `
 <div id="${_IDLayer}" layer-wrapper="${_IDLayer}" type="${typeName}"
 		class="${layerWrapperClassname}" 
 		data-z-index="${zIndex}"
@@ -35104,63 +34025,62 @@ class ClassLayer {
 			${this.cptDomFooterBtns}
 			${this.cptDomResizeBar}
 </div>`;
-	}
-	initConfig(custumSettings) {
-		const layerInstance = this;
-		layerInstance.config = Object.assign(layerInstance.config, custumSettings);
-		layerInstance.config.icon =
-			custumSettings.type === LayerUtils.LOADING ? 0 : -1;
-		layerInstance.config.maxWidth = $win.width() - 15 * 2;
-		layerInstance.config.custumSettings = custumSettings;
-		const { config } = layerInstance;
-		layerInstance._layerKey = privateLodash.genId("");
-		layerInstance._IDLayer = `${LAYUI_LAYER}${layerInstance._layerKey}`;
-		layerInstance._IDShade = `${LAYUI_LAYER_SHADE}${layerInstance._layerKey}`;
-		layerInstance._IDContent = `${LAYUI_LAYER_CONTENT}${layerInstance._layerKey}`;
-		layerInstance.zIndex = READY.zIndex + layerInstance.config.zIndex;
-		layerInstance.typeName = READY.type[config.type || 0];
-		layerInstance.isNeedTitle = [LayerUtils.IFRAME, LayerUtils.DIALOG].includes(
-			Number(config.type)
-		);
-		layerInstance.ismax = Boolean(config.maxmin && layerInstance.isNeedTitle);
-		layerInstance.isContentTypeObject = typeof config.content === "object";
-		layerInstance.config.onClickClose = async params => {
-			const isFalse = val => privateLodash.isBoolean(val) && !val;
-			if (custumSettings.onClickClose) {
-				if (isFalse(await custumSettings.onClickClose(params))) {
-					return false;
-				}
-			} else if (custumSettings.onBeforeClose) {
-				if (isFalse(await custumSettings.onBeforeClose(params))) {
-					return false;
-				}
-			}
-			return true;
-		};
-		const { isContentTypeObject } = layerInstance;
-		if (typeof config.area === "string") {
-			config.area = config.area === "auto" ? ["", ""] : [config.area, ""];
-		}
-		if (config.shift) {
-			config.anim = config.shift;
-		}
-		if (LayerUtils.ie == 6) {
-			config.fixed = false;
-		}
-		const processContentStrategy = {
-			[LayerUtils.MSG]() {
-				config.btn = "btn" in config ? config.btn : READY.btn[0];
-				LayerUtils.closeAll("dialog");
-			},
-			[LayerUtils.IFRAME]() {
-				let scrolling = "auto";
-				let src = config.content;
-				if (isContentTypeObject) {
-					scrolling = config.content[1] || "auto";
-					src = config.content[0] || "";
-				}
-				config.btn = [];
-				config.content = `
+  }
+  initConfig(custumSettings) {
+    const layerInstance = this;
+    layerInstance.config = Object.assign(layerInstance.config, custumSettings);
+    layerInstance.config.icon = custumSettings.type === LayerUtils.LOADING ? 0 : -1;
+    layerInstance.config.maxWidth = $win.width() - 15 * 2;
+    layerInstance.config.custumSettings = custumSettings;
+    const { config } = layerInstance;
+    layerInstance._layerKey = privateLodash.genId("");
+    layerInstance._IDLayer = `${LAYUI_LAYER}${layerInstance._layerKey}`;
+    layerInstance._IDShade = `${LAYUI_LAYER_SHADE}${layerInstance._layerKey}`;
+    layerInstance._IDContent = `${LAYUI_LAYER_CONTENT}${layerInstance._layerKey}`;
+    layerInstance.zIndex = READY.zIndex + layerInstance.config.zIndex;
+    layerInstance.typeName = READY.type[config.type || 0];
+    layerInstance.isNeedTitle = [LayerUtils.IFRAME, LayerUtils.DIALOG].includes(
+      Number(config.type)
+    );
+    layerInstance.ismax = Boolean(config.maxmin && layerInstance.isNeedTitle);
+    layerInstance.isContentTypeObject = typeof config.content === "object";
+    layerInstance.config.onClickClose = async (params) => {
+      const isFalse = (val) => privateLodash.isBoolean(val) && !val;
+      if (custumSettings.onClickClose) {
+        if (isFalse(await custumSettings.onClickClose(params))) {
+          return false;
+        }
+      } else if (custumSettings.onBeforeClose) {
+        if (isFalse(await custumSettings.onBeforeClose(params))) {
+          return false;
+        }
+      }
+      return true;
+    };
+    const { isContentTypeObject } = layerInstance;
+    if (typeof config.area === "string") {
+      config.area = config.area === "auto" ? ["", ""] : [config.area, ""];
+    }
+    if (config.shift) {
+      config.anim = config.shift;
+    }
+    if (LayerUtils.ie == 6) {
+      config.fixed = false;
+    }
+    const processContentStrategy = {
+      [LayerUtils.MSG]() {
+        config.btn = "btn" in config ? config.btn : READY.btn[0];
+        LayerUtils.closeAll("dialog");
+      },
+      [LayerUtils.IFRAME]() {
+        let scrolling = "auto";
+        let src = config.content;
+        if (isContentTypeObject) {
+          scrolling = config.content[1] || "auto";
+          src = config.content[0] || "";
+        }
+        config.btn = [];
+        config.content = `
 <iframe class="layui-layer-load flex flex1" 
 		scrolling="${scrolling}" 
 		src="${src}"
@@ -35169,667 +34089,579 @@ class ClassLayer {
 		style="height:100%;" 
 		frameborder="0">
 </iframe>`;
-			},
-			[LayerUtils.LOADING]() {
-				delete config.title;
-				delete config.closeBtn;
-				config.icon === -1 && config.icon === 0;
-				LayerUtils.closeAll("loading");
-			},
-			[LayerUtils.TIPS]() {
-				if (!isContentTypeObject) {
-					config.content = [config.content, "body"];
-				}
-				config.follow = config.content[1];
-				const arrow = '<i class="layui-layer-TipsG"></i>';
-				config.content = `<div style="max-width:300px;overflow:auto;">${config.content[0]}<div>${arrow}`;
-				delete config.title;
-				config.btn = [];
-				config.tips =
-					typeof config.tips === "object" ? config.tips : [config.tips, true];
-				config.tipsMore || LayerUtils.closeAll("tips");
-			}
-		};
-		const processContentFn = processContentStrategy[config.type];
-		processContentFn && processContentFn();
-		return layerInstance;
-	}
-	async setLayerPosition() {
-		await privateLodash.sleep(34);
-		const layerInstance = this;
-		const { config, _layerKey } = layerInstance;
-		layerInstance.offset();
-		if (config.type === LayerUtils.TIPS) {
-			layerInstance.setTips();
-		}
-		layerInstance.$eleLayer.css("visibility", "visible");
-		if (config.fullscreen) {
-			setTimeout(() => {
-				LayerUtils.full(_layerKey);
-			}, 500);
-		}
-		if (config.fixed) {
-			$win.on("resize", function () {
-				layerInstance.offset();
-				if (/^\d+%$/.test(config.area[0]) || /^\d+%$/.test(config.area[1])) {
-					layerInstance.setPosition();
-				}
-				if (config.type == LayerUtils.tips) {
-					layerInstance.setTips();
-				}
-			});
-		}
-		if (typeof config.during === "number" && config.during > 0) {
-			setTimeout(function () {
-				LayerUtils.close(layerInstance._layerKey);
-			}, config.during);
-		}
-		LayerUtils.setLayerTop(layerInstance.$eleLayer);
-		return layerInstance;
-	}
-	handleAnimation() {
-		const layerInstance = this;
-		const { config } = layerInstance;
-		if (DOMS_ANIM[config.anim]) {
-			var animClass = "layer-anim " + DOMS_ANIM[config.anim];
-			layerInstance.$eleLayer
-				.addClass(animClass)
-				.one(
-					"webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",
-					function () {
-						$(this).removeClass(animClass);
-					}
-				);
-		}
-		if (config.isOutAnim) {
-			layerInstance.$eleLayer.data("isOutAnim", true);
-		}
-		return layerInstance;
-	}
-	insertLayer() {
-		const layerInstance = this;
-		const { config, _layerKey, _IDShade } = layerInstance;
-		layerInstance.$eleLayer = $(layerInstance.cptDomContainer);
-		if (
-			privateLodash.isObject(config.content) &&
-			(privateLodash.isString(config.content) ||
-				privateLodash.isString(config.content.jquery))
-		) {
-			const $content = $(config.content);
-			layerInstance.$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).append($content);
-		}
-		layerInstance.$eleLayer.css({
-			visibility: "hidden",
-			top: "100%",
-			left: "100%"
-		});
-		$body.append(layerInstance.$eleLayer);
-		if (layerInstance.cptDomShade) {
-			$body.append(layerInstance.cptDomShade);
-			layerInstance.$eleShade = $(`#${_IDShade}`);
-			layerInstance.$eleShade.css({
-				"background-color": config.shade[1] || "#000",
-				opacity: config.shade[0] || config.shade
-			});
-		}
-		if (!config.scrollbar) {
-			$html.css("overflow", "hidden").attr("layer-full", _layerKey);
-		}
-		layerInstance.setLayerPosition();
-		return layerInstance;
-	}
-	offset() {
-		var layerInstance = this,
-			config = layerInstance.config,
-			$eleLayer = layerInstance.$eleLayer;
-		var area = [$eleLayer.outerWidth(), $eleLayer.outerHeight()];
-		var whetherOffsetIsObject = typeof config.offset === "object";
-		layerInstance.offsetTop = ($win.height() - area[1]) / 2;
-		layerInstance.offsetLeft = ($win.width() - area[0]) / 2;
-		if (whetherOffsetIsObject) {
-			const [top, left] = config.offset;
-			layerInstance.offsetTop = top;
-			layerInstance.offsetLeft = left || layerInstance.offsetLeft;
-		} else if (config.offset !== "auto") {
-			if (config.offset === "t") {
-				layerInstance.offsetTop = 0;
-			} else if (config.offset === "r") {
-				layerInstance.offsetLeft = $win.width() - area[0];
-			} else if (config.offset === "b") {
-				layerInstance.offsetTop = $win.height() - area[1];
-			} else if (config.offset === "l") {
-				layerInstance.offsetLeft = 0;
-			} else if (config.offset === "lt") {
-				layerInstance.offsetTop = 0;
-				layerInstance.offsetLeft = 0;
-			} else if (config.offset === "lb") {
-				layerInstance.offsetTop = $win.height() - area[1];
-				layerInstance.offsetLeft = 0;
-			} else if (config.offset === "rt") {
-				layerInstance.offsetTop = 0;
-				layerInstance.offsetLeft = $win.width() - area[0];
-			} else if (config.offset === "rb") {
-				layerInstance.offsetTop = $win.height() - area[1];
-				layerInstance.offsetLeft = $win.width() - area[0];
-			} else {
-				layerInstance.offsetTop = config.offset;
-			}
-		}
-		if (!config.fixed) {
-			layerInstance.offsetTop = /%$/.test(layerInstance.offsetTop)
-				? ($win.height() * parseFloat(layerInstance.offsetTop)) / 100
-				: parseFloat(layerInstance.offsetTop);
-			layerInstance.offsetLeft = /%$/.test(layerInstance.offsetLeft)
-				? ($win.width() * parseFloat(layerInstance.offsetLeft)) / 100
-				: parseFloat(layerInstance.offsetLeft);
-			layerInstance.offsetTop += $win.scrollTop();
-			layerInstance.offsetLeft += $win.scrollLeft();
-		}
-		if ($eleLayer.attr("minLeft")) {
-			layerInstance.offsetTop =
-				$win.height() -
-				($eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0);
-			layerInstance.offsetLeft = $eleLayer.css("left");
-		}
-		$eleLayer.css({
-			top: layerInstance.offsetTop,
-			left: layerInstance.offsetLeft
-		});
-		return layerInstance;
-	}
-	async setTips() {
-		const layerInstance = this;
-		const { config, $eleLayer } = layerInstance;
-		const [tipsDomWidth, tipsdomHeight] = [
-			$eleLayer.outerWidth(),
-			$eleLayer.outerHeight()
-		];
-		let $eleFollow = $(config.follow);
-		if ($eleFollow.length == 0) {
-			$eleFollow = $body;
-		}
-		var followInfo = {
-			width: $eleFollow.outerWidth(),
-			height: $eleFollow.outerHeight(),
-			top: $eleFollow.offset().top,
-			left: $eleFollow.offset().left,
-			tipTop: 0,
-			tipLeft: 0
-		};
-		if (config.openAtPoint) {
-			const { top, left } = config.openAtPoint;
-			followInfo.top = top;
-			followInfo.left = left;
-		}
-		var $tipsG = $eleLayer.find(".layui-layer-TipsG");
-		const [direction, customColor] = config.tips || ["1", ""];
-		function makeLeftAuto() {
-			if (followInfo.left + tipsDomWidth - $win.width() > 0) {
-				followInfo.tipLeft = followInfo.left + followInfo.width - tipsDomWidth;
-				$tipsG.css({ right: 12, left: "auto" });
-			} else {
-				followInfo.tipLeft = followInfo.left;
-			}
-		}
-		const direction_strategy = {
-			[LayerUtils.UP]() {
-				makeLeftAuto();
-				followInfo.tipTop = followInfo.top - tipsdomHeight - 10;
-				$tipsG
-					.removeClass("layui-layer-TipsB")
-					.addClass("layui-layer-TipsT")
-					.css("border-right-color", customColor);
-				followInfo.top - ($win.scrollTop() + tipsdomHeight + 8 * 2) < 0 &&
-					direction_strategy[2]();
-			},
-			[LayerUtils.RIGHT]() {
-				followInfo.tipLeft = followInfo.left + followInfo.width + 10;
-				followInfo.tipTop = followInfo.top;
-				$tipsG
-					.removeClass("layui-layer-TipsL")
-					.addClass("layui-layer-TipsR")
-					.css("border-bottom-color", customColor);
-				$win.width() -
-					(followInfo.left + followInfo.width + tipsDomWidth + 8 * 2) >
-					0 || direction_strategy[3]();
-			},
-			[LayerUtils.BOTTOM]() {
-				makeLeftAuto();
-				followInfo.tipTop = followInfo.top + followInfo.height + 10;
-				$tipsG
-					.removeClass("layui-layer-TipsT")
-					.addClass("layui-layer-TipsB")
-					.css("border-right-color", customColor);
-				followInfo.top -
-					$win.scrollTop() +
-					followInfo.height +
-					tipsdomHeight +
-					8 * 2 -
-					$win.height() >
-					0 && direction_strategy[4]();
-			},
-			[LayerUtils.LEFT]() {
-				followInfo.tipLeft = followInfo.left - tipsDomWidth - 10;
-				followInfo.tipTop = followInfo.top;
-				$tipsG
-					.removeClass("layui-layer-TipsR")
-					.addClass("layui-layer-TipsL")
-					.css("border-bottom-color", customColor);
-				tipsDomWidth + 8 * 2 - followInfo.left > 0 && direction_strategy[1]();
-			}
-		};
-		direction_strategy[direction] && direction_strategy[direction]();
-		$eleLayer.attr(DATA_TIPS_FOLLOW_ID, config.follow.substring(1));
-		$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).css({
-			"background-color": customColor,
-			"padding-right": config.closeBtn ? "30px" : ""
-		});
-		$eleLayer.css({
-			left: followInfo.tipLeft - $win.scrollLeft(),
-			top: followInfo.tipTop - $win.scrollTop(),
-			"transform-origin": [
-				$tipsG.hasClass("layui-layer-TipsT") ? "top" : "bottem",
-				$tipsG.hasClass("layui-layer-TipsL") ? "left" : "right"
-			].join(" ")
-		});
-		if (!customColor) {
-			$tipsG.remove();
-		}
-	}
-	onMoveOrResize() {
-		var layerInstance = this;
-		const { config, $eleLayer } = layerInstance;
-		const $eleMove = $eleLayer.find(config.move);
-		const $eleResize = $eleLayer.find(".layui-layer-resize");
-		$eleMove.css("cursor", "move");
-		$eleMove.on("mousedown", function (e) {
-			LayerUtils.setLayerTop($eleLayer);
-			e.preventDefault();
-			if (config.move) {
-				READY.moveOrResizeInstance = layerInstance;
-				READY.moveOrResizeType = "move";
-				READY.pointMousedown = [
-					e.clientX - parseFloat($eleLayer.css("left")),
-					e.clientY - parseFloat($eleLayer.css("top"))
-				];
-				$MoveMask.css("cursor", "move").show();
-			}
-		});
-		$eleResize.on("mousedown", function (e) {
-			LayerUtils.setLayerTop($eleLayer);
-			e.preventDefault();
-			READY.moveOrResizeInstance = layerInstance;
-			READY.moveOrResizeType = "resize";
-			READY.pointMousedown = [e.clientX, e.clientY];
-			READY.moveOrResizeWH = [$eleLayer.outerWidth(), $eleLayer.outerHeight()];
-			$MoveMask.css("cursor", "se-resize").show();
-		});
-		return layerInstance;
-	}
-	addLayerListener() {
-		const layerInstance = this;
-		const { $eleLayer, config } = layerInstance;
-		if (config.success) {
-			if (config.type == LayerUtils.IFRAME) {
-				$eleLayer.find("iframe").on("load", function () {
-					config.success.call(this, $eleLayer, layerInstance._layerKey);
-				});
-			} else {
-				config.success($eleLayer, layerInstance._layerKey);
-			}
-		}
-		$eleLayer
-			.find(`.${LAYUI_LAYER_CONTENT}`)
-			.children("a")
-			.on("click", function () {
-				var index2 = $(this).index();
-				if (index2 === 0) {
-					if (config.yes) {
-						config.yes(layerInstance._layerKey, $eleLayer);
-					} else if (config["btn1"]) {
-						config["btn1"](layerInstance._layerKey, $eleLayer);
-					} else {
-						LayerUtils.close(layerInstance._layerKey);
-					}
-				} else {
-					var close =
-						config["btn" + (index2 + 1)] &&
-						config["btn" + (index2 + 1)](layerInstance._layerKey, $eleLayer);
-					close === false || LayerUtils.close(layerInstance._layerKey);
-				}
-			});
-		$eleLayer
-			.find(`.${LAYUI_LAYER_CLOSE}`)
-			.on("click", async function handleClickCloseBtn() {
-				let isClosed = false;
-				const isNeedClose = await config.onClickClose({
-					_layerKey: layerInstance._layerKey,
-					$eleLayer,
-					dialogOptions: ""
-				});
-				if (isNeedClose) {
-					if (!isClosed) {
-						isClosed = await LayerUtils.close(layerInstance._layerKey);
-					}
-					if (!isClosed) {
-						await LayerUtils.close($(this).attr("data-layer-id"));
-					}
-				}
-			});
-		if (config.shadeClose) {
-			layerInstance.$eleShade.on("click", function () {
-				LayerUtils.close(layerInstance._layerKey);
-			});
-		}
-		$eleLayer.find(".layui-layer-min").on("click", function () {
-			var min = config.min && config.min($eleLayer, layerInstance._layerKey);
-			min === false || LayerUtils.min(layerInstance._layerKey, config);
-		});
-		$eleLayer.find(".layui-layer-max").on("click", function () {
-			if ($(this).hasClass("layui-layer-maxmin")) {
-				LayerUtils.restore(layerInstance._layerKey);
-				config.restore && config.restore($eleLayer, layerInstance._layerKey);
-			} else {
-				LayerUtils.full(layerInstance._layerKey, config);
-				setTimeout(function () {
-					config.full && config.full($eleLayer, layerInstance._layerKey);
-				}, 100);
-			}
-		});
-		if (config.end) {
-			READY.end[layerInstance._layerKey] = config.end;
-		}
-		if (
-			![LayerUtils.TIPS, LayerUtils.MSG, LayerUtils.LOADING].includes(
-				config.type
-			)
-		) {
-			layerInstance.onMoveOrResize();
-		}
-		return layerInstance;
-	}
+      },
+      [LayerUtils.LOADING]() {
+        delete config.title;
+        delete config.closeBtn;
+        config.icon === -1 && config.icon === 0;
+        LayerUtils.closeAll("loading");
+      },
+      [LayerUtils.TIPS]() {
+        if (!isContentTypeObject) {
+          config.content = [config.content, "body"];
+        }
+        config.follow = config.content[1];
+        const arrow = '<i class="layui-layer-TipsG"></i>';
+        config.content = `<div style="max-width:300px;overflow:auto;">${config.content[0]}<div>${arrow}`;
+        delete config.title;
+        config.btn = [];
+        config.tips = typeof config.tips === "object" ? config.tips : [config.tips, true];
+        config.tipsMore || LayerUtils.closeAll("tips");
+      }
+    };
+    const processContentFn = processContentStrategy[config.type];
+    processContentFn && processContentFn();
+    return layerInstance;
+  }
+  async setLayerPosition() {
+    await privateLodash.sleep(34);
+    const layerInstance = this;
+    const { config, _layerKey } = layerInstance;
+    layerInstance.offset();
+    if (config.type === LayerUtils.TIPS) {
+      layerInstance.setTips();
+    }
+    layerInstance.$eleLayer.css("visibility", "visible");
+    if (config.fullscreen) {
+      setTimeout(() => {
+        LayerUtils.full(_layerKey);
+      }, 500);
+    }
+    if (config.fixed) {
+      $win.on("resize", function() {
+        layerInstance.offset();
+        if (/^\d+%$/.test(config.area[0]) || /^\d+%$/.test(config.area[1])) {
+          layerInstance.setPosition();
+        }
+        if (config.type == LayerUtils.tips) {
+          layerInstance.setTips();
+        }
+      });
+    }
+    if (typeof config.during === "number" && config.during > 0) {
+      setTimeout(function() {
+        LayerUtils.close(layerInstance._layerKey);
+      }, config.during);
+    }
+    LayerUtils.setLayerTop(layerInstance.$eleLayer);
+    return layerInstance;
+  }
+  handleAnimation() {
+    const layerInstance = this;
+    const { config } = layerInstance;
+    if (DOMS_ANIM[config.anim]) {
+      var animClass = "layer-anim " + DOMS_ANIM[config.anim];
+      layerInstance.$eleLayer.addClass(animClass).one(
+        "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",
+        function() {
+          $(this).removeClass(animClass);
+        }
+      );
+    }
+    if (config.isOutAnim) {
+      layerInstance.$eleLayer.data("isOutAnim", true);
+    }
+    return layerInstance;
+  }
+  insertLayer() {
+    const layerInstance = this;
+    const { config, _layerKey, _IDShade } = layerInstance;
+    layerInstance.$eleLayer = $(layerInstance.cptDomContainer);
+    if (privateLodash.isObject(config.content) && (privateLodash.isString(config.content) || privateLodash.isString(config.content.jquery))) {
+      const $content = $(config.content);
+      layerInstance.$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).append($content);
+    }
+    layerInstance.$eleLayer.css({
+      visibility: "hidden",
+      top: "100%",
+      left: "100%"
+    });
+    $body.append(layerInstance.$eleLayer);
+    if (layerInstance.cptDomShade) {
+      $body.append(layerInstance.cptDomShade);
+      layerInstance.$eleShade = $(`#${_IDShade}`);
+      layerInstance.$eleShade.css({
+        "background-color": config.shade[1] || "#000",
+        opacity: config.shade[0] || config.shade
+      });
+    }
+    if (!config.scrollbar) {
+      $html.css("overflow", "hidden").attr("layer-full", _layerKey);
+    }
+    layerInstance.setLayerPosition();
+    return layerInstance;
+  }
+  offset() {
+    var layerInstance = this, config = layerInstance.config, $eleLayer = layerInstance.$eleLayer;
+    var area = [$eleLayer.outerWidth(), $eleLayer.outerHeight()];
+    var whetherOffsetIsObject = typeof config.offset === "object";
+    layerInstance.offsetTop = ($win.height() - area[1]) / 2;
+    layerInstance.offsetLeft = ($win.width() - area[0]) / 2;
+    if (whetherOffsetIsObject) {
+      const [top, left] = config.offset;
+      layerInstance.offsetTop = top;
+      layerInstance.offsetLeft = left || layerInstance.offsetLeft;
+    } else if (config.offset !== "auto") {
+      if (config.offset === "t") {
+        layerInstance.offsetTop = 0;
+      } else if (config.offset === "r") {
+        layerInstance.offsetLeft = $win.width() - area[0];
+      } else if (config.offset === "b") {
+        layerInstance.offsetTop = $win.height() - area[1];
+      } else if (config.offset === "l") {
+        layerInstance.offsetLeft = 0;
+      } else if (config.offset === "lt") {
+        layerInstance.offsetTop = 0;
+        layerInstance.offsetLeft = 0;
+      } else if (config.offset === "lb") {
+        layerInstance.offsetTop = $win.height() - area[1];
+        layerInstance.offsetLeft = 0;
+      } else if (config.offset === "rt") {
+        layerInstance.offsetTop = 0;
+        layerInstance.offsetLeft = $win.width() - area[0];
+      } else if (config.offset === "rb") {
+        layerInstance.offsetTop = $win.height() - area[1];
+        layerInstance.offsetLeft = $win.width() - area[0];
+      } else {
+        layerInstance.offsetTop = config.offset;
+      }
+    }
+    if (!config.fixed) {
+      layerInstance.offsetTop = /%$/.test(layerInstance.offsetTop) ? $win.height() * parseFloat(layerInstance.offsetTop) / 100 : parseFloat(layerInstance.offsetTop);
+      layerInstance.offsetLeft = /%$/.test(layerInstance.offsetLeft) ? $win.width() * parseFloat(layerInstance.offsetLeft) / 100 : parseFloat(layerInstance.offsetLeft);
+      layerInstance.offsetTop += $win.scrollTop();
+      layerInstance.offsetLeft += $win.scrollLeft();
+    }
+    if ($eleLayer.attr("minLeft")) {
+      layerInstance.offsetTop = $win.height() - ($eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0);
+      layerInstance.offsetLeft = $eleLayer.css("left");
+    }
+    $eleLayer.css({
+      top: layerInstance.offsetTop,
+      left: layerInstance.offsetLeft
+    });
+    return layerInstance;
+  }
+  async setTips() {
+    const layerInstance = this;
+    const { config, $eleLayer } = layerInstance;
+    const [tipsDomWidth, tipsdomHeight] = [
+      $eleLayer.outerWidth(),
+      $eleLayer.outerHeight()
+    ];
+    let $eleFollow = $(config.follow);
+    if ($eleFollow.length == 0) {
+      $eleFollow = $body;
+    }
+    var followInfo = {
+      width: $eleFollow.outerWidth(),
+      height: $eleFollow.outerHeight(),
+      top: $eleFollow.offset().top,
+      left: $eleFollow.offset().left,
+      tipTop: 0,
+      tipLeft: 0
+    };
+    if (config.openAtPoint) {
+      const { top, left } = config.openAtPoint;
+      followInfo.top = top;
+      followInfo.left = left;
+    }
+    var $tipsG = $eleLayer.find(".layui-layer-TipsG");
+    const [direction, customColor] = config.tips || ["1", ""];
+    function makeLeftAuto() {
+      if (followInfo.left + tipsDomWidth - $win.width() > 0) {
+        followInfo.tipLeft = followInfo.left + followInfo.width - tipsDomWidth;
+        $tipsG.css({ right: 12, left: "auto" });
+      } else {
+        followInfo.tipLeft = followInfo.left;
+      }
+    }
+    const direction_strategy = {
+      [LayerUtils.UP]() {
+        makeLeftAuto();
+        followInfo.tipTop = followInfo.top - tipsdomHeight - 10;
+        $tipsG.removeClass("layui-layer-TipsB").addClass("layui-layer-TipsT").css("border-right-color", customColor);
+        followInfo.top - ($win.scrollTop() + tipsdomHeight + 8 * 2) < 0 && direction_strategy[2]();
+      },
+      [LayerUtils.RIGHT]() {
+        followInfo.tipLeft = followInfo.left + followInfo.width + 10;
+        followInfo.tipTop = followInfo.top;
+        $tipsG.removeClass("layui-layer-TipsL").addClass("layui-layer-TipsR").css("border-bottom-color", customColor);
+        $win.width() - (followInfo.left + followInfo.width + tipsDomWidth + 8 * 2) > 0 || direction_strategy[3]();
+      },
+      [LayerUtils.BOTTOM]() {
+        makeLeftAuto();
+        followInfo.tipTop = followInfo.top + followInfo.height + 10;
+        $tipsG.removeClass("layui-layer-TipsT").addClass("layui-layer-TipsB").css("border-right-color", customColor);
+        followInfo.top - $win.scrollTop() + followInfo.height + tipsdomHeight + 8 * 2 - $win.height() > 0 && direction_strategy[4]();
+      },
+      [LayerUtils.LEFT]() {
+        followInfo.tipLeft = followInfo.left - tipsDomWidth - 10;
+        followInfo.tipTop = followInfo.top;
+        $tipsG.removeClass("layui-layer-TipsR").addClass("layui-layer-TipsL").css("border-bottom-color", customColor);
+        tipsDomWidth + 8 * 2 - followInfo.left > 0 && direction_strategy[1]();
+      }
+    };
+    direction_strategy[direction] && direction_strategy[direction]();
+    $eleLayer.attr(DATA_TIPS_FOLLOW_ID, config.follow.substring(1));
+    $eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).css({
+      "background-color": customColor,
+      "padding-right": config.closeBtn ? "30px" : ""
+    });
+    $eleLayer.css({
+      left: followInfo.tipLeft - $win.scrollLeft(),
+      top: followInfo.tipTop - $win.scrollTop(),
+      "transform-origin": [
+        $tipsG.hasClass("layui-layer-TipsT") ? "top" : "bottem",
+        $tipsG.hasClass("layui-layer-TipsL") ? "left" : "right"
+      ].join(" ")
+    });
+    if (!customColor) {
+      $tipsG.remove();
+    }
+  }
+  onMoveOrResize() {
+    var layerInstance = this;
+    const { config, $eleLayer } = layerInstance;
+    const $eleMove = $eleLayer.find(config.move);
+    const $eleResize = $eleLayer.find(".layui-layer-resize");
+    $eleMove.css("cursor", "move");
+    $eleMove.on("mousedown", function(e) {
+      LayerUtils.setLayerTop($eleLayer);
+      e.preventDefault();
+      if (config.move) {
+        READY.moveOrResizeInstance = layerInstance;
+        READY.moveOrResizeType = "move";
+        READY.pointMousedown = [
+          e.clientX - parseFloat($eleLayer.css("left")),
+          e.clientY - parseFloat($eleLayer.css("top"))
+        ];
+        $MoveMask.css("cursor", "move").show();
+      }
+    });
+    $eleResize.on("mousedown", function(e) {
+      LayerUtils.setLayerTop($eleLayer);
+      e.preventDefault();
+      READY.moveOrResizeInstance = layerInstance;
+      READY.moveOrResizeType = "resize";
+      READY.pointMousedown = [e.clientX, e.clientY];
+      READY.moveOrResizeWH = [$eleLayer.outerWidth(), $eleLayer.outerHeight()];
+      $MoveMask.css("cursor", "se-resize").show();
+    });
+    return layerInstance;
+  }
+  addLayerListener() {
+    const layerInstance = this;
+    const { $eleLayer, config } = layerInstance;
+    if (config.success) {
+      if (config.type == LayerUtils.IFRAME) {
+        $eleLayer.find("iframe").on("load", function() {
+          config.success.call(this, $eleLayer, layerInstance._layerKey);
+        });
+      } else {
+        config.success($eleLayer, layerInstance._layerKey);
+      }
+    }
+    $eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).children("a").on("click", function() {
+      var index2 = $(this).index();
+      if (index2 === 0) {
+        if (config.yes) {
+          config.yes(layerInstance._layerKey, $eleLayer);
+        } else if (config["btn1"]) {
+          config["btn1"](layerInstance._layerKey, $eleLayer);
+        } else {
+          LayerUtils.close(layerInstance._layerKey);
+        }
+      } else {
+        var close = config["btn" + (index2 + 1)] && config["btn" + (index2 + 1)](layerInstance._layerKey, $eleLayer);
+        close === false || LayerUtils.close(layerInstance._layerKey);
+      }
+    });
+    $eleLayer.find(`.${LAYUI_LAYER_CLOSE}`).on("click", async function handleClickCloseBtn() {
+      let isClosed = false;
+      const isNeedClose = await config.onClickClose({
+        _layerKey: layerInstance._layerKey,
+        $eleLayer,
+        dialogOptions: ""
+      });
+      if (isNeedClose) {
+        if (!isClosed) {
+          isClosed = await LayerUtils.close(layerInstance._layerKey);
+        }
+        if (!isClosed) {
+          await LayerUtils.close($(this).attr("data-layer-id"));
+        }
+      }
+    });
+    if (config.shadeClose) {
+      layerInstance.$eleShade.on("click", function() {
+        LayerUtils.close(layerInstance._layerKey);
+      });
+    }
+    $eleLayer.find(".layui-layer-min").on("click", function() {
+      var min = config.min && config.min($eleLayer, layerInstance._layerKey);
+      min === false || LayerUtils.min(layerInstance._layerKey, config);
+    });
+    $eleLayer.find(".layui-layer-max").on("click", function() {
+      if ($(this).hasClass("layui-layer-maxmin")) {
+        LayerUtils.restore(layerInstance._layerKey);
+        config.restore && config.restore($eleLayer, layerInstance._layerKey);
+      } else {
+        LayerUtils.full(layerInstance._layerKey, config);
+        setTimeout(function() {
+          config.full && config.full($eleLayer, layerInstance._layerKey);
+        }, 100);
+      }
+    });
+    if (config.end) {
+      READY.end[layerInstance._layerKey] = config.end;
+    }
+    if (![LayerUtils.TIPS, LayerUtils.MSG, LayerUtils.LOADING].includes(
+      config.type
+    )) {
+      layerInstance.onMoveOrResize();
+    }
+    return layerInstance;
+  }
 }
 LayerUtils.cache || {};
-$document
-	.on("click.setLayerTop", "[layer-wrapper]", event2 => {
-		const { currentTarget } = event2;
-		const $currentTarget = $(currentTarget);
-		LayerUtils.setLayerTop($currentTarget);
-	})
-	.on(
-		"mousemove",
-		`.${LAYUI_LAYER_MOVE}`,
-		privateLodash.throttle(function (e) {
-			const { moveOrResizeInstance, moveOrResizeType, onMoving } = READY;
-			if (moveOrResizeInstance instanceof ClassLayer) {
-				const { $eleLayer, config } = moveOrResizeInstance;
-				if (moveOrResizeType === "move") {
-					e.preventDefault();
-					let X = e.clientX - READY.pointMousedown[0];
-					let Y = e.clientY - READY.pointMousedown[1];
-					const fixed = $eleLayer.css("position") === "fixed";
-					READY.stX = fixed ? 0 : $win.scrollLeft();
-					READY.stY = fixed ? 0 : $win.scrollTop();
-					if (!config.moveOut) {
-						let setRig = $win.width() - $eleLayer.outerWidth() + READY.stX;
-						let setBot = $win.height() - $eleLayer.outerHeight() + READY.stY;
-						if (X < READY.stX) {
-							X = READY.stX;
-						}
-						if (X > setRig) {
-							X = setRig;
-						}
-						if (Y < READY.stY) {
-							Y = READY.stY;
-						}
-						if (Y > setBot) {
-							Y = setBot;
-						}
-					}
-					$eleLayer.css({ left: X, top: Y });
-				}
-				if (config.resize) {
-					if (READY.moveOrResizeType === "resize") {
-						e.preventDefault();
-						const X = e.clientX - READY.pointMousedown[0];
-						const Y = e.clientY - READY.pointMousedown[1];
-						$eleLayer.css({
-							width: READY.moveOrResizeWH[0] + X,
-							height: READY.moveOrResizeWH[1] + Y
-						});
-						config.onResizing && config.onResizing($eleLayer);
-					}
-				}
-			} else if (typeof onMoving == "function") {
-				event && onMoving(event);
-			}
-		}, 90)
-	)
-	.on("mouseup", function (e) {
-		if (READY.moveOrResizeInstance instanceof ClassLayer) {
-			const { config } = READY.moveOrResizeInstance;
-			if (config.onMoveEnd) {
-				config.onMoveEnd(READY.moveOrResizeInstance);
-			}
-			READY.moveOrResizeInstance = false;
-		}
-		$MoveMask.hide();
-	});
-const EcsPressHandler = privateLodash.debounce(async function (
-	event2,
-	dialogOptions
-) {
-	const $antModal = $(".ant-modal-root");
-	if ($antModal.length > 0) {
-		return;
-	}
-	if (event2.keyCode === KEY.esc) {
-		await dialogOptions.closeDialog();
-	}
-},
-100);
-const xDialogFooter = defineComponent({
-	props: ["configs"],
-	computed: {
-		onCancel() {
-			return this.configs.onCancel;
-		},
-		onOk() {
-			return this.configs.onOk;
-		},
-		vDomOk() {
-			var _a;
-			if ((_a = this.configs) == null ? void 0 : _a.hideOk) {
-				return null;
-			}
-			const configs = {
-				text: privateLodash.isInput(this.configs.textOk)
-					? this.configs.textOk
-					: State_UI.$t("\u786E\u5B9A").label,
-				disabled: privateLodash.isInput(this.configs.disabledOk)
-					? this.configs.disabledOk
-					: false,
-				onClick: this.onOk || privateLodash.doNothing
-			};
-			return createVNode(
-				resolveComponent("xButton"),
-				{
-					type: "primary",
-					class: "ml10",
-					configs: configs
-				},
-				null
-			);
-		},
-		vDomCancel() {
-			var _a;
-			if ((_a = this.configs) == null ? void 0 : _a.hideCancel) {
-				return null;
-			}
-			const configs = {
-				text: privateLodash.isInput(this.configs.textCancel)
-					? this.configs.textCancel
-					: State_UI.$t("\u53D6\u6D88").label,
-				disabled: privateLodash.isInput(this.configs.disabledCancel)
-					? this.configs.disabledCancel
-					: false,
-				onClick: this.onCancel || privateLodash.doNothing
-			};
-			return createVNode(
-				resolveComponent("xButton"),
-				{
-					class: "ml10",
-					configs: configs
-				},
-				null
-			);
-		},
-		vDomContent() {
-			if (this.$slots.default) {
-				return this.$slots.default();
-			} else {
-				return createVNode(Fragment, null, [this.vDomCancel, this.vDomOk]);
-			}
-		}
-	},
-	render() {
-		return createVNode(
-			"div",
-			{
-				class: "flex middle end ant-modal-footer"
-			},
-			[this.vDomContent]
-		);
-	}
+$document.on("click.setLayerTop", "[layer-wrapper]", (event2) => {
+  const { currentTarget } = event2;
+  const $currentTarget = $(currentTarget);
+  LayerUtils.setLayerTop($currentTarget);
+}).on(
+  "mousemove",
+  `.${LAYUI_LAYER_MOVE}`,
+  function(e) {
+    const { moveOrResizeInstance, moveOrResizeType, onMoving } = READY;
+    if (moveOrResizeInstance instanceof ClassLayer) {
+      const { $eleLayer, config } = moveOrResizeInstance;
+      if (moveOrResizeType === "move") {
+        e.preventDefault();
+        let X = e.clientX - READY.pointMousedown[0];
+        let Y = e.clientY - READY.pointMousedown[1];
+        const fixed = $eleLayer.css("position") === "fixed";
+        READY.stX = fixed ? 0 : $win.scrollLeft();
+        READY.stY = fixed ? 0 : $win.scrollTop();
+        if (!config.moveOut) {
+          let setRig = $win.width() - $eleLayer.outerWidth() + READY.stX;
+          let setBot = $win.height() - $eleLayer.outerHeight() + READY.stY;
+          if (X < READY.stX) {
+            X = READY.stX;
+          }
+          if (X > setRig) {
+            X = setRig;
+          }
+          if (Y < READY.stY) {
+            Y = READY.stY;
+          }
+          if (Y > setBot) {
+            Y = setBot;
+          }
+        }
+        $eleLayer.css({ left: X, top: Y });
+      }
+      if (config.resize) {
+        if (READY.moveOrResizeType === "resize") {
+          e.preventDefault();
+          const X = e.clientX - READY.pointMousedown[0];
+          const Y = e.clientY - READY.pointMousedown[1];
+          $eleLayer.css({
+            width: READY.moveOrResizeWH[0] + X,
+            height: READY.moveOrResizeWH[1] + Y
+          });
+          config.onResizing && config.onResizing($eleLayer);
+        }
+      }
+    } else if (typeof onMoving == "function") {
+      event && onMoving(event);
+    }
+  }
+).on("mouseup", function(e) {
+  if (READY.moveOrResizeInstance instanceof ClassLayer) {
+    const { config } = READY.moveOrResizeInstance;
+    if (config.onMoveEnd) {
+      config.onMoveEnd(READY.moveOrResizeInstance);
+    }
+    READY.moveOrResizeInstance = false;
+  }
+  $MoveMask.hide();
 });
-const installUIDialogComponent = (UI2, { appPlugins, dependState }, app) => {
-	app.component("xDialogFooter", xDialogFooter);
-	UI2.dialog.component = async dialogOptions =>
-		new Promise((resolve, reject) => {
-			const { component: BussinessComponent, title, area } = dialogOptions;
-			const id = `xDialog_${Date.now()}`;
-			let $container = $("<div/>", {
-				id
-			});
-			const _dialogId = `#${id}`;
-			if (dialogOptions.yes) {
-				dialogOptions._yes = dialogOptions.yes;
-				delete dialogOptions.yes;
-			}
-			dialogOptions.closeDialog = async () => {
-				let isCloseDialog = true;
-				if (dialogOptions.onBeforeClose) {
-					const res = await dialogOptions.onBeforeClose({
-						dialogOptions,
-						_layerKey: "",
-						$eleLayer: ""
-					});
-					if (privateLodash.isBoolean(res) && !res) {
-						isCloseDialog = false;
-					}
-				}
-				if (isCloseDialog) {
-					LayerUtils.close(handleEcsPress._layerKey);
-				}
-			};
-			let dialogVueApp = null;
-			let handleEcsPress = {
-				_layerKey: "",
-				handler: event2 => EcsPressHandler(event2, dialogOptions),
-				on(_layerKey) {
-					handleEcsPress._layerKey = _layerKey;
-					$(document).on(`keyup.${_dialogId}`, handleEcsPress.handler);
-				},
-				off() {
-					$(document).off(`keyup.${_dialogId}`, handleEcsPress.handler);
-					handleEcsPress = null;
-				}
-			};
-			const layerOptions = privateLodash.merge(
-				dialogOptions,
-				{
-					contentClass: "flex1",
-					type: LayerUtils.DIALOG,
-					title: [title || ""],
-					area: area || [],
-					content: $container,
-					offset: ["160px", null],
-					btn: [],
-					success($eleLayer, _layerKey) {
-						handleEcsPress.on(_layerKey);
-						dialogOptions._dialog$ele = $eleLayer;
-						dialogOptions._layerKey = _layerKey;
-						try {
-							dialogVueApp = createApp(
-								defineComponent({
-									components: {
-										BussinessComponent
-									},
-									created() {
-										this.dialogOptions._contentInstance = this;
-										resolve(this.dialogOptions);
-									},
-									data() {
-										return {
-											dialogOptions
-										};
-									},
-									render() {
-										return createVNode(
-											"div",
-											{
-												class: "ventose-dialog-content",
-												"data-el-id": _dialogId
-											},
-											[
-												createVNode(
-													BussinessComponent,
-													{
-														propDialogOptions: this.dialogOptions
-													},
-													null
-												)
-											]
-										);
-									}
-								})
-							);
-							dialogVueApp.use(appPlugins, {
-								dependState
-							});
-							dialogVueApp.mount(_dialogId);
-						} catch (e) {
-							console.error(e);
-						}
-						dialogOptions.onAfterOpenDialoag &&
-							dialogOptions.onAfterOpenDialoag(dialogVueApp);
-					},
-					cancel() {
-						dialogOptions.closeDialog();
-						return false;
-					},
-					end() {
-						handleEcsPress.off();
-						$container.remove();
-						$container = null;
-						if (dialogVueApp) {
-							dialogVueApp.unmount();
-							dialogVueApp = null;
-						}
-						dialogOptions.payload = null;
-						dialogOptions._contentInstance = null;
-						dialogOptions = null;
-					}
-				},
-				privateLodash.omit(dialogOptions, [
-					"end",
-					"cancel",
-					"success",
-					"content"
-				])
-			);
-			LayerUtils.open(layerOptions);
-		});
+const EcsPressHandler = privateLodash.debounce(async function(event2, dialogOptions) {
+  const $antModal = $(".ant-modal-root");
+  if ($antModal.length > 0) {
+    return;
+  }
+  if (event2.keyCode === KEY.esc) {
+    await dialogOptions.closeDialog();
+  }
+}, 100);
+const xDialogFooter = defineComponent({
+  props: ["configs"],
+  computed: {
+    onCancel() {
+      return this.configs.onCancel;
+    },
+    onOk() {
+      return this.configs.onOk;
+    },
+    vDomOk() {
+      var _a;
+      if ((_a = this.configs) == null ? void 0 : _a.hideOk) {
+        return null;
+      }
+      const configs = {
+        text: privateLodash.isInput(this.configs.textOk) ? this.configs.textOk : State_UI.$t("\u786E\u5B9A").label,
+        disabled: privateLodash.isInput(this.configs.disabledOk) ? this.configs.disabledOk : false,
+        onClick: this.onOk || privateLodash.doNothing
+      };
+      return createVNode(resolveComponent("xButton"), {
+        "type": "primary",
+        "class": "ml10",
+        "configs": configs
+      }, null);
+    },
+    vDomCancel() {
+      var _a;
+      if ((_a = this.configs) == null ? void 0 : _a.hideCancel) {
+        return null;
+      }
+      const configs = {
+        text: privateLodash.isInput(this.configs.textCancel) ? this.configs.textCancel : State_UI.$t("\u53D6\u6D88").label,
+        disabled: privateLodash.isInput(this.configs.disabledCancel) ? this.configs.disabledCancel : false,
+        onClick: this.onCancel || privateLodash.doNothing
+      };
+      return createVNode(resolveComponent("xButton"), {
+        "class": "ml10",
+        "configs": configs
+      }, null);
+    },
+    vDomContent() {
+      if (this.$slots.default) {
+        return this.$slots.default();
+      } else {
+        return createVNode(Fragment, null, [this.vDomCancel, this.vDomOk]);
+      }
+    }
+  },
+  render() {
+    return createVNode("div", {
+      "class": "flex middle end ant-modal-footer"
+    }, [this.vDomContent]);
+  }
+});
+const installUIDialogComponent = (UI2, {
+  appPlugins,
+  dependState
+}, app) => {
+  app.component("xDialogFooter", xDialogFooter);
+  UI2.dialog.component = async (dialogOptions) => new Promise((resolve, reject) => {
+    const {
+      component: BussinessComponent,
+      title,
+      area
+    } = dialogOptions;
+    const id = `xDialog_${Date.now()}`;
+    let $container = $("<div/>", {
+      id
+    });
+    const _dialogId = `#${id}`;
+    if (dialogOptions.yes) {
+      dialogOptions._yes = dialogOptions.yes;
+      delete dialogOptions.yes;
+    }
+    dialogOptions.closeDialog = async () => {
+      let isCloseDialog = true;
+      if (dialogOptions.onBeforeClose) {
+        const res = await dialogOptions.onBeforeClose({
+          dialogOptions,
+          _layerKey: "",
+          $eleLayer: ""
+        });
+        if (privateLodash.isBoolean(res) && !res) {
+          isCloseDialog = false;
+        }
+      }
+      if (isCloseDialog) {
+        LayerUtils.close(handleEcsPress._layerKey);
+      }
+    };
+    let dialogVueApp = null;
+    let handleEcsPress = {
+      _layerKey: "",
+      handler: (event2) => EcsPressHandler(event2, dialogOptions),
+      on(_layerKey) {
+        handleEcsPress._layerKey = _layerKey;
+        $(document).on(`keyup.${_dialogId}`, handleEcsPress.handler);
+      },
+      off() {
+        $(document).off(`keyup.${_dialogId}`, handleEcsPress.handler);
+        handleEcsPress = null;
+      }
+    };
+    const layerOptions = privateLodash.merge(dialogOptions, {
+      contentClass: "flex1",
+      type: LayerUtils.DIALOG,
+      title: [title || ""],
+      area: area || [],
+      content: $container,
+      offset: ["160px", null],
+      btn: [],
+      success($eleLayer, _layerKey) {
+        handleEcsPress.on(_layerKey);
+        dialogOptions._dialog$ele = $eleLayer;
+        dialogOptions._layerKey = _layerKey;
+        try {
+          dialogVueApp = createApp(defineComponent({
+            components: {
+              BussinessComponent
+            },
+            created() {
+              this.dialogOptions._contentInstance = this;
+              resolve(this.dialogOptions);
+            },
+            data() {
+              return {
+                dialogOptions
+              };
+            },
+            render() {
+              return createVNode("div", {
+                "class": "ventose-dialog-content",
+                "data-el-id": _dialogId
+              }, [createVNode(BussinessComponent, {
+                "propDialogOptions": this.dialogOptions
+              }, null)]);
+            }
+          }));
+          dialogVueApp.use(appPlugins, {
+            dependState
+          });
+          dialogVueApp.mount(_dialogId);
+        } catch (e) {
+          console.error(e);
+        }
+        dialogOptions.onAfterOpenDialoag && dialogOptions.onAfterOpenDialoag(dialogVueApp);
+      },
+      cancel() {
+        dialogOptions.closeDialog();
+        return false;
+      },
+      end() {
+        handleEcsPress.off();
+        $container.remove();
+        $container = null;
+        if (dialogVueApp) {
+          dialogVueApp.unmount();
+          dialogVueApp = null;
+        }
+        dialogOptions.payload = null;
+        dialogOptions._contentInstance = null;
+        dialogOptions = null;
+      }
+    }, privateLodash.omit(dialogOptions, ["end", "cancel", "success", "content"]));
+    LayerUtils.open(layerOptions);
+  });
 };
 const appAddPlugin = {};
 const appDependState = {};
@@ -35840,731 +34672,661 @@ const DATA_FOLLOW_ID = "data-follow-id";
 const TIMEOUT_DELAY = 200;
 const tipsOptionsCollection = {};
 const tipsKeys = {};
-function fnShowTips({ $ele, followId, appId, event: event2 }) {
-	const options = tipsOptionsCollection[followId] || {
-		content: ""
-	};
-	if (!options.content) {
-		if (options.onlyEllipsis) {
-			const eleWidth = $ele.width() || 0;
-			const text = $ele.text();
-			const $div = $(
-				`<span style="position:fixed;top:0;left:0;opacity: 0;height: 0;letter-spacing: normal;">${text}</span>`
-			);
-			$div.appendTo($("body"));
-			const innerWidth = $div.width() || 0;
-			$div.remove();
-			if (innerWidth > eleWidth) {
-				options.content = text;
-			}
-		} else {
-			return;
-		}
-	}
-	let tipsContent = options.content;
-	if (!tipsContent) {
-		return;
-	}
-	let app;
-	const placement = (() => {
-		const placement_strategy = {
-			top: 1,
-			right: 2,
-			bottom: 3,
-			left: 4
-		};
-		return placement_strategy[options.placement || "top"];
-	})();
-	let layerTipsOptions = {
-		tips: [placement, "#fff"],
-		during: 1e3 * 60 * 10
-	};
-	const isOpenAtPoint = $ele.attr("data-open-at-point");
-	if (isOpenAtPoint) {
-		layerTipsOptions.openAtPoint = {
-			left: $ele.clientX,
-			top: $ele.clientY
-		};
-	}
-	if (privateLodash.isPlainObject(options.content)) {
-		const id = `${followId}_content`;
-		tipsContent = `<div id="${id}"></div>`;
-		layerTipsOptions.success = function success(indexPanel, layerIndex) {
-			app = createApp(options.content);
-			app.use(appAddPlugin[appId], {
-				dependState: appDependState[appId]
-			});
-			app.mount(`#${id}`);
-			options.afterOpenDialoag && options.afterOpenDialoag(app);
-		};
-		layerTipsOptions.end = function end() {
-			if (app) {
-				app.unmount();
-				app = null;
-			}
-		};
-	}
-	setTimeout(() => {
-		if (visibleArea[followId]) {
-			tipsKeys[followId] = LayerUtils.tips(
-				tipsContent,
-				`#${followId}`,
-				layerTipsOptions
-			);
-		}
-	}, options.delay || 32);
+function fnShowTips({
+  $ele,
+  followId,
+  appId,
+  event: event2
+}) {
+  const options = tipsOptionsCollection[followId] || {
+    content: ""
+  };
+  if (!options.content) {
+    if (options.onlyEllipsis) {
+      const eleWidth = $ele.width() || 0;
+      const text = $ele.text();
+      const $div = $(`<span style="position:fixed;top:0;left:0;opacity: 0;height: 0;letter-spacing: normal;">${text}</span>`);
+      $div.appendTo($("body"));
+      const innerWidth = $div.width() || 0;
+      $div.remove();
+      if (innerWidth > eleWidth) {
+        options.content = text;
+      }
+    } else {
+      return;
+    }
+  }
+  let tipsContent = options.content;
+  if (!tipsContent) {
+    return;
+  }
+  let app;
+  const placement = (() => {
+    const placement_strategy = {
+      top: 1,
+      right: 2,
+      bottom: 3,
+      left: 4
+    };
+    return placement_strategy[options.placement || "top"];
+  })();
+  let layerTipsOptions = {
+    tips: [placement, "#fff"],
+    during: 1e3 * 60 * 10
+  };
+  const isOpenAtPoint = $ele.attr("data-open-at-point");
+  if (isOpenAtPoint) {
+    layerTipsOptions.openAtPoint = {
+      left: $ele.clientX,
+      top: $ele.clientY
+    };
+  }
+  if (privateLodash.isPlainObject(options.content)) {
+    const id = `${followId}_content`;
+    tipsContent = `<div id="${id}"></div>`;
+    layerTipsOptions.success = function success(indexPanel, layerIndex) {
+      app = createApp(options.content);
+      app.use(appAddPlugin[appId], {
+        dependState: appDependState[appId]
+      });
+      app.mount(`#${id}`);
+      options.afterOpenDialoag && options.afterOpenDialoag(app);
+    };
+    layerTipsOptions.end = function end() {
+      if (app) {
+        app.unmount();
+        app = null;
+      }
+    };
+  }
+  setTimeout(() => {
+    if (visibleArea[followId]) {
+      tipsKeys[followId] = LayerUtils.tips(tipsContent, `#${followId}`, layerTipsOptions);
+    }
+  }, options.delay || 32);
 }
 function installPopoverDirective(app, appSettings) {
-	const appId = privateLodash.genId("appId");
-	appAddPlugin[appId] = appSettings.appPlugins;
-	appDependState[appId] = appSettings.dependState;
-	app.directive("uiPopover", {
-		mounted(el, binding) {
-			init();
-			updateMounted(el, binding);
-			function init() {
-				const followId = privateLodash.genId("xPopoverTarget");
-				const $ele = $(el);
-				$ele
-					.addClass("x-ui-popover")
-					.attr("id", followId)
-					.attr(DATA_APP_ID, appId)
-					.attr(DATA_FOLLOW_ID, followId);
-			}
-		},
-		beforeUpdate(el, binding) {
-			updateMounted(el, binding);
-		},
-		unmounted(el) {
-			const followId = $(el).attr(DATA_FOLLOW_ID);
-			if (typeof tipsKeys[followId] == "string" && tipsKeys[followId]) {
-				LayerUtils.close(tipsKeys[followId]);
-			}
-			delete tipsOptionsCollection[followId];
-			delete visibleArea[followId];
-		}
-	});
-	function updateMounted(el, binding) {
-		var _a, _b, _c, _d;
-		const $ele = $(el);
-		const followId = $ele.attr(DATA_FOLLOW_ID);
-		if (binding.value) {
-			tipsOptionsCollection[followId] = binding.value;
-			if ((_a = binding.value) == null ? void 0 : _a.trigger) {
-				$ele.attr(
-					"data-trigger",
-					(_b = binding.value) == null ? void 0 : _b.trigger
-				);
-				const classStrategy = {
-					rightClick: "pointer-right-click"
-				};
-				const className =
-					classStrategy[(_c = binding.value) == null ? void 0 : _c.trigger] ||
-					"pointer";
-				if (!$ele.hasClass(className)) {
-					$ele.addClass();
-				}
-			}
-			if ((_d = binding.value) == null ? void 0 : _d.openAtPoint) {
-				$ele.attr("data-open-at-point", true);
-			}
-		}
-	}
+  const appId = privateLodash.genId("appId");
+  appAddPlugin[appId] = appSettings.appPlugins;
+  appDependState[appId] = appSettings.dependState;
+  app.directive("uiPopover", {
+    mounted(el, binding) {
+      init();
+      updateMounted(el, binding);
+      function init() {
+        const followId = privateLodash.genId("xPopoverTarget");
+        const $ele = $(el);
+        $ele.addClass("x-ui-popover").attr("id", followId).attr(DATA_APP_ID, appId).attr(DATA_FOLLOW_ID, followId);
+      }
+    },
+    beforeUpdate(el, binding) {
+      updateMounted(el, binding);
+    },
+    unmounted(el) {
+      const followId = $(el).attr(DATA_FOLLOW_ID);
+      if (typeof tipsKeys[followId] == "string" && tipsKeys[followId]) {
+        LayerUtils.close(tipsKeys[followId]);
+      }
+      delete tipsOptionsCollection[followId];
+      delete visibleArea[followId];
+    }
+  });
+  function updateMounted(el, binding) {
+    var _a, _b, _c, _d;
+    const $ele = $(el);
+    const followId = $ele.attr(DATA_FOLLOW_ID);
+    if (binding.value) {
+      tipsOptionsCollection[followId] = binding.value;
+      if ((_a = binding.value) == null ? void 0 : _a.trigger) {
+        $ele.attr("data-trigger", (_b = binding.value) == null ? void 0 : _b.trigger);
+        const classStrategy = {
+          rightClick: "pointer-right-click"
+        };
+        const className = classStrategy[(_c = binding.value) == null ? void 0 : _c.trigger] || "pointer";
+        if (!$ele.hasClass(className)) {
+          $ele.addClass();
+        }
+      }
+      if ((_d = binding.value) == null ? void 0 : _d.openAtPoint) {
+        $ele.attr("data-open-at-point", true);
+      }
+    }
+  }
 }
 function inVisibleArea(followId) {
-	if (timer4CloseTips[followId]) {
-		clearTimeout(timer4CloseTips[followId]);
-		delete timer4CloseTips[followId];
-	}
-	visibleArea[followId] = true;
+  if (timer4CloseTips[followId]) {
+    clearTimeout(timer4CloseTips[followId]);
+    delete timer4CloseTips[followId];
+  }
+  visibleArea[followId] = true;
 }
 function closeTips(followId, options = {}) {
-	delete visibleArea[followId];
-	timer4CloseTips[followId] = setTimeout(() => {
-		const layerIndex = tipsKeys[followId];
-		if (layerIndex) {
-			LayerUtils.close(layerIndex).then(() => {
-				delete tipsKeys[followId];
-				delete timer4CloseTips[followId];
-			});
-		}
-	}, TIMEOUT_DELAY);
+  delete visibleArea[followId];
+  timer4CloseTips[followId] = setTimeout(() => {
+    const layerIndex = tipsKeys[followId];
+    if (layerIndex) {
+      LayerUtils.close(layerIndex).then(() => {
+        delete tipsKeys[followId];
+        delete timer4CloseTips[followId];
+      });
+    }
+  }, TIMEOUT_DELAY);
 }
 function handleClick(event2) {
-	event2.preventDefault();
-	const $ele = $(this);
-	const followId = $ele.attr(DATA_FOLLOW_ID);
-	const appId = $ele.attr(DATA_APP_ID);
-	visibleArea[followId] = true;
-	if (tipsKeys[followId]) {
-		closeTips(followId);
-	} else {
-		fnShowTips({
-			$ele,
-			followId,
-			appId,
-			event: event2
-		});
-	}
+  event2.preventDefault();
+  const $ele = $(this);
+  const followId = $ele.attr(DATA_FOLLOW_ID);
+  const appId = $ele.attr(DATA_APP_ID);
+  visibleArea[followId] = true;
+  if (tipsKeys[followId]) {
+    closeTips(followId);
+  } else {
+    fnShowTips({
+      $ele,
+      followId,
+      appId,
+      event: event2
+    });
+  }
 }
-$(document).on(
-	"click.uiPopver",
-	`[${DATA_FOLLOW_ID}][data-trigger=click]`,
-	handleClick
-);
-$(document).on(
-	"contextmenu.uiPopver",
-	`[${DATA_FOLLOW_ID}][data-trigger=rightClick]`,
-	handleClick
-);
-$(document).on("mouseenter.uiPopver", `[${DATA_FOLLOW_ID}]`, function (event2) {
-	const $ele = $(this);
-	const followId = $ele.attr(DATA_FOLLOW_ID);
-	if (visibleArea[followId]) {
-		return;
-	} else {
-		const appId = $ele.attr(DATA_APP_ID);
-		inVisibleArea(followId);
-		if (tipsKeys[followId]) {
-			return;
-		}
-		if ($ele.attr("data-trigger") === "click") {
-			return;
-		}
-		if ($ele.attr("data-trigger") === "rightClick") {
-			return;
-		}
-		fnShowTips({
-			$ele,
-			followId,
-			appId,
-			event: event2
-		});
-	}
+$(document).on("click.uiPopver", `[${DATA_FOLLOW_ID}][data-trigger=click]`, handleClick);
+$(document).on("contextmenu.uiPopver", `[${DATA_FOLLOW_ID}][data-trigger=rightClick]`, handleClick);
+$(document).on("mouseenter.uiPopver", `[${DATA_FOLLOW_ID}]`, function(event2) {
+  const $ele = $(this);
+  const followId = $ele.attr(DATA_FOLLOW_ID);
+  if (visibleArea[followId]) {
+    return;
+  } else {
+    const appId = $ele.attr(DATA_APP_ID);
+    inVisibleArea(followId);
+    if (tipsKeys[followId]) {
+      return;
+    }
+    if ($ele.attr("data-trigger") === "click") {
+      return;
+    }
+    if ($ele.attr("data-trigger") === "rightClick") {
+      return;
+    }
+    fnShowTips({
+      $ele,
+      followId,
+      appId,
+      event: event2
+    });
+  }
 });
-$(document).on("mouseleave.uiPopver", `[${DATA_FOLLOW_ID}]`, function (event2) {
-	const followId = $(this).attr(DATA_FOLLOW_ID);
-	closeTips(followId);
+$(document).on("mouseleave.uiPopver", `[${DATA_FOLLOW_ID}]`, function(event2) {
+  const followId = $(this).attr(DATA_FOLLOW_ID);
+  closeTips(followId);
 });
-$(document).on(
-	"mouseenter.uiPopverTips",
-	`[${DATA_TIPS_FOLLOW_ID}]`,
-	function (event2) {
-		const followId = $(this).attr(DATA_TIPS_FOLLOW_ID);
-		inVisibleArea(followId);
-	}
-);
-$(document).on(
-	"mouseleave.uiPopverTips",
-	`[${DATA_TIPS_FOLLOW_ID}]`,
-	function (event2) {
-		const followId = $(this).attr(DATA_TIPS_FOLLOW_ID);
-		closeTips(followId);
-	}
-);
+$(document).on("mouseenter.uiPopverTips", `[${DATA_TIPS_FOLLOW_ID}]`, function(event2) {
+  const followId = $(this).attr(DATA_TIPS_FOLLOW_ID);
+  inVisibleArea(followId);
+});
+$(document).on("mouseleave.uiPopverTips", `[${DATA_TIPS_FOLLOW_ID}]`, function(event2) {
+  const followId = $(this).attr(DATA_TIPS_FOLLOW_ID);
+  closeTips(followId);
+});
 function installLoading(app, options = {}) {
-	app.directive("loading", {
-		updated(el, binding) {
-			if (binding.value) {
-				$(el).addClass("x-loading");
-			} else {
-				$(el).removeClass("x-loading");
-			}
-		}
-	});
+  app.directive("loading", {
+    updated(el, binding) {
+      if (binding.value) {
+        $(el).addClass("x-loading");
+      } else {
+        $(el).removeClass("x-loading");
+      }
+    }
+  });
 }
 function installMoveDirective(app) {
-	app.directive("uiMove", {
-		mounted(el, binding) {
-			if (binding.value) {
-				if (binding.value.onMoving) {
-					const $ele = $(el);
-					const id = privateLodash.genId("xResize");
-					$ele.attr(DATA_V_UI_MOVE, id);
-					$ele.on("mousedown", function (event2) {
-						$MoveMask.css("cursor", "move").show();
-						const clickInfo = privateLodash.getLeftTopFromAbsolute($ele);
-						clickInfo.w = $ele.width();
-						clickInfo.h = $ele.height();
-						const { top, left } = privateLodash.getLeftTopFromTranslate($ele);
-						clickInfo.translateX = left;
-						clickInfo.translateY = top;
-						READY.onMoving = movingEvent => {
-							binding.value.onMoving({
-								$ele,
-								clickInfo,
-								clickEvent: event2,
-								movingEvent
-							});
-						};
-					});
-				}
-			}
-		},
-		unmounted(el) {
-			const $ele = $(el);
-			$ele.attr(DATA_V_UI_MOVE);
-		}
-	});
+  app.directive("uiMove", {
+    mounted(el, binding) {
+      if (binding.value) {
+        if (binding.value.onMoving) {
+          const $ele = $(el);
+          const id = privateLodash.genId("xResize");
+          $ele.attr(DATA_V_UI_MOVE, id);
+          $ele.on("mousedown", function(event2) {
+            $MoveMask.css("cursor", "move").show();
+            const clickInfo = privateLodash.getLeftTopFromAbsolute($ele);
+            clickInfo.w = $ele.width();
+            clickInfo.h = $ele.height();
+            const {
+              top,
+              left
+            } = privateLodash.getLeftTopFromTranslate($ele);
+            clickInfo.translateX = left;
+            clickInfo.translateY = top;
+            READY.onMoving = (movingEvent) => {
+              binding.value.onMoving({
+                $ele,
+                clickInfo,
+                clickEvent: event2,
+                movingEvent
+              });
+            };
+          });
+        }
+      }
+    },
+    unmounted(el) {
+      const $ele = $(el);
+      $ele.attr(DATA_V_UI_MOVE);
+    }
+  });
 }
 const installDirective = (app, options) => {
-	installPopoverDirective(app, options);
-	[installLoading, installMoveDirective].forEach(install => install(app));
+  installPopoverDirective(app, options);
+  [installLoading, installMoveDirective].forEach((install) => install(app));
 };
 function _isSlot(s) {
-	return (
-		typeof s === "function" ||
-		(Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s))
-	);
+  return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 let xItemNoPropCount = 0;
 function defItem(options) {
-	const configs = defItem.item(options);
-	return {
-		[configs.prop]: configs
-	};
+  const configs = defItem.item(options);
+  return {
+    [configs.prop]: configs
+  };
 }
-defItem.item = options => {
-	if (!options.prop) {
-		options.prop = `xItem${xItemNoPropCount++}`;
-	}
-	const configs = reactive(
-		privateLodash.merge(
-			{
-				itemTips: {},
-				itemType: options.itemType || "Input"
-			},
-			{
-				...options
-			}
-		)
-	);
-	return configs;
+defItem.item = (options) => {
+  if (!options.prop) {
+    options.prop = `xItem${xItemNoPropCount++}`;
+  }
+  const configs = reactive(privateLodash.merge({
+    itemTips: {},
+    itemType: options.itemType || "Input"
+  }, {
+    ...options
+  }));
+  return configs;
 };
-defItem.labelWithTips = ({ label, tips, icon }) => {
-	return createVNode(
-		"span",
-		{
-			class: "flex middle"
-		},
-		[
-			label,
-			createVNode(
-				resolveComponent("aTooltip"),
-				{
-					title: tips
-				},
-				_isSlot(icon)
-					? icon
-					: {
-							default: () => [icon]
-					  }
-			)
-		]
-	);
+defItem.labelWithTips = ({
+  label,
+  tips,
+  icon
+}) => {
+  return createVNode("span", {
+    "class": "flex middle"
+  }, [label, createVNode(resolveComponent("aTooltip"), {
+    "title": tips
+  }, _isSlot(icon) ? icon : {
+    default: () => [icon]
+  })]);
 };
-function vModel(
-	configs,
-	prop,
-	options = {
-		data: "data",
-		dataXItem: "dataXItem"
-	}
-) {
-	const { data = "data", dataXItem = "dataXItem" } = options;
-	return {
-		value: configs[data][prop],
-		configs: configs[dataXItem][prop],
-		"onUpdate:modelValue"(e) {
-			configs[data][prop] = e;
-		}
-	};
+function vModel(configs, prop, options = {
+  data: "data",
+  dataXItem: "dataXItem"
+}) {
+  const {
+    data = "data",
+    dataXItem = "dataXItem"
+  } = options;
+  return {
+    value: configs[data][prop],
+    configs: configs[dataXItem][prop],
+    "onUpdate:modelValue"(e) {
+      configs[data][prop] = e;
+    }
+  };
 }
 function antColKey(prop, makeRenderCell) {
-	const target = {
-		dataIndex: prop,
-		prop,
-		key: prop
-	};
-	if (makeRenderCell) {
-		target.renderCell = makeRenderCell(prop);
-	}
-	return target;
+  const target = {
+    dataIndex: prop,
+    prop,
+    key: prop
+  };
+  if (makeRenderCell) {
+    target.renderCell = makeRenderCell(prop);
+  }
+  return target;
 }
 const get$head = () => {
-	let $head = $("html head");
-	if (!privateLodash.is$Selected($head)) {
-		$head = $("<head/>");
-		$head.prependTo($("html"));
-	}
-	return $head;
+  let $head = $("html head");
+  if (!privateLodash.is$Selected($head)) {
+    $head = $("<head/>");
+    $head.prependTo($("html"));
+  }
+  return $head;
 };
 const get$title = () => {
-	let $head = get$head();
-	let $title = $head.find("title");
-	if (!privateLodash.is$Selected($title)) {
-		$title = $("<title/>");
-		$title.prependTo($head);
-	}
-	return $title;
+  let $head = get$head();
+  let $title = $head.find("title");
+  if (!privateLodash.is$Selected($title)) {
+    $title = $("<title/>");
+    $title.prependTo($head);
+  }
+  return $title;
 };
 const get$cssVariables = () => {
-	let $head = get$head();
-	let $cssVariables = $head.find("#cssVariables");
-	if (!privateLodash.is$Selected($cssVariables)) {
-		$cssVariables = $("<style/>", { id: "cssVariables" });
-		$cssVariables.appendTo($head);
-	}
-	return $cssVariables;
+  let $head = get$head();
+  let $cssVariables = $head.find("#cssVariables");
+  if (!privateLodash.is$Selected($cssVariables)) {
+    $cssVariables = $("<style/>", { id: "cssVariables" });
+    $cssVariables.appendTo($head);
+  }
+  return $cssVariables;
 };
-const setDocumentTitle = title => {
-	get$title().text(title);
+const setDocumentTitle = (title) => {
+  get$title().text(title);
 };
-const setCSSVariables = colors => {
-	let $cssVariables = get$cssVariables();
-	const cssContent = privateLodash
-		.map(colors, (value, prop) => `--${prop}:${value}`)
-		.join(";");
-	$cssVariables.text(`:root{${cssContent}}`);
+const setCSSVariables = (colors) => {
+  let $cssVariables = get$cssVariables();
+  const cssContent = privateLodash.map(colors, (value, prop) => `--${prop}:${value}`).join(";");
+  $cssVariables.text(`:root{${cssContent}}`);
 };
-const pickValueFrom = configs => {
-	return privateLodash.reduce(
-		configs,
-		(target, config, prop) => {
-			try {
-				target[prop] = JSON.parse(JSON.stringify(config.value));
-			} catch (error) {}
-			return target;
-		},
-		{}
-	);
+const pickValueFrom = (configs) => {
+  return privateLodash.reduce(
+    configs,
+    (target, config, prop) => {
+      try {
+        target[prop] = JSON.parse(JSON.stringify(config.value));
+      } catch (error) {
+      }
+      return target;
+    },
+    {}
+  );
 };
 const setValueTo = (configs, values) => {
-	return privateLodash.map(
-		values,
-		(value, prop) => {
-			if (configs[prop]) {
-				configs[prop].value = value;
-				if (privateLodash.isFunction(configs[prop].onChange)) {
-					configs[prop].onChange(value);
-				}
-			}
-		},
-		{}
-	);
+  return privateLodash.map(
+    values,
+    (value, prop) => {
+      if (configs[prop]) {
+        configs[prop].value = value;
+        if (privateLodash.isFunction(configs[prop].onChange)) {
+          configs[prop].onChange(value);
+        }
+      }
+    },
+    {}
+  );
 };
 const resetValueOf = (state, initState) => {
-	privateLodash.each(initState, (value, prop) => {
-		state[prop] = JSON.parse(JSON.stringify(value));
-	});
-	return state;
+  privateLodash.each(initState, (value, prop) => {
+    state[prop] = JSON.parse(JSON.stringify(value));
+  });
+  return state;
 };
-const useModel = type2 => {
-	return ({ title = "", content = "" }) => {
-		return new Promise((resolve, reject) => {
-			title = (isDefault => {
-				if (isDefault) {
-					const title_map = {
-						success: State_UI.$t("\u6210\u529F").label,
-						info: State_UI.$t("\u63D0\u793A").label,
-						error: State_UI.$t("\u9519\u8BEF").label,
-						warning: State_UI.$t("\u8B66\u544A").label
-					};
-					return title_map[type2];
-				} else {
-					return title;
-				}
-			})(!title);
-			Modal[type2]({
-				title,
-				icon: createVNode(
-					"link",
-					{
-						rel: "icon",
-						type: "image/svg+xml",
-						href: "/ExclamationCircleOutlined.svg"
-					},
-					null
-				),
-				content,
-				onOk() {
-					resolve("ok");
-				},
-				onCancel() {
-					reject();
-				},
-				okText: State_UI.$t("\u786E\u5B9A").label,
-				class: "test"
-			});
-		});
-	};
+const useModel = (type2) => {
+  return ({
+    title = "",
+    content = ""
+  }) => {
+    return new Promise((resolve, reject) => {
+      title = ((isDefault) => {
+        if (isDefault) {
+          const title_map = {
+            success: State_UI.$t("\u6210\u529F").label,
+            info: State_UI.$t("\u63D0\u793A").label,
+            error: State_UI.$t("\u9519\u8BEF").label,
+            warning: State_UI.$t("\u8B66\u544A").label
+          };
+          return title_map[type2];
+        } else {
+          return title;
+        }
+      })(!title);
+      Modal[type2]({
+        title,
+        icon: createVNode("link", {
+          "rel": "icon",
+          "type": "image/svg+xml",
+          "href": "/ExclamationCircleOutlined.svg"
+        }, null),
+        content,
+        onOk() {
+          resolve("ok");
+        },
+        onCancel() {
+          reject();
+        },
+        okText: State_UI.$t("\u786E\u5B9A").label,
+        class: "test"
+      });
+    });
+  };
 };
-LayerUtils.loading = function (indexDelete) {
-	this.loading.count = this.loading.count || 1;
-	this.loading.deep = this.loading.deep || /* @__PURE__ */ new Set();
-	$("body").trigger("click");
-	if (indexDelete >= 0) {
-		if (this.loading.deep.has(indexDelete)) {
-			this.loading.deep.delete(indexDelete);
-			if (this.loading.deep.size === 0) {
-				LayerUtils.close(this.loading.index);
-			}
-		} else {
-			console.error("loading", indexDelete);
-		}
-	} else {
-		let indexAdd = this.loading.count++;
-		if (this.loading.deep.size === 0) {
-			this.loading.index = LayerUtils.load(1);
-		}
-		this.loading.deep.add(indexAdd);
-		return indexAdd;
-	}
+LayerUtils.loading = function(indexDelete) {
+  this.loading.count = this.loading.count || 1;
+  this.loading.deep = this.loading.deep || /* @__PURE__ */ new Set();
+  $("body").trigger("click");
+  if (indexDelete >= 0) {
+    if (this.loading.deep.has(indexDelete)) {
+      this.loading.deep.delete(indexDelete);
+      if (this.loading.deep.size === 0) {
+        LayerUtils.close(this.loading.index);
+      }
+    } else {
+      console.error("loading", indexDelete);
+    }
+  } else {
+    let indexAdd = this.loading.count++;
+    if (this.loading.deep.size === 0) {
+      this.loading.index = LayerUtils.load(1);
+    }
+    this.loading.deep.add(indexAdd);
+    return indexAdd;
+  }
 };
 const UI = {
-	dialog: {
-		component: async options => null,
-		success: useModel("success"),
-		info: useModel("info"),
-		error: useModel("error"),
-		warning: useModel("warning"),
-		confirm: options => {
-			return new Promise(async (resolve, reject) => {
-				options.okText = options.okText || State_UI.$t("\u786E\u5B9A").label;
-				options.cancelText =
-					options.cancelText || State_UI.$t("\u53D6\u6D88").label;
-				options.onOk = () => {
-					resolve("ok");
-				};
-				options.onCancel = () => {
-					reject();
-				};
-				Modal.confirm(options);
-			});
-		},
-		delete({ title, content } = {}) {
-			title = title || State_UI.$t("\u5220\u9664").label;
-			content =
-				content || State_UI.$t("\u5220\u9664\u786E\u8BA4\u63D0\u793A").label;
-			return new Promise((resolve, reject) => {
-				Modal.confirm({
-					title,
-					icon: createVNode(
-						resolveComponent("ExclamationCircleOutlined"),
-						{
-							style: "color:red"
-						},
-						null
-					),
-					content,
-					okType: "danger",
-					okText: State_UI.$t("\u786E\u5B9A").label,
-					cancelText: State_UI.$t("\u53D6\u6D88").label,
-					onOk() {
-						resolve("ok");
-					},
-					onCancel() {
-						reject();
-					}
-				});
-			});
-		}
-	},
-	message,
-	notification: new Proxy(notification, {
-		get(target, p, receiver) {
-			const m = target[p];
-			return new Proxy(m, {
-				apply(target2, thisArg, argArray) {
-					if (typeof argArray[0] === "string") {
-						argArray[0] = privateLodash.merge(
-							{
-								message: argArray[0]
-							},
-							argArray[1] || {}
-						);
-					}
-					return target2.apply(thisArg, argArray);
-				}
-			});
-		}
-	}),
-	layer: LayerUtils
+  dialog: {
+    component: async (options) => null,
+    success: useModel("success"),
+    info: useModel("info"),
+    error: useModel("error"),
+    warning: useModel("warning"),
+    confirm: (options) => {
+      return new Promise(async (resolve, reject) => {
+        options.okText = options.okText || State_UI.$t("\u786E\u5B9A").label;
+        options.cancelText = options.cancelText || State_UI.$t("\u53D6\u6D88").label;
+        options.onOk = () => {
+          resolve("ok");
+        };
+        options.onCancel = () => {
+          reject();
+        };
+        Modal.confirm(options);
+      });
+    },
+    delete({
+      title,
+      content
+    } = {}) {
+      title = title || State_UI.$t("\u5220\u9664").label;
+      content = content || State_UI.$t("\u5220\u9664\u786E\u8BA4\u63D0\u793A").label;
+      return new Promise((resolve, reject) => {
+        Modal.confirm({
+          title,
+          icon: createVNode(resolveComponent("ExclamationCircleOutlined"), {
+            "style": "color:red"
+          }, null),
+          content,
+          okType: "danger",
+          okText: State_UI.$t("\u786E\u5B9A").label,
+          cancelText: State_UI.$t("\u53D6\u6D88").label,
+          onOk() {
+            resolve("ok");
+          },
+          onCancel() {
+            reject();
+          }
+        });
+      });
+    }
+  },
+  message,
+  notification: new Proxy(notification, {
+    get(target, p, receiver) {
+      const m = target[p];
+      return new Proxy(m, {
+        apply(target2, thisArg, argArray) {
+          if (typeof argArray[0] === "string") {
+            argArray[0] = privateLodash.merge({
+              message: argArray[0]
+            }, argArray[1] || {});
+          }
+          return target2.apply(thisArg, argArray);
+        }
+      });
+    }
+  }),
+  layer: LayerUtils
 };
 const VNodeCollection = {
-	labelTips: popContent => (configs, className) => {
-		const { prop, label } = configs;
-		return createVNode(
-			"div",
-			{
-				class: "ant-form-item-label"
-			},
-			[
-				createVNode(
-					"label",
-					{
-						for: prop,
-						class: className
-					},
-					[
-						label,
-						createVNode(
-							resolveComponent("aPopover"),
-							{
-								trigger: "hover"
-							},
-							{
-								content: () => popContent,
-								default: () =>
-									createVNode(
-										resolveComponent("xIcon"),
-										{
-											icon: "Insidetips",
-											class: "pointer"
-										},
-										null
-									)
-							}
-						)
-					]
-				)
-			]
-		);
-	}
+  labelTips: (popContent) => (configs, className) => {
+    const {
+      prop,
+      label
+    } = configs;
+    return createVNode("div", {
+      "class": "ant-form-item-label"
+    }, [createVNode("label", {
+      "for": prop,
+      "class": className
+    }, [label, createVNode(resolveComponent("aPopover"), {
+      "trigger": "hover"
+    }, {
+      content: () => popContent,
+      default: () => createVNode(resolveComponent("xIcon"), {
+        "icon": "Insidetips",
+        "class": "pointer"
+      }, null)
+    })])]);
+  }
 };
 const DELAY = 60 * 5;
 const CACHE = {};
 const WILL_DELETE_PROPS = {
-	cache: {},
-	add(prop) {
-		const count = this.cache[prop] || 0;
-		this.cache[prop] = count + 1;
-	},
-	remove(prop) {
-		const count = this.cache[prop] || 0;
-		const val = count - 1;
-		this.cache[prop] = val < 0 ? 0 : val;
-	}
+  cache: {},
+  add(prop) {
+    const count = this.cache[prop] || 0;
+    this.cache[prop] = count + 1;
+  },
+  remove(prop) {
+    const count = this.cache[prop] || 0;
+    const val = count - 1;
+    this.cache[prop] = val < 0 ? 0 : val;
+  }
 };
-const deleteUnmountedInstance = prop => {
-	WILL_DELETE_PROPS.add(prop);
-	delayDeleteUnmountedInstance();
+const deleteUnmountedInstance = (prop) => {
+  WILL_DELETE_PROPS.add(prop);
+  delayDeleteUnmountedInstance();
 };
-const delayDeleteUnmountedInstance = privateLodash.debounce(function () {
-	privateLodash.each(WILL_DELETE_PROPS.cache, (count, prop) => {
-		if (count > 0) {
-			delete CACHE[prop];
-			delete this.cache[prop];
-		}
-		if (!Object.keys(CACHE).includes(prop)) {
-			console.log(prop, this.cache[prop]);
-			delete this.cache[prop];
-		}
-	});
+const delayDeleteUnmountedInstance = privateLodash.debounce(function() {
+  privateLodash.each(WILL_DELETE_PROPS.cache, (count, prop) => {
+    if (count > 0) {
+      delete CACHE[prop];
+      delete this.cache[prop];
+    }
+    if (!Object.keys(CACHE).includes(prop)) {
+      console.log(prop, this.cache[prop]);
+      delete this.cache[prop];
+    }
+  });
 }, 1e3 * DELAY);
 function compileVNode(template, setupReturn, prop) {
-	if (!prop) {
-		alert("miss uniq id" + template);
-	}
-	if (CACHE[prop]) {
-		WILL_DELETE_PROPS.remove(prop);
-		delayDeleteUnmountedInstance();
-		return CACHE[prop];
-	} else {
-		return h(
-			defineComponent({
-				template,
-				mounted() {
-					WILL_DELETE_PROPS.remove(prop);
-					CACHE[prop] = this._.vnode;
-				},
-				unmounted() {
-					deleteUnmountedInstance(prop);
-				},
-				setup() {
-					if (privateLodash.isFunction(setupReturn)) {
-						return setupReturn();
-					} else {
-						return setupReturn;
-					}
-				}
-			})
-		);
-	}
+  if (!prop) {
+    alert("miss uniq id" + template);
+  }
+  if (CACHE[prop]) {
+    WILL_DELETE_PROPS.remove(prop);
+    delayDeleteUnmountedInstance();
+    return CACHE[prop];
+  } else {
+    return h(defineComponent({
+      template,
+      mounted() {
+        WILL_DELETE_PROPS.remove(prop);
+        CACHE[prop] = this._.vnode;
+      },
+      unmounted() {
+        deleteUnmountedInstance(prop);
+      },
+      setup() {
+        if (privateLodash.isFunction(setupReturn)) {
+          return setupReturn();
+        } else {
+          return setupReturn;
+        }
+      }
+    }));
+  }
 }
 window.dayjs = dayjs;
 window.moment = dayjs;
 window.jquery = $;
 const componentMyUI = {
-	xButton,
-	xRender,
-	xItem: _sfc_main$b,
-	xForm,
-	xButtonCountDown,
-	xGap: _sfc_main$8,
-	xCharts,
-	xView,
-	xIcon: _sfc_main$5,
-	xDataGrid: _sfc_main$4,
-	xDataGridToolbar,
-	xColFilter,
-	xPagination,
-	xCellLabel,
-	xVirScroll,
-	xVirTable
+  xButton,
+  xRender,
+  xItem: _sfc_main$b,
+  xForm,
+  xButtonCountDown,
+  xGap: _sfc_main$8,
+  xCharts,
+  xView,
+  xIcon: _sfc_main$5,
+  xDataGrid: _sfc_main$4,
+  xDataGridToolbar,
+  xColFilter,
+  xPagination,
+  xCellLabel,
+  xVirScroll,
+  xVirTable
 };
 const components = {
-	...componentMyUI
+  ...componentMyUI
 };
 const VentoseUIWithInstall = {
-	install: (app, options) => {
-		installDirective(app, options);
-		installUIDialogComponent(UI, options, app);
-		privateLodash.each(components, (component, name) => {
-			if (component.name) {
-				name = component.name;
-			} else {
-				privateLodash.doNothing(name, `miss name`);
-			}
-			app.component(component.name || name, component);
-		});
-		app.use(Antd);
-	}
+  install: (app, options) => {
+    installDirective(app, options);
+    installUIDialogComponent(UI, options, app);
+    privateLodash.each(components, (component, name) => {
+      if (component.name) {
+        name = component.name;
+      } else {
+        privateLodash.doNothing(name, `miss name`);
+      }
+      app.component(component.name || name, component);
+    });
+    app.use(Antd);
+  }
 };
 export {
-	default2 as $,
-	AllWasWell,
-	Cpt_UI_locale,
-	EVENT_TYPE,
-	FormRules,
-	RegexFn,
-	State_UI,
-	UI,
-	VNodeCollection,
-	VentoseUIWithInstall,
-	antColKey,
-	compileVNode,
-	components,
-	default3 as dayjs,
-	defCol,
-	defColActions,
-	defColActionsBtnlist,
-	defDataGridOption,
-	defItem,
-	defPagination,
-	defXVirTableConfigs,
-	getPaginationPageSize,
-	iStorage,
-	lStorage,
-	default4 as moment,
-	pickValueFrom,
-	resetValueOf,
-	setCSSVariables,
-	setDataGridInfo,
-	setDocumentTitle,
-	setPagination,
-	setValueTo,
-	vModel,
-	validateForm,
-	privateLodash as xU
+  default2 as $,
+  AllWasWell,
+  Cpt_UI_locale,
+  EVENT_TYPE,
+  FormRules,
+  RegexFn,
+  State_UI,
+  UI,
+  VNodeCollection,
+  VentoseUIWithInstall,
+  antColKey,
+  compileVNode,
+  components,
+  default3 as dayjs,
+  defCol,
+  defColActions,
+  defColActionsBtnlist,
+  defDataGridOption,
+  defItem,
+  defPagination,
+  defXVirTableConfigs,
+  getPaginationPageSize,
+  iStorage,
+  lStorage,
+  default4 as moment,
+  pickValueFrom,
+  resetValueOf,
+  setCSSVariables,
+  setDataGridInfo,
+  setDocumentTitle,
+  setPagination,
+  setValueTo,
+  vModel,
+  validateForm,
+  privateLodash as xU
 };

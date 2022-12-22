@@ -36,7 +36,7 @@
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
-	position: relative;  /* DO NOT REMOVE - this is the key to preventing the ghosting icon bug in Chrome 42 */
+	position: relative; /* DO NOT REMOVE - this is the key to preventing the ghosting icon bug in Chrome 42 */
 }
 
 .monaco-action-bar .action-item.disabled {
@@ -81,8 +81,8 @@
 	display: block;
 	border-bottom: 1px solid #bbb;
 	padding-top: 1px;
-	margin-left: .8em;
-	margin-right: .8em;
+	margin-left: 0.8em;
+	margin-right: 0.8em;
 }
 
 .monaco-action-bar .action-item .action-label.separator {
@@ -126,7 +126,7 @@
 
 .monaco-aria-container {
 	position: absolute; /* try to hide from window but not from screen readers */
-	left:-999em;
+	left: -999em;
 }
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -213,16 +213,14 @@
 }
 
 .monaco-description-button .monaco-button-label,
-.monaco-description-button .monaco-button-description
-{
+.monaco-description-button .monaco-button-description {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
 .monaco-description-button .monaco-button-label > .codicon,
-.monaco-description-button .monaco-button-description > .codicon
-{
+.monaco-description-button .monaco-button-description > .codicon {
 	margin: 0 0.2em;
 	color: inherit !important;
 }
@@ -238,7 +236,7 @@
 	src: url(../base/browser/ui/codicons/codicon/codicon.ttf) format("truetype");
 }
 
-.codicon[class*='codicon-'] {
+.codicon[class*="codicon-"] {
 	font: normal normal normal 16px/1 codicon;
 	display: inline-block;
 	text-decoration: none;
@@ -265,7 +263,7 @@
 
 @keyframes codicon-spin {
 	100% {
-		transform:rotate(360deg);
+		transform: rotate(360deg);
 	}
 }
 
@@ -362,7 +360,11 @@
 	margin-right: 0;
 }
 
-.monaco-dropdown-with-primary > .dropdown-action-container > .monaco-dropdown > .dropdown-label .codicon[class*='codicon-'] {
+.monaco-dropdown-with-primary
+	> .dropdown-action-container
+	> .monaco-dropdown
+	> .dropdown-label
+	.codicon[class*="codicon-"] {
 	font-size: 12px;
 	padding-left: 0px;
 	padding-right: 0px;
@@ -370,7 +372,11 @@
 	margin-left: -3px;
 }
 
-.monaco-dropdown-with-primary > .dropdown-action-container > .monaco-dropdown > .dropdown-label > .action-label {
+.monaco-dropdown-with-primary
+	> .dropdown-action-container
+	> .monaco-dropdown
+	> .dropdown-label
+	> .action-label {
 	display: block;
 	background-size: 16px;
 	background-position: center center;
@@ -399,7 +405,7 @@
 }
 
 .vs .monaco-findInput.disabled {
-	background-color: #E1E1E1;
+	background-color: #e1e1e1;
 }
 
 /* Theming */
@@ -419,33 +425,49 @@
 }
 
 .hc-black .monaco-findInput.highlight-0 .controls,
-.vs-dark  .monaco-findInput.highlight-0 .controls {
+.vs-dark .monaco-findInput.highlight-0 .controls {
 	animation: monaco-findInput-highlight-dark-0 100ms linear 0s;
 }
 
 .hc-black .monaco-findInput.highlight-1 .controls,
-.vs-dark  .monaco-findInput.highlight-1 .controls {
+.vs-dark .monaco-findInput.highlight-1 .controls {
 	animation: monaco-findInput-highlight-dark-1 100ms linear 0s;
 }
 
 @keyframes monaco-findInput-highlight-0 {
-	0% { background: rgba(253, 255, 0, 0.8); }
-	100% { background: transparent; }
+	0% {
+		background: rgba(253, 255, 0, 0.8);
+	}
+	100% {
+		background: transparent;
+	}
 }
 @keyframes monaco-findInput-highlight-1 {
-	0% { background: rgba(253, 255, 0, 0.8); }
+	0% {
+		background: rgba(253, 255, 0, 0.8);
+	}
 	/* Made intentionally different such that the CSS minifier does not collapse the two animations into a single one*/
-	99% { background: transparent; }
+	99% {
+		background: transparent;
+	}
 }
 
 @keyframes monaco-findInput-highlight-dark-0 {
-	0% { background: rgba(255, 255, 255, 0.44); }
-	100% { background: transparent; }
+	0% {
+		background: rgba(255, 255, 255, 0.44);
+	}
+	100% {
+		background: transparent;
+	}
 }
 @keyframes monaco-findInput-highlight-dark-1 {
-	0% { background: rgba(255, 255, 255, 0.44); }
+	0% {
+		background: rgba(255, 255, 255, 0.44);
+	}
 	/* Made intentionally different such that the CSS minifier does not collapse the two animations into a single one*/
-	99% { background: transparent; }
+	99% {
+		background: transparent;
+	}
 }
 
 /*---------------------------------------------------------------------------------------------
@@ -576,11 +598,11 @@
 }
 
 .monaco-hover .hover-contents a.code-link:before {
-	content: '(';
+	content: "(";
 }
 
 .monaco-hover .hover-contents a.code-link:after {
-	content: ')';
+	content: ")";
 }
 
 .monaco-hover .hover-contents a.code-link > span {
@@ -591,7 +613,10 @@
 }
 
 /** Spans in markdown hovers need a margin-bottom to avoid looking cramped: https://github.com/microsoft/vscode/issues/101496 **/
-.monaco-hover .markdown-hover .hover-contents:not(.code-hover-contents):not(.html-hover-contents) span {
+.monaco-hover
+	.markdown-hover
+	.hover-contents:not(.code-hover-contents):not(.html-hover-contents)
+	span {
 	margin-bottom: 4px;
 	display: inline-block;
 }
@@ -621,7 +646,6 @@
 }
 
 .monaco-icon-label::before {
-
 	/* svg icons rendered as background image */
 	background-size: 16px;
 	background-position: left center;
@@ -647,33 +671,56 @@
 	flex: 1;
 }
 
-.monaco-icon-label > .monaco-icon-label-container > .monaco-icon-name-container > .label-name {
+.monaco-icon-label
+	> .monaco-icon-label-container
+	> .monaco-icon-name-container
+	> .label-name {
 	color: inherit;
 	white-space: pre; /* enable to show labels that include multiple whitespaces */
 }
 
-.monaco-icon-label > .monaco-icon-label-container > .monaco-icon-name-container > .label-name > .label-separator {
+.monaco-icon-label
+	> .monaco-icon-label-container
+	> .monaco-icon-name-container
+	> .label-name
+	> .label-separator {
 	margin: 0 2px;
 	opacity: 0.5;
 }
 
-.monaco-icon-label > .monaco-icon-label-container > .monaco-icon-description-container > .label-description {
-	opacity: .7;
+.monaco-icon-label
+	> .monaco-icon-label-container
+	> .monaco-icon-description-container
+	> .label-description {
+	opacity: 0.7;
 	margin-left: 0.5em;
 	font-size: 0.9em;
 	white-space: pre; /* enable to show labels that include multiple whitespaces */
 }
 
-.monaco-icon-label.nowrap > .monaco-icon-label-container > .monaco-icon-description-container > .label-description{
-	white-space: nowrap
+.monaco-icon-label.nowrap
+	> .monaco-icon-label-container
+	> .monaco-icon-description-container
+	> .label-description {
+	white-space: nowrap;
 }
 
-.vs .monaco-icon-label > .monaco-icon-label-container > .monaco-icon-description-container > .label-description {
-	opacity: .95;
+.vs
+	.monaco-icon-label
+	> .monaco-icon-label-container
+	> .monaco-icon-description-container
+	> .label-description {
+	opacity: 0.95;
 }
 
-.monaco-icon-label.italic > .monaco-icon-label-container > .monaco-icon-name-container > .label-name,
-.monaco-icon-label.italic > .monaco-icon-label-container > .monaco-icon-description-container > .label-description {
+.monaco-icon-label.italic
+	> .monaco-icon-label-container
+	> .monaco-icon-name-container
+	> .label-name,
+.monaco-icon-label.italic
+	> .monaco-icon-label-container
+	> .monaco-icon-description-container
+	> .label-description {
 	font-style: italic;
 }
 
@@ -687,8 +734,14 @@
 	font-style: italic;
 }
 
-.monaco-icon-label.strikethrough > .monaco-icon-label-container > .monaco-icon-name-container > .label-name,
-.monaco-icon-label.strikethrough > .monaco-icon-label-container > .monaco-icon-description-container > .label-description {
+.monaco-icon-label.strikethrough
+	> .monaco-icon-label-container
+	> .monaco-icon-name-container
+	> .label-name,
+.monaco-icon-label.strikethrough
+	> .monaco-icon-label-container
+	> .monaco-icon-description-container
+	> .label-description {
 	text-decoration: line-through;
 }
 
@@ -702,14 +755,13 @@
 
 /* make sure selection color wins when a label is being selected */
 .monaco-list:focus .selected .monaco-icon-label, /* list */
-.monaco-list:focus .selected .monaco-icon-label::after
-{
+.monaco-list:focus .selected .monaco-icon-label::after {
 	color: inherit !important;
 }
 
 .monaco-list-row.focused.selected .label-description,
 .monaco-list-row.selected .label-description {
-	opacity: .8;
+	opacity: 0.8;
 }
 
 /*---------------------------------------------------------------------------------------------
@@ -721,7 +773,7 @@
 	position: relative;
 	display: block;
 	padding: 0;
-	box-sizing:	border-box;
+	box-sizing: border-box;
 
 	/* Customizable */
 	font-size: inherit;
@@ -733,7 +785,6 @@
 
 .monaco-inputbox > .ibwrapper > .input,
 .monaco-inputbox > .ibwrapper > .mirror {
-
 	/* Customizable */
 	padding: 4px;
 }
@@ -746,7 +797,7 @@
 
 .monaco-inputbox > .ibwrapper > .input {
 	display: inline-block;
-	box-sizing:	border-box;
+	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
 	line-height: inherit;
@@ -799,7 +850,7 @@
 	overflow: hidden;
 	text-align: left;
 	width: 100%;
-	box-sizing:	border-box;
+	box-sizing: border-box;
 	padding: 0.4em;
 	font-size: 12px;
 	line-height: 17px;
@@ -1018,7 +1069,17 @@
  *  50%: 5000% * 50% - 50% (set to center) = 2450%
  * 100%: 5000% * 100% - 100% (do not overflow) = 4900%
  */
-@keyframes progress { from { transform: translateX(0%) scaleX(1) } 50% { transform: translateX(2500%) scaleX(3) } to { transform: translateX(4900%) scaleX(1) } }
+@keyframes progress {
+	from {
+		transform: translateX(0%) scaleX(1);
+	}
+	50% {
+		transform: translateX(2500%) scaleX(3);
+	}
+	to {
+		transform: translateX(4900%) scaleX(1);
+	}
+}
 
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1124,7 +1185,7 @@
 }
 
 .monaco-sash:before {
-	content: '';
+	content: "";
 	pointer-events: none;
 	position: absolute;
 	width: 100%;
@@ -1176,7 +1237,7 @@
 	opacity: 1;
 
 	/* Background rule added for IE9 - to allow clicks on dom node */
-	background:rgba(0,0,0,0);
+	background: rgba(0, 0, 0, 0);
 
 	transition: opacity 100ms linear;
 }
@@ -1249,25 +1310,40 @@
 	position: relative;
 }
 
-.monaco-split-view2 > .monaco-scrollable-element > .split-view-container > .split-view-view {
+.monaco-split-view2
+	> .monaco-scrollable-element
+	> .split-view-container
+	> .split-view-view {
 	white-space: initial;
 	position: absolute;
 }
 
-.monaco-split-view2 > .monaco-scrollable-element > .split-view-container > .split-view-view:not(.visible) {
+.monaco-split-view2
+	> .monaco-scrollable-element
+	> .split-view-container
+	> .split-view-view:not(.visible) {
 	display: none;
 }
 
-.monaco-split-view2.vertical > .monaco-scrollable-element > .split-view-container > .split-view-view {
+.monaco-split-view2.vertical
+	> .monaco-scrollable-element
+	> .split-view-container
+	> .split-view-view {
 	width: 100%;
 }
 
-.monaco-split-view2.horizontal > .monaco-scrollable-element > .split-view-container > .split-view-view {
+.monaco-split-view2.horizontal
+	> .monaco-scrollable-element
+	> .split-view-container
+	> .split-view-view {
 	height: 100%;
 }
 
-.monaco-split-view2.separator-border > .monaco-scrollable-element > .split-view-container > .split-view-view:not(:first-child)::before {
-	content: ' ';
+.monaco-split-view2.separator-border
+	> .monaco-scrollable-element
+	> .split-view-container
+	> .split-view-view:not(:first-child)::before {
+	content: " ";
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1276,12 +1352,18 @@
 	background-color: var(--separator-border);
 }
 
-.monaco-split-view2.separator-border.horizontal > .monaco-scrollable-element > .split-view-container > .split-view-view:not(:first-child)::before {
+.monaco-split-view2.separator-border.horizontal
+	> .monaco-scrollable-element
+	> .split-view-container
+	> .split-view-view:not(:first-child)::before {
 	height: 100%;
 	width: 1px;
 }
 
-.monaco-split-view2.separator-border.vertical > .monaco-scrollable-element > .split-view-container > .split-view-view:not(:first-child)::before {
+.monaco-split-view2.separator-border.vertical
+	> .monaco-scrollable-element
+	> .split-view-container
+	> .split-view-view:not(:first-child)::before {
 	height: 1px;
 	width: 100%;
 }
@@ -1363,7 +1445,7 @@
 	border-radius: 3px;
 	border: 1px solid transparent;
 	padding: 1px;
-	box-sizing:	border-box;
+	box-sizing: border-box;
 	user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -1704,7 +1786,9 @@
 	border-top-style: solid;
 }
 
-.quick-input-list .monaco-list-row[data-index="0"] .quick-input-list-entry.quick-input-list-separator-border {
+.quick-input-list
+	.monaco-list-row[data-index="0"]
+	.quick-input-list-entry.quick-input-list-separator-border {
 	border-top-style: none;
 }
 
@@ -1737,7 +1821,9 @@
 .quick-input-widget .quick-input-list .quick-input-list-checkbox {
 	display: none;
 }
-.quick-input-widget.show-checkboxes .quick-input-list .quick-input-list-checkbox {
+.quick-input-widget.show-checkboxes
+	.quick-input-list
+	.quick-input-list-checkbox {
 	display: inline;
 }
 
@@ -1746,12 +1832,23 @@
 	align-items: center;
 }
 
-.quick-input-list .quick-input-list-rows > .quick-input-list-row .monaco-icon-label,
-.quick-input-list .quick-input-list-rows > .quick-input-list-row .monaco-icon-label .monaco-icon-label-container > .monaco-icon-name-container {
+.quick-input-list
+	.quick-input-list-rows
+	> .quick-input-list-row
+	.monaco-icon-label,
+.quick-input-list
+	.quick-input-list-rows
+	> .quick-input-list-row
+	.monaco-icon-label
+	.monaco-icon-label-container
+	> .monaco-icon-name-container {
 	flex: 1; /* make sure the icon label grows within the row */
 }
 
-.quick-input-list .quick-input-list-rows > .quick-input-list-row .codicon[class*='codicon-'] {
+.quick-input-list
+	.quick-input-list-rows
+	> .quick-input-list-row
+	.codicon[class*="codicon-"] {
 	vertical-align: text-bottom;
 }
 
@@ -1805,16 +1902,28 @@
 	margin-right: 4px; /* separate from scrollbar */
 }
 
-.quick-input-list .quick-input-list-entry .quick-input-list-entry-action-bar .action-label.always-visible,
-.quick-input-list .quick-input-list-entry:hover .quick-input-list-entry-action-bar .action-label,
-.quick-input-list .monaco-list-row.focused .quick-input-list-entry-action-bar .action-label {
+.quick-input-list
+	.quick-input-list-entry
+	.quick-input-list-entry-action-bar
+	.action-label.always-visible,
+.quick-input-list
+	.quick-input-list-entry:hover
+	.quick-input-list-entry-action-bar
+	.action-label,
+.quick-input-list
+	.monaco-list-row.focused
+	.quick-input-list-entry-action-bar
+	.action-label {
 	display: flex;
 }
 
 /* focused items in quick pick */
 .quick-input-list .monaco-list-row.focused .monaco-keybinding-key,
-.quick-input-list .monaco-list-row.focused .quick-input-list-entry .quick-input-list-separator {
-	color: inherit
+.quick-input-list
+	.monaco-list-row.focused
+	.quick-input-list-entry
+	.quick-input-list-separator {
+	color: inherit;
 }
 .quick-input-list .monaco-list-row.focused .monaco-keybinding-key {
 	background: none;
@@ -1891,7 +2000,9 @@
 	box-sizing: border-box;
 }
 
-.monaco-editor .margin-view-overlays .current-line.current-line-margin.current-line-margin-both {
+.monaco-editor
+	.margin-view-overlays
+	.current-line.current-line-margin.current-line-margin-both {
 	border-right: 0;
 }
 
@@ -2087,11 +2198,11 @@
 
 /* 0.5s fade in/out for the minimap */
 .minimap.autohide {
-	opacity: 0.0;
+	opacity: 0;
 	transition: opacity 0.5s;
 }
 .minimap.autohide:hover {
-	opacity: 1.0;
+	opacity: 1;
 }
 
 /*---------------------------------------------------------------------------------------------
@@ -2101,7 +2212,7 @@
 .monaco-editor .overlayWidgets {
 	position: absolute;
 	top: 0;
-	left:0;
+	left: 0;
 }
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2136,20 +2247,44 @@
 	position: absolute;
 }
 
-.monaco-editor			.top-left-radius		{ border-top-left-radius: 3px; }
-.monaco-editor			.bottom-left-radius		{ border-bottom-left-radius: 3px; }
-.monaco-editor			.top-right-radius		{ border-top-right-radius: 3px; }
-.monaco-editor			.bottom-right-radius	{ border-bottom-right-radius: 3px; }
+.monaco-editor .top-left-radius {
+	border-top-left-radius: 3px;
+}
+.monaco-editor .bottom-left-radius {
+	border-bottom-left-radius: 3px;
+}
+.monaco-editor .top-right-radius {
+	border-top-right-radius: 3px;
+}
+.monaco-editor .bottom-right-radius {
+	border-bottom-right-radius: 3px;
+}
 
-.monaco-editor.hc-black .top-left-radius		{ border-top-left-radius: 0; }
-.monaco-editor.hc-black .bottom-left-radius		{ border-bottom-left-radius: 0; }
-.monaco-editor.hc-black .top-right-radius		{ border-top-right-radius: 0; }
-.monaco-editor.hc-black .bottom-right-radius	{ border-bottom-right-radius: 0; }
+.monaco-editor.hc-black .top-left-radius {
+	border-top-left-radius: 0;
+}
+.monaco-editor.hc-black .bottom-left-radius {
+	border-bottom-left-radius: 0;
+}
+.monaco-editor.hc-black .top-right-radius {
+	border-top-right-radius: 0;
+}
+.monaco-editor.hc-black .bottom-right-radius {
+	border-bottom-right-radius: 0;
+}
 
-.monaco-editor.hc-light .top-left-radius		{ border-top-left-radius: 0; }
-.monaco-editor.hc-light .bottom-left-radius		{ border-bottom-left-radius: 0; }
-.monaco-editor.hc-light .top-right-radius		{ border-top-right-radius: 0; }
-.monaco-editor.hc-light .bottom-right-radius	{ border-bottom-right-radius: 0; }
+.monaco-editor.hc-light .top-left-radius {
+	border-top-left-radius: 0;
+}
+.monaco-editor.hc-light .bottom-left-radius {
+	border-bottom-left-radius: 0;
+}
+.monaco-editor.hc-light .top-right-radius {
+	border-top-right-radius: 0;
+}
+.monaco-editor.hc-light .bottom-right-radius {
+	border-bottom-right-radius: 0;
+}
 
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2254,20 +2389,38 @@
 }
 
 /* colors not externalized: using transparancy on background */
-.monaco-diff-editor.vs			.diffOverview { background: rgba(0, 0, 0, 0.03); }
-.monaco-diff-editor.vs-dark		.diffOverview { background: rgba(255, 255, 255, 0.01); }
+.monaco-diff-editor.vs .diffOverview {
+	background: rgba(0, 0, 0, 0.03);
+}
+.monaco-diff-editor.vs-dark .diffOverview {
+	background: rgba(255, 255, 255, 0.01);
+}
 
-.monaco-scrollable-element.modified-in-monaco-diff-editor.vs		.scrollbar { background: rgba(0,0,0,0); }
-.monaco-scrollable-element.modified-in-monaco-diff-editor.vs-dark	.scrollbar { background: rgba(0,0,0,0); }
-.monaco-scrollable-element.modified-in-monaco-diff-editor.hc-black	.scrollbar { background: none; }
-.monaco-scrollable-element.modified-in-monaco-diff-editor.hc-light	.scrollbar { background: none; }
+.monaco-scrollable-element.modified-in-monaco-diff-editor.vs .scrollbar {
+	background: rgba(0, 0, 0, 0);
+}
+.monaco-scrollable-element.modified-in-monaco-diff-editor.vs-dark .scrollbar {
+	background: rgba(0, 0, 0, 0);
+}
+.monaco-scrollable-element.modified-in-monaco-diff-editor.hc-black .scrollbar {
+	background: none;
+}
+.monaco-scrollable-element.modified-in-monaco-diff-editor.hc-light .scrollbar {
+	background: none;
+}
 
 .monaco-scrollable-element.modified-in-monaco-diff-editor .slider {
 	z-index: 10;
 }
-.modified-in-monaco-diff-editor				.slider.active { background: rgba(171, 171, 171, .4); }
-.modified-in-monaco-diff-editor.hc-black	.slider.active { background: none; }
-.modified-in-monaco-diff-editor.hc-light	.slider.active { background: none; }
+.modified-in-monaco-diff-editor .slider.active {
+	background: rgba(171, 171, 171, 0.4);
+}
+.modified-in-monaco-diff-editor.hc-black .slider.active {
+	background: none;
+}
+.modified-in-monaco-diff-editor.hc-light .slider.active {
+	background: none;
+}
 
 /* ---------- Diff ---------- */
 
@@ -2428,7 +2581,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 .monaco-editor .selection-anchor {
-	background-color: #007ACC;
+	background-color: #007acc;
 	width: 2px !important;
 }
 
@@ -2478,7 +2631,7 @@
 	border-color: none;
 	background-color: var(--vscode-menu-background);
 	color: var(--vscode-menu-foreground);
-	box-shadow: rgb(0,0,0, 16%) 0px 2px 8px;
+	box-shadow: rgb(0, 0, 0, 16%) 0px 2px 8px;
 }
 
 .codeActionMenuWidget .monaco-list:not(.element-focused):focus:before {
@@ -2509,7 +2662,10 @@
 	border-width: 0px !important;
 } */
 
-.codeActionMenuWidget .monaco-list .monaco-scrollable-element .monaco-list-rows {
+.codeActionMenuWidget
+	.monaco-list
+	.monaco-scrollable-element
+	.monaco-list-rows {
 	height: 100% !important;
 }
 
@@ -2531,9 +2687,10 @@
 	width: 100%;
 }
 
-
 .codeActionMenuWidget .monaco-list .monaco-list-row:hover:not(.option-disabled),
-.codeActionMenuWidget .monaco-list .moncao-list-row.focused:not(.option-disabled) {
+.codeActionMenuWidget
+	.monaco-list
+	.moncao-list-row.focused:not(.option-disabled) {
 	color: var(--vscode-menu-selectionForeground) !important;
 	background-color: var(--vscode-menu-selectionBackground) !important;
 }
@@ -2580,11 +2737,11 @@
 	display: inline-block;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color: var(--vscode-editorCodeLens-foreground)
+	color: var(--vscode-editorCodeLens-foreground);
 }
 
-.monaco-editor .codelens-decoration>span,
-.monaco-editor .codelens-decoration>a {
+.monaco-editor .codelens-decoration > span,
+.monaco-editor .codelens-decoration > a {
 	user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -2592,16 +2749,16 @@
 	vertical-align: sub;
 }
 
-.monaco-editor .codelens-decoration>a {
+.monaco-editor .codelens-decoration > a {
 	text-decoration: none;
 }
 
-.monaco-editor .codelens-decoration>a:hover {
+.monaco-editor .codelens-decoration > a:hover {
 	cursor: pointer;
 	color: var(--vscode-editorLink-activeForeground) !important;
 }
 
-.monaco-editor .codelens-decoration>a:hover .codicon {
+.monaco-editor .codelens-decoration > a:hover .codicon {
 	color: var(--vscode-editorLink-activeForeground) !important;
 }
 
@@ -2611,7 +2768,7 @@
 	color: var(--vscode-editorCodeLens-foreground);
 }
 
-.monaco-editor .codelens-decoration>a:hover .codicon::before {
+.monaco-editor .codelens-decoration > a:hover .codicon::before {
 	cursor: pointer;
 }
 
@@ -2700,7 +2857,6 @@
 	cursor: pointer;
 }
 
-
 /* Body */
 
 .colorpicker-body {
@@ -2741,7 +2897,16 @@
 	position: relative;
 	margin-left: 8px;
 	cursor: grab;
-	background: linear-gradient(to bottom, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+	background: linear-gradient(
+		to bottom,
+		#ff0000 0%,
+		#ffff00 17%,
+		#00ff00 33%,
+		#00ffff 50%,
+		#0000ff 67%,
+		#ff00ff 83%,
+		#ff0000 100%
+	);
 }
 
 .colorpicker-body .opacity-strip {
@@ -2784,7 +2949,7 @@
 	color: white; /* opposite of black */
 }
 .monaco-editor.vs-dark .dnd-target {
-	border-right: 2px dotted #AEAFAD;
+	border-right: 2px dotted #aeafad;
 	color: #51504f; /* opposite of #AEAFAD */
 }
 .monaco-editor.hc-black .dnd-target {
@@ -2840,7 +3005,7 @@
 	display: flex;
 }
 
-.monaco-editor .find-widget.visible  {
+.monaco-editor .find-widget.visible {
 	transform: translateY(0);
 }
 
@@ -2870,15 +3035,34 @@
 	min-height: 25px;
 }
 
-
-.monaco-editor .find-widget > .replace-part .monaco-inputbox > .ibwrapper > .mirror {
+.monaco-editor
+	.find-widget
+	> .replace-part
+	.monaco-inputbox
+	> .ibwrapper
+	> .mirror {
 	padding-right: 22px;
 }
 
 .monaco-editor .find-widget > .find-part .monaco-inputbox > .ibwrapper > .input,
-.monaco-editor .find-widget > .find-part .monaco-inputbox > .ibwrapper > .mirror,
-.monaco-editor .find-widget > .replace-part .monaco-inputbox > .ibwrapper > .input,
-.monaco-editor .find-widget > .replace-part .monaco-inputbox > .ibwrapper > .mirror {
+.monaco-editor
+	.find-widget
+	> .find-part
+	.monaco-inputbox
+	> .ibwrapper
+	> .mirror,
+.monaco-editor
+	.find-widget
+	> .replace-part
+	.monaco-inputbox
+	> .ibwrapper
+	> .input,
+.monaco-editor
+	.find-widget
+	> .replace-part
+	.monaco-inputbox
+	> .ibwrapper
+	> .mirror {
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
@@ -2898,7 +3082,7 @@
 .monaco-editor .find-widget .monaco-findInput {
 	vertical-align: middle;
 	display: flex;
-	flex:1;
+	flex: 1;
 }
 
 .monaco-editor .find-widget .monaco-findInput .monaco-scrollable-element {
@@ -2906,7 +3090,11 @@
 	width: 100%;
 }
 
-.monaco-editor .find-widget .monaco-findInput .monaco-scrollable-element .scrollbar.vertical {
+.monaco-editor
+	.find-widget
+	.monaco-findInput
+	.monaco-scrollable-element
+	.scrollbar.vertical {
 	/* Hide vertical scrollbar */
 	opacity: 0;
 }
@@ -2998,7 +3186,7 @@
 
 /* REDUCED */
 .monaco-editor .find-widget.reduced-find-widget .matchesCount {
-	display:none;
+	display: none;
 }
 
 /* NARROW (SMALLER THAN REDUCED) */
@@ -3015,8 +3203,12 @@
 .monaco-editor .find-widget.collapsed-find-widget .button.next,
 .monaco-editor .find-widget.collapsed-find-widget .button.replace,
 .monaco-editor .find-widget.collapsed-find-widget .button.replace-all,
-.monaco-editor .find-widget.collapsed-find-widget > .find-part .monaco-findInput .controls {
-	display:none;
+.monaco-editor
+	.find-widget.collapsed-find-widget
+	> .find-part
+	.monaco-findInput
+	.controls {
+	display: none;
 }
 
 .monaco-editor .findMatch {
@@ -3067,7 +3259,6 @@
 	line-height: 1em;
 	cursor: pointer;
 }
-
 
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3125,15 +3316,24 @@
 	color: inherit;
 }
 
-.monaco-editor .marker-widget .descriptioncontainer .message a.code-link:before {
-	content: '(';
+.monaco-editor
+	.marker-widget
+	.descriptioncontainer
+	.message
+	a.code-link:before {
+	content: "(";
 }
 
 .monaco-editor .marker-widget .descriptioncontainer .message a.code-link:after {
-	content: ')';
+	content: ")";
 }
 
-.monaco-editor .marker-widget .descriptioncontainer .message a.code-link > span {
+.monaco-editor
+	.marker-widget
+	.descriptioncontainer
+	.message
+	a.code-link
+	> span {
 	text-decoration: underline;
 	/** Hack to force underline to show **/
 	border-bottom: 1px solid transparent;
@@ -3141,7 +3341,12 @@
 	color: var(--vscode-textLink-foreground);
 }
 
-.monaco-editor .marker-widget .descriptioncontainer .message a.code-link > span {
+.monaco-editor
+	.marker-widget
+	.descriptioncontainer
+	.message
+	a.code-link
+	> span {
 	color: var(--vscode-textLink-activeForeground);
 }
 
@@ -3199,11 +3404,21 @@
 	color: var(--vscode-peekViewResult-fileForeground);
 }
 
-.monaco-editor .reference-zone-widget .ref-tree .monaco-list:focus .selected .reference-file {
+.monaco-editor
+	.reference-zone-widget
+	.ref-tree
+	.monaco-list:focus
+	.selected
+	.reference-file {
 	color: inherit !important;
 }
 
-.monaco-editor .reference-zone-widget .ref-tree .monaco-list:focus .monaco-list-rows > .monaco-list-row.selected:not(.highlighted) {
+.monaco-editor
+	.reference-zone-widget
+	.ref-tree
+	.monaco-list:focus
+	.monaco-list-rows
+	> .monaco-list-row.selected:not(.highlighted) {
 	background-color: var(--vscode-peekViewResult-selectionBackground);
 	color: var(--vscode-peekViewResult-selectionForeground) !important;
 }
@@ -3223,8 +3438,16 @@
 	box-sizing: border-box;
 }
 
-.monaco-editor .reference-zone-widget .preview .monaco-editor .monaco-editor-background,
-.monaco-editor .reference-zone-widget .preview .monaco-editor .inputarea.ime-input {
+.monaco-editor
+	.reference-zone-widget
+	.preview
+	.monaco-editor
+	.monaco-editor-background,
+.monaco-editor
+	.reference-zone-widget
+	.preview
+	.monaco-editor
+	.inputarea.ime-input {
 	background-color: var(--vscode-peekViewEditor-background);
 }
 
@@ -3239,8 +3462,16 @@
 	font-weight: bold;
 }
 
-.monaco-editor.hc-black .reference-zone-widget .ref-tree .referenceMatch .highlight,
-.monaco-editor.hc-light .reference-zone-widget .ref-tree .referenceMatch .highlight {
+.monaco-editor.hc-black
+	.reference-zone-widget
+	.ref-tree
+	.referenceMatch
+	.highlight,
+.monaco-editor.hc-light
+	.reference-zone-widget
+	.ref-tree
+	.referenceMatch
+	.highlight {
 	border: 1px dotted var(--vscode-contrastActiveBorder, transparent);
 	box-sizing: border-box;
 }
@@ -3315,16 +3546,24 @@
 }
 
 @keyframes fadeIn {
-	from { opacity: 0; }
-	to { opacity: 1; }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 .monaco-editor .monaco-editor-overlaymessage.fadeIn {
 	animation: fadeIn 150ms ease-out;
 }
 
 @keyframes fadeOut {
-	from { opacity: 1; }
-	to { opacity: 0; }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 .monaco-editor .monaco-editor-overlaymessage.fadeOut {
 	animation: fadeOut 100ms ease-out;
@@ -3396,7 +3635,7 @@
 }
 
 .monaco-editor .parameter-hints-widget.visible {
-	transition: left .05s ease-in-out;
+	transition: left 0.05s ease-in-out;
 }
 
 .monaco-editor .parameter-hints-widget p,
@@ -3437,7 +3676,7 @@
 	font-family: var(--monaco-monospace-font);
 }
 
-.monaco-editor .parameter-hints-widget .docs  .monaco-tokenized-source,
+.monaco-editor .parameter-hints-widget .docs .monaco-tokenized-source,
 .monaco-editor .parameter-hints-widget .docs .code {
 	white-space: pre-wrap;
 }
@@ -3536,8 +3775,12 @@
 	white-space: nowrap;
 }
 
-.monaco-editor .peekview-widget .head .peekview-title .meta:not(:empty)::before {
-	content: '-';
+.monaco-editor
+	.peekview-widget
+	.head
+	.peekview-title
+	.meta:not(:empty)::before {
+	content: "-";
 	padding: 0 0.3em;
 }
 
@@ -3552,7 +3795,12 @@
 }
 
 .monaco-editor .peekview-widget .head .peekview-actions > .monaco-action-bar,
-.monaco-editor .peekview-widget .head .peekview-actions > .monaco-action-bar > .actions-container {
+.monaco-editor
+	.peekview-widget
+	.head
+	.peekview-actions
+	> .monaco-action-bar
+	> .actions-container {
 	height: 100%;
 }
 
@@ -3590,7 +3838,7 @@
 
 .monaco-editor .rename-box .rename-label {
 	display: none;
-	opacity: .8;
+	opacity: 0.8;
 }
 
 .monaco-editor .rename-box.preview .rename-label {
@@ -3606,15 +3854,27 @@
 	min-width: 2px;
 	outline-style: solid;
 	outline-width: 1px;
-	background-color: var(--vscode-editor-snippetTabstopHighlightBackground, transparent);
-	outline-color: var(--vscode-editor-snippetTabstopHighlightBorder, transparent);
+	background-color: var(
+		--vscode-editor-snippetTabstopHighlightBackground,
+		transparent
+	);
+	outline-color: var(
+		--vscode-editor-snippetTabstopHighlightBorder,
+		transparent
+	);
 }
 
 .monaco-editor .finish-snippet-placeholder {
 	outline-style: solid;
 	outline-width: 1px;
-	background-color: var(--vscode-editor-snippetFinalTabstopHighlightBackground, transparent);
-	outline-color: var(--vscode-editor-snippetFinalTabstopHighlightBorder, transparent);
+	background-color: var(
+		--vscode-editor-snippetFinalTabstopHighlightBackground,
+		transparent
+	);
+	outline-color: var(
+		--vscode-editor-snippetFinalTabstopHighlightBorder,
+		transparent
+	);
 }
 
 /*---------------------------------------------------------------------------------------------
@@ -3655,7 +3915,6 @@
 
 /* Styles for status bar part */
 
-
 .monaco-editor .suggest-widget .suggest-status-bar {
 	box-sizing: border-box;
 	display: none;
@@ -3676,37 +3935,69 @@
 	padding-right: 8px;
 }
 
-.monaco-editor .suggest-widget.with-status-bar .suggest-status-bar .action-label {
+.monaco-editor
+	.suggest-widget.with-status-bar
+	.suggest-status-bar
+	.action-label {
 	color: var(--vscode-editorSuggestWidgetStatus-foreground);
 }
 
-.monaco-editor .suggest-widget.with-status-bar .suggest-status-bar .action-item:not(:last-of-type) .action-label {
+.monaco-editor
+	.suggest-widget.with-status-bar
+	.suggest-status-bar
+	.action-item:not(:last-of-type)
+	.action-label {
 	margin-right: 0;
 }
 
-.monaco-editor .suggest-widget.with-status-bar .suggest-status-bar .action-item:not(:last-of-type) .action-label::after {
-	content: ', ';
+.monaco-editor
+	.suggest-widget.with-status-bar
+	.suggest-status-bar
+	.action-item:not(:last-of-type)
+	.action-label::after {
+	content: ", ";
 	margin-right: 0.3em;
 }
 
-.monaco-editor .suggest-widget.with-status-bar .monaco-list .monaco-list-row>.contents>.main>.right>.readMore,
-.monaco-editor .suggest-widget.with-status-bar .monaco-list .monaco-list-row.focused.string-label>.contents>.main>.right>.readMore {
+.monaco-editor
+	.suggest-widget.with-status-bar
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .readMore,
+.monaco-editor
+	.suggest-widget.with-status-bar
+	.monaco-list
+	.monaco-list-row.focused.string-label
+	> .contents
+	> .main
+	> .right
+	> .readMore {
 	display: none;
 }
 
-.monaco-editor .suggest-widget.with-status-bar:not(.docs-side) .monaco-list .monaco-list-row:hover>.contents>.main>.right.can-expand-details>.details-label {
+.monaco-editor
+	.suggest-widget.with-status-bar:not(.docs-side)
+	.monaco-list
+	.monaco-list-row:hover
+	> .contents
+	> .main
+	> .right.can-expand-details
+	> .details-label {
 	width: 100%;
 }
 
 /* Styles for Message element for when widget is loading or is empty */
 
-.monaco-editor .suggest-widget>.message {
+.monaco-editor .suggest-widget > .message {
 	padding-left: 22px;
 }
 
 /** Styles for the list element **/
 
-.monaco-editor .suggest-widget>.tree {
+.monaco-editor .suggest-widget > .tree {
 	height: 100%;
 	width: 100%;
 }
@@ -3739,14 +4030,19 @@
 	color: var(--vscode-editorSuggestWidget-selectedIconForeground);
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents {
+.monaco-editor .suggest-widget .monaco-list .monaco-list-row > .contents {
 	flex: 1;
 	height: 100%;
 	overflow: hidden;
 	padding-left: 2px;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main {
 	display: flex;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -3754,61 +4050,146 @@
 	justify-content: space-between;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.left,
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .left,
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right {
 	display: flex;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row:not(.focused)>.contents>.main .monaco-icon-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row:not(.focused)
+	> .contents
+	> .main
+	.monaco-icon-label {
 	color: var(--vscode-editorSuggestWidget-foreground);
 }
 
-.monaco-editor .suggest-widget:not(.frozen) .monaco-highlighted-label .highlight {
+.monaco-editor
+	.suggest-widget:not(.frozen)
+	.monaco-highlighted-label
+	.highlight {
 	font-weight: bold;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main .monaco-highlighted-label .highlight {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	.monaco-highlighted-label
+	.highlight {
 	color: var(--vscode-editorSuggestWidget-highlightForeground);
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row.focused>.contents>.main .monaco-highlighted-label .highlight {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row.focused
+	> .contents
+	> .main
+	.monaco-highlighted-label
+	.highlight {
 	color: var(--vscode-editorSuggestWidget-focusHighlightForeground);
 }
 
 /** ReadMore Icon styles **/
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.header>.codicon-close,
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right>.readMore::before {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .header
+	> .codicon-close,
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .readMore::before {
 	color: inherit;
 	opacity: 1;
 	font-size: 14px;
 	cursor: pointer;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.header>.codicon-close {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .header
+	> .codicon-close {
 	position: absolute;
 	top: 6px;
 	right: 2px;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.header>.codicon-close:hover,
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right>.readMore:hover {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .header
+	> .codicon-close:hover,
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .readMore:hover {
 	opacity: 1;
 }
 
 /** signature, qualifier, type/details opacity **/
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right>.details-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .details-label {
 	opacity: 0.7;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.left>.signature-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .left
+	> .signature-label {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	opacity: 0.6;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.left>.qualifier-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .left
+	> .qualifier-label {
 	margin-left: 12px;
 	opacity: 0.4;
 	font-size: 85%;
@@ -3820,7 +4201,14 @@
 
 /** Type Info and icon next to the label in the focused completion item **/
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right>.details-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .details-label {
 	font-size: 85%;
 	margin-left: 1.1em;
 	overflow: hidden;
@@ -3828,58 +4216,141 @@
 	white-space: nowrap;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right>.details-label>.monaco-tokenized-source {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .details-label
+	> .monaco-tokenized-source {
 	display: inline;
 }
 
 /** Details: if using CompletionItem#details, show on focus **/
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right>.details-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .details-label {
 	display: none;
 }
 
-.monaco-editor .suggest-widget:not(.shows-details) .monaco-list .monaco-list-row.focused>.contents>.main>.right>.details-label {
+.monaco-editor
+	.suggest-widget:not(.shows-details)
+	.monaco-list
+	.monaco-list-row.focused
+	> .contents
+	> .main
+	> .right
+	> .details-label {
 	display: inline;
 }
 
 /** Details: if using CompletionItemLabel#details, always show **/
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row:not(.string-label)>.contents>.main>.right>.details-label,
-.monaco-editor .suggest-widget.docs-side .monaco-list .monaco-list-row.focused:not(.string-label)>.contents>.main>.right>.details-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row:not(.string-label)
+	> .contents
+	> .main
+	> .right
+	> .details-label,
+.monaco-editor
+	.suggest-widget.docs-side
+	.monaco-list
+	.monaco-list-row.focused:not(.string-label)
+	> .contents
+	> .main
+	> .right
+	> .details-label {
 	display: inline;
 }
 
 /** Ellipsis on hover **/
 
-.monaco-editor .suggest-widget:not(.docs-side) .monaco-list .monaco-list-row.focused:hover>.contents>.main>.right.can-expand-details>.details-label {
+.monaco-editor
+	.suggest-widget:not(.docs-side)
+	.monaco-list
+	.monaco-list-row.focused:hover
+	> .contents
+	> .main
+	> .right.can-expand-details
+	> .details-label {
 	width: calc(100% - 26px);
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.left {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .left {
 	flex-shrink: 1;
 	flex-grow: 1;
 	overflow: hidden;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.left>.monaco-icon-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .left
+	> .monaco-icon-label {
 	flex-shrink: 0;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row:not(.string-label)>.contents>.main>.left>.monaco-icon-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row:not(.string-label)
+	> .contents
+	> .main
+	> .left
+	> .monaco-icon-label {
 	max-width: 100%;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row.string-label>.contents>.main>.left>.monaco-icon-label {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row.string-label
+	> .contents
+	> .main
+	> .left
+	> .monaco-icon-label {
 	flex-shrink: 1;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right {
 	overflow: hidden;
 	flex-shrink: 4;
 	max-width: 70%;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row>.contents>.main>.right>.readMore {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .readMore {
 	display: inline-block;
 	position: absolute;
 	right: 10px;
@@ -3890,38 +4361,80 @@
 
 /** Do NOT display ReadMore when docs is side/below **/
 
-.monaco-editor .suggest-widget.docs-side .monaco-list .monaco-list-row>.contents>.main>.right>.readMore {
+.monaco-editor
+	.suggest-widget.docs-side
+	.monaco-list
+	.monaco-list-row
+	> .contents
+	> .main
+	> .right
+	> .readMore {
 	display: none !important;
 }
 
 /** Do NOT display ReadMore when using plain CompletionItemLabel (details/documentation might not be resolved) **/
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row.string-label>.contents>.main>.right>.readMore {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row.string-label
+	> .contents
+	> .main
+	> .right
+	> .readMore {
 	display: none;
 }
 
 /** Focused item can show ReadMore, but can't when docs is side/below **/
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row.focused.string-label>.contents>.main>.right>.readMore {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row.focused.string-label
+	> .contents
+	> .main
+	> .right
+	> .readMore {
 	display: inline-block;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row.focused:hover>.contents>.main>.right>.readMore {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row.focused:hover
+	> .contents
+	> .main
+	> .right
+	> .readMore {
 	visibility: visible;
 }
 
 /** Styles for each row in the list **/
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row .monaco-icon-label.deprecated {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	.monaco-icon-label.deprecated {
 	opacity: 0.66;
 	text-decoration: unset;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row .monaco-icon-label.deprecated>.monaco-icon-label-container>.monaco-icon-name-container {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	.monaco-icon-label.deprecated
+	> .monaco-icon-label-container
+	> .monaco-icon-name-container {
 	text-decoration: line-through;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row .monaco-icon-label::before {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	.monaco-icon-label::before {
 	height: 100%;
 }
 
@@ -3946,11 +4459,20 @@
 }
 
 .monaco-editor .suggest-widget.no-icons .monaco-list .monaco-list-row .icon,
-.monaco-editor .suggest-widget.no-icons .monaco-list .monaco-list-row .suggest-icon::before {
+.monaco-editor
+	.suggest-widget.no-icons
+	.monaco-list
+	.monaco-list-row
+	.suggest-icon::before {
 	display: none;
 }
 
-.monaco-editor .suggest-widget .monaco-list .monaco-list-row .icon.customcolor .colorspan {
+.monaco-editor
+	.suggest-widget
+	.monaco-list
+	.monaco-list-row
+	.icon.customcolor
+	.colorspan {
 	margin: 0 0 0 0.3em;
 	border: 0.1em solid #000;
 	width: 0.7em;
@@ -3991,17 +4513,22 @@
 	display: none;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element {
+.monaco-editor .suggest-details > .monaco-scrollable-element {
 	flex: 1;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body {
+.monaco-editor .suggest-details > .monaco-scrollable-element > .body {
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.header>.type {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .header
+	> .type {
 	flex: 2;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -4011,55 +4538,105 @@
 	padding: 4px 0 12px 5px;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.header>.type.auto-wrap {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .header
+	> .type.auto-wrap {
 	white-space: normal;
 	word-break: break-all;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs {
+.monaco-editor .suggest-details > .monaco-scrollable-element > .body > .docs {
 	margin: 0;
 	padding: 4px 5px;
 	white-space: pre-wrap;
 }
 
-.monaco-editor .suggest-details.no-type>.monaco-scrollable-element>.body>.docs {
+.monaco-editor
+	.suggest-details.no-type
+	> .monaco-scrollable-element
+	> .body
+	> .docs {
 	margin-right: 24px;
 	overflow: hidden;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs.markdown-docs {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .docs.markdown-docs {
 	padding: 0;
 	white-space: initial;
 	min-height: calc(1rem + 8px);
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs.markdown-docs>div,
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs.markdown-docs>span:not(:empty) {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .docs.markdown-docs
+	> div,
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .docs.markdown-docs
+	> span:not(:empty) {
 	padding: 4px 5px;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs.markdown-docs>div>p:first-child {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .docs.markdown-docs
+	> div
+	> p:first-child {
 	margin-top: 0;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs.markdown-docs>div>p:last-child {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .docs.markdown-docs
+	> div
+	> p:last-child {
 	margin-bottom: 0;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs.markdown-docs .monaco-tokenized-source {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .docs.markdown-docs
+	.monaco-tokenized-source {
 	white-space: pre;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs .code {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .docs
+	.code {
 	white-space: pre-wrap;
 	word-wrap: break-word;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>.docs.markdown-docs .codicon {
+.monaco-editor
+	.suggest-details
+	> .monaco-scrollable-element
+	> .body
+	> .docs.markdown-docs
+	.codicon {
 	vertical-align: sub;
 }
 
-.monaco-editor .suggest-details>.monaco-scrollable-element>.body>p:empty {
+.monaco-editor .suggest-details > .monaco-scrollable-element > .body > p:empty {
 	display: none;
 }
 
@@ -4097,7 +4674,6 @@
 
 	background: var(--vscode-banner-background);
 }
-
 
 .editor-banner .icon-container {
 	display: flex;
@@ -4186,7 +4762,6 @@
 	z-index: 10;
 }
 
-
 .monaco-editor .zone-widget .zone-widget-container {
 	border-top-style: solid;
 	border-bottom-style: solid;
@@ -4220,13 +4795,15 @@
 	position: absolute;
 	resize: none;
 	overflow: hidden;
-	background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTMiIGhlaWdodD0iMzYiIHZpZXdCb3g9IjAgMCA1MyAzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDguMDM2NCA0LjAxMDQySDQuMDA3NzlMNC4wMDc3OSAzMi4wMjg2SDQ4LjAzNjRWNC4wMTA0MlpNNC4wMDc3OSAwLjAwNzgxMjVDMS43OTcyMSAwLjAwNzgxMjUgMC4wMDUxODc5OSAxLjc5OTg0IDAuMDA1MTg3OTkgNC4wMTA0MlYzMi4wMjg2QzAuMDA1MTg3OTkgMzQuMjM5MiAxLjc5NzIxIDM2LjAzMTIgNC4wMDc3OSAzNi4wMzEySDQ4LjAzNjRDNTAuMjQ3IDM2LjAzMTIgNTIuMDM5IDM0LjIzOTIgNTIuMDM5IDMyLjAyODZWNC4wMTA0MkM1Mi4wMzkgMS43OTk4NCA1MC4yNDcgMC4wMDc4MTI1IDQ4LjAzNjQgMC4wMDc4MTI1SDQuMDA3NzlaTTguMDEwNDIgOC4wMTMwMkgxMi4wMTNWMTIuMDE1Nkg4LjAxMDQyVjguMDEzMDJaTTIwLjAxODIgOC4wMTMwMkgxNi4wMTU2VjEyLjAxNTZIMjAuMDE4MlY4LjAxMzAyWk0yNC4wMjA4IDguMDEzMDJIMjguMDIzNFYxMi4wMTU2SDI0LjAyMDhWOC4wMTMwMlpNMzYuMDI4NiA4LjAxMzAySDMyLjAyNlYxMi4wMTU2SDM2LjAyODZWOC4wMTMwMlpNNDAuMDMxMiA4LjAxMzAySDQ0LjAzMzlWMTIuMDE1Nkg0MC4wMzEyVjguMDEzMDJaTTE2LjAxNTYgMTYuMDE4Mkg4LjAxMDQyVjIwLjAyMDhIMTYuMDE1NlYxNi4wMTgyWk0yMC4wMTgyIDE2LjAxODJIMjQuMDIwOFYyMC4wMjA4SDIwLjAxODJWMTYuMDE4MlpNMzIuMDI2IDE2LjAxODJIMjguMDIzNFYyMC4wMjA4SDMyLjAyNlYxNi4wMTgyWk00NC4wMzM5IDE2LjAxODJWMjAuMDIwOEgzNi4wMjg2VjE2LjAxODJINDQuMDMzOVpNMTIuMDEzIDI0LjAyMzRIOC4wMTA0MlYyOC4wMjZIMTIuMDEzVjI0LjAyMzRaTTE2LjAxNTYgMjQuMDIzNEgzNi4wMjg2VjI4LjAyNkgxNi4wMTU2VjI0LjAyMzRaTTQ0LjAzMzkgMjQuMDIzNEg0MC4wMzEyVjI4LjAyNkg0NC4wMzM5VjI0LjAyMzRaIiBmaWxsPSIjNDI0MjQyIi8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDAiPgo8cmVjdCB3aWR0aD0iNTMiIGhlaWdodD0iMzYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==) center center no-repeat;
-	border: 4px solid #F6F6F6;
+	background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTMiIGhlaWdodD0iMzYiIHZpZXdCb3g9IjAgMCA1MyAzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDguMDM2NCA0LjAxMDQySDQuMDA3NzlMNC4wMDc3OSAzMi4wMjg2SDQ4LjAzNjRWNC4wMTA0MlpNNC4wMDc3OSAwLjAwNzgxMjVDMS43OTcyMSAwLjAwNzgxMjUgMC4wMDUxODc5OSAxLjc5OTg0IDAuMDA1MTg3OTkgNC4wMTA0MlYzMi4wMjg2QzAuMDA1MTg3OTkgMzQuMjM5MiAxLjc5NzIxIDM2LjAzMTIgNC4wMDc3OSAzNi4wMzEySDQ4LjAzNjRDNTAuMjQ3IDM2LjAzMTIgNTIuMDM5IDM0LjIzOTIgNTIuMDM5IDMyLjAyODZWNC4wMTA0MkM1Mi4wMzkgMS43OTk4NCA1MC4yNDcgMC4wMDc4MTI1IDQ4LjAzNjQgMC4wMDc4MTI1SDQuMDA3NzlaTTguMDEwNDIgOC4wMTMwMkgxMi4wMTNWMTIuMDE1Nkg4LjAxMDQyVjguMDEzMDJaTTIwLjAxODIgOC4wMTMwMkgxNi4wMTU2VjEyLjAxNTZIMjAuMDE4MlY4LjAxMzAyWk0yNC4wMjA4IDguMDEzMDJIMjguMDIzNFYxMi4wMTU2SDI0LjAyMDhWOC4wMTMwMlpNMzYuMDI4NiA4LjAxMzAySDMyLjAyNlYxMi4wMTU2SDM2LjAyODZWOC4wMTMwMlpNNDAuMDMxMiA4LjAxMzAySDQ0LjAzMzlWMTIuMDE1Nkg0MC4wMzEyVjguMDEzMDJaTTE2LjAxNTYgMTYuMDE4Mkg4LjAxMDQyVjIwLjAyMDhIMTYuMDE1NlYxNi4wMTgyWk0yMC4wMTgyIDE2LjAxODJIMjQuMDIwOFYyMC4wMjA4SDIwLjAxODJWMTYuMDE4MlpNMzIuMDI2IDE2LjAxODJIMjguMDIzNFYyMC4wMjA4SDMyLjAyNlYxNi4wMTgyWk00NC4wMzM5IDE2LjAxODJWMjAuMDIwOEgzNi4wMjg2VjE2LjAxODJINDQuMDMzOVpNMTIuMDEzIDI0LjAyMzRIOC4wMTA0MlYyOC4wMjZIMTIuMDEzVjI0LjAyMzRaTTE2LjAxNTYgMjQuMDIzNEgzNi4wMjg2VjI4LjAyNkgxNi4wMTU2VjI0LjAyMzRaTTQ0LjAzMzkgMjQuMDIzNEg0MC4wMzEyVjI4LjAyNkg0NC4wMzM5VjI0LjAyMzRaIiBmaWxsPSIjNDI0MjQyIi8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDAiPgo8cmVjdCB3aWR0aD0iNTMiIGhlaWdodD0iMzYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==)
+		center center no-repeat;
+	border: 4px solid #f6f6f6;
 	border-radius: 4px;
 }
 
 .monaco-editor.vs-dark .iPadShowKeyboard {
-	background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTMiIGhlaWdodD0iMzYiIHZpZXdCb3g9IjAgMCA1MyAzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDguMDM2NCA0LjAxMDQySDQuMDA3NzlMNC4wMDc3OSAzMi4wMjg2SDQ4LjAzNjRWNC4wMTA0MlpNNC4wMDc3OSAwLjAwNzgxMjVDMS43OTcyMSAwLjAwNzgxMjUgMC4wMDUxODc5OSAxLjc5OTg0IDAuMDA1MTg3OTkgNC4wMTA0MlYzMi4wMjg2QzAuMDA1MTg3OTkgMzQuMjM5MiAxLjc5NzIxIDM2LjAzMTIgNC4wMDc3OSAzNi4wMzEySDQ4LjAzNjRDNTAuMjQ3IDM2LjAzMTIgNTIuMDM5IDM0LjIzOTIgNTIuMDM5IDMyLjAyODZWNC4wMTA0MkM1Mi4wMzkgMS43OTk4NCA1MC4yNDcgMC4wMDc4MTI1IDQ4LjAzNjQgMC4wMDc4MTI1SDQuMDA3NzlaTTguMDEwNDIgOC4wMTMwMkgxMi4wMTNWMTIuMDE1Nkg4LjAxMDQyVjguMDEzMDJaTTIwLjAxODIgOC4wMTMwMkgxNi4wMTU2VjEyLjAxNTZIMjAuMDE4MlY4LjAxMzAyWk0yNC4wMjA4IDguMDEzMDJIMjguMDIzNFYxMi4wMTU2SDI0LjAyMDhWOC4wMTMwMlpNMzYuMDI4NiA4LjAxMzAySDMyLjAyNlYxMi4wMTU2SDM2LjAyODZWOC4wMTMwMlpNNDAuMDMxMiA4LjAxMzAySDQ0LjAzMzlWMTIuMDE1Nkg0MC4wMzEyVjguMDEzMDJaTTE2LjAxNTYgMTYuMDE4Mkg4LjAxMDQyVjIwLjAyMDhIMTYuMDE1NlYxNi4wMTgyWk0yMC4wMTgyIDE2LjAxODJIMjQuMDIwOFYyMC4wMjA4SDIwLjAxODJWMTYuMDE4MlpNMzIuMDI2IDE2LjAxODJIMjguMDIzNFYyMC4wMjA4SDMyLjAyNlYxNi4wMTgyWk00NC4wMzM5IDE2LjAxODJWMjAuMDIwOEgzNi4wMjg2VjE2LjAxODJINDQuMDMzOVpNMTIuMDEzIDI0LjAyMzRIOC4wMTA0MlYyOC4wMjZIMTIuMDEzVjI0LjAyMzRaTTE2LjAxNTYgMjQuMDIzNEgzNi4wMjg2VjI4LjAyNkgxNi4wMTU2VjI0LjAyMzRaTTQ0LjAzMzkgMjQuMDIzNEg0MC4wMzEyVjI4LjAyNkg0NC4wMzM5VjI0LjAyMzRaIiBmaWxsPSIjQzVDNUM1Ii8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDAiPgo8cmVjdCB3aWR0aD0iNTMiIGhlaWdodD0iMzYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==) center center no-repeat;
+	background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTMiIGhlaWdodD0iMzYiIHZpZXdCb3g9IjAgMCA1MyAzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDguMDM2NCA0LjAxMDQySDQuMDA3NzlMNC4wMDc3OSAzMi4wMjg2SDQ4LjAzNjRWNC4wMTA0MlpNNC4wMDc3OSAwLjAwNzgxMjVDMS43OTcyMSAwLjAwNzgxMjUgMC4wMDUxODc5OSAxLjc5OTg0IDAuMDA1MTg3OTkgNC4wMTA0MlYzMi4wMjg2QzAuMDA1MTg3OTkgMzQuMjM5MiAxLjc5NzIxIDM2LjAzMTIgNC4wMDc3OSAzNi4wMzEySDQ4LjAzNjRDNTAuMjQ3IDM2LjAzMTIgNTIuMDM5IDM0LjIzOTIgNTIuMDM5IDMyLjAyODZWNC4wMTA0MkM1Mi4wMzkgMS43OTk4NCA1MC4yNDcgMC4wMDc4MTI1IDQ4LjAzNjQgMC4wMDc4MTI1SDQuMDA3NzlaTTguMDEwNDIgOC4wMTMwMkgxMi4wMTNWMTIuMDE1Nkg4LjAxMDQyVjguMDEzMDJaTTIwLjAxODIgOC4wMTMwMkgxNi4wMTU2VjEyLjAxNTZIMjAuMDE4MlY4LjAxMzAyWk0yNC4wMjA4IDguMDEzMDJIMjguMDIzNFYxMi4wMTU2SDI0LjAyMDhWOC4wMTMwMlpNMzYuMDI4NiA4LjAxMzAySDMyLjAyNlYxMi4wMTU2SDM2LjAyODZWOC4wMTMwMlpNNDAuMDMxMiA4LjAxMzAySDQ0LjAzMzlWMTIuMDE1Nkg0MC4wMzEyVjguMDEzMDJaTTE2LjAxNTYgMTYuMDE4Mkg4LjAxMDQyVjIwLjAyMDhIMTYuMDE1NlYxNi4wMTgyWk0yMC4wMTgyIDE2LjAxODJIMjQuMDIwOFYyMC4wMjA4SDIwLjAxODJWMTYuMDE4MlpNMzIuMDI2IDE2LjAxODJIMjguMDIzNFYyMC4wMjA4SDMyLjAyNlYxNi4wMTgyWk00NC4wMzM5IDE2LjAxODJWMjAuMDIwOEgzNi4wMjg2VjE2LjAxODJINDQuMDMzOVpNMTIuMDEzIDI0LjAyMzRIOC4wMTA0MlYyOC4wMjZIMTIuMDEzVjI0LjAyMzRaTTE2LjAxNTYgMjQuMDIzNEgzNi4wMjg2VjI4LjAyNkgxNi4wMTU2VjI0LjAyMzRaTTQ0LjAzMzkgMjQuMDIzNEg0MC4wMzEyVjI4LjAyNkg0NC4wMzM5VjI0LjAyMzRaIiBmaWxsPSIjQzVDNUM1Ii8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDAiPgo8cmVjdCB3aWR0aD0iNTMiIGhlaWdodD0iMzYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==)
+		center center no-repeat;
 	border: 4px solid #252526;
 }
 /*---------------------------------------------------------------------------------------------
@@ -4281,12 +4858,20 @@
 
 .quick-input-widget .monaco-highlighted-label .highlight,
 .quick-input-widget .monaco-highlighted-label .highlight {
-	color: #0066BF;
+	color: #0066bf;
 }
 
-.vs .quick-input-widget .monaco-list-row.focused .monaco-highlighted-label .highlight,
-.vs .quick-input-widget .monaco-list-row.focused .monaco-highlighted-label .highlight {
-	color: #9DDDFF;
+.vs
+	.quick-input-widget
+	.monaco-list-row.focused
+	.monaco-highlighted-label
+	.highlight,
+.vs
+	.quick-input-widget
+	.monaco-list-row.focused
+	.monaco-highlighted-label
+	.highlight {
+	color: #9dddff;
 }
 
 .vs-dark .quick-input-widget .monaco-highlighted-label .highlight,
@@ -4296,12 +4881,12 @@
 
 .hc-black .quick-input-widget .monaco-highlighted-label .highlight,
 .hc-black .quick-input-widget .monaco-highlighted-label .highlight {
-	color: #F38518;
+	color: #f38518;
 }
 
 .hc-light .quick-input-widget .monaco-highlighted-label .highlight,
 .hc-light .quick-input-widget .monaco-highlighted-label .highlight {
-	color: #0F4A85;
+	color: #0f4a85;
 }
 
 .monaco-keybinding > .monaco-keybinding-key {
@@ -4321,7 +4906,7 @@
 
 .hc-light .monaco-keybinding > .monaco-keybinding-key {
 	background-color: transparent;
-	border: solid 1px #0F4A85;
+	border: solid 1px #0f4a85;
 	box-shadow: none;
 	color: #292929;
 }
@@ -4339,20 +4924,37 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
 /* Default standalone editor fonts */
 .monaco-editor {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "HelveticaNeue-Light", system-ui, "Ubuntu", "Droid Sans", sans-serif;
-	--monaco-monospace-font: "SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI",
+		"HelveticaNeue-Light", system-ui, "Ubuntu", "Droid Sans", sans-serif;
+	--monaco-monospace-font: "SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono",
+		"Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
 }
 
-.monaco-menu .monaco-action-bar.vertical .action-item .action-menu-item:focus .action-label {
+.monaco-menu
+	.monaco-action-bar.vertical
+	.action-item
+	.action-menu-item:focus
+	.action-label {
 	stroke-width: 1.2px;
 }
 
-.monaco-editor.vs-dark .monaco-menu .monaco-action-bar.vertical .action-menu-item:focus .action-label,
-.monaco-editor.hc-black .monaco-menu .monaco-action-bar.vertical .action-menu-item:focus .action-label,
-.monaco-editor.hc-light .monaco-menu .monaco-action-bar.vertical .action-menu-item:focus .action-label {
+.monaco-editor.vs-dark
+	.monaco-menu
+	.monaco-action-bar.vertical
+	.action-menu-item:focus
+	.action-label,
+.monaco-editor.hc-black
+	.monaco-menu
+	.monaco-action-bar.vertical
+	.action-menu-item:focus
+	.action-label,
+.monaco-editor.hc-light
+	.monaco-menu
+	.monaco-action-bar.vertical
+	.action-menu-item:focus
+	.action-label {
 	stroke-width: 1.2px;
 }
 
@@ -4379,8 +4981,7 @@
 	-ms-high-contrast-adjust: none;
 }
 /* In case the browser goes into high contrast mode and the editor is not configured with the hc-black theme */
-@media screen and (-ms-high-contrast:active) {
-
+@media screen and (-ms-high-contrast: active) {
 	/* current line highlight */
 	.monaco-editor.vs .view-overlays .current-line,
 	.monaco-editor.vs-dark .view-overlays .current-line {
@@ -4499,11 +5100,17 @@
 		background: windowtext !important;
 	}
 	.monaco-editor.vs .monaco-scrollable-element > .scrollbar > .slider:hover,
-	.monaco-editor.vs-dark .monaco-scrollable-element > .scrollbar > .slider:hover {
+	.monaco-editor.vs-dark
+		.monaco-scrollable-element
+		> .scrollbar
+		> .slider:hover {
 		background: highlight !important;
 	}
 	.monaco-editor.vs .monaco-scrollable-element > .scrollbar > .slider.active,
-	.monaco-editor.vs-dark .monaco-scrollable-element > .scrollbar > .slider.active {
+	.monaco-editor.vs-dark
+		.monaco-scrollable-element
+		> .scrollbar
+		> .slider.active {
 		background: highlight !important;
 	}
 
@@ -4523,15 +5130,15 @@
 	.monaco-editor.vs .squiggly-d-error,
 	.monaco-editor.vs-dark .squiggly-d-error {
 		background: transparent !important;
-		border-bottom: 4px double #E47777;
+		border-bottom: 4px double #e47777;
 	}
 	.monaco-editor.vs .squiggly-c-warning,
 	.monaco-editor.vs-dark .squiggly-c-warning {
-		border-bottom: 4px double #71B771;
+		border-bottom: 4px double #71b771;
 	}
 	.monaco-editor.vs .squiggly-b-info,
 	.monaco-editor.vs-dark .squiggly-b-info {
-		border-bottom: 4px double #71B771;
+		border-bottom: 4px double #71b771;
 	}
 	.monaco-editor.vs .squiggly-a-hint,
 	.monaco-editor.vs-dark .squiggly-a-hint {
@@ -4539,14 +5146,30 @@
 	}
 
 	/* contextmenu */
-	.monaco-editor.vs .monaco-menu .monaco-action-bar.vertical .action-menu-item:focus .action-label,
-	.monaco-editor.vs-dark .monaco-menu .monaco-action-bar.vertical .action-menu-item:focus .action-label {
+	.monaco-editor.vs
+		.monaco-menu
+		.monaco-action-bar.vertical
+		.action-menu-item:focus
+		.action-label,
+	.monaco-editor.vs-dark
+		.monaco-menu
+		.monaco-action-bar.vertical
+		.action-menu-item:focus
+		.action-label {
 		-ms-high-contrast-adjust: none;
 		color: highlighttext !important;
 		background-color: highlight !important;
 	}
-	.monaco-editor.vs .monaco-menu .monaco-action-bar.vertical .action-menu-item:hover .action-label,
-	.monaco-editor.vs-dark .monaco-menu .monaco-action-bar.vertical .action-menu-item:hover .action-label {
+	.monaco-editor.vs
+		.monaco-menu
+		.monaco-action-bar.vertical
+		.action-menu-item:hover
+		.action-label,
+	.monaco-editor.vs-dark
+		.monaco-menu
+		.monaco-action-bar.vertical
+		.action-menu-item:hover
+		.action-label {
 		-ms-high-contrast-adjust: none;
 		background: transparent !important;
 		border: 1px solid highlight;
@@ -4599,7 +5222,6 @@
 	background-size: 16px;
 }
 
-
 .monaco-dropdown-with-default {
 	display: flex !important;
 	flex-direction: row;
@@ -4610,7 +5232,9 @@
 	margin-right: 0;
 }
 
-.monaco-dropdown-with-default > .action-container.menu-entry > .action-label.icon {
+.monaco-dropdown-with-default
+	> .action-container.menu-entry
+	> .action-label.icon {
 	width: 16px;
 	height: 16px;
 	background-repeat: no-repeat;
@@ -4618,7 +5242,11 @@
 	background-size: 16px;
 }
 
-.monaco-dropdown-with-default > .dropdown-action-container > .monaco-dropdown > .dropdown-label .codicon[class*='codicon-'] {
+.monaco-dropdown-with-default
+	> .dropdown-action-container
+	> .monaco-dropdown
+	> .dropdown-label
+	.codicon[class*="codicon-"] {
 	font-size: 12px;
 	padding-left: 0px;
 	padding-right: 0px;
@@ -4626,7 +5254,11 @@
 	margin-left: -3px;
 }
 
-.monaco-dropdown-with-default > .dropdown-action-container > .monaco-dropdown > .dropdown-label > .action-label {
+.monaco-dropdown-with-default
+	> .dropdown-action-container
+	> .monaco-dropdown
+	> .dropdown-label
+	> .action-label {
 	display: block;
 	background-size: 16px;
 	background-position: center center;

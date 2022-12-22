@@ -36,19 +36,25 @@ export const DialogBulkValues = defineComponent({
 			}
 		};
 	},
+	watch: {
+		"propDialogOptions.formValues": {
+			immediate: true,
+			handler() {
+
+			}
+		}
+	},
 	mounted() {
 		this.formItems.bulkValue.value = xU
 			.map(this.propDialogOptions.formValues, item => {
-				if (item.configs_name) {
-					return `${item.configs_name.value || ""}:${
-						item.configs_example.value || ""
-					}`;
-				}
-				return `${item.name || ""}:${item.example || ""}`;
+				return `${item.key || ""}:${item.value || ""}`;
 			})
 			.join("\n");
 	},
 	computed: {
+		styleBody() {
+			return "min-height:500px:width:500px"
+		},
 		onOk() {
 			if (!xU.isFunction(this.propDialogOptions?.onOk)) {
 				alert("miss onOk function");
@@ -86,13 +92,15 @@ export const DialogBulkValues = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="flex flex1 vertical padding10" style="min-height:240px">
+				<div class="flex flex1 vertical padding10" >
 					<aAlert
 						message={`型如key:value一行一个 换行即可，不要使用逗号、分号分隔`}
 					/>
-					<MonacoEditor v-model:code={this.formItems.bulkValue.value} />
+					<div style="height:340px;width:500px">
+						<MonacoEditor v-model:code={this.formItems.bulkValue.value} language="text"/>
+					</div>
 				</div>
-				<xDialogFooter configs={this.configsFooter} language="text" />
+				<xDialogFooter configs={this.configsFooter}  />
 			</>
 		);
 	}

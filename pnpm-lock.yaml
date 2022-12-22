@@ -8,13 +8,13 @@ specifiers:
   chalk: ^5.1.2
   copy-to-clipboard: ^3.3.3
   dayjs: ^1.10.7
+  generate-schema: ^2.6.0
   immer: ^9.0.16
   jquery: ^3.6.0
   json5: ^2.2.1
   jsondiffpatch: ^0.4.1
   less: ^4.1.2
   lodash: ^4.17.21
-  monaco-editor: ^0.34.1
   nprogress: ^0.2.0
   prettier: ^2.2.1
   qs: ^6.11.0
@@ -29,12 +29,12 @@ dependencies:
   chalk: 5.2.0
   copy-to-clipboard: 3.3.3
   dayjs: 1.11.7
+  generate-schema: 2.6.0
   immer: 9.0.16
   jquery: 3.6.1
   json5: 2.2.1
   jsondiffpatch: 0.4.1
   lodash: 4.17.21
-  monaco-editor: 0.34.1
   nprogress: 0.2.0
   qs: 6.11.0
   vue: 3.2.45
@@ -773,7 +773,6 @@ packages:
 
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
-    dev: true
 
   /commander/8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
@@ -1154,6 +1153,14 @@ packages:
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
 
+  /generate-schema/2.6.0:
+    resolution: {integrity: sha512-EUBKfJNzT8f91xUk5X5gKtnbdejZeE065UAJ3BCzE8VEbvwKI9Pm5jaWmqVeK1MYc1g5weAVFDTSJzN7ymtTqA==}
+    hasBin: true
+    dependencies:
+      commander: 2.20.3
+      type-of-is: 3.5.1
+    dev: false
+
   /gensync/1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
@@ -1413,10 +1420,6 @@ packages:
     dependencies:
       brace-expansion: 2.0.1
     dev: true
-
-  /monaco-editor/0.34.1:
-    resolution: {integrity: sha512-FKc80TyiMaruhJKKPz5SpJPIjL+dflGvz4CpuThaPMc94AyN7SeC9HQ8hrvaxX7EyHdJcUY5i4D0gNyJj1vSZQ==}
-    dev: false
 
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
@@ -1692,6 +1695,11 @@ packages:
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
     dev: true
+
+  /type-of-is/3.5.1:
+    resolution: {integrity: sha1-7sL8ibgo2/mQDrZBbu4w9P4PzTE=}
+    engines: {node: '>=0.10.5'}
+    dev: false
 
   /universalify/2.0.0:
     resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}

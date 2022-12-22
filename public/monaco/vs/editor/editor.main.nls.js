@@ -9,33 +9,22 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 define("vs/editor/editor.main.nls", {
-	"vs/base/browser/ui/actionbar/actionViewItems": [
-		"{0} ({1})"
-	],
-	"vs/base/browser/ui/findinput/findInput": [
-		"input"
-	],
+	"vs/base/browser/ui/actionbar/actionViewItems": ["{0} ({1})"],
+	"vs/base/browser/ui/findinput/findInput": ["input"],
 	"vs/base/browser/ui/findinput/findInputToggles": [
 		"Match Case",
 		"Match Whole Word",
 		"Use Regular Expression"
 	],
-	"vs/base/browser/ui/findinput/replaceInput": [
-		"input",
-		"Preserve Case"
-	],
-	"vs/base/browser/ui/iconLabel/iconLabelHover": [
-		"Loading..."
-	],
+	"vs/base/browser/ui/findinput/replaceInput": ["input", "Preserve Case"],
+	"vs/base/browser/ui/iconLabel/iconLabelHover": ["Loading..."],
 	"vs/base/browser/ui/inputbox/inputBox": [
 		"Error: {0}",
 		"Warning: {0}",
 		"Info: {0}",
 		"for history"
 	],
-	"vs/base/browser/ui/keybindingLabel/keybindingLabel": [
-		"Unbound"
-	],
+	"vs/base/browser/ui/keybindingLabel/keybindingLabel": ["Unbound"],
 	"vs/base/browser/ui/tree/abstractTree": [
 		"Filter",
 		"Type to filter",
@@ -44,9 +33,7 @@ define("vs/editor/editor.main.nls", {
 		"Close",
 		"No elements found."
 	],
-	"vs/base/common/actions": [
-		"(empty)"
-	],
+	"vs/base/common/actions": ["(empty)"],
 	"vs/base/common/errorMessage": [
 		"{0}: {1}",
 		"A system error occurred ({0})",
@@ -77,9 +64,7 @@ define("vs/editor/editor.main.nls", {
 		"Alt",
 		"Super"
 	],
-	"vs/base/common/platform": [
-		"_"
-	],
+	"vs/base/common/platform": ["_"],
 	"vs/base/parts/quickinput/browser/quickInput": [
 		"Back",
 		"Press 'Enter' to confirm your input or 'Escape' to cancel",
@@ -93,9 +78,7 @@ define("vs/editor/editor.main.nls", {
 		"Back ({0})",
 		"Back"
 	],
-	"vs/base/parts/quickinput/browser/quickInputList": [
-		"Quick Input"
-	],
+	"vs/base/parts/quickinput/browser/quickInputList": ["Quick Input"],
 	"vs/editor/browser/controller/textAreaHandler": [
 		"editor",
 		"The editor is not accessible at this time. Press {0} for options."
@@ -208,8 +191,8 @@ define("vs/editor/editor.main.nls", {
 		"Explicit 'font-feature-settings' CSS property. A boolean can be passed instead if one only needs to turn on/off ligatures.",
 		"Configures font ligatures or font features. Can be either a boolean to enable/disable ligatures or a string for the value of the CSS 'font-feature-settings' property.",
 		"Controls the font size in pixels.",
-		"Only \"normal\" and \"bold\" keywords or numbers between 1 and 1000 are allowed.",
-		"Controls the font weight. Accepts \"normal\" and \"bold\" keywords or numbers between 1 and 1000.",
+		'Only "normal" and "bold" keywords or numbers between 1 and 1000 are allowed.',
+		'Controls the font weight. Accepts "normal" and "bold" keywords or numbers between 1 and 1000.',
 		"Show peek view of the results (default)",
 		"Go to the primary result and show a peek view",
 		"Go to the primary result and enable peek-less navigation to others",
@@ -570,12 +553,8 @@ define("vs/editor/editor.main.nls", {
 		"Whether the editor has multiple document formatting providers",
 		"Whether the editor has multiple document selection formatting providers"
 	],
-	"vs/editor/common/languages/modesRegistry": [
-		"Plain Text"
-	],
-	"vs/editor/common/model/editStack": [
-		"Typing"
-	],
+	"vs/editor/common/languages/modesRegistry": ["Plain Text"],
+	"vs/editor/common/model/editStack": ["Typing"],
 	"vs/editor/common/standaloneStrings": [
 		"No selection",
 		"Line {0}, Column {1} ({2} selected)",
@@ -630,9 +609,7 @@ define("vs/editor/editor.main.nls", {
 		"Move Selected Text Left",
 		"Move Selected Text Right"
 	],
-	"vs/editor/contrib/caretOperations/browser/transpose": [
-		"Transpose Letters"
-	],
+	"vs/editor/contrib/caretOperations/browser/transpose": ["Transpose Letters"],
 	"vs/editor/contrib/clipboard/browser/clipboard": [
 		"Cu&&t",
 		"Cut",
@@ -737,10 +714,10 @@ define("vs/editor/editor.main.nls", {
 	"vs/editor/contrib/find/browser/findController": [
 		"Find",
 		"&&Find",
-		"Overrides \"Use Regular Expression\" flag.\nThe flag will not be saved for the future.\n0: Do Nothing\n1: True\n2: False",
-		"Overrides \"Match Whole Word\" flag.\nThe flag will not be saved for the future.\n0: Do Nothing\n1: True\n2: False",
-		"Overrides \"Math Case\" flag.\nThe flag will not be saved for the future.\n0: Do Nothing\n1: True\n2: False",
-		"Overrides \"Preserve Case\" flag.\nThe flag will not be saved for the future.\n0: Do Nothing\n1: True\n2: False",
+		'Overrides "Use Regular Expression" flag.\nThe flag will not be saved for the future.\n0: Do Nothing\n1: True\n2: False',
+		'Overrides "Match Whole Word" flag.\nThe flag will not be saved for the future.\n0: Do Nothing\n1: True\n2: False',
+		'Overrides "Math Case" flag.\nThe flag will not be saved for the future.\n0: Do Nothing\n1: True\n2: False',
+		'Overrides "Preserve Case" flag.\nThe flag will not be saved for the future.\n0: Do Nothing\n1: True\n2: False',
 		"Find With Arguments",
 		"Find With Selection",
 		"Find Next",
@@ -1242,9 +1219,7 @@ define("vs/editor/editor.main.nls", {
 		"Icon for more information in the suggest widget.",
 		"Read More"
 	],
-	"vs/editor/contrib/suggest/browser/suggestWidgetStatus": [
-		"{0} ({1})"
-	],
+	"vs/editor/contrib/suggest/browser/suggestWidgetStatus": ["{0} ({1})"],
 	"vs/editor/contrib/symbolIcons/browser/symbolIcons": [
 		"The foreground color for array symbols. These symbols appear in the outline, breadcrumb, and suggest widget.",
 		"The foreground color for boolean symbols. These symbols appear in the outline, breadcrumb, and suggest widget.",
@@ -1310,7 +1285,7 @@ define("vs/editor/editor.main.nls", {
 		"Show Exclude Options",
 		"Exclude {0} (invisible character) from being highlighted",
 		"Exclude {0} from being highlighted",
-		"Allow unicode characters that are more common in the language \"{0}\".",
+		'Allow unicode characters that are more common in the language "{0}".',
 		"Configure Unicode Highlight Options"
 	],
 	"vs/editor/contrib/unusualLineTerminators/browser/unusualLineTerminators": [
@@ -1331,17 +1306,13 @@ define("vs/editor/editor.main.nls", {
 		"Go to Previous Symbol Highlight",
 		"Trigger Symbol Highlight"
 	],
-	"vs/editor/contrib/wordOperations/browser/wordOperations": [
-		"Delete Word"
-	],
+	"vs/editor/contrib/wordOperations/browser/wordOperations": ["Delete Word"],
 	"vs/platform/actions/browser/menuEntryActionViewItem": [
 		"{0} ({1})",
 		"{0} ({1})",
 		"{0}\n[{1}] {2}"
 	],
-	"vs/platform/actions/common/menuService": [
-		"Hide '{0}'"
-	],
+	"vs/platform/actions/common/menuService": ["Hide '{0}'"],
 	"vs/platform/configuration/common/configurationRegistry": [
 		"Default Language Configuration Overrides",
 		"Configure settings to be overridden for the {0} language.",
@@ -1396,20 +1367,14 @@ define("vs/editor/editor.main.nls", {
 		"Please use 'workbench.list.defaultFindMode' instead.",
 		"Controls how tree folders are expanded when clicking the folder names. Note that some trees and lists might choose to ignore this setting if it is not applicable."
 	],
-	"vs/platform/markers/common/markers": [
-		"Error",
-		"Warning",
-		"Info"
-	],
+	"vs/platform/markers/common/markers": ["Error", "Warning", "Info"],
 	"vs/platform/quickinput/browser/commandsQuickAccess": [
 		"{0}, {1}",
 		"recently used",
 		"other commands",
 		"Command '{0}' resulted in an error ({1})"
 	],
-	"vs/platform/quickinput/browser/helpQuickAccess": [
-		"{0}, {1}"
-	],
+	"vs/platform/quickinput/browser/helpQuickAccess": ["{0}, {1}"],
 	"vs/platform/theme/common/colorRegistry": [
 		"Overall foreground color. This color is only used if not overridden by a component.",
 		"Overall foreground for disabled elements. This color is only used if not overridden by a component.",
@@ -1606,7 +1571,7 @@ define("vs/editor/editor.main.nls", {
 		"Minimap marker color for errors.",
 		"Minimap marker color for warnings.",
 		"Minimap background color.",
-		"Opacity of foreground elements rendered in the minimap. For example, \"#000000c0\" will render the elements with 75% opacity.",
+		'Opacity of foreground elements rendered in the minimap. For example, "#000000c0" will render the elements with 75% opacity.',
 		"Minimap slider background color.",
 		"Minimap slider background color when hovering.",
 		"Minimap slider background color when clicked on.",
@@ -1652,7 +1617,5 @@ define("vs/editor/editor.main.nls", {
 		"Could not redo '{0}' across all files because an undo or redo operation occurred in the meantime",
 		"Could not redo '{0}' because there is already an undo or redo operation running."
 	],
-	"vs/platform/workspace/common/workspace": [
-		"Code Workspace"
-	]
+	"vs/platform/workspace/common/workspace": ["Code Workspace"]
 });

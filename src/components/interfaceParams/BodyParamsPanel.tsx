@@ -61,7 +61,9 @@ export const BodyParamsPanel = defineComponent({
 								{this.params.req_body_type == "form" ? (
 									<BodyParamsForm params={this.params} />
 								) : null}
-								{this.params.req_body_type == "json" ? "开发中......" : null}
+								{this.params.req_body_type == "json" ? (
+									<BodyParamsJson params={this.params} />
+								) : null}
 								{this.params.req_body_type == "file" ? "开发中......" : null}
 								{this.params.req_body_type == "raw" ? (
 									<BodyParamsRaw params={this.params} />

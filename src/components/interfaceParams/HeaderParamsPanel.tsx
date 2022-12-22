@@ -16,7 +16,8 @@ export const HeaderParamsPanel = defineComponent({
 			<aCard>
 				{{
 					default: () => {
-						return <HeaderParamsForm params={this.params} />;
+						debugger;
+						return <>{ this.params.req_headers } <HeaderParamsForm v-model:params={this.params} /></>;
 					}
 				}}
 			</aCard>

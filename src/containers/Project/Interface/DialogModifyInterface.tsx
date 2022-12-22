@@ -266,9 +266,11 @@ export const DialogModifyInterface = defineComponent({
 				isProxy,
 				witchEnv,
 				method,
+				req_headers,
 				req_body_type,
 				req_body_form,
-				req_body_other
+				req_body_other,
+				req_body_is_json_schema
 			} = this.detailInfo;
 
 			setValueTo(this.dataXItem, {
@@ -281,12 +283,15 @@ export const DialogModifyInterface = defineComponent({
 				tag: String(tag).split(","),
 				isProxy,
 				requestArgs: {
+					req_headers,
 					/* body的编辑类型 */
 					req_body_type,
 					/* req_body_form 的数据 */
 					req_body_form,
-					/* req_body file raw 的数据 */
-					req_body_other
+					/* req_body file raw json 的数据 */
+					req_body_other,
+					/* body json 使用 schema */
+					req_body_is_json_schema
 				}
 			});
 		},
@@ -410,9 +415,10 @@ export const DialogModifyInterface = defineComponent({
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.tag} />
 							<xGap t="10" />
-							<xItem configs={this.dataXItem.isProxy} />
-							<xGap t="10" />
-							<xItem configs={this.dataXItem.witchEnv} />
+							<div class="flex">
+								<xItem configs={this.dataXItem.isProxy} />
+								<xItem configs={this.dataXItem.witchEnv} class="flex1" />
+							</div>
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.requestArgs} />
 						</xForm>

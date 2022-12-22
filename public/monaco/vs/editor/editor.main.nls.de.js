@@ -6,51 +6,41 @@
  *-----------------------------------------------------------*/
 
 define("vs/editor/editor.main.nls.de", {
-	"vs/base/browser/ui/actionbar/actionViewItems": [
-		"{0} ({1})",
-	],
-	"vs/base/browser/ui/findinput/findInput": [
-		"Eingabe",
-	],
+	"vs/base/browser/ui/actionbar/actionViewItems": ["{0} ({1})"],
+	"vs/base/browser/ui/findinput/findInput": ["Eingabe"],
 	"vs/base/browser/ui/findinput/findInputToggles": [
 		"Groß-/Kleinschreibung beachten",
 		"Nur ganzes Wort suchen",
-		"Regulären Ausdruck verwenden",
+		"Regulären Ausdruck verwenden"
 	],
 	"vs/base/browser/ui/findinput/replaceInput": [
 		"Eingabe",
-		"Groß-/Kleinschreibung beibehalten",
+		"Groß-/Kleinschreibung beibehalten"
 	],
-	"vs/base/browser/ui/iconLabel/iconLabelHover": [
-		"Wird geladen...",
-	],
+	"vs/base/browser/ui/iconLabel/iconLabelHover": ["Wird geladen..."],
 	"vs/base/browser/ui/inputbox/inputBox": [
 		"Fehler: {0}",
 		"Warnung: {0}",
 		"Info: {0}",
-		"für Verlauf",
+		"für Verlauf"
 	],
-	"vs/base/browser/ui/keybindingLabel/keybindingLabel": [
-		"Ungebunden",
-	],
+	"vs/base/browser/ui/keybindingLabel/keybindingLabel": ["Ungebunden"],
 	"vs/base/browser/ui/tree/abstractTree": [
 		"Filter",
 		"Zum Filtern Text eingeben",
 		"Zum Suchen eingeben",
 		"Zum Suchen eingeben",
 		"Schließen",
-		"Kein Element gefunden.",
+		"Kein Element gefunden."
 	],
-	"vs/base/common/actions": [
-		"(leer)",
-	],
+	"vs/base/common/actions": ["(leer)"],
 	"vs/base/common/errorMessage": [
 		"{0}: {1}",
 		"Ein Systemfehler ist aufgetreten ({0}).",
 		"Ein unbekannter Fehler ist aufgetreten. Weitere Details dazu finden Sie im Protokoll.",
 		"Ein unbekannter Fehler ist aufgetreten. Weitere Details dazu finden Sie im Protokoll.",
 		"{0} ({1} Fehler gesamt)",
-		"Ein unbekannter Fehler ist aufgetreten. Weitere Details dazu finden Sie im Protokoll.",
+		"Ein unbekannter Fehler ist aufgetreten. Weitere Details dazu finden Sie im Protokoll."
 	],
 	"vs/base/common/keybindingLabels": [
 		"STRG",
@@ -72,11 +62,9 @@ define("vs/editor/editor.main.nls.de", {
 		"Steuern",
 		"UMSCHALTTASTE",
 		"ALT",
-		"Super",
+		"Super"
 	],
-	"vs/base/common/platform": [
-		"_",
-	],
+	"vs/base/common/platform": ["_"],
 	"vs/base/parts/quickinput/browser/quickInput": [
 		"Zurück",
 		"Drücken Sie die EINGABETASTE, um Ihre Eingabe zu bestätigen, oder ESC, um den Vorgang abzubrechen.",
@@ -88,19 +76,17 @@ define("vs/editor/editor.main.nls.de", {
 		"OK",
 		"Benutzerdefiniert",
 		"Zurück ({0})",
-		"Zurück",
+		"Zurück"
 	],
-	"vs/base/parts/quickinput/browser/quickInputList": [
-		"Schnelleingabe",
-	],
+	"vs/base/parts/quickinput/browser/quickInputList": ["Schnelleingabe"],
 	"vs/editor/browser/controller/textAreaHandler": [
 		"Editor",
-		"Auf den Editor kann derzeit nicht zugegriffen werden. Drücken Sie {0}, um die Optionen anzuzeigen.",
+		"Auf den Editor kann derzeit nicht zugegriffen werden. Drücken Sie {0}, um die Optionen anzuzeigen."
 	],
 	"vs/editor/browser/coreCommands": [
 		"Auch bei längeren Zeilen am Ende bleiben",
 		"Auch bei längeren Zeilen am Ende bleiben",
-		"Sekundäre Cursor entfernt",
+		"Sekundäre Cursor entfernt"
 	],
 	"vs/editor/browser/editorExtensions": [
 		"&&Rückgängig",
@@ -108,20 +94,20 @@ define("vs/editor/editor.main.nls.de", {
 		"&&Wiederholen",
 		"Wiederholen",
 		"&&Alles auswählen",
-		"Alle auswählen",
+		"Alle auswählen"
 	],
 	"vs/editor/browser/widget/codeEditorWidget": [
-		"Die Anzahl der Cursors wurde auf {0} beschränkt.",
+		"Die Anzahl der Cursors wurde auf {0} beschränkt."
 	],
 	"vs/editor/browser/widget/diffEditorWidget": [
 		"Zeilenformatierung für Einfügungen im Diff-Editor",
 		"Zeilenformatierung für Entfernungen im Diff-Editor",
-		"Kann die Dateien nicht vergleichen, da eine Datei zu groß ist.",
+		"Kann die Dateien nicht vergleichen, da eine Datei zu groß ist."
 	],
 	"vs/editor/browser/widget/diffReview": [
-		"Symbol für \"Einfügen\" in der Diff-Überprüfung.",
-		"Symbol für \"Entfernen\" in der Diff-Überprüfung.",
-		"Symbol für \"Schließen\" in der Diff-Überprüfung.",
+		'Symbol für "Einfügen" in der Diff-Überprüfung.',
+		'Symbol für "Entfernen" in der Diff-Überprüfung.',
+		'Symbol für "Schließen" in der Diff-Überprüfung.',
 		"Schließen",
 		"keine geänderten Zeilen",
 		"1 Zeile geändert",
@@ -133,7 +119,7 @@ define("vs/editor/editor.main.nls.de", {
 		"+ {0} geänderte Zeile(n) {1}",
 		"– {0} Originalzeile {1}",
 		"Zum nächsten Unterschied wechseln",
-		"Zum vorherigen Unterschied wechseln",
+		"Zum vorherigen Unterschied wechseln"
 	],
 	"vs/editor/browser/widget/inlineDiffMargin": [
 		"Gelöschte Zeilen kopieren",
@@ -144,7 +130,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Geänderte Zeile ({0}) kopieren",
 		"Diese Änderung rückgängig machen",
 		"Gelöschte Zeile kopieren ({0})",
-		"Geänderte Zeile ({0}) kopieren",
+		"Geänderte Zeile ({0}) kopieren"
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"Editor",
@@ -160,7 +146,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Steuert, aus welchen Dokumenten wortbasierte Vervollständigungen berechnet werden.",
 		"Die semantische Hervorhebung ist für alle Farbdesigns aktiviert.",
 		"Die semantische Hervorhebung ist für alle Farbdesigns deaktiviert.",
-		"Die semantische Hervorhebung wird durch die Einstellung \"semanticHighlighting\" des aktuellen Farbdesigns konfiguriert.",
+		'Die semantische Hervorhebung wird durch die Einstellung "semanticHighlighting" des aktuellen Farbdesigns konfiguriert.',
 		"Steuert, ob die semantische Hervorhebung für die Sprachen angezeigt wird, die sie unterstützen.",
 		"Peek-Editoren geöffnet lassen, auch wenn auf den Inhalt doppelgeklickt oder die ESC-TASTE gedrückt wird.",
 		"Zeilen, die diese Länge überschreiten, werden aus Leistungsgründen nicht tokenisiert",
@@ -175,17 +161,17 @@ define("vs/editor/editor.main.nls.de", {
 		"Steuert, ob der Diff-Editor die Unterschiede nebeneinander oder im Text anzeigt.",
 		"Wenn diese Option aktiviert ist, zeigt der Diff-Editor Pfeile in seinem Glyphenrand an, um Änderungen rückgängig zu machen.",
 		"Wenn aktiviert, ignoriert der Diff-Editor Änderungen an voran- oder nachgestellten Leerzeichen.",
-		"Steuert, ob der Diff-Editor die Indikatoren \"+\" und \"-\" für hinzugefügte/entfernte Änderungen anzeigt.",
+		'Steuert, ob der Diff-Editor die Indikatoren "+" und "-" für hinzugefügte/entfernte Änderungen anzeigt.',
 		"Steuert, ob der Editor CodeLens anzeigt.",
 		"Zeilenumbrüche erfolgen nie.",
 		"Der Zeilenumbruch erfolgt an der Breite des Anzeigebereichs.",
-		"Zeilen werden gemäß der Einstellung „{0}“ umbrochen.",
+		"Zeilen werden gemäß der Einstellung „{0}“ umbrochen."
 	],
 	"vs/editor/common/config/editorOptions": [
 		"Der Editor verwendet Plattform-APIs, um zu erkennen, wenn eine Sprachausgabe angefügt wird.",
 		"Der Editor wird dauerhaft für die Verwendung mit einer Sprachausgabe optimiert. Zeilenumbrüche werden deaktiviert.",
 		"Der Editor wird nie für die Verwendung mit einer Sprachausgabe optimiert.",
-		"Steuert, ob der Editor in einem für die Sprachausgabe optimierten Modus ausgeführt werden soll. Durch Festlegen auf \"Ein\" werden Zeilenumbrüche deaktiviert.",
+		'Steuert, ob der Editor in einem für die Sprachausgabe optimierten Modus ausgeführt werden soll. Durch Festlegen auf "Ein" werden Zeilenumbrüche deaktiviert.',
 		"Steuert, ob beim Kommentieren ein Leerzeichen eingefügt wird.",
 		"Steuert, ob leere Zeilen bei Umschalt-, Hinzufügungs- oder Entfernungsaktionen für Zeilenkommentare ignoriert werden sollen.",
 		"Steuert, ob ein Kopiervorgang ohne Auswahl die aktuelle Zeile kopiert.",
@@ -193,34 +179,34 @@ define("vs/editor/editor.main.nls.de", {
 		"Suchzeichenfolge niemals aus der Editorauswahl seeden.",
 		"Suchzeichenfolge immer aus der Editorauswahl seeden, einschließlich Wort an Cursorposition.",
 		"Suchzeichenfolge nur aus der Editorauswahl seeden.",
-		"Steuert, ob für die Suchzeichenfolge im Widget \"Suche\" ein Seeding aus der Auswahl des Editors ausgeführt wird.",
-		"\"In Auswahl suchen\" niemals automatisch aktivieren (Standard).",
-		"\"In Auswahl suchen\" immer automatisch aktivieren.",
-		"\"In Auswahl suchen\" automatisch aktivieren, wenn mehrere Inhaltszeilen ausgewählt sind.",
-		"Steuert die Bedingung zum automatischen Aktivieren von \"In Auswahl suchen\".",
-		"Steuert, ob das Widget \"Suche\" die freigegebene Suchzwischenablage unter macOS lesen oder bearbeiten soll.",
-		"Steuert, ob das Suchwidget zusätzliche Zeilen im oberen Bereich des Editors hinzufügen soll. Wenn die Option auf \"true\" festgelegt ist, können Sie über die erste Zeile hinaus scrollen, wenn das Suchwidget angezeigt wird.",
+		'Steuert, ob für die Suchzeichenfolge im Widget "Suche" ein Seeding aus der Auswahl des Editors ausgeführt wird.',
+		'"In Auswahl suchen" niemals automatisch aktivieren (Standard).',
+		'"In Auswahl suchen" immer automatisch aktivieren.',
+		'"In Auswahl suchen" automatisch aktivieren, wenn mehrere Inhaltszeilen ausgewählt sind.',
+		'Steuert die Bedingung zum automatischen Aktivieren von "In Auswahl suchen".',
+		'Steuert, ob das Widget "Suche" die freigegebene Suchzwischenablage unter macOS lesen oder bearbeiten soll.',
+		'Steuert, ob das Suchwidget zusätzliche Zeilen im oberen Bereich des Editors hinzufügen soll. Wenn die Option auf "true" festgelegt ist, können Sie über die erste Zeile hinaus scrollen, wenn das Suchwidget angezeigt wird.',
 		"Steuert, ob die Suche automatisch am Anfang (oder am Ende) neu gestartet wird, wenn keine weiteren Übereinstimmungen gefunden werden.",
-		"Hiermit werden Schriftligaturen (Schriftartfeatures \"calt\" und \"liga\") aktiviert/deaktiviert. Ändern Sie diesen Wert in eine Zeichenfolge, um die CSS-Eigenschaft \"font-feature-settings\" detailliert zu steuern.",
-		"Explizite CSS-Eigenschaft \"font-feature-settings\". Stattdessen kann ein boolescher Wert übergeben werden, wenn nur Ligaturen aktiviert/deaktiviert werden müssen.",
-		"Hiermit werden Schriftligaturen oder Schriftartfeatures konfiguriert. Hierbei kann es sich entweder um einen booleschen Wert zum Aktivieren oder Deaktivieren von Ligaturen oder um eine Zeichenfolge für den Wert der CSS-Eigenschaft \"font-feature-settings\" handeln.",
+		'Hiermit werden Schriftligaturen (Schriftartfeatures "calt" und "liga") aktiviert/deaktiviert. Ändern Sie diesen Wert in eine Zeichenfolge, um die CSS-Eigenschaft "font-feature-settings" detailliert zu steuern.',
+		'Explizite CSS-Eigenschaft "font-feature-settings". Stattdessen kann ein boolescher Wert übergeben werden, wenn nur Ligaturen aktiviert/deaktiviert werden müssen.',
+		'Hiermit werden Schriftligaturen oder Schriftartfeatures konfiguriert. Hierbei kann es sich entweder um einen booleschen Wert zum Aktivieren oder Deaktivieren von Ligaturen oder um eine Zeichenfolge für den Wert der CSS-Eigenschaft "font-feature-settings" handeln.',
 		"Legt die Schriftgröße in Pixeln fest.",
-		"Es sind nur die Schlüsselwörter \"normal\" und \"bold\" sowie Zahlen zwischen 1 und 1000 zulässig.",
-		"Steuert die Schriftbreite. Akzeptiert die Schlüsselwörter \"normal\" und \"bold\" sowie Zahlen zwischen 1 und 1000.",
+		'Es sind nur die Schlüsselwörter "normal" und "bold" sowie Zahlen zwischen 1 und 1000 zulässig.',
+		'Steuert die Schriftbreite. Akzeptiert die Schlüsselwörter "normal" und "bold" sowie Zahlen zwischen 1 und 1000.',
 		"Vorschauansicht der Ergebnisse anzeigen (Standardeinstellung)",
 		"Zum Hauptergebnis gehen und Vorschauansicht anzeigen",
 		"Wechseln Sie zum primären Ergebnis, und aktivieren Sie die Navigation ohne Vorschau zu anderen Ergebnissen.",
-		"Diese Einstellung ist veraltet. Verwenden Sie stattdessen separate Einstellungen wie \"editor.editor.gotoLocation.multipleDefinitions\" oder \"editor.editor.gotoLocation.multipleImplementations\".",
-		"Legt das Verhalten des Befehls \"Gehe zu Definition\" fest, wenn mehrere Zielpositionen vorhanden sind",
-		"Legt das Verhalten des Befehls \"Gehe zur Typdefinition\" fest, wenn mehrere Zielpositionen vorhanden sind.",
-		"Legt das Verhalten des Befehls \"Gehe zu Deklaration\" fest, wenn mehrere Zielpositionen vorhanden sind.",
-		"Legt das Verhalten des Befehls \"Gehe zu Implementierungen\", wenn mehrere Zielspeicherorte vorhanden sind",
-		"Legt das Verhalten des Befehls \"Gehe zu Verweisen\" fest, wenn mehrere Zielpositionen vorhanden sind",
-		"Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von \"Gehe zu Definition\" die aktuelle Position ist.",
-		"Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von \"Gehe zu Typdefinition\" die aktuelle Position ist.",
-		"Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von \"Gehe zu Deklaration\" der aktuelle Speicherort ist.",
-		"Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von \"Gehe zu Implementatierung\" der aktuelle Speicherort ist.",
-		"Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von \"Gehe zu Verweis\" die aktuelle Position ist.",
+		'Diese Einstellung ist veraltet. Verwenden Sie stattdessen separate Einstellungen wie "editor.editor.gotoLocation.multipleDefinitions" oder "editor.editor.gotoLocation.multipleImplementations".',
+		'Legt das Verhalten des Befehls "Gehe zu Definition" fest, wenn mehrere Zielpositionen vorhanden sind',
+		'Legt das Verhalten des Befehls "Gehe zur Typdefinition" fest, wenn mehrere Zielpositionen vorhanden sind.',
+		'Legt das Verhalten des Befehls "Gehe zu Deklaration" fest, wenn mehrere Zielpositionen vorhanden sind.',
+		'Legt das Verhalten des Befehls "Gehe zu Implementierungen", wenn mehrere Zielspeicherorte vorhanden sind',
+		'Legt das Verhalten des Befehls "Gehe zu Verweisen" fest, wenn mehrere Zielpositionen vorhanden sind',
+		'Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von "Gehe zu Definition" die aktuelle Position ist.',
+		'Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von "Gehe zu Typdefinition" die aktuelle Position ist.',
+		'Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von "Gehe zu Deklaration" der aktuelle Speicherort ist.',
+		'Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von "Gehe zu Implementatierung" der aktuelle Speicherort ist.',
+		'Die alternative Befehls-ID, die ausgeführt wird, wenn das Ergebnis von "Gehe zu Verweis" die aktuelle Position ist.',
 		"Steuert, ob die Hovermarkierung angezeigt wird.",
 		"Steuert die Verzögerung in Millisekunden, nach der die Hovermarkierung angezeigt wird.",
 		"Steuert, ob die Hovermarkierung sichtbar bleiben soll, wenn der Mauszeiger darüber bewegt wird.",
@@ -233,7 +219,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Inlayhinweise sind standardmäßig ausgeblendet. Sie werden angezeigt, wenn {0} gedrückt gehalten wird.",
 		"Inlay-Hinweise sind deaktiviert",
 		"Steuert den Schriftgrad von Einlapphinweisen im Editor. Standardmäßig wird die {0} verwendet, wenn der konfigurierte Wert kleiner als {1} oder größer als der Schriftgrad des Editors ist.",
-		"Steuert die Schriftartfamilie von Einlapphinweisen im Editor. Bei Festlegung auf \"leer\" wird die {0} verwendet.",
+		'Steuert die Schriftartfamilie von Einlapphinweisen im Editor. Bei Festlegung auf "leer" wird die {0} verwendet.',
 		"Aktiviert den Abstand um die Inlay-Hinweise im Editor.",
 		"Steuert die Zeilenhöhe. \r\n – Verwenden Sie 0, um die Zeilenhöhe automatisch anhand des Schriftgrads zu berechnen.\r\n – Werte zwischen 0 und 8 werden als Multiplikator mit dem Schriftgrad verwendet.\r\n – Werte größer oder gleich 8 werden als effektive Werte verwendet.",
 		"Steuert, ob die Minimap angezeigt wird.",
@@ -257,7 +243,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Schnellvorschläge innerhalb von Zeichenfolgen aktivieren.",
 		"Schnellvorschläge innerhalb von Kommentaren aktivieren.",
 		"Schnellvorschläge außerhalb von Zeichenfolgen und Kommentaren aktivieren.",
-		"Steuert, ob Vorschläge während des Tippens automatisch angezeigt werden sollen. Dies kann bei der Eingabe von Kommentaren, Zeichenketten und anderem Code kontrolliert werden. Schnellvorschläge können so konfiguriert werden, dass sie als Geistertext oder mit dem Vorschlags-Widget angezeigt werden. Beachten Sie auch die \'{0}\'-Einstellung, die steuert, ob Vorschläge durch Sonderzeichen ausgelöst werden.",
+		"Steuert, ob Vorschläge während des Tippens automatisch angezeigt werden sollen. Dies kann bei der Eingabe von Kommentaren, Zeichenketten und anderem Code kontrolliert werden. Schnellvorschläge können so konfiguriert werden, dass sie als Geistertext oder mit dem Vorschlags-Widget angezeigt werden. Beachten Sie auch die '{0}'-Einstellung, die steuert, ob Vorschläge durch Sonderzeichen ausgelöst werden.",
 		"Zeilennummern werden nicht dargestellt.",
 		"Zeilennummern werden als absolute Zahl dargestellt.",
 		"Zeilennummern werden als Abstand in Zeilen an Cursorposition dargestellt.",
@@ -306,41 +292,41 @@ define("vs/editor/editor.main.nls.de", {
 		"Legt fest, ob Wörter beim Akzeptieren von Vervollständigungen überschrieben werden. Beachten Sie, dass dies von Erweiterungen abhängt, die für dieses Features aktiviert sind.",
 		"Steuert, ob Filter- und Suchvorschläge geringfügige Tippfehler berücksichtigen.",
 		"Steuert, ob bei der Sortierung Wörter priorisiert werden, die in der Nähe des Cursors stehen.",
-		"Steuert, ob gespeicherte Vorschlagauswahlen in verschiedenen Arbeitsbereichen und Fenstern gemeinsam verwendet werden (dafür ist \"#editor.suggestSelection#\" erforderlich).",
-		"Steuert, ob ein aktiver Schnipsel verhindert, dass der Bereich \"Schnelle Vorschläge\" angezeigt wird.",
+		'Steuert, ob gespeicherte Vorschlagauswahlen in verschiedenen Arbeitsbereichen und Fenstern gemeinsam verwendet werden (dafür ist "#editor.suggestSelection#" erforderlich).',
+		'Steuert, ob ein aktiver Schnipsel verhindert, dass der Bereich "Schnelle Vorschläge" angezeigt wird.',
 		"Steuert, ob Symbole in Vorschlägen ein- oder ausgeblendet werden.",
 		"Steuert die Sichtbarkeit der Statusleiste unten im Vorschlagswidget.",
 		"Steuert, ob das Ergebnis des Vorschlags im Editor in der Vorschau angezeigt werden soll.",
 		"Steuert, ob Vorschlagsdetails inline mit der Bezeichnung oder nur im Detailwidget angezeigt werden.",
 		"Diese Einstellung ist veraltet. Die Größe des Vorschlagswidgets kann jetzt geändert werden.",
-		"Diese Einstellung ist veraltet. Verwenden Sie stattdessen separate Einstellungen wie \"editor.suggest.showKeywords\" oder \"editor.suggest.showSnippets\".",
-		"Wenn aktiviert, zeigt IntelliSense \"method\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"funktions\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"constructor\"-Vorschläge an.",
+		'Diese Einstellung ist veraltet. Verwenden Sie stattdessen separate Einstellungen wie "editor.suggest.showKeywords" oder "editor.suggest.showSnippets".',
+		'Wenn aktiviert, zeigt IntelliSense "method"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "funktions"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "constructor"-Vorschläge an.',
 		"Wenn IntelliSense aktiviert ist, werden „veraltete“ Vorschläge angezeigt.",
-		"Wenn aktiviert, zeigt IntelliSense \"field\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"variable\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"class\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"struct\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"interface\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"module\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"property\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"event\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"operator\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"unit\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"value\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"constant\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"enum\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"enumMember\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"keyword\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"text\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"color\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"file\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"reference\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"customcolor\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"folder\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"typeParameter\"-Vorschläge an.",
-		"Wenn aktiviert, zeigt IntelliSense \"snippet\"-Vorschläge an.",
+		'Wenn aktiviert, zeigt IntelliSense "field"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "variable"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "class"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "struct"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "interface"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "module"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "property"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "event"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "operator"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "unit"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "value"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "constant"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "enum"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "enumMember"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "keyword"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "text"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "color"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "file"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "reference"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "customcolor"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "folder"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "typeParameter"-Vorschläge an.',
+		'Wenn aktiviert, zeigt IntelliSense "snippet"-Vorschläge an.',
 		"Wenn aktiviert, zeigt IntelliSense user-Vorschläge an.",
 		"Wenn aktiviert, zeigt IntelliSense issues-Vorschläge an.",
 		"Gibt an, ob führende und nachstehende Leerzeichen immer ausgewählt werden sollen.",
@@ -380,9 +366,9 @@ define("vs/editor/editor.main.nls.de", {
 		"Steuert den Cursoranimationsstil.",
 		"Steuert, ob die weiche Cursoranimation aktiviert werden soll.",
 		"Steuert den Cursor-Stil.",
-		"Steuert die Mindestanzahl sichtbarer führender und nachfolgender Zeilen um den Cursor. Dies wird in einigen anderen Editoren als \"scrollOff\" oder \"scrollOffset\" bezeichnet.",
-		"\"cursorSurroundingLines\" wird nur erzwungen, wenn die Auslösung über die Tastatur oder API erfolgt.",
-		"\"cursorSurroundingLines\" wird immer erzwungen.",
+		'Steuert die Mindestanzahl sichtbarer führender und nachfolgender Zeilen um den Cursor. Dies wird in einigen anderen Editoren als "scrollOff" oder "scrollOffset" bezeichnet.',
+		'"cursorSurroundingLines" wird nur erzwungen, wenn die Auslösung über die Tastatur oder API erfolgt.',
+		'"cursorSurroundingLines" wird immer erzwungen.',
 		"Legt fest, wann cursorSurroundingLines erzwungen werden soll",
 		"Steuert die Breite des Cursors, wenn `#editor.cursorStyle#` auf `line` festgelegt ist.",
 		"Steuert, ob der Editor das Verschieben einer Auswahl per Drag and Drop zulässt.",
@@ -404,12 +390,12 @@ define("vs/editor/editor.main.nls.de", {
 		"Steuert, ob die verknüpfte Bearbeitung im Editor aktiviert ist. Abhängig von der Sprache werden zugehörige Symbole, z. B. HTML-Tags, während der Bearbeitung aktualisiert.",
 		"Steuert, ob der Editor Links erkennen und anklickbar machen soll.",
 		"Passende Klammern hervorheben",
-		"Ein Multiplikator, der für die Mausrad-Bildlaufereignisse \"deltaX\" und \"deltaY\" verwendet werden soll.",
+		'Ein Multiplikator, der für die Mausrad-Bildlaufereignisse "deltaX" und "deltaY" verwendet werden soll.',
 		"Schriftart des Editors vergrößern, wenn das Mausrad verwendet und die STRG-TASTE gedrückt wird.",
 		"Mehrere Cursor zusammenführen, wenn sie sich überlappen.",
 		"Ist unter Windows und Linux der STRG-Taste und unter macOS der Befehlstaste zugeordnet.",
 		"Ist unter Windows und Linux der ALT-Taste und unter macOS der Wahltaste zugeordnet.",
-		"Der Modifizierer, der zum Hinzufügen mehrerer Cursor mit der Maus verwendet werden soll. Die Mausgesten \"Gehe zu Definition\" und \"Link öffnen\" werden so angepasst, dass sie nicht mit dem [Multicursormodifizierer](https://code.visualstudio.com/docs/editor/codebasics#_multicursor-Modifizierer) in Konflikt stehen.",
+		'Der Modifizierer, der zum Hinzufügen mehrerer Cursor mit der Maus verwendet werden soll. Die Mausgesten "Gehe zu Definition" und "Link öffnen" werden so angepasst, dass sie nicht mit dem [Multicursormodifizierer](https://code.visualstudio.com/docs/editor/codebasics#_multicursor-Modifizierer) in Konflikt stehen.',
 		"Jeder Cursor fügt eine Textzeile ein.",
 		"Jeder Cursor fügt den vollständigen Text ein.",
 		"Steuert das Einfügen, wenn die Zeilenanzahl des Einfügetexts der Cursor-Anzahl entspricht.",
@@ -418,10 +404,10 @@ define("vs/editor/editor.main.nls.de", {
 		"Struktur beim Öffnen des Peek-Editors fokussieren",
 		"Editor fokussieren, wenn Sie den Peek-Editor öffnen",
 		"Steuert, ob der Inline-Editor oder die Struktur im Peek-Widget fokussiert werden soll.",
-		"Steuert, ob die Mausgeste \"Gehe zu Definition\" immer das Vorschauwidget öffnet.",
+		'Steuert, ob die Mausgeste "Gehe zu Definition" immer das Vorschauwidget öffnet.',
 		"Steuert die Verzögerung in Millisekunden nach der Schnellvorschläge angezeigt werden.",
 		"Steuert, ob der Editor bei Eingabe automatisch eine Umbenennung vornimmt.",
-		"Veraltet. Verwenden Sie stattdessen \"editor.linkedEditing\".",
+		'Veraltet. Verwenden Sie stattdessen "editor.linkedEditing".',
 		"Steuert, ob der Editor Steuerzeichen rendern soll.",
 		"Letzte Zeilennummer rendern, wenn die Datei mit einem Zeilenumbruch endet.",
 		"Hebt den Bundsteg und die aktuelle Zeile hervor.",
@@ -453,12 +439,12 @@ define("vs/editor/editor.main.nls.de", {
 		"Linienhöhe für das Vorschlagswidget. Bei Festlegung auf {0} wird der Wert von {1} verwendet. Der Mindestwert ist 8.",
 		"Steuert, ob Vorschläge automatisch angezeigt werden sollen, wenn Triggerzeichen eingegeben werden.",
 		"Immer den ersten Vorschlag auswählen.",
-		"Wählen Sie die aktuellsten Vorschläge aus, es sei denn, es wird ein Vorschlag durch eine weitere Eingabe ausgewählt, z.B. \"console.| -> console.log\", weil \"log\" vor Kurzem abgeschlossen wurde.",
-		"Wählen Sie Vorschläge basierend auf früheren Präfixen aus, die diese Vorschläge abgeschlossen haben, z.B. \"co -> console\" und \"con ->\" const\".",
+		'Wählen Sie die aktuellsten Vorschläge aus, es sei denn, es wird ein Vorschlag durch eine weitere Eingabe ausgewählt, z.B. "console.| -> console.log", weil "log" vor Kurzem abgeschlossen wurde.',
+		'Wählen Sie Vorschläge basierend auf früheren Präfixen aus, die diese Vorschläge abgeschlossen haben, z.B. "co -> console" und "con ->" const".',
 		"Steuert, wie Vorschläge bei Anzeige der Vorschlagsliste vorab ausgewählt werden.",
 		"Die Tab-Vervollständigung fügt den passendsten Vorschlag ein, wenn auf Tab gedrückt wird.",
 		"Tab-Vervollständigungen deaktivieren.",
-		"Codeschnipsel per Tab vervollständigen, wenn die Präfixe übereinstimmen. Funktioniert am besten, wenn \"quickSuggestions\" deaktiviert sind.",
+		'Codeschnipsel per Tab vervollständigen, wenn die Präfixe übereinstimmen. Funktioniert am besten, wenn "quickSuggestions" deaktiviert sind.',
 		"Tab-Vervollständigungen aktivieren.",
 		"Ungewöhnliche Zeilenabschlusszeichen werden automatisch entfernt.",
 		"Ungewöhnliche Zeilenabschlusszeichen werden ignoriert.",
@@ -468,10 +454,10 @@ define("vs/editor/editor.main.nls.de", {
 		"Zeichen, die als Worttrennzeichen verwendet werden, wenn wortbezogene Navigationen oder Vorgänge ausgeführt werden.",
 		"Zeilenumbrüche erfolgen nie.",
 		"Der Zeilenumbruch erfolgt an der Breite des Anzeigebereichs.",
-		"Der Zeilenumbruch erfolgt bei \"#editor.wordWrapColumn#\".",
-		"Der Zeilenumbruch erfolgt beim Mindestanzeigebereich und \"#editor.wordWrapColumn\".",
+		'Der Zeilenumbruch erfolgt bei "#editor.wordWrapColumn#".',
+		'Der Zeilenumbruch erfolgt beim Mindestanzeigebereich und "#editor.wordWrapColumn".',
 		"Steuert, wie der Zeilenumbruch durchgeführt werden soll.",
-		"Steuert die umschließende Spalte des Editors, wenn \"#editor.wordWrap#\" den Wert \"wordWrapColumn\" oder \"bounded\" aufweist.",
+		'Steuert die umschließende Spalte des Editors, wenn "#editor.wordWrap#" den Wert "wordWrapColumn" oder "bounded" aufweist.',
 		"Kein Einzug. Umbrochene Zeilen beginnen bei Spalte 1.",
 		"Umbrochene Zeilen erhalten den gleichen Einzug wie das übergeordnete Element.",
 		"Umbrochene Zeilen erhalten + 1 Einzug auf das übergeordnete Element.",
@@ -479,14 +465,14 @@ define("vs/editor/editor.main.nls.de", {
 		"Steuert die Einrückung der umbrochenen Zeilen.",
 		"Es wird angenommen, dass alle Zeichen gleich breit sind. Dies ist ein schneller Algorithmus, der für Festbreitenschriftarten und bestimmte Alphabete (wie dem lateinischen), bei denen die Glyphen gleich breit sind, korrekt funktioniert.",
 		"Delegiert die Berechnung von Umbruchpunkten an den Browser. Dies ist ein langsamer Algorithmus, der bei großen Dateien Code Freezes verursachen kann, aber in allen Fällen korrekt funktioniert.",
-		"Steuert den Algorithmus, der Umbruchpunkte berechnet.",
+		"Steuert den Algorithmus, der Umbruchpunkte berechnet."
 	],
 	"vs/editor/common/core/editorColorRegistry": [
 		"Hintergrundfarbe zur Hervorhebung der Zeile an der Cursorposition.",
 		"Hintergrundfarbe für den Rahmen um die Zeile an der Cursorposition.",
 		"Hintergrundfarbe der markierten Bereiche, wie z.B. Quick Open oder die Suche. Die Farbe darf nicht deckend sein, weil sie sonst die zugrunde liegenden Dekorationen verdeckt.",
 		"Hintergrundfarbe für den Rahmen um hervorgehobene Bereiche.",
-		"Hintergrundfarbe des hervorgehobenen Symbols, z. B. \"Gehe zu Definition\" oder \"Gehe zu nächster/vorheriger\". Die Farbe darf nicht undurchsichtig sein, um zugrunde liegende Dekorationen nicht zu verbergen.",
+		'Hintergrundfarbe des hervorgehobenen Symbols, z. B. "Gehe zu Definition" oder "Gehe zu nächster/vorheriger". Die Farbe darf nicht undurchsichtig sein, um zugrunde liegende Dekorationen nicht zu verbergen.',
 		"Hintergrundfarbe des Rahmens um hervorgehobene Symbole",
 		"Farbe des Cursors im Editor.",
 		"Hintergrundfarbe vom Editor-Cursor. Erlaubt die Anpassung der Farbe von einem Zeichen, welches von einem Block-Cursor überdeckt wird.",
@@ -495,7 +481,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Farbe der Führungslinien für Einzüge im aktiven Editor.",
 		"Zeilennummernfarbe im Editor.",
 		"Zeilennummernfarbe der aktiven Editorzeile.",
-		"Die ID ist veraltet. Verwenden Sie stattdessen \"editorLineNumber.activeForeground\".",
+		'Die ID ist veraltet. Verwenden Sie stattdessen "editorLineNumber.activeForeground".',
 		"Zeilennummernfarbe der aktiven Editorzeile.",
 		"Farbe des Editor-Lineals.",
 		"Vordergrundfarbe der CodeLens-Links im Editor",
@@ -505,7 +491,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Hintergrundfarbe des Editor-Übersichtslineals.",
 		"Hintergrundfarbe der Editorleiste. Die Leiste enthält die Glyphenränder und die Zeilennummern.",
 		"Rahmenfarbe unnötigen (nicht genutzten) Quellcodes im Editor.",
-		"Deckkraft des unnötigen (nicht genutzten) Quellcodes im Editor. \"#000000c0\" rendert z.B. den Code mit einer Deckkraft von 75%. Verwenden Sie für Designs mit hohem Kontrast das Farbdesign \"editorUnnecessaryCode.border\", um unnötigen Code zu unterstreichen statt ihn abzublenden.",
+		'Deckkraft des unnötigen (nicht genutzten) Quellcodes im Editor. "#000000c0" rendert z.B. den Code mit einer Deckkraft von 75%. Verwenden Sie für Designs mit hohem Kontrast das Farbdesign "editorUnnecessaryCode.border", um unnötigen Code zu unterstreichen statt ihn abzublenden.',
 		"Rahmenfarbe des Ghost-Texts im Editor.",
 		"Vordergrundfarbe des Ghost-Texts im Editor.",
 		"Hintergrundfarbe des Ghost-Texts im Editor.",
@@ -533,7 +519,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Hintergrundfarbe der aktiven Klammerpaar-Hilfslinien (5). Erfordert das Aktivieren von Klammerpaar-Hilfslinien.",
 		"Hintergrundfarbe der aktiven Klammerpaar-Hilfslinien (6). Erfordert das Aktivieren von Klammerpaar-Hilfslinien.",
 		"Rahmenfarbe, die zum Hervorheben von Unicode-Zeichen verwendet wird.",
-		"Hintergrundfarbe, die zum Hervorheben von Unicode-Zeichen verwendet wird.",
+		"Hintergrundfarbe, die zum Hervorheben von Unicode-Zeichen verwendet wird."
 	],
 	"vs/editor/common/editorContextKeys": [
 		"Gibt an, ob der Editor-Text den Fokus besitzt (Cursor blinkt).",
@@ -541,7 +527,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Gibt an, ob ein Editor oder eine Rich-Text-Eingabe den Fokus besitzt (Cursor blinkt).",
 		"Gibt an, ob der Editor schreibgeschützt ist.",
 		"Gibt an, ob der Kontext ein Diff-Editor ist.",
-		"Gibt an, ob \"editor.columnSelection\" aktiviert ist.",
+		'Gibt an, ob "editor.columnSelection" aktiviert ist.',
 		"Gibt an, ob im Editor Text ausgewählt ist.",
 		"Gibt an, ob der Editor über Mehrfachauswahl verfügt.",
 		"Gibt an, ob die TAB-TASTE den Fokus aus dem Editor verschiebt.",
@@ -565,21 +551,17 @@ define("vs/editor/editor.main.nls.de", {
 		"Gibt an, ob der Editor über einen Dokumentformatierungsanbieter verfügt.",
 		"Gibt an, ob der Editor über einen Anbieter für Dokumentauswahlformatierung verfügt.",
 		"Gibt an, ob der Editor über mehrere Dokumentformatierungsanbieter verfügt.",
-		"Gibt an, ob der Editor über mehrere Anbieter für Dokumentauswahlformatierung verfügt.",
+		"Gibt an, ob der Editor über mehrere Anbieter für Dokumentauswahlformatierung verfügt."
 	],
-	"vs/editor/common/languages/modesRegistry": [
-		"Nur-Text",
-	],
-	"vs/editor/common/model/editStack": [
-		"Eingabe",
-	],
+	"vs/editor/common/languages/modesRegistry": ["Nur-Text"],
+	"vs/editor/common/model/editStack": ["Eingabe"],
 	"vs/editor/common/standaloneStrings": [
 		"Keine Auswahl",
 		"Zeile {0}, Spalte {1} ({2} ausgewählt)",
 		"Zeile {0}, Spalte {1}",
 		"{0} Auswahlen ({1} Zeichen ausgewählt)",
 		"{0} Auswahlen",
-		"Die Einstellung \"accessibilitySupport\" wird jetzt in \"on\" geändert.",
+		'Die Einstellung "accessibilitySupport" wird jetzt in "on" geändert.',
 		"Die Dokumentationsseite zur Barrierefreiheit des Editors wird geöffnet.",
 		" in einem schreibgeschützten Bereich eines Diff-Editors.",
 		" in einem Bereich eines Diff-Editors.",
@@ -607,28 +589,28 @@ define("vs/editor/editor.main.nls.de", {
 		"Editor-Inhalt",
 		"Drücken Sie ALT + F1, um die Barrierefreiheitsoptionen aufzurufen.",
 		"Zu Design mit hohem Kontrast umschalten",
-		"{0} Bearbeitungen in {1} Dateien durchgeführt",
+		"{0} Bearbeitungen in {1} Dateien durchgeführt"
 	],
 	"vs/editor/contrib/anchorSelect/browser/anchorSelect": [
 		"Auswahlanker",
-		"Anker festgelegt bei \"{0}:{1}\"",
+		'Anker festgelegt bei "{0}:{1}"',
 		"Auswahlanker festlegen",
 		"Zu Auswahlanker wechseln",
 		"Auswahl von Anker zu Cursor",
-		"Auswahlanker abbrechen",
+		"Auswahlanker abbrechen"
 	],
 	"vs/editor/contrib/bracketMatching/browser/bracketMatching": [
 		"Übersichtslineal-Markierungsfarbe für zusammengehörige Klammern.",
 		"Gehe zu Klammer",
 		"Auswählen bis Klammer",
-		"Gehe zu &&Klammer",
+		"Gehe zu &&Klammer"
 	],
 	"vs/editor/contrib/caretOperations/browser/caretOperations": [
 		"Ausgewählten Text nach links verschieben",
-		"Ausgewählten Text nach rechts verschieben",
+		"Ausgewählten Text nach rechts verschieben"
 	],
 	"vs/editor/contrib/caretOperations/browser/transpose": [
-		"Buchstaben austauschen",
+		"Buchstaben austauschen"
 	],
 	"vs/editor/contrib/clipboard/browser/clipboard": [
 		"&&Ausschneiden",
@@ -646,11 +628,11 @@ define("vs/editor/editor.main.nls.de", {
 		"Einfügen",
 		"Einfügen",
 		"Einfügen",
-		"Mit Syntaxhervorhebung kopieren",
+		"Mit Syntaxhervorhebung kopieren"
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionCommands": [
-		"Keine bevorzugten Refactorings für \"{0}\" verfügbar",
-		"Keine Refactorings für \"{0}\" verfügbar",
+		'Keine bevorzugten Refactorings für "{0}" verfügbar',
+		'Keine Refactorings für "{0}" verfügbar',
 		"Keine bevorzugten Refactorings verfügbar",
 		"Keine Refactorings verfügbar",
 		"Art der auszuführenden Codeaktion",
@@ -662,41 +644,41 @@ define("vs/editor/editor.main.nls.de", {
 		"Beim Anwenden der Code-Aktion ist ein unbekannter Fehler aufgetreten",
 		"Schnelle Problembehebung ...",
 		"Keine Codeaktionen verfügbar",
-		"Keine bevorzugten Codeaktionen für \"{0}\" verfügbar",
-		"Keine Codeaktionen für \"{0}\" verfügbar",
+		'Keine bevorzugten Codeaktionen für "{0}" verfügbar',
+		'Keine Codeaktionen für "{0}" verfügbar',
 		"Keine bevorzugten Codeaktionen verfügbar",
 		"Keine Codeaktionen verfügbar",
 		"Refactoring durchführen...",
 		"Mit Vorschau umgestalten...",
 		"Quellaktion...",
-		"Keine bevorzugten Quellaktionen für \"{0}\" verfügbar",
-		"Keine Quellaktionen für \"{0}\" verfügbar",
+		'Keine bevorzugten Quellaktionen für "{0}" verfügbar',
+		'Keine Quellaktionen für "{0}" verfügbar',
 		"Keine bevorzugten Quellaktionen verfügbar",
 		"Keine Quellaktionen verfügbar",
 		"Importe organisieren",
 		"Keine Aktion zum Organisieren von Importen verfügbar",
 		"Alle korrigieren",
-		"Aktion \"Alle korrigieren\" nicht verfügbar",
+		'Aktion "Alle korrigieren" nicht verfügbar',
 		"Automatisch korrigieren...",
-		"Keine automatischen Korrekturen verfügbar",
+		"Keine automatischen Korrekturen verfügbar"
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
 		"Whether the code action list widget is visible",
-		"{0} to Refactor, {1} to Preview",
+		"{0} to Refactor, {1} to Preview"
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"Enabling this adjusts how the code action menu is rendered.",
+		"Enabling this adjusts how the code action menu is rendered."
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"Zeigt Codeaktionen an. Bevorzugte Schnellkorrektur verfügbar ({0})",
 		"Codeaktionen anzeigen ({0})",
-		"Codeaktionen anzeigen",
+		"Codeaktionen anzeigen"
 	],
 	"vs/editor/contrib/codelens/browser/codelensController": [
-		"CodeLens-Befehle für aktuelle Zeile anzeigen",
+		"CodeLens-Befehle für aktuelle Zeile anzeigen"
 	],
 	"vs/editor/contrib/colorPicker/browser/colorPickerWidget": [
-		"Zum Umschalten zwischen Farboptionen (rgb/hsl/hex) klicken",
+		"Zum Umschalten zwischen Farboptionen (rgb/hsl/hex) klicken"
 	],
 	"vs/editor/contrib/comment/browser/comment": [
 		"Zeilenkommentar umschalten",
@@ -704,7 +686,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Zeilenkommentar hinzufügen",
 		"Zeilenkommentar entfernen",
 		"Blockkommentar umschalten",
-		"&&Blockkommentar umschalten",
+		"&&Blockkommentar umschalten"
 	],
 	"vs/editor/contrib/contextmenu/browser/contextmenu": [
 		"Minimap",
@@ -716,20 +698,20 @@ define("vs/editor/editor.main.nls.de", {
 		"Schieberegler",
 		"Maus über",
 		"Immer",
-		"Editor-Kontextmenü anzeigen",
+		"Editor-Kontextmenü anzeigen"
 	],
 	"vs/editor/contrib/copyPaste/browser/copyPasteContribution": [
-		"Aktivieren/Deaktivieren der Ausführung von Bearbeitungen von Erweiterungen beim Einfügen.",
+		"Aktivieren/Deaktivieren der Ausführung von Bearbeitungen von Erweiterungen beim Einfügen."
 	],
 	"vs/editor/contrib/cursorUndo/browser/cursorUndo": [
 		"Mit Cursor rückgängig machen",
-		"Wiederholen mit Cursor",
+		"Wiederholen mit Cursor"
 	],
 	"vs/editor/contrib/dropIntoEditor/browser/dropIntoEditorContribution": [
-		"Drophandler werden ausgeführt...",
+		"Drophandler werden ausgeführt..."
 	],
 	"vs/editor/contrib/editorState/browser/keybindingCancellation": [
-		"Gibt an, ob der Editor einen abbrechbaren Vorgang ausführt, z. B. \"Verweisvorschau\".",
+		'Gibt an, ob der Editor einen abbrechbaren Vorgang ausführt, z. B. "Verweisvorschau".'
 	],
 	"vs/editor/contrib/find/browser/findController": [
 		"Suchen",
@@ -745,16 +727,16 @@ define("vs/editor/editor.main.nls.de", {
 		"Nächste Auswahl suchen",
 		"Vorherige Auswahl suchen",
 		"Ersetzen",
-		"&&Ersetzen",
+		"&&Ersetzen"
 	],
 	"vs/editor/contrib/find/browser/findWidget": [
-		"Symbol für \"In Auswahl suchen\" im Editor-Such-Widget.",
+		'Symbol für "In Auswahl suchen" im Editor-Such-Widget.',
 		"Symbol für die Anzeige, dass das Editor-Such-Widget zugeklappt wurde.",
 		"Symbol für die Anzeige, dass das Editor-Such-Widget aufgeklappt wurde.",
-		"Symbol für \"Ersetzen\" im Editor-Such-Widget.",
-		"Symbol für \"Alle ersetzen\" im Editor-Such-Widget.",
-		"Symbol für \"Vorheriges Element suchen\" im Editor-Such-Widget.",
-		"Symbol für \"Nächstes Element suchen\" im Editor-Such-Widget.",
+		'Symbol für "Ersetzen" im Editor-Such-Widget.',
+		'Symbol für "Alle ersetzen" im Editor-Such-Widget.',
+		'Symbol für "Vorheriges Element suchen" im Editor-Such-Widget.',
+		'Symbol für "Nächstes Element suchen" im Editor-Such-Widget.',
 		"Suchen",
 		"Suchen",
 		"Vorherige Übereinstimmung",
@@ -770,10 +752,10 @@ define("vs/editor/editor.main.nls.de", {
 		"{0} von {1}",
 		"Keine Ergebnisse",
 		"{0} gefunden",
-		"{0} für \"{1}\" gefunden",
-		"{0} für \"{1}\" gefunden, bei {2}",
-		"{0} für \"{1}\" gefunden",
-		"STRG+EINGABE fügt jetzt einen Zeilenumbruch ein, statt alles zu ersetzen. Sie können die Tastenzuordnung für \"editor.action.replaceAll\" ändern, um dieses Verhalten außer Kraft zu setzen.",
+		'{0} für "{1}" gefunden',
+		'{0} für "{1}" gefunden, bei {2}',
+		'{0} für "{1}" gefunden',
+		'STRG+EINGABE fügt jetzt einen Zeilenumbruch ein, statt alles zu ersetzen. Sie können die Tastenzuordnung für "editor.action.replaceAll" ändern, um dieses Verhalten außer Kraft zu setzen.'
 	],
 	"vs/editor/contrib/folding/browser/folding": [
 		"Die Anzahl der faltbaren Regionen ist auf maximal {0} beschränkt. Erhöhen Sie die Konfigurationsoption [“Maximale faltbare Regionen“](command:workbench.action.openSettings?[“editor.foldingMaximumRegions“]) um weitere zu ermöglichen.",
@@ -796,28 +778,28 @@ define("vs/editor/editor.main.nls.de", {
 		"Manuelle Faltbereiche entfernen",
 		"Faltebene {0}",
 		"Hintergrundfarbe hinter gefalteten Bereichen. Die Farbe darf nicht deckend sein, sodass zugrunde liegende Dekorationen nicht ausgeblendet werden.",
-		"Farbe des Faltsteuerelements im Editor-Bundsteg.",
+		"Farbe des Faltsteuerelements im Editor-Bundsteg."
 	],
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"Symbol für aufgeklappte Bereiche im Editor-Glyphenrand.",
 		"Symbol für zugeklappte Bereiche im Editor-Glyphenrand.",
 		"Symbol für manuell reduzierte Bereiche im Glyphenrand des Editors.",
-		"Symbol für manuell erweiterte Bereiche im Glyphenrand des Editors.",
+		"Symbol für manuell erweiterte Bereiche im Glyphenrand des Editors."
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"Editorschriftart vergrößern",
 		"Editorschriftart verkleinern",
-		"Editor Schriftart Vergrößerung zurücksetzen",
+		"Editor Schriftart Vergrößerung zurücksetzen"
 	],
 	"vs/editor/contrib/format/browser/format": [
 		"1 Formatierung in Zeile {0} vorgenommen",
 		"{0} Formatierungen in Zeile {1} vorgenommen",
 		"1 Formatierung zwischen Zeilen {0} und {1} vorgenommen",
-		"{0} Formatierungen zwischen Zeilen {1} und {2} vorgenommen",
+		"{0} Formatierungen zwischen Zeilen {1} und {2} vorgenommen"
 	],
 	"vs/editor/contrib/format/browser/formatActions": [
 		"Dokument formatieren",
-		"Auswahl formatieren",
+		"Auswahl formatieren"
 	],
 	"vs/editor/contrib/gotoError/browser/gotoError": [
 		"Gehe zu nächstem Problem (Fehler, Warnung, Information)",
@@ -827,7 +809,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Gehe zu dem nächsten Problem in den Dateien (Fehler, Warnung, Info)",
 		"Nächstes &&Problem",
 		"Gehe zu dem vorherigen Problem in den Dateien (Fehler, Warnung, Info)",
-		"Vorheriges &&Problem",
+		"Vorheriges &&Problem"
 	],
 	"vs/editor/contrib/gotoError/browser/gotoErrorWidget": [
 		"Fehler",
@@ -843,34 +825,34 @@ define("vs/editor/editor.main.nls.de", {
 		"Hintergrund der Warnungsüberschrift des Markernavigationswidgets im Editor.",
 		"Editormarkierung: Farbe bei Information des Navigationswidgets.",
 		"Hintergrund der Informationsüberschrift des Markernavigationswidgets im Editor.",
-		"Editormarkierung: Hintergrund des Navigationswidgets.",
+		"Editormarkierung: Hintergrund des Navigationswidgets."
 	],
 	"vs/editor/contrib/gotoSymbol/browser/goToCommands": [
 		"Vorschau",
 		"Definitionen",
-		"Keine Definition gefunden für \"{0}\".",
+		'Keine Definition gefunden für "{0}".',
 		"Keine Definition gefunden",
 		"Gehe zu Definition",
 		"Definition an der Seite öffnen",
 		"Definition einsehen",
 		"Deklarationen",
-		"Keine Deklaration für \"{0}\" gefunden.",
+		'Keine Deklaration für "{0}" gefunden.',
 		"Keine Deklaration gefunden.",
 		"Zur Deklaration wechseln",
-		"Keine Deklaration für \"{0}\" gefunden.",
+		'Keine Deklaration für "{0}" gefunden.',
 		"Keine Deklaration gefunden.",
 		"Vorschau für Deklaration anzeigen",
 		"Typdefinitionen",
-		"Keine Typendefinition gefunden für \"{0}\"",
+		'Keine Typendefinition gefunden für "{0}"',
 		"Keine Typendefinition gefunden",
 		"Zur Typdefinition wechseln",
 		"Vorschau der Typdefinition anzeigen",
 		"Implementierungen",
-		"Keine Implementierung gefunden für \"{0}\"",
+		'Keine Implementierung gefunden für "{0}"',
 		"Keine Implementierung gefunden",
 		"Gehe zu Implementierungen",
 		"Vorschau für Implementierungen anzeigen",
-		"Für \"{0}\" wurden keine Verweise gefunden.",
+		'Für "{0}" wurden keine Verweise gefunden.',
 		"Keine Referenzen gefunden",
 		"Gehe zu Verweisen",
 		"Verweise",
@@ -878,65 +860,65 @@ define("vs/editor/editor.main.nls.de", {
 		"Verweise",
 		"Zum beliebigem Symbol wechseln",
 		"Speicherorte",
-		"Keine Ergebnisse für \"{0}\"",
+		'Keine Ergebnisse für "{0}"',
 		"Verweise",
 		"Gehe &&zu Definition",
 		"Gehe zu &&Deklaration",
 		"Zur &&Typdefinition wechseln",
 		"Gehe zu &&Implementierungen",
-		"Gehe zu &&Verweisen",
+		"Gehe zu &&Verweisen"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/link/goToDefinitionAtPosition": [
-		"Klicken Sie, um {0} Definitionen anzuzeigen.",
+		"Klicken Sie, um {0} Definitionen anzuzeigen."
 	],
 	"vs/editor/contrib/gotoSymbol/browser/peek/referencesController": [
-		"Gibt an, ob die Verweisvorschau sichtbar ist, z. B. \"Verweisvorschau\" oder \"Definition einsehen\".",
+		'Gibt an, ob die Verweisvorschau sichtbar ist, z. B. "Verweisvorschau" oder "Definition einsehen".',
 		"Wird geladen...",
-		"{0} ({1})",
+		"{0} ({1})"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/peek/referencesTree": [
 		"{0} Verweise",
 		"{0} Verweis",
-		"Verweise",
+		"Verweise"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/peek/referencesWidget": [
 		"Keine Vorschau verfügbar.",
 		"Keine Ergebnisse",
-		"Verweise",
+		"Verweise"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/referencesModel": [
 		"Symbol in {0} in Zeile {1}, Spalte {2}",
-		"Symbol in \"{0}\" in Zeile {1}, Spalte {2}, {3}",
+		'Symbol in "{0}" in Zeile {1}, Spalte {2}, {3}',
 		"1 Symbol in {0}, vollständiger Pfad {1}",
 		"{0} Symbole in {1}, vollständiger Pfad {2}",
 		"Es wurden keine Ergebnisse gefunden.",
 		"1 Symbol in {0} gefunden",
 		"{0} Symbole in {1} gefunden",
-		"{0} Symbole in {1} Dateien gefunden",
+		"{0} Symbole in {1} Dateien gefunden"
 	],
 	"vs/editor/contrib/gotoSymbol/browser/symbolNavigation": [
 		"Gibt an, ob Symbolpositionen vorliegen, bei denen die Navigation nur über die Tastatur möglich ist.",
 		"Symbol {0} von {1}, {2} für nächstes",
-		"Symbol {0} von {1}",
+		"Symbol {0} von {1}"
 	],
 	"vs/editor/contrib/hover/browser/hover": [
 		"Hovern anzeigen",
-		"Definitionsvorschauhover anzeigen",
+		"Definitionsvorschauhover anzeigen"
 	],
 	"vs/editor/contrib/hover/browser/markdownHoverParticipant": [
 		"Wird geladen...",
-		"Die Tokenisierung wird bei langen Zeilen aus Leistungsgründen übersprungen. Dies kann über „editor.maxTokenizationLineLength“ konfiguriert werden.",
+		"Die Tokenisierung wird bei langen Zeilen aus Leistungsgründen übersprungen. Dies kann über „editor.maxTokenizationLineLength“ konfiguriert werden."
 	],
 	"vs/editor/contrib/hover/browser/markerHoverParticipant": [
 		"Problem anzeigen",
 		"Keine Schnellkorrekturen verfügbar",
 		"Es wird nach Schnellkorrekturen gesucht...",
 		"Keine Schnellkorrekturen verfügbar",
-		"Schnelle Problembehebung ...",
+		"Schnelle Problembehebung ..."
 	],
 	"vs/editor/contrib/inPlaceReplace/browser/inPlaceReplace": [
 		"Durch vorherigen Wert ersetzen",
-		"Durch nächsten Wert ersetzen",
+		"Durch nächsten Wert ersetzen"
 	],
 	"vs/editor/contrib/indentation/browser/indentation": [
 		"Einzug in Leerzeichen konvertieren",
@@ -947,7 +929,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Einzug mithilfe von Leerzeichen",
 		"Einzug aus Inhalt erkennen",
 		"Neuen Einzug für Zeilen festlegen",
-		"Gewählte Zeilen zurückziehen",
+		"Gewählte Zeilen zurückziehen"
 	],
 	"vs/editor/contrib/inlayHints/browser/inlayHintsHover": [
 		"Zum Einfügen doppelklicken",
@@ -957,7 +939,7 @@ define("vs/editor/editor.main.nls.de", {
 		"ALT + Klicken",
 		"Wechseln Sie zu Definition ({0}), klicken Sie mit der rechten Maustaste, um weitere Informationen zu finden.",
 		"Gehe zu Definition ({0})",
-		"Befehl ausführen",
+		"Befehl ausführen"
 	],
 	"vs/editor/contrib/inlineCompletions/browser/ghostTextController": [
 		"Gibt an, ob ein Inline-Vorschlag sichtbar ist.",
@@ -965,16 +947,16 @@ define("vs/editor/editor.main.nls.de", {
 		"Ob der Inline-Vorschlag mit Leerzeichen beginnt, das kleiner ist als das, was durch die Tabulatortaste eingefügt werden würde",
 		"Nächsten Inline-Vorschlag anzeigen",
 		"Vorherigen Inline-Vorschlag anzeigen",
-		"Inline-Vorschlag auslösen",
+		"Inline-Vorschlag auslösen"
 	],
 	"vs/editor/contrib/inlineCompletions/browser/ghostTextHoverParticipant": [
 		"Weiter",
 		"Zurück",
 		"Annehmen",
-		"Vorschlag:",
+		"Vorschlag:"
 	],
 	"vs/editor/contrib/lineSelection/browser/lineSelection": [
-		"Zeilenauswahl erweitern",
+		"Zeilenauswahl erweitern"
 	],
 	"vs/editor/contrib/linesOperations/browser/linesOperations": [
 		"Zeile nach oben kopieren",
@@ -1004,11 +986,11 @@ define("vs/editor/editor.main.nls.de", {
 		"In Kleinbuchstaben umwandeln",
 		"In große Anfangsbuchstaben umwandeln",
 		"In Snake Case umwandeln",
-		"Verwandle dich in eine Kebab-Hülle",
+		"Verwandle dich in eine Kebab-Hülle"
 	],
 	"vs/editor/contrib/linkedEditing/browser/linkedEditing": [
 		"Verknüpfte Bearbeitung starten",
-		"Hintergrundfarbe, wenn der Editor automatisch nach Typ umbenennt.",
+		"Hintergrundfarbe, wenn der Editor automatisch nach Typ umbenennt."
 	],
 	"vs/editor/contrib/links/browser/links": [
 		"Fehler beim Öffnen dieses Links, weil er nicht wohlgeformt ist: {0}",
@@ -1019,11 +1001,11 @@ define("vs/editor/editor.main.nls.de", {
 		"STRG + Klicken",
 		"OPTION + Klicken",
 		"alt + klicken",
-		"Führen Sie den Befehl \"{0}\" aus.",
-		"Link öffnen",
+		'Führen Sie den Befehl "{0}" aus.',
+		"Link öffnen"
 	],
 	"vs/editor/contrib/message/browser/messageController": [
-		"Gibt an, ob der Editor zurzeit eine Inlinenachricht anzeigt.",
+		"Gibt an, ob der Editor zurzeit eine Inlinenachricht anzeigt."
 	],
 	"vs/editor/contrib/multicursor/browser/multicursor": [
 		"Hinzugefügter Cursor: {0}",
@@ -1048,16 +1030,16 @@ define("vs/editor/editor.main.nls.de", {
 		"Fokus auf nächsten Cursor",
 		"Fokussiert den nächsten Cursor",
 		"Fokus auf vorherigen Cursor",
-		"Fokussiert den vorherigen Cursor",
+		"Fokussiert den vorherigen Cursor"
 	],
 	"vs/editor/contrib/parameterHints/browser/parameterHints": [
-		"Parameterhinweise auslösen",
+		"Parameterhinweise auslösen"
 	],
 	"vs/editor/contrib/parameterHints/browser/parameterHintsWidget": [
 		"Symbol für die Anzeige des nächsten Parameterhinweises.",
 		"Symbol für die Anzeige des vorherigen Parameterhinweises.",
 		"{0}, Hinweis",
-		"Vordergrundfarbe des aktiven Elements im Parameterhinweis.",
+		"Vordergrundfarbe des aktiven Elements im Parameterhinweis."
 	],
 	"vs/editor/contrib/peekView/browser/peekView": [
 		"Gibt an, ob der aktuelle Code-Editor in der Vorschau eingebettet ist.",
@@ -1075,14 +1057,14 @@ define("vs/editor/editor.main.nls.de", {
 		"Hintergrundfarbe der Leiste im Peek-Editor.",
 		"Farbe für Übereinstimmungsmarkierungen in der Ergebnisliste der Peek-Ansicht.",
 		"Farbe für Übereinstimmungsmarkierungen im Peek-Editor.",
-		"Rahmen für Übereinstimmungsmarkierungen im Peek-Editor.",
+		"Rahmen für Übereinstimmungsmarkierungen im Peek-Editor."
 	],
 	"vs/editor/contrib/quickAccess/browser/gotoLineQuickAccess": [
 		"Öffnen Sie zuerst einen Text-Editor, um zu einer Zeile zu wechseln.",
 		"Wechseln Sie zu Zeile {0} und Zeichen {1}.",
 		"Zu Zeile {0} wechseln.",
 		"Aktuelle Zeile: {0}, Zeichen: {1}. Geben Sie eine Zeilennummer zwischen 1 und {2} ein, zu der Sie navigieren möchten.",
-		"Aktuelle Zeile: {0}, Zeichen: {1}. Geben Sie eine Zeilennummer ein, zu der Sie navigieren möchten.",
+		"Aktuelle Zeile: {0}, Zeichen: {1}. Geben Sie eine Zeilennummer ein, zu der Sie navigieren möchten."
 	],
 	"vs/editor/contrib/quickAccess/browser/gotoSymbolQuickAccess": [
 		"Öffnen Sie zunächst einen Text-Editor mit Symbolinformationen, um zu einem Symbol zu navigieren.",
@@ -1117,39 +1099,39 @@ define("vs/editor/editor.main.nls.de", {
 		"Objekte ({0})",
 		"Schlüssel ({0})",
 		"Felder ({0})",
-		"Konstanten ({0})",
+		"Konstanten ({0})"
 	],
 	"vs/editor/contrib/readOnlyMessage/browser/contribution": [
 		"Bearbeitung von schreibgeschützter Eingabe nicht möglich",
-		"Ein Bearbeiten ist im schreibgeschützten Editor nicht möglich",
+		"Ein Bearbeiten ist im schreibgeschützten Editor nicht möglich"
 	],
 	"vs/editor/contrib/rename/browser/rename": [
 		"Kein Ergebnis.",
 		"Ein unbekannter Fehler ist beim Auflösen der Umbenennung eines Ortes aufgetreten.",
-		"\'{0}\' wird in \'{1}\' umbenannt",
+		"'{0}' wird in '{1}' umbenannt",
 		"{0} wird in {1} umbenannt.",
-		"\"{0}\" erfolgreich in \"{1}\" umbenannt. Zusammenfassung: {2}",
+		'"{0}" erfolgreich in "{1}" umbenannt. Zusammenfassung: {2}',
 		"Die rename-Funktion konnte die Änderungen nicht anwenden.",
 		"Die rename-Funktion konnte die Änderungen nicht berechnen.",
 		"Symbol umbenennen",
-		"Möglichkeit aktivieren/deaktivieren, Änderungen vor dem Umbenennen als Vorschau anzeigen zu lassen",
+		"Möglichkeit aktivieren/deaktivieren, Änderungen vor dem Umbenennen als Vorschau anzeigen zu lassen"
 	],
 	"vs/editor/contrib/rename/browser/renameInputField": [
 		"Gibt an, ob das Widget zum Umbenennen der Eingabe sichtbar ist.",
 		"Benennen Sie die Eingabe um. Geben Sie einen neuen Namen ein, und drücken Sie die EINGABETASTE, um den Commit auszuführen.",
-		"{0} zur Umbenennung, {1} zur Vorschau",
+		"{0} zur Umbenennung, {1} zur Vorschau"
 	],
 	"vs/editor/contrib/smartSelect/browser/smartSelect": [
 		"Auswahl aufklappen",
 		"Auswahl &&erweitern",
 		"Markierung verkleinern",
-		"Au&&swahl verkleinern",
+		"Au&&swahl verkleinern"
 	],
 	"vs/editor/contrib/snippet/browser/snippetController2": [
 		"Gibt an, ob der Editor sich zurzeit im Schnipselmodus befindet.",
 		"Gibt an, ob ein nächster Tabstopp im Schnipselmodus vorhanden ist.",
 		"Gibt an, ob ein vorheriger Tabstopp im Schnipselmodus vorhanden ist.",
-		"Zum nächsten Platzhalter wechseln...",
+		"Zum nächsten Platzhalter wechseln..."
 	],
 	"vs/editor/contrib/snippet/browser/snippetVariables": [
 		"Sonntag",
@@ -1189,7 +1171,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Sep",
 		"Okt",
 		"Nov",
-		"Dez",
+		"Dez"
 	],
 	"vs/editor/contrib/suggest/browser/suggest": [
 		"Gibt an, ob ein Vorschlag fokussiert ist",
@@ -1199,10 +1181,10 @@ define("vs/editor/editor.main.nls.de", {
 		"Gibt an, ob Vorschläge durch Drücken der EINGABETASTE eingefügt werden.",
 		"Gibt an, ob der aktuelle Vorschlag Verhalten zum Einfügen und Ersetzen aufweist.",
 		"Gibt an, ob Einfügen oder Ersetzen als Standardverhalten verwendet wird.",
-		"Gibt an, ob der aktuelle Vorschlag die Auflösung weiterer Details unterstützt.",
+		"Gibt an, ob der aktuelle Vorschlag die Auflösung weiterer Details unterstützt."
 	],
 	"vs/editor/contrib/suggest/browser/suggestController": [
-		"Das Akzeptieren von \"{0}\" ergab {1} zusätzliche Bearbeitungen.",
+		'Das Akzeptieren von "{0}" ergab {1} zusätzliche Bearbeitungen.',
 		"Vorschlag auslösen",
 		"Einfügen",
 		"Einfügen",
@@ -1211,7 +1193,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Einfügen",
 		"weniger anzeigen",
 		"mehr anzeigen",
-		"Größe des Vorschlagswidgets zurücksetzen",
+		"Größe des Vorschlagswidgets zurücksetzen"
 	],
 	"vs/editor/contrib/suggest/browser/suggestWidget": [
 		"Hintergrundfarbe des Vorschlagswidgets.",
@@ -1229,19 +1211,17 @@ define("vs/editor/editor.main.nls.de", {
 		"{0}{1}, {2}",
 		"{0}{1}",
 		"{0}, {1}",
-		"{0}, Dokumente: {1}",
+		"{0}, Dokumente: {1}"
 	],
 	"vs/editor/contrib/suggest/browser/suggestWidgetDetails": [
 		"Schließen",
-		"Wird geladen...",
+		"Wird geladen..."
 	],
 	"vs/editor/contrib/suggest/browser/suggestWidgetRenderer": [
 		"Symbol für weitere Informationen im Vorschlags-Widget.",
-		"Weitere Informationen",
+		"Weitere Informationen"
 	],
-	"vs/editor/contrib/suggest/browser/suggestWidgetStatus": [
-		"{0} ({1})",
-	],
+	"vs/editor/contrib/suggest/browser/suggestWidgetStatus": ["{0} ({1})"],
 	"vs/editor/contrib/symbolIcons/browser/symbolIcons": [
 		"Die Vordergrundfarbe für Arraysymbole. Diese Symbole werden in den Widgets für Gliederung, Breadcrumbs und Vorschläge angezeigt.",
 		"Die Vordergrundfarbe für boolesche Symbole. Diese Symbole werden in den Widgets für Gliederung, Breadcrumbs und Vorschläge angezeigt.",
@@ -1275,15 +1255,15 @@ define("vs/editor/editor.main.nls.de", {
 		"Die Vordergrundfarbe für Textsymbole. Diese Symbole werden in den Widgets für Gliederung, Breadcrumbs und Vorschläge angezeigt.",
 		"Die Vordergrundfarbe für Typparametersymbole. Diese Symbole werden in den Widgets für Gliederung, Breadcrumbs und Vorschläge angezeigt.",
 		"Die Vordergrundfarbe für Einheitensymbole. Diese Symbole werden in den Widgets für Gliederung, Breadcrumbs und Vorschläge angezeigt.",
-		"Die Vordergrundfarbe für variable Symbole. Diese Symbole werden in den Widgets für Gliederung, Breadcrumbs und Vorschläge angezeigt.",
+		"Die Vordergrundfarbe für variable Symbole. Diese Symbole werden in den Widgets für Gliederung, Breadcrumbs und Vorschläge angezeigt."
 	],
 	"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
 		"TAB-Umschalttaste verschiebt Fokus",
 		"Beim Drücken auf Tab wird der Fokus jetzt auf das nächste fokussierbare Element verschoben",
-		"Beim Drücken von Tab wird jetzt das Tabulator-Zeichen eingefügt",
+		"Beim Drücken von Tab wird jetzt das Tabulator-Zeichen eingefügt"
 	],
 	"vs/editor/contrib/tokenization/browser/tokenization": [
-		"Entwickler: Force Retokenize",
+		"Entwickler: Force Retokenize"
 	],
 	"vs/editor/contrib/unicodeHighlighter/browser/unicodeHighlighter": [
 		"Symbol, das mit einer Warnmeldung im Erweiterungs-Editor angezeigt wird.",
@@ -1308,14 +1288,14 @@ define("vs/editor/editor.main.nls.de", {
 		"{0} (unsichtbares Zeichen) von der Hervorhebung ausschließen",
 		"{0} nicht hervorheben",
 		"Unicodezeichen zulassen, die in der Sprache „{0}“ häufiger vorkommen.",
-		"Konfigurieren der Optionen für die Unicode-Hervorhebung",
+		"Konfigurieren der Optionen für die Unicode-Hervorhebung"
 	],
 	"vs/editor/contrib/unusualLineTerminators/browser/unusualLineTerminators": [
 		"Ungewöhnliche Zeilentrennzeichen",
 		"Ungewöhnliche Zeilentrennzeichen erkannt",
-		"Die Datei \"{0}\" enthält mindestens ein ungewöhnliches Zeilenabschlusszeichen, z. B. Zeilentrennzeichen (LS) oder Absatztrennzeichen (PS).\r\n\r\nEs wird empfohlen, sie aus der Datei zu entfernen. Dies kann über \"editor.unusualLineTerminators\" konfiguriert werden.",
+		'Die Datei "{0}" enthält mindestens ein ungewöhnliches Zeilenabschlusszeichen, z. B. Zeilentrennzeichen (LS) oder Absatztrennzeichen (PS).\r\n\r\nEs wird empfohlen, sie aus der Datei zu entfernen. Dies kann über "editor.unusualLineTerminators" konfiguriert werden.',
 		"Entfernen ungewöhnlicher Zeilenabschlusszeichen",
-		"Ignorieren",
+		"Ignorieren"
 	],
 	"vs/editor/contrib/wordHighlighter/browser/wordHighlighter": [
 		"Hintergrundfarbe eines Symbols beim Lesezugriff, z.B. beim Lesen einer Variablen. Die Farbe darf nicht deckend sein, damit sie nicht die zugrunde liegenden Dekorationen verdeckt.",
@@ -1326,19 +1306,15 @@ define("vs/editor/editor.main.nls.de", {
 		"Übersichtslinealmarkerfarbe für Symbolhervorhebungen bei Schreibzugriff. Die Farbe darf nicht deckend sein, weil sie sonst die zugrunde liegenden Dekorationen verdeckt.",
 		"Gehe zur nächsten Symbolhervorhebungen",
 		"Gehe zur vorherigen Symbolhervorhebungen",
-		"Symbol-Hervorhebung ein-/ausschalten",
+		"Symbol-Hervorhebung ein-/ausschalten"
 	],
-	"vs/editor/contrib/wordOperations/browser/wordOperations": [
-		"Wort löschen",
-	],
+	"vs/editor/contrib/wordOperations/browser/wordOperations": ["Wort löschen"],
 	"vs/platform/actions/browser/menuEntryActionViewItem": [
 		"{0} ({1})",
 		"{0} ({1})",
-		"{0}\r\n[{1}] {2}",
+		"{0}\r\n[{1}] {2}"
 	],
-	"vs/platform/actions/common/menuService": [
-		"\"{0}\" ausblenden",
-	],
+	"vs/platform/actions/common/menuService": ['"{0}" ausblenden'],
 	"vs/platform/configuration/common/configurationRegistry": [
 		"Außerkraftsetzungen für die Standardsprachkonfiguration",
 		"Konfigurieren Sie Einstellungen, die für die Sprache {0} überschrieben werden sollen.",
@@ -1347,12 +1323,12 @@ define("vs/editor/editor.main.nls.de", {
 		"Zu überschreibende Editor-Einstellungen für eine Sprache konfigurieren.",
 		"Diese Einstellung unterstützt keine sprachspezifische Konfiguration.",
 		"Eine leere Eigenschaft kann nicht registriert werden.",
-		"\"{0}\" kann nicht registriert werden. Stimmt mit dem Eigenschaftsmuster \"\\\\[.*\\\\]$\" zum Beschreiben sprachspezifischer Editor-Einstellungen überein. Verwenden Sie den Beitrag \"configurationDefaults\".",
-		"{0}\" kann nicht registriert werden. Diese Eigenschaft ist bereits registriert.",
-		"\"{0}\" kann nicht registriert werden. Die zugeordnete Richtlinie {1} ist bereits bei {2} registriert.",
+		'"{0}" kann nicht registriert werden. Stimmt mit dem Eigenschaftsmuster "\\\\[.*\\\\]$" zum Beschreiben sprachspezifischer Editor-Einstellungen überein. Verwenden Sie den Beitrag "configurationDefaults".',
+		'{0}" kann nicht registriert werden. Diese Eigenschaft ist bereits registriert.',
+		'"{0}" kann nicht registriert werden. Die zugeordnete Richtlinie {1} ist bereits bei {2} registriert.'
 	],
 	"vs/platform/contextkey/browser/contextKeyService": [
-		"Ein Befehl, der Informationen zu Kontextschlüsseln zurückgibt",
+		"Ein Befehl, der Informationen zu Kontextschlüsseln zurückgibt"
 	],
 	"vs/platform/contextkey/common/contextkeys": [
 		"Gibt an, ob macOS als Betriebssystem verwendet wird.",
@@ -1362,26 +1338,26 @@ define("vs/editor/editor.main.nls.de", {
 		"Gibt an, ob macOS auf einer Nicht-Browser-Plattform als Betriebssystem verwendet wird.",
 		"Gibt an, ob iOS als Betriebssystem verwendet wird.",
 		"Qualitätstyp des VS Codes",
-		"Gibt an, ob sich der Tastaturfokus in einem Eingabefeld befindet.",
+		"Gibt an, ob sich der Tastaturfokus in einem Eingabefeld befindet."
 	],
 	"vs/platform/history/browser/contextScopedHistoryWidget": [
-		"Gibt an, ob Vorschläge sichtbar sind.",
+		"Gibt an, ob Vorschläge sichtbar sind."
 	],
 	"vs/platform/keybinding/common/abstractKeybindingService": [
 		"({0}) wurde gedrückt. Es wird auf die zweite Taste in der Kombination gewartet...",
-		"Die Tastenkombination ({0}, {1}) ist kein Befehl.",
+		"Die Tastenkombination ({0}, {1}) ist kein Befehl."
 	],
 	"vs/platform/list/browser/listService": [
 		"Workbench",
 		"Ist unter Windows und Linux der STRG-Taste und unter macOS der Befehlstaste zugeordnet.",
 		"Ist unter Windows und Linux der ALT-Taste und unter macOS der Wahltaste zugeordnet.",
-		"Der Modifizierer zum Hinzufügen eines Elements in Bäumen und Listen zu einer Mehrfachauswahl mit der Maus (zum Beispiel im Explorer, in geöffneten Editoren und in der SCM-Ansicht). Die Mausbewegung \"Seitlich öffnen\" wird – sofern unterstützt – so angepasst, dass kein Konflikt mit dem Modifizierer für Mehrfachauswahl entsteht.",
+		'Der Modifizierer zum Hinzufügen eines Elements in Bäumen und Listen zu einer Mehrfachauswahl mit der Maus (zum Beispiel im Explorer, in geöffneten Editoren und in der SCM-Ansicht). Die Mausbewegung "Seitlich öffnen" wird – sofern unterstützt – so angepasst, dass kein Konflikt mit dem Modifizierer für Mehrfachauswahl entsteht.',
 		"Steuert, wie Elemente in Strukturen und Listen mithilfe der Maus geöffnet werden (sofern unterstützt). Bei übergeordneten Elementen, deren untergeordnete Elemente sich in Strukturen befinden, steuert diese Einstellung, ob ein Einfachklick oder ein Doppelklick das übergeordnete Elemente erweitert. Beachten Sie, dass einige Strukturen und Listen diese Einstellung ggf. ignorieren, wenn sie nicht zutrifft.",
 		"Steuert, ob Listen und Strukturen ein horizontales Scrollen in der Workbench unterstützen. Warnung: Das Aktivieren dieser Einstellung kann sich auf die Leistung auswirken.",
 		"Steuert den Struktureinzug in Pixeln.",
 		"Steuert, ob die Struktur Einzugsführungslinien rendern soll.",
 		"Steuert, ob Listen und Strukturen einen optimierten Bildlauf verwenden.",
-		"Ein Multiplikator, der für die Mausrad-Bildlaufereignisse \"deltaX\" und \"deltaY\" verwendet werden soll.",
+		'Ein Multiplikator, der für die Mausrad-Bildlaufereignisse "deltaX" und "deltaY" verwendet werden soll.',
 		"Multiplikator für Scrollgeschwindigkeit bei Drücken von ALT.",
 		"Elemente beim Suchen hervorheben. Die Navigation nach oben und unten durchläuft dann nur die markierten Elemente.",
 		"Filterelemente bei der Suche.",
@@ -1389,24 +1365,18 @@ define("vs/editor/editor.main.nls.de", {
 		"Bei der einfachen Tastaturnavigation werden Elemente in den Fokus genommen, die mit der Tastatureingabe übereinstimmen. Die Übereinstimmungen gelten nur für Präfixe.",
 		"Hervorheben von Tastaturnavigationshervorgebungselemente, die mit der Tastatureingabe übereinstimmen. Beim nach oben und nach unten Navigieren werden nur die hervorgehobenen Elemente durchlaufen.",
 		"Durch das Filtern der Tastaturnavigation werden alle Elemente herausgefiltert und ausgeblendet, die nicht mit der Tastatureingabe übereinstimmen.",
-		"Steuert die Tastaturnavigation in Listen und Strukturen in der Workbench. Kann \"simple\" (einfach), \"highlight\" (hervorheben) und \"filter\" (filtern) sein.",
-		"Bitte verwenden Sie stattdessen \'workbench.list.defaultFindMode\'.",
-		"Steuert, wie Strukturordner beim Klicken auf die Ordnernamen erweitert werden. Beachten Sie, dass einige Strukturen und Listen diese Einstellung ggf. ignorieren, wenn sie nicht zutrifft.",
+		'Steuert die Tastaturnavigation in Listen und Strukturen in der Workbench. Kann "simple" (einfach), "highlight" (hervorheben) und "filter" (filtern) sein.',
+		"Bitte verwenden Sie stattdessen 'workbench.list.defaultFindMode'.",
+		"Steuert, wie Strukturordner beim Klicken auf die Ordnernamen erweitert werden. Beachten Sie, dass einige Strukturen und Listen diese Einstellung ggf. ignorieren, wenn sie nicht zutrifft."
 	],
-	"vs/platform/markers/common/markers": [
-		"Fehler",
-		"Warnung",
-		"Info",
-	],
+	"vs/platform/markers/common/markers": ["Fehler", "Warnung", "Info"],
 	"vs/platform/quickinput/browser/commandsQuickAccess": [
 		"{0}, {1}",
 		"zuletzt verwendet",
 		"andere Befehle",
-		"Der Befehl {0} hat einen Fehler ausgelöst ({1}).",
+		"Der Befehl {0} hat einen Fehler ausgelöst ({1})."
 	],
-	"vs/platform/quickinput/browser/helpQuickAccess": [
-		"{0}, {1}",
-	],
+	"vs/platform/quickinput/browser/helpQuickAccess": ["{0}, {1}"],
 	"vs/platform/theme/common/colorRegistry": [
 		"Allgemeine Vordergrundfarbe. Diese Farbe wird nur verwendet, wenn sie nicht durch eine Komponente überschrieben wird.",
 		"Allgemeine Vordergrundfarbe. Diese Farbe wird nur verwendet, wenn sie nicht durch eine Komponente überschrieben wird.",
@@ -1518,8 +1488,8 @@ define("vs/editor/editor.main.nls.de", {
 		"Hintergrundfarbe von Inlinehinweisen für Typen",
 		"Vordergrundfarbe von Inlinehinweisen für Parameter",
 		"Hintergrundfarbe von Inlinehinweisen für Parameter",
-		"Die für das Aktionssymbol \"Glühbirne\" verwendete Farbe.",
-		"Die für das Aktionssymbol \"Automatische Glühbirnenkorrektur\" verwendete Farbe.",
+		'Die für das Aktionssymbol "Glühbirne" verwendete Farbe.',
+		'Die für das Aktionssymbol "Automatische Glühbirnenkorrektur" verwendete Farbe.',
 		"Hintergrundfarbe für eingefügten Text. Die Farbe darf nicht deckend sein, weil sie sonst die zugrunde liegenden Dekorationen verdeckt.",
 		"Hintergrundfarbe für Text, der entfernt wurde. Die Farbe darf nicht deckend sein, weil sie sonst die zugrunde liegenden Dekorationen verdeckt.",
 		"Hintergrundfarbe für eingefügte Linien. Die Farbe darf nicht deckend sein, um zugrunde liegende Dekorationen nicht auszublenden.",
@@ -1562,7 +1532,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Tabellenrahmenfarbe zwischen Spalten.",
 		"Hintergrundfarbe für ungerade Tabellenzeilen.",
 		"Hintergrundfarbe für nicht hervorgehobene Listen-/Strukturelemente.",
-		"Verwenden Sie stattdessen \"quickInputList.focusBackground\".",
+		'Verwenden Sie stattdessen "quickInputList.focusBackground".',
 		"Die Hintergrundfarbe der Schnellauswahl für das fokussierte Element.",
 		"Die Vordergrundfarbe des Symbols der Schnellauswahl für das fokussierte Element.",
 		"Die Hintergrundfarbe der Schnellauswahl für das fokussierte Element.",
@@ -1617,39 +1587,37 @@ define("vs/editor/editor.main.nls.de", {
 		"Die in Diagrammvisualisierungen verwendete Farbe Gelb.",
 		"Die in Diagrammvisualisierungen verwendete Farbe Orange.",
 		"Die in Diagrammvisualisierungen verwendete Farbe Grün.",
-		"Die in Diagrammvisualisierungen verwendete Farbe Violett.",
+		"Die in Diagrammvisualisierungen verwendete Farbe Violett."
 	],
 	"vs/platform/theme/common/iconRegistry": [
 		"Die ID der zu verwendenden Schriftart. Sofern nicht festgelegt, wird die zuerst definierte Schriftart verwendet.",
 		"Das der Symboldefinition zugeordnete Schriftzeichen.",
 		"Symbol für Aktion zum Schließen in Widgets",
 		"Symbol für den Wechsel zur vorherigen Editor-Position.",
-		"Symbol für den Wechsel zur nächsten Editor-Position.",
+		"Symbol für den Wechsel zur nächsten Editor-Position."
 	],
 	"vs/platform/undoRedo/common/undoRedoService": [
 		"Die folgenden Dateien wurden geschlossen und auf dem Datenträger geändert: {0}.",
 		"Die folgenden Dateien wurden auf inkompatible Weise geändert: {0}.",
-		"\"{0}\" konnte nicht für alle Dateien rückgängig gemacht werden. {1}",
-		"\"{0}\" konnte nicht für alle Dateien rückgängig gemacht werden. {1}",
-		"\"{0}\" konnte nicht für alle Dateien rückgängig gemacht werden, da Änderungen an {1} vorgenommen wurden.",
-		"\"{0}\" konnte nicht für alle Dateien rückgängig gemacht werden, weil bereits ein Vorgang zum Rückgängigmachen oder Wiederholen für \"{1}\" durchgeführt wird.",
-		"\"{0}\" konnte nicht für alle Dateien rückgängig gemacht werden, weil in der Zwischenzeit bereits ein Vorgang zum Rückgängigmachen oder Wiederholen durchgeführt wurde.",
-		"Möchten Sie \"{0}\" für alle Dateien rückgängig machen?",
+		'"{0}" konnte nicht für alle Dateien rückgängig gemacht werden. {1}',
+		'"{0}" konnte nicht für alle Dateien rückgängig gemacht werden. {1}',
+		'"{0}" konnte nicht für alle Dateien rückgängig gemacht werden, da Änderungen an {1} vorgenommen wurden.',
+		'"{0}" konnte nicht für alle Dateien rückgängig gemacht werden, weil bereits ein Vorgang zum Rückgängigmachen oder Wiederholen für "{1}" durchgeführt wird.',
+		'"{0}" konnte nicht für alle Dateien rückgängig gemacht werden, weil in der Zwischenzeit bereits ein Vorgang zum Rückgängigmachen oder Wiederholen durchgeführt wurde.',
+		'Möchten Sie "{0}" für alle Dateien rückgängig machen?',
 		"In {0} Dateien rückgängig machen",
 		"Datei rückgängig machen",
 		"Abbrechen",
-		"\"{0}\" konnte nicht rückgängig gemacht werden, weil bereits ein Vorgang zum Rückgängigmachen oder Wiederholen durchgeführt wird.",
-		"Möchten Sie \"{0}\" rückgängig machen?",
+		'"{0}" konnte nicht rückgängig gemacht werden, weil bereits ein Vorgang zum Rückgängigmachen oder Wiederholen durchgeführt wird.',
+		'Möchten Sie "{0}" rückgängig machen?',
 		"Ja",
 		"Nein",
-		"\"{0}\" konnte nicht in allen Dateien wiederholt werden. {1}",
-		"\"{0}\" konnte nicht in allen Dateien wiederholt werden. {1}",
-		"\"{0}\" konnte nicht in allen Dateien wiederholt werden, da Änderungen an {1} vorgenommen wurden.",
-		"\"{0}\" konnte nicht für alle Dateien wiederholt werden, weil bereits ein Vorgang zum Rückgängigmachen oder Wiederholen für \"{1}\" durchgeführt wird.",
-		"\"{0}\" konnte nicht für alle Dateien wiederholt werden, weil in der Zwischenzeit bereits ein Vorgang zum Rückgängigmachen oder Wiederholen durchgeführt wurde.",
-		"\"{0}\" konnte nicht wiederholt werden, weil bereits ein Vorgang zum Rückgängigmachen oder Wiederholen durchgeführt wird.",
+		'"{0}" konnte nicht in allen Dateien wiederholt werden. {1}',
+		'"{0}" konnte nicht in allen Dateien wiederholt werden. {1}',
+		'"{0}" konnte nicht in allen Dateien wiederholt werden, da Änderungen an {1} vorgenommen wurden.',
+		'"{0}" konnte nicht für alle Dateien wiederholt werden, weil bereits ein Vorgang zum Rückgängigmachen oder Wiederholen für "{1}" durchgeführt wird.',
+		'"{0}" konnte nicht für alle Dateien wiederholt werden, weil in der Zwischenzeit bereits ein Vorgang zum Rückgängigmachen oder Wiederholen durchgeführt wurde.',
+		'"{0}" konnte nicht wiederholt werden, weil bereits ein Vorgang zum Rückgängigmachen oder Wiederholen durchgeführt wird.'
 	],
-	"vs/platform/workspace/common/workspace": [
-		"Codearbeitsbereich",
-	]
+	"vs/platform/workspace/common/workspace": ["Codearbeitsbereich"]
 });

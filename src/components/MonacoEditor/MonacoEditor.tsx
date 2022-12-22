@@ -14,7 +14,9 @@ export const MonacoEditor = defineAsyncComponent(
 					props: ["code", "language", "theme", "readOnly"],
 					emits: ["update:code"],
 					data() {
-						return { id: xU.genId("MonacoEditor") };
+						return {
+							id: xU.genId("MonacoEditor"),
+						};
 					},
 					mounted() {
 						this.init();
@@ -35,7 +37,7 @@ export const MonacoEditor = defineAsyncComponent(
 							this.raw$editor = monaco.editor.create(this.$refs.container, {
 								value: this.code || "",
 								language: this.language || "javascript",
-								minimap: { enabled: true },
+								minimap: { enabled: false },
 								fontSize: 12,
 								readOnly: this.readOnly || false,
 								// 超出编辑器大小的使用fixed属性显示
@@ -50,6 +52,12 @@ export const MonacoEditor = defineAsyncComponent(
 									this.raw$editor.trigger("", "editor.action.formatDocument");
 								}
 							);
+							this.raw$editor.addCommand(
+								monaco.KeyCode.F9,
+								() => {
+									xU.launchFullscreen(this.$refs.container)
+								}
+							);
 							this.raw$editor.onDidChangeModelContent(this.syncData);
 						},
 						syncData() {
@@ -61,14 +69,12 @@ export const MonacoEditor = defineAsyncComponent(
 					},
 					render() {
 						return (
-							<>
-								<div
-									id={this.id}
-									ref="container"
-									class="flex1"
-									style="height:100%;width:100%"
-								/>
-							</>
+							<div
+								id={this.id}
+								ref="container"
+								class="flex1"
+								style="height:100%;width:100%"
+							/>
 						);
 					}
 				})

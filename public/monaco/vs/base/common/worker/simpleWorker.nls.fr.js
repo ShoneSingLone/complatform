@@ -6,7 +6,5 @@
  *-----------------------------------------------------------*/
 
 define("vs/base/common/worker/simpleWorker.nls.fr", {
-	"vs/base/common/platform": [
-		"_",
-	]
+	"vs/base/common/platform": ["_"]
 });
