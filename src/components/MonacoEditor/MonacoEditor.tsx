@@ -47,7 +47,7 @@ export const MonacoEditor = defineAsyncComponent(
 								monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
 								() => {
 									//自动格式化代码
-									this.raw$editor.trigger('', 'editor.action.formatDocument');
+									this.raw$editor.trigger("", "editor.action.formatDocument");
 								}
 							);
 							this.raw$editor.onDidChangeModelContent(this.syncData);

@@ -40,8 +40,9 @@ export const DialogBulkValues = defineComponent({
 		this.formItems.bulkValue.value = xU
 			.map(this.propDialogOptions.formValues, item => {
 				if (item.configs_name) {
-					return `${item.configs_name.value || ""}:${item.configs_example.value || ""
-						}`;
+					return `${item.configs_name.value || ""}:${
+						item.configs_example.value || ""
+					}`;
 				}
 				return `${item.name || ""}:${item.example || ""}`;
 			})
@@ -51,7 +52,7 @@ export const DialogBulkValues = defineComponent({
 		onOk() {
 			if (!xU.isFunction(this.propDialogOptions?.onOk)) {
 				alert("miss onOk function");
-				return xU.doNothing
+				return xU.doNothing;
 			}
 			return this.propDialogOptions?.onOk;
 		},

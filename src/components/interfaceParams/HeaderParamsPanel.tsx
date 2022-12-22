@@ -16,7 +16,7 @@ export const HeaderParamsPanel = defineComponent({
 			<aCard>
 				{{
 					default: () => {
-						return (<HeaderParamsForm params={this.params} />);
+						return <HeaderParamsForm params={this.params} />;
 					}
 				}}
 			</aCard>

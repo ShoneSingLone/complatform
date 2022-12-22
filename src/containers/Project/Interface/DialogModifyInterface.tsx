@@ -212,6 +212,7 @@ export const DialogModifyInterface = defineComponent({
 					isShow: () => vm.dataXItem.isProxy.value,
 					prop: "witchEnv",
 					label: "转发环境",
+					value: "",
 					options: [],
 					setOptions(envArray) {
 						this.options = xU.map(envArray, i => {
@@ -495,7 +496,6 @@ const EnvSelectRender = args => {
 			<aSelect
 				placeholder="请选择转发环境"
 				onChange={args.fnUpdate}
-				mode="multiple"
 				value={args.property.value}>
 				{vDomOptions}
 			</aSelect>

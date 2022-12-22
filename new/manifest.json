@@ -1,0 +1,67 @@
+{
+  "index.html": {
+    "file": "assets/index.9a01e62e.js",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/containers/Login/LoginContainer.tsx",
+      "src/containers/Project/ViewProject.tsx",
+      "src/containers/Project/Interface/ProjectInterface.tsx",
+      "src/containers/Project/Interface/InterfaceAll.tsx",
+      "src/containers/Project/Interface/InterfaceCategory.tsx",
+      "src/containers/Project/Interface/InterfaceDetail.tsx"
+    ]
+  },
+  "src/containers/Login/LoginContainer.tsx": {
+    "file": "assets/LoginContainer.c8222eef.js",
+    "src": "src/containers/Login/LoginContainer.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/containers/Project/ViewProject.tsx": {
+    "file": "assets/ViewProject.47aeea6c.js",
+    "src": "src/containers/Project/ViewProject.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/containers/Project/Interface/ProjectInterface.tsx": {
+    "file": "assets/ProjectInterface.40fc9582.js",
+    "src": "src/containers/Project/Interface/ProjectInterface.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/containers/Project/Interface/InterfaceAll.tsx": {
+    "file": "assets/InterfaceAll.1e94b418.js",
+    "src": "src/containers/Project/Interface/InterfaceAll.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/containers/Project/Interface/InterfaceCategory.tsx": {
+    "file": "assets/InterfaceCategory.fa1c65d3.js",
+    "src": "src/containers/Project/Interface/InterfaceCategory.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/containers/Project/Interface/InterfaceDetail.tsx": {
+    "file": "assets/InterfaceDetail.27ddc346.js",
+    "src": "src/containers/Project/Interface/InterfaceDetail.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "style.css": {
+    "file": "assets/style.c2806247.css",
+    "src": "style.css"
+  }
+}

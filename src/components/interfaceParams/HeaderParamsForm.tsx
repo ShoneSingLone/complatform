@@ -60,7 +60,7 @@ export const HeaderParamsForm = defineComponent({
 				title: this.$t("批量添加参数").label,
 				component: DialogBulkValues,
 				formValues: this.params.req_body_form,
-				onOk: async (formArray) => {
+				onOk: async formArray => {
 					this.params.req_body_form = xU.map(formArray, ([name, example]) => {
 						return { name, example, required: "0", type: "text" };
 					});
@@ -185,9 +185,15 @@ export const HeaderParamsForm = defineComponent({
 		return (
 			<>
 				<div class="flex middle">
-					<aButton class="mb10" onClick={this.addRow}> 添加一行 </aButton>
+					<aButton class="mb10" onClick={this.addRow}>
+						{" "}
+						添加一行{" "}
+					</aButton>
 					<xGap f="1" />
-					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}> 批量添加 </a>
+					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
+						{" "}
+						批量添加{" "}
+					</a>
 				</div>
 				<div style={{ height: "300px" }}>
 					<xVirTable configs={this.configs_table} class="flex1 width100 " />
