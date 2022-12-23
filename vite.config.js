@@ -4,6 +4,7 @@ import useVueJsx from "@vitejs/plugin-vue-jsx";
 import { injectHtml } from "vite-plugin-html";
 import path from "path";
 import { YAPI_TARGET_HOST } from "D://./privateConfigs.js";
+import svgHelper from "./preprocess/plugins/svg";
 
 const __APP_VERSION = Date.now().toString();
 
@@ -40,6 +41,7 @@ export default defineConfig({
 	plugins: [
 		useVue(),
 		useVueJsx(),
+		svgHelper(),
 		injectHtml({
 			/* windows平台 */
 			data: (() => {
@@ -54,7 +56,7 @@ export default defineConfig({
 			src: path.resolve(__dirname, "./src"),
 			"@": path.resolve(__dirname, "./src"),
 			/* 开发的时候用，不用每次修改之后都发布到npm */
-			"@ventose/ui": path.resolve(__dirname, "./src/devui/VentoseUI.es.js"),
+			"@ventose/ui": path.resolve(__dirname, "./src/devui/ui/index.tsx"),
 			vue: "vue/dist/vue.esm-bundler.js"
 		}
 	}
