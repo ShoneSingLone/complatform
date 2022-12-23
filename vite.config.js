@@ -5,6 +5,7 @@ import { injectHtml } from "vite-plugin-html";
 import path from "path";
 import { YAPI_TARGET_HOST } from "D://./privateConfigs.js";
 import svgHelper from "./preprocess/plugins/svg";
+import { visualizer } from "rollup-plugin-visualizer";
 
 const __APP_VERSION = Date.now().toString();
 
@@ -42,6 +43,7 @@ export default defineConfig({
 		useVue(),
 		useVueJsx(),
 		svgHelper(),
+		visualizer(),
 		injectHtml({
 			/* windows平台 */
 			data: (() => {

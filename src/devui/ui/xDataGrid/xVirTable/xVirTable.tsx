@@ -45,7 +45,8 @@ export const xVirTable = defineComponent({
 	},
 	data() {
 		return {
-			selectedAll: false
+			selectedAll: false,
+			dataSource: []
 		};
 	},
 	computed: {
@@ -173,6 +174,18 @@ export const xVirTable = defineComponent({
 				</div>
 			);
 		},
+		vDomBody() {
+			debugger;
+			return <xVirTableBody
+				dataSource={this.dataSource}
+				columnOrder={this.columnOrder}
+				columns={this.configs?.columns}
+				rowHeight={this.rowHeight}
+				onSelectedChange={this.handleSelectedChangeTd}
+				selectedConfigs={this.configs?.selectedConfigs}
+				selected={this.configs?.selected}
+			/>
+		},
 		styleContent() {
 			const allStyleArray = [
 				// `#${this.xVirTableId} *{ outline:1px solid red; }`,
@@ -189,12 +202,17 @@ export const xVirTable = defineComponent({
 				this.selectedAll = false;
 			}
 		},
+		"configs.dataSource"() {
+			debugger;
+			this.dataSource = this.dataFilter(this.configs.dataSource);
+		},
 		styleContent() {
 			this.updateStyle(this.styleContent);
 		}
 	},
 	methods: {
 		dataFilter(dataSourceArray) {
+			dataSourceArray = xU.cloneDeep(dataSourceArray);
 			if (xU.isFunction(this.configs.dataSourceFilter)) {
 				return this.configs.dataSourceFilter(dataSourceArray);
 			} else {
@@ -212,7 +230,7 @@ export const xVirTable = defineComponent({
 			const $style = $(`#style_${this.xVirTableId}`);
 			$style.html(styleContent);
 		},
-		handleSelectedChange() {},
+		handleSelectedChange() { },
 		handleSelectedChangeTh(e) {
 			const { checked } = e.target;
 			if (checked) {
@@ -244,6 +262,7 @@ export const xVirTable = defineComponent({
 		}
 	},
 	render() {
+		debugger;
 		return (
 			<div id={this.xVirTableId} class="xVirTable-wrapper flex vertical">
 				{/* 滑动条有6px  */}
@@ -253,15 +272,7 @@ export const xVirTable = defineComponent({
 					style="padding-right: 6px;">
 					{this.vDomThead}
 				</div>
-				<xVirTableBody
-					dataSource={this.dataFilter(this.configs.dataSource)}
-					columnOrder={this.columnOrder}
-					columns={this.configs?.columns}
-					rowHeight={this.rowHeight}
-					onSelectedChange={this.handleSelectedChangeTd}
-					selectedConfigs={this.configs?.selectedConfigs}
-					selected={this.configs?.selected}
-				/>
+				{this.vDomBody}
 			</div>
 		);
 	}

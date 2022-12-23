@@ -38,12 +38,16 @@ export const RequestArgsPanel = defineComponent({
 		}
 	},
 	render() {
+		if (!this.privateParams.req_headers) {
+			return <aSpin spinning={true} class="flex middle height100 width100" />;
+		}
+
 		return (
 			<aCollapse v-model:activeKey={this.collapseActive}>
-				<aCollapsePanel key="header" header="header">
+				<aCollapsePanel key="header" header={`header ${this.privateParams.req_headers.length}`}>
 					<HeaderParamsPanel v-model:reqHeaders={this.privateParams.req_headers} />
 				</aCollapsePanel>
-				<aCollapsePanel key={QUERY} header={QUERY}>
+				<aCollapsePanel key={QUERY} header={`${QUERY} ${this.privateParams.req_query.length}`}>
 					<QueryParamsPanel v-model:reqQuery={this.privateParams.req_query} />
 				</aCollapsePanel>
 				<aCollapsePanel
