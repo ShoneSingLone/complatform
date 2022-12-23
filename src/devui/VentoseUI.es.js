@@ -35197,17 +35197,17 @@ const VNodeCollection = {
   }
 };
 const DELAY = 60 * 5;
-const CACHE = {};
+const CACHE_V_NODE = {};
 const WILL_DELETE_PROPS = {
-  cache: {},
+  idCounts: {},
   add(prop) {
-    const count = this.cache[prop] || 0;
-    this.cache[prop] = count + 1;
+    const count = this.idCounts[prop] || 0;
+    this.idCounts[prop] = count + 1;
   },
   remove(prop) {
-    const count = this.cache[prop] || 0;
+    const count = this.idCounts[prop] || 0;
     const val = count - 1;
-    this.cache[prop] = val < 0 ? 0 : val;
+    this.idCounts[prop] = val < 0 ? 0 : val;
   }
 };
 const deleteUnmountedInstance = (prop) => {
@@ -35215,14 +35215,13 @@ const deleteUnmountedInstance = (prop) => {
   delayDeleteUnmountedInstance();
 };
 const delayDeleteUnmountedInstance = privateLodash.debounce(function() {
-  privateLodash.each(WILL_DELETE_PROPS.cache, (count, prop) => {
+  privateLodash.each(WILL_DELETE_PROPS.idCounts, (count, prop) => {
     if (count > 0) {
-      delete CACHE[prop];
-      delete this.cache[prop];
+      delete CACHE_V_NODE[prop];
+      delete WILL_DELETE_PROPS.idCounts[prop];
     }
-    if (!Object.keys(CACHE).includes(prop)) {
-      console.log(prop, this.cache[prop]);
-      delete this.cache[prop];
+    if (!Object.keys(CACHE_V_NODE).includes(prop)) {
+      delete WILL_DELETE_PROPS.idCounts[prop];
     }
   });
 }, 1e3 * DELAY);
@@ -35230,16 +35229,16 @@ function compileVNode(template, setupReturn, prop) {
   if (!prop) {
     alert("miss uniq id" + template);
   }
-  if (CACHE[prop]) {
+  if (CACHE_V_NODE[prop]) {
     WILL_DELETE_PROPS.remove(prop);
     delayDeleteUnmountedInstance();
-    return CACHE[prop];
+    return CACHE_V_NODE[prop];
   } else {
     return h(defineComponent({
       template,
       mounted() {
         WILL_DELETE_PROPS.remove(prop);
-        CACHE[prop] = this._.vnode;
+        CACHE_V_NODE[prop] = this._.vnode;
       },
       unmounted() {
         deleteUnmountedInstance(prop);

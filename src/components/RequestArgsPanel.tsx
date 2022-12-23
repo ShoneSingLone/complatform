@@ -3,6 +3,7 @@ import { BODY, GET, HTTP_METHOD, QUERY } from "src/utils/variable";
 import { defineComponent } from "vue";
 import { BodyParamsPanel } from "./interfaceParams/BodyParamsPanel";
 import { HeaderParamsPanel } from "./interfaceParams/HeaderParamsPanel";
+import { QueryParamsPanel } from "./interfaceParams/QueryParamsPanel";
 
 /* 
 1.接收apimethod 默认打开
@@ -40,27 +41,21 @@ export const RequestArgsPanel = defineComponent({
 		return (
 			<aCollapse v-model:activeKey={this.collapseActive}>
 				<aCollapsePanel key="header" header="header">
-					<HeaderParamsPanel params={this.params} />
+					<HeaderParamsPanel v-model:reqHeaders={this.privateParams.req_headers} />
 				</aCollapsePanel>
 				<aCollapsePanel key={QUERY} header={QUERY}>
-					<aButton
-						size="small"
-						type="primary"
-						onClick={() => this.addParams("req_query")}>
-						添加Query参数
-					</aButton>
-
-					<div
-						className="bulk-import"
-						onClick={() => this.showBulk("req_query")}>
-						批量添加
-					</div>
+					<QueryParamsPanel v-model:reqQuery={this.privateParams.req_query} />
 				</aCollapsePanel>
 				<aCollapsePanel
 					key={BODY}
 					header={BODY}
 					collapsible={this.bodyCollapsible}>
-					<BodyParamsPanel params={this.params} />
+					<BodyParamsPanel
+						v-model:reqBodyType={this.privateParams.req_body_type}
+						v-model:reqBodyIsJsonSchema={this.privateParams.req_body_is_json_schema}
+						v-model:reqBodyForm={this.privateParams.req_body_form}
+						v-model:reqBodyOther={this.privateParams.req_body_other}
+					/>
 				</aCollapsePanel>
 			</aCollapse>
 		);

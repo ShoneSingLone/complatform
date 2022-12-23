@@ -38,10 +38,10 @@ const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
 ].map(xU.genId);
 
 export const HeaderParamsForm = defineComponent({
-	props: ["params"],
-	emits: ["update:params"],
+	props: ["reqHeaders"],
+	emits: ["update:reqHeaders"],
 	watch: {
-		"params.req_headers": {
+		"reqHeaders": {
 			immediate: true,
 			handler(formDataArray) {
 				this.resetDataForm(formDataArray);
@@ -82,10 +82,9 @@ export const HeaderParamsForm = defineComponent({
 				});
 			});
 			debugger;
-			this.params.req_headers = this.configs_table.dataSource;
+			this.$emit("update:reqHeaders", this.configs_table.dataSource);
 		},
 		resetDataForm(newFormDataArray) {
-			debugger;
 			this.resetDataForm.origin = newFormDataArray;
 			this.configs_table.dataSource = [...newFormDataArray];
 		},

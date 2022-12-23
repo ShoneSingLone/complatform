@@ -268,6 +268,7 @@ export const DialogModifyInterface = defineComponent({
 				method,
 				req_headers,
 				req_body_type,
+				req_query,
 				req_body_form,
 				req_body_other,
 				req_body_is_json_schema
@@ -286,6 +287,8 @@ export const DialogModifyInterface = defineComponent({
 					req_headers,
 					/* body的编辑类型 */
 					req_body_type,
+					/* query */
+					req_query,
 					/* req_body_form 的数据 */
 					req_body_form,
 					/* req_body file raw json 的数据 */
@@ -566,7 +569,6 @@ const RequestArgsRender = args => {
 		return <ReadonlyView />
 	}
 	*/
-
 	return (
 		<RequestArgsPanel
 			params={args.property.value}

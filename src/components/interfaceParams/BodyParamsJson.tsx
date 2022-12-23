@@ -4,20 +4,26 @@ import { JsonSchemaEditor, string2JsonSchema } from "../JsonSchemaEditor/JsonSch
 
 export const BodyParamsJson = defineComponent({
 	components: { JsonSchemaEditor },
-	props: ["params"],
+	props: ["reqBodyOther", "reqBodyIsJsonSchema"],
 	setup() {
 		return {
 			State_App
 		};
 	},
 	watch: {
-		params: {
+		reqBodyOther: {
 			immediate: true,
 			deep: true,
-			handler({ req_body_other, req_body_is_json_schema }) {
-				this.isReqBodyUseSchema = req_body_is_json_schema;
-				this.jsonData = string2JsonSchema(req_body_other);
+			handler(reqBodyOther) {
+				this.jsonData = string2JsonSchema(reqBodyOther);
 				this.jsonDataString = JSON.stringify(this.jsonData)
+			}
+		},
+		reqBodyIsJsonSchema: {
+			immediate: true,
+			deep: true,
+			handler(reqBodyIsJsonSchema) {
+				this.isReqBodyUseSchema = reqBodyIsJsonSchema;
 			}
 		}
 	},

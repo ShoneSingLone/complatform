@@ -1,16 +1,18 @@
 import { defineComponent } from "vue";
-import { HeaderParamsForm } from "./HeaderParamsForm";
+import { QueryParamsForm } from "./QueryParamsForm";
 
-export const HeaderParamsPanel = defineComponent({
+
+export const QueryParamsPanel = defineComponent({
 	/* req_body_type */
 	props: {
-		reqHeaders: {
+		reqQuery: {
 			type: Array,
 			default() {
 				return [];
 			}
 		}
 	},
+	emits: ["update:reqQuery"],
 	data(vm) {
 		return {};
 	},
@@ -20,10 +22,10 @@ export const HeaderParamsPanel = defineComponent({
 			<aCard>
 				{{
 					default: () => {
-						return <HeaderParamsForm
-							reqHeaders={this.reqHeaders}
-							onUpdate:reqHeaders={val => {
-								vm.$emit("update:reqHeaders", val)
+						return <QueryParamsForm
+							reqQuery={this.reqQuery}
+							onUpdate:reqQuery={val => {
+								vm.$emit("update:reqQuery", val)
 							}}
 						/>;
 					}

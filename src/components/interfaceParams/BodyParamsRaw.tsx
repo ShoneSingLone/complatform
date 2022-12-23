@@ -44,9 +44,9 @@ const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
 ].map(xU.genId);
 
 export const BodyParamsRaw = defineComponent({
-	props: ["params"],
+	props: ["reqBodyOther"],
 	watch: {
-		"params.req_body_other": {
+		"reqBodyOther": {
 			immediate: true,
 			handler(bodyText) {
 				this.resetDataForm(bodyText);
