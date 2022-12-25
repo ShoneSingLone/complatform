@@ -17,7 +17,7 @@ export const QueryParamsPanel = defineComponent({
 		return {};
 	},
 	render(vm) {
-		debugger;
+		
 		return (
 			<aCard>
 				{{

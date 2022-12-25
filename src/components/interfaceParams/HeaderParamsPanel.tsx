@@ -15,7 +15,7 @@ export const HeaderParamsPanel = defineComponent({
 		return {};
 	},
 	render(vm) {
-		debugger;
+		
 		return (
 			<aCard>
 				{{

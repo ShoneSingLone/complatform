@@ -7,10 +7,9 @@ import {
 	xU
 } from "@ventose/ui";
 import { ITEM_OPTIONS } from "src/utils/common.options";
-import { defineComponent, markRaw } from "vue";
+import { defineComponent, markRaw, reactive } from "vue";
 import { DialogBulkValues } from "./DialogBulkValues";
 import { diff } from "jsondiffpatch";
-
 
 function newFormData([name, value] = ["", ""]) {
 	return {
@@ -18,7 +17,7 @@ function newFormData([name, value] = ["", ""]) {
 		name: "",
 		required: "1",
 		example: "",
-		desc: "",
+		desc: ""
 	};
 }
 
@@ -34,7 +33,7 @@ const STRATEGY_CELL_ITEM_CONFIGS = {
 
 const BODY_PARAM_PROP_ARRAY = Object.keys(STRATEGY_CELL_ITEM_CONFIGS);
 
-/* virTable 的 renderCell 缓存标识 ,关键是唯一，具体是啥无所谓，所以这里不用过分考虑顺序*/
+/* virTable 的 renderEditor 缓存标识 ,关键是唯一，具体是啥无所谓，所以这里不用过分考虑顺序*/
 const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
 	...BODY_PARAM_PROP_ARRAY,
 	"ID_OPERATIONS"
@@ -44,11 +43,11 @@ export const QueryParamsForm = defineComponent({
 	props: ["reqQuery"],
 	emits: ["update:reqQuery"],
 	watch: {
-		"reqQuery": {
+		reqQuery: {
 			immediate: true,
 			handler(formDataArray) {
-				const res = diff(this.configs_table.dataSource, formDataArray)
-				debugger;
+				const res = diff(this.configs_table.dataSource, formDataArray);
+
 				this.resetDataForm(formDataArray);
 			}
 		}
@@ -62,7 +61,7 @@ export const QueryParamsForm = defineComponent({
 					return {
 						key: i.name,
 						value: i.value
-					}
+					};
 				}),
 				onOk: (formDataArray: any) => {
 					this.configs_table.dataSource = xU.map(formDataArray, newFormData);
@@ -70,38 +69,25 @@ export const QueryParamsForm = defineComponent({
 			});
 		},
 		addRow() {
+			console.log("addRow");
 			this.configs_table.dataSource.unshift(newFormData());
-			this.syncFormDataFromConfigs();
 		},
 		deleteRow(_id) {
 			const index = xU.findIndex(this.configs_table.dataSource, { _id });
 			if (~index) {
 				this.configs_table.dataSource.splice(index, 1);
-				this.syncFormDataFromConfigs();
 			}
-		},
-		syncFormDataFromConfigs() {
-			xU.each(this.configs_table.dataSource, rowData => {
-				xU.each(BODY_PARAM_PROP_ARRAY, prop => {
-					if (rowData[`configs_${prop}`]) {
-						rowData[prop] = rowData[`configs_${prop}`].value;
-					}
-				});
-			});
-			// this.$emit("update:reqQuery", this.configs_table.dataSource);
 		},
 		resetDataForm(newFormDataArray) {
 			this.resetDataForm.origin = newFormDataArray;
 			this.configs_table.dataSource = [...newFormDataArray];
 		},
-		getDataForm() {
-
-		}
+		getDataForm() {}
 	},
 	data(vm) {
 		return {
 			configs_table: defXVirTableConfigs({
-				rowHeight: 36,
+				rowHeight: 48,
 				dataSource: [],
 				customClass: tableId =>
 					[
@@ -109,69 +95,59 @@ export const QueryParamsForm = defineComponent({
 						`#${tableId} div[role=tr] div[role=th][data-prop=operations]{justify-content:center;}`,
 						`#${tableId} div[role=tr] div[role=td][data-prop=operations]{justify-content:center;color:red;}`
 					].join("\n"),
-				dataSourceFilter(dataSource) {
-					return xU.map(dataSource, rowRecord => {
-						xU.each(STRATEGY_CELL_ITEM_CONFIGS, (options, prop) => {
-							if (!rowRecord[`configs_${prop}`]) {
-								rowRecord[`configs_${prop}`] = markRaw(defItem.item(
-									xU.merge(
-										{
-											value: rowRecord[prop],
-											itemWrapperClass: "input-width100",
-											onAfterValueEmit(val) {
-
-											}
-										},
-										options
-									)
-								))
-							}
-						});
-						return rowRecord;
-					});
-				},
 				columns: {
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_name" />`,
-								{ record },
-								`${ID_NAME}${record._id}`
-							)
-
+						renderEditor: ({ record }) => {
+							return compileVNode(
+								`<xItem :configs="configs" v-model="record.name" />`,
+								() => {
+									return {
+										record,
+										configs: reactive(defItem.item({}))
+									};
+								}
+							);
+						}
 					}),
 					...defCol({
 						label: vm.$t("必需").label,
 						prop: "required",
 						width: "110px",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_required" />`,
-								{ record },
-								`${ID_REQUIRED}${record._id}`
-							)
+						renderEditor: ({ record }) => {
+							return compileVNode(
+								`<xItem :configs="configs" v-model="record.required" />`,
+								() => ({
+									record,
+									configs: reactive(
+										defItem.item({
+											itemType: "Select",
+											options: ITEM_OPTIONS.required
+										})
+									)
+								})
+							);
+						}
 					}),
 					...defCol({
 						label: vm.$t("示例").label,
 						prop: "example",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_example" />`,
-								{ record },
-								`${ID_RECORD}${record._id}`
-							)
+						renderEditor: ({ record }) => {
+							return compileVNode(`<xItem :configs="record.example" />`, {
+								record,
+								configs: reactive(defItem.item({}))
+							});
+						}
 					}),
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_desc" />`,
-								{ record },
-								`${ID_DESC}${record._id}`
-							)
+						renderEditor: ({ record }) => {
+							return compileVNode(`<xItem :configs="record.configs_desc" />`, {
+								record
+							});
+						}
 					}),
 					...defCol({
 						label: vm.$t("操作").label,
@@ -184,8 +160,7 @@ export const QueryParamsForm = defineComponent({
 								{
 									record,
 									deleteRow: vm.deleteRow
-								},
-								`${ID_OPERATIONS}${record._id}`
+								}
 							)
 					})
 				}
@@ -193,7 +168,6 @@ export const QueryParamsForm = defineComponent({
 		};
 	},
 	render() {
-		debugger;
 		return (
 			<>
 				<div class="flex middle">
@@ -202,12 +176,19 @@ export const QueryParamsForm = defineComponent({
 					</aButton>
 					<xGap f="1" />
 					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
+						{this.configs_table.dataSource.length}
 						批量添加
 					</a>
 				</div>
 				<div style={{ height: "300px" }}>
-					<xVirTable configs={this.configs_table} class="flex1 width100 " />
+					<xVirTable
+						configs={this.configs_table}
+						class="flex1 width100 "
+						uniqBy="_id"
+					/>
+					{/* <xDataGrid configs={this.configs_table} /> */}
 				</div>
+				{JSON.stringify(this.configs_table.dataSource)}
 			</>
 		);
 	}

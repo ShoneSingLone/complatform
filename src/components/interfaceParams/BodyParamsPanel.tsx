@@ -31,7 +31,7 @@ export const BodyParamsPanel = defineComponent({
 				component: DialogBulkValues,
 				formValues: this.reqBodyForm,
 				onOk: req_body_form => {
-					debugger;
+					
 					this.$emit("update:reqBodyForm", req_body_form)
 				}
 			});

@@ -45,10 +45,10 @@ const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
 export const BodyParamsForm = defineComponent({
 	props: ["reqBodyForm"],
 	watch: {
-		"reqBodyForm": {
+		reqBodyForm: {
 			immediate: true,
 			handler(reqBodyForm) {
-				debugger;
+				
 				this.resetDataForm(reqBodyForm);
 			}
 		}
@@ -68,7 +68,9 @@ export const BodyParamsForm = defineComponent({
 		syncFormDataFromConfigs() {
 			xU.each(this.configs_table.dataSource, rowData => {
 				xU.each(BODY_PARAM_PROP_ARRAY, prop => {
-					rowData[prop] = rowData[`configs_${prop}`].value;
+					if (rowData[`configs_${prop}`]) {
+						rowData[prop] = rowData[`configs_${prop}`].value;
+					}
 				});
 			});
 		},

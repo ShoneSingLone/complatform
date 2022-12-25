@@ -54,11 +54,10 @@ export function compileVNode(
 	setupReturn: object,
 	prop: string
 ) {
-	if (!prop) {
-		alert("miss uniq id" + template);
-	}
 
-	if (CACHE_V_NODE[prop]) {
+	const no_cache = !prop
+
+	if (!no_cache&&CACHE_V_NODE[prop]) {
 		/* 已在复用，不可删除 */
 		WILL_DELETE_PROPS.remove(prop);
 		/* 延迟删除 */
@@ -71,6 +70,9 @@ export function compileVNode(
 			defineComponent({
 				template,
 				mounted() {
+					if (no_cache) {
+						return;
+					}
 					/* 已在复用，不可删除 */
 					WILL_DELETE_PROPS.remove(prop);
 					/* @ts-ignore */
@@ -78,6 +80,9 @@ export function compileVNode(
 					/* console.log(`compileVNode ${prop} ${template}`); */
 				},
 				unmounted() {
+					if (no_cache) {
+						return;
+					}
 					deleteUnmountedInstance(prop);
 				},
 				setup() {
