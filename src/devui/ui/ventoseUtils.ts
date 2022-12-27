@@ -558,6 +558,9 @@ const privateLodash = {
 	 */
 	MutatingProps: (item: any, prop: string, val = null, isDelete = false) => {
 		item = item || {};
+		if (/^\./.test(prop)) {
+			prop = String(prop).substring(1);
+		}
 		const propArray = prop.split(".");
 		let key = "";
 		let nextItem = item;

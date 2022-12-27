@@ -15,7 +15,7 @@ export const MonacoEditor = defineAsyncComponent(
 					emits: ["update:code"],
 					data() {
 						return {
-							id: xU.genId("MonacoEditor"),
+							id: xU.genId("MonacoEditor")
 						};
 					},
 					mounted() {
@@ -52,12 +52,9 @@ export const MonacoEditor = defineAsyncComponent(
 									this.raw$editor.trigger("", "editor.action.formatDocument");
 								}
 							);
-							this.raw$editor.addCommand(
-								monaco.KeyCode.F9,
-								() => {
-									xU.launchFullscreen(this.$refs.container)
-								}
-							);
+							this.raw$editor.addCommand(monaco.KeyCode.F9, () => {
+								xU.launchFullscreen(this.$refs.container);
+							});
 							this.raw$editor.onDidChangeModelContent(this.syncData);
 						},
 						syncData() {
