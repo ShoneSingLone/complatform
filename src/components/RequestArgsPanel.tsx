@@ -42,6 +42,14 @@ export const RequestArgsPanel = defineComponent({
 			return <aSpin spinning={true} class="flex middle height100 width100" />;
 		}
 
+		const bodyHeader = (() => {
+			if (this.privateParams.req_body_type == 'form') {
+				return `${BODY} ${this.privateParams.req_body_type} ${this.privateParams.req_body_form.length}`
+			}
+
+			return `${BODY} ${this.privateParams.req_body_type}`
+		})();
+
 		return (
 			<aCollapse v-model:activeKey={this.collapseActive}>
 				<aCollapsePanel key="header" header={`header ${this.privateParams.req_headers.length}`}>
@@ -52,7 +60,7 @@ export const RequestArgsPanel = defineComponent({
 				</aCollapsePanel>
 				<aCollapsePanel
 					key={BODY}
-					header={BODY}
+					header={bodyHeader}
 					collapsible={this.bodyCollapsible}>
 					<BodyParamsPanel
 						v-model:reqBodyType={this.privateParams.req_body_type}

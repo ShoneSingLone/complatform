@@ -1,4 +1,5 @@
 import { resolveComponent } from "vue";
+import {ReadonlyItem}from "./Readonly"
 /**
  * @Description
  * @date 2021-11-09
@@ -7,6 +8,10 @@ import { resolveComponent } from "vue";
  * @returns {any}
  */
 export default ({ property, slots, listeners }) => {
+	if(property.readonly){
+		return <ReadonlyItem value={property.value}/>
+	}
+
 	let component = resolveComponent("aInput");
 	if (property.isPassword) {
 		component = resolveComponent("aInputPassword");

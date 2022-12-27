@@ -21,6 +21,7 @@ import { _$handlePath, _$interfacePathParamsTpl } from "src/utils/common";
 import { DialogUpsertTags } from "./DialogUpsertTags";
 import { DialogUpsertProxyEnv } from "./DialogUpsertProxyEnv";
 import { RequestArgsPanel } from "src/components/RequestArgsPanel";
+import { ResponsePanel } from "src/components/ResponsePanel";
 
 export const DialogModifyInterface = defineComponent({
 	props: {
@@ -231,7 +232,15 @@ export const DialogModifyInterface = defineComponent({
 					activeKey: "1",
 					apiMethod: "",
 					itemType: RequestArgsRender
-				})
+				}),
+				...defItem({
+					prop: "responseArgs",
+					label: "响应参数设置",
+					value: {},
+					activeKey: "1",
+					apiMethod: "",
+					itemType: ResponseRender
+				}),
 			}
 		};
 	},
@@ -271,7 +280,11 @@ export const DialogModifyInterface = defineComponent({
 				req_query,
 				req_body_form,
 				req_body_other,
-				req_body_is_json_schema
+				req_body_is_json_schema,
+				res_body,
+				res_body_type,
+				res_body_mock,
+				res_body_is_json_schema,
 			} = this.detailInfo;
 
 			setValueTo(this.dataXItem, {
@@ -295,6 +308,12 @@ export const DialogModifyInterface = defineComponent({
 					req_body_other,
 					/* body json 使用 schema */
 					req_body_is_json_schema
+				},
+				responseArgs: {
+					res_body_is_json_schema,
+					res_body,
+					res_body_type,
+					res_body_mock,
 				}
 			});
 		},
@@ -405,6 +424,8 @@ export const DialogModifyInterface = defineComponent({
 						{/* {JSON.stringify(pickValueFrom(this.dataXItem))} */}
 						<xGap t="10" />
 						<xForm labelStyle={{ "min-width": "120px", width: "unset" }}>
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.responseArgs} />
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.catid} />
 							<xGap t="10" />
@@ -573,6 +594,20 @@ const RequestArgsRender = args => {
 		<RequestArgsPanel
 			params={args.property.value}
 			apiMethod={args.property.apiMethod}
+			onUpdate:params={args.fnUpdate}
+		/>
+	);
+};
+const ResponseRender = args => {
+	/* input */
+	args.property.value = args.property.value || {};
+	/* output */
+	args.fnUpdate = val => {
+		args.listeners["onUpdate:value"](val);
+	};
+	return (
+		<ResponsePanel
+			params={args.property.value}
 			onUpdate:params={args.fnUpdate}
 		/>
 	);

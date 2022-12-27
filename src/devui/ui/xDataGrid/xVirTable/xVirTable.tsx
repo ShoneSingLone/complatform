@@ -1,10 +1,10 @@
 //@ts-nocheck
-import {defineComponent,provide} from "vue";
-import {xU} from "../../ventoseUtils";
+import { defineComponent, provide } from "vue";
+import { xU } from "../../ventoseUtils";
 import $ from "jquery";
-import {xVirTableTh} from "./xVirTableTh";
-import {xVirTableBody} from "./xVirTableBody";
-import {diff} from "jsondiffpatch";
+import { xVirTableTh } from "./xVirTableTh";
+import { xVirTableBody } from "./xVirTableBody";
+import { diff } from "jsondiffpatch";
 
 export function defXVirTableConfigs(options) {
     const required = ["rowHeight", "columns"];
@@ -36,13 +36,14 @@ defXVirTableConfigs.type = {
  * 展示列的顺序
  */
 export const xVirTable = defineComponent({
-    props: ["configs","uniqBy"],
+    props: ["configs", "uniqBy"],
     components: {
         xVirTableTh,
         xVirTableBody
     },
     setup(props) {
         provide("uniqBy", props.uniqBy);
+        provide("configs", props.configs);
     },
     mounted() {
         this.initStyle();
@@ -125,7 +126,7 @@ export const xVirTable = defineComponent({
                 this.columnOrder,
                 (columnStyle, prop: any) => {
                     const configsColumn = this.configs.columns[prop] || {};
-                    const {width} = configsColumn;
+                    const { width } = configsColumn;
                     if (width) {
                         columnStyle.push(
                             `#${this.xVirTableId} div[role=tr] div[role=th][data-prop=${prop}]{ width:${width}; min-width:${width}; max-width:${width}; }`
@@ -172,7 +173,7 @@ export const xVirTable = defineComponent({
                         {this.vDomTheadSelect}
                         {xU.map(this.columnOrder, (prop: string, index: number) => {
                             const column = this.configs?.columns[prop];
-                            return <xVirTableTh column={column} index={index} key={prop}/>;
+                            return <xVirTableTh column={column} index={index} key={prop} />;
                         })}
                     </div>
                 </div>
@@ -198,10 +199,7 @@ export const xVirTable = defineComponent({
             immediate: true,
             deep: true,
             handler(dataSource) {
-                const newDataSource = this.dataFilter(dataSource);
-                const res = diff(this.dataSource, newDataSource);
-                console.log("watch dataSource");
-                this.dataSource = newDataSource;
+                this.dataSource = this.configs.dataSource;
             }
         },
         styleContent() {
@@ -209,17 +207,9 @@ export const xVirTable = defineComponent({
         }
     },
     methods: {
-        dataFilter(dataSourceArray) {
-            dataSourceArray = xU.cloneDeep(dataSourceArray);
-            if (xU.isFunction(this.configs.dataSourceFilter)) {
-                return this.configs.dataSourceFilter(dataSourceArray);
-            } else {
-                return dataSourceArray;
-            }
-        },
         initStyle() {
             const $form = $(`#${this.xVirTableId}`);
-            const $style = $("<style/>", {id: `style_${this.xVirTableId}`}).append(
+            const $style = $("<style/>", { id: `style_${this.xVirTableId}` }).append(
                 this.styleContent
             );
             $form.prepend($style);
@@ -231,7 +221,7 @@ export const xVirTable = defineComponent({
         handleSelectedChange() {
         },
         handleSelectedChangeTh(e) {
-            const {checked} = e.target;
+            const { checked } = e.target;
             if (checked) {
                 this.selectedAll = true;
                 this.configs.selected = xU.map(
@@ -242,7 +232,7 @@ export const xVirTable = defineComponent({
                 this.configs.selected = [];
             }
         },
-        handleSelectedChangeTd({id}) {
+        handleSelectedChangeTd({ id }) {
             const isOnlyOne = this.selectedType === "one";
             const index = xU.findIndex(this.configs?.selected, i => i === id);
             if (index > -1) {
@@ -272,14 +262,13 @@ export const xVirTable = defineComponent({
                     {this.vDomThead}
                 </div>
                 <xVirTableBody
-                dataSource={this.dataSource}
-                columnOrder={this.columnOrder}
-                columns={this.configs?.columns}
-                rowHeight={this.rowHeight}
-                onSelectedChange={this.handleSelectedChangeTd}
-                selectedConfigs={this.configs?.selectedConfigs}
-                selected={this.configs?.selected}
-            />
+                    columnOrder={this.columnOrder}
+                    columns={this.configs?.columns}
+                    rowHeight={this.rowHeight}
+                    onSelectedChange={this.handleSelectedChangeTd}
+                    selectedConfigs={this.configs?.selectedConfigs}
+                    selected={this.configs?.selected}
+                />
             </div>
         );
         console.timeEnd("virTable");

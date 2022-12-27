@@ -55,7 +55,7 @@ export const BodyParamsJson = defineComponent({
 			if (this.isReqBodyUseSchema) {
 				return <JsonSchemaEditor value={this.jsonData} class="flex1" />
 			} else {
-				return <MonacoEditor code={this.params.req_body_other} language="json" />;
+				return <MonacoEditor code={this.reqBodyOther} language="json" />;
 			}
 		}
 	},

@@ -23,10 +23,6 @@ function newFormData() {
 
 const STRATEGY_CELL_ITEM_CONFIGS = {
 	name: {},
-	type: {
-		itemType: "Select",
-		options: ITEM_OPTIONS.interfaceBodyFormType
-	},
 	required: {
 		itemType: "Select",
 		options: ITEM_OPTIONS.required
@@ -48,7 +44,6 @@ export const BodyParamsForm = defineComponent({
 		reqBodyForm: {
 			immediate: true,
 			handler(reqBodyForm) {
-				
 				this.resetDataForm(reqBodyForm);
 			}
 		}
@@ -86,96 +81,75 @@ export const BodyParamsForm = defineComponent({
 				customClass: tableId =>
 					[
 						`#${tableId} .input-width100{width:100%;}`,
+						`#${tableId} div[role=td] .ant-tag{margin:auto;}`,
 						`#${tableId} div[role=tr] div[role=th][data-prop=operations]{justify-content:center;}`,
 						`#${tableId} div[role=tr] div[role=td][data-prop=operations]{justify-content:center;color:red;}`
 					].join("\n"),
-				dataSourceFilter(dataSource) {
-					return xU.map(dataSource, rowRecord => {
-						xU.each(STRATEGY_CELL_ITEM_CONFIGS, (options, prop) => {
-							rowRecord[`configs_${prop}`] = defItem.item(
-								xU.merge(
-									{
-										value: rowRecord[prop],
-										itemWrapperClass: "input-width100"
-									},
-									options
-								)
-							);
-						});
-						return rowRecord;
-					});
-				},
 				columns: {
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_name" />`,
-								{
-									record
-								},
-								`${ID_NAME}${record._id}`
-							)
+						renderEditor: ({ record }) => <aInput v-model:value={record.name} />
 					}),
 					...defCol({
 						label: vm.$t("类型").label,
 						prop: "type",
-						width: "100px",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_type" />`,
-								{
-									record
-								},
-								`${ID_TYPE}${record._id}`
-							)
+						width: "110px",
+						renderCell: ({ record }) => ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type),
+						renderEditor: ({ record }) => {
+							return compileVNode(
+								`<xItem :configs="configs" v-model="record.type" />`,
+								() => {
+									return {
+										record,
+										configs: defItem.item({
+											itemType: "Select",
+											itemWrapperClass: "input-width100",
+											options: ITEM_OPTIONS.interfaceBodyFormType
+										})
+									}
+								}
+							);
+						},
 					}),
 					...defCol({
 						label: vm.$t("必需").label,
 						prop: "required",
 						width: "110px",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_required" />`,
-								{ record },
-								`${ID_REQUIRED}${record._id}`
-							)
+						renderCell: ({ record }) => ITEM_OPTIONS_VDOM.required(record.required),
+						renderEditor: ({ record }) => {
+							return compileVNode(
+								`<xItem :configs="configs" v-model="record.required" />`,
+								() => {
+									return {
+										record,
+										configs: defItem.item({
+											itemType: "Select",
+											itemWrapperClass: "input-width100",
+											options: ITEM_OPTIONS.required
+										})
+									}
+								}
+							);
+						},
 					}),
 					...defCol({
 						label: vm.$t("示例").label,
 						prop: "example",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_example" />`,
-								{ record },
-								`${ID_RECORD}${record._id}`
-							)
+						renderEditor: ({ record }) => <aInput v-model:value={record.example} />
 					}),
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xItem :configs="record.configs_desc" />`,
-								{ record },
-								`${ID_DESC}${record._id}`
-							)
+						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
+
 					}),
 					...defCol({
 						label: vm.$t("操作").label,
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,
-						renderCell: ({ record }) =>
-							compileVNode(
-								`<xIcon icon="delete" class="pointer" @Click="deleteRow(record._id)" />`,
-								{
-									record,
-									deleteRow: vm.deleteRow
-								},
-								`${ID_OPERATIONS}${record._id}`
-							)
+                        renderCell: ({ record }) => <xIcon icon="delete" class="pointer" onClick={() => vm.deleteRow(record._id)} />
 					})
 				}
 			})

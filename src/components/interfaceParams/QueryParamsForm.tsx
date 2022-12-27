@@ -6,8 +6,8 @@ import {
 	UI,
 	xU
 } from "@ventose/ui";
-import { ITEM_OPTIONS } from "src/utils/common.options";
-import { defineComponent, markRaw, reactive } from "vue";
+import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "src/utils/common.options";
+import { defineComponent, markRaw, reactive, watch } from "vue";
 import { DialogBulkValues } from "./DialogBulkValues";
 import { diff } from "jsondiffpatch";
 
@@ -46,8 +46,6 @@ export const QueryParamsForm = defineComponent({
 		reqQuery: {
 			immediate: true,
 			handler(formDataArray) {
-				const res = diff(this.configs_table.dataSource, formDataArray);
-
 				this.resetDataForm(formDataArray);
 			}
 		}
@@ -79,10 +77,8 @@ export const QueryParamsForm = defineComponent({
 			}
 		},
 		resetDataForm(newFormDataArray) {
-			this.resetDataForm.origin = newFormDataArray;
-			this.configs_table.dataSource = [...newFormDataArray];
+			this.configs_table.dataSource = newFormDataArray;
 		},
-		getDataForm() {}
 	},
 	data(vm) {
 		return {
@@ -92,6 +88,7 @@ export const QueryParamsForm = defineComponent({
 				customClass: tableId =>
 					[
 						`#${tableId} .input-width100{width:100%;}`,
+						`#${tableId} div[role=td] .ant-tag{margin:auto;}`,
 						`#${tableId} div[role=tr] div[role=th][data-prop=operations]{justify-content:center;}`,
 						`#${tableId} div[role=tr] div[role=td][data-prop=operations]{justify-content:center;color:red;}`
 					].join("\n"),
@@ -99,69 +96,57 @@ export const QueryParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderEditor: ({ record }) => {
-							return compileVNode(
-								`<xItem :configs="configs" v-model="record.name" />`,
-								() => {
-									return {
-										record,
-										configs: reactive(defItem.item({}))
-									};
-								}
-							);
-						}
+						renderEditor: ({ record }) => <aInput v-model:value={record.name} />
 					}),
 					...defCol({
 						label: vm.$t("必需").label,
 						prop: "required",
 						width: "110px",
+						renderCell: ({ record }) => ITEM_OPTIONS_VDOM.required(record.required),
 						renderEditor: ({ record }) => {
 							return compileVNode(
 								`<xItem :configs="configs" v-model="record.required" />`,
-								() => ({
-									record,
-									configs: reactive(
-										defItem.item({
-											itemType: "Select",
-											options: ITEM_OPTIONS.required
-										})
-									)
-								})
+								() => {
+									return {
+										record,
+										configs: reactive(
+											defItem.item({
+												itemType: "Select",
+												itemWrapperClass: "input-width100",
+												options: ITEM_OPTIONS.required
+											})
+										)
+									}
+								}
 							);
-						}
+						},
 					}),
 					...defCol({
 						label: vm.$t("示例").label,
 						prop: "example",
-						renderEditor: ({ record }) => {
-							return compileVNode(`<xItem :configs="record.example" />`, {
-								record,
-								configs: reactive(defItem.item({}))
-							});
-						}
+						renderEditor: ({ record }) => <aInput v-model:value={record.example} />
+
 					}),
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
-						renderEditor: ({ record }) => {
-							return compileVNode(`<xItem :configs="record.configs_desc" />`, {
-								record
-							});
-						}
+						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
+
 					}),
 					...defCol({
 						label: vm.$t("操作").label,
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,
-						renderCell: ({ record }) =>
-							compileVNode(
+						renderCell: ({ record }) => {
+							return compileVNode(
 								`<xIcon icon="delete" class="pointer" @Click="deleteRow(record._id)" />`,
 								{
 									record,
 									deleteRow: vm.deleteRow
 								}
 							)
+						}
 					})
 				}
 			})
@@ -176,7 +161,6 @@ export const QueryParamsForm = defineComponent({
 					</aButton>
 					<xGap f="1" />
 					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
-						{this.configs_table.dataSource.length}
 						批量添加
 					</a>
 				</div>
@@ -186,9 +170,7 @@ export const QueryParamsForm = defineComponent({
 						class="flex1 width100 "
 						uniqBy="_id"
 					/>
-					{/* <xDataGrid configs={this.configs_table} /> */}
 				</div>
-				{JSON.stringify(this.configs_table.dataSource)}
 			</>
 		);
 	}

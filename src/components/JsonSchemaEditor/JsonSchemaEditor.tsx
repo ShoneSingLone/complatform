@@ -7,11 +7,6 @@ import { defineComponent } from "vue";
 export function string2JsonSchema(jsonString) {
 	try {
 		let json = JSON5.parse(jsonString);
-		if (xU.isObject(json)) {
-			return {
-				root: json
-			};
-		}
 		if (json.properties && typeof json.properties === "object" && !json.type) {
 			json.type = "object";
 		}
@@ -26,7 +21,7 @@ export function string2JsonSchema(jsonString) {
 		if (types.indexOf(json.type) === -1) {
 			return false;
 		}
-		return JSON.stringify(json);
+		return json;
 	} catch (e) {
 		return false;
 	}
@@ -53,7 +48,7 @@ export const JsonSchemaEditor = defineComponent({
 	},
 	render() {
 		return (
-			<SchemaEditor lang="zh_CN" value={this.jsonValue} {...this.$attrs} class="overflow-auto height100 width100"/>
+			<SchemaEditor lang="zh_CN" value={this.jsonValue} {...this.$attrs} class="overflow-auto height100 width100" />
 		);
 	}
 });

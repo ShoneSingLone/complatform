@@ -47,6 +47,14 @@ export const ITEM_OPTIONS = {
 
 /*状态显示样式统一处理*/
 export const ITEM_OPTIONS_VDOM = {
+	interfaceBodyFormType(cell) {
+		if (!xU.isInput(cell)) return null;
+		const i = xU.find(ITEM_OPTIONS.interfaceBodyFormType, {
+			value: cell
+		});
+		/*@ts-ignore*/
+		return <aTag>{i.label}</aTag>;
+	},
 	required(cell) {
 		if (!xU.isInput(cell)) return null;
 		const i = xU.find(ITEM_OPTIONS.required, {

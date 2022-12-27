@@ -556,7 +556,7 @@ const privateLodash = {
 	 * @param val
 	 * @returns
 	 */
-	MutatingProps: (item: any, prop: string, val = null) => {
+	MutatingProps: (item: any, prop: string, val = null, isDelete = false) => {
 		item = item || {};
 		const propArray = prop.split(".");
 		let key = "";
@@ -569,7 +569,11 @@ const privateLodash = {
 				}
 				/* 如果是最后一项，就赋值后退出 */
 				if (propArray.length === 0) {
-					nextItem[key] = val;
+					if (val === "never" && isDelete) {
+						delete nextItem[key]
+					} else {
+						nextItem[key] = val;
+					}
 					return;
 				} else {
 					/* 继续循环，如果中间有undefined，添加中间项 */

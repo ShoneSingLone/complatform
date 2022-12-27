@@ -14,7 +14,10 @@ export const BodyParamsPanel = defineComponent({
 		"reqBodyOther",
 		"reqBodyIsJsonSchema",
 	],
-	emits: ["update:reqBodyForm"],
+	emits: [
+		"update:reqBodyForm",
+		"update:reqBodyType"
+	],
 	data(vm) {
 		return {
 			configsBodyType: defItem.item({
@@ -31,10 +34,19 @@ export const BodyParamsPanel = defineComponent({
 				component: DialogBulkValues,
 				formValues: this.reqBodyForm,
 				onOk: req_body_form => {
-					
 					this.$emit("update:reqBodyForm", req_body_form)
 				}
 			});
+		}
+	},
+	computed: {
+		bodyType: {
+			get() {
+				return this.reqBodyType;
+			},
+			set(type) {
+				this.$emit("update:reqBodyType", type)
+			}
 		}
 	},
 	render() {
@@ -56,7 +68,7 @@ export const BodyParamsPanel = defineComponent({
 						return (
 							<>
 								<xItem
-									v-model={this.reqBodyType}
+									v-model={this.bodyType}
 									configs={this.configsBodyType}
 								/>
 							</>

@@ -17,19 +17,10 @@ export const QueryParamsPanel = defineComponent({
 		return {};
 	},
 	render(vm) {
-		
+
 		return (
 			<aCard>
-				{{
-					default: () => {
-						return <QueryParamsForm
-							reqQuery={this.reqQuery}
-							onUpdate:reqQuery={val => {
-								vm.$emit("update:reqQuery", val)
-							}}
-						/>;
-					}
-				}}
+				<QueryParamsForm reqQuery={this.reqQuery} />
 			</aCard>
 		);
 	}

@@ -11,23 +11,14 @@ export const HeaderParamsPanel = defineComponent({
 			}
 		}
 	},
+	emits: ["update:reqHeaders"],
 	data(vm) {
 		return {};
 	},
 	render(vm) {
-		
 		return (
 			<aCard>
-				{{
-					default: () => {
-						return <HeaderParamsForm
-							reqHeaders={this.reqHeaders}
-							onUpdate:reqHeaders={val => {
-								vm.$emit("update:reqHeaders", val)
-							}}
-						/>;
-					}
-				}}
+				<HeaderParamsForm reqHeaders={this.reqHeaders} />
 			</aCard>
 		);
 	}

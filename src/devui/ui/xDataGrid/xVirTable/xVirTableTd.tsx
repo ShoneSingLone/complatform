@@ -1,9 +1,32 @@
 import { defineComponent } from "vue";
 import $ from "jquery";
 
+$(window).on("click.virTableTdId", function (e) {
+	const virTableTdId = (() => {
+		let $ele = $(e.target);
+		let _virTableTdId = $ele.attr("id");
+		if (/^virTableTdId_/.test(_virTableTdId)) {
+			return _virTableTdId;
+		} else {
+			$ele = $ele.parents("[id^=virTableTdId_]");
+			_virTableTdId = $ele.attr("id");
+			return _virTableTdId;
+		}
+	})()
+	$(window).trigger({
+		type: "onAllCell",
+		/* @ts-ignore */
+		virTableTdId,
+	});
+
+})
+
 export const xVirTableTd = defineComponent({
 	props: ["column", "data"],
 	computed: {
+		id() {
+			return `virTableTdId_${this._.uid}`
+		},
 		prop() {
 			return this.column?.prop;
 		},
@@ -14,72 +37,91 @@ export const xVirTableTd = defineComponent({
 			if (this.column?.renderEditor) {
 				return this.column?.renderEditor;
 			}
-			return this.renderCell;
+			return false;
 		},
 		renderCell() {
 			if (this.column?.renderCell) {
 				return this.column?.renderCell;
 			}
-			return () => this.cell;
-		
+			return false;
 		},
 		vDomCellContent() {
-			if (this.isFocus) {
-				return this.renderEditor({
-					record: this.data,
-					cell: this.cell,
-					index: this.data.__virRowIndex
-				});
-			} else {
+			/* 同时有editor 和 render 根据focus 判断展示 */
+			if (this.renderEditor && this.renderCell) {
+				if (this.isFocus) {
+					return this.renderEditor({
+						record: this.data,
+						cell: this.cell,
+						index: this.data.__virRowIndex
+					});
+				} else {
+					return this.renderCell({
+						record: this.data,
+						cell: this.cell,
+						index: this.data.__virRowIndex
+					});
+				}
+			}
+			/* 只有render */
+			if (!this.renderEditor && this.renderCell) {
 				return this.renderCell({
 					record: this.data,
 					cell: this.cell,
 					index: this.data.__virRowIndex
 				});
 			}
+
+			/* 只有 editor */
+			if (this.renderEditor && !this.renderCell) {
+				if (this.isFocus) {
+					return this.renderEditor({
+						record: this.data,
+						cell: this.cell,
+						index: this.data.__virRowIndex
+					});
+				} else {
+					return this.cell
+				}
+			}
+
+			return this.cell
 		}
 	},
 	data(vm) {
 		return {
-			isFocus:false
+			isFocus: false
 		}
 	},
 	methods: {
-		handleFocus() {
-			$(window).trigger({
-				type:"blur.allCell",
-				trigger:this,
-			  });
-			this.isFocus = true;
-		},
-		handleBlur() {
-			this.isFocus = false;
+		handleAllCell(e) {
+			if (e.virTableTdId === this.id) {
+				if (!this.isFocus) {
+					this.isFocus = true;
+					setTimeout(() => {
+						$(this.$refs.cell).find("input").trigger("focus");
+					}, 64);
+				}
+			} else {
+				if (this.isFocus) {
+					this.isFocus = false;
+				}
+			}
 		}
 	},
 	mounted() {
-		const vm = this;
-		$(this.$refs.cell).on("blur","*", function(){
-			debugger;
-			vm.handleBlur
-		});
-		$(window).on("blur.allCell", function (e) {
-			
-			debugger;
-			if (e.trigger === vm) {
-				return 
-			}
-			vm.handleBlur
-		})
+		$(window).on("onAllCell", this.handleAllCell);
+		if (this.renderEditor) {
+			$(this.$refs.cell).addClass("cursor-editor")
+		}
 	},
 	beforeUnmount() {
-		$(this.$refs.cell).off("blur","*", this.handleBlur)
-		$(window).off("blur.allCell", this.handleBlur)
+		$(window).off("onAllCell", this.handleAllCell)
 	},
 	render() {
 		return (
 			<div
+				id={this.id}
 				ref="cell"
-				onClick={this.handleFocus}
 				role="td"
 				class="xVirTable-cell"
 				data-prop={this.prop}

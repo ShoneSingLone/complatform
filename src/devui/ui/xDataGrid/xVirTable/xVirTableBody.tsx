@@ -1,12 +1,12 @@
 //@ts-nocheck
-import {defineComponent,inject} from "vue";
-import {xU} from "../../ventoseUtils";
-import {usefnObserveDomResize} from "../../compositionAPI/useDomResize";
-import {xVirTableTd} from "./xVirTableTd";
+import { defineComponent, inject, markRaw } from "vue";
+import { xU } from "../../ventoseUtils";
+import { usefnObserveDomResize } from "../../compositionAPI/useDomResize";
+import { xVirTableTr } from "./xVirTableTr";
+import { xVirTableTd } from "./xVirTableTd";
 
 export const xVirTableBody = defineComponent({
     props: [
-        "dataSource",
         "columnOrder",
         "columns",
         "rowHeight",
@@ -15,13 +15,15 @@ export const xVirTableBody = defineComponent({
     ],
     emits: ["selectedChange", "update:scrollHeight"],
     components: {
+        xVirTableTr,
         xVirTableTd
     },
     setup() {
 
-        const {fnObserveDomResize, fnUnobserveDomResize} = usefnObserveDomResize();
+        const { fnObserveDomResize, fnUnobserveDomResize } = usefnObserveDomResize();
         return {
-            uniqBy:inject("uniqBy"),
+            uniqBy: inject("uniqBy"),
+            configs: inject("configs"),
             rowCache: {},
             fnObserveDomResize,
             fnUnobserveDomResize
@@ -49,7 +51,7 @@ export const xVirTableBody = defineComponent({
         });
         this.$watch(
             () => {
-                return `${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper1}`;
+                return `${this.configs.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper1}`;
             },
             () => {
                 this.setVirs1();
@@ -57,14 +59,14 @@ export const xVirTableBody = defineComponent({
         );
         this.$watch(
             () =>
-                `${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper2}`,
+                `${this.configs.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper2}`,
             () => {
                 this.setVirs2();
             }
         );
         this.$watch(
             () =>
-                `${this.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper3}`,
+                `${this.configs.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper3}`,
             () => {
                 this.setVirs3();
             }
@@ -75,20 +77,20 @@ export const xVirTableBody = defineComponent({
     },
     computed: {
         fnIsSelected() {
-            const {isSelect, prop} = this.selectedConfigs || {};
+            const { isSelect, prop } = this.selectedConfigs || {};
             if (xU.isFunction(isSelect)) {
                 return args => {
                     return isSelect.call(this, args);
                 };
             } else {
-                return ({rowData}) => {
+                return ({ rowData }) => {
                     const id = rowData[prop];
                     return this.selected.includes(id);
                 };
             }
         },
         fnIsDisabled() {
-            const {isDisabled} = this.selectedConfigs || {};
+            const { isDisabled } = this.selectedConfigs || {};
             if (xU.isFunction(isDisabled)) {
                 return () => {
                     return isDisabled.call(this, args);
@@ -105,48 +107,39 @@ export const xVirTableBody = defineComponent({
         /* style */
         styleWrapper1() {
             if (this.positionBlock === 0) {
-                return `transform:translateY(${
-                    this.blockInViewCount * this.perBlockHeight
-                }px)`;
+                return `transform:translateY(${this.blockInViewCount * this.perBlockHeight
+                    }px)`;
             }
             if (this.positionBlock === 1) {
-                return `transform:translateY(${
-                    (this.blockInViewCount + 2) * this.perBlockHeight
-                }px)`;
+                return `transform:translateY(${(this.blockInViewCount + 2) * this.perBlockHeight
+                    }px)`;
             }
-            return `transform:translateY(${
-                (this.blockInViewCount + 1) * this.perBlockHeight
-            }px)`;
+            return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight
+                }px)`;
         },
         styleWrapper2() {
             if (this.positionBlock === 0) {
-                return `transform:translateY(${
-                    (this.blockInViewCount + 1) * this.perBlockHeight
-                }px)`;
+                return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight
+                    }px)`;
             }
             if (this.positionBlock === 1) {
-                return `transform:translateY(${
-                    this.blockInViewCount * this.perBlockHeight
-                }px)`;
+                return `transform:translateY(${this.blockInViewCount * this.perBlockHeight
+                    }px)`;
             }
-            return `transform:translateY(${
-                (this.blockInViewCount - 1) * this.perBlockHeight
-            }px)`;
+            return `transform:translateY(${(this.blockInViewCount - 1) * this.perBlockHeight
+                }px)`;
         },
         styleWrapper3() {
             if (this.positionBlock === 0) {
-                return `transform:translateY(${
-                    (this.blockInViewCount + 2) * this.perBlockHeight
-                }px)`;
+                return `transform:translateY(${(this.blockInViewCount + 2) * this.perBlockHeight
+                    }px)`;
             }
             if (this.positionBlock === 1) {
-                return `transform:translateY(${
-                    (this.blockInViewCount + 1) * this.perBlockHeight
-                }px)`;
+                return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight
+                    }px)`;
             }
-            return `transform:translateY(${
-                this.blockInViewCount * this.perBlockHeight
-            }px)`;
+            return `transform:translateY(${this.blockInViewCount * this.perBlockHeight
+                }px)`;
         },
         vDomBodyTr1() {
             return this.genTr(this.virs1)
@@ -161,7 +154,7 @@ export const xVirTableBody = defineComponent({
     methods: {
         clearCacheRow() {
             const props = xU.filter(this.rowCache, (value, prop) => /^blockId/.test(prop));
-            xU.each(props,prop=>(delete this.rowCache[prop]))
+            xU.each(props, prop => (delete this.rowCache[prop]))
         },
         genTr(rows) {
             console.time("genTr");
@@ -169,7 +162,6 @@ export const xVirTableBody = defineComponent({
                 if (!this.uniqBy) {
                     return xU.map(rows, (data: object, rowIndex: number) => {
                         const { __virRowIndex } = data;
-
                         return (
                             <div role="tr"
                                 class="xVirTable-row flex horizon"
@@ -194,29 +186,26 @@ export const xVirTableBody = defineComponent({
                     }, "blockId");
                     if (!this.rowCache[blockId]) {
                         console.log("xVirTableBody blockId", blockId);
-                        this.rowCache[blockId] =  xU.map(rows, (data: object, rowIndex: number) => {
+                        this.rowCache[blockId] = xU.map(rows, (data: object, rowIndex: number) => {
                             if (!this.rowCache[data[this.uniqBy]]) {
-                                console.log("genTr", data._id,data.__virRowIndex);
+                                console.log("genTr", data._id, data.__virRowIndex);
                                 const { __virRowIndex } = data;
                                 this.rowCache[data[this.uniqBy]] = (
-                                    <div role="tr" class="xVirTable-row flex horizon" data-row-key={__virRowIndex}>{this.genSelectedVDom({rowIndex, rowData: data})}{xU.map(this.columnOrder, (prop: string, index: number) => {
-                                            return (
-                                                <xVirTableTd column={this.columns[prop]} data-col-index={index} data={data} />
-                                            );
-                                        })}
+                                    <div role="tr" class="xVirTable-row flex horizon" data-row-key={__virRowIndex}>
+                                        {this.genSelectedVDom({ rowIndex, rowData: data })}
+                                        {
+                                            xU.map(this.columnOrder, (prop: string, index: number) => {
+                                                return (<xVirTableTd column={this.columns[prop]} data-col-index={index} data={data} />);
+                                            })
+                                        }
                                     </div>
                                 )
                             }
                             return this.rowCache[data._id];
-            
+
                         })
                     }
-    
-                    return this.rowCache[blockId]
-    
-    
-    
-                    
+                    return this.rowCache[blockId];
                 }
             })();
             console.timeEnd("genTr");
@@ -241,10 +230,11 @@ export const xVirTableBody = defineComponent({
             this.virs3 = this.fragment(start, end);
         },
         fragment(start: number, end: number): any {
-            return this.dataSource.slice(start, end).map((i, index) => ({
-                ...i,
-                __virRowIndex: start + 1 + index
-            }));
+            const targetRecords = this.configs.dataSource.slice(start, end).map((i, index) => {
+                i.__virRowIndex = start + index
+                return i;
+            });
+            return targetRecords;
         },
         genSelectedVDom(rowInfo) {
             if (!this.selectedConfigs) {
@@ -253,13 +243,13 @@ export const xVirTableBody = defineComponent({
             const isSelected = this.fnIsSelected(rowInfo);
             let isDisabled = this.fnIsDisabled(rowInfo);
             const handleChange = e => {
-                const {prop} = this.selectedConfigs;
+                const { prop } = this.selectedConfigs;
                 this.emitSelectedChange(e.target.checked, rowInfo.rowData[prop]);
             };
             let vDomChecked;
             if (xU.isString(isDisabled)) {
                 isDisabled = true;
-                const uiPopoverConfigs = {content: isDisabled};
+                const uiPopoverConfigs = { content: isDisabled };
                 vDomChecked = (
                     <aCheckbox
                         checked={isSelected}
@@ -285,7 +275,7 @@ export const xVirTableBody = defineComponent({
             );
         },
         emitSelectedChange(checked, id) {
-            this.$emit("selectedChange", {checked, id});
+            this.$emit("selectedChange", { checked, id });
         },
         setPerBlockHeight: xU.debounce(function (viewportHeight: number) {
             this.viewportHeight = viewportHeight;
@@ -309,7 +299,7 @@ export const xVirTableBody = defineComponent({
             }
         },
         setHeight() {
-            const height = this.dataSource.length * this.rowHeight;
+            const height = this.configs.dataSource.length * this.rowHeight;
             if (this.viewportHeight && height < this.viewportHeight) {
                 /* @ts-ignore */
                 this.styleWrapperAll.width = `calc(100% - 6px)`;
@@ -327,7 +317,7 @@ export const xVirTableBody = defineComponent({
         top() {
             this.setTop();
         },
-        "dataSource.length": {
+        "configs.dataSource.length": {
             immediate: true,
             handler() {
                 this.clearCacheRow();

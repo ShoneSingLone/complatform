@@ -451,7 +451,10 @@ export default {
 			const name = this._joinName();
 			const type = "string";
 			const node = this.pickValue;
-			node.properties || (node["properties"] = {}); // this.$set(node,'properties',{})
+			if (!node.properties) {
+				// this.$set(node,'properties',{})
+				node.properties = {};
+			}
 			const props = node.properties;
 			props[name] = { type: type }; //this.$set(props,name,{type: type})
 		},

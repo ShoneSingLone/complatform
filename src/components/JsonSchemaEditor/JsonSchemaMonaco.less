@@ -1,0 +1,26 @@
+.JsonSchemaMonaco {
+	height: 100%;
+	width: 100%;
+	.left-json-tree {
+		width: 300px;
+		.JsonSchemaMonaco-json-tree {
+			.ant-tree-treenode {
+				width: 100%;
+				.ant-tree-node-content-wrapper {
+					flex: 1;
+					cursor: unset;
+				}
+			}
+		}
+
+		.JsonSchemaMonaco-monaco-panel {
+			position: relative;
+			.JsonSchemaMonaco-monaco-panel_button {
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+				z-index: 1;
+			}
+		}
+	}
+}

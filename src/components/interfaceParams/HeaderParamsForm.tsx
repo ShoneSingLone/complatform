@@ -6,11 +6,11 @@ import {
     UI,
     xU
 } from "@ventose/ui";
-import {State_Project} from "src/containers/Project/Interface/State_Project";
-import {Cpt_url} from "src/router/router";
-import {ITEM_OPTIONS, ITEM_OPTIONS_VDOM} from "src/utils/common.options";
-import {defineComponent, markRaw, reactive} from "vue";
-import {DialogBulkValues} from "./DialogBulkValues";
+import { State_Project } from "src/containers/Project/Interface/State_Project";
+import { Cpt_url } from "src/router/router";
+import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "src/utils/common.options";
+import { defineComponent, markRaw, reactive } from "vue";
+import { DialogBulkValues } from "./DialogBulkValues";
 
 function newFormData([name, value] = ["", ""]) {
     return {
@@ -39,7 +39,6 @@ const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
 
 export const HeaderParamsForm = defineComponent({
     props: ["reqHeaders"],
-    emits: ["update:reqHeaders"],
     watch: {
         "reqHeaders": {
             immediate: true,
@@ -65,34 +64,17 @@ export const HeaderParamsForm = defineComponent({
             });
         },
         addRow() {
-            this.syncFormDataFromConfigs();
             this.configs_table.dataSource.unshift(newFormData());
         },
         deleteRow(_id) {
-            const index = xU.findIndex(this.configs_table.dataSource, {_id});
+            const index = xU.findIndex(this.configs_table.dataSource, { _id });
             if (~index) {
-                this.syncFormDataFromConfigs();
                 this.configs_table.dataSource.splice(index, 1);
             }
         },
-        syncFormDataFromConfigs() {
-            xU.each(this.configs_table.dataSource, rowData => {
-                xU.each(BODY_PARAM_PROP_ARRAY, prop => {
-                    if (rowData[`configs_${prop}`]) {
-                        rowData[prop] = rowData[`configs_${prop}`].value;
-                    }
-                });
-            });
-            
-            this.$emit("update:reqHeaders", this.configs_table.dataSource);
-        },
         resetDataForm(newFormDataArray) {
-            this.resetDataForm.origin = newFormDataArray;
-            this.configs_table.dataSource = [...newFormDataArray];
+            this.configs_table.dataSource = newFormDataArray
         },
-        getDataForm() {
-
-        }
     },
     data(vm) {
         return {
@@ -104,82 +86,33 @@ export const HeaderParamsForm = defineComponent({
                     `#${tableId} div[role=tr] div[role=th][data-prop=operations]{justify-content:center;}`,
                     `#${tableId} div[role=tr] div[role=td][data-prop=operations]{justify-content:center;color:red;}`
                 ].join("\n"),
-                dataSourceFilter(dataSource) {
-                    return xU.map(dataSource, rowRecord => {
-                        xU.each(STRATEGY_CELL_ITEM_CONFIGS, (options, prop) => {
-                            if (!rowRecord[`configs_${prop}`]) {
-                                rowRecord[`configs_${prop}`] = markRaw(defItem.item(
-                                    xU.merge(
-                                        {
-                                            value: rowRecord[prop],
-                                            itemWrapperClass: "input-width100",
-                                            onAfterValueEmit(val) {
-
-                                            }
-                                        },
-                                        options
-                                    )
-                                ))
-                            }
-                        });
-                        return rowRecord;
-                    });
-                },
                 columns: {
                     ...defCol({
                         label: vm.$t("名称").label,
                         prop: "name",
-                        renderCell: ({record}) => compileVNode(
-                            `<xItem :configs="record.configs_name" />`,
-                            {record},
-                            `${ID_NAME}${record._id}`
-                        )
-
+                        renderEditor: ({ record }) => <aInput v-model:value={record.name} />
                     }),
                     ...defCol({
                         label: vm.$t("参数值").label,
                         prop: "value",
-                        renderCell: ({record}) =>
-                            compileVNode(
-                                `<xItem :configs="record.configs_value" />`,
-                                {record},
-                                `${ID_RECORD}${record._id}`
-                            )
+                        renderEditor: ({ record }) => <aInput v-model:value={record.value} />
                     }),
                     ...defCol({
                         label: vm.$t("示例").label,
                         prop: "example",
-                        renderCell: ({record}) =>
-                            compileVNode(
-                                `<xItem :configs="record.configs_example" />`,
-                                {record},
-                                `${ID_RECORD}${record._id}`
-                            )
+                        renderEditor: ({ record }) => <aInput v-model:value={record.example} />
                     }),
                     ...defCol({
                         label: vm.$t("备注").label,
                         prop: "desc",
-                        renderCell: ({record}) =>
-                            compileVNode(
-                                `<xItem :configs="record.configs_desc" />`,
-                                {record},
-                                `${ID_DESC}${record._id}`
-                            )
+                        renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
                     }),
                     ...defCol({
                         label: vm.$t("操作").label,
                         prop: "operations",
                         width: "40px",
                         renderHeader: () => null,
-                        renderCell: ({record}) =>
-                            compileVNode(
-                                `<xIcon icon="delete" class="pointer" @Click="deleteRow(record._id)" />`,
-                                {
-                                    record,
-                                    deleteRow: vm.deleteRow
-                                },
-                                `${ID_OPERATIONS}${record._id}`
-                            )
+                        renderCell: ({ record }) => <xIcon icon="delete" class="pointer" onClick={() => vm.deleteRow(record._id)} />
                     })
                 }
             })
@@ -192,13 +125,13 @@ export const HeaderParamsForm = defineComponent({
                     <aButton class="mb10" onClick={this.addRow}>
                         添加一行
                     </aButton>
-                    <xGap f="1"/>
+                    <xGap f="1" />
                     <a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
                         批量添加
                     </a>
                 </div>
-                <div style={{height: "300px"}}>
-                    <xVirTable configs={this.configs_table} class="flex1 width100 "/>
+                <div style={{ height: "300px" }}>
+                    <xVirTable configs={this.configs_table} class="flex1 width100 " />
                 </div>
             </>
         );
