@@ -20,10 +20,7 @@ import xCellLabel from "./xDataGrid/xCellLabel.vue";
 import { xPagination } from "./xDataGrid/xPagination";
 import xColFilter from "./xDataGrid/xColFilter.vue";
 import xVirScroll from "./xSingle/xScroll/xVirScroll.vue";
-import {
-	defXVirTableConfigs as defXVirTableConfigs,
-	xVirTable
-} from "./xDataGrid/xVirTable/xVirTable";
+import { defXVirTableConfigs as defXVirTableConfigs, xVirTable } from "./xDataGrid/xVirTable/xVirTable";
 import { xU } from "./ventoseUtils";
 import { State_UI, Cpt_UI_locale } from "./State_UI";
 import dayjs from "dayjs";
@@ -79,7 +76,7 @@ const componentMyUI = {
 };
 
 export const components = {
-	...componentMyUI
+	...componentMyUI,
 };
 
 export { VNodeCollection as VNodeCollection };

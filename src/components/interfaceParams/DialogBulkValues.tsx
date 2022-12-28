@@ -39,9 +39,7 @@ export const DialogBulkValues = defineComponent({
 	watch: {
 		"propDialogOptions.formValues": {
 			immediate: true,
-			handler() {
-
-			}
+			handler() {}
 		}
 	},
 	mounted() {
@@ -53,7 +51,7 @@ export const DialogBulkValues = defineComponent({
 	},
 	computed: {
 		styleBody() {
-			return "min-height:500px:width:500px"
+			return "min-height:500px:width:500px";
 		},
 		onOk() {
 			if (!xU.isFunction(this.propDialogOptions?.onOk)) {
@@ -92,15 +90,18 @@ export const DialogBulkValues = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="flex flex1 vertical padding10" >
+				<div class="flex flex1 vertical padding10">
 					<aAlert
 						message={`型如key:value一行一个 换行即可，不要使用逗号、分号分隔`}
 					/>
 					<div style="height:340px;width:500px">
-						<MonacoEditor v-model:code={this.formItems.bulkValue.value} language="text"/>
+						<MonacoEditor
+							v-model:code={this.formItems.bulkValue.value}
+							language="text"
+						/>
 					</div>
 				</div>
-				<xDialogFooter configs={this.configsFooter}  />
+				<xDialogFooter configs={this.configsFooter} />
 			</>
 		);
 	}

@@ -8,16 +8,8 @@ import { DialogBulkValues } from "./DialogBulkValues";
 
 export const BodyParamsPanel = defineComponent({
 	/* req_body_type */
-	props: [
-		"reqBodyType",
-		"reqBodyForm",
-		"reqBodyOther",
-		"reqBodyIsJsonSchema",
-	],
-	emits: [
-		"update:reqBodyForm",
-		"update:reqBodyType"
-	],
+	props: ["reqBodyType", "reqBodyForm", "reqBodyOther", "reqBodyIsJsonSchema"],
+	emits: ["update:reqBodyForm", "update:reqBodyType"],
 	data(vm) {
 		return {
 			configsBodyType: defItem.item({
@@ -34,7 +26,7 @@ export const BodyParamsPanel = defineComponent({
 				component: DialogBulkValues,
 				formValues: this.reqBodyForm,
 				onOk: req_body_form => {
-					this.$emit("update:reqBodyForm", req_body_form)
+					this.$emit("update:reqBodyForm", req_body_form);
 				}
 			});
 		}
@@ -45,7 +37,7 @@ export const BodyParamsPanel = defineComponent({
 				return this.reqBodyType;
 			},
 			set(type) {
-				this.$emit("update:reqBodyType", type)
+				this.$emit("update:reqBodyType", type);
 			}
 		}
 	},
@@ -67,10 +59,7 @@ export const BodyParamsPanel = defineComponent({
 						/* 类型选择 */
 						return (
 							<>
-								<xItem
-									v-model={this.bodyType}
-									configs={this.configsBodyType}
-								/>
+								<xItem v-model={this.bodyType} configs={this.configsBodyType} />
 							</>
 						);
 					},
@@ -78,9 +67,7 @@ export const BodyParamsPanel = defineComponent({
 						return (
 							<>
 								{this.reqBodyType == "form" ? (
-									<BodyParamsForm
-										reqBodyForm={this.reqBodyForm}
-									/>
+									<BodyParamsForm reqBodyForm={this.reqBodyForm} />
 								) : null}
 								{this.reqBodyType == "json" ? (
 									<BodyParamsJson
@@ -90,9 +77,7 @@ export const BodyParamsPanel = defineComponent({
 								) : null}
 								{this.reqBodyType == "file" ? "开发中......" : null}
 								{this.reqBodyType == "raw" ? (
-									<BodyParamsRaw
-										reqBodyOther={this.reqBodyOther}
-									/>
+									<BodyParamsRaw reqBodyOther={this.reqBodyOther} />
 								) : null}
 							</>
 						);

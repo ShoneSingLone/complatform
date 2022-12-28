@@ -72,17 +72,17 @@ export const READY: {
 		var jsPath = document.currentScript
 			? document.currentScript.src
 			: (function () {
-					var js = document.scripts,
-						last = js.length - 1,
-						src;
-					for (var i = last; i > 0; i--) {
-						if (js[i].readyState === "interactive") {
-							src = js[i].src;
-							break;
-						}
+				var js = document.scripts,
+					last = js.length - 1,
+					src;
+				for (var i = last; i > 0; i--) {
+					if (js[i].readyState === "interactive") {
+						src = js[i].src;
+						break;
 					}
-					return src || js[last].src;
-			  })();
+				}
+				return src || js[last].src;
+			})();
 		const GLOBAL = {};
 		return GLOBAL.layer_dir || jsPath.substring(0, jsPath.lastIndexOf("/") + 1);
 	})(),
@@ -234,19 +234,19 @@ const LayerUtils = {
 				},
 				isOptionsIsFunction && !READY.config.skin
 					? {
-							skin: skin + " layui-layer-hui",
-							anim: anim
-					  }
+						skin: skin + " layui-layer-hui",
+						anim: anim
+					}
 					: (function () {
-							options = options || {};
-							if (
-								options.icon === -1 ||
-								(options.icon === undefined && !READY.config.skin)
-							) {
-								options.skin = skin + " " + (options.skin || "layui-layer-hui");
-							}
-							return options;
-					  })()
+						options = options || {};
+						if (
+							options.icon === -1 ||
+							(options.icon === undefined && !READY.config.skin)
+						) {
+							options.skin = skin + " " + (options.skin || "layui-layer-hui");
+						}
+						return options;
+					})()
 			)
 		);
 	},
@@ -307,7 +307,7 @@ const LayerUtils = {
 								iframe.contentWindow.document.write("");
 								iframe.contentWindow.close();
 								$eleLayer.find(`.${LAYUI_LAYER_IFRAME}`)[0].removeChild(iframe);
-							} catch (e) {}
+							} catch (e) { }
 						}
 					}
 
@@ -524,10 +524,13 @@ const LayerUtils = {
 		return await Promise.all(needClose.map(LayerUtils.close));
 	},
 	setLayerTop($current: JQuery) {
+		const type = $current.attr("type");
 		if ($current.hasClass("set-layer-top")) {
 			return;
 		} else {
-			$(".set-layer-top").removeClass("set-layer-top");
+			const selector = `.set-layer-top[type=${type}]`;
+			/* FIX: 防止不同类型的层重排 */
+			$(selector).removeClass("set-layer-top");
 			$current.addClass("set-layer-top").appendTo($body);
 		}
 	}
@@ -596,9 +599,8 @@ class ClassLayer {
 		if (!config.shade) {
 			return "";
 		}
-		return `<div class="${LAYUI_LAYER_SHADE}" id="${_IDShade}" style="z-index:${
-			this.zIndex - 1
-		};"></div>`;
+		return `<div class="${LAYUI_LAYER_SHADE}" id="${_IDShade}" style="z-index:${this.zIndex - 1
+			};"></div>`;
 	}
 
 	get cptDomTitle() {
@@ -645,8 +647,8 @@ class ClassLayer {
 						(config.title
 							? config.closeBtn
 							: config.type == LayerUtils.TIPS
-							? "1"
-							: "2") +
+								? "1"
+								: "2") +
 						'" href="javascript:;"></a>';
 				}
 				return closebtn;
@@ -677,9 +679,8 @@ class ClassLayer {
 				},
 				""
 			);
-			return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${
-				config.btnAlign || ""
-			}">${domButtons}</div>`;
+			return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${config.btnAlign || ""
+				}">${domButtons}</div>`;
 		}
 		return "";
 	}
@@ -853,7 +854,7 @@ class ClassLayer {
 				}
 				config.follow = config.content[1];
 				const arrow = '<i class="layui-layer-TipsG"></i>';
-				config.content = `<div style="max-width:300px;overflow:auto;">${config.content[0]}<div>${arrow}`;
+				config.content = `<div style="max-width:${config?.custumSettings?.maxWidth || "300px"};overflow:auto;">${config.content[0]}<div>${arrow}`;
 				delete config.title;
 				config.btn = [];
 				config.tips =

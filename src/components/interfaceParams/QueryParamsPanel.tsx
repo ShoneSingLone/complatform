@@ -1,7 +1,6 @@
 import { defineComponent } from "vue";
 import { QueryParamsForm } from "./QueryParamsForm";
 
-
 export const QueryParamsPanel = defineComponent({
 	/* req_body_type */
 	props: {
@@ -17,7 +16,6 @@ export const QueryParamsPanel = defineComponent({
 		return {};
 	},
 	render(vm) {
-
 		return (
 			<aCard>
 				<QueryParamsForm reqQuery={this.reqQuery} />

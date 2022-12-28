@@ -48,7 +48,12 @@ export const JsonSchemaEditor = defineComponent({
 	},
 	render() {
 		return (
-			<SchemaEditor lang="zh_CN" value={this.jsonValue} {...this.$attrs} class="overflow-auto height100 width100" />
+			<SchemaEditor
+				lang="zh_CN"
+				value={this.jsonValue}
+				{...this.$attrs}
+				class="overflow-auto height100 width100"
+			/>
 		);
 	}
 });

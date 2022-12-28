@@ -240,7 +240,7 @@ export const DialogModifyInterface = defineComponent({
 					activeKey: "1",
 					apiMethod: "",
 					itemType: ResponseRender
-				}),
+				})
 			}
 		};
 	},
@@ -284,7 +284,7 @@ export const DialogModifyInterface = defineComponent({
 				res_body,
 				res_body_type,
 				res_body_mock,
-				res_body_is_json_schema,
+				res_body_is_json_schema
 			} = this.detailInfo;
 
 			setValueTo(this.dataXItem, {
@@ -313,7 +313,7 @@ export const DialogModifyInterface = defineComponent({
 					res_body_is_json_schema,
 					res_body,
 					res_body_type,
-					res_body_mock,
+					res_body_mock
 				}
 			});
 		},

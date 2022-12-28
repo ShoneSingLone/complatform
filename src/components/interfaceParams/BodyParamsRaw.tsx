@@ -46,7 +46,7 @@ const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
 export const BodyParamsRaw = defineComponent({
 	props: ["reqBodyOther"],
 	watch: {
-		"reqBodyOther": {
+		reqBodyOther: {
 			immediate: true,
 			handler(bodyText) {
 				this.resetDataForm(bodyText);

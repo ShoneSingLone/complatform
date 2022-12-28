@@ -65,6 +65,7 @@ export const MonacoEditor = defineAsyncComponent(
 						}
 					},
 					render() {
+						debugger;
 						return (
 							<div
 								id={this.id}

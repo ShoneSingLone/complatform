@@ -95,7 +95,8 @@ export const BodyParamsForm = defineComponent({
 						label: vm.$t("类型").label,
 						prop: "type",
 						width: "110px",
-						renderCell: ({ record }) => ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type),
+						renderCell: ({ record }) =>
+							ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type),
 						renderEditor: ({ record }) => {
 							return compileVNode(
 								`<xItem :configs="configs" v-model="record.type" />`,
@@ -107,16 +108,17 @@ export const BodyParamsForm = defineComponent({
 											itemWrapperClass: "input-width100",
 											options: ITEM_OPTIONS.interfaceBodyFormType
 										})
-									}
+									};
 								}
 							);
-						},
+						}
 					}),
 					...defCol({
 						label: vm.$t("必需").label,
 						prop: "required",
 						width: "110px",
-						renderCell: ({ record }) => ITEM_OPTIONS_VDOM.required(record.required),
+						renderCell: ({ record }) =>
+							ITEM_OPTIONS_VDOM.required(record.required),
 						renderEditor: ({ record }) => {
 							return compileVNode(
 								`<xItem :configs="configs" v-model="record.required" />`,
@@ -128,28 +130,35 @@ export const BodyParamsForm = defineComponent({
 											itemWrapperClass: "input-width100",
 											options: ITEM_OPTIONS.required
 										})
-									}
+									};
 								}
 							);
-						},
+						}
 					}),
 					...defCol({
 						label: vm.$t("示例").label,
 						prop: "example",
-						renderEditor: ({ record }) => <aInput v-model:value={record.example} />
+						renderEditor: ({ record }) => (
+							<aInput v-model:value={record.example} />
+						)
 					}),
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
 						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
-
 					}),
 					...defCol({
 						label: vm.$t("操作").label,
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,
-                        renderCell: ({ record }) => <xIcon icon="delete" class="pointer" onClick={() => vm.deleteRow(record._id)} />
+						renderCell: ({ record }) => (
+							<xIcon
+								icon="delete"
+								class="pointer"
+								onClick={() => vm.deleteRow(record._id)}
+							/>
+						)
 					})
 				}
 			})

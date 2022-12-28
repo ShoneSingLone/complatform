@@ -43,19 +43,25 @@ export const RequestArgsPanel = defineComponent({
 		}
 
 		const bodyHeader = (() => {
-			if (this.privateParams.req_body_type == 'form') {
-				return `${BODY} ${this.privateParams.req_body_type} ${this.privateParams.req_body_form.length}`
+			if (this.privateParams.req_body_type == "form") {
+				return `${BODY} ${this.privateParams.req_body_type} ${this.privateParams.req_body_form.length}`;
 			}
 
-			return `${BODY} ${this.privateParams.req_body_type}`
+			return `${BODY} ${this.privateParams.req_body_type}`;
 		})();
 
 		return (
 			<aCollapse v-model:activeKey={this.collapseActive}>
-				<aCollapsePanel key="header" header={`header ${this.privateParams.req_headers.length}`}>
-					<HeaderParamsPanel v-model:reqHeaders={this.privateParams.req_headers} />
+				<aCollapsePanel
+					key="header"
+					header={`header ${this.privateParams.req_headers.length}`}>
+					<HeaderParamsPanel
+						v-model:reqHeaders={this.privateParams.req_headers}
+					/>
 				</aCollapsePanel>
-				<aCollapsePanel key={QUERY} header={`${QUERY} ${this.privateParams.req_query.length}`}>
+				<aCollapsePanel
+					key={QUERY}
+					header={`${QUERY} ${this.privateParams.req_query.length}`}>
 					<QueryParamsPanel v-model:reqQuery={this.privateParams.req_query} />
 				</aCollapsePanel>
 				<aCollapsePanel
@@ -64,7 +70,9 @@ export const RequestArgsPanel = defineComponent({
 					collapsible={this.bodyCollapsible}>
 					<BodyParamsPanel
 						v-model:reqBodyType={this.privateParams.req_body_type}
-						v-model:reqBodyIsJsonSchema={this.privateParams.req_body_is_json_schema}
+						v-model:reqBodyIsJsonSchema={
+							this.privateParams.req_body_is_json_schema
+						}
 						v-model:reqBodyForm={this.privateParams.req_body_form}
 						v-model:reqBodyOther={this.privateParams.req_body_other}
 					/>

@@ -19,8 +19,7 @@ export const ViewNotFound = defineComponent({
 		}
 	},
 	data(vm) {
-		return {
-		}
+		return {};
 	},
 	render() {
 		return (

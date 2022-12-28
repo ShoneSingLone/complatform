@@ -1,2 +1,3 @@
 ui
 *.min.js
+public/monaco

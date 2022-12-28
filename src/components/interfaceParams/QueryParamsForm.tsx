@@ -78,7 +78,7 @@ export const QueryParamsForm = defineComponent({
 		},
 		resetDataForm(newFormDataArray) {
 			this.configs_table.dataSource = newFormDataArray;
-		},
+		}
 	},
 	data(vm) {
 		return {
@@ -102,7 +102,8 @@ export const QueryParamsForm = defineComponent({
 						label: vm.$t("必需").label,
 						prop: "required",
 						width: "110px",
-						renderCell: ({ record }) => ITEM_OPTIONS_VDOM.required(record.required),
+						renderCell: ({ record }) =>
+							ITEM_OPTIONS_VDOM.required(record.required),
 						renderEditor: ({ record }) => {
 							return compileVNode(
 								`<xItem :configs="configs" v-model="record.required" />`,
@@ -116,22 +117,22 @@ export const QueryParamsForm = defineComponent({
 												options: ITEM_OPTIONS.required
 											})
 										)
-									}
+									};
 								}
 							);
-						},
+						}
 					}),
 					...defCol({
 						label: vm.$t("示例").label,
 						prop: "example",
-						renderEditor: ({ record }) => <aInput v-model:value={record.example} />
-
+						renderEditor: ({ record }) => (
+							<aInput v-model:value={record.example} />
+						)
 					}),
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
 						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
-
 					}),
 					...defCol({
 						label: vm.$t("操作").label,
@@ -145,7 +146,7 @@ export const QueryParamsForm = defineComponent({
 									record,
 									deleteRow: vm.deleteRow
 								}
-							)
+							);
 						}
 					})
 				}
