@@ -11,28 +11,30 @@ function makeProps(pre, prop) {
 function transJsonTree(item, prop, key) {
 	if (prop === 0) {
 		return {
+			...item,
+			/* antdv tree 需要的属性 */
 			key,
 			title: "root",
 			children: xU.map(item.properties, (item, prop) =>
 				transJsonTree(item, prop, makeProps(key, prop))
-			),
-			item
+			)
 		};
 	} else {
 		return {
+			...item,
+			/* antdv tree 需要的属性 */
 			key,
 			title: prop,
 			children: xU.map(item.properties, (item, prop) =>
 				transJsonTree(item, prop, makeProps(key, prop))
-			),
-			item
+			)
 		};
 	}
 }
 
 const PopoverContent = defineComponent(
 	markRaw({
-		template: `<a-alert type="info">
+		template: `<aAlert type="info">
 		<template #icon><smile-outlined /></template>
 		<template #message>
 		  <ul>
@@ -43,7 +45,7 @@ const PopoverContent = defineComponent(
 			<li><aTag color="green">root</aTag>{{$t("点击root可以查看全部JSON schema 内容,并且可以全量修改JSON").label}}</li>
 		  </ul>
 		</template>
-	  </a-alert>
+	  </aAlert>
 	  `
 	})
 );
@@ -60,7 +62,6 @@ export const JsonSchemaMonaco = defineComponent({
 			immediate: true,
 			deep: true,
 			handler(currentNode) {
-				debugger;
 				if (currentNode) {
 					this.jsonSchemaString = JSON.stringify(currentNode, null, 2);
 				} else {
@@ -115,8 +116,8 @@ export const JsonSchemaMonaco = defineComponent({
 			});
 			this.isTreeLoading = false;
 		}, 0),
-		handleTreeClick({ item, title }) {
-			if (title === "root") {
+		handleTreeClick(item) {
+			if (item.title === "root") {
 				this.setCurrentNode();
 				this.jsonSchemaString = JSON.stringify(this.jsonSchema, null, 2);
 			} else {

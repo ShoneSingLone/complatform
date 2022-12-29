@@ -1,5 +1,5 @@
-import { resolveComponent } from "vue";
-import { xU } from "../../ventoseUtils";
+import {resolveComponent} from "vue";
+import {xU} from "../../ventoseUtils";
 
 /**
  * @Description

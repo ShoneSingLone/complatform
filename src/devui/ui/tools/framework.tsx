@@ -1,5 +1,5 @@
-import { h, defineComponent, onMounted, onUnmounted } from "vue";
-import { xU } from "../ventoseUtils";
+import {defineComponent, h} from "vue";
+import {xU} from "../ventoseUtils";
 
 const DELAY = 60 * 5;
 const CACHE_V_NODE: { [prop: string]: any } = {};

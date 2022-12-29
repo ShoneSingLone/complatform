@@ -15,20 +15,8 @@
 </template>
 
 <script>
-import { ITEM_OPTIONS } from "../../common/options";
-import {
-	defCol,
-	defColActions,
-	xU,
-	UI,
-	defColActionsBtnlist,
-	defDataGridOption,
-	defItem,
-	vModel,
-	setDataGridInfo,
-	State_UI,
-	getPaginationPageSize
-} from "@ventose/ui";
+import {ITEM_OPTIONS} from "../../common/options";
+import {defCol, defDataGridOption, State_UI, xU} from "@ventose/ui";
 
 const { $t } = State_UI;
 

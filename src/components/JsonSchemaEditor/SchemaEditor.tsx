@@ -36,15 +36,20 @@ export const SchemaEditor = defineComponent({
 	data(vm) {
 		return {
 			dataXItem: {
-				...defItem({ value: "", prop: "key", label: "key", readonly: true }),
+				...defItem({
+					value: "",
+					prop: "key",
+					label: vm.$t("对象访问路径").label,
+					readonly: true
+				}),
 				...defItem({
 					value: "",
 					prop: "title",
 					label: vm.$t("字段名").label,
 					onAfterValueEmit(val) {
-						const array = String(vm.dataXItem.key.value).split(SPE);
+						const array = String(vm.currentNode.key).split(SPE);
 						array[array.length - 1] = val;
-						vm.dataXItem.key.value = array.join(SPE);
+						vm.currentNode.key = array.join(SPE);
 					},
 					rules: [FormRules.required()]
 				}),
@@ -191,28 +196,52 @@ export const SchemaEditor = defineComponent({
 						<>
 							<xGap t="10" />
 							<div class="flex middle">
-								<xItem configs={vm.dataXItem.minProperties} class="flex1" />
+								<xItem
+									configs={vm.dataXItem.minProperties}
+									v-model={vm.currentNode.minProperties}
+									class="flex1"
+								/>
 								<xGap t="10" />
-								<xItem configs={vm.dataXItem.maxProperties} class="flex1" />
+								<xItem
+									configs={vm.dataXItem.maxProperties}
+									v-model={vm.currentNode.maxProperties}
+									class="flex1"
+								/>
 							</div>
 						</>
 					);
 				},
 				string: () => (
 					<>
-						<xGap t="10" /> <xItem configs={vm.dataXItem.default} />
+						<xGap t="10" />{" "}
+						<xItem
+							configs={vm.dataXItem.default}
+							v-model={vm.currentNode.default}
+						/>
 						<xGap t="10" />
 						<div class="flex middle">
-							<xItem configs={vm.dataXItem.minLength} class="flex1" />
+							<xItem
+								configs={vm.dataXItem.minLength}
+								v-model={vm.currentNode.minLength}
+								class="flex1"
+							/>
 							<xGap t="10" />
-							<xItem configs={vm.dataXItem.maxLength} class="flex1" />
+							<xItem
+								configs={vm.dataXItem.maxLength}
+								v-model={vm.currentNode.maxLength}
+								class="flex1"
+							/>
 						</div>
-						<xGap t="10" /> <xItem configs={vm.dataXItem.pattern} />
 						<xGap t="10" />{" "}
-						<xItem configs={vm.dataXItem.enum}>
+						<xItem
+							configs={vm.dataXItem.pattern}
+							v-model={vm.currentNode.pattern}
+						/>
+						<xGap t="10" />
+						<xItem configs={vm.dataXItem.enum} v-model={vm.currentNode.enum}>
 							{/* 勾选之后才会显示enum备注 */}
 							{{
-								afterControll: (
+								afterControll: () => (
 									<aCheckbox
 										class="ml10"
 										checked={!vm.dataXItem.enum.disabled}
@@ -225,14 +254,22 @@ export const SchemaEditor = defineComponent({
 						</xItem>
 						{vm.dataXItem.enum.disabled ? null : (
 							<>
-								<xGap t="10" /> <xItem configs={vm.dataXItem.enumDesc} />
+								<xGap t="10" />{" "}
+								<xItem
+									configs={vm.dataXItem.enumDesc}
+									v-model={vm.currentNode.enumDesc}
+								/>
 							</>
 						)}
-						<xGap t="10" /> <xItem configs={vm.dataXItem.format} />
+						<xGap t="10" />{" "}
+						<xItem
+							configs={vm.dataXItem.format}
+							v-model={vm.currentNode.format}
+						/>
 					</>
 				)
 			};
-			const fn = FORM_STRATEGY[vm.dataXItem.type.value];
+			const fn = FORM_STRATEGY[vm.currentNode.type];
 			return fn ? fn() : null;
 		}
 	},
@@ -263,35 +300,34 @@ export const SchemaEditor = defineComponent({
 		}
 		return (
 			<div className="SchemaEditor flex vertical flex1">
-				<xForm
-					class="flex vertical"
-					labelStyle={{ "min-width": "120px", width: "unset" }}>
-					<xGap t="10" />{" "}
-					<xItem configs={this.dataXItem.key} v-model={vm.currentNode.key} />
-					<xGap t="10" />{" "}
-					<xItem
-						configs={this.dataXItem.title}
-						v-model={vm.currentNode.title}
-					/>
-					<xGap t="10" />{" "}
-					<xItem
-						configs={this.dataXItem.description}
-						v-model={vm.currentNode.description}
-					/>
-					<xGap t="10" />{" "}
-					<xItem
-						configs={this.dataXItem.required}
-						v-model={vm.currentNode.required}
-					/>
-					<xGap t="10" />{" "}
-					<xItem configs={this.dataXItem.type} v-model={vm.currentNode.type} />
-					{vm.vDomSubForm()}
-				</xForm>
 				<div class="SchemaEditor_button ">
 					<aButton onClick={vm.submit} type="primary">
 						{vm.$t("同步到左侧").label}
 					</aButton>
 				</div>
+				<xForm
+					class="flex vertical flex1 overflow-auto"
+					labelStyle={{ "min-width": "120px", width: "unset" }}>
+					<xItem configs={this.dataXItem.key} v-model={vm.currentNode.key} />
+					<xGap t="10" />
+					<xItem
+						configs={this.dataXItem.title}
+						v-model={vm.currentNode.title}
+					/>
+					<xGap t="10" />
+					<xItem
+						configs={this.dataXItem.description}
+						v-model={vm.currentNode.description}
+					/>
+					<xGap t="10" />
+					<xItem
+						configs={this.dataXItem.required}
+						v-model={vm.currentNode.required}
+					/>
+					<xGap t="10" />
+					<xItem configs={this.dataXItem.type} v-model={vm.currentNode.type} />
+					{vm.vDomSubForm()}
+				</xForm>
 			</div>
 		);
 	}

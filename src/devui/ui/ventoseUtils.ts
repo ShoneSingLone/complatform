@@ -1,7 +1,7 @@
 import _ from "lodash";
 import dayjs from "dayjs";
 import $ from "jquery";
-import { iStorage } from "./tools/storage";
+import {iStorage} from "./tools/storage";
 
 /* 组件属性是否是on开头，组件的事件监听*/
 const onRE = /^on[^a-z]/;

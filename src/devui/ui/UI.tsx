@@ -1,16 +1,10 @@
 //@ts-nocheck
-import { t_dialogOptions } from "./xSingle/dialog/dialog";
-import { State_UI } from "./State_UI";
-import { LayerUtils } from "./xSingle/layer/LayerUtils";
-import {
-	Modal,
-	/* global */
-	message,
-	notification,
-	ModalFuncProps
-} from "ant-design-vue";
+import {t_dialogOptions} from "./xSingle/dialog/dialog";
+import {State_UI} from "./State_UI";
+import {LayerUtils} from "./xSingle/layer/LayerUtils";
+import {message, Modal, ModalFuncProps, notification} from "ant-design-vue";
 import $ from "jquery";
-import { xU } from "./ventoseUtils";
+import {xU} from "./ventoseUtils";
 
 /* 静态方法，与APP实例无关，引用有直接可用 */
 

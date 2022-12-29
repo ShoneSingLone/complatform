@@ -1,6 +1,6 @@
 <script lang="jsx">
-import { defineComponent } from "vue";
-import { xU } from "../ventoseUtils";
+import {defineComponent} from "vue";
+import {xU} from "../ventoseUtils";
 
 export default defineComponent({
 	name: "XButtonCountDown",

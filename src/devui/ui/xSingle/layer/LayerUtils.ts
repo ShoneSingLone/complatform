@@ -2,8 +2,8 @@
 
 /* https://www.layuiweb.com/doc/modules/layer.html#closeBtn */
 import $ from "jquery";
-import { xU } from "../../ventoseUtils";
-import { i_layerOptions } from "./i_layerOptions";
+import {xU} from "../../ventoseUtils";
+import {i_layerOptions} from "./i_layerOptions";
 
 export const KEY = {
 	right: 39,

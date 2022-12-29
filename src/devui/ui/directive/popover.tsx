@@ -1,16 +1,17 @@
 import $ from "jquery";
-import { createApp } from "vue";
-import { xU } from "../ventoseUtils";
-import { i_layerOptions } from "../xSingle/layer/i_layerOptions";
-import { DATA_TIPS_FOLLOW_ID, LayerUtils } from "../xSingle/layer/LayerUtils";
+import {createApp} from "vue";
+import {xU} from "../ventoseUtils";
+import {i_layerOptions} from "../xSingle/layer/i_layerOptions";
+import {DATA_TIPS_FOLLOW_ID, LayerUtils} from "../xSingle/layer/LayerUtils";
 import {
-	appAddPlugin,
-	appDependState,
-	DATA_APP_ID,
-	DATA_FOLLOW_ID,
-	timer4CloseTips,
-	visibleArea
+    appAddPlugin,
+    appDependState,
+    DATA_APP_ID,
+    DATA_FOLLOW_ID,
+    timer4CloseTips,
+    visibleArea
 } from "./directiveState";
+
 type t_trigger = "click" | "rightClick";
 type t_uiPopoverOptions = {
 	content: string;

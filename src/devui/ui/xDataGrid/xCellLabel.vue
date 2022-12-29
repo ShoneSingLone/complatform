@@ -1,5 +1,5 @@
 <script lang="jsx">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 import $ from "jquery";
 
 export default defineComponent({

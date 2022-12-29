@@ -1,14 +1,7 @@
 //@ts-nocheck
-import {
-	AllWasWell,
-	defItem,
-	validateForm,
-	State_UI,
-	FormRules,
-	_
-} from "@ventose/ui";
-import { defineComponent } from "vue";
-import { xU } from "../ventoseUtils";
+import {AllWasWell, defItem, FormRules, State_UI, validateForm} from "@ventose/ui";
+import {defineComponent} from "vue";
+import {xU} from "../ventoseUtils";
 
 const { $t } = State_UI;
 export const DemoXFormWithForm = defineComponent({

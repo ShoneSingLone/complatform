@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 import $ from "jquery";
 
 $(window).on("click.virTableTdId", function (e) {

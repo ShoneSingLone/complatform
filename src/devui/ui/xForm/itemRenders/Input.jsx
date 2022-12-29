@@ -1,5 +1,6 @@
-import { resolveComponent } from "vue";
-import {ReadonlyItem}from "./Readonly"
+import {resolveComponent} from "vue";
+import {ReadonlyItem} from "./Readonly"
+
 /**
  * @Description
  * @date 2021-11-09
@@ -7,7 +8,9 @@ import {ReadonlyItem}from "./Readonly"
  * @param {any} slots}
  * @returns {any}
  */
-export default ({ property, slots, listeners }) => {
+export default (args) => {
+	const { property, slots, listeners } = args;
+	/* 只读模式下的 */
 	if(property.readonly){
 		return <ReadonlyItem value={property.value}/>
 	}

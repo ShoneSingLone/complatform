@@ -1,10 +1,10 @@
 <script lang="jsx">
-import { Table } from "ant-design-vue";
-import { defineComponent } from "vue";
-import { xU } from "../ventoseUtils";
-import { filterColIsShow } from "./common";
-import { xPagination } from "./xPagination";
-import { Cpt_UI_locale } from "../State_UI";
+import {Table} from "ant-design-vue";
+import {defineComponent} from "vue";
+import {xU} from "../ventoseUtils";
+import {filterColIsShow} from "./common";
+import {xPagination} from "./xPagination";
+import {Cpt_UI_locale} from "../State_UI";
 
 export default defineComponent({
 	name: "XDataGrid",

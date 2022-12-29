@@ -1,6 +1,5 @@
-import { Cpt_UI_locale } from "../../State_UI";
-import { xU } from "../../ventoseUtils";
-import { resolveComponent } from "vue";
+import {Cpt_UI_locale} from "../../State_UI";
+import {resolveComponent} from "vue";
 
 /**
  * @Description

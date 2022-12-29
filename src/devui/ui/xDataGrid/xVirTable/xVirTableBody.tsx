@@ -1,9 +1,9 @@
 //@ts-nocheck
-import { defineComponent, inject, markRaw } from "vue";
-import { xU } from "../../ventoseUtils";
-import { usefnObserveDomResize } from "../../compositionAPI/useDomResize";
-import { xVirTableTr } from "./xVirTableTr";
-import { xVirTableTd } from "./xVirTableTd";
+import {defineComponent, inject} from "vue";
+import {xU} from "../../ventoseUtils";
+import {usefnObserveDomResize} from "../../compositionAPI/useDomResize";
+import {xVirTableTr} from "./xVirTableTr";
+import {xVirTableTd} from "./xVirTableTd";
 
 export const xVirTableBody = defineComponent({
     props: [

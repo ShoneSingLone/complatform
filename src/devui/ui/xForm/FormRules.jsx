@@ -1,6 +1,6 @@
-import { State_UI } from "../State_UI";
-import { EVENT_TYPE } from "../tools/validate";
-import { xU } from "../ventoseUtils";
+import {State_UI} from "../State_UI";
+import {EVENT_TYPE} from "../tools/validate";
+import {xU} from "../ventoseUtils";
 
 const { $t } = State_UI;
 

@@ -1,7 +1,6 @@
-import { Checkbox, Switch } from "ant-design-vue";
-import { EVENT_TYPE } from "../../tools/validate";
-import { h } from "vue";
-import { xU } from "../../ventoseUtils";
+import {Switch} from "ant-design-vue";
+import {h} from "vue";
+import {xU} from "../../ventoseUtils";
 
 /*
 export default ({property, slots, listeners}) => {

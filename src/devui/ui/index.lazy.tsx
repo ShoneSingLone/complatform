@@ -2,47 +2,42 @@
 
 import "./index.less";
 import {
-	Avatar,
-	Alert,
-	Breadcrumb,
-	Card,
-	Descriptions,
-	Menu,
-	Modal,
-	Progress,
-	Popover,
-	Dropdown,
-	Button,
-	List,
-	Checkbox,
-	Popconfirm,
-	PageHeader,
-	Input,
-	Result,
-	Tabs,
-	Table,
-	Spin,
-	Layout,
-	Tooltip,
-	Upload,
-	Switch
+    Alert,
+    Avatar,
+    Breadcrumb,
+    Button,
+    Card,
+    Checkbox,
+    Descriptions,
+    Dropdown,
+    Input,
+    Layout,
+    List,
+    Menu,
+    Modal,
+    PageHeader,
+    Popconfirm,
+    Popover,
+    Progress,
+    Result,
+    Spin,
+    Switch,
+    Table,
+    Tabs,
+    Tooltip,
+    Upload
 } from "ant-design-vue";
-import { DescriptionsItem } from "ant-design-vue/es/descriptions";
-import { MenuItem, SubMenu } from "ant-design-vue/es/menu";
-import { BreadcrumbItem } from "ant-design-vue/es/breadcrumb";
-import { DropdownButton } from "ant-design-vue/es/dropdown";
-import { TabPane } from "ant-design-vue/es/tabs";
-import { InputPassword } from "ant-design-vue/es/input";
-import {
-	LayoutHeader,
-	LayoutSider,
-	LayoutFooter,
-	LayoutContent
-} from "ant-design-vue/es/layout";
+import {DescriptionsItem} from "ant-design-vue/es/descriptions";
+import {MenuItem, SubMenu} from "ant-design-vue/es/menu";
+import {BreadcrumbItem} from "ant-design-vue/es/breadcrumb";
+import {DropdownButton} from "ant-design-vue/es/dropdown";
+import {TabPane} from "ant-design-vue/es/tabs";
+import {InputPassword} from "ant-design-vue/es/input";
+import {LayoutContent, LayoutFooter, LayoutHeader, LayoutSider} from "ant-design-vue/es/layout";
 /* 表单提示信息 */
 import "ant-design-vue/es/form/style/index.css";
 import $ from "jquery";
-import { installPopoverDirective } from "./xSingle/directive/popover";
+import {installPopoverDirective} from "./xSingle/directive/popover";
 import xRender from "./xRender/xRender.jsx";
 import xItem from "./xForm/xItem.vue";
 import xForm from "./xForm/xForm.vue";
@@ -54,35 +49,34 @@ import xView from "./xView/xView.vue";
 import xDataGrid from "./xDataGrid/xDataGrid.vue";
 import xDataGridToolbar from "./xDataGrid/xDataGridToolbar.vue";
 import xCellLabel from "./xDataGrid/xCellLabel.vue";
-import { xPagination } from "./xDataGrid/xPagination";
+import {xPagination} from "./xDataGrid/xPagination";
 import xColFilter from "./xDataGrid/xColFilter.vue";
-import { installUIDialogComponent } from "./xSingle/dialog/dialog";
-import { xU as mylodash } from "./ventoseUtils.js";
-import { State_UI, Cpt_UI_locale } from "./State_UI";
+import {installUIDialogComponent} from "./xSingle/dialog/dialog";
+import {xU as mylodash} from "./ventoseUtils.js";
+import {Cpt_UI_locale, State_UI} from "./State_UI";
 import dayjs from "dayjs";
+import {
+    defCol,
+    defColActions,
+    defColActionsBtnlist,
+    defDataGridOption,
+    defPagination,
+    getPaginationPageSize,
+    setDataGridInfo,
+    setPagination
+} from "./xDataGrid/common";
+import {antColKey, defItem, vModel} from "./xForm/common.jsx";
+import {AllWasWell, EVENT_TYPE, validateForm} from "./tools/validate.js";
+import {setCSSVariables, setDocumentTitle} from "./tools/dom.js";
+import {lStorage} from "./tools/storage.js";
+import {pickValueFrom, resetValueOf} from "./tools/form.js";
+import {UI} from "./UI";
 /* @ts-ignore */
 window.dayjs = dayjs;
 /* @ts-ignore */
 window.moment = dayjs;
 /* @ts-ignore */
 window.jquery = $;
-
-import {
-	defPagination,
-	setPagination,
-	getPaginationPageSize,
-	defCol,
-	defColActions,
-	defColActionsBtnlist,
-	defDataGridOption,
-	setDataGridInfo
-} from "./xDataGrid/common";
-import { defItem, vModel, antColKey } from "./xForm/common.jsx";
-import { EVENT_TYPE, validateForm, AllWasWell } from "./tools/validate.js";
-import { setDocumentTitle, setCSSVariables } from "./tools/dom.js";
-import { lStorage } from "./tools/storage.js";
-import { pickValueFrom, resetValueOf } from "./tools/form.js";
-import { UI } from "./UI";
 
 /* my-private-ui-component */
 const componentMyUI = {

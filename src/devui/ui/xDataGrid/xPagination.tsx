@@ -1,9 +1,9 @@
 //@ts-nocheck
-import { defineComponent } from "vue";
-import { xU } from "../ventoseUtils";
-import { setPagination } from "./common";
-import { lStorage } from "../tools/storage";
-import { State_UI } from "../State_UI";
+import {defineComponent} from "vue";
+import {xU} from "../ventoseUtils";
+import {setPagination} from "./common";
+import {lStorage} from "../tools/storage";
+import {State_UI} from "../State_UI";
 
 const PAGE_SIZE_OPTIONS = ["10", "20", "30"];
 const { page, size, total } = lStorage.appConfigs.pagination;

@@ -1,4 +1,4 @@
-import { xU } from "../ventoseUtils";
+import {xU} from "../ventoseUtils";
 
 export const pickValueFrom = configs => {
 	return xU.reduce(

@@ -1,7 +1,7 @@
-import { DatePicker } from "ant-design-vue";
+import {DatePicker} from "ant-design-vue";
 import dayjs from "dayjs";
-import { Cpt_UI_locale } from "../../State_UI";
-import { xU } from "../../ventoseUtils";
+import {Cpt_UI_locale} from "../../State_UI";
+import {xU} from "../../ventoseUtils";
 
 /**
  * @Description

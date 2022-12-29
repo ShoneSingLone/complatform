@@ -1,10 +1,9 @@
 //@ts-nocheck
-import { defineComponent, provide } from "vue";
-import { xU } from "../../ventoseUtils";
+import {defineComponent, provide} from "vue";
+import {xU} from "../../ventoseUtils";
 import $ from "jquery";
-import { xVirTableTh } from "./xVirTableTh";
-import { xVirTableBody } from "./xVirTableBody";
-import { diff } from "jsondiffpatch";
+import {xVirTableTh} from "./xVirTableTh";
+import {xVirTableBody} from "./xVirTableBody";
 
 export function defXVirTableConfigs(options) {
     const required = ["rowHeight", "columns"];
