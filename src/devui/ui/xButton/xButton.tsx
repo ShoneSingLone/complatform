@@ -148,10 +148,9 @@ export default defineComponent({
 			"onClick"
 		];
 		const _properties = xU.omit(this.configs, propsWillDeleteFromProperty);
-
 		/* 直接在dom上的onClick优先级更高, */
 		if (!this.isClickHandlerOnAttrs) {
-			_properties.onChange = this.handleButtonClick;
+			_properties.onClick = this.handleButtonClick;
 		}
 
 		if (this.title) {

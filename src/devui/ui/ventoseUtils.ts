@@ -7,12 +7,22 @@ import { iStorage } from "./tools/storage";
 const onRE = /^on[^a-z]/;
 
 const VueComponents: any = {};
-
+/* @ts-ignore */
+const isDevMode =
+	/* @ts-ignore */
+	localStorage.___VENTOSE_UI_IS_DEV_MODE === "VENTOSE_UI_IS_DEV_MODE";
 const privateLodash = {
 	..._,
 	WORDS: {
 		INVALID_DATE: "Invalid Date",
 		format_ymd: "YYYY-MM-DD"
+	},
+	debugger(errorMsg) {
+		/* @ts-ignore */
+		console.error(errorMsg);
+		if (isDevMode) {
+			debugger;
+		}
 	},
 	launchFullscreen(element: any) {
 		if (element.requestFullscreen) {
@@ -26,6 +36,7 @@ const privateLodash = {
 		}
 	},
 	exitFullscreen() {
+		/* @ts-ignore */
 		document.exitFullscreen();
 	},
 	hashCode(str: string) {
@@ -368,7 +379,7 @@ const privateLodash = {
 	asyncLoadText: async function (url: string) {
 		/* 在开发模式下App.vue 会设置这个对象 */
 		/* @ts-ignore */
-		if (localStorage.___VENTOSE_UI_IS_DEV_MODE !== "VENTOSE_UI_IS_DEV_MODE") {
+		if (!isDevMode) {
 			const res = await iStorage(url);
 			if (res) {
 				return res;
@@ -384,9 +395,7 @@ const privateLodash = {
 				dataType: "text",
 				success(...args) {
 					/* @ts-ignore */
-					if (
-						localStorage.___VENTOSE_UI_IS_DEV_MODE !== "VENTOSE_UI_IS_DEV_MODE"
-					) {
+					if (!isDevMode) {
 						iStorage(url, args[0]);
 					}
 					/* @ts-ignore */

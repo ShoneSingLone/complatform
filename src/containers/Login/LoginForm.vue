@@ -4,13 +4,15 @@
 		<xItem
 			v-model="data.email"
 			:configs="configsForm.email"
-			autocomplete="email" />
+			autocomplete="email"
+			@keypress.enter="login" />
 		<xGap t="20" />
 		<!-- 密码 -->
 		<xItem
 			v-model="data.password"
 			:configs="configsForm.password"
-			autocomplete="current-password" />
+			autocomplete="current-password"
+			@keypress.enter="login" />
 		<div class="item-wrapper">
 			<xButton :configs="configsSubmit" />
 		</div>
@@ -57,8 +59,7 @@ export default defineComponent({
 			Methods_App
 		};
 	},
-	data() {
-		const vm = this;
+	data(vm) {
 		return {
 			loginType: "ldap",
 			data: {
@@ -102,24 +103,27 @@ export default defineComponent({
 				type: "primary",
 				class: "login-button flex center login-form-button",
 				text: () => $t("登录").label,
-				async onClick() {
-					try {
-						const validateResults = await validateForm(vm.configsForm);
-						if (AllWasWell(validateResults)) {
-							await API.user.loginActions(vm.data);
-							UI.notification.success("登录成功! ");
-							Cpt_url.value.go("/group");
-						} else {
-							throw new Error("未通过验证");
-						}
-					} catch (e) {
-						console.error(e);
-					}
-				}
+				onClick: vm.login
 			}
 		};
 	},
-	methods: {}
+	methods: {
+		async login() {
+			const vm = this;
+			try {
+				const validateResults = await validateForm(vm.configsForm);
+				if (AllWasWell(validateResults)) {
+					await API.user.loginActions(vm.data);
+					UI.notification.success("登录成功! ");
+					Cpt_url.value.go("/group");
+				} else {
+					throw new Error("未通过验证");
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
 });
 </script>
 

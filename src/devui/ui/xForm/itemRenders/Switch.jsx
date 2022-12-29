@@ -1,15 +1,20 @@
-import {Switch} from "ant-design-vue";
-import {h} from "vue";
-import {xU} from "../../ventoseUtils";
+import { Switch } from "ant-design-vue";
+import { h } from "vue";
+import { xU } from "../../ventoseUtils";
 
-export default ({properties, slots, listeners, propsWillDeleteFromConfigs}) => {
-    /* { properties, slots, listeners, propsWillDeleteFromConfigs } */
-    const _property = xU.merge({}, properties, {
-        checked: properties.value,
-        onClick() {
-            listeners["onUpdate:value"](!_property.value);
-        }
-    });
-    /*用span包裹：宽度自适应*/
-    return <span>{h(Switch, xU.omit(_property, ["value"]))}</span>;
+export default ({
+	properties,
+	slots,
+	listeners,
+	propsWillDeleteFromConfigs
+}) => {
+	/* { properties, slots, listeners, propsWillDeleteFromConfigs } */
+	const _property = xU.merge({}, properties, {
+		checked: properties.value,
+		onClick() {
+			listeners["onUpdate:value"](!_property.value);
+		}
+	});
+	/*用span包裹：宽度自适应*/
+	return <span>{h(Switch, xU.omit(_property, ["value"]))}</span>;
 };

@@ -8,7 +8,7 @@
     "build": "npm run genIconJSON && vite build",
     "genIconJSON_comment": "在public下的icon svg资源，获取文件名，用于系统图标的下拉选项 ",
     "genIconJSON": "node ./preprocess/genIconJSON.js",
-    "lint": "prettier --write ./src/devui",
+    "lint": "prettier --write ./src",
     "update:ui_comment": "更新UI库",
     "update:ui": "pnpm uninstall @ventose/ui && pnpm i @ventose/ui -S",
     "git:pull": "git pull gitee dev & git pull github dev",

@@ -8,7 +8,12 @@ import { ReadonlyItem } from "./Readonly";
  * @param {any} slots}
  * @returns {any}
  */
-export default ({ properties, slots, listeners, propsWillDeleteFromConfigs }) => {
+export default ({
+	properties,
+	slots,
+	listeners,
+	propsWillDeleteFromConfigs
+}) => {
 	/* { properties, slots, listeners, propsWillDeleteFromConfigs } */
 	/* 只读模式下的 */
 	if (properties.readonly) {

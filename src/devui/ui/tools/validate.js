@@ -32,7 +32,7 @@ export async function validateForm(configsForm, valuesCollection) {
 			const configs = configsForm[prop];
 			const valueNeedVarify = valuesCollection
 				? valuesCollection[prop]
-				: configs.value;
+				: configs.modelValue;
 			return new Promise(resolve => {
 				/*处理不校验的情况*/
 				if (xU.isInput(configs.isShow)) {
@@ -84,9 +84,17 @@ export const checkXItem = async ({
 	value,
 	FormItemId
 }) => {
-	const valueNeedVarify = value;
+	const valueNeedVarify = (() => {
+		if (xU.isInput(value)) {
+			return value;
+		} else {
+			return xItemConfigs.modelValue;
+		}
+	})();
 	xItemConfigs.checking = true;
 	fnCheckedCallback = fnCheckedCallback || xU.doNothing;
+	FormItemId = FormItemId || xItemConfigs.FormItemId;
+
 	let result;
 	try {
 		const { rules, prop } = xItemConfigs;
@@ -140,13 +148,8 @@ export const checkXItem = async ({
 					if (isNeedVerify) {
 						const currentValue = (() => {
 							try {
-								if (xU.isInput(valueNeedVarify)) {
-									debugger;
-									return JSON.parse(JSON.stringify(valueNeedVarify));
-								}
-								return JSON.parse(JSON.stringify(xItemConfigs.value));
+								return JSON.parse(JSON.stringify(valueNeedVarify));
 							} catch (e) {
-								debugger;
 								return "";
 							}
 						})();
@@ -187,5 +190,6 @@ export const checkXItem = async ({
 		}
 		/*校验执行后*/
 		xItemConfigs.validate.triggerEventsObj = {};
+		return result;
 	}
 };
