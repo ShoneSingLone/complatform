@@ -1,9 +1,9 @@
 //@ts-nocheck
-import {t_buttonOptions} from "../xButton/xButton";
-import {xU} from "../ventoseUtils";
-import {ColumnProps} from "ant-design-vue/es/table";
-import {lStorage} from "../tools/storage.js";
-import {State_UI} from "../State_UI";
+import { t_buttonOptions } from "../xButton/xButton";
+import { xU } from "../ventoseUtils";
+import { ColumnProps } from "ant-design-vue/es/table";
+import { lStorage } from "../tools/storage.js";
+import { State_UI } from "../State_UI";
 
 /*ui 内部使用*/
 export const static_word = {

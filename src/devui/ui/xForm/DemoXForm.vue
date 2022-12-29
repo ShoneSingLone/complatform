@@ -37,19 +37,19 @@
 </template>
 
 <script>
-import {h, markRaw} from "vue";
+import { h, markRaw } from "vue";
 import {
-  AllWasWell,
-  components,
-  defItem,
-  FormRules,
-  pickValueFrom,
-  State_UI,
-  UI,
-  validateForm,
-  VNodeCollection
+	AllWasWell,
+	components,
+	defItem,
+	FormRules,
+	pickValueFrom,
+	State_UI,
+	UI,
+	validateForm,
+	VNodeCollection
 } from "@ventose/ui";
-import {DemoXFormWithForm} from "./DemoXFormWithForm.tsx";
+import { DemoXFormWithForm } from "./DemoXFormWithForm.tsx";
 
 const { xItem } = components;
 

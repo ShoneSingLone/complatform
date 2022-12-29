@@ -450,18 +450,18 @@ export const DialogUpsertProxyEnv = defineComponent({
 });
 
 const KeyValuePanel = args => {
-	args.property.value = args.property.value || [];
-	args.property.fnCheck = args.property.fnCheck || false;
+	properties.value = properties.value || [];
+	properties.fnCheck = properties.fnCheck || false;
 	args.fnUpdate = val => {
 		args.listeners["onUpdate:value"](val);
 	};
 	return (
 		<div class="ant-card ant-card-bordered">
 			<InputKeyValue
-				items={args.property.value}
+				items={properties.value}
 				onUpdate:items={args.fnUpdate}
-				genItem={args.property.genItem}
-				fnCheck={args.property.fnCheck}
+				genItem={properties.genItem}
+				fnCheck={properties.fnCheck}
 			/>
 		</div>
 	);

@@ -1,15 +1,20 @@
 import {resolveComponent} from "vue";
 import {xU} from "../../ventoseUtils";
 
-export default ({property, listeners, propsWillDeleteFromConfigs}) => {
+export default ({properties, slots, listeners, propsWillDeleteFromConfigs}) => {
+    /* { properties, slots, listeners, propsWillDeleteFromConfigs } */
     const Select = resolveComponent("aSelect");
     const SelectOption = resolveComponent("aSelectOption");
-    const _property = xU.omit(property, [...propsWillDeleteFromConfigs, "options", "renderOptions"]);
+    const _property = xU.omit(properties, [
+        ...propsWillDeleteFromConfigs,
+        "options",
+        "renderOptions"
+    ]);
     const renderOptions = () => {
-        if (property.renderOptions) {
-            return property.renderOptions();
+        if (properties.renderOptions) {
+            return properties.renderOptions();
         } else {
-            return xU.map(property.options, option => {
+            return xU.map(properties.options, option => {
                 return <SelectOption value={option.value}>{option.label}</SelectOption>;
             });
         }

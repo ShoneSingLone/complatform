@@ -334,11 +334,11 @@ div[id^="svg-icon_"] {
 	&:hover {
 		cursor: url(../assets/svg/input.svg), auto;
 	}
-} 
+}
 
-.cursor-not-allowed{
-	&:hover{
-			cursor: not-allowed;
+.cursor-not-allowed {
+	&:hover {
+		cursor: not-allowed;
 	}
 }
 

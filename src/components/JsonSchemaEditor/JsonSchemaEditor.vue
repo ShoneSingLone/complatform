@@ -227,8 +227,9 @@
 </template>
 <script>
 import { isNull, renamePropertyAndKeepKeyPrecedence } from "./util";
-import { TYPE_NAME, TYPE } from "./type/type";
+import { TYPE, TYPE_NAME } from "./type/type";
 import LocalProvider from "./LocalProvider";
+
 export default {
 	name: "JsonSchemaEditor",
 	props: {

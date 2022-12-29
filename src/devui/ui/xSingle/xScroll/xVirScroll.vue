@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 
-import {$, xU} from "@ventose/ui";
+import { $, xU } from "@ventose/ui";
 
 const itemHeight = 48;
 const perCount = 10;

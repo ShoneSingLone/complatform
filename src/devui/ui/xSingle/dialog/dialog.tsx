@@ -1,10 +1,10 @@
 //@ts-nocheck
 
-import {xU} from "../../ventoseUtils";
+import { xU } from "../../ventoseUtils";
 import $ from "jquery";
-import {KEY, LayerUtils} from "../layer/LayerUtils";
-import {createApp, defineComponent} from "vue";
-import {State_UI} from "../../State_UI";
+import { KEY, LayerUtils } from "../layer/LayerUtils";
+import { createApp, defineComponent } from "vue";
+import { State_UI } from "../../State_UI";
 
 const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 	const $antModal = $(".ant-modal-root");

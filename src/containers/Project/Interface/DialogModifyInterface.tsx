@@ -1,14 +1,14 @@
 import {
-    validateForm,
+    $,
     AllWasWell,
-    pickValueFrom,
-    UI,
     defItem,
-    xU,
-    VNodeCollection,
+    pickValueFrom,
     setValueTo,
     State_UI,
-    $
+    UI,
+    validateForm,
+    VNodeCollection,
+    xU
 } from "@ventose/ui";
 import {defineComponent, markRaw} from "vue";
 import {API} from "../../../api";
@@ -17,7 +17,7 @@ import {FormRules} from "../../../utils/common.FormRules";
 import {ITEM_OPTIONS} from "../../../utils/common.options";
 import {HTTP_METHOD} from "./../../../utils/variable";
 import {State_Project} from "./State_Project";
-import {_$handlePath, _$interfacePathParamsTpl} from "src/utils/common";
+import {_$handlePath} from "src/utils/common";
 import {DialogUpsertTags} from "./DialogUpsertTags";
 import {DialogUpsertProxyEnv} from "./DialogUpsertProxyEnv";
 import {RequestArgsPanel} from "src/components/RequestArgsPanel";
@@ -294,6 +294,7 @@ export const DialogModifyInterface = defineComponent({
                 title,
                 apiMethod: method,
                 path,
+
                 pathParams: req_params,
                 tag: String(tag).split(","),
                 isProxy,
@@ -456,13 +457,13 @@ export const DialogModifyInterface = defineComponent({
     }
 });
 
-export const InpterfacePathParams = args => {
-    args.property.value = args.property.value || [];
-    args.fnUpdate = (prop, val, index) => {
-        args.property.value[index][prop] = val;
-        args.listeners["onUpdate:value"](args.property.value);
+export const InpterfacePathParams = ({properties, slots, listeners, propsWillDeleteFromConfigs}) => {
+    properties.value = properties.value || [];
+    const fnUpdate = (prop, val, index) => {
+        properties.value[index][prop] = val;
+        listeners["onUpdate:value"](properties.value);
     };
-    return xU.map(args.property.value, (data, index) => {
+    return xU.map(properties.value, (data, index) => {
         const {desc, example, name, _id} = data;
         return (
             <div class="flex middel mt10 width100">
@@ -474,7 +475,7 @@ export const InpterfacePathParams = args => {
                         configs={{
                             placeholder: "参数示例",
                             value: example,
-                            onAfterValueEmit: val => args.fnUpdate("example", val, index)
+                            onAfterValueEmit: val => fnUpdate("example", val, index)
                         }}
                     />
 				</span>
@@ -483,7 +484,7 @@ export const InpterfacePathParams = args => {
                         configs={{
                             placeholder: "备注",
                             value: desc,
-                            onAfterValueEmit: val => args.fnUpdate("desc", val, index)
+                            onAfterValueEmit: val => fnUpdate("desc", val, index)
                         }}
                     />
 				</span>
@@ -510,11 +511,11 @@ async function openUpsertTagDialog() {
     $(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
 }
 
-const EnvSelectRender = args => {
-    args.property.value = args.property.value || [];
-    const options = args.property.options || [];
-    args.fnUpdate = val => {
-        args.listeners["onUpdate:value"](val);
+const EnvSelectRender = ({properties, slots, listeners, propsWillDeleteFromConfigs}) => {
+    properties.value = properties.value || [];
+    const options = properties.options || [];
+    const fnUpdate = val => {
+        listeners["onUpdate:value"](val);
     };
     const vDomOptions = xU.map(options, item => {
         return (
@@ -527,8 +528,8 @@ const EnvSelectRender = args => {
         <div class="flex overflow-auto">
             <aSelect
                 placeholder="请选择转发环境"
-                onChange={args.fnUpdate}
-                value={args.property.value}>
+                onChange={fnUpdate}
+                value={properties.value}>
                 {vDomOptions}
             </aSelect>
             <xGap l="10"/>
@@ -543,11 +544,11 @@ const EnvSelectRender = args => {
         </div>
     );
 };
-const TagSelectRender = args => {
-    args.property.value = args.property.value || [];
-    const options = args.property.options || [];
-    args.fnUpdate = val => {
-        args.listeners["onUpdate:value"](val);
+const TagSelectRender = ({properties, slots, listeners, propsWillDeleteFromConfigs}) => {
+    properties.value = properties.value || [];
+    const options = properties.options || [];
+    const fnUpdate = val => {
+        listeners["onUpdate:value"](val);
     };
 
     const vDomOptions = xU.map(options, item => {
@@ -561,9 +562,9 @@ const TagSelectRender = args => {
         <div class="flex overflow-auto">
             <aSelect
                 placeholder="请选择 tag"
-                onChange={args.fnUpdate}
+                onChange={fnUpdate}
                 mode="multiple"
-                value={args.property.value}>
+                value={properties.value}>
                 {vDomOptions}
             </aSelect>
             <xGap l="10"/>
@@ -579,38 +580,25 @@ const TagSelectRender = args => {
     );
 };
 
-const RequestArgsRender = args => {
+const RequestArgsRender = ({properties, slots, listeners, propsWillDeleteFromConfigs}) => {
     /* input */
-    args.property.value = args.property.value || [];
+    properties.value = properties.value || [];
     /* output */
-    args.fnUpdate = val => {
-        args.listeners["onUpdate:value"](val);
-    };
-
-    /* TODO: miss readonly
-    if(args.property.isReadonly){
-        return <ReadonlyView />
-    }
-    */
     return (
         <RequestArgsPanel
-            params={args.property.value}
-            apiMethod={args.property.apiMethod}
-            onUpdate:params={args.fnUpdate}
+            params={properties.value}
+            apiMethod={properties.apiMethod}
+            onUpdate:params={listeners["onUpdate:value"]}
         />
     );
 };
-const ResponseRender = args => {
+const ResponseRender = ({properties, slots, listeners, propsWillDeleteFromConfigs}) => {
     /* input */
-    args.property.value = args.property.value || {};
-    /* output */
-    args.fnUpdate = val => {
-        args.listeners["onUpdate:value"](val);
-    };
+    properties.value = properties.value || {};
     return (
         <ResponsePanel
-            params={args.property.value}
-            onUpdate:params={args.fnUpdate}
+            params={properties.value}
+            onUpdate:params={listeners["onUpdate:value"]}
         />
     );
 };

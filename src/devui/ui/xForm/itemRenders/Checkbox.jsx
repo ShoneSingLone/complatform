@@ -1,6 +1,6 @@
-import {Checkbox} from "ant-design-vue";
-import {h} from "vue";
-import {EVENT_TYPE} from "../../tools/validate";
+import { Checkbox } from "ant-design-vue";
+import { h } from "vue";
+import { EVENT_TYPE } from "../../tools/validate";
 
 export default ({ property }) => {
 	const _property = xU.merge({}, property, {

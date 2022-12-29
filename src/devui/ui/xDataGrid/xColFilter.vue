@@ -1,7 +1,7 @@
 <script lang="jsx">
-import {defineComponent} from "vue";
-import {xU} from "../ventoseUtils";
-import {filterColIsShow} from "./common";
+import { defineComponent } from "vue";
+import { xU } from "../ventoseUtils";
+import { filterColIsShow } from "./common";
 
 export default defineComponent({
 	name: "xColFilter",

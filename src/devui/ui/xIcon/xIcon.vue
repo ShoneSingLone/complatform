@@ -1,8 +1,8 @@
 <script lang="jsx">
 // @ts-nocheck
-import {defineComponent, markRaw} from "vue";
-import {xU} from "../ventoseUtils";
-import {State_UI} from "../State_UI";
+import { defineComponent, markRaw } from "vue";
+import { xU } from "../ventoseUtils";
+import { State_UI } from "../State_UI";
 import InsideDeleteOutlined from "../../assets/svg/DeleteOutlined.svg";
 import InsideExclamationCircleOutlined from "../../assets/svg/ExclamationCircleOutlined.svg";
 import InsideLoadingOutlined from "../../assets/svg/LoadingOutlined.svg";
@@ -11,7 +11,7 @@ import InsideSearchOutlined from "../../assets/svg/SearchOutlined.svg";
 import InsideSyncOutlined from "../../assets/svg/SyncOutlined.svg";
 import InsideUploadOutlined from "../../assets/svg/UploadOutlined.svg";
 import Insidetips from "../../assets/svg/tips.svg";
-import {iStorage} from "../tools/storage";
+import { iStorage } from "../tools/storage";
 
 /* const icons = import.meta.glob("../../assets/svg/*.svg"); */
 const insideIcons = {

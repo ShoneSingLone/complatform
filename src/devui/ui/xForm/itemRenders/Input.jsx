@@ -1,34 +1,34 @@
-import {resolveComponent} from "vue";
-import {ReadonlyItem} from "./Readonly"
+import { resolveComponent } from "vue";
+import { ReadonlyItem } from "./Readonly";
 
 /**
  * @Description
  * @date 2021-11-09
- * @param {any} {property isPassword 密码输入框 isTextarea
+ * @param {any} {properties isPassword 密码输入框 isTextarea
  * @param {any} slots}
  * @returns {any}
  */
-export default (args) => {
-	const { property, slots, listeners } = args;
+export default ({ properties, slots, listeners, propsWillDeleteFromConfigs }) => {
+	/* { properties, slots, listeners, propsWillDeleteFromConfigs } */
 	/* 只读模式下的 */
-	if(property.readonly){
-		return <ReadonlyItem value={property.value}/>
+	if (properties.readonly) {
+		return <ReadonlyItem value={properties.value} />;
 	}
 
 	let component = resolveComponent("aInput");
-	if (property.isPassword) {
+	if (properties.isPassword) {
 		component = resolveComponent("aInputPassword");
-	} else if (property.isNumber) {
+	} else if (properties.isNumber) {
 		component = resolveComponent("aInputNumber");
-	} else if (property.isTextarea) {
+	} else if (properties.isTextarea) {
 		component = resolveComponent("aTextarea");
-		property.autoSize = property.autoSize || {
+		properties.autoSize = properties.autoSize || {
 			minRows: 4,
 			maxRows: 6
 		};
-	} else if (property.isSearch) {
+	} else if (properties.isSearch) {
 		component = resolveComponent("aInputSearch");
 	}
-	// property.disabled=true;
-	return <component {...property} {...listeners} v-slots={slots} />;
+	// properties.disabled=true;
+	return <component {...properties} {...listeners} v-slots={slots} />;
 };

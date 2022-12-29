@@ -4,6 +4,7 @@ import _array from "./array";
 import _boolean from "./boolean";
 import _integer from "./integer";
 import _number from "./number";
+
 const TYPE_NAME = ["string", "number", "integer", "object", "array", "boolean"];
 
 const TYPE = {

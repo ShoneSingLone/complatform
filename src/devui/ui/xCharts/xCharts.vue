@@ -1,7 +1,7 @@
 <script lang="jsx">
-import {line} from "./configs/line";
-import {xU} from "../ventoseUtils";
-import {defineComponent} from "vue";
+import { line } from "./configs/line";
+import { xU } from "../ventoseUtils";
+import { defineComponent } from "vue";
 
 const CONFIGS_MAP = { line };
 

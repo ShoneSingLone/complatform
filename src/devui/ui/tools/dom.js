@@ -1,5 +1,5 @@
 import $ from "jquery";
-import {xU} from "../ventoseUtils";
+import { xU } from "../ventoseUtils";
 
 const get$head = () => {
 	let $head = $("html head");

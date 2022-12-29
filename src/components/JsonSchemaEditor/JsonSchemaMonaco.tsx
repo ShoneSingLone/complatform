@@ -1,8 +1,8 @@
-import { defineComponent, markRaw, provide, reactive } from "vue";
+import { defineComponent, markRaw } from "vue";
 import { State_App } from "../../state/State_App";
 import "./JsonSchemaMonaco.less";
 import { UI, xU } from "@ventose/ui";
-import { ICON_STRATEGE, SPE, SchemaEditor } from "./SchemaEditor";
+import { ICON_STRATEGE, SchemaEditor, SPE } from "./SchemaEditor";
 
 function makeProps(pre, prop) {
 	return [pre, prop].join(SPE);

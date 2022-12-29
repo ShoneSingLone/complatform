@@ -6,7 +6,7 @@ import "ant-design-vue/dist/antd.css";
 import Antd from "ant-design-vue";
 import $ from "jquery";
 import xRender from "./xRender/xRender.jsx";
-import {xItem} from "./xForm/xItem";
+import { xItem } from "./xForm/xItem";
 import xForm from "./xForm/xForm.vue";
 import xButton from "./xButton/xButton";
 import xButtonCountDown from "./xButton/xButtonCountDown.vue";
@@ -17,16 +17,19 @@ import xIcon from "./xIcon/xIcon.vue";
 import xDataGrid from "./xDataGrid/xDataGrid.vue";
 import xDataGridToolbar from "./xDataGrid/xDataGridToolbar.vue";
 import xCellLabel from "./xDataGrid/xCellLabel.vue";
-import {xPagination} from "./xDataGrid/xPagination";
+import { xPagination } from "./xDataGrid/xPagination";
 import xColFilter from "./xDataGrid/xColFilter.vue";
 import xVirScroll from "./xSingle/xScroll/xVirScroll.vue";
-import {defXVirTableConfigs as defXVirTableConfigs, xVirTable} from "./xDataGrid/xVirTable/xVirTable";
-import {xU} from "./ventoseUtils";
-import {Cpt_UI_locale, State_UI} from "./State_UI";
+import {
+	defXVirTableConfigs as defXVirTableConfigs,
+	xVirTable
+} from "./xDataGrid/xVirTable/xVirTable";
+import { xU } from "./ventoseUtils";
+import { Cpt_UI_locale, State_UI } from "./State_UI";
 import dayjs from "dayjs";
-import {FormRules, RegexFn} from "./xForm/FormRules";
-import {installUIDialogComponent} from "./xSingle/dialog/dialog";
-import {installDirective} from "./directive";
+import { FormRules, RegexFn } from "./xForm/FormRules";
+import { installUIDialogComponent } from "./xSingle/dialog/dialog";
+import { installDirective } from "./directive";
 import {
 	defCol,
 	defColActions,
@@ -37,14 +40,14 @@ import {
 	setDataGridInfo,
 	setPagination
 } from "./xDataGrid/common";
-import {antColKey, defItem, vModel} from "./xForm/common.jsx";
-import {AllWasWell, EVENT_TYPE, validateForm} from "./tools/validate.js";
-import {setCSSVariables, setDocumentTitle} from "./tools/dom.js";
-import {iStorage, lStorage} from "./tools/storage.js";
-import {pickValueFrom, resetValueOf, setValueTo} from "./tools/form.js";
-import {UI} from "./UI";
-import {VNodeCollection} from "./tools/VNodeRender";
-import {compileVNode} from "./tools/framework";
+import { antColKey, defItem, vModel } from "./xForm/common.jsx";
+import { AllWasWell, EVENT_TYPE, validateForm } from "./tools/validate.js";
+import { setCSSVariables, setDocumentTitle } from "./tools/dom.js";
+import { iStorage, lStorage } from "./tools/storage.js";
+import { pickValueFrom, resetValueOf, setValueTo } from "./tools/form.js";
+import { UI } from "./UI";
+import { VNodeCollection } from "./tools/VNodeRender";
+import { compileVNode } from "./tools/framework";
 
 /* @ts-ignore */
 window.dayjs = dayjs;
@@ -74,7 +77,7 @@ const componentMyUI = {
 };
 
 export const components = {
-	...componentMyUI,
+	...componentMyUI
 };
 
 export { VNodeCollection as VNodeCollection };

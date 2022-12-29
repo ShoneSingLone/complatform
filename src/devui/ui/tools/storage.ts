@@ -1,5 +1,5 @@
-import {xU} from "../ventoseUtils";
-import {get as idbGet, set as idbSet} from "idb-keyval";
+import { xU } from "../ventoseUtils";
+import { get as idbGet, set as idbSet } from "idb-keyval";
 
 export const lStorage = new Proxy(localStorage, {
 	set(_localStorage, prop: string, value) {

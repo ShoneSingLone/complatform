@@ -1,4 +1,4 @@
-import {VNode} from "vue";
+import { VNode } from "vue";
 
 export const VNodeCollection = {
 	labelTips: (popContent: VNode) => (configs: any, className: string) => {

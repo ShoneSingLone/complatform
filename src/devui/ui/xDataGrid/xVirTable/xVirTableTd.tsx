@@ -1,4 +1,4 @@
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 import $ from "jquery";
 
 $(window).on("click.virTableTdId", function (e) {
@@ -12,20 +12,19 @@ $(window).on("click.virTableTdId", function (e) {
 			_virTableTdId = $ele.attr("id");
 			return _virTableTdId;
 		}
-	})()
+	})();
 	$(window).trigger({
 		type: "onAllCell",
 		/* @ts-ignore */
-		virTableTdId,
+		virTableTdId
 	});
-
-})
+});
 
 export const xVirTableTd = defineComponent({
 	props: ["column", "data"],
 	computed: {
 		id() {
-			return `virTableTdId_${this._.uid}`
+			return `virTableTdId_${this._.uid}`;
 		},
 		prop() {
 			return this.column?.prop;
@@ -80,17 +79,17 @@ export const xVirTableTd = defineComponent({
 						index: this.data.__virRowIndex
 					});
 				} else {
-					return this.cell
+					return this.cell;
 				}
 			}
 
-			return this.cell
+			return this.cell;
 		}
 	},
 	data(vm) {
 		return {
 			isFocus: false
-		}
+		};
 	},
 	methods: {
 		handleAllCell(e) {
@@ -111,11 +110,11 @@ export const xVirTableTd = defineComponent({
 	mounted() {
 		$(window).on("onAllCell", this.handleAllCell);
 		if (this.renderEditor) {
-			$(this.$refs.cell).addClass("cursor-editor")
+			$(this.$refs.cell).addClass("cursor-editor");
 		}
 	},
 	beforeUnmount() {
-		$(window).off("onAllCell", this.handleAllCell)
+		$(window).off("onAllCell", this.handleAllCell);
 	},
 	render() {
 		return (
@@ -125,7 +124,7 @@ export const xVirTableTd = defineComponent({
 				role="td"
 				class="xVirTable-cell"
 				data-prop={this.prop}
-				data-row-index={this.data.__virRowIndex} >
+				data-row-index={this.data.__virRowIndex}>
 				{this.vDomCellContent}
 			</div>
 		);

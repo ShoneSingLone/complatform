@@ -1,14 +1,13 @@
 import {
-	xU,
-	defItem,
-	setValueTo,
-	components,
-	pickValueFrom,
-	FormRules,
 	AllWasWell,
-	validateForm
+	components,
+	defItem,
+	FormRules,
+	pickValueFrom,
+	validateForm,
+	xU
 } from "@ventose/ui";
-import { defineComponent, h, inject, markRaw } from "vue";
+import { defineComponent, h, inject } from "vue";
 import { ITEM_OPTIONS } from "src/utils/common.options";
 import { diff } from "jsondiffpatch";
 
@@ -37,13 +36,13 @@ export const SchemaEditor = defineComponent({
 		return {
 			dataXItem: {
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "key",
 					label: vm.$t("对象访问路径").label,
 					readonly: true
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "title",
 					label: vm.$t("字段名").label,
 					onAfterValueEmit(val) {
@@ -54,13 +53,13 @@ export const SchemaEditor = defineComponent({
 					rules: [FormRules.required()]
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "description",
 					label: vm.$t("描述").label,
 					isTextarea: true
 				}),
 				...defItem({
-					value: false,
+					defaultValue: "0",
 					prop: "required",
 					label: vm.$t("是否必须").label,
 					itemType: "RadioGroup",
@@ -89,43 +88,43 @@ export const SchemaEditor = defineComponent({
 				}),
 				/* object */
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "minProperties",
 					label: vm.$t("最小元素个数").label,
 					isNumber: true
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "maxProperties",
 					label: vm.$t("最大元素个数").label,
 					isNumber: true
 				}),
 				/* string */
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "default",
 					label: vm.$t("默认值").label
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "minLength",
 					label: vm.$t("最小字符数").label,
 					isNumber: true
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "maxLength",
 					label: vm.$t("最大字符数").label,
 					isNumber: true
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "pattern",
 					placeholder: vm.$t("new RegExp(xxxxxxx)适用").label,
 					label: vm.$t("正则表达式").label
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "enum",
 					label: vm.$t("枚举").label,
 					isTextarea: true,
@@ -133,12 +132,12 @@ export const SchemaEditor = defineComponent({
 					disabled: true
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "enumDesc",
 					label: vm.$t("默认值").label
 				}),
 				...defItem({
-					value: "",
+					defaultValue: "",
 					prop: "format",
 					label: vm.$t("格式").label,
 					itemType: "Select",
@@ -156,7 +155,6 @@ export const SchemaEditor = defineComponent({
 			}
 		};
 	},
-
 	watch: {
 		currentNode: {
 			deep: true,
@@ -164,21 +162,23 @@ export const SchemaEditor = defineComponent({
 				if (!currentNode) {
 					return;
 				}
+				const res = diff(this.oldNode, currentNode);
+				console.log("diff", JSON.stringify(res, null, 2));
+				console.log(
+					"currentNode",
+					this.currentNode.key,
+					"\n",
+					JSON.stringify(currentNode, null, 2)
+				);
 				this.dataXItem.title.onAfterValueEmit(currentNode.title);
 			}
-		},
-		dataXItemValues(values) {
-			const newNode = xU.merge({}, this.oldNode, values);
-			const res = diff(this.oldNode, newNode);
-			console.log("diff", JSON.stringify(res, null, 2));
-			this.currentNode = newNode;
 		}
 	},
 	methods: {
 		async submit() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-				const values = this.dataXItemValues;
+				const values = this.currentNode;
 				this.$emit(
 					"nodeSync",
 					xU.merge({}, this.oldNode, values),
@@ -213,7 +213,7 @@ export const SchemaEditor = defineComponent({
 				},
 				string: () => (
 					<>
-						<xGap t="10" />{" "}
+						<xGap t="10" />
 						<xItem
 							configs={vm.dataXItem.default}
 							v-model={vm.currentNode.default}
@@ -232,7 +232,7 @@ export const SchemaEditor = defineComponent({
 								class="flex1"
 							/>
 						</div>
-						<xGap t="10" />{" "}
+						<xGap t="10" />
 						<xItem
 							configs={vm.dataXItem.pattern}
 							v-model={vm.currentNode.pattern}
@@ -254,14 +254,14 @@ export const SchemaEditor = defineComponent({
 						</xItem>
 						{vm.dataXItem.enum.disabled ? null : (
 							<>
-								<xGap t="10" />{" "}
+								<xGap t="10" />
 								<xItem
 									configs={vm.dataXItem.enumDesc}
 									v-model={vm.currentNode.enumDesc}
 								/>
 							</>
 						)}
-						<xGap t="10" />{" "}
+						<xGap t="10" />
 						<xItem
 							configs={vm.dataXItem.format}
 							v-model={vm.currentNode.format}
@@ -289,9 +289,6 @@ export const SchemaEditor = defineComponent({
 					);
 				}
 			}
-		},
-		dataXItemValues() {
-			return pickValueFrom(this.dataXItem);
 		}
 	},
 	render(vm) {

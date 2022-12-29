@@ -1,11 +1,11 @@
-import {computed, reactive, watch} from "vue";
+import { computed, reactive, watch } from "vue";
 import enUs from "ant-design-vue/es/locale/en_US";
 import zhCn from "ant-design-vue/es/locale/zh_CN";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import "dayjs/locale/en-au";
-import {lStorage} from "./tools/storage";
-import {xU} from "./ventoseUtils";
+import { lStorage } from "./tools/storage";
+import { xU } from "./ventoseUtils";
 
 /* 可以与外部通信，可以增改 */
 

@@ -1,7 +1,5 @@
 import SchemaEditor from "./JsonSchemaEditor.vue";
 import JSON5 from "json5";
-import GenerateSchema from "generate-schema";
-import { xU } from "@ventose/ui";
 import { defineComponent } from "vue";
 
 export function string2JsonSchema(jsonString) {
@@ -26,6 +24,7 @@ export function string2JsonSchema(jsonString) {
 		return false;
 	}
 }
+
 export const JsonSchemaEditor = defineComponent({
 	props: ["value"],
 	computed: {

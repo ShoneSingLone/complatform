@@ -1,22 +1,20 @@
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 import $ from "jquery";
 
 export const xVirTableTr = defineComponent({
 	props: ["column", "data"],
-	computed: {
-	},
+	computed: {},
 	data(vm) {
 		return {
 			isFocus: false
-		}
+		};
 	},
-	methods: {
-	},
+	methods: {},
 	mounted() {
-		$(window).on("onAllCell", this.handleAllCell)
+		$(window).on("onAllCell", this.handleAllCell);
 	},
 	beforeUnmount() {
-		$(window).off("onAllCell", this.handleAllCell)
+		$(window).off("onAllCell", this.handleAllCell);
 	},
 	render() {
 		return (
@@ -26,7 +24,7 @@ export const xVirTableTr = defineComponent({
 				role="td"
 				class="xVirTable-cell"
 				data-prop={this.prop}
-				data-row-index={this.data.__virRowIndex} >
+				data-row-index={this.data.__virRowIndex}>
 				{this.vDomCellContent}
 			</div>
 		);

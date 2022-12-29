@@ -1,7 +1,7 @@
 import _ from "lodash";
 import dayjs from "dayjs";
 import $ from "jquery";
-import {iStorage} from "./tools/storage";
+import { iStorage } from "./tools/storage";
 
 /* 组件属性是否是on开头，组件的事件监听*/
 const onRE = /^on[^a-z]/;
@@ -573,7 +573,7 @@ const privateLodash = {
 				/* 如果是最后一项，就赋值后退出 */
 				if (propArray.length === 0) {
 					if (val === "never" && isDelete) {
-						delete nextItem[key]
+						delete nextItem[key];
 					} else {
 						nextItem[key] = val;
 					}
