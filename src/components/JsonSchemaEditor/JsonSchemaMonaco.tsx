@@ -71,7 +71,6 @@ export const JsonSchemaMonaco = defineComponent({
 		},
 		schemaString: {
 			immediate: true,
-			deep: true,
 			handler(schemaString) {
 				this.updateJsonSchema(schemaString);
 			}
@@ -87,7 +86,6 @@ export const JsonSchemaMonaco = defineComponent({
 		},
 		jsonSchemaString: {
 			immediate: true,
-			deep: true,
 			handler() {}
 		}
 	},
@@ -130,7 +128,9 @@ export const JsonSchemaMonaco = defineComponent({
 			if (!newNode.key) {
 				return;
 			}
-			xU.MutatingProps(this.jsonSchema, oldNode.key, "never", true);
+			if (oldNode && oldNode.key) {
+				xU.MutatingProps(this.jsonSchema, oldNode.key, "never", true);
+			}
 			xU.MutatingProps(this.jsonSchema, newNode.key, newNode);
 			this.handleTreeClick(newNode);
 		},
@@ -224,7 +224,7 @@ export const JsonSchemaMonaco = defineComponent({
 								{{
 									title({ dataRef }) {
 										const { title, type, key } = dataRef;
-										const isShowAdd = type === "object";
+										const isShowAdd = !type || type === "object";
 										const isShowDelete = !!key;
 
 										const vDomIcon =

@@ -196,8 +196,7 @@ export const xVirTable = defineComponent({
 		},
 		"configs.dataSource": {
 			immediate: true,
-			deep: true,
-			handler(dataSource) {
+			handler() {
 				this.dataSource = this.configs.dataSource;
 			}
 		},

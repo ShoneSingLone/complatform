@@ -2,6 +2,7 @@ import { computed, defineComponent } from "vue";
 import renders from "./itemRenders";
 import { checkXItem, EVENT_TYPE, TIPS_TYPE } from "../tools/validate";
 import { xU } from "../ventoseUtils";
+import { diff } from "jsondiffpatch";
 
 const { MutatingProps } = xU;
 
@@ -245,7 +246,7 @@ export const xItem = defineComponent({
 	},
 	watch: {
 		configs: {
-			handler() {
+			handler(configs, oldConfigs) {
 				this.setProperties();
 			}
 		},
@@ -415,7 +416,7 @@ export const xItem = defineComponent({
 			return null;
 		}
 		const CurrentXItem = (() => {
-			if (xU.isFunction(this.configs.itemType)) {
+			if (xU.isObject(this.configs.itemType)) {
 				return this.configs.itemType;
 			}
 			return renders[this.configs.itemType] || renders.Input;

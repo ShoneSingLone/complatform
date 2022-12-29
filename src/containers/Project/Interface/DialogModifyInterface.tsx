@@ -113,7 +113,7 @@ export const DialogModifyInterface = defineComponent({
 					options: ITEM_OPTIONS.httpMethod,
 					onChange(val) {
 						/* 控制body是否可以编辑 */
-						vm.dataXItem.requestArgs.apiMethod = val;
+						vm.dataXItem.requestArgs.deepWatch.apiMethod = val;
 					},
 					rules: [FormRules.required()],
 					style: { width: "120px" }
@@ -231,7 +231,7 @@ export const DialogModifyInterface = defineComponent({
 					label: "请求参数设置",
 					value: [],
 					activeKey: "1",
-					apiMethod: "",
+					deepWatch: { apiMethod: "" },
 					itemType: RequestArgsRender
 				}),
 				...defItem({
@@ -446,6 +446,7 @@ export const DialogModifyInterface = defineComponent({
 								<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 							</div>
 							<xGap t="10" />
+							apiMethod: {this.dataXItem.requestArgs.apiMethod}
 							<xItem configs={this.dataXItem.requestArgs} />
 						</xForm>
 						<xGap t="10" />
@@ -595,12 +596,8 @@ const TagSelectRender = ({
 	);
 };
 
-const RequestArgsRender = ({
-	properties,
-	slots,
-	listeners,
-	propsWillDeleteFromConfigs
-}) => {
+const a = ({ properties, slots, listeners, propsWillDeleteFromConfigs }) => {
+	debugger;
 	/* input */
 	properties.value = properties.value || [];
 	/* output */
@@ -612,6 +609,28 @@ const RequestArgsRender = ({
 		/>
 	);
 };
+
+const RequestArgsRender = defineComponent({
+	props: ["properties", "listeners"],
+	watch: {
+		properties: {
+			deep: true,
+			handler() {
+				debugger;
+			}
+		}
+	},
+	render() {
+		return (
+			<RequestArgsPanel
+				params={this.properties?.value}
+				apiMethod={this.properties?.deepWatch?.apiMethod}
+				onUpdate:params={this.listeners["onUpdate:value"]}
+			/>
+		);
+	}
+});
+
 const ResponseRender = ({
 	properties,
 	slots,

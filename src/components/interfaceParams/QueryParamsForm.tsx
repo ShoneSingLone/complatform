@@ -9,7 +9,6 @@ import {
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "src/utils/common.options";
 import { defineComponent, markRaw, reactive, watch } from "vue";
 import { DialogBulkValues } from "./DialogBulkValues";
-import { diff } from "jsondiffpatch";
 
 function newFormData([name, value] = ["", ""]) {
 	return {
