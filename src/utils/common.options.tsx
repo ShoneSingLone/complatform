@@ -30,6 +30,10 @@ export const ITEM_OPTIONS = {
 		{ label: "未开通", value: "NONACTIVATED" }
 	],
 	YesOrNo: [
+		{ label: "是", value: "true" },
+		{ label: "否", value: "false" }
+	],
+	trueOrFalse: [
 		{ label: "是", value: true },
 		{ label: "否", value: false }
 	],

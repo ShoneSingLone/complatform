@@ -207,7 +207,7 @@ export const DialogModifyInterface = defineComponent({
 					prop: "isProxy",
 					value: false,
 					label: "是否开启转发",
-					options: ITEM_OPTIONS.YesOrNo,
+					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
 				...defItem({
@@ -232,7 +232,7 @@ export const DialogModifyInterface = defineComponent({
 					value: [],
 					activeKey: "1",
 					deepWatch: { apiMethod: "" },
-					itemType: RequestArgsRender
+					itemType: markRaw(RequestArgsRender)
 				}),
 				...defItem({
 					prop: "responseArgs",
@@ -417,8 +417,7 @@ export const DialogModifyInterface = defineComponent({
 			}
 		}
 	},
-	render() {
-		const vm = this;
+	render(vm) {
 		return (
 			<>
 				<div class="dialog-modify-interface g-row flex1 flex horizon height100 width100 overflow-auto">
@@ -446,7 +445,6 @@ export const DialogModifyInterface = defineComponent({
 								<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 							</div>
 							<xGap t="10" />
-							apiMethod: {this.dataXItem.requestArgs.apiMethod}
 							<xItem configs={this.dataXItem.requestArgs} />
 						</xForm>
 						<xGap t="10" />
@@ -612,14 +610,6 @@ const a = ({ properties, slots, listeners, propsWillDeleteFromConfigs }) => {
 
 const RequestArgsRender = defineComponent({
 	props: ["properties", "listeners"],
-	watch: {
-		properties: {
-			deep: true,
-			handler() {
-				debugger;
-			}
-		}
-	},
 	render() {
 		return (
 			<RequestArgsPanel

@@ -8,7 +8,19 @@
 				width: 100%;
 				.ant-tree-node-content-wrapper {
 					flex: 1;
+					width: 1px;
 					cursor: unset;
+					.ant-tree-title {
+						display: flex;
+						.title-wrapper {
+							display: flex;
+							flex: 1;
+							width: 1px;
+							.title {
+								width: 1px;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -17,10 +29,8 @@
 	.JsonSchemaMonaco-monaco-panel {
 		position: relative;
 		.JsonSchemaMonaco-monaco-panel_button {
-			position: absolute;
-			left: 10px;
-			bottom: 10px;
-			z-index: 1;
+			padding: 10px;
+			padding-left: 0;
 		}
 	}
 }

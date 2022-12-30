@@ -17,13 +17,6 @@ const privateLodash = {
 		INVALID_DATE: "Invalid Date",
 		format_ymd: "YYYY-MM-DD"
 	},
-	debugger(errorMsg) {
-		/* @ts-ignore */
-		console.error(errorMsg);
-		if (isDevMode) {
-			debugger;
-		}
-	},
 	launchFullscreen(element: any) {
 		if (element.requestFullscreen) {
 			element.requestFullscreen();
@@ -629,4 +622,25 @@ const privateLodash = {
 	}
 };
 
-export { privateLodash as xU };
+export const xU = new Proxy(function (...args) {
+	/* @ts-ignore */
+	if (isDevMode) {
+		try {
+			throw new Error("");
+		} catch (error) {
+			args.unshift(String(error.stack).split("\n")[2], "\n")
+			console.log.apply(console, args);
+		}
+	}
+}, {
+	get(fn, prop) {
+		if (privateLodash[prop]) {
+			return privateLodash[prop]
+		}
+		return fn[prop]
+	},
+	set(fn, prop, val) {
+		privateLodash[prop] = val;
+		return true;
+	}
+});

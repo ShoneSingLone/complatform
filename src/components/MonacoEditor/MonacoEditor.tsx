@@ -23,8 +23,7 @@ export const MonacoEditor = defineAsyncComponent(
 					},
 					watch: {
 						code(value) {
-							const editorValue = this.raw$editor.getValue();
-							if (value !== editorValue) {
+							if (value !== this.raw$Value) {
 								this.raw$editor.setValue(value);
 							}
 						}
@@ -60,18 +59,14 @@ export const MonacoEditor = defineAsyncComponent(
 						syncData() {
 							const newCode = this.raw$editor.getValue();
 							if (newCode !== this.code) {
+								this.raw$Value = newCode;
 								this.$emit("update:code", newCode);
 							}
 						}
 					},
 					render() {
 						return (
-							<div
-								id={this.id}
-								ref="container"
-								class="flex1"
-								style="height:100%;width:100%"
-							/>
+							<div id={this.id} ref="container" class="flex1" style="height:100%;width:100%" />
 						);
 					}
 				})

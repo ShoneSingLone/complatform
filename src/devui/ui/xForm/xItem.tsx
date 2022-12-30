@@ -309,7 +309,7 @@ export const xItem = defineComponent({
 						if (vm.configs.defaultValue !== undefined) {
 							return vm.configs.defaultValue;
 						} else {
-							xU.debugger("either configs.value or modelValue");
+							xU("either configs.value or modelValue");
 						}
 					}
 					return vm.configs.value;

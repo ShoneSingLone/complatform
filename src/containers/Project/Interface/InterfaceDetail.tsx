@@ -287,7 +287,7 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: "是否开启转发",
 							col: 1,
-							value: xU.find(ITEM_OPTIONS.YesOrNo, { value: isProxy })?.label
+							value: xU.find(ITEM_OPTIONS.trueOrFalse, { value: isProxy })?.label
 						},
 						{ label: "转发环境", col: 2, value: this.labelProxyEnv }
 					]

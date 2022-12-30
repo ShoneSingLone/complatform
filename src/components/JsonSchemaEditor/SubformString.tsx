@@ -1,0 +1,57 @@
+import { defineComponent } from "vue"
+
+export const stringNeedProps = [
+    "maxProperties",
+    "minProperties",
+]
+
+export const SubformString = defineComponent({
+    props: ["configs", "data"],
+    render(vm) {
+        return (
+            <>
+                <xGap t="10" />
+                <xItem configs={vm.configs.default} v-model={vm.data.default} />
+                <xGap t="10" />
+                <div class="flex middle">
+                    <xItem configs={vm.configs.minLength} v-model={vm.data.minLength} class="flex1" />
+                    <xGap t="10" />
+                    <xItem configs={vm.configs.maxLength} v-model={vm.data.maxLength} class="flex1" />
+                </div>
+                <xGap t="10" />
+                <xItem configs={vm.configs.pattern} v-model={vm.data.pattern} />
+                <xGap t="10" />
+                <xItem configs={vm.configs.enum} v-model={vm.data.enum}>
+                    {/* 勾选之后才会显示enum备注 */}
+                    {{
+                        afterControll: () => (
+                            <aCheckbox
+                                class="ml10"
+                                checked={!!vm.data.isUseEnum}
+                                onUpdate:checked={val => {
+                                    vm.configs.enum.disabled = !val;
+                                    vm.data.isUseEnum = val;
+                                }
+                                }
+                            />
+                        )
+                    }}
+                </xItem>
+                {vm.data.isUseEnum ? (
+                    <>
+                        <xGap t="10" />
+                        <xItem
+                            configs={vm.configs.enumDesc}
+                            v-model={vm.data.enumDesc}
+                        />
+                    </>
+                ) : null}
+                <xGap t="10" />
+                <xItem
+                    configs={vm.configs.format}
+                    v-model={vm.data.format}
+                />
+            </>
+        )
+    }
+})
