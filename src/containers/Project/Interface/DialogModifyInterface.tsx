@@ -22,6 +22,7 @@ import { DialogUpsertTags } from "./DialogUpsertTags";
 import { DialogUpsertProxyEnv } from "./DialogUpsertProxyEnv";
 import { RequestArgsPanel } from "src/components/RequestArgsPanel";
 import { ResponsePanel } from "src/components/ResponsePanel";
+import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 
 export const DialogModifyInterface = defineComponent({
 	props: {
@@ -189,7 +190,7 @@ export const DialogModifyInterface = defineComponent({
 				}),
 				...defItem({
 					prop: "pathParams",
-					label: "接口路径参数",
+					label: vm.$t("接口路径参数").label,
 					value: [],
 					itemType: InpterfacePathParams
 				}),
@@ -206,14 +207,14 @@ export const DialogModifyInterface = defineComponent({
 				...defItem({
 					prop: "isProxy",
 					value: false,
-					label: "是否开启转发",
+					label: vm.$t("是否开启转发").label,
 					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
 				...defItem({
 					isShow: () => vm.dataXItem.isProxy.value,
 					prop: "witchEnv",
-					label: "转发环境",
+					label: vm.$t("转发环境").label,
 					value: "",
 					options: [],
 					setOptions(envArray) {
@@ -228,7 +229,7 @@ export const DialogModifyInterface = defineComponent({
 				}),
 				...defItem({
 					prop: "requestArgs",
-					label: "请求参数设置",
+					label: vm.$t("请求参数设置").label,
 					value: [],
 					activeKey: "1",
 					deepWatch: { apiMethod: "" },
@@ -236,12 +237,18 @@ export const DialogModifyInterface = defineComponent({
 				}),
 				...defItem({
 					prop: "responseArgs",
-					label: "响应参数设置",
+					label: vm.$t("响应参数设置").label,
 					value: {},
 					activeKey: "1",
 					apiMethod: "",
 					itemType: ResponseRender
-				})
+				}),
+				...defItem({
+					prop: "desc",
+					label: vm.$t("备注").label,
+					value: {},
+					itemType: MarkdownRender
+				}),
 			}
 		};
 	},
@@ -285,7 +292,8 @@ export const DialogModifyInterface = defineComponent({
 				res_body,
 				res_body_type,
 				res_body_mock,
-				res_body_is_json_schema
+				res_body_is_json_schema,
+				desc
 			} = this.detailInfo;
 
 			setValueTo(this.dataXItem, {
@@ -294,7 +302,7 @@ export const DialogModifyInterface = defineComponent({
 				title,
 				apiMethod: method,
 				path,
-
+				desc,
 				pathParams: req_params,
 				tag: String(tag).split(","),
 				isProxy,
@@ -422,11 +430,8 @@ export const DialogModifyInterface = defineComponent({
 			<>
 				<div class="dialog-modify-interface g-row flex1 flex horizon height100 width100 overflow-auto">
 					<div class="flex1">
-						{/* {JSON.stringify(pickValueFrom(this.dataXItem))} */}
-						<xGap t="10" />
 						<xForm labelStyle={{ "min-width": "120px", width: "unset" }}>
 							<xGap t="10" />
-							{/* <xItem configs={this.dataXItem.responseArgs} /> */}
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.catid} />
 							<xGap t="10" />
@@ -444,8 +449,12 @@ export const DialogModifyInterface = defineComponent({
 								<xItem configs={this.dataXItem.isProxy} />
 								<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 							</div>
-							<xGap t="10" />
-							<xItem configs={this.dataXItem.requestArgs} />
+							{/* 请求参数 */}
+							<xGap t="10" /> <xItem configs={this.dataXItem.requestArgs} />
+							{/* 响应参数  */}
+							<xItem configs={this.dataXItem.responseArgs} />
+							{/* 备注 */}
+							<xItem configs={this.dataXItem.desc} />
 						</xForm>
 						<xGap t="10" />
 					</div>
@@ -594,20 +603,6 @@ const TagSelectRender = ({
 	);
 };
 
-const a = ({ properties, slots, listeners, propsWillDeleteFromConfigs }) => {
-	debugger;
-	/* input */
-	properties.value = properties.value || [];
-	/* output */
-	return (
-		<RequestArgsPanel
-			params={properties.value}
-			apiMethod={properties.apiMethod}
-			onUpdate:params={listeners["onUpdate:value"]}
-		/>
-	);
-};
-
 const RequestArgsRender = defineComponent({
 	props: ["properties", "listeners"],
 	render() {
@@ -617,6 +612,14 @@ const RequestArgsRender = defineComponent({
 				apiMethod={this.properties?.deepWatch?.apiMethod}
 				onUpdate:params={this.listeners["onUpdate:value"]}
 			/>
+		);
+	}
+});
+const MarkdownRender = defineComponent({
+	props: ["properties", "listeners"],
+	render() {
+		return (
+			<TuiEditor md={this.properties?.value} onUpdate:md={this.listeners["onUpdate:value"]} />
 		);
 	}
 });

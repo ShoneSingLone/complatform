@@ -9,8 +9,9 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 const __APP_VERSION = Date.now().toString();
 
-// https://vitejs.dev/config/
-export default defineConfig({
+const isBuildLibTui = process.env.type === "lib:tui";
+
+const appOptions = {
 	esbuild: {
 		jsxFactory: "h",
 		jsxFragment: "Fragment"
@@ -34,8 +35,8 @@ export default defineConfig({
 	build: {
 		/* 没有混缩 */
 		minify: false,
-		assetsInlineLimit: 1024,
-		cssCodeSplit: false,
+		assetsInlineLimit: 512,
+		cssCodeSplit: true,
 		sourcemap: true,
 		manifest: true
 	},
@@ -62,4 +63,25 @@ export default defineConfig({
 			vue: "vue/dist/vue.esm-bundler.js"
 		}
 	}
-});
+};
+
+if (isBuildLibTui) {
+	appOptions.build = {
+		/* 没有混缩 */
+		minify: false,
+		cssCodeSplit: true,
+		outDir: "public/tui-editor",
+		lib: {
+			formats: ["iife"],
+			entry: path.resolve(
+				__dirname,
+				"src/components/TuiEditor/tuiEditorLibs.ts"
+			),
+			name: "TuiEditor",
+			fileName: () => `tui.js`
+		}
+	};
+}
+
+// https://vitejs.dev/config/
+export default defineConfig(appOptions);

@@ -201,15 +201,22 @@ export const JsonSchemaMonaco = defineComponent({
 					{this.isTreeLoading ? (
 						<aSpin spinning={true} class="flex middle height100 width100" />
 					) : (
-						<div>
-							<div class="padding10 flex middle">
+						<div class="flex middle height100 vertical">
+							<div class="padding10 flex middle width100">
+								<aButton type="primary">
+									<xIcon icon="column2" />
+								</aButton>
+								<aButton type="text">
+									<xIcon icon="column3" />
+								</aButton>
+								<xGap f="1" />
 								<span v-uiPopover={vm.helpTips} class="flex middle pointer">
 									<xIcon icon="question" />
 									<span className="ml10">{vm.$t("说明").label}</span>
 								</span>
 							</div>
 							<aTree
-								class="JsonSchemaMonaco-json-tree"
+								class="JsonSchemaMonaco-json-tree flex1 overflow-auto width100"
 								show-line
 								defaultExpandAll
 								treeData={vm.jsonTree}>
@@ -252,9 +259,7 @@ export const JsonSchemaMonaco = defineComponent({
 						</div>
 					)}
 				</div>
-				{this.currentNode ? (
-					<SchemaEditor onNodeSync={this.handleNodeSync} />
-				) : null}
+				{this.currentNode ? (<SchemaEditor onNodeSync={this.handleNodeSync} />) : null}
 				<div
 					class="JsonSchemaMonaco-monaco-panel flex1 flex vertical"
 					style={{ width: "1px" }}>
@@ -269,11 +274,7 @@ export const JsonSchemaMonaco = defineComponent({
 							</aButton>
 						)}
 					</div>
-					<MonacoEditor
-						class="flex1"
-						v-model:code={this.jsonSchemaString}
-						language="json"
-					/>
+					<MonacoEditor class="flex1" v-model:code={this.jsonSchemaString} language="json" />
 				</div>
 			</div>
 		);

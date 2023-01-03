@@ -1,13 +1,8 @@
 import { defineComponent } from "vue";
 import { State_App } from "../../state/State_App";
-import {
-	JsonSchemaEditor,
-	string2JsonSchema
-} from "../JsonSchemaEditor/JsonSchemaEditor";
 import { JsonSchemaMonaco } from "../JsonSchemaEditor/JsonSchemaMonaco";
 
 export const BodyParamsJson = defineComponent({
-	components: { JsonSchemaEditor },
 	props: ["reqBodyOther", "reqBodyIsJsonSchema"],
 	setup() {
 		return {

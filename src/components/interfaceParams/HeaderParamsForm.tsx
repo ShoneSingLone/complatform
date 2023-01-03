@@ -11,6 +11,7 @@ import { Cpt_url } from "src/router/router";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "src/utils/common.options";
 import { defineComponent, markRaw, reactive } from "vue";
 import { DialogBulkValues } from "./DialogBulkValues";
+import { HTTP_REQUEST_HEADER } from "../../utils/variable";
 
 function newFormData([name, value] = ["", ""]) {
 	return {
@@ -91,7 +92,10 @@ export const HeaderParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderEditor: ({ record }) => <aInput v-model:value={record.name} />
+						renderEditor: ({ record }) => <aAutoComplete
+							options={HTTP_REQUEST_HEADER.map(label => ({ label, value: label }))}
+							v-model:value={record.name}
+						/>
 					}),
 					...defCol({
 						label: vm.$t("参数值").label,
