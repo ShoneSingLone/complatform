@@ -248,7 +248,7 @@ export const DialogModifyInterface = defineComponent({
 					label: vm.$t("备注").label,
 					value: {},
 					itemType: MarkdownRender
-				}),
+				})
 			}
 		};
 	},
@@ -619,7 +619,10 @@ const MarkdownRender = defineComponent({
 	props: ["properties", "listeners"],
 	render() {
 		return (
-			<TuiEditor md={this.properties?.value} onUpdate:md={this.listeners["onUpdate:value"]} />
+			<TuiEditor
+				md={this.properties?.value}
+				onUpdate:md={this.listeners["onUpdate:value"]}
+			/>
 		);
 	}
 });

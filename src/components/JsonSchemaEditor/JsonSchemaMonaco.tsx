@@ -72,7 +72,7 @@ export const JsonSchemaMonaco = defineComponent({
 			handler() {
 				this.updateTree();
 			}
-		},
+		}
 	},
 	mounted() {
 		this.init();
@@ -170,7 +170,7 @@ export const JsonSchemaMonaco = defineComponent({
 				this.currentNode = false;
 			}
 		},
-		monacoJsonToSchema() { },
+		monacoJsonToSchema() {}
 	},
 	provide() {
 		const vm = this;
@@ -231,7 +231,8 @@ export const JsonSchemaMonaco = defineComponent({
 
 										return (
 											<div class="flex middle  title-wrapper">
-												<div class="title ellipsis pointer flex1 flex middle "
+												<div
+													class="title ellipsis pointer flex1 flex middle "
 													v-uiPopover={{ onlyEllipsis: true }}
 													onClick={() => vm.handleTreeClick(dataRef)}>
 													<span class="mr10">{vDomIcon}</span>
@@ -259,7 +260,9 @@ export const JsonSchemaMonaco = defineComponent({
 						</div>
 					)}
 				</div>
-				{this.currentNode ? (<SchemaEditor onNodeSync={this.handleNodeSync} />) : null}
+				{this.currentNode ? (
+					<SchemaEditor onNodeSync={this.handleNodeSync} />
+				) : null}
 				<div
 					class="JsonSchemaMonaco-monaco-panel flex1 flex vertical"
 					style={{ width: "1px" }}>
@@ -274,7 +277,11 @@ export const JsonSchemaMonaco = defineComponent({
 							</aButton>
 						)}
 					</div>
-					<MonacoEditor class="flex1" v-model:code={this.jsonSchemaString} language="json" />
+					<MonacoEditor
+						class="flex1"
+						v-model:code={this.jsonSchemaString}
+						language="json"
+					/>
 				</div>
 			</div>
 		);

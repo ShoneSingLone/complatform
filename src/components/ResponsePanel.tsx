@@ -8,15 +8,18 @@ import { JsonSchemaMonaco } from "../components/JsonSchemaEditor/JsonSchemaMonac
 export const ResponsePanel = defineComponent({
 	props: ["params"],
 	data() {
-		return {}
+		return {};
 	},
 	computed: {
 		resBody: {
 			get() {
-				return this.params.res_body || `{
+				return (
+					this.params.res_body ||
+					`{
 	/** *info* **/ 
 	"id": 1 //appId
-}`;
+}`
+				);
 			},
 			set(val) {
 				this.params.res_body = val;
@@ -24,8 +27,10 @@ export const ResponsePanel = defineComponent({
 		}
 	},
 	render() {
-		return <div style="height:400px;">
-			<JsonSchemaMonaco v-model:schemaString={this.resBody} />
-		</div>;
+		return (
+			<div style="height:400px;">
+				<JsonSchemaMonaco v-model:schemaString={this.resBody} />
+			</div>
+		);
 	}
 });

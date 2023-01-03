@@ -622,25 +622,28 @@ const privateLodash = {
 	}
 };
 
-export const xU = new Proxy(function (...args) {
-	/* @ts-ignore */
-	if (isDevMode) {
-		try {
-			throw new Error("");
-		} catch (error) {
-			args.unshift(String(error.stack).split("\n")[2], "\n")
-			console.log.apply(console, args);
+export const xU = new Proxy(
+	function (...args) {
+		/* @ts-ignore */
+		if (isDevMode) {
+			try {
+				throw new Error("");
+			} catch (error) {
+				args.unshift(String(error.stack).split("\n")[2], "\n");
+				console.log.apply(console, args);
+			}
 		}
-	}
-}, {
-	get(fn, prop) {
-		if (privateLodash[prop]) {
-			return privateLodash[prop]
-		}
-		return fn[prop]
 	},
-	set(fn, prop, val) {
-		privateLodash[prop] = val;
-		return true;
+	{
+		get(fn, prop) {
+			if (privateLodash[prop]) {
+				return privateLodash[prop];
+			}
+			return fn[prop];
+		},
+		set(fn, prop, val) {
+			privateLodash[prop] = val;
+			return true;
+		}
 	}
-});
+);

@@ -2,8 +2,6 @@ lockfileVersion: 5.4
 
 specifiers:
   '@toast-ui/editor': ^3.2.1
-  '@toast-ui/jquery-editor': ^2.5.4
-  '@toast-ui/vue-editor': ^3.2.2
   '@ventose/utils-node': ^0.0.14
   '@vitejs/plugin-vue': ^3.1.0
   '@vitejs/plugin-vue-jsx': ^2.0.1
@@ -34,8 +32,6 @@ specifiers:
 
 dependencies:
   '@toast-ui/editor': 3.2.1
-  '@toast-ui/jquery-editor': 2.5.4
-  '@toast-ui/vue-editor': 3.2.2_vue@3.2.45
   ant-design-vue: 3.2.15_vue@3.2.45
   axios: 0.26.1
   chalk: 5.2.0
@@ -466,13 +462,6 @@ packages:
       nanopop: 2.2.0
     dev: false
 
-  /@toast-ui/editor/2.5.4:
-    resolution: {integrity: sha512-XsuYlPQxhec9dHQREFAigjE4enHSuGMF7D0YQ6wW7phmusvAu0FnJfZUPjJBoU/GKz7WP5U6fKU9/P+8j65D8A==}
-    dependencies:
-      '@types/codemirror': 0.0.71
-      codemirror: 5.65.11
-    dev: false
-
   /@toast-ui/editor/3.2.1:
     resolution: {integrity: sha512-05nKfqK2n/6Mq8WpO1E7OnOjlhiFfxr1G2i/DpG/pFjKlY3E7uOtSAyuz7rybKWHgUzXRzRGv7MqDL6lXfqnWg==}
     dependencies:
@@ -486,42 +475,10 @@ packages:
       prosemirror-view: 1.29.1
     dev: false
 
-  /@toast-ui/jquery-editor/2.5.4:
-    resolution: {integrity: sha512-OjFSG48TC/wdX6JCF1SPlhFoSWwpTZo7X2NKnQqUJ0Eq2L2EXer1Thqkf47M5jQYkRLTV3F8OtBgc2DmqB502Q==}
-    dependencies:
-      '@toast-ui/editor': 2.5.4
-      jquery: 3.6.1
-    dev: false
-
-  /@toast-ui/vue-editor/3.2.2_vue@3.2.45:
-    resolution: {integrity: sha512-U4aVxuuSdNQu2WJJiwjTN2XheTyhXmBHV1c3FdhKalILqY3bnmSJ7V/jj2LCtL++4Z70ZGQh18Yeo6KvNbJZzQ==}
-    peerDependencies:
-      vue: ^2.5.0
-    dependencies:
-      '@toast-ui/editor': 3.2.1
-      vue: 3.2.45
-    dev: false
-
   /@trysound/sax/0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
     dev: true
-
-  /@types/codemirror/0.0.71:
-    resolution: {integrity: sha512-b2oEEnno1LIGKMR7uBEsr40al1UijF1HEpRn0+Yf1xOLl24iQgB7DBpZVMM7y54G5wCNoclDrRO65E6KHPNO2w==}
-    dependencies:
-      '@types/tern': 0.23.4
-    dev: false
-
-  /@types/estree/1.0.0:
-    resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
-    dev: false
-
-  /@types/tern/0.23.4:
-    resolution: {integrity: sha512-JAUw1iXGO1qaWwEOzxTKJZ/5JxVeON9kvGZ/osgZaJImBnyjyn0cjovPsf6FNLmyGY8Vw9DoXZCMlfMkMwHRWg==}
-    dependencies:
-      '@types/estree': 1.0.0
-    dev: false
 
   /@ventose/utils-node/0.0.14:
     resolution: {integrity: sha512-jJ9vfse3n6dlGvYJ+JLomoDmXORCzT8w+KUeyZYKP6fBe2oZf01dqHR9JKvyMalne/RVptoit3hT4SZsLukciA==}
@@ -860,10 +817,6 @@ packages:
     resolution: {integrity: sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=}
     engines: {node: '>=0.10.0'}
     dev: true
-
-  /codemirror/5.65.11:
-    resolution: {integrity: sha512-Gp62g2eKSCHYt10axmGhKq3WoJSvVpvhXmowNq7pZdRVowwtvBR/hi2LSP5srtctKkRT33T6/n8Kv1UGp7JW4A==}
-    dev: false
 
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -1472,7 +1425,7 @@ packages:
     dev: false
 
   /image-size/0.5.5:
-    resolution: {integrity: sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=}
+    resolution: {integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==}
     engines: {node: '>=0.10.0'}
     hasBin: true
     requiresBuild: true

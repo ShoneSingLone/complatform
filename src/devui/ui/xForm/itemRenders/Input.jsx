@@ -1,5 +1,6 @@
 import { resolveComponent } from "vue";
 import { ReadonlyItem } from "./Readonly";
+import { xU } from "@ventose/ui";
 
 /**
  * @Description
@@ -35,5 +36,11 @@ export default ({
 		component = resolveComponent("aInputSearch");
 	}
 	// properties.disabled=true;
-	return <component {...properties} {...listeners} v-slots={slots} />;
+	return (
+		<component
+			{...xU.omit(properties, propsWillDeleteFromConfigs)}
+			{...listeners}
+			v-slots={slots}
+		/>
+	);
 };

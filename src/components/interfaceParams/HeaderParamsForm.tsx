@@ -92,10 +92,15 @@ export const HeaderParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderEditor: ({ record }) => <aAutoComplete
-							options={HTTP_REQUEST_HEADER.map(label => ({ label, value: label }))}
-							v-model:value={record.name}
-						/>
+						renderEditor: ({ record }) => (
+							<aAutoComplete
+								options={HTTP_REQUEST_HEADER.map(label => ({
+									label,
+									value: label
+								}))}
+								v-model:value={record.name}
+							/>
+						)
 					}),
 					...defCol({
 						label: vm.$t("参数值").label,

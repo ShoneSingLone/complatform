@@ -170,13 +170,13 @@ export const SchemaEditor = defineComponent({
 					defaultValue: false,
 					itemType: "Checkbox",
 					prop: "exclusiveMinimum",
-					label: vm.$t("不包含最小值").label,
+					label: vm.$t("不包含最小值").label
 				}),
 				...defItem({
 					defaultValue: false,
 					itemType: "Checkbox",
 					prop: "exclusiveMaximum",
-					label: vm.$t("不包含最大值").label,
+					label: vm.$t("不包含最大值").label
 				}),
 				/* array */
 				...defItem({
@@ -195,7 +195,7 @@ export const SchemaEditor = defineComponent({
 					defaultValue: false,
 					itemType: "Checkbox",
 					prop: "uniqueItems",
-					label: vm.$t("元素不可重复").label,
+					label: vm.$t("元素不可重复").label
 				}),
 				...defItem({
 					defaultValue: "",
@@ -204,7 +204,7 @@ export const SchemaEditor = defineComponent({
 					prop: "booleanDefault",
 					label: vm.$t("默认值").label,
 					options: ITEM_OPTIONS.YesOrNo
-				}),
+				})
 			}
 		};
 	},
@@ -213,7 +213,6 @@ export const SchemaEditor = defineComponent({
 			/* 需要记录出示的Node 的 Key ，才能在同步的时候找到原始的值 */
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-
 				const oldkey = String(this.currentNode.key);
 				const newKey = (() => {
 					const array = oldkey.split(SPE);
@@ -229,7 +228,7 @@ export const SchemaEditor = defineComponent({
 					key: newKey
 				});
 			}
-		},
+		}
 	},
 	computed: {
 		currentNode: {
@@ -282,12 +281,28 @@ export const SchemaEditor = defineComponent({
 					/>
 					<xGap t="10" />
 					<xItem configs={this.dataXItem.type} v-model={vm.currentNode.type} />
-					{vm.currentNode.type === "object" && <SubformObject configs={this.dataXItem} data={vm.currentNode} />}
-					{vm.currentNode.type === "string" && <SubformString configs={this.dataXItem} data={vm.currentNode} />}
-					{vm.currentNode.type === "number" && <SubformNumber configs={this.dataXItem} data={vm.currentNode} />}
-					{vm.currentNode.type === "array" && <SubformArray configs={this.dataXItem} data={vm.currentNode} />}
-					{vm.currentNode.type === "boolean" && <SubformBoolean configs={this.dataXItem} data={vm.currentNode} />}
-					{vm.currentNode.type === "integer" && <SubformNumber configs={this.dataXItem} data={vm.currentNode} integer />}
+					{vm.currentNode.type === "object" && (
+						<SubformObject configs={this.dataXItem} data={vm.currentNode} />
+					)}
+					{vm.currentNode.type === "string" && (
+						<SubformString configs={this.dataXItem} data={vm.currentNode} />
+					)}
+					{vm.currentNode.type === "number" && (
+						<SubformNumber configs={this.dataXItem} data={vm.currentNode} />
+					)}
+					{vm.currentNode.type === "array" && (
+						<SubformArray configs={this.dataXItem} data={vm.currentNode} />
+					)}
+					{vm.currentNode.type === "boolean" && (
+						<SubformBoolean configs={this.dataXItem} data={vm.currentNode} />
+					)}
+					{vm.currentNode.type === "integer" && (
+						<SubformNumber
+							configs={this.dataXItem}
+							data={vm.currentNode}
+							integer
+						/>
+					)}
 				</xForm>
 			</div>
 		);

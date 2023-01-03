@@ -66,7 +66,12 @@ export const MonacoEditor = defineAsyncComponent(
 					},
 					render() {
 						return (
-							<div id={this.id} ref="container" class="flex1" style="height:100%;width:100%" />
+							<div
+								id={this.id}
+								ref="container"
+								class="flex1"
+								style="height:100%;width:100%"
+							/>
 						);
 					}
 				})
