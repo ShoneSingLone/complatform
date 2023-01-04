@@ -11175,7 +11175,6 @@ table.ProseMirror-selectednode {
 		}, 50);
 	}
 	function doPaste(view, text2, html2, event) {
-		debugger;
 		let slice = parseFromClipboard(
 			view,
 			text2,
@@ -16062,7 +16061,6 @@ table.ProseMirror-selectednode {
 	}
 	function emitImageBlobHook(eventEmitter, blob, type) {
 		var hook = function (imageUrl, altText) {
-			debugger;
 			eventEmitter.emit("command", "addImage", {
 				imageUrl,
 				altText: altText || blob.name || "image"
@@ -18821,7 +18819,6 @@ table.ProseMirror-selectednode {
 		Link2.prototype.addLinkOrImage = function (commandType) {
 			return function (payload) {
 				return function (_a, dispatch) {
-					debugger;
 					var selection = _a.selection,
 						tr = _a.tr,
 						schema = _a.schema;
@@ -18843,7 +18840,6 @@ table.ProseMirror-selectednode {
 					}
 					text2 = escapeTextForLink(text2);
 					syntax += "[" + text2 + "](" + url + ")";
-					debugger;
 					dispatch(tr.replaceWith(from, to, createTextNode$1(schema, syntax)));
 					return true;
 				};
@@ -35006,7 +35002,6 @@ table.ProseMirror-selectednode {
 					var node = schema.nodes.image.createAndFill(
 						__assign$1({ imageUrl }, altText && { altText })
 					);
-					debugger;
 					dispatch(tr.replaceSelectionWith(node).scrollIntoView());
 					return true;
 				};
@@ -40392,7 +40387,6 @@ table.ProseMirror-selectednode {
 				fileNameElClassName = "";
 				var imageFile = files.item(0);
 				var hookCallback = function (url, text2) {
-					debugger;
 					return _this.props.execCommand("addImage", {
 						imageUrl: url,
 						altText: text2 || altTextEl.value
@@ -40418,7 +40412,6 @@ table.ProseMirror-selectednode {
 				return;
 			}
 			if (imageUrl) {
-				debugger;
 				this.props.execCommand("addImage", { imageUrl, altText });
 			}
 		};

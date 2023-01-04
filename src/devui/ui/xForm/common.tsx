@@ -19,20 +19,16 @@ defItem.item = (options: t_itemConfigs) => {
 		options.prop = `xItem${xItemNoPropCount++}`;
 		/* console.warn(`no xItem prop replace by ${options.prop}`); */
 	}
-
-	const configs = reactive(
-		xU.merge(
-			{
-				/* 提示信息，可以用于提示或者定位 */
-				itemTips: {},
-				/*item 的类型 case by case 跟ui库关联*/
-				itemType: options.itemType || "Input"
-				/*默认绑定的是value*/
-			},
-			{ ...options }
-		)
+	return xU.merge(
+		{
+			/* 提示信息，可以用于提示或者定位 */
+			itemTips: {},
+			/*item 的类型 case by case 跟ui库关联*/
+			itemType: options.itemType || "Input"
+			/*默认绑定的是value*/
+		},
+		options
 	);
-	return configs;
 };
 
 defItem.labelWithTips = ({ label, tips, icon }) => {

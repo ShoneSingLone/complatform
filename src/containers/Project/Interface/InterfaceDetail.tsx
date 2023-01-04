@@ -56,6 +56,7 @@ export const InterfaceDetail = defineComponent({
 		closeWS() {
 			this.WebSocket && this.WebSocket.close();
 			delete this.WebSocket;
+
 		},
 		async showModifyInterfaceDialog() {
 			const vm = this;
@@ -70,17 +71,22 @@ export const InterfaceDetail = defineComponent({
 			const { status, curdata, message } = await this.checkConflict(item);
 
 			if (status == 2) {
-				UI.dialog.confirm({
-					content: (
-						<div class="flex middle">
-							<a href={makeAhref(`/user/profile/${curdata.uid}`)}>
-								{curdata.username}
-							</a>
-							<div>正在编辑该接口，请稍后再试...</div>
-						</div>
-					)
-				});
-				this.closeWS();
+				try {
+					await UI.dialog.confirm({
+						content: (
+							<div class="flex middle">
+								<a href={makeAhref(`/user/profile/${curdata.uid}`)}>
+									{curdata.username}
+								</a>
+								<div>正在编辑该接口，请稍后再试...</div>
+							</div>
+						)
+					});
+				} catch (error) {
+
+				} finally {
+					this.closeWS();
+				}
 				return;
 			}
 
@@ -94,7 +100,22 @@ export const InterfaceDetail = defineComponent({
 				component: DialogModifyInterface,
 				oldInterface: item,
 				maxmin: true,
-				onBeforeClose: vm.closeWS
+				onBeforeClose: vm.closeWS(),
+				onBeforeClose_todo: async () => {
+					try {
+						await UI.dialog.confirm({
+							content: (
+								<div class="flex middle">
+									<div>是否关闭</div>
+								</div>
+							)
+						});
+						vm.closeWS()
+					} catch (error) {
+						return false;
+					}
+
+				}
 			});
 		},
 		async checkConflict(item) {
@@ -215,9 +236,8 @@ async ${xU.camelCase(path)}({params,data}) {
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
-				this.State_App.currProject._id
-			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
+				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {

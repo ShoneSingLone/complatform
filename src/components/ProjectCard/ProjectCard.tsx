@@ -1,7 +1,7 @@
 import "./ProjectCard.scss";
 import { defineComponent } from "vue";
 import { State_App, Methods_App } from "@/state/State_App";
-import { API } from "@/api";
+import { API } from "src/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
 import { xU, UI, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
 import { Cpt_url } from "../../router/router";

@@ -6,23 +6,18 @@ import { JsonSchemaMonaco } from "../components/JsonSchemaEditor/JsonSchemaMonac
 1.接收apimethod 默认打开
 */
 export const ResponsePanel = defineComponent({
-	props: ["params"],
+	props: ["body"],
+	emits: ["update:body"],
 	data() {
 		return {};
 	},
 	computed: {
 		resBody: {
 			get() {
-				return (
-					this.params.res_body ||
-					`{
-	/** *info* **/ 
-	"id": 1 //appId
-}`
-				);
+				return (this.body || `{}`);
 			},
 			set(val) {
-				this.params.res_body = val;
+				this.$emit("update:body", val);
 			}
 		}
 	},

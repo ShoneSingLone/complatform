@@ -29,6 +29,10 @@ ajax.interceptors.response.use(
 			State_App.user.isLogin = false;
 			window.location.hash = "/login";
 		}
+
+		if (response.config.url == '/api/interface/schema2json') {
+			return Promise.resolve({ data: response.data, response });
+		}
 		if (response?.data?.errcode !== 0) {
 			UI.message.error(response?.data?.errmsg);
 			return Promise.reject(response);

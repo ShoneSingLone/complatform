@@ -2,6 +2,13 @@ import { ajax } from "@/api/ajax";
 import qs from "qs";
 
 export const project = {
+	interfaceSchema2json(data) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/schema2json",
+			data
+		});
+	},
 	updateProxyEnv(data) {
 		return ajax({
 			method: "post",
