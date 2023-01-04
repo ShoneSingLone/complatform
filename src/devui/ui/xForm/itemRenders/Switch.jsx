@@ -14,5 +14,5 @@ export default ({
 		}
 	});
 	/*用span包裹：宽度自适应*/
-	return <span><aSwitch {...xU.omit(_property, ["value"])}/></span>;
+	return <div><aSwitch {...xU.omit(_property, ["value"])} /></div>;
 };

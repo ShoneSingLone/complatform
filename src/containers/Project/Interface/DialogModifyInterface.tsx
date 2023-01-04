@@ -55,11 +55,17 @@ export const DialogModifyInterface = defineComponent({
 		},
 		configsDialogFooter() {
 			return {
-				onCancel: async () => {
-					this.propDialogOptions.closeDialog();
+				cancel: {
+					preset: "cancel",
+					onClick: async () => {
+						this.propDialogOptions.closeDialog();
+					}
 				},
-				onOk: async () => {
-					this.submit();
+				save: {
+					preset: "save",
+					onClick: async () => {
+						this.submit();
+					}
 				}
 			};
 		}
@@ -246,22 +252,22 @@ export const DialogModifyInterface = defineComponent({
 				...defItem({
 					prop: "desc",
 					label: vm.$t("备注").label,
-					value: '',
+					value: "",
 					itemType: markRaw(MarkdownRender)
 				}),
 				...defItem({
 					prop: "noticed",
 					label: vm.$t("消息通知").label,
-					checkedChildren: vm.$t('开').label,
-					unCheckedChildren: vm.$t('关').label,
+					checkedChildren: vm.$t("开").label,
+					unCheckedChildren: vm.$t("关").label,
 					value: true,
 					itemType: "Switch"
 				}),
 				...defItem({
 					prop: "api_opened",
 					label: vm.$t("开放接口").label,
-					checkedChildren: vm.$t('开').label,
-					unCheckedChildren: vm.$t('关').label,
+					checkedChildren: vm.$t("开").label,
+					unCheckedChildren: vm.$t("关").label,
 					value: "",
 					itemType: "Switch"
 				})
@@ -473,20 +479,20 @@ export const DialogModifyInterface = defineComponent({
 							<xGap t="10" /> <xItem configs={this.dataXItem.responseArgs} />
 							{/* 备注 */}
 							<xGap t="10" /> <xItem configs={this.dataXItem.desc} />
+							<xGap t="10" /> <xItem configs={this.dataXItem.api_opened} />
 						</xForm>
 						<xGap t="10" />
 					</div>
 				</div>
 				<xDialogFooter>
 					<xGap f="1" />
-					<xItem configs={this.dataXItem.noticed} />
+					<div style="width:120px;">
+						<xItem configs={this.dataXItem.noticed} />
+					</div>
 					<xGap r="10" />
-					<xItem configs={this.dataXItem.api_opened} />
+					<xButton configs={this.configsDialogFooter.cancel} />
 					<xGap r="10" />
-
-					<xButton onClick={this.configsDialogFooter}>
-						纯按钮
-					</xButton>
+					<xButton configs={this.configsDialogFooter.save} />
 				</xDialogFooter>
 			</>
 		);
@@ -653,13 +659,13 @@ const MarkdownRender = defineComponent({
 			},
 			set(val) {
 				if (this.properties?.value !== val) {
-					this.listeners['onUpdate:value'](val)
+					this.listeners["onUpdate:value"](val);
 				}
 			}
 		}
 	},
 	render() {
-		return <TuiEditor v-model:md={this.md} />
+		return <TuiEditor v-model:md={this.md} />;
 	}
 });
 const ResponseRender = defineComponent({
@@ -667,17 +673,17 @@ const ResponseRender = defineComponent({
 	computed: {
 		body: {
 			get() {
-				return this.properties?.value?.res_body || ""
+				return this.properties?.value?.res_body || "";
 			},
 			set(res_body) {
 				this.listeners["onUpdate:value"]({
 					...this.properties.value,
 					res_body
-				})
+				});
 			}
 		}
 	},
 	render(vm) {
-		return <ResponsePanel v-model:body={vm.body} />
+		return <ResponsePanel v-model:body={vm.body} />;
 	}
 });
