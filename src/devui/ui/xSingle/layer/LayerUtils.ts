@@ -72,17 +72,17 @@ export const READY: {
 		var jsPath = document.currentScript
 			? document.currentScript.src
 			: (function () {
-					var js = document.scripts,
-						last = js.length - 1,
-						src;
-					for (var i = last; i > 0; i--) {
-						if (js[i].readyState === "interactive") {
-							src = js[i].src;
-							break;
-						}
+				var js = document.scripts,
+					last = js.length - 1,
+					src;
+				for (var i = last; i > 0; i--) {
+					if (js[i].readyState === "interactive") {
+						src = js[i].src;
+						break;
 					}
-					return src || js[last].src;
-			  })();
+				}
+				return src || js[last].src;
+			})();
 		const GLOBAL = {};
 		return GLOBAL.layer_dir || jsPath.substring(0, jsPath.lastIndexOf("/") + 1);
 	})(),
@@ -116,10 +116,13 @@ export const READY: {
 	},
 	/* 记录宽高坐标，用于还原 */
 	record($eleLayer) {
+		const windowHeight = $win.height();
+
+		const isLimit = $eleLayer.height() > windowHeight;
 		var area = [
 			$eleLayer.width(),
-			$eleLayer.height(),
-			$eleLayer.position().top,
+			isLimit ? windowHeight - 64 : $eleLayer.height(),
+			isLimit ? 32 : $eleLayer.position().top,
 			$eleLayer.position().left + parseFloat($eleLayer.css("margin-left"))
 		];
 		$eleLayer.find(".layui-layer-max").addClass("layui-layer-maxmin");
@@ -234,19 +237,19 @@ const LayerUtils = {
 				},
 				isOptionsIsFunction && !READY.config.skin
 					? {
-							skin: skin + " layui-layer-hui",
-							anim: anim
-					  }
+						skin: skin + " layui-layer-hui",
+						anim: anim
+					}
 					: (function () {
-							options = options || {};
-							if (
-								options.icon === -1 ||
-								(options.icon === undefined && !READY.config.skin)
-							) {
-								options.skin = skin + " " + (options.skin || "layui-layer-hui");
-							}
-							return options;
-					  })()
+						options = options || {};
+						if (
+							options.icon === -1 ||
+							(options.icon === undefined && !READY.config.skin)
+						) {
+							options.skin = skin + " " + (options.skin || "layui-layer-hui");
+						}
+						return options;
+					})()
 			)
 		);
 	},
@@ -307,7 +310,7 @@ const LayerUtils = {
 								iframe.contentWindow.document.write("");
 								iframe.contentWindow.close();
 								$eleLayer.find(`.${LAYUI_LAYER_IFRAME}`)[0].removeChild(iframe);
-							} catch (e) {}
+							} catch (e) { }
 						}
 					}
 
@@ -379,12 +382,13 @@ const LayerUtils = {
 	},
 	style(index, options, limit) {
 		/* 设定层的样式 */
-		var $$eleLayer = $("#" + LAYUI_LAYER + index),
-			contElem = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`),
-			type = $$eleLayer.attr("type"),
-			titHeight = $$eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0,
-			btnHeight = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0,
-			minLeft = $$eleLayer.attr("minLeft");
+		var $eleLayer = $("#" + LAYUI_LAYER + index)
+		const $contentEle = $eleLayer.find(`.${LAYUI_LAYER_CONTENT}`);
+		const type = $eleLayer.attr("type");
+		const titHeight = $eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0;
+		let contentHeight = $eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0;
+		const windowHeight = $win.height();
+		var minLeft = $eleLayer.attr("minLeft");
 		if (type === TYPE_LOADING || type === TYPE_TIPS) {
 			return;
 		}
@@ -394,23 +398,26 @@ const LayerUtils = {
 				options.width = 260;
 			}
 
-			if (parseFloat(options.height) - titHeight - btnHeight <= 64) {
-				options.height = 64 + titHeight + btnHeight;
+			if (parseFloat(options.height) - titHeight - contentHeight <= 64) {
+				options.height = 64 + titHeight + contentHeight;
 			}
 		}
 
-		$$eleLayer.css(options);
-		btnHeight = $$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight();
+		if (options.height > windowHeight) {
+			options.height = parseFloat(windowHeight)
+		}
+		$eleLayer.css(options);
+		contentHeight = $contentEle.outerHeight();
 		if (type === TYPE_IFRAME) {
-			$$eleLayer.find("iframe").addClass("flex1");
+			$eleLayer.find("iframe").addClass("flex1");
 		} else {
-			contElem.css({
+			$contentEle.css({
 				height:
 					parseFloat(options.height) -
 					titHeight -
-					btnHeight -
-					parseFloat(contElem.css("padding-top")) -
-					parseFloat(contElem.css("padding-bottom"))
+					contentHeight -
+					parseFloat($contentEle.css("padding-top")) -
+					parseFloat($contentEle.css("padding-bottom"))
 			});
 		}
 	},
@@ -474,8 +481,7 @@ const LayerUtils = {
 		);
 		$eleLayer.find(".layui-layer-max").removeClass("layui-layer-maxmin");
 		$eleLayer.find(".layui-layer-min").show();
-		$eleLayer.attr("type") === "page" &&
-			$eleLayer.find(LAYUI_LAYER_CONTENT).show();
+		$eleLayer.attr("type") === "page" && $eleLayer.find(LAYUI_LAYER_CONTENT).show();
 		READY.rescollbar(index);
 		/* 恢复遮罩 */
 		shadeo.show();
@@ -599,9 +605,8 @@ class ClassLayer {
 		if (!config.shade) {
 			return "";
 		}
-		return `<div class="${LAYUI_LAYER_SHADE}" id="${_IDShade}" style="z-index:${
-			this.zIndex - 1
-		};"></div>`;
+		return `<div class="${LAYUI_LAYER_SHADE}" id="${_IDShade}" style="z-index:${this.zIndex - 1
+			};"></div>`;
 	}
 
 	get cptDomTitle() {
@@ -648,8 +653,8 @@ class ClassLayer {
 						(config.title
 							? config.closeBtn
 							: config.type == LayerUtils.TIPS
-							? "1"
-							: "2") +
+								? "1"
+								: "2") +
 						'" href="javascript:;"></a>';
 				}
 				return closebtn;
@@ -680,9 +685,8 @@ class ClassLayer {
 				},
 				""
 			);
-			return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${
-				config.btnAlign || ""
-			}">${domButtons}</div>`;
+			return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${config.btnAlign || ""
+				}">${domButtons}</div>`;
 		}
 		return "";
 	}
@@ -736,7 +740,7 @@ class ClassLayer {
 			.filter(fnValid)
 			.join(" ");
 
-		const [width, height] = config.area;
+		const [width, height] = config.area || [];
 
 		return `
 <div id="${_IDLayer}" layer-wrapper="${_IDLayer}" type="${typeName}"
@@ -747,8 +751,8 @@ class ClassLayer {
 		data-content-type="${isContentTypeObject ? "object" : "string"}"
 		style="position:fixed;
 			z-index:${zIndex};
-			width:${config.area[0]}; 
-			height:${config.area[1]};"
+			width:${width}; 
+			height:${height};"
 		>
 			${this.cptDomTitle}
 			<div class="${classContent}" id="${_IDContent}">
@@ -856,9 +860,8 @@ class ClassLayer {
 				}
 				config.follow = config.content[1];
 				const arrow = '<i class="layui-layer-TipsG"></i>';
-				config.content = `<div style="max-width:${
-					config?.custumSettings?.maxWidth || "300px"
-				};overflow:auto;">${config.content[0]}<div>${arrow}`;
+				config.content = `<div style="max-width:${config?.custumSettings?.maxWidth || "300px"
+					};overflow:auto;">${config.content[0]}<div>${arrow}`;
 				delete config.title;
 				config.btn = [];
 				config.tips =

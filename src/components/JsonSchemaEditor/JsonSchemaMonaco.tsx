@@ -1,9 +1,12 @@
+import json5 from 'json5';
 import { defineComponent, markRaw } from "vue";
 import { State_App } from "../../state/State_App";
 import "./JsonSchemaMonaco.less";
 import { UI, xU } from "@ventose/ui";
 import { ICON_STRATEGE, SchemaEditor, SPE } from "./SchemaEditor";
 import { diff } from "jsondiffpatch";
+import { API } from "../../api/index";
+import generateSchema from "generate-schema";
 
 function makeProps(pre, prop) {
 	return [pre, prop].join(SPE);
@@ -57,8 +60,8 @@ export const JsonSchemaMonaco = defineComponent({
 		currentNode: {
 			deep: true,
 			async handler() {
-				await xU.ensureValueDone(() => this.updateSchemaString);
-				this.updateSchemaString();
+				await xU.ensureValueDone(() => this.setSchemaStringDebounce);
+				this.setSchemaStringDebounce();
 			}
 		},
 		schemaString: {
@@ -78,25 +81,32 @@ export const JsonSchemaMonaco = defineComponent({
 		this.init();
 	},
 	methods: {
+		setSchemaString() {
+			let jsonSchemaString = JSON.stringify(this.schemaJson, null, 2);
+			if (this.currentNode) {
+				jsonSchemaString = JSON.stringify(this.currentNode, null, 2);
+			}
+			if (this.jsonSchemaString !== jsonSchemaString) {
+				this.jsonSchemaString = jsonSchemaString;
+			}
+		},
 		init() {
 			const vm = this;
 			vm.raw$Node4Diff = {};
-			vm.updateSchemaString = xU.debounce(function () {
+			vm.setSchemaStringDebounce = xU.debounce(function () {
 				/* 因为currentNode变动，更新Monaco的字符串，不可以在内部修改currentNode触发循环更新 */
 				const node = xU.cloneDeep(vm.currentNode);
-				const isDifferent = diff(vm.raw$Node4Diff, node);
-				if (isDifferent) {
-					let jsonSchemaString = JSON.stringify(vm.schemaJson, null, 2);
-					if (vm.currentNode) {
-						jsonSchemaString = JSON.stringify(vm.currentNode, null, 2);
+				if (node) {
+					const isDifferent = diff(vm.raw$Node4Diff, node);
+					if (isDifferent) {
+						vm.raw$Node4Diff = node;
+						vm.setSchemaString(node);
 					}
-					if (vm.jsonSchemaString !== jsonSchemaString) {
-						vm.jsonSchemaString = jsonSchemaString;
-					}
-					vm.raw$Node4Diff = node;
+				} else {
+					vm.setSchemaString();
 				}
 			}, 600);
-			vm.updateSchemaString();
+			vm.setSchemaStringDebounce();
 
 			vm.updateTreeDebounce = xU.debounce(function () {
 				vm.jsonTree = xU.map([vm.schemaJson], (item, prop) => {
@@ -169,8 +179,30 @@ export const JsonSchemaMonaco = defineComponent({
 			} else {
 				this.currentNode = false;
 			}
+			this.setSchemaStringDebounce();
 		},
-		monacoJsonToSchema() {}
+		monacoJsonToSchema() {
+			try {
+				const res = generateSchema.json(json5.parse(this.jsonSchemaString))
+				this.jsonSchemaString = JSON.stringify(res, null, 2)
+			} catch (error) {
+				UI.message.error(this.$t('JSON 转 schema 解析出错').label);
+			}
+		},
+		async previewMock() {
+			try {
+				let schema = JSON.parse(this.jsonSchemaString);
+				/* TODO: 没啥作用*/
+				const { data } = await API.project.interfaceSchema2json({ schema: schema.properties })
+				if (data) {
+					this.jsonSchemaString = JSON.stringify(data, null, 2);
+				} else {
+					throw new Error();
+				}
+			} catch (error) {
+				UI.message.error(this.$t('预览 Mock 结果出错').label);
+			}
+		}
 	},
 	provide() {
 		const vm = this;
@@ -180,6 +212,7 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	data(vm) {
 		return {
+			isMockPreview: false,
 			currentNode: false,
 			helpTips: {
 				content: PopoverContent,
@@ -203,12 +236,12 @@ export const JsonSchemaMonaco = defineComponent({
 					) : (
 						<div class="flex middle height100 vertical">
 							<div class="padding10 flex middle width100">
-								<aButton type="primary">
+								{/* <aButton type="primary">
 									<xIcon icon="column2" />
 								</aButton>
 								<aButton type="text">
 									<xIcon icon="column3" />
-								</aButton>
+								</aButton> */}
 								<xGap f="1" />
 								<span v-uiPopover={vm.helpTips} class="flex middle pointer">
 									<xIcon icon="question" />
@@ -225,9 +258,7 @@ export const JsonSchemaMonaco = defineComponent({
 										const { title, type, key } = dataRef;
 										const isShowAdd = !type || type === "object";
 										const isShowDelete = !!key;
-
-										const vDomIcon =
-											ICON_STRATEGE[type] && ICON_STRATEGE[type]();
+										const vDomIcon = ICON_STRATEGE[type] && ICON_STRATEGE[type]();
 
 										return (
 											<div class="flex middle  title-wrapper">
@@ -267,15 +298,32 @@ export const JsonSchemaMonaco = defineComponent({
 					class="JsonSchemaMonaco-monaco-panel flex1 flex vertical"
 					style={{ width: "1px" }}>
 					<div class="JsonSchemaMonaco-monaco-panel_button flex middle">
-						<aButton onClick={this.syncMonacoString} type="primary">
+						<aButton onClick={this.syncMonacoString} type="primary" disabled={this.isMockPreview}>
 							{this.$t("同步到左侧").label}
 						</aButton>
 						<xGap l="10" />
 						{!this.currentNode && (
-							<aButton onClick={this.monacoJsonToSchema} type="primary">
+							<aButton onClick={this.monacoJsonToSchema} type="primary" disabled={this.isMockPreview}>
 								{this.$t("JSON 转 schema").label}
 							</aButton>
 						)}
+						<xGap l="10" />
+						{!this.currentNode && (
+							<aCheckbox
+								checked={this.isMockPreview}
+								onUpdate:checked={val => {
+									vm.isMockPreview = val;
+									if (val) {
+										vm.previewMock();
+									} else {
+										vm.setSchemaStringDebounce();
+									}
+								}}
+							>
+								{this.$t("Mock预览").label}
+							</aCheckbox>
+						)}
+
 					</div>
 					<MonacoEditor
 						class="flex1"

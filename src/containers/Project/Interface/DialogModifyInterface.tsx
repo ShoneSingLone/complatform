@@ -225,7 +225,7 @@ export const DialogModifyInterface = defineComponent({
 							};
 						});
 					},
-					itemType: EnvSelectRender
+					itemType: markRaw(EnvSelectRender)
 				}),
 				...defItem({
 					prop: "requestArgs",
@@ -241,13 +241,29 @@ export const DialogModifyInterface = defineComponent({
 					value: {},
 					activeKey: "1",
 					apiMethod: "",
-					itemType: ResponseRender
+					itemType: markRaw(ResponseRender)
 				}),
 				...defItem({
 					prop: "desc",
 					label: vm.$t("备注").label,
-					value: {},
-					itemType: MarkdownRender
+					value: '',
+					itemType: markRaw(MarkdownRender)
+				}),
+				...defItem({
+					prop: "noticed",
+					label: vm.$t("消息通知").label,
+					checkedChildren: vm.$t('开').label,
+					unCheckedChildren: vm.$t('关').label,
+					value: true,
+					itemType: "Switch"
+				}),
+				...defItem({
+					prop: "api_opened",
+					label: vm.$t("开放接口").label,
+					checkedChildren: vm.$t('开').label,
+					unCheckedChildren: vm.$t('关').label,
+					value: "",
+					itemType: "Switch"
 				})
 			}
 		};
@@ -275,6 +291,7 @@ export const DialogModifyInterface = defineComponent({
 			console.log(JSON.stringify(this.detailInfo, null, 2));
 
 			const {
+				api_opened,
 				catid,
 				title,
 				path,
@@ -324,7 +341,8 @@ export const DialogModifyInterface = defineComponent({
 					res_body,
 					res_body_type,
 					res_body_mock
-				}
+				},
+				noticed: this.State_App.currProject.switch_notice
 			});
 		},
 		initState(detailInfo) {
@@ -452,14 +470,24 @@ export const DialogModifyInterface = defineComponent({
 							{/* 请求参数 */}
 							<xGap t="10" /> <xItem configs={this.dataXItem.requestArgs} />
 							{/* 响应参数  */}
-							<xItem configs={this.dataXItem.responseArgs} />
+							<xGap t="10" /> <xItem configs={this.dataXItem.responseArgs} />
 							{/* 备注 */}
-							<xItem configs={this.dataXItem.desc} />
+							<xGap t="10" /> <xItem configs={this.dataXItem.desc} />
 						</xForm>
 						<xGap t="10" />
 					</div>
 				</div>
-				<xDialogFooter configs={this.configsDialogFooter} />
+				<xDialogFooter>
+					<xGap f="1" />
+					<xItem configs={this.dataXItem.noticed} />
+					<xGap r="10" />
+					<xItem configs={this.dataXItem.api_opened} />
+					<xGap r="10" />
+
+					<xButton onClick={this.configsDialogFooter}>
+						纯按钮
+					</xButton>
+				</xDialogFooter>
 			</>
 		);
 	}
@@ -617,28 +645,39 @@ const RequestArgsRender = defineComponent({
 });
 const MarkdownRender = defineComponent({
 	props: ["properties", "listeners"],
+	components: { TuiEditor },
+	computed: {
+		md: {
+			get() {
+				return this.properties?.value || "";
+			},
+			set(val) {
+				if (this.properties?.value !== val) {
+					this.listeners['onUpdate:value'](val)
+				}
+			}
+		}
+	},
 	render() {
-		return (
-			<TuiEditor
-				md={this.properties?.value}
-				onUpdate:md={this.listeners["onUpdate:value"]}
-			/>
-		);
+		return <TuiEditor v-model:md={this.md} />
 	}
 });
-
-const ResponseRender = ({
-	properties,
-	slots,
-	listeners,
-	propsWillDeleteFromConfigs
-}) => {
-	/* input */
-	properties.value = properties.value || {};
-	return (
-		<ResponsePanel
-			params={properties.value}
-			onUpdate:params={listeners["onUpdate:value"]}
-		/>
-	);
-};
+const ResponseRender = defineComponent({
+	props: ["properties", "listeners"],
+	computed: {
+		body: {
+			get() {
+				return this.properties?.value?.res_body || ""
+			},
+			set(res_body) {
+				this.listeners["onUpdate:value"]({
+					...this.properties.value,
+					res_body
+				})
+			}
+		}
+	},
+	render(vm) {
+		return <ResponsePanel v-model:body={vm.body} />
+	}
+});

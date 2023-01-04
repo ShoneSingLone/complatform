@@ -1,5 +1,3 @@
-import { Switch } from "ant-design-vue";
-import { h } from "vue";
 import { xU } from "../../ventoseUtils";
 
 export default ({
@@ -16,5 +14,5 @@ export default ({
 		}
 	});
 	/*用span包裹：宽度自适应*/
-	return <span>{h(Switch, xU.omit(_property, ["value"]))}</span>;
+	return <span><aSwitch {...xU.omit(_property, ["value"])}/></span>;
 };
