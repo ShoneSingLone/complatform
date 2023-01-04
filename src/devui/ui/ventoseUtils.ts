@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _, { LoDashStatic } from "lodash";
 import dayjs from "dayjs";
 import $ from "jquery";
 import { iStorage } from "./tools/storage";
@@ -622,26 +622,34 @@ const privateLodash = {
 	}
 };
 
-export const xU = new Proxy(
-	function (...args) {
+type t_all_lodash_and_mine = typeof privateLodash & LoDashStatic;
+
+export const xU: t_all_lodash_and_mine = new Proxy(
+	/* @ts-ignore */
+	function (...args: any[]) {
 		/* @ts-ignore */
 		if (isDevMode) {
 			try {
 				throw new Error("");
-			} catch (error) {
+			} catch (error: any) {
 				args.unshift(String(error.stack).split("\n")[2], "\n");
 				console.log.apply(console, args);
 			}
 		}
 	},
 	{
-		get(fn, prop) {
+		get(fn, prop: any) {
+			/* @ts-ignore */
 			if (privateLodash[prop]) {
+				/* @ts-ignore */
 				return privateLodash[prop];
 			}
+			/* @ts-ignore */
 			return fn[prop];
 		},
+		/* @ts-ignore */
 		set(fn, prop, val) {
+			/* @ts-ignore */
 			privateLodash[prop] = val;
 			return true;
 		}

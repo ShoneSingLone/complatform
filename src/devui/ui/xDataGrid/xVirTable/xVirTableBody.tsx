@@ -2,14 +2,12 @@
 import { defineComponent, inject } from "vue";
 import { xU } from "../../ventoseUtils";
 import { usefnObserveDomResize } from "../../compositionAPI/useDomResize";
-import { xVirTableTr } from "./xVirTableTr";
 import { xVirTableTd } from "./xVirTableTd";
 
 export const xVirTableBody = defineComponent({
 	props: ["columnOrder", "columns", "rowHeight", "selectedConfigs", "selected"],
 	emits: ["selectedChange", "update:scrollHeight"],
 	components: {
-		xVirTableTr,
 		xVirTableTd
 	},
 	setup() {
