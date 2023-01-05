@@ -331,7 +331,8 @@ export const xItem = defineComponent({
 
 		(() => {
 			vm.setProperties = xU.debounce(function () {
-				console.log("setProperties");
+				/* @ts-ignore */
+				xU("setProperties", vm._.uid);
 				const __properties = {};
 				const pickProps = originConfigs => {
 					xU.each(originConfigs, (item, prop) => {

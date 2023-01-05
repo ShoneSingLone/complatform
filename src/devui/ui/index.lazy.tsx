@@ -48,7 +48,7 @@ import xItem from "./xForm/xItem.vue";
 import xForm from "./xForm/xForm.vue";
 import xButton from "./xButton/xButton";
 import xButtonCountDown from "./xButton/xButtonCountDown.vue";
-import xGap from "./xLayout/xGap.vue";
+import { xGap } from "./xLayout/xGap";
 import xCharts from "./xCharts/xCharts.vue";
 import xView from "./xView/xView.vue";
 import xDataGrid from "./xDataGrid/xDataGrid.vue";

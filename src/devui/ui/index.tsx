@@ -10,7 +10,7 @@ import { xItem } from "./xForm/xItem";
 import xForm from "./xForm/xForm.vue";
 import xButton from "./xButton/xButton";
 import xButtonCountDown from "./xButton/xButtonCountDown.vue";
-import xGap from "./xLayout/xGap.vue";
+import { xGap } from "./xLayout/xGap";
 import xCharts from "./xCharts/xCharts.vue";
 import xView from "./xView/xView.vue";
 import xIcon from "./xIcon/xIcon.vue";
@@ -48,6 +48,7 @@ import { pickValueFrom, resetValueOf, setValueTo } from "./tools/form.js";
 import { UI } from "./UI";
 import { VNodeCollection } from "./tools/VNodeRender";
 import { compileVNode } from "./tools/framework";
+import { xLogObject } from "./xSingle/xLogObject";
 
 /* @ts-ignore */
 window.dayjs = dayjs;
@@ -73,7 +74,8 @@ const componentMyUI = {
 	xPagination,
 	xCellLabel,
 	xVirScroll,
-	xVirTable
+	xVirTable,
+	xLogObject
 };
 
 export const components = {

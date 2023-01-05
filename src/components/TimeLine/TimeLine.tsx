@@ -7,7 +7,7 @@ import { UI, State_UI, xU, defPagination } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { State_App, Methods_App } from "../../state/State_App";
 import { Cpt_url } from "../../router/router";
-import { DialogApiModify } from "./DialogApiModify";
+import { DialogShowApiModify } from "./DialogShowApiModify";
 import { LOG_TYPE, METHOD_COLOR } from "../../utils/variable";
 import { _$timeAgo } from "../../utils/common";
 import { API } from "../../api";
@@ -82,7 +82,7 @@ export const TimeLine = defineComponent({
 		showDiffLogDialog(data) {
 			UI.dialog.component({
 				title: $t("Api 改动日志(Esc 关闭弹窗)").label,
-				component: DialogApiModify,
+				component: DialogShowApiModify,
 				maxmin: true,
 				fullscreen: true,
 				diffView: diffMessage(jsondiffpatch, formattersHtml, data)

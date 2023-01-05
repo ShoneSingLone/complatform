@@ -72,17 +72,17 @@ export const READY: {
 		var jsPath = document.currentScript
 			? document.currentScript.src
 			: (function () {
-					var js = document.scripts,
-						last = js.length - 1,
-						src;
-					for (var i = last; i > 0; i--) {
-						if (js[i].readyState === "interactive") {
-							src = js[i].src;
-							break;
-						}
+				var js = document.scripts,
+					last = js.length - 1,
+					src;
+				for (var i = last; i > 0; i--) {
+					if (js[i].readyState === "interactive") {
+						src = js[i].src;
+						break;
 					}
-					return src || js[last].src;
-			  })();
+				}
+				return src || js[last].src;
+			})();
 		const GLOBAL = {};
 		return GLOBAL.layer_dir || jsPath.substring(0, jsPath.lastIndexOf("/") + 1);
 	})(),
@@ -116,11 +116,12 @@ export const READY: {
 	},
 	/* 记录宽高坐标，用于还原 */
 	record($eleLayer) {
-		const windowHeight = $win.height();
+		const [windowHeight, windowWidth] = [$win.height(), $win.width()];
 
 		const isLimit = $eleLayer.height() > windowHeight;
+		const isLimitWidth = $eleLayer.width() > windowWidth;
 		var area = [
-			$eleLayer.width(),
+			isLimitWidth ? windowWidth - 64 : $eleLayer.width(),
 			isLimit ? windowHeight - 64 : $eleLayer.height(),
 			isLimit ? 32 : $eleLayer.position().top,
 			$eleLayer.position().left + parseFloat($eleLayer.css("margin-left"))
@@ -237,19 +238,19 @@ const LayerUtils = {
 				},
 				isOptionsIsFunction && !READY.config.skin
 					? {
-							skin: skin + " layui-layer-hui",
-							anim: anim
-					  }
+						skin: skin + " layui-layer-hui",
+						anim: anim
+					}
 					: (function () {
-							options = options || {};
-							if (
-								options.icon === -1 ||
-								(options.icon === undefined && !READY.config.skin)
-							) {
-								options.skin = skin + " " + (options.skin || "layui-layer-hui");
-							}
-							return options;
-					  })()
+						options = options || {};
+						if (
+							options.icon === -1 ||
+							(options.icon === undefined && !READY.config.skin)
+						) {
+							options.skin = skin + " " + (options.skin || "layui-layer-hui");
+						}
+						return options;
+					})()
 			)
 		);
 	},
@@ -310,7 +311,7 @@ const LayerUtils = {
 								iframe.contentWindow.document.write("");
 								iframe.contentWindow.close();
 								$eleLayer.find(`.${LAYUI_LAYER_IFRAME}`)[0].removeChild(iframe);
-							} catch (e) {}
+							} catch (e) { }
 						}
 					}
 
@@ -389,7 +390,7 @@ const LayerUtils = {
 			$eleLayer.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0;
 		let contentHeight =
 			$eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0;
-		const windowHeight = $win.height();
+		const [windowHeight, windowWidth] = [$win.height(), $win.width()];
 		var minLeft = $eleLayer.attr("minLeft");
 		if (type === TYPE_LOADING || type === TYPE_TIPS) {
 			return;
@@ -608,9 +609,8 @@ class ClassLayer {
 		if (!config.shade) {
 			return "";
 		}
-		return `<div class="${LAYUI_LAYER_SHADE}" id="${_IDShade}" style="z-index:${
-			this.zIndex - 1
-		};"></div>`;
+		return `<div class="${LAYUI_LAYER_SHADE}" id="${_IDShade}" style="z-index:${this.zIndex - 1
+			};"></div>`;
 	}
 
 	get cptDomTitle() {
@@ -657,8 +657,8 @@ class ClassLayer {
 						(config.title
 							? config.closeBtn
 							: config.type == LayerUtils.TIPS
-							? "1"
-							: "2") +
+								? "1"
+								: "2") +
 						'" href="javascript:;"></a>';
 				}
 				return closebtn;
@@ -689,9 +689,8 @@ class ClassLayer {
 				},
 				""
 			);
-			return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${
-				config.btnAlign || ""
-			}">${domButtons}</div>`;
+			return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${config.btnAlign || ""
+				}">${domButtons}</div>`;
 		}
 		return "";
 	}
@@ -865,9 +864,8 @@ class ClassLayer {
 				}
 				config.follow = config.content[1];
 				const arrow = '<i class="layui-layer-TipsG"></i>';
-				config.content = `<div style="max-width:${
-					config?.custumSettings?.maxWidth || "300px"
-				};overflow:auto;">${config.content[0]}<div>${arrow}`;
+				config.content = `<div style="max-width:${config?.custumSettings?.maxWidth || "300px"
+					};overflow:auto;">${config.content[0]}<div>${arrow}`;
 				delete config.title;
 				config.btn = [];
 				config.tips =

@@ -132,6 +132,7 @@ export const JsonSchemaMonaco = defineComponent({
 			this.updateTreeDebounce();
 		},
 		handleTreeClick(item) {
+			this.isMockPreview = false;
 			if (item && item.title !== "root") {
 				this.setCurrentNode(item);
 			} else {

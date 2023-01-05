@@ -15,7 +15,11 @@ const cleanDir = async () => {
 		while ((target = files.pop())) {
 			if (/tui.js/.test(target)) {
 				continue;
-			} else {
+			}
+			if (/style.css/.test(target)) {
+				continue;
+			}
+			else {
 				await fs.promises.unlink(target);
 			}
 		}

@@ -296,7 +296,11 @@ const privateLodash = {
 		if (val === undefined) {
 			return false;
 		}
-		val = JSON.parse(JSON.stringify(val));
+		try {
+			val = JSON.parse(JSON.stringify(val));
+		} catch (error) {
+			console.log(val, "JSON.parse failed");
+		}
 		if (val === 0) {
 			return true;
 		}
@@ -359,10 +363,11 @@ const privateLodash = {
 		/* 提供ID 用于替换同一个style 元素的内容 */
 		id = id || _.camelCase(cssURL);
 		let content;
-		const $style = $(`#${id}`);
+		let $style = $(`#${id}`);
 		if ($style.length == 0) {
 			/* 如果不存在，加载内容 */
-			$("body").append($("<style/>", { id }));
+			$style = $("<style/>", { id });
+			$("body").append($style);
 			content = await privateLodash.asyncLoadText(cssURL);
 			$style.html(content);
 		} else if (isReplace) {

@@ -1,8 +1,8 @@
-<script lang="jsx">
+
 import { defineComponent } from "vue";
 import { xU } from "../ventoseUtils";
 
-export default defineComponent({
+export const xGap = defineComponent({
 	name: "xGap",
 	/* a:all,top left right bottom;class flex1,2,3,4 */
 	props: ["t", "l", "r", "b", "a", "f"],
@@ -46,4 +46,3 @@ export default defineComponent({
 		return <div style={this.gapStyle} class={this.gapClass} />;
 	}
 });
-</script>

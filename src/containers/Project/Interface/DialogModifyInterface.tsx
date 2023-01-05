@@ -66,9 +66,7 @@ export const DialogModifyInterface = defineComponent({
 				},
 				save: {
 					preset: "save",
-					onClick: async () => {
-						this.submit();
-					}
+					onClick: this.submit
 				}
 			};
 		}
@@ -253,9 +251,9 @@ export const DialogModifyInterface = defineComponent({
 					itemType: markRaw(ResponseRender)
 				}),
 				...defItem({
-					prop: "desc",
+					prop: "remark",
 					label: vm.$t("备注").label,
-					value: "",
+					value: { html: "", md: "" },
 					itemType: markRaw(MarkdownRender)
 				}),
 				...defItem({
@@ -295,8 +293,11 @@ export const DialogModifyInterface = defineComponent({
 		}
 	},
 	methods: {
-		setFormDataValues() {
-			this.detailInfo = this.initState(this.propDialogOptions.oldInterface);
+		async setFormDataValues() {
+			const { data } = await API.project.fetchInterfaceDetail(
+				this.propDialogOptions.interfaceId
+			);
+			this.detailInfo = this.initState(data);
 			xU.doNothing(JSON.stringify(this.detailInfo, null, 2));
 
 			const {
@@ -319,7 +320,8 @@ export const DialogModifyInterface = defineComponent({
 				res_body_type,
 				res_body_mock,
 				res_body_is_json_schema,
-				desc
+				desc,
+				markdown
 			} = this.detailInfo;
 
 			setValueTo(this.dataXItem, {
@@ -328,9 +330,9 @@ export const DialogModifyInterface = defineComponent({
 				title,
 				apiMethod: method,
 				path,
-				desc,
+				remark: { md: markdown, html: desc },
 				pathParams: req_params,
-				tag: String(tag).split(","),
+				tag: String(tag).split(",").filter(xU.isInput),
 				isProxy,
 				requestArgs: {
 					req_headers,
@@ -432,25 +434,27 @@ export const DialogModifyInterface = defineComponent({
 		async submit() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-				const { catid, title, path, apiMethod, desc } = pickValueFrom(
+				const { catid, title, path, apiMethod, remark, responseArgs } = pickValueFrom(
 					this.dataXItem
 				);
-
-				const { projectId } = this.propDialogOptions;
+				const {
+					html: desc,
+					md: markdown
+				} = remark;
 				try {
-					const res = await API.project.addInterface({
-						project_id: projectId,
-						catid,
-						title,
-						path,
-						method: apiMethod
+
+					const { data } = await API.project.updateInterface({
+						id: this.detailInfo._id,
 					});
 
-					if (res) {
-						return true;
+					if (data) {
+						UI.message.success(this.$t('修改成功').label);
+						setTimeout(() => {
+							this.propDialogOptions.closeDialog();
+						}, 1000);
 					}
 				} catch (error) {
-					UI.message.error("添加失败");
+					UI.message.error(this.$t('修改失败').label);
 				}
 			}
 		}
@@ -484,7 +488,8 @@ export const DialogModifyInterface = defineComponent({
 							{/* 响应参数  */}
 							<xGap t="10" /> <xItem configs={this.dataXItem.responseArgs} />
 							{/* 备注 */}
-							<xGap t="10" /> <xItem configs={this.dataXItem.desc} />
+							<xLogObject obj={this.dataXItem.remark} hide />
+							<xGap t="10" /> <xItem configs={this.dataXItem.remark} />
 							<xGap t="10" /> <xItem configs={this.dataXItem.api_opened} />
 						</xForm>
 						<xGap t="10" />

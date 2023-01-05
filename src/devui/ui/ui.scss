@@ -401,7 +401,7 @@ div[id^="svg-icon_"] {
 	-webkit-box-shadow: inset006pxrgba(255, 0, 0, 0.3);
 	background: rgba(255, 255, 255, 0.1);
 }
-
+@import "./ui.animate.scss";
 @import "./MdButton.scss";
 @import "./xDataGrid/xVirTable/xVirTable.scss";
 @import "./xSingle/dialog/dialog.scss";

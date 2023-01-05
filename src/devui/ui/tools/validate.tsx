@@ -1,6 +1,18 @@
 import { xU } from "../ventoseUtils";
 import { markRaw } from "vue";
 
+export const getValueNeedVarigy = ({ value, xItemConfigs }) => {
+	if ((value !== undefined)) {
+		return value;
+	} else if ((xItemConfigs.modelValue !== undefined)) {
+		return xItemConfigs.modelValue;
+	} else if ((xItemConfigs.value !== undefined)) {
+		return xItemConfigs.value;
+	} else {
+		throw new Error("miss value")
+	}
+}
+
 export const EVENT_TYPE = {
 	validateForm: "validateForm",
 	update: "update",
@@ -24,38 +36,48 @@ export const TIPS_TYPE = {
  */
 export async function validateForm(configsForm, valuesCollection) {
 	let propsArray = Object.keys(configsForm);
+	/* 如果提供 数据集，则以数据集的数据为准 */
 	if (valuesCollection) {
 		propsArray = Object.keys(valuesCollection);
 	}
 	return Promise.all(
 		xU.map(propsArray, prop => {
 			const configs = configsForm[prop];
-			const valueNeedVarify = valuesCollection
-				? valuesCollection[prop]
-				: configs.modelValue;
+			const valueNeedVarify = getValueNeedVarigy({
+				value: valuesCollection && valuesCollection[prop],
+				xItemConfigs: configs
+			});
+
 			return new Promise(resolve => {
-				/*处理不校验的情况*/
-				if (xU.isInput(configs.isShow)) {
-					/*configs.isShow至少默认是个true，如果是falsy，则明确为不显示*/
-					const isFalse = !configs.isShow;
-					if (isFalse) {
-						return resolve();
+				try {
+
+					(() => {
+						/*处理不校验的情况*/
+						const isFalse = !configs.isShow;
+						/*configs.isShow至少默认是个true，如果是falsy，则明确为不显示*/
+						if (isFalse) {
+							return resolve("");
+						}
+						const isResFalse = xU.isFunction(configs.isShow) && !configs.isShow();
+						if (isResFalse) {
+							return resolve("");
+						}
+						/*处理不校验的情况*/
+					})();
+
+					if (configs.validate) {
+						/*xItem的validate使用了debounce ，采用callback异步处理resolve*/
+						configs.__onAfterValidate = markRaw(function (result) {
+							delete configs.__onAfterValidate;
+							resolve(result);
+						});
+						/*触发方式是校验表单，将无视其他trigger规则，权重最大*/
+						configs.validate(EVENT_TYPE.validateForm, valueNeedVarify);
+					} else {
+						resolve("");
 					}
-					const isResFalse = xU.isFunction(configs.isShow) && !configs.isShow();
-					if (isResFalse) {
-						return resolve();
-					}
-				}
-				if (configs.validate) {
-					/*xItem的validate使用了debounce ，采用callback异步处理resolve*/
-					configs.__onAfterValidate = markRaw(function (result) {
-						delete configs.__onAfterValidate;
-						resolve(result);
-					});
-					/*触发方式是校验表单，将无视其他trigger规则，权重最大*/
-					configs.validate(EVENT_TYPE.validateForm, valueNeedVarify);
-				} else {
-					resolve();
+				} catch (error) {
+					console.error(error);
 				}
 			});
 		})
@@ -84,17 +106,10 @@ export const checkXItem = async ({
 	value,
 	FormItemId
 }) => {
-	const valueNeedVarify = (() => {
-		if (xU.isInput(value)) {
-			return value;
-		} else {
-			return xItemConfigs.modelValue;
-		}
-	})();
+	const valueNeedVarify = getValueNeedVarigy({ value, xItemConfigs });
 	xItemConfigs.checking = true;
 	fnCheckedCallback = fnCheckedCallback || xU.doNothing;
 	FormItemId = FormItemId || xItemConfigs.FormItemId;
-
 	let result;
 	try {
 		const { rules, prop } = xItemConfigs;

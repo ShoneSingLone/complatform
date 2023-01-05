@@ -67,9 +67,8 @@ const appOptions = {
 
 if (isBuildLibTui) {
 	appOptions.build = {
-		/* 没有混缩 */
-		minify: false,
-		cssCodeSplit: true,
+		minify: true,
+		cssCodeSplit: false,
 		outDir: "public/tui-editor",
 		lib: {
 			formats: ["iife"],

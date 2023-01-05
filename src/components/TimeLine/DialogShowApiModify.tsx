@@ -2,7 +2,7 @@ import { defineComponent } from "vue";
 import { xU } from "@ventose/ui";
 import { State_App } from "../../state/State_App";
 
-export const DialogApiModify = defineComponent({
+export const DialogShowApiModify = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
 		propDialogOptions: {

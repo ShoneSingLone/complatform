@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { xU } from "@ventose/ui";
+import { xU, $ } from "@ventose/ui";
 import { defineComponent, defineAsyncComponent } from "vue";
 import { asyncGetTuiEditor } from "./LoadTuiEditorLibs";
 
@@ -9,61 +9,83 @@ export const TuiEditor = defineAsyncComponent(
 			const TuiEditor = await asyncGetTuiEditor();
 			resolve(
 				defineComponent({
-					props: ["md"],
-					emits: ["update:md"],
+					props: ["modelValue"],
+					emits: ["update:modelValue"],
 					data() {
 						return {
 							isLoading: false,
 							id: xU.genId("TuiEditor"),
-							raw$Value: ""
+							raw$md: "",
 						};
 					},
 					mounted() {
-						this.init();
+						this.once();
 					},
 					watch: {
-						md: {
+						"modelValue.md": {
 							immediate: true,
-							async handler(value) {
+							async handler(mdString) {
 								await xU.ensureValueDone(() => this.raw$editor);
-								if (value !== this.raw$Value) {
-									this.raw$editor.setMarkdown(value);
+								if (this.raw$md !== mdString) {
+									this.raw$editor.setMarkdown(mdString);
 								}
 							}
-						}
+						},
 					},
 					methods: {
+						async sync() {
+							await xU.ensureValueDone(() => this.syncDebounce);
+							$(this.raw$selector).show().addClass("flash infinite");
+							this.syncDebounce()
+						},
 						//初始化方法
-						async init() {
+						async once() {
 							let vm = this;
-							vm.$refs.container.innerHTML = "";
-							this.raw$editor = new TuiEditor({
-								el: vm.$refs.container,
-								initialEditType: "wysiwyg",
-								previewStyle: "vertical",
-								height: "auto",
-								initialValue: this.raw$Value || "",
-								hooks: {
-									/* EventEmitter.prototype.emit  */
-									change: editorType => {
-										const mdString = vm.raw$editor.getMarkdown();
-										if (vm.raw$Value !== mdString) {
-											vm.raw$Value = mdString;
-											vm.$emit("update:md", mdString);
+							(() => {
+								vm.raw$editor = new TuiEditor({
+									el: vm.$refs.container,
+									initialEditType: "wysiwyg",
+									previewStyle: "vertical",
+									height: "auto",
+									initialValue: vm.raw$md || "",
+									hooks: {
+										/* EventEmitter.prototype.emit  */
+										change: vm.sync,
+										addImageBlobHook: (blob, callback) => {
+											vm.isLoading = true;
+											var reader = new FileReader();
+											reader.onload = function (_a) {
+												var target2 = _a.target;
+												vm.isLoading = false;
+												return callback(target2.result);
+											};
+											reader.readAsDataURL(blob);
 										}
-									},
-									addImageBlobHook: (blob, callback) => {
-										vm.isLoading = true;
-										var reader = new FileReader();
-										reader.onload = function (_a) {
-											var target2 = _a.target;
-											vm.isLoading = false;
-											return callback(target2.result);
-										};
-										reader.readAsDataURL(blob);
 									}
-								}
-							});
+								});
+
+
+								const className = `sync_${vm._.uid}`;
+								vm.raw$selector = `.${className}`;
+								vm.raw$editor.insertToolbarItem({ groupIndex: 4, itemIndex: 2 }, {
+									name: 'sync',
+									text: 'Sync...',
+									id: "toastuiEditorToolbarIconsSync",
+									className: `toastui-editor-toolbar-icons animated ${className}`,
+									style: { backgroundImage: 'none' }
+								});
+							})();
+
+							(() => {
+								vm.syncDebounce = xU.debounce(async function () {
+									const mdString = vm.raw$editor.getMarkdown();
+									if (vm.modelValue.md !== mdString) {
+										vm.$emit("update:modelValue", { md: mdString, html: vm.raw$editor.getHTML() });
+										vm.raw$md = mdString;
+									}
+									$(this.raw$selector).removeClass("flash infinite").hide();
+								}, 1000);
+							})();
 						}
 					},
 					render(vm) {

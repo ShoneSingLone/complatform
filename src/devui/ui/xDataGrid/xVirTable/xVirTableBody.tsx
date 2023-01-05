@@ -160,7 +160,6 @@ export const xVirTableBody = defineComponent({
 			xU.each(props, prop => delete this.rowCache[prop]);
 		},
 		genTr(rows) {
-			console.time("genTr");
 			const vDomBlock = (() => {
 				if (!this.uniqBy) {
 					return xU.map(rows, (data: object, rowIndex: number) => {
@@ -193,12 +192,10 @@ export const xVirTableBody = defineComponent({
 						"blockId"
 					);
 					if (!this.rowCache[blockId]) {
-						console.log("xVirTableBody blockId", blockId);
 						this.rowCache[blockId] = xU.map(
 							rows,
 							(data: object, rowIndex: number) => {
 								if (!this.rowCache[data[this.uniqBy]]) {
-									console.log("genTr", data._id, data.__virRowIndex);
 									const { __virRowIndex } = data;
 									this.rowCache[data[this.uniqBy]] = (
 										<div
@@ -228,7 +225,6 @@ export const xVirTableBody = defineComponent({
 					return this.rowCache[blockId];
 				}
 			})();
-			console.timeEnd("genTr");
 			return vDomBlock;
 		},
 		setVirs1() {
@@ -358,7 +354,6 @@ export const xVirTableBody = defineComponent({
 		}
 	},
 	render() {
-		console.time("virTableBody");
 		const vDomTableBody = (
 			<div
 				role="body"
@@ -380,7 +375,6 @@ export const xVirTableBody = defineComponent({
 				</div>
 			</div>
 		);
-		console.timeEnd("virTableBody");
 		return vDomTableBody;
 	}
 });

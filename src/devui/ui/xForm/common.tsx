@@ -1,7 +1,6 @@
 //@ts-nocheck
-
+import { markRaw } from "vue";
 import { xU } from "../ventoseUtils";
-import { reactive } from "vue";
 import { t_itemConfigs } from "./itemRenders/index";
 
 let xItemNoPropCount = 0;
@@ -15,19 +14,21 @@ export function defItem(options: t_itemConfigs) {
 }
 
 defItem.item = (options: t_itemConfigs) => {
-	if (!options.prop) {
-		options.prop = `xItem${xItemNoPropCount++}`;
-		/* console.warn(`no xItem prop replace by ${options.prop}`); */
+	let itemType = options.itemType || "Input"
+	if (xU.isObject(itemType)) {
+		itemType = markRaw(itemType);
 	}
 	return xU.merge(
 		{
+			prop: `xItem${xItemNoPropCount++}`,
 			/* 提示信息，可以用于提示或者定位 */
-			itemTips: {},
+			itemTips: { type: "", msg: "" }
+		},
+		options,
+		{
 			/*item 的类型 case by case 跟ui库关联*/
 			itemType: options.itemType || "Input"
-			/*默认绑定的是value*/
-		},
-		options
+		}
 	);
 };
 
