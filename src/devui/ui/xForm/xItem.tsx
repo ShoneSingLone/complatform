@@ -63,7 +63,7 @@ export const xItem = defineComponent({
 			/* 需要一个事件分发，拦截所有事件，再根据配置信息   */
 			const listeners = {
 				/* 主要的触发方式 */
-				"onUpdate:value": (val, ...args) => {
+				"onUpdate:value": val => {
 					/* 使用configs.value的形式，一般是configs与组件是一对一的关系,configs需要是reactive的  */
 					if (configs.value !== undefined) {
 						if (configs.modelValue === val) {
@@ -150,6 +150,12 @@ export const xItem = defineComponent({
 		};
 	},
 	computed: {
+		itemTypeName() {
+			if (xU.isString(this.configs.itemType)) {
+				return String(this.configs.itemType);
+			}
+			return "";
+		},
 		isChecking() {
 			return Boolean(this.configs.checking);
 		},
@@ -416,7 +422,7 @@ export const xItem = defineComponent({
 			return null;
 		}
 		const CurrentXItem = (() => {
-			if (xU.isObject(this.configs.itemType)) {
+			if (xU.isPlainObject(this.configs.itemType)) {
 				return this.configs.itemType;
 			}
 			return renders[this.configs.itemType] || renders.Input;
@@ -427,7 +433,7 @@ export const xItem = defineComponent({
 				{/* label */}
 				{this.labelVNode}
 				{/* 控件 */}
-				<div class="ant-form-item-control">
+				<div class="ant-form-item-control" type={this.itemTypeName}>
 					<CurrentXItem
 						propsWillDeleteFromConfigs={this.propsWillDeleteFromConfigs}
 						properties={this.properties}

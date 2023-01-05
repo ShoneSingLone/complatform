@@ -14,7 +14,7 @@ export const ResponsePanel = defineComponent({
 	computed: {
 		resBody: {
 			get() {
-				return (this.body || `{}`);
+				return this.body || `{}`;
 			},
 			set(val) {
 				this.$emit("update:body", val);

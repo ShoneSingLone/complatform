@@ -1,4 +1,4 @@
-import json5 from 'json5';
+import json5 from "json5";
 import { defineComponent, markRaw } from "vue";
 import { State_App } from "../../state/State_App";
 import "./JsonSchemaMonaco.less";
@@ -183,24 +183,26 @@ export const JsonSchemaMonaco = defineComponent({
 		},
 		monacoJsonToSchema() {
 			try {
-				const res = generateSchema.json(json5.parse(this.jsonSchemaString))
-				this.jsonSchemaString = JSON.stringify(res, null, 2)
+				const res = generateSchema.json(json5.parse(this.jsonSchemaString));
+				this.jsonSchemaString = JSON.stringify(res, null, 2);
 			} catch (error) {
-				UI.message.error(this.$t('JSON 转 schema 解析出错').label);
+				UI.message.error(this.$t("JSON 转 schema 解析出错").label);
 			}
 		},
 		async previewMock() {
 			try {
 				let schema = JSON.parse(this.jsonSchemaString);
 				/* TODO: 没啥作用*/
-				const { data } = await API.project.interfaceSchema2json({ schema: schema.properties })
+				const { data } = await API.project.interfaceSchema2json({
+					schema: schema.properties
+				});
 				if (data) {
 					this.jsonSchemaString = JSON.stringify(data, null, 2);
 				} else {
 					throw new Error();
 				}
 			} catch (error) {
-				UI.message.error(this.$t('预览 Mock 结果出错').label);
+				UI.message.error(this.$t("预览 Mock 结果出错").label);
 			}
 		}
 	},
@@ -224,7 +226,15 @@ export const JsonSchemaMonaco = defineComponent({
 			expandedKeys: [],
 			selectedKeys: [],
 			jsonTree: [],
-			isTreeLoading: false
+			isTreeLoading: false,
+			configsPreviewMock: {
+				itemType: "Checkbox",
+				slots: {
+					default() {
+						return vm.$t("Mock预览").label;
+					}
+				}
+			}
 		};
 	},
 	render(vm) {
@@ -258,7 +268,8 @@ export const JsonSchemaMonaco = defineComponent({
 										const { title, type, key } = dataRef;
 										const isShowAdd = !type || type === "object";
 										const isShowDelete = !!key;
-										const vDomIcon = ICON_STRATEGE[type] && ICON_STRATEGE[type]();
+										const vDomIcon =
+											ICON_STRATEGE[type] && ICON_STRATEGE[type]();
 
 										return (
 											<div class="flex middle  title-wrapper">
@@ -298,20 +309,30 @@ export const JsonSchemaMonaco = defineComponent({
 					class="JsonSchemaMonaco-monaco-panel flex1 flex vertical"
 					style={{ width: "1px" }}>
 					<div class="JsonSchemaMonaco-monaco-panel_button flex middle">
-						<aButton onClick={this.syncMonacoString} type="primary" disabled={this.isMockPreview}>
+						<aButton
+							onClick={this.syncMonacoString}
+							type="primary"
+							disabled={this.isMockPreview}>
 							{this.$t("同步到左侧").label}
 						</aButton>
 						<xGap l="10" />
 						{!this.currentNode && (
-							<aButton onClick={this.monacoJsonToSchema} type="primary" disabled={this.isMockPreview}>
+							<aButton
+								onClick={this.monacoJsonToSchema}
+								type="primary"
+								disabled={this.isMockPreview}>
 								{this.$t("JSON 转 schema").label}
 							</aButton>
 						)}
 						<xGap l="10" />
 						{!this.currentNode && (
-							<aCheckbox
-								checked={this.isMockPreview}
-								onUpdate:checked={val => {
+							<xItem
+								configs={vm.configsPreviewMock}
+								modelValue={this.isMockPreview}
+								onUpdate:modelValue={val => {
+									if (vm.isMockPreview === val) {
+										return;
+									}
 									vm.isMockPreview = val;
 									if (val) {
 										vm.previewMock();
@@ -319,11 +340,8 @@ export const JsonSchemaMonaco = defineComponent({
 										vm.setSchemaStringDebounce();
 									}
 								}}
-							>
-								{this.$t("Mock预览").label}
-							</aCheckbox>
+							/>
 						)}
-
 					</div>
 					<MonacoEditor
 						class="flex1"

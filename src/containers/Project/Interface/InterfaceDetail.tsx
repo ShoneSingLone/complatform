@@ -56,7 +56,6 @@ export const InterfaceDetail = defineComponent({
 		closeWS() {
 			this.WebSocket && this.WebSocket.close();
 			delete this.WebSocket;
-
 		},
 		async showModifyInterfaceDialog() {
 			const vm = this;
@@ -83,7 +82,6 @@ export const InterfaceDetail = defineComponent({
 						)
 					});
 				} catch (error) {
-
 				} finally {
 					this.closeWS();
 				}
@@ -110,11 +108,10 @@ export const InterfaceDetail = defineComponent({
 								</div>
 							)
 						});
-						vm.closeWS()
+						vm.closeWS();
 					} catch (error) {
 						return false;
 					}
-
 				}
 			});
 		},
@@ -236,8 +233,9 @@ async ${xU.camelCase(path)}({params,data}) {
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
-				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
+				this.State_App.currProject._id
+			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {

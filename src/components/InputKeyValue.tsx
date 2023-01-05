@@ -1,4 +1,4 @@
-import { FormRules, xU } from "@ventose/ui";
+import { FormRules, xU } from "src/devui/ui/index";
 import { State_App } from "src/state/State_App";
 import { defineComponent } from "vue";
 

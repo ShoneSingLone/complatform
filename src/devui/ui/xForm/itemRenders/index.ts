@@ -1,7 +1,7 @@
 import Input from "./Input.jsx";
 import DatePicker from "./DatePicker";
 import RangePicker from "./RangePicker";
-import Checkbox from "./Checkbox";
+import { Checkbox } from "./Checkbox";
 import Select from "./Select";
 import RadioGroup from "./RadioGroup";
 import CheckboxGroup from "./CheckboxGroup";

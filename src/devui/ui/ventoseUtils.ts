@@ -1,6 +1,8 @@
-import _, { LoDashStatic } from "lodash";
-import dayjs from "dayjs";
-import $ from "jquery";
+import { LoDashStatic } from "lodash";
+import * as _ from "lodash";
+/* @ts-ignore */
+import * as dayjs from "dayjs";
+import * as $ from "jquery";
 import { iStorage } from "./tools/storage";
 
 /* 组件属性是否是on开头，组件的事件监听*/
@@ -11,8 +13,8 @@ const VueComponents: any = {};
 const isDevMode =
 	/* @ts-ignore */
 	localStorage.___VENTOSE_UI_IS_DEV_MODE === "VENTOSE_UI_IS_DEV_MODE";
+
 const privateLodash = {
-	..._,
 	WORDS: {
 		INVALID_DATE: "Invalid Date",
 		format_ymd: "YYYY-MM-DD"
@@ -63,7 +65,6 @@ const privateLodash = {
 		};
 		const top = getNum(_top);
 		const left = getNum(_left);
-		console.log(left, top);
 		return { top, left };
 	},
 	getLeftTopFromTranslate($ele: JQuery) {
@@ -77,7 +78,7 @@ const privateLodash = {
 			/* @ts-ignore */
 			const [a, b, c, d, e, f] = String(match[1])
 				.split(",")
-				.map(i => Number(privateLodash.trim(i)));
+				.map(i => Number(_.trim(i)));
 
 			return {
 				left: a + c + e,
@@ -155,7 +156,9 @@ const privateLodash = {
 
 		function splitCode() {
 			if (!/TEMPLATE_PLACEHOLDER/.test(code)) {
+				/* @ts-ignore */
 				alert("SFC miss TEMPLATE_PLACEHOLDER");
+				/* @ts-ignore */
 				console.error(code);
 			}
 			return getSource(code, "script").replace(
@@ -176,13 +179,18 @@ const privateLodash = {
 	},
 	/*lodash IDE 能识别*/
 	doNothing: (...args: any[]) => {
+		/* @ts-ignore */
 		if (localStorage.isShowDevLog) {
 			const e = new Error();
+			/* @ts-ignore */
 			console.log("🚀:", e?.stack?.split("\n")[2].replace("    at ", ""));
+			/* @ts-ignore */
+			/* @ts-ignore */
 			console.log.apply(console, args);
 		}
 	},
 	/* 睡眠 t:setTimeout during time*/
+	/* @ts-ignore */
 	sleep: (t: number) => new Promise(r => setTimeout(r, t)),
 	isOn: (key: string) => onRE.test(key),
 	isModelListener: (key: string) => {
@@ -210,7 +218,7 @@ const privateLodash = {
 	},
 	/*对象至少有一个属性*/
 	isObjectFill: (obj: any) =>
-		privateLodash.isPlainObject(obj) && Object.keys(obj).length > 0,
+		_.isPlainObject(obj) && Object.keys(obj).length > 0,
 	/***
 	 * 返回数组的第一个value，
 	 * 通过check,
@@ -223,7 +231,7 @@ const privateLodash = {
 	 */
 	safeFirst: (arr: any[], fnCheck: Function) => {
 		fnCheck = fnCheck || ((value: any) => privateLodash.isInput(value));
-		const obj = privateLodash.first(arr);
+		const obj = _.first(arr);
 		return fnCheck(obj) ? obj : false;
 	},
 	/***
@@ -295,7 +303,7 @@ const privateLodash = {
 		if (val === false) {
 			return true;
 		}
-		if (privateLodash.isArray(val)) {
+		if (_.isArray(val)) {
 			return val.length > 0;
 		} else if (val) {
 			return true;
@@ -425,6 +433,7 @@ const privateLodash = {
 			return window[globalName];
 		}
 		if (!url) {
+			/* @ts-ignore */
 			alert("asyncGlobalJS miss url " + globalName);
 			return {};
 		}
@@ -454,7 +463,7 @@ const privateLodash = {
 	},
 	/* 生成合法的键名 */
 	genProp: (someString: string) => {
-		return `k${privateLodash.camelCase(someString)}`;
+		return `k${_.camelCase(someString)}`;
 	},
 	/**
 	 *
@@ -483,7 +492,7 @@ const privateLodash = {
 	},
 
 	valueToLabel: function (value: string, options: any[]) {
-		const target = privateLodash.find(options, {
+		const target = _.find(options, {
 			value
 		});
 		if (target) {
@@ -610,9 +619,9 @@ const privateLodash = {
 		/* 如果有输入 类似jQuery val() */
 		if (
 			val ||
-			privateLodash.isString(val) ||
-			privateLodash.isBoolean(val) ||
-			(privateLodash.isNumber(val) && !privateLodash.isNaN(val))
+			_.isString(val) ||
+			_.isBoolean(val) ||
+			(_.isNumber(val) && !_.isNaN(val))
 		) {
 			setVal();
 		} else {
@@ -633,6 +642,8 @@ export const xU: t_all_lodash_and_mine = new Proxy(
 				throw new Error("");
 			} catch (error: any) {
 				args.unshift(String(error.stack).split("\n")[2], "\n");
+				/* @ts-ignore */
+				/* @ts-ignore */
 				console.log.apply(console, args);
 			}
 		}
@@ -643,6 +654,10 @@ export const xU: t_all_lodash_and_mine = new Proxy(
 			if (privateLodash[prop]) {
 				/* @ts-ignore */
 				return privateLodash[prop];
+			}
+			if (_[prop]) {
+				/* @ts-ignore */
+				return _[prop];
 			}
 			/* @ts-ignore */
 			return fn[prop];
