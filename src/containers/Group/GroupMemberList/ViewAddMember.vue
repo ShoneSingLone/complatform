@@ -67,9 +67,6 @@ export default defineComponent({
 				}
 			};
 		}
-	},
-	mounted() {
-		this.propDialogOptions.vm = this;
 	}
 });
 </script>

@@ -75,7 +75,7 @@ export const Methods_App = {
 		Methods_App.setUser({ breadcrumb });
 	},
 	async checkLoginState() {
-		if (_State_App.user.isLogin) {
+		if (_State_App.user.role && _State_App.user.isLogin) {
 			return true;
 		}
 		try {
@@ -117,13 +117,6 @@ export const Methods_App = {
 		}
 		const { data: currGroup } = await API.group.getMyGroupBy(group_id);
 		_State_App.currGroup = currGroup;
-		Methods_App.setUser({
-			role: group_id.role,
-			field: {
-				name: currGroup.custom_field1.name,
-				enable: currGroup.custom_field1.enable
-			}
-		});
 	},
 	async setCurrProject(project_id, options = {}) {
 		let { isEnforce } = options;

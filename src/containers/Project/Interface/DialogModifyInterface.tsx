@@ -16,7 +16,7 @@ import { State_App } from "../../../state/State_App";
 import { FormRules } from "../../../utils/common.FormRules";
 import { ITEM_OPTIONS } from "../../../utils/common.options";
 import { HTTP_METHOD } from "./../../../utils/variable";
-import { State_Project } from "./State_Project";
+import { Methods_Project, State_Project } from "./State_Project";
 import { _$handlePath } from "src/utils/common";
 import {
 	EnvSelectRender,
@@ -26,6 +26,7 @@ import {
 	ResponseRender,
 	TagSelectRender
 } from "./DialogModifyInterface.Helper";
+import { Cpt_url } from "../../../router/router";
 
 export const DialogModifyInterface = defineComponent({
 	props: {
@@ -219,7 +220,7 @@ export const DialogModifyInterface = defineComponent({
 					itemType: "Switch"
 				}),
 				...defItem({
-					isShow: () => vm.dataXItem.isProxy.value,
+					isAuthAddProject: () => vm.dataXItem.isProxy.value,
 					prop: "witchEnv",
 					label: vm.$t("转发环境").label,
 					value: "",
@@ -259,6 +260,9 @@ export const DialogModifyInterface = defineComponent({
 				...defItem({
 					prop: "noticed",
 					label: vm.$t("消息通知").label,
+					labelVNodeRender: VNodeCollection.labelTips(
+						<div>{vm.$t("开启消息通知，可在 项目设置 里修改").label}</div>
+					),
 					checkedChildren: vm.$t("开").label,
 					unCheckedChildren: vm.$t("关").label,
 					value: true,
@@ -267,6 +271,9 @@ export const DialogModifyInterface = defineComponent({
 				...defItem({
 					prop: "api_opened",
 					label: vm.$t("开放接口").label,
+					labelVNodeRender: VNodeCollection.labelTips(
+						<div>{vm.$t("用户可以在 数据导出 时选择只导出公开接口").label}</div>
+					),
 					checkedChildren: vm.$t("开").label,
 					unCheckedChildren: vm.$t("关").label,
 					value: "",
@@ -439,14 +446,26 @@ export const DialogModifyInterface = defineComponent({
 				const { html: desc, md: markdown } = remark;
 				try {
 					const { data } = await API.project.updateInterface({
-						id: this.detailInfo._id
+						id: this.detailInfo._id,
+						/* 接口分类 */
+						catid
 					});
 
 					if (data) {
+						/* 更新 url 左侧树 */
+						await (async () => {
+							/* 可能修改了分类，影响对应url */
+							Cpt_url.value.query.category_id = catid;
+							/* 刷新右侧接口树 */
+							await Methods_Project.updateInterfaceMenuList();
+							/* 设置树展开 */
+							Methods_Project.setExpand();
+							/* @ts-ignore */
+							setTimeout(() => {
+								this.propDialogOptions.closeDialog();
+							}, 1000);
+						})();
 						UI.message.success(this.$t("修改成功").label);
-						setTimeout(() => {
-							this.propDialogOptions.closeDialog();
-						}, 1000);
 					}
 				} catch (error) {
 					UI.message.error(this.$t("修改失败").label);
@@ -492,7 +511,7 @@ export const DialogModifyInterface = defineComponent({
 				</div>
 				<xDialogFooter>
 					<xGap f="1" />
-					<div style="width:120px;">
+					<div style="min-width:120px;">
 						<xItem configs={this.dataXItem.noticed} />
 					</div>
 					<xGap r="10" />

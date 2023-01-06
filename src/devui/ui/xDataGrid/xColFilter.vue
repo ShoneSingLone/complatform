@@ -16,7 +16,9 @@ export default defineComponent({
 	methods: {
 		handleChecked(col) {
 			const target = xU.find(this.configs.columns, { key: col.key });
-			target.isShow = xU.isBoolean(target.isShow) ? !target.isShow : false;
+			target.isShow = xU.isBoolean(target.isAuthAddProject)
+				? !target.isAuthAddProject
+				: false;
 		}
 	},
 	computed: {

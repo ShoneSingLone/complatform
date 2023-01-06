@@ -35,11 +35,9 @@ export const RouterView = defineComponent({
 	},
 	beforeUpdate() {
 		NProgress.start();
-		console.time("update");
 	},
 	updated() {
 		NProgress.done();
-		console.timeEnd("update");
 	},
 	watch: {
 		"Cpt_url.pathname": {

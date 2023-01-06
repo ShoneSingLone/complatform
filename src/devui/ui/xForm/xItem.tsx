@@ -2,16 +2,13 @@ import { computed, defineComponent } from "vue";
 import renders from "./itemRenders";
 import { checkXItem, EVENT_TYPE, TIPS_TYPE } from "../tools/validate";
 import { xU } from "../ventoseUtils";
-import { diff } from "jsondiffpatch";
 
 const { MutatingProps } = xU;
-
 const domClass = {
 	tipsError: "ant-form-item-explain ant-form-item-explain-error"
 };
 
 /* itemWrapperClass */
-
 export const xItem = defineComponent({
 	name: "XItem",
 	props: {
@@ -423,7 +420,7 @@ export const xItem = defineComponent({
 			return null;
 		}
 		const CurrentXItem = (() => {
-			if (xU.isPlainObject(this.configs.itemType)) {
+			if (xU.isObject(this.configs.itemType)) {
 				return this.configs.itemType;
 			}
 			return renders[this.configs.itemType] || renders.Input;

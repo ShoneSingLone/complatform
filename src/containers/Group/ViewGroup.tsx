@@ -95,7 +95,9 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		vDomTabGroupLog() {
-			const isGroupRoleAuth = this.State_App?.group?.role === "admin";
+			const isGroupRoleAuth = ["admin", "owner"].includes(
+				this.State_App?.currGroup?.role
+			);
 			const isUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(
 				this.State_App.user.role
 			);

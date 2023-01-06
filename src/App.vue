@@ -29,6 +29,7 @@ export default defineComponent({
 		async onAfterRefresh() {
 			/* 刷新之后重新获取基础信息 */
 			try {
+				await Methods_App.checkLoginState();
 				await Methods_App.fetchGroupList();
 				if (this.Cpt_url.query.group_id) {
 					await Methods_App.setCurrGroup(this.Cpt_url.query.group_id);

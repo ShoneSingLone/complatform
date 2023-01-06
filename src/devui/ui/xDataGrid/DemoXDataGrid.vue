@@ -68,7 +68,7 @@ export default {
 					}),
 					...defCol({
 						prop: "upperName",
-						isShow: false,
+						isAuthAddProject: false,
 						label: $t("上级名称").label
 					}),
 					...defCol({

@@ -4,7 +4,7 @@ import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 import "./ProjectList.scss";
 import { defineComponent } from "vue";
 import { Methods_App, State_App } from "@/state/State_App";
-import { AllWasWell, pickValueFrom, UI, validateForm, xU } from "@ventose/ui";
+import { UI, xU } from "@ventose/ui";
 import { Cpt_url } from "../../../router/router";
 import { DialogAddProject } from "../AddProject/DialogAddProject";
 
@@ -34,7 +34,7 @@ export const GroupProjectList = defineComponent({
 	},
 	computed: {
 		vDomAddProjectButton() {
-			if (this.isShow) {
+			if (this.isAuthAddProject) {
 				return (
 					<aButton type="primary" onClick={this.showAddProjectDialog}>
 						添加项目
@@ -60,7 +60,7 @@ export const GroupProjectList = defineComponent({
 				return (
 					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
 						<h3 class="owner-type">我的项目</h3>
-						{this.genProjectCard(unfollowArray, this.isShow)}
+						{this.genProjectCard(unfollowArray, this.isAuthAddProject)}
 					</div>
 				);
 			}
@@ -99,7 +99,7 @@ export const GroupProjectList = defineComponent({
 			} else {
 				if (this.projectData.length) {
 					/*一般项目*/
-					return this.genProjectCard(this.projectData, this.isShow);
+					return this.genProjectCard(this.projectData, this.isAuthAddProject);
 				} else {
 					/*无项目*/
 					return (
@@ -113,12 +113,15 @@ export const GroupProjectList = defineComponent({
 		projectData() {
 			return this.State_App.projectList;
 		},
-		isShow() {
-			const _isShow = ["admin", "owner", "dev"].includes(
-				this.State_App.user.role
+		isAuthAddProject() {
+			const isGroupRoleAuth = ["admin", "owner"].includes(
+				this.State_App?.currGroup?.role
 			);
+			const _isShow =
+				isGroupRoleAuth ||
+				["admin", "owner"].includes(this.State_App.user.role);
 			if (!_isShow) {
-				console.error(this.State_App.user.role);
+				xU("isAuthAddProject", this.State_App.user.role);
 			}
 			return _isShow;
 		}
@@ -177,7 +180,7 @@ export const GroupProjectList = defineComponent({
 						<span>共</span>
 						<span> {this.State_App.projectList.length} </span>
 						<span>个项目</span>
-						{/* {this.isShow ? JSON.stringify(this.State_App.currGroup, null, 2) : ""} */}
+						{/* {this.isAuthAddProject ? JSON.stringify(this.State_App.currGroup, null, 2) : ""} */}
 					</aCol>
 					<aCol span={8} class="flex end flex1">
 						{this.vDomAddProjectButton}

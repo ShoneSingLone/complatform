@@ -18,6 +18,7 @@ const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 }, 100);
 
 export type t_dialogOptions = {
+	isEcsCloseDialog?: boolean;
 	/* 传入的组件的实例 */
 	_contentInstance?: object;
 	/* dialog jQuery 实例 */
@@ -138,6 +139,9 @@ export const installUIDialogComponent = (
 				handler: event => EcsPressHandler(event, dialogOptions),
 				on(_layerKey) {
 					handleEcsPress._layerKey = _layerKey;
+					if (!dialogOptions.isEcsCloseDialog) {
+						return;
+					}
 					$(document).on(`keyup.${_dialogId}`, handleEcsPress.handler);
 				},
 				off() {

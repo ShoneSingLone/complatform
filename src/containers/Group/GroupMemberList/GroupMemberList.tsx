@@ -59,6 +59,7 @@ export const GroupMemberList = defineComponent({
 	methods: {
 		initTableColumns() {
 			const vm = this;
+			const isAuth = ["owner", "admin"].includes(vm.State_App.currGroup.role);
 			this.configs_table.columns = {
 				...defCol({
 					prop: "name",
@@ -83,10 +84,7 @@ export const GroupMemberList = defineComponent({
 				...defCol({
 					prop: "action",
 					label: (() => {
-						if (
-							vm.State_App.currGroup.role === "owner" ||
-							vm.State_App.currGroup.role === "admin"
-						) {
+						if (isAuth) {
 							return (
 								<div class="btn-container">
 									<aButton
@@ -102,10 +100,7 @@ export const GroupMemberList = defineComponent({
 						}
 					})(),
 					renderCell({ record }) {
-						if (
-							vm.State_App.currGroup.role === "owner" ||
-							vm.State_App.currGroup.role === "admin"
-						) {
+						if (isAuth) {
 							const configs = {
 								deleteBtn: {
 									text: "删除",
@@ -121,42 +116,32 @@ export const GroupMemberList = defineComponent({
 											console.log("取消删除");
 										}
 									}
-								},
-								...defItem({
-									value: record.role + "-" + record.uid,
-									prop: "AuthSelect",
-									itemType: "Select",
-									options: [
-										{ label: "组长", value: "owner-" + record.uid },
-										{ label: "开发者", value: "dev-" + record.uid },
-										{ label: "访客", value: "guest-" + record.uid }
-									],
-									style: { width: "100px" },
-									onAfterValueEmit(e) {
-										vm.changeUserRole(e);
-									}
-								})
+								}
 							};
-
-							console.log(configs);
 
 							return (
 								<div class="flex">
-									<xItem configs={configs.AuthSelect} />
+									<aSelect
+										value={record.role}
+										onChange={role => {
+											vm.changeUserRole({ member_uid: record.uid, role });
+										}}
+										options={[
+											{ label: "组长", value: "owner" },
+											{ label: "开发者", value: "dev" },
+											{ label: "访客", value: "guest" }
+										]}></aSelect>
 									<xButton configs={configs.deleteBtn} />
 								</div>
 							);
 						} else {
+							const ROLE_MAP = {
+								owner: vm.$t("组长").label,
+								dev: vm.$t("开发者").label,
+								guest: vm.$t("访客").label
+							};
 							// 非管理员可以看到权限 但无法修改
-							if (record.role === "owner") {
-								return "组长";
-							} else if (record.role === "dev") {
-								return "开发者";
-							} else if (record.role === "guest") {
-								return "访客";
-							} else {
-								return "";
-							}
+							return ROLE_MAP[record.role];
 						}
 					}
 				})
@@ -164,7 +149,7 @@ export const GroupMemberList = defineComponent({
 		},
 		showAddMemberDialog() {
 			UI.dialog.component({
-				title: "添加成员",
+				title: State_UI.$t("添加成员").label,
 				component: ViewAddMember,
 				area: ["480px", "260px"],
 				onOk: async ({ formItems, closeDialog }) => {
@@ -222,10 +207,8 @@ export const GroupMemberList = defineComponent({
 		},
 
 		// 改 - 修改成员权限
-		async changeUserRole(e) {
+		async changeUserRole({ member_uid, role }) {
 			const id = this.State_App.currGroup._id;
-			const role = e.split("-")[0];
-			const member_uid = e.split("-")[1];
 			const index = UI.layer.loading();
 			try {
 				await Methods_App.changeMemberRole({ id, member_uid, role });

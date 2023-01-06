@@ -8,8 +8,6 @@ export default ({
 	propsWillDeleteFromConfigs
 }) => {
 	/* { properties, slots, listeners, propsWillDeleteFromConfigs } */
-	const Select = resolveComponent("aSelect");
-	const SelectOption = resolveComponent("aSelectOption");
 	const _property = xU.omit(properties, [
 		...propsWillDeleteFromConfigs,
 		"options",
@@ -20,12 +18,14 @@ export default ({
 			return properties.renderOptions();
 		} else {
 			return xU.map(properties.options, option => {
-				return <SelectOption value={option.value}>{option.label}</SelectOption>;
+				return (
+					<aSelectOption value={option.value}>{option.label}</aSelectOption>
+				);
 			});
 		}
 	};
 	return (
-		<Select
+		<aSelect
 			{...listeners}
 			{..._property}
 			v-slots={{ default: renderOptions }}
