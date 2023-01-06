@@ -101,11 +101,18 @@ export const project = {
 			data
 		});
 	},
-	deleteInterfaceCategoryById(id) {
+	deleteCategoryById(id) {
 		return ajax({
 			method: "post",
 			url: "/api/interface/del_cat",
 			data: { catid: id }
+		});
+	},
+	deleteInterfaceById(id) {
+		return ajax({
+			method: "post",
+			url: "/api/interface/del",
+			data: { id }
 		});
 	},
 	updateInterfaceCategory(data) {

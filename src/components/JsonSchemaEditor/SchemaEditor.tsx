@@ -275,7 +275,7 @@ export const SchemaEditor = defineComponent({
 			<div className="SchemaEditor flex vertical flex1">
 				<div class="SchemaEditor_button ">
 					<aButton onClick={vm.syncToJsonTree} type="primary">
-						{vm.$t("同步到左侧").label}
+						{vm.$t("同步到 JSON 树").label}
 					</aButton>
 				</div>
 				<xForm

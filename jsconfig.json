@@ -6,7 +6,7 @@
     "baseUrl": ".",
     "paths": {
       "@ventose/ui": [
-        "./src/devui/VentoseUI.es.js"
+        "./src/devui/ui/index.tsx"
       ]
     }
   }

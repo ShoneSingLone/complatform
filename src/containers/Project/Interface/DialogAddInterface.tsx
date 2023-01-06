@@ -13,6 +13,7 @@ import { State_App } from "../../../state/State_App";
 import { Methods_Project, State_Project } from "./State_Project";
 import { FormRules } from "../../../utils/common.FormRules";
 import { ITEM_OPTIONS } from "../../../utils/common.options";
+import { Cpt_url } from "../../../router/router";
 
 export const DialogAddInterface = defineComponent({
 	props: {
@@ -96,15 +97,20 @@ export const DialogAddInterface = defineComponent({
 				const { catid, title, path } = pickValueFrom(this.dataXItem);
 				const { projectId, closeDialog } = this.propDialogOptions;
 				try {
-					const res = await API.project.addInterface({
+					const { data } = await API.project.addInterface({
 						project_id: projectId,
 						catid,
 						title,
 						path,
 						method: this.apiMethod.value
 					});
-					if (res) {
+					if (data) {
 						Methods_Project.updateInterfaceMenuList();
+						Cpt_url.value.go("/project/interface/detail", {
+							...Cpt_url.value.query,
+							interface_id: data._id
+						});
+
 						UI.message.success("添加接口成功");
 						closeDialog();
 					}

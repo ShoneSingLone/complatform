@@ -11,7 +11,7 @@ import {
 	xU
 } from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
-import { API } from "../../../api";
+import { API } from "src/api/index";
 import { State_App } from "../../../state/State_App";
 import { FormRules } from "../../../utils/common.FormRules";
 import { ITEM_OPTIONS } from "../../../utils/common.options";
@@ -571,13 +571,17 @@ export const DialogModifyInterface = defineComponent({
 								<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 							</div>
 							{/* 请求参数 */}
-							<xGap t="10" /> <xItem configs={this.dataXItem.requestArgs} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.requestArgs} />
 							{/* 响应参数  */}
-							<xGap t="10" /> <xItem configs={this.dataXItem.responseArgs} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.responseArgs} />
 							{/* 备注 */}
 							<xLogObject obj={this.dataXItem.remark} hide />
-							<xGap t="10" /> <xItem configs={this.dataXItem.remark} />
-							<xGap t="10" /> <xItem configs={this.dataXItem.api_opened} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.remark} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.api_opened} />
 						</xForm>
 						<xGap t="10" />
 					</div>

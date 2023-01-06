@@ -2,20 +2,22 @@ import { defineComponent, ref, watch } from "vue";
 import { $, xU, UI } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { usefnObserveDomResize } from "../../../compositions/useDomResize";
-import { API } from "../../../api";
+import { API } from "src/api/index";
 import { ALL, DefaultInterfaceMenu } from "../../../utils/variable";
 import { Methods_Project, State_Project } from "./State_Project";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "../../../utils/common";
+import { State_App } from "src/state/State_App";
 
 export const ProjectInterfaceLeftSider = defineComponent({
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Project: State_Project,
+			State_App,
+			State_Project,
 			Cpt_url,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -201,7 +203,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 													icon: "delete",
 													tips: vm.$t("删除接口").label,
 													clickHandler: $event =>
-														vm.showAddInterfaceDialog(_id, $event)
+														vm.deleteInterface(_id, $event)
 												})}
 											</div>
 										);
@@ -302,6 +304,26 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
 		}, 20),
+		deleteInterface(id) {
+			const vm = this;
+			UI.confirm({
+				title: vm.$t("您确认删除此接口？").label,
+				content: vm.$t(`温馨提示：接口删除后，无法恢复`).label,
+				async onOk() {
+					try {
+						await API.project.deleteInterfaceById(id);
+						UI.message.success(vm.$t("删除接口成功").label);
+						Methods_Project.updateInterfaceMenuList();
+						vm.Cpt_url.go(
+							"/project/interface/all",
+							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
+						);
+					} catch (error) {
+						UI.message.error(error.message);
+					}
+				}
+			});
+		},
 		deleteCategory(id) {
 			const vm = this;
 			UI.dialog.confirm({
@@ -309,7 +331,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 				content: `温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复`,
 				async onOk() {
 					try {
-						await API.project.deleteInterfaceCategoryById(id);
+						await API.project.deleteCategoryById(id);
 						UI.message.success("删除分类成功");
 						Methods_Project.updateInterfaceMenuList();
 						vm.Cpt_url.go(

@@ -2,11 +2,12 @@ import json5 from "json5";
 import { defineComponent, markRaw } from "vue";
 import { State_App } from "../../state/State_App";
 import "./JsonSchemaMonaco.less";
-import { UI, xU } from "@ventose/ui";
+import { UI, xU, $ } from "@ventose/ui";
 import { ICON_STRATEGE, SchemaEditor, SPE } from "./SchemaEditor";
 import { diff } from "jsondiffpatch";
 import { API } from "../../api/index";
 import generateSchema from "generate-schema";
+import { usefnObserveDomResize } from "../../compositions/useDomResize";
 
 function makeProps(pre, prop) {
 	return [pre, prop].join(SPE);
@@ -52,9 +53,44 @@ const PopoverContent = defineComponent(
 export const JsonSchemaMonaco = defineComponent({
 	props: ["schemaString"],
 	setup() {
+		const { fnObserveDomResize, fnUnobserveDomResize } =
+			usefnObserveDomResize();
 		return {
-			State_App
+			State_App,
+			fnObserveDomResize,
+			fnUnobserveDomResize
 		};
+	},
+	computed: {
+		syncLabel() {
+			if (this.currentNode) {
+				return this.$t("同步到编辑器").label;
+			} else {
+				return this.$t("同步到 JSON 树").label;
+			}
+		},
+		isShowSchemaEditor() {
+			if (this.currentNode) {
+				if (this.onlyOneEditor) {
+					return this.currentEditor === "SchemaEditor";
+				} else {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		},
+		isShowMonacoEditor() {
+			if (!this.currentNode) {
+				return true;
+			}
+
+			if (this.onlyOneEditor) {
+				return this.currentEditor === "MonacoEditor";
+			} else {
+				return true;
+			}
+		}
 	},
 	watch: {
 		currentNode: {
@@ -79,8 +115,25 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	mounted() {
 		this.init();
+		this.fnObserveDomResize(this.$refs.JsonSchemaMonaco, () => {
+			const width = $(this.$refs.JsonSchemaMonaco).width();
+			const onlyOneEditor = width < 800;
+			if (onlyOneEditor !== this.onlyOneEditor) {
+				this.onlyOneEditor = onlyOneEditor;
+			}
+		});
+	},
+	beforeUnmount() {
+		this.fnUnobserveDomResize(this.$refs.JsonSchemaMonaco);
 	},
 	methods: {
+		toggleEditor() {
+			if (this.currentEditor === "SchemaEditor") {
+				this.currentEditor = "MonacoEditor";
+			} else {
+				this.currentEditor = "SchemaEditor";
+			}
+		},
 		setSchemaString() {
 			let jsonSchemaString = JSON.stringify(this.schemaJson, null, 2);
 			if (this.currentNode) {
@@ -217,6 +270,8 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	data(vm) {
 		return {
+			currentEditor: "MonacoEditor",
+			onlyOneEditor: false,
 			isMockPreview: false,
 			currentNode: false,
 			helpTips: {
@@ -242,19 +297,36 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	render(vm) {
 		return (
-			<div class="JsonSchemaMonaco flex x-card">
+			<div class="JsonSchemaMonaco flex x-card" ref="JsonSchemaMonaco">
 				<div class="left-json-tree">
 					{this.isTreeLoading ? (
 						<aSpin spinning={true} class="flex middle height100 width100" />
 					) : (
 						<div class="flex middle height100 vertical">
 							<div class="padding10 flex middle width100">
-								{/* <aButton type="primary">
-									<xIcon icon="column2" />
-								</aButton>
-								<aButton type="text">
-									<xIcon icon="column3" />
-								</aButton> */}
+								{/* 宽度不够时，只显示一个 */}
+								{this.onlyOneEditor ? (
+									<>
+										<aButton
+											type={
+												this.currentEditor === "SchemaEditor"
+													? "primary"
+													: "text"
+											}
+											onClick={vm.toggleEditor}>
+											<xIcon icon="column2" />
+										</aButton>
+										<aButton
+											type={
+												this.currentEditor === "MonacoEditor"
+													? "primary"
+													: "text"
+											}
+											onClick={vm.toggleEditor}>
+											<xIcon icon="column3" />
+										</aButton>
+									</>
+								) : null}
 								<xGap f="1" />
 								<span v-uiPopover={vm.helpTips} class="flex middle pointer">
 									<xIcon icon="question" />
@@ -305,53 +377,55 @@ export const JsonSchemaMonaco = defineComponent({
 						</div>
 					)}
 				</div>
-				{this.currentNode ? (
+				{this.isShowSchemaEditor ? (
 					<SchemaEditor onNodeSync={this.handleNodeSync} />
 				) : null}
-				<div
-					class="JsonSchemaMonaco-monaco-panel flex1 flex vertical"
-					style={{ width: "1px" }}>
-					<div class="JsonSchemaMonaco-monaco-panel_button flex middle">
-						<aButton
-							onClick={this.syncMonacoString}
-							type="primary"
-							disabled={this.isMockPreview}>
-							{this.$t("同步到左侧").label}
-						</aButton>
-						<xGap l="10" />
-						{!this.currentNode && (
+				{this.isShowMonacoEditor ? (
+					<div
+						class="JsonSchemaMonaco-monaco-panel flex1 flex vertical"
+						style={{ width: "1px" }}>
+						<div class="JsonSchemaMonaco-monaco-panel_button flex middle">
 							<aButton
-								onClick={this.monacoJsonToSchema}
+								onClick={this.syncMonacoString}
 								type="primary"
 								disabled={this.isMockPreview}>
-								{this.$t("JSON 转 schema").label}
+								{this.syncLabel}
 							</aButton>
-						)}
-						<xGap l="10" />
-						{!this.currentNode && (
-							<xItem
-								configs={vm.configsPreviewMock}
-								modelValue={this.isMockPreview}
-								onUpdate:modelValue={val => {
-									if (vm.isMockPreview === val) {
-										return;
-									}
-									vm.isMockPreview = val;
-									if (val) {
-										vm.previewMock();
-									} else {
-										vm.setSchemaStringDebounce();
-									}
-								}}
-							/>
-						)}
+							<xGap l="10" />
+							{!this.currentNode && (
+								<aButton
+									onClick={this.monacoJsonToSchema}
+									type="primary"
+									disabled={this.isMockPreview}>
+									{this.$t("JSON 转 schema").label}
+								</aButton>
+							)}
+							<xGap l="10" />
+							{!this.currentNode && (
+								<xItem
+									configs={vm.configsPreviewMock}
+									modelValue={this.isMockPreview}
+									onUpdate:modelValue={val => {
+										if (vm.isMockPreview === val) {
+											return;
+										}
+										vm.isMockPreview = val;
+										if (val) {
+											vm.previewMock();
+										} else {
+											vm.setSchemaStringDebounce();
+										}
+									}}
+								/>
+							)}
+						</div>
+						<MonacoEditor
+							class="flex1"
+							v-model:code={this.jsonSchemaString}
+							language="json"
+						/>
 					</div>
-					<MonacoEditor
-						class="flex1"
-						v-model:code={this.jsonSchemaString}
-						language="json"
-					/>
-				</div>
+				) : null}
 			</div>
 		);
 	}

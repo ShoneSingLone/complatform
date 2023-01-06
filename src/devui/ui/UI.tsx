@@ -73,6 +73,11 @@ LayerUtils.loading = function (indexDelete) {
 };
 
 export const UI = {
+	confirm(options) {
+		options.okText = options.okText || State_UI.$t("确定").label;
+		options.cancelText = options.cancelText || State_UI.$t("取消").label;
+		Modal.confirm(options);
+	},
 	dialog: {
 		/* installUIDialogComponent Vue3 依赖外部plugin，没有全局的 */
 		component: async (options: t_dialogOptions) => null,
@@ -84,12 +89,24 @@ export const UI = {
 			return new Promise(async (resolve, reject) => {
 				options.okText = options.okText || State_UI.$t("确定").label;
 				options.cancelText = options.cancelText || State_UI.$t("取消").label;
-				options.onOk = () => {
-					resolve("ok");
-				};
-				options.onCancel = () => {
-					reject();
-				};
+				if (options.onOk) {
+					const onOk = options.onOk;
+					options.onOk = () => {
+						return onOk(resolve, reject);
+					};
+				} else {
+					options.onOk = () => resolve("ok");
+				}
+
+				if (options.onCancel) {
+					const onCancel = options.onCancel;
+					options.onCancel = () => {
+						onCancel(resolve, reject);
+					};
+				} else {
+					options.onCancel = () => reject();
+				}
+
 				Modal.confirm(options);
 			});
 		},

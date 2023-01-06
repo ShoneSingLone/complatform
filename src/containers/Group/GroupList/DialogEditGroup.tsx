@@ -207,7 +207,7 @@ export const DialogEditGroup = defineComponent({
 		showDeleteGroupConfirm() {
 			const vm = this;
 			vm.formDelete.authText.value = "";
-			UI.dialog.confirm({
+			UI.confirm({
 				title: "确认删除 " + vm.State_App.currGroup.group_name + " 分组吗？",
 				content: vm.vDomDeleteConfirmAuth,
 				onOk() {

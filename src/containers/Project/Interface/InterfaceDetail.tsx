@@ -31,9 +31,6 @@ export const InterfaceDetail = defineComponent({
 			}
 		}
 	},
-	mounted() {
-		this.showModifyInterfaceDialog();
-	},
 	methods: {
 		async updateInterfaceInfo() {
 			const { data } = await API.project.fetchInterfaceDetail(
@@ -185,17 +182,17 @@ export const InterfaceDetail = defineComponent({
 		vDomCopyAjaxCodePanel() {
 			const { tag, up_time, title, uid, username, path, method } =
 				this.detailInfo;
-
+			/* TODO:后端获取模板 */
 			const ajaxCode = `/**
 *  ${title}
 *  ${window.location.href}
 */
 async ${xU.camelCase(path)}({params,data}) {
-	return ajax({
-	method: "${method}",
-	url: \`${path}\`,
-	params:params||{},
-	data:data||{}
+	return await ajax({
+		method: "${method}",
+		url: \`${path}\`,
+		params:params||{},
+		data:data||{}
 	});
 }`;
 
@@ -375,8 +372,6 @@ async ${xU.camelCase(path)}({params,data}) {
 			<xView style="overflow:hidden;">
 				<div class="flex">
 					<xButton onClick={this.showModifyInterfaceDialog}>修改</xButton>
-					<xGap l="10" />
-					<xButton onClick={this.showModifyInterfaceDialog}>删除</xButton>
 					<xGap f="1" />
 				</div>
 				<div class="flex1 overflow-auto mt10">
