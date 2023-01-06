@@ -2,16 +2,18 @@ import { xU } from "../ventoseUtils";
 import { markRaw } from "vue";
 
 export const getValueNeedVarigy = ({ value, xItemConfigs }) => {
-	if ((value !== undefined)) {
+	if (value !== undefined) {
 		return value;
-	} else if ((xItemConfigs.modelValue !== undefined)) {
+	} else if (xItemConfigs.modelValue !== undefined) {
 		return xItemConfigs.modelValue;
-	} else if ((xItemConfigs.value !== undefined)) {
+	} else if (xItemConfigs.value !== undefined) {
 		return xItemConfigs.value;
 	} else {
-		throw new Error("miss value")
+		const error = new Error("miss value");
+		console.error(error);
+		return xItemConfigs.defaultValue;
 	}
-}
+};
 
 export const EVENT_TYPE = {
 	validateForm: "validateForm",
@@ -28,7 +30,7 @@ export const TIPS_TYPE = {
 };
 
 /**
- * 单独调用校验表单的方法
+ * 单独调用校验表单的方法:可以附加valuesCollection，以valuesCollection提供的prop为基准进行校验
  * 需要提供 configsForm 包含各个xItem configs
  * 有value 有rules => configs有validate属性（判断有rules就动态添加validate方法）
  * @param {*} configsForm
@@ -36,7 +38,7 @@ export const TIPS_TYPE = {
  */
 export async function validateForm(configsForm, valuesCollection) {
 	let propsArray = Object.keys(configsForm);
-	/* 如果提供 数据集，则以数据集的数据为准 */
+	/* 如果提供 数据集，则以数据集的数据为校验对象 */
 	if (valuesCollection) {
 		propsArray = Object.keys(valuesCollection);
 	}
@@ -50,7 +52,6 @@ export async function validateForm(configsForm, valuesCollection) {
 
 			return new Promise(resolve => {
 				try {
-
 					(() => {
 						/*处理不校验的情况*/
 						const isFalse = !configs.isShow;
@@ -58,7 +59,8 @@ export async function validateForm(configsForm, valuesCollection) {
 						if (isFalse) {
 							return resolve("");
 						}
-						const isResFalse = xU.isFunction(configs.isShow) && !configs.isShow();
+						const isResFalse =
+							xU.isFunction(configs.isShow) && !configs.isShow();
 						if (isResFalse) {
 							return resolve("");
 						}

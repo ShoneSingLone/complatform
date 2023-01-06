@@ -1,4 +1,3 @@
-
 import { defineComponent } from "vue";
 import { xU } from "../ventoseUtils";
 

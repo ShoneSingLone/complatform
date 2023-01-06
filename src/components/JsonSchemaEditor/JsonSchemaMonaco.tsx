@@ -176,7 +176,9 @@ export const JsonSchemaMonaco = defineComponent({
 		},
 		setCurrentNode(node) {
 			if (node) {
-				this.currentNode = xU.cloneDeep(node);
+				const currentNode = xU.cloneDeep(node);
+				delete currentNode.children;
+				this.currentNode = currentNode;
 			} else {
 				this.currentNode = false;
 			}
@@ -240,7 +242,7 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	render(vm) {
 		return (
-			<div class="JsonSchemaMonaco flex">
+			<div class="JsonSchemaMonaco flex x-card">
 				<div class="left-json-tree">
 					{this.isTreeLoading ? (
 						<aSpin spinning={true} class="flex middle height100 width100" />

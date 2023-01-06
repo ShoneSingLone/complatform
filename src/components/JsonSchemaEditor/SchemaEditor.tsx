@@ -9,11 +9,11 @@ import {
 } from "@ventose/ui";
 import { defineComponent, h, inject } from "vue";
 import { ITEM_OPTIONS } from "src/utils/common.options";
-import { SubformObject } from "./SubformObject";
-import { SubformString } from "./SubformString";
-import { SubformNumber } from "./SubformNumber";
-import { SubformArray } from "./SubformArray";
-import { SubformBoolean } from "./SubformBoolean";
+import { SubformObject, objectNeedProps } from "./SubformObject";
+import { SubformString, stringNeedProps } from "./SubformString";
+import { SubformNumber, numberNeedProps } from "./SubformNumber";
+import { SubformArray, arrayNeedProps } from "./SubformArray";
+import { SubformBoolean, booleanNeedProps } from "./SubformBoolean";
 
 const { xIcon } = components;
 
@@ -210,21 +210,39 @@ export const SchemaEditor = defineComponent({
 	},
 	methods: {
 		async syncToJsonTree() {
+			const baseProps = ["key", "title", "description", "required", "type"];
+			const SUB_PROPS_STRATEGY = {
+				object: objectNeedProps,
+				string: stringNeedProps,
+				number: numberNeedProps,
+				array: arrayNeedProps,
+				boolean: booleanNeedProps,
+				integer: numberNeedProps
+			};
+
+			const { type, title } = this.currentNode;
+			const currentTypeNeedProps = baseProps.concat(SUB_PROPS_STRATEGY[type]);
+			const targetValues = xU.pick(this.currentNode, currentTypeNeedProps);
 			/* 需要记录出示的Node 的 Key ，才能在同步的时候找到原始的值 */
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm(this.dataXItem, targetValues);
+
 			if (AllWasWell(validateResults)) {
 				const oldkey = String(this.currentNode.key);
+				/* key：对象的访问路径，纯代码角度，用于定位和替换 */
 				const newKey = (() => {
 					const array = oldkey.split(SPE);
-					array[array.length - 1] = this.currentNode.title;
+					array[array.length - 1] = title;
 					return array.join(SPE);
 				})();
 				/* root添加属性 */
 
-				/* 非root */
+				if (type === "object") {
+					targetValues.children;
+				}
 
+				/* 非root */
 				this.$emit("nodeSync", oldkey, {
-					...this.currentNode,
+					...targetValues,
 					key: newKey
 				});
 			}

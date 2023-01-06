@@ -14,7 +14,7 @@ export function defItem(options: t_itemConfigs) {
 }
 
 defItem.item = (options: t_itemConfigs) => {
-	let itemType = options.itemType || "Input"
+	let itemType = options.itemType || "Input";
 	if (xU.isObject(itemType)) {
 		itemType = markRaw(itemType);
 	}

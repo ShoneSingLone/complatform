@@ -4,8 +4,7 @@ import { RequestArgsPanel } from "src/components/RequestArgsPanel";
 import { ResponsePanel } from "src/components/ResponsePanel";
 import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 import { $, State_UI, UI, xU } from "@ventose/ui";
-import { defineComponent, } from "vue";
-
+import { defineComponent } from "vue";
 
 export async function openProxyEnvDialog() {
 	const { _layerKey } = await UI.dialog.component({
@@ -25,8 +24,7 @@ export async function openUpsertTagDialog() {
 	$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
 }
 
-
-export const InpterfacePathParams = (defineComponent({
+export const InpterfacePathParams = defineComponent({
 	props: ["properties", "listeners"],
 	methods: {
 		fnUpdate(prop, val, index) {
@@ -64,13 +62,12 @@ export const InpterfacePathParams = (defineComponent({
 			);
 		});
 	}
-}));
+});
 
-export const EnvSelectRender = (defineComponent({
+export const EnvSelectRender = defineComponent({
 	__v_skip: true,
 	props: ["properties", "listeners"],
 	render(vm) {
-
 		vm.properties.value = vm.properties.value || [];
 		const options = vm.properties.options || [];
 		const fnUpdate = val => {
@@ -103,9 +100,9 @@ export const EnvSelectRender = (defineComponent({
 			</div>
 		);
 	}
-}));
+});
 
-export const TagSelectRender = (defineComponent({
+export const TagSelectRender = defineComponent({
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	computed: {
 		selected: {
@@ -156,9 +153,9 @@ export const TagSelectRender = (defineComponent({
 			</div>
 		);
 	}
-}));
+});
 
-export const RequestArgsRender = (defineComponent({
+export const RequestArgsRender = defineComponent({
 	props: ["properties", "listeners"],
 	render() {
 		return (
@@ -169,15 +166,15 @@ export const RequestArgsRender = (defineComponent({
 			/>
 		);
 	}
-}));
+});
 
-export const MarkdownRender = (defineComponent({
+export const MarkdownRender = defineComponent({
 	props: ["properties", "listeners"],
 	components: { TuiEditor },
 	computed: {
 		modelValue: {
 			get() {
-				return this.properties?.value || { md: "", html: '' };
+				return this.properties?.value || { md: "", html: "" };
 			},
 			set(modelValue) {
 				this.listeners["onUpdate:value"](modelValue);
@@ -187,9 +184,9 @@ export const MarkdownRender = (defineComponent({
 	render(vm) {
 		return <TuiEditor v-model={vm.modelValue} />;
 	}
-}));
+});
 
-export const ResponseRender = (defineComponent({
+export const ResponseRender = defineComponent({
 	props: ["properties", "listeners"],
 	computed: {
 		body: {
@@ -207,4 +204,4 @@ export const ResponseRender = (defineComponent({
 	render(vm) {
 		return <ResponsePanel v-model:body={vm.body} />;
 	}
-}));
+});

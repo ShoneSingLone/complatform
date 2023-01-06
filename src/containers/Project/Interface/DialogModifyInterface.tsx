@@ -434,27 +434,22 @@ export const DialogModifyInterface = defineComponent({
 		async submit() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-				const { catid, title, path, apiMethod, remark, responseArgs } = pickValueFrom(
-					this.dataXItem
-				);
-				const {
-					html: desc,
-					md: markdown
-				} = remark;
+				const { catid, title, path, apiMethod, remark, responseArgs } =
+					pickValueFrom(this.dataXItem);
+				const { html: desc, md: markdown } = remark;
 				try {
-
 					const { data } = await API.project.updateInterface({
-						id: this.detailInfo._id,
+						id: this.detailInfo._id
 					});
 
 					if (data) {
-						UI.message.success(this.$t('修改成功').label);
+						UI.message.success(this.$t("修改成功").label);
 						setTimeout(() => {
 							this.propDialogOptions.closeDialog();
 						}, 1000);
 					}
 				} catch (error) {
-					UI.message.error(this.$t('修改失败').label);
+					UI.message.error(this.$t("修改失败").label);
 				}
 			}
 		}

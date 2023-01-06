@@ -1,6 +1,15 @@
 import { defineComponent } from "vue";
 
-export const stringNeedProps = ["maxProperties", "minProperties"];
+export const stringNeedProps = [
+	"default",
+	"minLength",
+	"maxLength",
+	"pattern",
+	"enum",
+	"isUseEnum",
+	"enumDesc",
+	"format"
+];
 
 export const SubformString = defineComponent({
 	props: ["configs", "data"],

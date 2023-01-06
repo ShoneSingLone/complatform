@@ -232,8 +232,9 @@ async ${xU.camelCase(path)}({params,data}) {
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
-				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
+				this.State_App.currProject._id
+			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const {
@@ -403,7 +404,9 @@ async ${xU.camelCase(path)}({params,data}) {
 					<xGap t="20" />
 					<InfoCard title={"返回信息"}>
 						<aCard>返回信息</aCard>
-						<aCard><div v-html={this.detailInfo.desc}></div></aCard>
+						<aCard>
+							<div v-html={this.detailInfo.desc}></div>
+						</aCard>
 						<aCard>返回信息</aCard>
 						<aCard>返回信息</aCard>
 						<aCard>返回信息</aCard>

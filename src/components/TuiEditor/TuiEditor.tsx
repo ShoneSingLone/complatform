@@ -15,7 +15,7 @@ export const TuiEditor = defineAsyncComponent(
 						return {
 							isLoading: false,
 							id: xU.genId("TuiEditor"),
-							raw$md: "",
+							raw$md: ""
 						};
 					},
 					mounted() {
@@ -30,13 +30,13 @@ export const TuiEditor = defineAsyncComponent(
 									this.raw$editor.setMarkdown(mdString);
 								}
 							}
-						},
+						}
 					},
 					methods: {
 						async sync() {
 							await xU.ensureValueDone(() => this.syncDebounce);
 							$(this.raw$selector).show().addClass("flash infinite");
-							this.syncDebounce()
+							this.syncDebounce();
 						},
 						//初始化方法
 						async once() {
@@ -64,23 +64,28 @@ export const TuiEditor = defineAsyncComponent(
 									}
 								});
 
-
 								const className = `sync_${vm._.uid}`;
 								vm.raw$selector = `.${className}`;
-								vm.raw$editor.insertToolbarItem({ groupIndex: 4, itemIndex: 2 }, {
-									name: 'sync',
-									text: 'Sync...',
-									id: "toastuiEditorToolbarIconsSync",
-									className: `toastui-editor-toolbar-icons animated ${className}`,
-									style: { backgroundImage: 'none' }
-								});
+								vm.raw$editor.insertToolbarItem(
+									{ groupIndex: 4, itemIndex: 2 },
+									{
+										name: "sync",
+										text: "Sync...",
+										id: "toastuiEditorToolbarIconsSync",
+										className: `toastui-editor-toolbar-icons animated ${className}`,
+										style: { backgroundImage: "none" }
+									}
+								);
 							})();
 
 							(() => {
 								vm.syncDebounce = xU.debounce(async function () {
 									const mdString = vm.raw$editor.getMarkdown();
 									if (vm.modelValue.md !== mdString) {
-										vm.$emit("update:modelValue", { md: mdString, html: vm.raw$editor.getHTML() });
+										vm.$emit("update:modelValue", {
+											md: mdString,
+											html: vm.raw$editor.getHTML()
+										});
 										vm.raw$md = mdString;
 									}
 									$(this.raw$selector).removeClass("flash infinite").hide();
