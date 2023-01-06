@@ -180,7 +180,6 @@ export const GroupProjectList = defineComponent({
 						<span>共</span>
 						<span> {this.State_App.projectList.length} </span>
 						<span>个项目</span>
-						{/* {this.isAuthAddProject ? JSON.stringify(this.State_App.currGroup, null, 2) : ""} */}
 					</aCol>
 					<aCol span={8} class="flex end flex1">
 						{this.vDomAddProjectButton}

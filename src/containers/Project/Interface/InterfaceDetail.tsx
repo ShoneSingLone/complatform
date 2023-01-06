@@ -27,10 +27,7 @@ export const InterfaceDetail = defineComponent({
 				if (!interface_id) {
 					return;
 				}
-				const { data } = await API.project.fetchInterfaceDetail(
-					this.Cpt_url.query.interface_id
-				);
-				this.detailInfo = data;
+				this.updateInterfaceInfo();
 			}
 		}
 	},
@@ -38,6 +35,12 @@ export const InterfaceDetail = defineComponent({
 		this.showModifyInterfaceDialog();
 	},
 	methods: {
+		async updateInterfaceInfo() {
+			const { data } = await API.project.fetchInterfaceDetail(
+				this.Cpt_url.query.interface_id
+			);
+			this.detailInfo = data;
+		},
 		copyUrl(url) {
 			copy(url);
 			UI.message.success("已经成功复制到剪切板");
@@ -97,21 +100,8 @@ export const InterfaceDetail = defineComponent({
 				component: DialogModifyInterface,
 				interfaceId: item._id,
 				maxmin: true,
-				onBeforeClose: vm.closeWS(),
-				onBeforeClose_todo: async () => {
-					try {
-						await UI.dialog.confirm({
-							content: (
-								<div class="flex middle">
-									<div>是否关闭</div>
-								</div>
-							)
-						});
-						vm.closeWS();
-					} catch (error) {
-						return false;
-					}
-				}
+				updateInterfaceInfo: vm.updateInterfaceInfo,
+				onBeforeClose: vm.closeWS()
 			});
 		},
 		async checkConflict(item) {

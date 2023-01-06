@@ -220,7 +220,7 @@ export const DialogModifyInterface = defineComponent({
 					itemType: "Switch"
 				}),
 				...defItem({
-					isAuthAddProject: () => vm.dataXItem.isProxy.value,
+					isShow: () => vm.dataXItem.isProxy.value,
 					prop: "witchEnv",
 					label: vm.$t("转发环境").label,
 					value: "",
@@ -276,7 +276,7 @@ export const DialogModifyInterface = defineComponent({
 					),
 					checkedChildren: vm.$t("开").label,
 					unCheckedChildren: vm.$t("关").label,
-					value: "",
+					value: false,
 					itemType: "Switch"
 				})
 			}
@@ -306,7 +306,6 @@ export const DialogModifyInterface = defineComponent({
 			);
 			this.detailInfo = this.initState(data);
 			xU.doNothing(JSON.stringify(this.detailInfo, null, 2));
-
 			const {
 				api_opened,
 				catid,
@@ -360,106 +359,180 @@ export const DialogModifyInterface = defineComponent({
 					res_body_type,
 					res_body_mock
 				},
+				api_opened,
 				noticed: this.State_App.currProject.switch_notice
 			});
 		},
 		initState(detailInfo) {
-			this.startTime = new Date().getTime();
-			if (detailInfo.req_query && detailInfo.req_query.length === 0) {
-				delete detailInfo.req_query;
-			}
-			if (detailInfo.req_headers && detailInfo.req_headers.length === 0) {
-				delete detailInfo.req_headers;
-			}
-			if (detailInfo.req_body_form && detailInfo.req_body_form.length === 0) {
-				delete detailInfo.req_body_form;
-			}
-			if (detailInfo.req_params && detailInfo.req_params.length === 0) {
-				delete detailInfo.req_params;
-			}
 			if (detailInfo.req_body_form) {
 				detailInfo.req_body_form = detailInfo.req_body_form.map(item => {
 					item.type = item.type === "text" ? "text" : "file";
 					return item;
 				});
 			}
-			// 设置标签的展开与折叠
-			detailInfo["hideTabs"] = {
-				req: {
-					body: "hide",
-					query: "hide",
-					headers: "hide"
-				}
+			return detailInfo;
+		},
+		getFormData() {
+			const {
+				catid,
+				title,
+				apiMethod,
+				path,
+				tag,
+				isProxy,
+				witchEnv,
+				remark,
+				requestArgs,
+				responseArgs,
+				req_params,
+				api_opened,
+				noticed
+			} = pickValueFrom(this.dataXItem);
+			/* 请求 */
+			const {
+				req_body_type,
+				req_body_other,
+				req_query,
+				req_headers,
+				req_body_form
+			} = requestArgs;
+			/* 响应 */
+			const { res_body_type, res_body } = responseArgs;
+			/* 备注 */
+			const { html: desc, md: markdown } = remark;
+
+			const _formData = {
+				id: this.detailInfo._id,
+				/* 接口分类 */
+				catid,
+				title,
+				method: apiMethod,
+				path,
+				isProxy,
+				witchEnv,
+				req_params,
+				tag,
+				/* 请求 */
+				req_body_type,
+				req_body_other,
+				req_query,
+				req_headers,
+				req_body_form,
+				req_body_is_json_schema: true,
+				/* 响应 */
+				res_body_type,
+				res_body,
+				res_body_is_json_schema: true,
+				desc,
+				markdown,
+				api_opened,
+				/* 当前修改是否发送通知邮件 */
+				switch_notice: noticed
 			};
-			detailInfo["hideTabs"]["req"][
-				HTTP_METHOD[detailInfo.method].default_tab
-			] = "";
-			return Object.assign(
-				{
-					submitStatus: false,
-					title: "",
-					path: "",
-					status: "undone",
-					method: "get",
-					req_params: [],
-					req_query: [
-						{
-							name: "",
-							desc: "",
-							required: "1"
-						}
-					],
-					req_headers: [
-						{
-							name: "",
-							value: "",
-							required: "1"
-						}
-					],
-					req_body_type: "form",
-					req_body_form: [
-						{
-							name: "",
-							type: "text",
-							required: "1"
-						}
-					],
-					req_body_other: "",
-					res_body_type: "json",
-					res_body: "",
-					desc: "",
-					res_body_mock: "",
-					jsonType: "tpl",
-					req_radio_type: "req-query",
-					custom_field_value: "",
-					api_opened: false,
-					visible: false
-				},
-				detailInfo
-			);
+
+			let isFile = false;
+			let haveContentType = false;
+
+			if (_formData.req_body_type === "form") {
+				_formData.req_body_form.forEach(item => {
+					if (item.type === "file") {
+						isFile = true;
+					}
+				});
+
+				_formData.req_headers.map(item => {
+					if (item.name === "Content-Type") {
+						item.value = isFile
+							? "multipart/form-data"
+							: "application/x-www-form-urlencoded";
+						haveContentType = true;
+					}
+				});
+
+				if (haveContentType === false) {
+					_formData.req_headers.unshift({
+						name: "Content-Type",
+						value: isFile
+							? "multipart/form-data"
+							: "application/x-www-form-urlencoded"
+					});
+				}
+			} else if (_formData.req_body_type === "json") {
+				_formData.req_headers
+					? _formData.req_headers.map(item => {
+							if (item.name === "Content-Type") {
+								item.value = "application/json";
+								haveContentType = true;
+							}
+					  })
+					: [];
+
+				if (haveContentType === false) {
+					_formData.req_headers = _formData.req_headers || [];
+					_formData.req_headers.unshift({
+						name: "Content-Type",
+						value: "application/json"
+					});
+				}
+			}
+
+			const itemFill = item => item.name !== "";
+
+			_formData.req_headers = _formData.req_headers
+				? _formData.req_headers.filter(itemFill)
+				: [];
+
+			_formData.req_body_form = _formData.req_body_form
+				? _formData.req_body_form.filter(itemFill)
+				: [];
+			_formData.req_params = _formData.req_params
+				? _formData.req_params.filter(itemFill)
+				: [];
+			_formData.req_query = _formData.req_query
+				? _formData.req_query.filter(itemFill)
+				: [];
+
+			if (HTTP_METHOD[_formData.method].request_body !== true) {
+				_formData.req_body_form = [];
+			}
+
+			if (
+				_formData.req_body_is_json_schema &&
+				_formData.req_body_other &&
+				_formData.req_body_type === "json"
+			) {
+				if (!_formData.req_body_other) {
+					throw new Error(this.$t("请求参数 json-schema 格式有误").label);
+				}
+			}
+			if (
+				_formData.res_body_is_json_schema &&
+				_formData.res_body &&
+				_formData.res_body_type === "json"
+			) {
+				if (!_formData.res_body) {
+					throw new Error(this.$t("返回数据 json-schema 格式有误").label);
+				}
+			}
+			return _formData;
 		},
 		async submit() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-				const { catid, title, path, apiMethod, remark, responseArgs } =
-					pickValueFrom(this.dataXItem);
-				const { html: desc, md: markdown } = remark;
 				try {
-					const { data } = await API.project.updateInterface({
-						id: this.detailInfo._id,
-						/* 接口分类 */
-						catid
-					});
-
+					const formData = this.getFormData();
+					const { data } = await API.project.updateInterface(formData);
 					if (data) {
 						/* 更新 url 左侧树 */
 						await (async () => {
 							/* 可能修改了分类，影响对应url */
-							Cpt_url.value.query.category_id = catid;
+							Cpt_url.value.query.category_id = formData.catid;
 							/* 刷新右侧接口树 */
 							await Methods_Project.updateInterfaceMenuList();
 							/* 设置树展开 */
 							Methods_Project.setExpand();
+							/* 更新详情  */
+							await this.propDialogOptions.updateInterfaceInfo();
 							/* @ts-ignore */
 							setTimeout(() => {
 								this.propDialogOptions.closeDialog();
