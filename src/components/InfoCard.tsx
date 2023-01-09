@@ -1,10 +1,14 @@
-import { xU } from "@ventose/ui";
-import { defineComponent } from "vue";
+import { xU, compositionAPI, $ } from "@ventose/ui";
+import { watch, defineComponent } from "vue";
 import "./InfoCard.less";
+const { useScopeStyle } = compositionAPI;
 
 export const InfoCardCol = defineComponent({
 	props: ["col"],
 	computed: {
+		styleLabel() {
+			return {};
+		},
 		vDomLabel() {
 			return this.col.label;
 		},
@@ -15,7 +19,9 @@ export const InfoCardCol = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="ant-descriptions-item-label">{this.vDomLabel}</div>
+				<div class="ant-descriptions-item-label" style={this.styleLabel}>
+					{this.vDomLabel}
+				</div>
 				<div class="ant-descriptions-item-content flex1">
 					{this.vDomContent}
 				</div>
@@ -58,7 +64,50 @@ export const InfoCardRow = defineComponent({
 
 export const InfoCard = defineComponent({
 	props: ["info", "title"],
+	methods: {
+		updateLableStyle(styleObject) {
+			const styleString = xU
+				.map(
+					xU.merge(
+						{ "min-width": "120px", "text-align": "right" },
+						styleObject
+					),
+					(value, prop) => `${prop}: ${value}`
+				)
+				.join(";");
+
+			const styleContent = `#${this.id} .ant-descriptions-item-label {${styleString}}`;
+			if (!this.$styleEle) {
+				const $form = $(`#${this.id}`);
+				const $style = $("<style/>", { id: `style_${this.id}` });
+				$form.prepend($style);
+				this.$styleEle = $style;
+			}
+			this.$styleEle.html(styleContent);
+		}
+	},
+	mounted() {
+		this.$watch(
+			"info.colLabelWidth",
+			width => {
+				if (width) {
+					console.log("width", width);
+					this.updateLableStyle({ width });
+				}
+			},
+			{
+				immediate: true,
+				deep: true
+			}
+		);
+	},
 	computed: {
+		id() {
+			return `InfoCard_${this._.uid}`;
+		},
+		colLabelWidth() {
+			return this?.info?.colLabelWidth || "120px";
+		},
 		rowArray() {
 			return this?.info?.rowArray || false;
 		},
@@ -90,7 +139,9 @@ export const InfoCard = defineComponent({
 	},
 	render() {
 		return (
-			<div class="ant-descriptions ant-descriptions-middle ant-descriptions-bordered x-infomation-card">
+			<div
+				class="ant-descriptions ant-descriptions-middle ant-descriptions-bordered x-infomation-card"
+				id={this.id}>
 				{this.vDomTitle}
 				{this.vDomDescriptions}
 			</div>

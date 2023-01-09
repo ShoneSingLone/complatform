@@ -200,7 +200,7 @@ export const DialogModifyInterface = defineComponent({
 					prop: "pathParams",
 					label: vm.$t("接口路径参数").label,
 					value: [],
-					itemType: InpterfacePathParams
+					itemType: markRaw(InpterfacePathParams)
 				}),
 				...defItem({
 					prop: "tag",
@@ -210,7 +210,7 @@ export const DialogModifyInterface = defineComponent({
 					async setOptions(tagArray) {
 						this.options = tagArray;
 					},
-					itemType: TagSelectRender
+					itemType: markRaw(TagSelectRender)
 				}),
 				...defItem({
 					prop: "isProxy",
@@ -329,7 +329,6 @@ export const DialogModifyInterface = defineComponent({
 				desc,
 				markdown
 			} = this.detailInfo;
-
 			setValueTo(this.dataXItem, {
 				witchEnv,
 				catid,
@@ -384,10 +383,11 @@ export const DialogModifyInterface = defineComponent({
 				remark,
 				requestArgs,
 				responseArgs,
-				req_params,
+				pathParams,
 				api_opened,
 				noticed
 			} = pickValueFrom(this.dataXItem);
+			debugger;
 			/* 请求 */
 			const {
 				req_body_type,
@@ -410,7 +410,7 @@ export const DialogModifyInterface = defineComponent({
 				path,
 				isProxy,
 				witchEnv,
-				req_params,
+				req_params: pathParams,
 				tag,
 				/* 请求 */
 				req_body_type,
@@ -531,8 +531,11 @@ export const DialogModifyInterface = defineComponent({
 							await Methods_Project.updateInterfaceMenuList();
 							/* 设置树展开 */
 							Methods_Project.setExpand();
-							/* 更新详情  */
-							await this.propDialogOptions.updateInterfaceInfo();
+
+							if (this.propDialogOptions.updateInterfaceInfo) {
+								/* 更新详情  */
+								await this.propDialogOptions.updateInterfaceInfo();
+							}
 							/* @ts-ignore */
 							setTimeout(() => {
 								this.propDialogOptions.closeDialog();

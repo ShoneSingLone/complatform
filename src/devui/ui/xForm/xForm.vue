@@ -30,7 +30,6 @@ export default defineComponent({
 				)
 				.join(";");
 		},
-
 		styleContent() {
 			return `#${this.xFormId} { width:100%; padding:0 16px; }
  #${this.xFormId} div.ant-form-item-label { ${this.labelStyleText} }`;

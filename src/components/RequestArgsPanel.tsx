@@ -9,6 +9,7 @@ import { QueryParamsPanel } from "./interfaceParams/QueryParamsPanel";
 1.接收apimethod 默认打开
 */
 export const RequestArgsPanel = defineComponent({
+	__v_skip: true,
 	props: ["params", "apiMethod"],
 	/* */
 	emits: ["update:params"],

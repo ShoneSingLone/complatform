@@ -94,6 +94,13 @@ export const TuiEditor = defineAsyncComponent(
 						}
 					},
 					render(vm) {
+						if (vm.$attrs.readonly) {
+							return (
+								<div
+									v-html={vm.modelValue.html}
+									class="toastui-editor-contents"></div>
+							);
+						}
 						return (
 							<div v-loading={vm.isLoading}>
 								<div

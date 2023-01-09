@@ -1,23 +1,43 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI } from "@ventose/ui";
+import { $, xU, UI, defCol, defDataGridOption, State_UI } from "@ventose/ui";
 import { API } from "../../../api";
 import { Methods_Project, State_Project } from "./State_Project";
 import { Cpt_url } from "../../../router/router";
-import { InfoCard, InfoCardCol } from "../../../components/InfoCard";
+import { InfoCard } from "../../../components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { State_App } from "./../../../state/State_App";
 import { DialogModifyInterface } from "./DialogModifyInterface";
 import { makeAhref } from "src/components/RouterView/RouterView";
 import copy from "copy-to-clipboard";
+import { asyncGetTuiEditor } from "../../../components/TuiEditor/LoadTuiEditorLibs";
+import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		return { State_Project: State_Project, Cpt_url };
+		return { State_Project, Cpt_url };
 	},
 	data(vm) {
 		return {
 			State_App,
-			detailInfo: false
+			detailInfo: false,
+			configs_table_path_params: defDataGridOption({
+				isHidePagination: true,
+				dataSource: [],
+				columns: {
+					...defCol({ prop: "name", label: vm.$t("参数名称").label }),
+					...defCol({ prop: "example", label: vm.$t("示例").label }),
+					...defCol({ prop: "desc", label: vm.$t("备注").label })
+				}
+			}),
+			configs_table_headers: defDataGridOption({
+				isHidePagination: true,
+				dataSource: [],
+				columns: {
+					...defCol({ prop: "name", label: vm.$t("参数名称").label }),
+					...defCol({ prop: "example", label: vm.$t("示例").label }),
+					...defCol({ prop: "desc", label: vm.$t("备注").label })
+				}
+			})
 		};
 	},
 	watch: {
@@ -31,12 +51,17 @@ export const InterfaceDetail = defineComponent({
 			}
 		}
 	},
+	async mounted() {
+		await asyncGetTuiEditor();
+	},
 	methods: {
 		async updateInterfaceInfo() {
 			const { data } = await API.project.fetchInterfaceDetail(
 				this.Cpt_url.query.interface_id
 			);
 			this.detailInfo = data;
+			xU(data);
+			this.configs_table_headers.dataSource = data.req_headers;
 		},
 		copyUrl(url) {
 			copy(url);
@@ -224,6 +249,7 @@ async ${xU.camelCase(path)}({params,data}) {
 			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
+			const vm = this;
 			const {
 				tag,
 				up_time,
@@ -303,7 +329,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							label: (
 								<div class="flex middle">
 									<span class="mr10">Mock地址</span>
-									<aButton type="primary">运行</aButton>
+									<aButton type="primary">{vm.$t("测试").label}</aButton>
 								</div>
 							),
 							col: 3,
@@ -355,32 +381,47 @@ async ${xU.camelCase(path)}({params,data}) {
 					}
 				]);
 			}
-
-			return { rowArray };
+			return {
+				rowArray,
+				colLabelWidth: "220px"
+			};
 		}
 	},
-	render() {
-		if (!this.detailInfo || !this.State_App.currProject) {
+	render(vm) {
+		if (!vm.detailInfo || !vm.State_App.currProject) {
 			return <aSpin spinning={true} class="flex middle center flex1"></aSpin>;
 		}
 		console.log(
-			this.State_App.currGroup,
-			this.State_App.currProject,
-			this.detailInfo
+			vm.State_App.currGroup,
+			vm.State_App.currProject,
+			vm.detailInfo
 		);
 		return (
 			<xView style="overflow:hidden;">
 				<div class="flex">
-					<xButton onClick={this.showModifyInterfaceDialog}>修改</xButton>
+					<xButton onClick={vm.showModifyInterfaceDialog}>修改</xButton>
 					<xGap f="1" />
 				</div>
 				<div class="flex1 overflow-auto mt10">
-					<InfoCard title={<span>基本信息</span>} info={this.descriptions} />
+					<InfoCard title={<span>基本信息</span>} info={vm.descriptions} />
+					<xGap t="20" />
+					{vm.detailInfo.desc && (
+						<InfoCard title={vm.$t("备注").label}>
+							<TuiEditor modelValue={{ html: vm.detailInfo.desc }} readonly />
+						</InfoCard>
+					)}
 					<xGap t="20" />
 					<InfoCard title={"请求参数"}>
-						<aCard title="Headers">
-							<h3>Headers</h3>
-						</aCard>
+						{vm.configs_table_path_params.dataSource.length > 0 && (
+							<aCard title={vm.$t("路径参数").label}>
+								<xDataGrid configs={vm.configs_table_path_params} />
+							</aCard>
+						)}
+						{vm.configs_table_headers.dataSource.length > 0 && (
+							<aCard title={vm.$t("Headers").label}>
+								<xDataGrid configs={vm.configs_table_headers} />
+							</aCard>
+						)}
 						<xGap t="10" />
 						<aCard title="Query">
 							<h3>Query</h3>
@@ -388,14 +429,6 @@ async ${xU.camelCase(path)}({params,data}) {
 					</InfoCard>
 					<xGap t="20" />
 					<InfoCard title={"返回信息"}>
-						<aCard>返回信息</aCard>
-						<aCard>
-							<div v-html={this.detailInfo.desc}></div>
-						</aCard>
-						<aCard>返回信息</aCard>
-						<aCard>返回信息</aCard>
-						<aCard>返回信息</aCard>
-						<aCard>返回信息</aCard>
 						<aCard>返回信息</aCard>
 					</InfoCard>
 				</div>

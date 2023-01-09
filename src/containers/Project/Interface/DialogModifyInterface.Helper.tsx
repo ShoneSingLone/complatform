@@ -3,8 +3,8 @@ import { DialogUpsertProxyEnv } from "./DialogUpsertProxyEnv";
 import { RequestArgsPanel } from "src/components/RequestArgsPanel";
 import { ResponsePanel } from "src/components/ResponsePanel";
 import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
-import { $, State_UI, UI, xU } from "@ventose/ui";
-import { defineComponent } from "vue";
+import { $, State_UI, UI, xU, compileVNode, defItem } from "@ventose/ui";
+import { defineComponent, h, reactive } from "vue";
 
 export async function openProxyEnvDialog() {
 	const { _layerKey } = await UI.dialog.component({
@@ -24,41 +24,67 @@ export async function openUpsertTagDialog() {
 	$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
 }
 
+const uniq_item = xU.genId("uniq");
 export const InpterfacePathParams = defineComponent({
-	props: ["properties", "listeners"],
+	__v_skip: true,
+	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	methods: {
-		fnUpdate(prop, val, index) {
-			this.properties.value[index][prop] = val;
+		fnUpdate(prop, value, index) {
+			this.formData[index][prop] = value;
 			this.listeners["onUpdate:value"](this.properties.value);
 		}
 	},
+	data() {
+		return {
+			formData: []
+		};
+	},
+	watch: {
+		"properties.value": {
+			immediate: true,
+			handler(value) {
+				this.formData = value;
+			}
+		}
+	},
 	render(vm) {
-		return xU.map(vm.properties.value, (data, index) => {
-			const { desc, example, name, _id } = data;
+		return xU.map(vm.formData, (data, index) => {
+			const vDomExample = (
+				<xItem
+					v-model={data.example}
+					configs={{
+						placeholder: "参数示例",
+						onAfterValueEmit: val => vm.fnUpdate("example", val, index)
+					}}
+				/>
+			);
+			const vDomDesc = (
+				<xItem
+					v-model={data.desc}
+					configs={{
+						placeholder: "备注",
+						onAfterValueEmit: val => vm.fnUpdate("desc", val, index)
+					}}
+				/>
+			);
+
 			return (
-				<div class="flex middel mt10 width100">
-					<aTag class="mr10 flex middle" style="min-width:100px">
-						{name}
-					</aTag>
-					<span class="mr10 flex1">
-						<xItem
-							configs={{
-								placeholder: "参数示例",
-								value: example,
-								onAfterValueEmit: val => vm.fnUpdate("example", val, index)
-							}}
-						/>
-					</span>
-					<span class="flex1">
-						<xItem
-							configs={{
-								placeholder: "备注",
-								value: desc,
-								onAfterValueEmit: val => vm.fnUpdate("desc", val, index)
-							}}
-						/>
-					</span>
-				</div>
+				<>
+					{data.example}-{data.desc}
+					<div class="flex middel mt10 width100">
+						<aTag class="mr10 flex middle" style="min-width:100px">
+							{data.name}
+						</aTag>
+						<span class="mr10 flex1">
+							<input v-model={data.example} />
+							{vDomExample}
+						</span>
+						<span class="flex1">
+							<input v-model={data.desc} />
+							{vDomDesc}
+						</span>
+					</div>
+				</>
 			);
 		});
 	}
@@ -66,7 +92,7 @@ export const InpterfacePathParams = defineComponent({
 
 export const EnvSelectRender = defineComponent({
 	__v_skip: true,
-	props: ["properties", "listeners"],
+	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	render(vm) {
 		vm.properties.value = vm.properties.value || [];
 		const options = vm.properties.options || [];
@@ -103,6 +129,7 @@ export const EnvSelectRender = defineComponent({
 });
 
 export const TagSelectRender = defineComponent({
+	__v_skip: true,
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	computed: {
 		selected: {
@@ -156,7 +183,8 @@ export const TagSelectRender = defineComponent({
 });
 
 export const RequestArgsRender = defineComponent({
-	props: ["properties", "listeners"],
+	__v_skip: true,
+	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	render() {
 		return (
 			<RequestArgsPanel
@@ -169,7 +197,8 @@ export const RequestArgsRender = defineComponent({
 });
 
 export const MarkdownRender = defineComponent({
-	props: ["properties", "listeners"],
+	__v_skip: true,
+	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	components: { TuiEditor },
 	computed: {
 		modelValue: {
@@ -187,7 +216,8 @@ export const MarkdownRender = defineComponent({
 });
 
 export const ResponseRender = defineComponent({
-	props: ["properties", "listeners"],
+	__v_skip: true,
+	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	computed: {
 		body: {
 			get() {

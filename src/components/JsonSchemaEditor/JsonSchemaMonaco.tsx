@@ -2,12 +2,12 @@ import json5 from "json5";
 import { defineComponent, markRaw } from "vue";
 import { State_App } from "../../state/State_App";
 import "./JsonSchemaMonaco.less";
-import { UI, xU, $ } from "@ventose/ui";
+import { UI, xU, $, compositionAPI } from "@ventose/ui";
 import { ICON_STRATEGE, SchemaEditor, SPE } from "./SchemaEditor";
 import { diff } from "jsondiffpatch";
 import { API } from "../../api/index";
 import generateSchema from "generate-schema";
-import { usefnObserveDomResize } from "../../compositions/useDomResize";
+const { usefnObserveDomResize } = compositionAPI;
 
 function makeProps(pre, prop) {
 	return [pre, prop].join(SPE);

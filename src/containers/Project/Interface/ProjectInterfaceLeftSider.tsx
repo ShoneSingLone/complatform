@@ -1,7 +1,6 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI } from "@ventose/ui";
+import { $, xU, UI, compositionAPI } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
-import { usefnObserveDomResize } from "../../../compositions/useDomResize";
 import { API } from "src/api/index";
 import { ALL, DefaultInterfaceMenu } from "../../../utils/variable";
 import { Methods_Project, State_Project } from "./State_Project";
@@ -10,6 +9,7 @@ import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "../../../utils/common";
 import { State_App } from "src/state/State_App";
+const { usefnObserveDomResize } = compositionAPI;
 
 export const ProjectInterfaceLeftSider = defineComponent({
 	setup() {

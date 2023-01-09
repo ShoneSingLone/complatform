@@ -49,6 +49,8 @@ import { UI } from "./UI";
 import { VNodeCollection } from "./tools/VNodeRender";
 import { compileVNode } from "./tools/framework";
 import { xLogObject } from "./xSingle/xLogObject";
+import { usefnObserveDomResize } from "./compositionAPI/useDomResize";
+import { useScopeStyle } from "./compositionAPI/useScopeStyle";
 
 /* @ts-ignore */
 window.dayjs = dayjs;
@@ -56,6 +58,11 @@ window.dayjs = dayjs;
 window.moment = dayjs;
 /* @ts-ignore */
 window.jquery = $;
+
+export const compositionAPI = {
+	usefnObserveDomResize,
+	useScopeStyle
+};
 
 /* my-private-ui-component */
 const componentMyUI = {
