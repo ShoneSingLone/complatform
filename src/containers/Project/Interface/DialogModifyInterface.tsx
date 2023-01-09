@@ -46,6 +46,7 @@ export const DialogModifyInterface = defineComponent({
 			if (xU.isArrayFill(this.dataXItem.pathParams.value)) {
 				return (
 					<>
+						{JSON.stringify(this.dataXItem.pathParams.value, null, 2)}
 						<xGap t="10" />
 						<xItem configs={this.dataXItem.pathParams} />
 					</>
@@ -188,10 +189,7 @@ export const DialogModifyInterface = defineComponent({
 						setValueTo(vm.dataXItem, {
 							pathParams: xU.map(xU.uniqBy(queue, "name"), newValue => {
 								/* @ts-ignore */
-								return xU.merge(
-									{ name: "", desc: "", example: "", _id: "" },
-									newValue
-								);
+								return xU.merge({ name: "", desc: "", example: "" }, newValue);
 							})
 						});
 					}, 800)
@@ -220,7 +218,9 @@ export const DialogModifyInterface = defineComponent({
 					itemType: "Switch"
 				}),
 				...defItem({
-					isShow: () => vm.dataXItem.isProxy.value,
+					isShow() {
+						return vm.dataXItem.isProxy.value;
+					},
 					prop: "witchEnv",
 					label: vm.$t("转发环境").label,
 					value: "",
@@ -387,7 +387,7 @@ export const DialogModifyInterface = defineComponent({
 				api_opened,
 				noticed
 			} = pickValueFrom(this.dataXItem);
-			debugger;
+
 			/* 请求 */
 			const {
 				req_body_type,

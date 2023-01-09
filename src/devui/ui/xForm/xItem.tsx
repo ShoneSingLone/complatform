@@ -62,14 +62,13 @@ export const xItem = defineComponent({
 				/* 主要的触发方式 */
 				"onUpdate:value": val => {
 					/* 使用configs.value的形式，一般是configs与组件是一对一的关系,configs需要是reactive的  */
-					if (configs.modelValue === val) {
-						return;
-					}
-
 					if (configs.value !== undefined) {
-						configs.value = val;
+						if (configs.modelValue === val) {
+							return;
+						} else {
+							configs.value = val;
+						}
 					}
-
 					configs.modelValue = val;
 					/* 双向绑定 */
 					emit("update:modelValue", val);
@@ -148,25 +147,6 @@ export const xItem = defineComponent({
 		};
 	},
 	computed: {
-		vDomComponent() {
-			const CurrentXItem = (() => {
-				if (xU.isObject(this.configs.itemType)) {
-					return this.configs.itemType;
-				}
-				return renders[this.configs.itemType] || renders.Input;
-			})();
-
-			CurrentXItem.__v_skip = true;
-
-			return (
-				<CurrentXItem
-					propsWillDeleteFromConfigs={this.propsWillDeleteFromConfigs}
-					properties={this.properties}
-					listeners={this.listeners}
-					slots={this.itemSlots}
-				/>
-			);
-		},
 		itemTypeName() {
 			if (xU.isString(this.configs.itemType)) {
 				return String(this.configs.itemType);
@@ -299,12 +279,6 @@ export const xItem = defineComponent({
 				this.updateValue();
 			}
 		},
-		"properties.value": {
-			immediate: true,
-			handler(modelValue) {
-				this.update();
-			}
-		},
 		/* 修改rules Array 要求全量替换 */
 		"configs.rules": {
 			immediate: true,
@@ -384,30 +358,7 @@ export const xItem = defineComponent({
 			this.configs.once.call(this.configs, this);
 		}
 	},
-	beforeUnmount() {
-		console.log("beforeUnmount", this.configs.label, this);
-	},
 	methods: {
-		update() {
-			if (!this.Cpt_isShowXItem || !this.properties) {
-				xU(this, this?.configs?.label);
-				return null;
-			}
-			const vNode = (
-				<div id={this.FormItemId} class={this.itemWrapperClass}>
-					{/* label */}
-					{this.labelVNode}
-					{/* 控件 */}
-					<div class="ant-form-item-control" type={this.itemTypeName}>
-						{this.vDomComponent}
-						{/* 提示信息 */}
-						{this.tipsVNode}
-					</div>
-					{this.$slots.afterControll && this.$slots.afterControll()}
-				</div>
-			);
-			this.vDomXItem = vNode;
-		},
 		setTips(type = "", msg = "") {
 			MutatingProps(this, "configs.itemTips", { type, msg });
 		},
@@ -465,10 +416,33 @@ export const xItem = defineComponent({
 		}
 	},
 	render(h) {
-		if (!this.vDomXItem) {
-			this.update();
+		if (!this.Cpt_isShowXItem || !this.properties) {
+			return null;
 		}
-		console.log(this.properties.value);
-		return this.vDomXItem;
+		const CurrentXItem = (() => {
+			if (xU.isObject(this.configs.itemType)) {
+				return this.configs.itemType;
+			}
+			return renders[this.configs.itemType] || renders.Input;
+		})();
+
+		return (
+			<div id={this.FormItemId} class={this.itemWrapperClass}>
+				{/* label */}
+				{this.labelVNode}
+				{/* 控件 */}
+				<div class="ant-form-item-control" type={this.itemTypeName}>
+					<CurrentXItem
+						propsWillDeleteFromConfigs={this.propsWillDeleteFromConfigs}
+						properties={this.properties}
+						listeners={this.listeners}
+						slots={this.itemSlots}
+					/>
+					{/* 提示信息 */}
+					{this.tipsVNode}
+				</div>
+				{this.$slots.afterControll && this.$slots.afterControll()}
+			</div>
+		);
 	}
 });

@@ -24,67 +24,39 @@ export async function openUpsertTagDialog() {
 	$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
 }
 
-const uniq_item = xU.genId("uniq");
 export const InpterfacePathParams = defineComponent({
 	__v_skip: true,
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	methods: {
 		fnUpdate(prop, value, index) {
-			this.formData[index][prop] = value;
+			this.properties.value[index][prop] = value;
 			this.listeners["onUpdate:value"](this.properties.value);
 		}
 	},
-	data() {
-		return {
-			formData: []
-		};
-	},
-	watch: {
-		"properties.value": {
-			immediate: true,
-			handler(value) {
-				this.formData = value;
-			}
-		}
-	},
 	render(vm) {
-		return xU.map(vm.formData, (data, index) => {
-			const vDomExample = (
-				<xItem
-					v-model={data.example}
-					configs={{
-						placeholder: "参数示例",
-						onAfterValueEmit: val => vm.fnUpdate("example", val, index)
-					}}
-				/>
-			);
-			const vDomDesc = (
-				<xItem
-					v-model={data.desc}
-					configs={{
-						placeholder: "备注",
-						onAfterValueEmit: val => vm.fnUpdate("desc", val, index)
-					}}
-				/>
-			);
-
+		return xU.map(vm.properties.value, (data, index) => {
 			return (
-				<>
-					{data.example}-{data.desc}
-					<div class="flex middel mt10 width100">
-						<aTag class="mr10 flex middle" style="min-width:100px">
-							{data.name}
-						</aTag>
-						<span class="mr10 flex1">
-							<input v-model={data.example} />
-							{vDomExample}
-						</span>
-						<span class="flex1">
-							<input v-model={data.desc} />
-							{vDomDesc}
-						</span>
-					</div>
-				</>
+				<div class="flex middel mt10 width100">
+					<aTag class="mr10 flex middle" style="min-width:100px">
+						{data.name}
+					</aTag>
+					<span class="mr10 flex1">
+						<aInput
+							value={data.example}
+							onUpdate:value={val => {
+								this.fnUpdate("example", val, index);
+							}}
+						/>
+					</span>
+					<span class="flex1">
+						<aInput
+							value={data.desc}
+							onUpdate:value={val => {
+								this.fnUpdate("desc", val, index);
+							}}
+						/>
+					</span>
+				</div>
 			);
 		});
 	}
