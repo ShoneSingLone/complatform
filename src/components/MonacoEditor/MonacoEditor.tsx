@@ -41,7 +41,7 @@ export const MonacoEditor = defineAsyncComponent(
 								readOnly: this.readOnly || false,
 								// 超出编辑器大小的使用fixed属性显示
 								fixedOverflowWidgets: true,
-								theme: this.theme || theme[1],
+								theme: this.theme || theme[3],
 								automaticLayout: true
 							});
 							this.raw$editor.addCommand(

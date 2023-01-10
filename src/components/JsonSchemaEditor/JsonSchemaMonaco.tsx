@@ -51,7 +51,8 @@ const PopoverContent = defineComponent(
 );
 
 export const JsonSchemaMonaco = defineComponent({
-	props: ["schemaString"],
+	props: ["schemaString", "readOnly"],
+	emits: ["update:schemaString"],
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
@@ -127,6 +128,74 @@ export const JsonSchemaMonaco = defineComponent({
 		this.fnUnobserveDomResize(this.$refs.JsonSchemaMonaco);
 	},
 	methods: {
+		renderReadOnly(vm) {
+			return (
+				<div class="JsonSchemaMonaco flex x-card" ref="JsonSchemaMonaco">
+					<div class="left-json-tree_readonly" style="width:100%">
+						{/* 在有数据之后才能展开全部 */}
+						{this.isTreeLoading ? (
+							<aSpin spinning={true} class="flex middle height100 width100" />
+						) : (
+							<div class="flex middle height100 vertical">
+								<aTree
+									class="JsonSchemaMonaco-json-tree flex1 overflow-auto width100"
+									show-line
+									defaultExpandAll
+									treeData={vm.jsonTree}>
+									{{
+										title({ dataRef }) {
+											const { title, type, key, description } = dataRef;
+											const vDomIcon =
+												ICON_STRATEGE[type] && ICON_STRATEGE[type]();
+
+											let labelType = (
+												<div class="mr10 cell-width">
+													{vDomIcon}
+													<span class="mr10">{type}</span>
+												</div>
+											);
+											let labelDescription = (
+												<div class="mr10 cell-width">
+													<span class="mr10">{description}</span>
+												</div>
+											);
+
+											if (title == "root") {
+												labelType = (
+													<div class="mr10 cell-width">
+														{vm.$t("类型").label}
+													</div>
+												);
+												labelDescription = (
+													<div class="mr10 cell-width">
+														{vm.$t("备注").label}
+													</div>
+												);
+											}
+
+											return (
+												<div class="flex middle  title-wrapper">
+													<div
+														class="title ellipsis pointer flex1 flex middle "
+														v-uiPopover={{ onlyEllipsis: true }}
+														onClick={() => vm.handleTreeClick(dataRef)}>
+														<span>{title}</span>
+														<xGap f="1" />
+														{labelType}
+														{labelDescription}
+													</div>
+													<xGap r="10" />
+												</div>
+											);
+										}
+									}}
+								</aTree>
+							</div>
+						)}
+					</div>
+				</div>
+			);
+		},
 		toggleEditor() {
 			if (this.currentEditor === "SchemaEditor") {
 				this.currentEditor = "MonacoEditor";
@@ -172,7 +241,9 @@ export const JsonSchemaMonaco = defineComponent({
 			let schemaJson = this.schemaJson;
 			try {
 				schemaJson = JSON.parse(schemaString);
+				this.$emit("update:schemaString", schemaString);
 			} catch (error) {
+				console.error(error);
 				UI.message.error(this.$t("数据有误").label);
 			} finally {
 				this.schemaJson = schemaJson;
@@ -198,6 +269,7 @@ export const JsonSchemaMonaco = defineComponent({
 			}
 			xU.MutatingProps(this.schemaJson, oldKey, "never", true);
 			xU.MutatingProps(this.schemaJson, node.key, node);
+			this.$emit("update:schemaString", JSON.stringify(this.schemaJson));
 			this.updateTree();
 			this.handleTreeClick(node);
 		},
@@ -296,6 +368,9 @@ export const JsonSchemaMonaco = defineComponent({
 		};
 	},
 	render(vm) {
+		if (this.readOnly) {
+			return this.renderReadOnly(vm);
+		}
 		return (
 			<div class="JsonSchemaMonaco flex x-card" ref="JsonSchemaMonaco">
 				<div class="left-json-tree">

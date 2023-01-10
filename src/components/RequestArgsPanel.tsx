@@ -21,6 +21,9 @@ export const RequestArgsPanel = defineComponent({
 		};
 	},
 	watch: {
+		privateParams(privateParams) {
+			this.$emit("update:params", privateParams);
+		},
 		params() {
 			this.privateParams = xU.cloneDeep(this.params);
 		},
@@ -69,14 +72,7 @@ export const RequestArgsPanel = defineComponent({
 					key={BODY}
 					header={bodyHeader}
 					collapsible={this.bodyCollapsible}>
-					<BodyParamsPanel
-						v-model:reqBodyType={this.privateParams.req_body_type}
-						v-model:reqBodyIsJsonSchema={
-							this.privateParams.req_body_is_json_schema
-						}
-						v-model:reqBodyForm={this.privateParams.req_body_form}
-						v-model:reqBodyOther={this.privateParams.req_body_other}
-					/>
+					<BodyParamsPanel v-model:params={this.privateParams} />
 				</aCollapsePanel>
 			</aCollapse>
 		);

@@ -175,7 +175,7 @@ export const xVirTableBody = defineComponent({
 										<xVirTableTd
 											column={this.columns[prop]}
 											data-index={index}
-											data={data}
+											v-model:data={data}
 										/>
 									);
 								})}
@@ -210,7 +210,7 @@ export const xVirTableBody = defineComponent({
 														<xVirTableTd
 															column={this.columns[prop]}
 															data-col-index={index}
-															data={data}
+															v-model:data={data}
 														/>
 													);
 												}

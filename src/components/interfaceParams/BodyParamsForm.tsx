@@ -33,10 +33,6 @@ const STRATEGY_CELL_ITEM_CONFIGS = {
 const BODY_PARAM_PROP_ARRAY = Object.keys(STRATEGY_CELL_ITEM_CONFIGS);
 
 /* virTable 的 renderCell 缓存标识 ,关键是唯一，具体是啥无所谓，所以这里不用过分考虑顺序*/
-const [ID_NAME, ID_TYPE, ID_REQUIRED, ID_RECORD, ID_DESC, ID_OPERATIONS] = [
-	...BODY_PARAM_PROP_ARRAY,
-	"ID_OPERATIONS"
-].map(xU.genId);
 
 export const BodyParamsForm = defineComponent({
 	props: ["reqBodyForm"],
@@ -50,24 +46,13 @@ export const BodyParamsForm = defineComponent({
 	},
 	methods: {
 		addRow() {
-			this.syncFormDataFromConfigs();
 			this.configs_table.dataSource.unshift(newFormData());
 		},
 		deleteRow(_id) {
 			const index = xU.findIndex(this.configs_table.dataSource, { _id });
 			if (~index) {
-				this.syncFormDataFromConfigs();
 				this.configs_table.dataSource.splice(index, 1);
 			}
-		},
-		syncFormDataFromConfigs() {
-			xU.each(this.configs_table.dataSource, rowData => {
-				xU.each(BODY_PARAM_PROP_ARRAY, prop => {
-					if (rowData[`configs_${prop}`]) {
-						rowData[prop] = rowData[`configs_${prop}`].value;
-					}
-				});
-			});
 		},
 		resetDataForm(newFormDataArray) {
 			this.configs_table.dataSource = newFormDataArray;
@@ -97,21 +82,12 @@ export const BodyParamsForm = defineComponent({
 						width: "110px",
 						renderCell: ({ record }) =>
 							ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type),
-						renderEditor: ({ record }) => {
-							return compileVNode(
-								`<xItem :configs="configs" v-model="record.type" />`,
-								() => {
-									return {
-										record,
-										configs: defItem.item({
-											itemType: "Select",
-											itemWrapperClass: "input-width100",
-											options: ITEM_OPTIONS.interfaceBodyFormType
-										})
-									};
-								}
-							);
-						}
+						renderEditor: ({ record }) => (
+							<aSelect
+								options={ITEM_OPTIONS.interfaceBodyFormType}
+								v-model:value={record.type}
+							/>
+						)
 					}),
 					...defCol({
 						label: vm.$t("必需").label,
@@ -119,21 +95,12 @@ export const BodyParamsForm = defineComponent({
 						width: "110px",
 						renderCell: ({ record }) =>
 							ITEM_OPTIONS_VDOM.required(record.required),
-						renderEditor: ({ record }) => {
-							return compileVNode(
-								`<xItem :configs="configs" v-model="record.required" />`,
-								() => {
-									return {
-										record,
-										configs: defItem.item({
-											itemType: "Select",
-											itemWrapperClass: "input-width100",
-											options: ITEM_OPTIONS.required
-										})
-									};
-								}
-							);
-						}
+						renderEditor: ({ record }) => (
+							<aSelect
+								options={ITEM_OPTIONS.required}
+								v-model:value={record.required}
+							/>
+						)
 					}),
 					...defCol({
 						label: vm.$t("示例").label,
@@ -169,6 +136,7 @@ export const BodyParamsForm = defineComponent({
 			<>
 				<aButton class="width100 mb10" type="dashed" onClick={this.addRow}>
 					<xIcon icon="add" />
+					{/* {JSON.stringify(this.configs_table.dataSource, null, 2)} */}
 				</aButton>
 				<div style={{ height: "300px" }}>
 					<xVirTable configs={this.configs_table} class="flex1 width100 " />

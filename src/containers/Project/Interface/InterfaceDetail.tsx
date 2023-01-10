@@ -11,6 +11,24 @@ import { makeAhref } from "src/components/RouterView/RouterView";
 import copy from "copy-to-clipboard";
 import { asyncGetTuiEditor } from "../../../components/TuiEditor/LoadTuiEditorLibs";
 import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
+import { JsonSchemaMonaco } from "../../../components/JsonSchemaEditor/JsonSchemaMonaco";
+
+const colParamsName = defCol({
+	prop: "name",
+	label: State_UI.$t("参数名称").label,
+	width: "120px"
+});
+const colRemark = defCol({ prop: "desc", label: State_UI.$t("备注").label });
+const colRequired = defCol({
+	prop: "required",
+	label: State_UI.$t("是否必须").label,
+	width: "100px",
+	renderCell: ({ record }) => ITEM_OPTIONS_VDOM.required(record.required)
+});
+const colExample = defCol({
+	prop: "example",
+	label: State_UI.$t("示例").label
+});
 
 export const InterfaceDetail = defineComponent({
 	setup() {
@@ -24,18 +42,50 @@ export const InterfaceDetail = defineComponent({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
-					...defCol({ prop: "name", label: vm.$t("参数名称").label }),
+					...colParamsName,
 					...defCol({ prop: "example", label: vm.$t("示例").label }),
-					...defCol({ prop: "desc", label: vm.$t("备注").label })
+					...colRemark
 				}
 			}),
 			configs_table_headers: defDataGridOption({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
-					...defCol({ prop: "name", label: vm.$t("参数名称").label }),
-					...defCol({ prop: "example", label: vm.$t("示例").label }),
-					...defCol({ prop: "desc", label: vm.$t("备注").label })
+					...colRequired,
+					...colParamsName,
+					...defCol({
+						prop: "value",
+						label: vm.$t("参数值").label
+					}),
+					...colExample,
+					...colRemark
+				}
+			}),
+			configs_table_query: defDataGridOption({
+				isHidePagination: true,
+				dataSource: [],
+				columns: {
+					...colRequired,
+					...colParamsName,
+					...colExample,
+					...colRemark
+				}
+			}),
+			configs_table_body_form: defDataGridOption({
+				isHidePagination: true,
+				dataSource: [],
+				columns: {
+					...colRequired,
+					...colParamsName,
+					...defCol({
+						prop: "type",
+						label: vm.$t("参数类型").label,
+						width: "100px",
+						renderCell: ({ record }) =>
+							ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type)
+					}),
+					...colExample,
+					...colRemark
 				}
 			})
 		};
@@ -61,7 +111,26 @@ export const InterfaceDetail = defineComponent({
 			);
 			this.detailInfo = data;
 			xU(data);
-			this.configs_table_headers.dataSource = data.req_headers;
+			this.configs_table_headers.dataSource = xU.orderBy(
+				data.req_headers,
+				["required"],
+				["desc"]
+			);
+			this.configs_table_path_params.dataSource = xU.orderBy(
+				data.req_params,
+				["required"],
+				["desc"]
+			);
+			this.configs_table_query.dataSource = xU.orderBy(
+				data.req_query,
+				["required", "type"],
+				["desc", "asc"]
+			);
+			this.configs_table_body_form.dataSource = xU.orderBy(
+				data.req_body_form,
+				["required", "type"],
+				["desc", "asc"]
+			);
 		},
 		copyUrl(url) {
 			copy(url);
@@ -320,7 +389,12 @@ async ${xU.camelCase(path)}({params,data}) {
 							value: xU.find(ITEM_OPTIONS.trueOrFalse, { value: isProxy })
 								?.label
 						},
-						{ label: "转发环境", col: 2, value: this.labelProxyEnv }
+						{
+							label: "转发环境",
+							col: 2,
+							value: this.labelProxyEnv,
+							isHide: !isProxy
+						}
 					]
 				},
 				{
@@ -372,15 +446,6 @@ async ${xU.camelCase(path)}({params,data}) {
 					}
 				]);
 			}
-			if (desc) {
-				rowArray.push([
-					{
-						label: "备注",
-						col: 3,
-						value: desc
-					}
-				]);
-			}
 			return {
 				rowArray,
 				colLabelWidth: "220px"
@@ -418,19 +483,73 @@ async ${xU.camelCase(path)}({params,data}) {
 							</aCard>
 						)}
 						{vm.configs_table_headers.dataSource.length > 0 && (
-							<aCard title={vm.$t("Headers").label}>
-								<xDataGrid configs={vm.configs_table_headers} />
-							</aCard>
+							<>
+								<xGap t="10" />
+								<aCard title={vm.$t("Headers").label}>
+									<xDataGrid configs={vm.configs_table_headers} />
+								</aCard>
+							</>
 						)}
-						<xGap t="10" />
-						<aCard title="Query">
-							<h3>Query</h3>
-						</aCard>
+						{vm.configs_table_query.dataSource.length > 0 && (
+							<>
+								<xGap t="10" />
+								<aCard title={vm.$t("Query").label}>
+									<xDataGrid configs={vm.configs_table_query} />
+								</aCard>
+							</>
+						)}
+						{vm.detailInfo.req_body_type == "form" &&
+							vm.configs_table_body_form.dataSource.length > 0 && (
+								<>
+									<xGap t="10" />
+									<aCard title={vm.$t("Body").label}>
+										<xDataGrid configs={vm.configs_table_body_form} />
+									</aCard>
+								</>
+							)}
+						{vm.detailInfo.req_body_type == "json" &&
+							vm.detailInfo.req_body_other && (
+								<>
+									<xGap t="10" />
+									<aCard title={vm.$t("Body").label}>
+										<div style="height:300px;width:90%">
+											<JsonSchemaMonaco
+												v-model:schemaString={vm.detailInfo.req_body_other}
+												readOnly={true}
+											/>
+										</div>
+									</aCard>
+								</>
+							)}
+						{vm.detailInfo.req_body_type == "raw" &&
+							vm.detailInfo.req_body_other && (
+								<>
+									<xGap t="10" />
+									<aCard title={vm.$t("Body").label}>
+										<div style="height:300px;width:90%">
+											<MonacoEditor
+												language="json"
+												code={vm.detailInfo.req_body_other}
+												readOnly={true}
+											/>
+										</div>
+									</aCard>
+								</>
+							)}
 					</InfoCard>
-					<xGap t="20" />
-					<InfoCard title={"返回信息"}>
-						<aCard>返回信息</aCard>
-					</InfoCard>
+					{vm.detailInfo.res_body && (
+						<>
+							<xGap t="20" />
+							<InfoCard title={"返回信息"}>
+								<div style="height:300px;width:90%">
+									<JsonSchemaMonaco
+										v-model:schemaString={vm.detailInfo.res_body}
+										readOnly={true}
+									/>
+								</div>
+							</InfoCard>
+						</>
+					)}
 				</div>
 			</xView>
 		);

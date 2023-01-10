@@ -8,8 +8,7 @@ import { DialogBulkValues } from "./DialogBulkValues";
 
 export const BodyParamsPanel = defineComponent({
 	/* req_body_type */
-	props: ["reqBodyType", "reqBodyForm", "reqBodyOther", "reqBodyIsJsonSchema"],
-	emits: ["update:reqBodyForm", "update:reqBodyType"],
+	props: ["params"],
 	data(vm) {
 		return {
 			configsBodyType: defItem.item({
@@ -24,9 +23,9 @@ export const BodyParamsPanel = defineComponent({
 			UI.dialog.component({
 				title: this.$t("批量添加参数").label,
 				component: DialogBulkValues,
-				formValues: this.reqBodyForm,
+				formValues: this.params.req_body_form,
 				onOk: req_body_form => {
-					this.$emit("update:reqBodyForm", req_body_form);
+					this.params.req_body_form = req_body_form;
 				}
 			});
 		}
@@ -34,10 +33,10 @@ export const BodyParamsPanel = defineComponent({
 	computed: {
 		bodyType: {
 			get() {
-				return this.reqBodyType;
+				return this.params.req_body_type;
 			},
 			set(type) {
-				this.$emit("update:reqBodyType", type);
+				this.params.req_body_type = type;
 			}
 		}
 	},
@@ -48,7 +47,7 @@ export const BodyParamsPanel = defineComponent({
 					extra: () => {
 						if (
 							xU.find(ITEM_OPTIONS.interfaceBodyType, {
-								value: this.reqBodyType
+								value: this.params.req_body_type
 							})?.isForm
 						) {
 							return <a onClick={this.openBulkValuesDialog}>批量添加</a>;
@@ -59,25 +58,31 @@ export const BodyParamsPanel = defineComponent({
 						/* 类型选择 */
 						return (
 							<>
-								<xItem v-model={this.bodyType} configs={this.configsBodyType} />
+								<xItem
+									v-model={this.params.req_body_type}
+									configs={this.configsBodyType}
+								/>
 							</>
 						);
 					},
 					default: () => {
 						return (
 							<>
-								{this.reqBodyType == "form" ? (
-									<BodyParamsForm reqBodyForm={this.reqBodyForm} />
+								{/* {JSON.stringify(this.params.req_body_other)} */}
+								{this.params.req_body_type == "form" ? (
+									<BodyParamsForm reqBodyForm={this.params.req_body_form} />
 								) : null}
-								{this.reqBodyType == "json" ? (
+								{this.params.req_body_type == "json" ? (
 									<BodyParamsJson
-										reqBodyIsJsonSchema={this.reqBodyIsJsonSchema}
-										reqBodyOther={this.reqBodyOther}
+										reqBodyIsJsonSchema={this.params.req_body_is_json_schema}
+										v-model:reqBodyOther={this.params.req_body_other}
 									/>
 								) : null}
-								{this.reqBodyType == "file" ? "开发中......" : null}
-								{this.reqBodyType == "raw" ? (
-									<BodyParamsRaw reqBodyOther={this.reqBodyOther} />
+								{this.params.req_body_type == "file" ? "开发中......" : null}
+								{this.params.req_body_type == "raw" ? (
+									<BodyParamsRaw
+										v-model:reqBodyOther={this.params.req_body_other}
+									/>
 								) : null}
 							</>
 						);

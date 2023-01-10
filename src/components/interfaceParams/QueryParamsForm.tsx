@@ -103,23 +103,12 @@ export const QueryParamsForm = defineComponent({
 						width: "110px",
 						renderCell: ({ record }) =>
 							ITEM_OPTIONS_VDOM.required(record.required),
-						renderEditor: ({ record }) => {
-							return compileVNode(
-								`<xItem :configs="configs" v-model="record.required" />`,
-								() => {
-									return {
-										record,
-										configs: reactive(
-											defItem.item({
-												itemType: "Select",
-												itemWrapperClass: "input-width100",
-												options: ITEM_OPTIONS.required
-											})
-										)
-									};
-								}
-							);
-						}
+						renderEditor: ({ record }) => (
+							<aSelect
+								options={ITEM_OPTIONS.required}
+								v-model:value={record.required}
+							/>
+						)
 					}),
 					...defCol({
 						label: vm.$t("示例").label,
