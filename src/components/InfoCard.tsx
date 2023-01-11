@@ -6,6 +6,9 @@ const { useScopeStyle } = compositionAPI;
 export const InfoCardCol = defineComponent({
 	props: ["col"],
 	computed: {
+		isHide() {
+			return this.col.isHide || false;
+		},
 		styleLabel() {
 			return {};
 		},
@@ -17,6 +20,10 @@ export const InfoCardCol = defineComponent({
 		}
 	},
 	render() {
+		if (this.isHide) {
+			return null;
+		}
+
 		return (
 			<>
 				<div class="ant-descriptions-item-label" style={this.styleLabel}>

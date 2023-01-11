@@ -73,9 +73,9 @@ export const xItem = defineComponent({
 					/* 双向绑定 */
 					emit("update:modelValue", val);
 					/* @ts-ignore */
-					if (xU.isFunction(configs.onAfterValueEmit)) {
+					if (xU.isFunction(listeners.onAfterValueEmit)) {
 						/* @ts-ignore */
-						configs.onAfterValueEmit(val);
+						listeners.onAfterValueEmit(val);
 					}
 					/* TODO: rule检测*/
 					triggerValidate(EVENT_TYPE.update);

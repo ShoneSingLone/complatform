@@ -237,7 +237,7 @@ export const SchemaEditor = defineComponent({
 				/* root添加属性 */
 
 				if (type === "object") {
-					targetValues.children;
+					delete targetValues.children;
 				}
 
 				/* 非root */

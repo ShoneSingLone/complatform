@@ -46,7 +46,7 @@ export const DialogModifyInterface = defineComponent({
 			if (xU.isArrayFill(this.dataXItem.pathParams.value)) {
 				return (
 					<>
-						{JSON.stringify(this.dataXItem.pathParams.value, null, 2)}
+						{/* {JSON.stringify(this.dataXItem.pathParams.value, null, 2)} */}
 						<xGap t="10" />
 						<xItem configs={this.dataXItem.pathParams} />
 					</>
@@ -434,13 +434,15 @@ export const DialogModifyInterface = defineComponent({
 			let haveContentType = false;
 
 			if (_formData.req_body_type === "form") {
-				_formData.req_body_form.forEach(item => {
+				xU.each(_formData.req_body_form, item => {
+					delete item._id;
 					if (item.type === "file") {
 						isFile = true;
 					}
 				});
 
-				_formData.req_headers.map(item => {
+				xU.each(_formData.req_headers, item => {
+					delete item._id;
 					if (item.name === "Content-Type") {
 						item.value = isFile
 							? "multipart/form-data"
@@ -459,7 +461,8 @@ export const DialogModifyInterface = defineComponent({
 				}
 			} else if (_formData.req_body_type === "json") {
 				_formData.req_headers
-					? _formData.req_headers.map(item => {
+					? xU.each(_formData.req_headers, item => {
+							delete item._id;
 							if (item.name === "Content-Type") {
 								item.value = "application/json";
 								haveContentType = true;
@@ -488,9 +491,10 @@ export const DialogModifyInterface = defineComponent({
 			_formData.req_params = _formData.req_params
 				? _formData.req_params.filter(itemFill)
 				: [];
-			_formData.req_query = _formData.req_query
-				? _formData.req_query.filter(itemFill)
-				: [];
+			_formData.req_query = xU.filter(_formData.req_query, itemFill).map(i => {
+				delete i._id;
+				return i;
+			});
 
 			if (HTTP_METHOD[_formData.method].request_body !== true) {
 				_formData.req_body_form = [];
@@ -575,6 +579,7 @@ export const DialogModifyInterface = defineComponent({
 							</div>
 							{/* 请求参数 */}
 							<xGap t="10" />
+							{/* {JSON.stringify(this.dataXItem.requestArgs.value, null, 2)} */}
 							<xItem configs={this.dataXItem.requestArgs} />
 							{/* 响应参数  */}
 							<xGap t="10" />

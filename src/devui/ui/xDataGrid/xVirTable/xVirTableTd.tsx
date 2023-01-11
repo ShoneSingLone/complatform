@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { defineComponent, inject } from "vue";
 import $ from "jquery";
 
 $(window).on("click.virTableTdId", function (e) {
@@ -22,7 +22,26 @@ $(window).on("click.virTableTdId", function (e) {
 
 export const xVirTableTd = defineComponent({
 	props: ["column", "data"],
+	emits: ["update:data"],
+	setup() {
+		return {
+			configs: inject("configs")
+		};
+	},
 	computed: {
+		record() {
+			const vm = this;
+			return new Proxy(vm.data, {
+				get(obj, prop) {
+					return vm.data[prop];
+				},
+				set(obj, prop, val) {
+					vm.data[prop] = val;
+					vm.configs.dataSource[vm.data.__virRowIndex][prop] = val;
+					return true;
+				}
+			});
+		},
 		id() {
 			return `virTableTdId_${this._.uid}`;
 		},
@@ -43,52 +62,12 @@ export const xVirTableTd = defineComponent({
 				return this.column?.renderCell;
 			}
 			return false;
-		},
-		vDomCellContent() {
-			/* 同时有editor 和 render 根据focus 判断展示 */
-			if (this.renderEditor && this.renderCell) {
-				if (this.isFocus) {
-					return this.renderEditor({
-						record: this.data,
-						cell: this.cell,
-						index: this.data.__virRowIndex
-					});
-				} else {
-					return this.renderCell({
-						record: this.data,
-						cell: this.cell,
-						index: this.data.__virRowIndex
-					});
-				}
-			}
-			/* 只有render */
-			if (!this.renderEditor && this.renderCell) {
-				return this.renderCell({
-					record: this.data,
-					cell: this.cell,
-					index: this.data.__virRowIndex
-				});
-			}
-
-			/* 只有 editor */
-			if (this.renderEditor && !this.renderCell) {
-				if (this.isFocus) {
-					return this.renderEditor({
-						record: this.data,
-						cell: this.cell,
-						index: this.data.__virRowIndex
-					});
-				} else {
-					return this.cell;
-				}
-			}
-
-			return this.cell;
 		}
 	},
 	data(vm) {
 		return {
-			isFocus: false
+			isFocus: false,
+			count: 0
 		};
 	},
 	methods: {
@@ -123,9 +102,53 @@ export const xVirTableTd = defineComponent({
 				ref="cell"
 				role="td"
 				class="xVirTable-cell"
+				data-count={this.count}
 				data-prop={this.prop}
 				data-row-index={this.data.__virRowIndex}>
-				{this.vDomCellContent}
+				{(() => {
+					/* 同时有editor 和 render 根据focus 判断展示 */
+					if (this.renderEditor && this.renderCell) {
+						if (this.isFocus) {
+							return this.renderEditor({
+								configs: this.configs,
+								record: this.record,
+								cell: this.cell,
+								index: this.data.__virRowIndex
+							});
+						} else {
+							return this.renderCell({
+								configs: this.configs,
+								record: this.record,
+								cell: this.cell,
+								index: this.data.__virRowIndex
+							});
+						}
+					}
+					/* 只有render */
+					if (!this.renderEditor && this.renderCell) {
+						return this.renderCell({
+							configs: this.configs,
+							record: this.record,
+							cell: this.cell,
+							index: this.data.__virRowIndex
+						});
+					}
+
+					/* 只有 editor */
+					if (this.renderEditor && !this.renderCell) {
+						if (this.isFocus) {
+							return this.renderEditor({
+								configs: this.configs,
+								record: this.record,
+								cell: this.cell,
+								index: this.data.__virRowIndex
+							});
+						} else {
+							return this.cell;
+						}
+					}
+					return this.cell;
+				})()}
 			</div>
 		);
 	}
