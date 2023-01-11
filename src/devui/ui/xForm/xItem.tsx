@@ -258,17 +258,6 @@ export const xItem = defineComponent({
 				this.setProperties();
 			}
 		},
-		Cpt_isDisabled: {
-			immediate: true,
-			handler() {
-				/* disabled */
-				if (this.Cpt_isDisabled) {
-					this.properties.disabled = true;
-				} else {
-					delete this.properties.disabled;
-				}
-			}
-		},
 		"configs.value": {
 			handler() {
 				this.updateValue();
@@ -434,7 +423,7 @@ export const xItem = defineComponent({
 				<div class="ant-form-item-control" type={this.itemTypeName}>
 					<CurrentXItem
 						propsWillDeleteFromConfigs={this.propsWillDeleteFromConfigs}
-						properties={this.properties}
+						properties={{ ...this.properties, disabled: this.Cpt_isDisabled }}
 						listeners={this.listeners}
 						slots={this.itemSlots}
 					/>

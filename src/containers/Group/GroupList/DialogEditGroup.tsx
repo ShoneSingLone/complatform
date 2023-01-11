@@ -101,7 +101,7 @@ export const DialogEditGroup = defineComponent({
 		/* {JSON.stringify(pickValueFrom(this.formItems))} */
 		return (
 			<>
-				<div class="padding20 flex1">
+				<div class="padding20 flex1 overflow-auto">
 					<aCard>
 						<xForm
 							class="flex vertical"
