@@ -36,7 +36,7 @@ export const TIPS_TYPE = {
  * @param {*} configsForm
  * @returns
  */
-export async function validateForm(configsForm, valuesCollection) {
+export async function validateForm(configsForm, valuesCollection?: Object) {
 	let propsArray = Object.keys(configsForm);
 	/* 如果提供 数据集，则以数据集的数据为校验对象 */
 	if (valuesCollection) {
