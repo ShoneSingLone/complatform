@@ -53,7 +53,7 @@ import { DemoXFormWithForm } from "./DemoXFormWithForm.tsx";
 
 const { xItem } = components;
 
-const { $t } = State_UI;
+import { $t } from "@ventose/ui";
 
 export default {
 	components: {

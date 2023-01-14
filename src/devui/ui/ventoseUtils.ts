@@ -1,18 +1,15 @@
 import { LoDashStatic } from "lodash";
-import * as _ from "lodash";
+import _ from "lodash";
 /* @ts-ignore */
-import * as dayjs from "dayjs";
-import * as $ from "jquery";
+import dayjs from "dayjs";
+import $ from "jquery";
 import { iStorage } from "./tools/storage";
+import { State_UI } from "./";
 
 /* 组件属性是否是on开头，组件的事件监听*/
 const onRE = /^on[^a-z]/;
 
 const VueComponents: any = {};
-/* @ts-ignore */
-const isDevMode =
-	/* @ts-ignore */
-	localStorage.___VENTOSE_UI_IS_DEV_MODE === "VENTOSE_UI_IS_DEV_MODE";
 
 const privateLodash = {
 	WORDS: {
@@ -385,7 +382,7 @@ const privateLodash = {
 	asyncLoadText: async function (url: string) {
 		/* 在开发模式下App.vue 会设置这个对象 */
 		/* @ts-ignore */
-		if (!isDevMode) {
+		if (!State_UI.isDev) {
 			const res = await iStorage(url);
 			if (res) {
 				return res;
@@ -401,7 +398,7 @@ const privateLodash = {
 				dataType: "text",
 				success(...args) {
 					/* @ts-ignore */
-					if (!isDevMode) {
+					if (!State_UI.isDev) {
 						iStorage(url, args[0]);
 					}
 					/* @ts-ignore */
@@ -642,7 +639,7 @@ export const xU: t_all_lodash_and_mine = new Proxy(
 	/* @ts-ignore */
 	function (...args: any[]) {
 		/* @ts-ignore */
-		if (isDevMode) {
+		if (State_UI.isDev) {
 			try {
 				throw new Error("");
 			} catch (error: any) {

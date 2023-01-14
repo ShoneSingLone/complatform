@@ -7,6 +7,24 @@ import "dayjs/locale/en-au";
 import { lStorage } from "./tools/storage";
 import { xU } from "./ventoseUtils";
 
+/*i18n  使用 {变量名} 赋值 */
+export function $t(prop, payload = {}, i18nMessage = false) {
+	/* this指向 */
+	const result = { label: prop, prop: prop };
+	xU.templateSettings.interpolate = /{([\s\S]+?)}/g;
+	if (State_UI.i18nMessage) {
+		const temp = i18nMessage ? i18nMessage[prop] : State_UI.i18nMessage[prop];
+		if (temp) {
+			result.label = xU.template(temp)(payload);
+			if (!result.label) {
+				result.label = prop;
+				console.error(`i18n:${prop} "NOT_FOUND"`);
+			}
+		}
+	}
+	return result;
+}
+
 /* 可以与外部通信，可以增改 */
 
 let _State_UI = {
@@ -31,22 +49,14 @@ let _State_UI = {
 			this.bashPath = src.substring(0, index);
 		}
 	},
-	/*i18n  使用 {变量名} 赋值 */
-	$t(prop, payload = {}, i18nMessage = false) {
-		/* this指向 */
-		const result = { label: prop, prop: prop };
-		xU.templateSettings.interpolate = /{([\s\S]+?)}/g;
-		if (State_UI.i18nMessage) {
-			const temp = i18nMessage ? i18nMessage[prop] : State_UI.i18nMessage[prop];
-			if (temp) {
-				result.label = xU.template(temp)(payload);
-				if (!result.label) {
-					result.label = prop;
-					console.error(`i18n:${prop} "NOT_FOUND"`);
-				}
-			}
+	$t,
+	isDev: localStorage.___VENTOSE_UI_IS_DEV_MODE === "VENTOSE_UI_IS_DEV_MODE",
+	dev(isDev) {
+		if (isDev) {
+			localStorage.___VENTOSE_UI_IS_DEV_MODE = "VENTOSE_UI_IS_DEV_MODE";
+		} else {
+			localStorage.removeItem("___VENTOSE_UI_IS_DEV_MODE");
 		}
-		return result;
 	}
 };
 

@@ -1,5 +1,6 @@
 import { xU } from "../ventoseUtils";
-import { get as idbGet, set as idbSet } from "idb-keyval";
+import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
+/* keys().then((keys) => console.log(keys)); */
 
 export const lStorage = new Proxy(localStorage, {
 	set(_localStorage, prop: string, value) {
@@ -23,6 +24,12 @@ export const lStorage = new Proxy(localStorage, {
 	}
 });
 
+if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
+	clear();
+	lStorage.__APP_VERSION = window.__APP_VERSION || Date.now();
+	/* keys().then((keys) => console.log(keys)); */
+}
+
 lStorage.appConfigs = lStorage.appConfigs || {
 	pagination: {
 		page: "page",
@@ -37,16 +44,20 @@ lStorage.appConfigs = lStorage.appConfigs || {
  * @param val 存在即set，不存在即get
  * @returns
  */
-export const iStorage = async (key: string, val?: any) => {
+export const iStorage = async function (key: string, val?: any) {
 	const keyPrefix = window.location.hostname;
 	key = xU.camelCase(keyPrefix + key);
 	let res;
 	try {
 		if (xU.isInput(val)) {
-			await idbSet(key, val);
+			await idbSet(key, String(val));
 			res = true;
+			/* console.log("set", key, res) */
 		} else {
 			res = await idbGet(key);
+			if (!res) {
+				console.log("get", key, res);
+			}
 		}
 	} catch (error) {
 		console.error(error);
@@ -54,3 +65,5 @@ export const iStorage = async (key: string, val?: any) => {
 		return res;
 	}
 };
+
+iStorage.clear = clear;

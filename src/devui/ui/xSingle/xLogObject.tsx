@@ -1,5 +1,6 @@
 import { defineComponent } from "vue";
 import { xU } from "../ventoseUtils";
+import { State_UI } from "../State_UI";
 
 export const xLogObject = defineComponent({
 	name: "xLogObject",
@@ -17,10 +18,8 @@ export const xLogObject = defineComponent({
 		}
 	},
 	render() {
-		if (
-			localStorage.___VENTOSE_UI_IS_DEV_MODE !== "VENTOSE_UI_IS_DEV_MODE" ||
-			this.$attrs.hide
-		) {
+		/* 只在开发模式有需要的情况下使用 */
+		if (!State_UI.isDev || this.$attrs.hide) {
 			return null;
 		} else {
 			return (

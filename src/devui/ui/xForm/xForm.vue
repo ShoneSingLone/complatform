@@ -6,6 +6,10 @@ import $ from "jquery";
 export default defineComponent({
 	name: "xForm",
 	props: {
+		col: {
+			type: Number,
+			default: 1
+		},
 		labelStyle: {
 			type: Object,
 			default() {
@@ -31,8 +35,10 @@ export default defineComponent({
 				.join(";");
 		},
 		styleContent() {
-			return `#${this.xFormId} { width:100%; padding:0 16px; }
- #${this.xFormId} div.ant-form-item-label { ${this.labelStyleText} }`;
+			return [
+				`#${this.xFormId} { width:100%; padding:0 16px; display: grid;grid-template-columns: repeat(${this.col},1fr);}`,
+				`#${this.xFormId} div.ant-form-item-label { ${this.labelStyleText} }`
+			].join("\n");
 		}
 	},
 	mounted() {

@@ -25,7 +25,7 @@ import {
 	xVirTable
 } from "./xDataGrid/xVirTable/xVirTable";
 import { xU } from "./ventoseUtils";
-import { Cpt_UI_locale, State_UI } from "./State_UI";
+import { Cpt_UI_locale, State_UI, $t } from "./State_UI";
 import dayjs from "dayjs";
 import { FormRules, RegexFn } from "./xForm/FormRules";
 import { installUIDialogComponent } from "./xSingle/dialog/dialog";
@@ -94,6 +94,7 @@ export { UI as UI };
 export { dayjs as moment };
 export { dayjs as dayjs };
 export { xU as xU };
+export { xU as _ };
 export { $ as $ };
 export { defPagination as defPagination };
 export { defCol as defCol };
@@ -104,6 +105,7 @@ export { defXVirTableConfigs as defXVirTableConfigs };
 export { setDataGridInfo as setDataGridInfo };
 /* State_UI作为句柄，与外部通信，$t language 等属性 */
 export { State_UI as State_UI };
+export { $t as $t };
 export { Cpt_UI_locale as Cpt_UI_locale };
 export { lStorage as lStorage };
 export { iStorage as iStorage };

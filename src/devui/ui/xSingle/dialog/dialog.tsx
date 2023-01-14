@@ -18,6 +18,7 @@ const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 }, 100);
 
 export type t_dialogOptions = {
+	payload?: any;
 	isEcsCloseDialog?: boolean;
 	/* 传入的组件的实例 */
 	_contentInstance?: object;

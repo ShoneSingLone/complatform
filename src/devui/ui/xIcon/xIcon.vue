@@ -11,6 +11,8 @@ import InsideSearchOutlined from "../../assets/svg/SearchOutlined.svg";
 import InsideSyncOutlined from "../../assets/svg/SyncOutlined.svg";
 import InsideUploadOutlined from "../../assets/svg/UploadOutlined.svg";
 import Insidetips from "../../assets/svg/tips.svg";
+import InsideEmpty from "../../assets/svg/empty.svg";
+import insideSettingOutlined from "../../assets/svg/SettingOutlined.svg";
 import { iStorage } from "../tools/storage";
 
 /* const icons = import.meta.glob("../../assets/svg/*.svg"); */
@@ -22,7 +24,9 @@ const insideIcons = {
 	InsideSearchOutlined,
 	InsideSyncOutlined,
 	InsideUploadOutlined,
-	Insidetips
+	Insidetips,
+	InsideEmpty,
+	insideSettingOutlined
 };
 
 export default defineComponent(
@@ -53,7 +57,6 @@ export default defineComponent(
 			},
 			async setIcon() {
 				if (!this.icon) return;
-
 				try {
 					let SvgIconAny = await (async () => {
 						/* 已缓存为组件 */
@@ -80,10 +83,12 @@ export default defineComponent(
 						};
 						/* indexedDB 缓存 字符串*/
 						await iStorage(this.iconKey, SvgIconAny);
+
 						/* 内存 缓存 */
 						insideIcons[this.icon] = SvgComponentByString;
 						this.svgIcon = <SvgComponentByString {...this.baseAttrs} />;
 					} else if (SvgIconAny?.render || SvgIconAny?.template) {
+						/* SvgIconAny是loader处理过的 */
 						this.svgIcon = <SvgIconAny {...this.baseAttrs} />;
 					} else {
 						console.error("component xIcon miss svg: " + this.icon);

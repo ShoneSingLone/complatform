@@ -1,85 +1,85 @@
-import {defineConfig, searchForWorkspaceRoot} from "vite";
+import { defineConfig, searchForWorkspaceRoot } from "vite";
 import useVue from "@vitejs/plugin-vue";
 import useVueJsx from "@vitejs/plugin-vue-jsx";
-import {injectHtml} from "vite-plugin-html";
+import { injectHtml } from "vite-plugin-html";
 import path from "path";
-import {YAPI_TARGET_HOST} from "D://./privateConfigs.js";
+import { YAPI_TARGET_HOST } from "D://./privateConfigs.js";
 import svgHelper from "./preprocess/plugins/svg";
-import {visualizer} from "rollup-plugin-visualizer";
+import { visualizer } from "rollup-plugin-visualizer";
 
 const __APP_VERSION = Date.now().toString();
 
 const isBuildLibTui = process.env.type === "lib:tui";
 
 const appOptions = {
-    esbuild: {
-        jsxFactory: "h",
-        jsxFragment: "Fragment"
-    },
-    base: "./",
-    server: {
-        https: false,
-        fs: {
-            allow: [searchForWorkspaceRoot(process.cwd())]
-        },
-        proxy: {
-            "^/api": {
-                target: YAPI_TARGET_HOST,
-                changeOrigin: true,
-                secure: false,
-                ws: true,
-                rewrite: path => path.replace(/^\/api/, "/api")
-            }
-        }
-    },
-    build: {
-        /* 没有混缩 */
-        minify: false,
-        assetsInlineLimit: 512,
-        cssCodeSplit: true,
-        sourcemap: true,
-        manifest: true
-    },
-    plugins: [
-        useVue(),
-        useVueJsx(),
-        svgHelper(),
-        visualizer(),
-        injectHtml({
-            /* windows平台 */
-            data: (() => {
-                return {
-                    version: __APP_VERSION
-                };
-            })()
-        })
-    ],
-    resolve: {
-        alias: {
-            src: path.resolve(__dirname, "./src"),
-            "@": path.resolve(__dirname, "./src"),
-            /* 开发的时候用，不用每次修改之后都发布到npm */
-            "@ventose/ui": path.resolve(__dirname, "./src/devui/ui/index.tsx"),
-            vue: "vue/dist/vue.esm-bundler.js"
-        }
-    }
+	esbuild: {
+		jsxFactory: "h",
+		jsxFragment: "Fragment"
+	},
+	base: "./",
+	server: {
+		https: false,
+		fs: {
+			allow: [searchForWorkspaceRoot(process.cwd())]
+		},
+		proxy: {
+			"^/api": {
+				target: YAPI_TARGET_HOST,
+				changeOrigin: true,
+				secure: false,
+				ws: true,
+				rewrite: path => path.replace(/^\/api/, "/api")
+			}
+		}
+	},
+	build: {
+		/* 没有混缩 */
+		minify: false,
+		assetsInlineLimit: 512,
+		cssCodeSplit: true,
+		sourcemap: true,
+		manifest: true
+	},
+	plugins: [
+		useVue(),
+		useVueJsx(),
+		svgHelper(),
+		visualizer(),
+		injectHtml({
+			/* windows平台 */
+			data: (() => {
+				return {
+					version: __APP_VERSION
+				};
+			})()
+		})
+	],
+	resolve: {
+		alias: {
+			src: path.resolve(__dirname, "./src"),
+			"@": path.resolve(__dirname, "./src"),
+			/* 开发的时候用，不用每次修改之后都发布到npm */
+			"@ventose/ui": path.resolve(__dirname, "./src/devui/ui/index.tsx"),
+			vue: "vue/dist/vue.esm-bundler.js"
+		}
+	}
 };
 
 if (isBuildLibTui) {
-    appOptions.build = {
-        minify: true,
-        cssCodeSplit: false,
-        outDir: "public/tui-editor",
-        lib: {
-            formats: ["iife"],
-            entry: path.resolve(
-                __dirname,
-                "src/components/TuiEditor/tuiEditorLibs.ts"
-            ),
-            name: "TuiEditor",
-            fileName: () => `tui.js`
-        }
-    };
+	appOptions.build = {
+		minify: true,
+		cssCodeSplit: false,
+		outDir: "public/tui-editor",
+		lib: {
+			formats: ["iife"],
+			entry: path.resolve(
+				__dirname,
+				"src/components/TuiEditor/tuiEditorLibs.ts"
+			),
+			name: "TuiEditor",
+			fileName: () => `tui.js`
+		}
+	};
 }
 
 // https://vitejs.dev/config/
