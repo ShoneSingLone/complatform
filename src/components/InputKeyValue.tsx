@@ -84,10 +84,10 @@ export const InputKeyValue = defineComponent({
 			const vm = this;
 			if (xU.isArrayFill(items)) {
 				let index = 1;
-				this.privateItems = xU.reduce(
+				vm.privateItems = xU.reduce(
 					items,
 					(_items, tag) => {
-						_items[index] = this.genItem({
+						_items[index] = vm.genItem({
 							...tag,
 							index
 						});
@@ -97,7 +97,7 @@ export const InputKeyValue = defineComponent({
 					{}
 				);
 			} else {
-				this.privateItems = { 0: this.genItem({ index: 0 }) };
+				vm.privateItems = { 0: vm.genItem({ index: 0 }) };
 			}
 		},
 		checkFormDataDebounce: xU.debounce(function () {

@@ -4,7 +4,7 @@ import { RequestArgsPanel } from "src/components/RequestArgsPanel";
 import { ResponsePanel } from "src/components/ResponsePanel";
 import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 import { $, State_UI, UI, xU, compileVNode, defItem } from "@ventose/ui";
-import { defineComponent, h, reactive } from "vue";
+import { defineComponent, h, markRaw, reactive } from "vue";
 
 export async function openProxyEnvDialog() {
 	const { _layerKey } = await UI.dialog.component({
@@ -154,7 +154,7 @@ export const TagSelectRender = defineComponent({
 	}
 });
 
-export const RequestArgsRender = defineComponent({
+export const RequestArgsRender = markRaw(defineComponent({
 	__v_skip: true,
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	render() {
@@ -166,7 +166,7 @@ export const RequestArgsRender = defineComponent({
 			/>
 		);
 	}
-});
+}));
 
 export const MarkdownRender = defineComponent({
 	__v_skip: true,

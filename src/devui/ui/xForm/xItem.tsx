@@ -289,7 +289,7 @@ export const xItem = defineComponent({
 	created() {
 		const vm = this;
 		vm.configs.FormItemId = vm.FormItemId;
-		/*似乎Vue3 用的是类方法不是实例方法，类方法用 debounce 只会执行最后一个*/
+		/*似乎Vue3 用的是类方法不是实例方法，同一种组件，类方法用 debounce 只会执行最后一个*/
 		(() => {
 			vm.updateValue = xU.debounce(function () {
 				/* modelValue configs.value configs.defaultValue */

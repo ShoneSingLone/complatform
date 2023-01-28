@@ -198,7 +198,7 @@ export const DialogModifyInterface = defineComponent({
 					prop: "pathParams",
 					label: vm.$t("接口路径参数").label,
 					value: [],
-					itemType: markRaw(InpterfacePathParams)
+					itemType: (InpterfacePathParams)
 				}),
 				...defItem({
 					prop: "tag",
@@ -208,7 +208,7 @@ export const DialogModifyInterface = defineComponent({
 					async setOptions(tagArray) {
 						this.options = tagArray;
 					},
-					itemType: markRaw(TagSelectRender)
+					itemType: (TagSelectRender)
 				}),
 				...defItem({
 					prop: "isProxy",
@@ -233,7 +233,7 @@ export const DialogModifyInterface = defineComponent({
 							};
 						});
 					},
-					itemType: markRaw(EnvSelectRender)
+					itemType: (EnvSelectRender)
 				}),
 				...defItem({
 					prop: "requestArgs",
@@ -241,7 +241,7 @@ export const DialogModifyInterface = defineComponent({
 					value: [],
 					activeKey: "1",
 					deepWatch: { apiMethod: "" },
-					itemType: markRaw(RequestArgsRender)
+					itemType: (RequestArgsRender)
 				}),
 				...defItem({
 					prop: "responseArgs",
@@ -249,13 +249,13 @@ export const DialogModifyInterface = defineComponent({
 					value: {},
 					activeKey: "1",
 					apiMethod: "",
-					itemType: markRaw(ResponseRender)
+					itemType: (ResponseRender)
 				}),
 				...defItem({
 					prop: "remark",
 					label: vm.$t("备注").label,
 					value: { html: "", md: "" },
-					itemType: markRaw(MarkdownRender)
+					itemType: (MarkdownRender)
 				}),
 				...defItem({
 					prop: "noticed",
@@ -462,12 +462,12 @@ export const DialogModifyInterface = defineComponent({
 			} else if (_formData.req_body_type === "json") {
 				_formData.req_headers
 					? xU.each(_formData.req_headers, item => {
-							delete item._id;
-							if (item.name === "Content-Type") {
-								item.value = "application/json";
-								haveContentType = true;
-							}
-					  })
+						delete item._id;
+						if (item.name === "Content-Type") {
+							item.value = "application/json";
+							haveContentType = true;
+						}
+					})
 					: [];
 
 				if (haveContentType === false) {

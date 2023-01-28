@@ -208,7 +208,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 											_id: i._id
 										});
 										this.privateEnv.splice(envIndex, 1);
-									} catch (error) {}
+									} catch (error) { }
 								};
 							}
 							return async () => this.deleteEnv(i);
@@ -310,7 +310,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
-				} catch (e) {}
+				} catch (e) { }
 			} else {
 				continu();
 			}
@@ -419,7 +419,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				});
 				UI.message.success(this.$t("环境设置成功").label);
 				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
-			} catch (error) {}
+			} catch (error) { }
 		}
 	},
 	render() {
@@ -457,13 +457,8 @@ const KeyValuePanel = args => {
 		listeners["onUpdate:value"](val);
 	};
 	return (
-		<div class="ant-card ant-card-bordered">
-			<InputKeyValue
-				items={properties.value}
-				onUpdate:items={fnUpdate}
-				genItem={properties.genItem}
-				fnCheck={properties.fnCheck}
-			/>
+		<div class="ant-card ant-card-bordered" style="padding:10px">
+			<InputKeyValue items={properties.value} onUpdate:items={fnUpdate} genItem={properties.genItem} fnCheck={properties.fnCheck} />
 		</div>
 	);
 };
