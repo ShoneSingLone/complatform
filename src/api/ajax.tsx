@@ -10,6 +10,7 @@ const ajax = axios.create({
 // request interceptor
 ajax.interceptors.request.use(
 	config => {
+		config.url = `${State_App.baseURL}${config.url}`;
 		if (config.data) {
 			xU.each(["name"], prop => {
 				if (config.data[prop]) {

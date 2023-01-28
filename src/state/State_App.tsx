@@ -1,5 +1,5 @@
-import { reactive, watch, computed } from "vue";
-import { lStorage, setCSSVariables, UI, xU, State_UI } from "@ventose/ui";
+import { reactive, watch } from "vue";
+import { lStorage, UI, xU, State_UI } from "@ventose/ui";
 import { Cpt_url } from "./../router/router";
 import { API } from "./../api";
 
@@ -10,6 +10,7 @@ const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
 
 let _State_App = {
+	baseURL: `http://localhost:3001`,
 	isFooterFold: false,
 	urlHash: window.location.hash,
 	user: {
