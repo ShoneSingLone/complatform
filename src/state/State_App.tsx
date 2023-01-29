@@ -185,18 +185,18 @@ export const Methods_App = {
 			console.error(error);
 		}
 	},
-	async fetchInterfaceListMenu() { },
+	async fetchInterfaceListMenu() {},
 	async fetchProjectList(groupId) {
 		if (!groupId) return;
 		groupId = Number(groupId);
 		const { data } = await API.project.list(groupId);
 		_State_App.projectList = data.list;
-		console.log("State_App.projectList", _State_App.projectList);
+		xU("State_App.projectList", _State_App.projectList);
 	},
-	getProject() { },
-	async changeMenuItem() { },
-	async loginActions() { },
-	async loginLdapActions() { },
+	getProject() {},
+	async changeMenuItem() {},
+	async loginActions() {},
+	async loginLdapActions() {},
 	async fetchGroupMemberList(groupId) {
 		const { data: member } = await API.group.getMemberListBy(groupId);
 		_State_App.currGroup.member = member;
@@ -211,13 +211,13 @@ export const Methods_App = {
 	async changeMemberRole(data) {
 		return API.group.changeMemberRole(data);
 	},
-	async fetchMoreNews() { },
-	async fetchInterfaceList() { },
-	async addProject() { },
-	async delProject() { },
-	async changeUpdateModal() { },
-	checkProjectName() { },
-	loginTypeAction() { }
+	async fetchMoreNews() {},
+	async fetchInterfaceList() {},
+	async addProject() {},
+	async delProject() {},
+	async changeUpdateModal() {},
+	checkProjectName() {},
+	loginTypeAction() {}
 };
 
 /* 有关全局的状态，变动 */

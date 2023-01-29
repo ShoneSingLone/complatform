@@ -715,8 +715,7 @@ class ClassLayer {
 		const fnValid = i => !!i;
 
 		const layerWrapperClassname = [
-			"flex vertical",
-			"elevation-4",
+			"flex vertical elevation-2",
 			`layui-layer-${typeName}`,
 			LAYUI_LAYER,
 			config.skin,

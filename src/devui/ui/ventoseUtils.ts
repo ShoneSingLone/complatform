@@ -4,7 +4,7 @@ import _ from "lodash";
 import dayjs from "dayjs";
 import $ from "jquery";
 import { iStorage } from "./tools/storage";
-import { State_UI } from "./";
+import { State_UI } from ".";
 
 /* 组件属性是否是on开头，组件的事件监听*/
 const onRE = /^on[^a-z]/;
@@ -296,7 +296,7 @@ const privateLodash = {
 		try {
 			val = JSON.parse(JSON.stringify(val));
 		} catch (error) {
-			console.log(val, "JSON.parse failed");
+			xU(val, "JSON.parse failed");
 		}
 		if (val === 0) {
 			return true;
@@ -633,7 +633,8 @@ const privateLodash = {
 	}
 };
 
-type t_all_lodash_and_mine = typeof privateLodash & LoDashStatic;
+type xUFunction = (...args: any[]) => void;
+type t_all_lodash_and_mine = xUFunction & LoDashStatic & typeof privateLodash;
 
 export const xU: t_all_lodash_and_mine = new Proxy(
 	/* @ts-ignore */
@@ -644,7 +645,6 @@ export const xU: t_all_lodash_and_mine = new Proxy(
 				throw new Error("");
 			} catch (error: any) {
 				args.unshift(String(error.stack).split("\n")[2], "\n");
-				/* @ts-ignore */
 				/* @ts-ignore */
 				console.log.apply(console, args);
 			}

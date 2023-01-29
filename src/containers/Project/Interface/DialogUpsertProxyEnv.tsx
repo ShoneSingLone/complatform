@@ -1,3 +1,4 @@
+import { defineComponent, markRaw } from "vue";
 import {
 	AllWasWell,
 	defItem,
@@ -7,16 +8,15 @@ import {
 	validateForm,
 	xU
 } from "@ventose/ui";
-import { Methods_App, State_App } from "src/state/State_App";
-import { defineComponent } from "vue";
-import { FormRules } from "../../../utils/common.FormRules";
-import { API } from "src/api";
-import { ITEM_OPTIONS } from "./../../../utils/common.options";
+import { Methods_App, State_App } from "@/state/State_App";
+import { FormRules } from "@/utils/common.FormRules";
+import { API } from "@/api";
+import { ITEM_OPTIONS } from "@/utils/common.options";
 import {
 	InputKeyValue,
 	makeKeyValueObj,
 	makeNameValueObj
-} from "./../../../components/InputKeyValue";
+} from "@/components/InputKeyValue";
 import { diff } from "jsondiffpatch";
 
 export const DialogUpsertProxyEnv = defineComponent({
@@ -39,13 +39,16 @@ export const DialogUpsertProxyEnv = defineComponent({
 			privateEnv: {},
 			currentSelected: "",
 			configsForm: {
-				...defItem({ label: "环境名称", prop: "name" }),
 				...defItem({
-					label: "环境域名",
+					label: vm.$t("环境名称").label,
+					prop: "name"
+				}),
+				...defItem({
+					label: vm.$t("环境域名").label,
 					prop: "domain",
-					slots: {
+					slots: markRaw({
 						addonBefore: () => <xItem configs={vm.configsForm.protocol} />
-					},
+					}),
 					rules: [
 						FormRules.custom({
 							validator(value, { rule }) {
@@ -208,7 +211,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 											_id: i._id
 										});
 										this.privateEnv.splice(envIndex, 1);
-									} catch (error) { }
+									} catch (error) {}
 								};
 							}
 							return async () => this.deleteEnv(i);
@@ -238,15 +241,8 @@ export const DialogUpsertProxyEnv = defineComponent({
 				</div>
 			);
 		},
-		xDomSaveButton() {
-			return (
-				<xButton
-					configs={{ preset: "save", onClick: this.onOk }}
-					class="ml10"
-				/>
-			);
-		},
 		vdomEnvconfigs() {
+			const vm = this;
 			const vDomContent = (() => {
 				if (this.isLoading) {
 					return (
@@ -266,7 +262,14 @@ export const DialogUpsertProxyEnv = defineComponent({
 						<xGap t="10" />
 						<xItem configs={this.configsForm.name}>
 							{{
-								afterControll: this.xDomSaveButton
+								afterControll: () => {
+									return (
+										<xButton
+											configs={{ preset: "save", onClick: vm.onOk }}
+											class="ml10"
+										/>
+									);
+								}
 							}}
 						</xItem>
 						<xGap t="10" />
@@ -310,7 +313,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
-				} catch (e) { }
+				} catch (e) {}
 			} else {
 				continu();
 			}
@@ -419,7 +422,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				});
 				UI.message.success(this.$t("环境设置成功").label);
 				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
-			} catch (error) { }
+			} catch (error) {}
 		}
 	},
 	render() {
@@ -458,7 +461,12 @@ const KeyValuePanel = args => {
 	};
 	return (
 		<div class="ant-card ant-card-bordered" style="padding:10px">
-			<InputKeyValue items={properties.value} onUpdate:items={fnUpdate} genItem={properties.genItem} fnCheck={properties.fnCheck} />
+			<InputKeyValue
+				items={properties.value}
+				onUpdate:items={fnUpdate}
+				genItem={properties.genItem}
+				fnCheck={properties.fnCheck}
+			/>
 		</div>
 	);
 };

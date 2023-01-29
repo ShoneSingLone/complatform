@@ -6,17 +6,7 @@
 		position: relative;
 		flex: 1;
 		width: 1px;
-
-		.ant-checkbox-wrapper {
-			// outline: 1px solid red;
-			display: flex;
-			align-items: center;
-			.ant-checkbox {
-				top: unset;
-			}
-		}
-
-		&[type="Switch"] {
+		&[data-type="Switch"] {
 			min-width: 48px;
 			.x-item_switch {
 				height: 100%;
@@ -27,6 +17,15 @@
 		}
 
 		> .ant-form-item-explain {
+		}
+
+		.ant-checkbox-wrapper {
+			// outline: 1px solid red;
+			display: flex;
+			align-items: center;
+			.ant-checkbox {
+				top: unset;
+			}
 		}
 
 		.ant-input-number {

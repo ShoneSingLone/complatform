@@ -420,7 +420,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 		})
 	);
 
-	const fnUpdateListForShow = xU.debounce(function () {
+	const fnUpdateListForShow = xU.debounce(function fnUpdateListForShow() {
 		const { allInterface } = State_Project;
 		let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
 		let paramKeys = Object.keys(filterParams);
@@ -428,7 +428,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 		while (prop) {
 			const search = filterParams[prop];
 			if (xU.isInput(search)) {
-				console.log("interfaceForShow.length", interfaceForShow.length);
+				xU("interfaceForShow.length old", interfaceForShow.length);
 				interfaceForShow = xU.filter(interfaceForShow, i => {
 					if (prop == "status") {
 						return i.status === search;
@@ -440,7 +440,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 						return new RegExp(search, "i").test(i[prop]);
 					}
 				});
-				console.log("interfaceForShow.length", interfaceForShow.length);
+				xU("interfaceForShow.length new", interfaceForShow.length);
 			}
 			prop = paramKeys.pop();
 		}

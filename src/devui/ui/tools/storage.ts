@@ -56,7 +56,7 @@ export const iStorage = async function (key: string, val?: any) {
 		} else {
 			res = await idbGet(key);
 			if (!res) {
-				console.log("get", key, res);
+				xU("get", key, res);
 			}
 		}
 	} catch (error) {

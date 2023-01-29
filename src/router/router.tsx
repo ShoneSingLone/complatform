@@ -135,7 +135,7 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 	try {
 		_url = new URL(urlHash.replace("#", ""), origin);
 	} catch (e) {
-		console.log(urlHash, origin);
+		xU(urlHash, origin);
 		console.error(e);
 	}
 

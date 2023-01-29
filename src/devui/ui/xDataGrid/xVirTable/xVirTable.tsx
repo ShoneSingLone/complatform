@@ -248,7 +248,6 @@ export const xVirTable = defineComponent({
 		}
 	},
 	render() {
-		console.time("virTable");
 		const vDomTable = (
 			<div id={this.xVirTableId} class="xVirTable-wrapper flex vertical">
 				{/* 滑动条有6px  */}
@@ -268,7 +267,6 @@ export const xVirTable = defineComponent({
 				/>
 			</div>
 		);
-		console.timeEnd("virTable");
 		return vDomTable;
 	}
 });

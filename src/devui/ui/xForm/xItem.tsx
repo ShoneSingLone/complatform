@@ -1,12 +1,15 @@
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, isProxy, markRaw, toRaw } from "vue";
 import renders from "./itemRenders";
 import { checkXItem, EVENT_TYPE, TIPS_TYPE } from "../tools/validate";
 import { xU } from "../ventoseUtils";
+import { diff } from "jsondiffpatch";
 
 const { MutatingProps } = xU;
 const domClass = {
 	tipsError: "ant-form-item-explain ant-form-item-explain-error"
 };
+
+const devHelper = {};
 
 /* itemWrapperClass */
 export const xItem = defineComponent({
@@ -142,11 +145,21 @@ export const xItem = defineComponent({
 			/* validateInfo */
 			isRequired: false,
 			/* validateInfo */
-			properties: {},
+			properties: null,
 			itemSlots: {}
 		};
 	},
 	computed: {
+		CurrentXItem() {
+			if (xU.isObject(this.configs.itemType)) {
+				if (isProxy(this.configs.itemType)) {
+					return toRaw(this.configs.itemType);
+				}
+				return this.configs.itemType;
+			}
+			/* String */
+			return renders[this.configs.itemType] || renders.Input;
+		},
 		itemTypeName() {
 			if (xU.isString(this.configs.itemType)) {
 				return String(this.configs.itemType);
@@ -306,19 +319,20 @@ export const xItem = defineComponent({
 					}
 					return vm.configs.value;
 				})();
-
-				if (vm.properties.value !== value) {
+				const diffRes = diff(vm.properties.value, value);
+				if (diffRes) {
+					xU(diffRes);
 					vm.properties.value = value;
 					vm.listeners["onUpdate:value"](value);
 				}
-			}, 32);
+			}, 96);
 			vm.updateValue();
 		})();
 
 		(() => {
-			vm.setProperties = xU.debounce(function () {
+			vm.setProperties = xU.debounce(function setProperties() {
 				/* @ts-ignore */
-				xU("setProperties", vm._.uid);
+				xU(vm._.uid);
 				const __properties = {};
 				const pickProps = originConfigs => {
 					xU.each(originConfigs, (item, prop) => {
@@ -326,12 +340,14 @@ export const xItem = defineComponent({
 							__properties[prop] = item(this);
 							return;
 						}
+
 						/* 用于xForm 控件，以下配置信息跟UI库控件相关，用不上，遂删除 */
 						if (
 							["itemTips", "rules", "labelVNodeRender", "slots"].includes(prop)
 						) {
 							return;
 						}
+
 						__properties[prop] = item;
 					});
 				};
@@ -343,9 +359,13 @@ export const xItem = defineComponent({
 		})();
 	},
 	mounted() {
+		devHelper[this._.uid] = 0;
 		if (this.configs?.once) {
 			this.configs.once.call(this.configs, this);
 		}
+	},
+	beforeUnmount() {
+		delete devHelper[this._.uid];
 	},
 	methods: {
 		setTips(type = "", msg = "") {
@@ -404,26 +424,33 @@ export const xItem = defineComponent({
 			this.isRequired = isRequired;
 		}
 	},
-	render(h) {
-		if (!this.Cpt_isShowXItem || !this.properties) {
+	render() {
+		if (!this.properties) {
 			return null;
 		}
-		const CurrentXItem = (() => {
-			if (xU.isObject(this.configs.itemType)) {
-				return this.configs.itemType;
-			}
-			return renders[this.configs.itemType] || renders.Input;
-		})();
+		if (!this.Cpt_isShowXItem) {
+			return null;
+		}
+		const {
+			CurrentXItem,
+			properties,
+			Cpt_isDisabled,
+			propsWillDeleteFromConfigs,
+			itemTypeName,
+			FormItemId
+		} = this;
+
+		xU(`xItem ${this._.uid} render ${++devHelper[this._.uid]} times`);
 
 		return (
-			<div id={this.FormItemId} class={this.itemWrapperClass}>
+			<div id={FormItemId} class={this.itemWrapperClass}>
 				{/* label */}
 				{this.labelVNode}
 				{/* 控件 */}
-				<div class="ant-form-item-control" type={this.itemTypeName}>
+				<div class="ant-form-item-control" data-type={itemTypeName}>
 					<CurrentXItem
-						propsWillDeleteFromConfigs={this.propsWillDeleteFromConfigs}
-						properties={{ ...this.properties, disabled: this.Cpt_isDisabled }}
+						propsWillDeleteFromConfigs={propsWillDeleteFromConfigs}
+						properties={{ ...properties, disabled: Cpt_isDisabled }}
 						listeners={this.listeners}
 						slots={this.itemSlots}
 					/>

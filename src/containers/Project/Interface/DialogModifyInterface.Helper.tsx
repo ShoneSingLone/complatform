@@ -1,14 +1,14 @@
 import { DialogUpsertTags } from "./DialogUpsertTags";
 import { DialogUpsertProxyEnv } from "./DialogUpsertProxyEnv";
-import { RequestArgsPanel } from "src/components/RequestArgsPanel";
-import { ResponsePanel } from "src/components/ResponsePanel";
-import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
-import { $, State_UI, UI, xU, compileVNode, defItem } from "@ventose/ui";
-import { defineComponent, h, markRaw, reactive } from "vue";
+import { RequestArgsPanel } from "@/components/RequestArgsPanel";
+import { ResponsePanel } from "@/components/ResponsePanel";
+import { TuiEditor } from "@/components/TuiEditor/TuiEditor";
+import { $, UI, xU, $t } from "@ventose/ui";
+import { defineComponent, markRaw } from "vue";
 
 export async function openProxyEnvDialog() {
 	const { _layerKey } = await UI.dialog.component({
-		title: State_UI.$t("管理项目接口转发环境").label,
+		title: $t("管理项目接口转发环境").label,
 		component: DialogUpsertProxyEnv
 	});
 	/*弹窗里面的弹窗点击之后不关闭（点不到其他位置）*/
@@ -17,7 +17,7 @@ export async function openProxyEnvDialog() {
 
 export async function openUpsertTagDialog() {
 	const { _layerKey } = await UI.dialog.component({
-		title: State_UI.$t("管理项目接口Tags").label,
+		title: $t("管理项目接口Tags").label,
 		component: DialogUpsertTags
 	});
 	/*弹窗里面的弹窗点击之后不关闭（点不到其他位置）*/
@@ -25,7 +25,6 @@ export async function openUpsertTagDialog() {
 }
 
 export const InpterfacePathParams = defineComponent({
-	__v_skip: true,
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	methods: {
 		fnUpdate(prop, value, index) {
@@ -63,7 +62,6 @@ export const InpterfacePathParams = defineComponent({
 });
 
 export const EnvSelectRender = defineComponent({
-	__v_skip: true,
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	render(vm) {
 		vm.properties.value = vm.properties.value || [];
@@ -89,7 +87,7 @@ export const EnvSelectRender = defineComponent({
 				<xGap l="10" />
 				<xButton
 					configs={{
-						text: State_UI.$t("转发环境设置").label,
+						text: $t("转发环境设置").label,
 						onClick: openProxyEnvDialog
 					}}
 					class="ml10"
@@ -101,7 +99,6 @@ export const EnvSelectRender = defineComponent({
 });
 
 export const TagSelectRender = defineComponent({
-	__v_skip: true,
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	computed: {
 		selected: {
@@ -154,24 +151,23 @@ export const TagSelectRender = defineComponent({
 	}
 });
 
-export const RequestArgsRender = markRaw(defineComponent({
-	__v_skip: true,
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-	render() {
-		return (
-			<RequestArgsPanel
-				params={this.properties?.value}
-				apiMethod={this.properties?.deepWatch?.apiMethod}
-				onUpdate:params={this.listeners["onUpdate:value"]}
-			/>
-		);
-	}
-}));
+export const RequestArgsRender = markRaw(
+	defineComponent({
+		props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+		render() {
+			return (
+				<RequestArgsPanel
+					params={this.properties?.value}
+					apiMethod={this.properties?.deepWatch?.apiMethod}
+					onUpdate:params={this.listeners["onUpdate:value"]}
+				/>
+			);
+		}
+	})
+);
 
 export const MarkdownRender = defineComponent({
-	__v_skip: true,
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-	components: { TuiEditor },
 	computed: {
 		modelValue: {
 			get() {
@@ -188,7 +184,6 @@ export const MarkdownRender = defineComponent({
 });
 
 export const ResponseRender = defineComponent({
-	__v_skip: true,
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	computed: {
 		body: {

@@ -41,6 +41,7 @@ export const TuiEditor = defineAsyncComponent(
 						//初始化方法
 						async once() {
 							let vm = this;
+							await xU.ensureValueDone(() => vm.$refs.container);
 							(() => {
 								vm.raw$editor = new TuiEditor({
 									el: vm.$refs.container,

@@ -14,21 +14,20 @@ export function defItem(options: t_itemConfigs) {
 }
 
 defItem.item = (options: t_itemConfigs) => {
-	let itemType = options.itemType || "Input";
-	if (xU.isObject(itemType)) {
-		itemType = markRaw(itemType);
+	options.itemType = options.itemType || "Input";
+
+	if (xU.isObject(options.itemType)) {
+		options.itemType.__v_isReactive = false;
+		// options.itemType = markRaw(options.itemType);
 	}
 	return xU.merge(
 		{
+			/* 默认prop */
 			prop: `xItem${xItemNoPropCount++}`,
 			/* 提示信息，可以用于提示或者定位 */
 			itemTips: { type: "", msg: "" }
 		},
-		options,
-		{
-			/*item 的类型 case by case 跟ui库关联*/
-			itemType: options.itemType || "Input"
-		}
+		options
 	);
 };
 

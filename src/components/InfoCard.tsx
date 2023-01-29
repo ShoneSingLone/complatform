@@ -98,7 +98,7 @@ export const InfoCard = defineComponent({
 			"info.colLabelWidth",
 			width => {
 				if (width) {
-					console.log("width", width);
+					xU("width", width);
 					this.updateLableStyle({ width });
 				}
 			},

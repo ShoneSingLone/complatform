@@ -456,11 +456,7 @@ async ${xU.camelCase(path)}({params,data}) {
 		if (!vm.detailInfo || !vm.State_App.currProject) {
 			return <aSpin spinning={true} class="flex middle center flex1"></aSpin>;
 		}
-		console.log(
-			vm.State_App.currGroup,
-			vm.State_App.currProject,
-			vm.detailInfo
-		);
+		xU(vm.State_App.currGroup, vm.State_App.currProject, vm.detailInfo);
 		return (
 			<xView style="overflow:hidden;">
 				<div class="flex">

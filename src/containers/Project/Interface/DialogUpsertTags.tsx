@@ -1,17 +1,9 @@
-import {
-	AllWasWell,
-	defItem,
-	pickValueFrom,
-	UI,
-	validateForm,
-	xU
-} from "@ventose/ui";
-import { Methods_App, State_App } from "src/state/State_App";
+import { defItem, UI, xU } from "@ventose/ui";
 import { defineComponent } from "vue";
+import { Methods_App, State_App } from "@/state/State_App";
+import { API } from "@/api";
+import { orderAsc } from "@/components/InputKeyValue";
 import { FormRules } from "../../../utils/common.FormRules";
-import { Form } from "ant-design-vue";
-import { API } from "src/api";
-import { orderAsc } from "src/components/InputKeyValue";
 
 function genTag(name, desc, index) {
 	return {
@@ -85,7 +77,7 @@ export const DialogUpsertTags = defineComponent({
 						name: privateTag.nameConfigs.value,
 						desc: privateTag.descConfigs.value
 					};
-					console.log(formData, privateTag, index);
+					xU(formData, privateTag, index);
 					return formData;
 				},
 				{}

@@ -1,8 +1,6 @@
-<script lang="jsx">
 // @ts-nocheck
 import { defineComponent, markRaw } from "vue";
 import { xU } from "../ventoseUtils";
-import { State_UI } from "../State_UI";
 import InsideDeleteOutlined from "../../assets/svg/DeleteOutlined.svg";
 import InsideExclamationCircleOutlined from "../../assets/svg/ExclamationCircleOutlined.svg";
 import InsideLoadingOutlined from "../../assets/svg/LoadingOutlined.svg";
@@ -14,6 +12,8 @@ import Insidetips from "../../assets/svg/tips.svg";
 import InsideEmpty from "../../assets/svg/empty.svg";
 import insideSettingOutlined from "../../assets/svg/SettingOutlined.svg";
 import { iStorage } from "../tools/storage";
+import "./xIcon.less";
+import { State_UI } from "..";
 
 /* const icons = import.meta.glob("../../assets/svg/*.svg"); */
 const insideIcons = {
@@ -53,6 +53,9 @@ export default defineComponent(
 		},
 		methods: {
 			getIconPath() {
+				if (!State_UI.assetsSvgPath) {
+					debugger;
+				}
 				return `${State_UI.assetsSvgPath}/${this.icon}.svg`;
 			},
 			async setIcon() {
@@ -114,59 +117,3 @@ export default defineComponent(
 		}
 	})
 );
-</script>
-
-<style lang="scss">
-.xIcon {
-	width: 16px;
-	height: 16px;
-
-	&.auto-size {
-		width: unset;
-		height: unset;
-	}
-}
-
-div[id^="lazy-svg_"] {
-	display: flex;
-}
-
-.next-loading {
-	height: 100%;
-	width: 100%;
-
-	&.next-open {
-		pointer-events: none;
-	}
-}
-
-.next-loading .next-loading-component {
-	opacity: 0.7;
-	filter: blur(1px);
-	filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=1, MakeShadow=false)";
-	position: relative;
-	pointer-events: none;
-}
-
-.next-loading-masker {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 99;
-	opacity: 0.2;
-	background: #fff;
-}
-
-.next-loading-inline {
-	display: inline-block;
-}
-
-.next-loading-tip {
-	display: block;
-	position: absolute;
-	z-index: 4;
-	text-align: center;
-}
-</style>

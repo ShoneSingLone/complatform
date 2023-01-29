@@ -24,7 +24,7 @@ export default {
 	name: "DemoXDataGrid",
 	methods: {
 		handlePaginationChange(pagination) {
-			console.log("🚀:", "pagination", JSON.stringify(pagination, null, 2));
+			xU("🚀:", "pagination", JSON.stringify(pagination, null, 2));
 		}
 	},
 	data() {
