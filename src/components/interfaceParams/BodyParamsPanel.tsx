@@ -9,6 +9,7 @@ import { DialogBulkValues } from "./DialogBulkValues";
 export const BodyParamsPanel = defineComponent({
 	/* req_body_type */
 	props: ["params"],
+	emits: ["update:params"],
 	data(vm) {
 		return {
 			configsBodyType: defItem.item({

@@ -151,20 +151,18 @@ export const TagSelectRender = defineComponent({
 	}
 });
 
-export const RequestArgsRender = markRaw(
-	defineComponent({
-		props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-		render() {
-			return (
-				<RequestArgsPanel
-					params={this.properties?.value}
-					apiMethod={this.properties?.deepWatch?.apiMethod}
-					onUpdate:params={this.listeners["onUpdate:value"]}
-				/>
-			);
-		}
-	})
-);
+export const RequestArgsRender = defineComponent({
+	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+	render() {
+		return (
+			<RequestArgsPanel
+				params={this.properties?.value}
+				apiMethod={this.properties?.deepWatch?.apiMethod}
+				onUpdate:params={this.listeners["onUpdate:value"]}
+			/>
+		);
+	}
+});
 
 export const MarkdownRender = defineComponent({
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],

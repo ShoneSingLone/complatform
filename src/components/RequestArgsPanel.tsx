@@ -9,7 +9,6 @@ import { QueryParamsPanel } from "./interfaceParams/QueryParamsPanel";
 1.接收apimethod 默认打开
 */
 export const RequestArgsPanel = defineComponent({
-	__v_skip: true,
 	props: ["params", "apiMethod"],
 	/* */
 	emits: ["update:params"],
@@ -17,15 +16,12 @@ export const RequestArgsPanel = defineComponent({
 		return {
 			collapseActive: QUERY,
 			privateHttpMethod: GET,
-			privateParams: {}
+			pparams: null
 		};
 	},
 	watch: {
-		privateParams(privateParams) {
-			this.$emit("update:params", privateParams);
-		},
-		params() {
-			this.privateParams = xU.cloneDeep(this.params);
+		pparams(params) {
+			this.$emit("update:params", params);
 		},
 		apiMethod: {
 			immediate: true,
@@ -42,37 +38,58 @@ export const RequestArgsPanel = defineComponent({
 		}
 	},
 	render() {
-		if (!this.privateParams.req_headers) {
-			return <aSpin spinning={true} class="flex middle height100 width100" />;
-		}
+		// return JSON.stringify(this.params)
+
+		// if (!this.params) {
+		// 	return <aSpin spinning={true} class="flex middle height100 width100" />;
+		// }
 
 		const bodyHeader = (() => {
-			if (this.privateParams.req_body_type == "form") {
-				return `${BODY} ${this.privateParams.req_body_type} ${this.privateParams.req_body_form.length}`;
+			if (this.params?.req_body_type == "form") {
+				return `${BODY} ${this.params?.req_body_type} ${this.params?.req_body_form.length}`;
 			}
 
-			return `${BODY} ${this.privateParams.req_body_type}`;
+			return `${BODY} ${this.params?.req_body_type}`;
 		})();
 
 		return (
 			<aCollapse v-model:activeKey={this.collapseActive}>
 				<aCollapsePanel
 					key="header"
-					header={`header ${this.privateParams.req_headers.length}`}>
+					header={`header ${this.params?.req_headers.length}`}>
 					<HeaderParamsPanel
-						v-model:reqHeaders={this.privateParams.req_headers}
+						reqHeaders={this.params?.req_headers}
+						onUpdate:reqHeaders={req_headers =>
+							this.$emit(
+								"update:params",
+								xU.merge({}, this.params, { req_headers })
+							)
+						}
 					/>
 				</aCollapsePanel>
 				<aCollapsePanel
 					key={QUERY}
-					header={`${QUERY} ${this.privateParams.req_query.length}`}>
-					<QueryParamsPanel v-model:reqQuery={this.privateParams.req_query} />
+					header={`${QUERY} ${this.params?.req_query.length}`}>
+					<QueryParamsPanel
+						reqQuery={this.params?.req_query}
+						onUpdate:reqQuery={req_query =>
+							this.$emit(
+								"update:params",
+								xU.merge({}, this.params, { req_query })
+							)
+						}
+					/>
 				</aCollapsePanel>
 				<aCollapsePanel
 					key={BODY}
 					header={bodyHeader}
 					collapsible={this.bodyCollapsible}>
-					<BodyParamsPanel v-model:params={this.privateParams} />
+					<BodyParamsPanel
+						params={this.params}
+						onUpdate:params={params =>
+							this.$emit("update:params", xU.merge({}, this.params, params))
+						}
+					/>
 				</aCollapsePanel>
 			</aCollapse>
 		);

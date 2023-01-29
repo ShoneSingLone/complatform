@@ -60,7 +60,9 @@ let _State_UI = {
 	}
 };
 
-export const State_UI = reactive(_State_UI);
+type t_State_UI = typeof _State_UI;
+
+export const State_UI: t_State_UI = reactive(_State_UI);
 
 watch(
 	() => State_UI.language,
