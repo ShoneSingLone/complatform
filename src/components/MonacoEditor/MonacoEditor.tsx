@@ -22,9 +22,20 @@ export const MonacoEditor = defineAsyncComponent(
 						this.init();
 					},
 					watch: {
-						code(value) {
-							if (value !== this.raw$Value) {
-								this.raw$editor.setValue(value);
+						code: {
+							immediate: true,
+							handler(value) {
+								if (!this.raw$editor) {
+									return;
+								}
+
+								if (this.readOnly) {
+									this.formatDocument && this.formatDocument(this.readOnly);
+								}
+
+								if (value !== this.raw$Value) {
+									this.raw$editor.setValue(value);
+								}
 							}
 						}
 					},
@@ -32,29 +43,43 @@ export const MonacoEditor = defineAsyncComponent(
 						//初始化方法
 						async init() {
 							let vm = this;
+
 							vm.$refs.container.innerHTML = "";
-							this.raw$editor = monaco.editor.create(this.$refs.container, {
-								value: this.code || "",
-								language: this.language || "javascript",
+							vm.raw$editor = monaco.editor.create(vm.$refs.container, {
+								value: vm.code || "",
+								language: vm.language || "javascript",
 								minimap: { enabled: false },
 								fontSize: 12,
-								readOnly: this.readOnly || false,
+								readOnly: vm.readOnly || false,
 								// 超出编辑器大小的使用fixed属性显示
 								fixedOverflowWidgets: true,
-								theme: this.theme || theme[3],
+								theme: vm.theme || theme[3],
 								automaticLayout: true
 							});
-							this.raw$editor.addCommand(
-								monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
-								() => {
-									//自动格式化代码
-									this.raw$editor.trigger("", "editor.action.formatDocument");
+
+							vm.formatDocument = xU.debounce(function (readOnly) {
+								if (readOnly) {
+									vm.raw$editor.updateOptions({ readOnly: false });
 								}
+								//自动格式化代码
+								vm.raw$editor.trigger("", "editor.action.formatDocument");
+								setTimeout(() => {
+									if (readOnly) {
+										vm.raw$editor.updateOptions({ readOnly: true });
+									}
+								}, 500);
+							}, 600);
+
+							vm.readOnly && vm.formatDocument(vm.readOnly);
+
+							vm.raw$editor.addCommand(
+								monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
+								vm.formatDocument
 							);
-							this.raw$editor.addCommand(monaco.KeyCode.F9, () => {
-								xU.launchFullscreen(this.$refs.container);
+							vm.raw$editor.addCommand(monaco.KeyCode.F9, () => {
+								xU.launchFullscreen(vm.$refs.container);
 							});
-							this.raw$editor.onDidChangeModelContent(this.syncData);
+							vm.raw$editor.onDidChangeModelContent(vm.syncData);
 						},
 						syncData() {
 							const newCode = this.raw$editor.getValue();

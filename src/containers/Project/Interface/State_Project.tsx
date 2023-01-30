@@ -146,7 +146,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 
 	const configs_interfaceTable = reactive(
 		defXVirTableConfigs({
-			rowHeight: 72,
+			rowHeight: 120,
 			dataSource: [],
 			selectedConfigs: {
 				prop: "_id"
@@ -271,7 +271,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 					minWidth: "100px",
 					renderCell({ cell }) {
 						return (
-							<div class="flex end width100">
+							<div class="flex center width100">
 								{ITEM_OPTIONS_VDOM.httpMethod(cell)}
 							</div>
 						);
@@ -331,12 +331,12 @@ export function useInterfaceTableConfigs(isAll = false) {
 					prop: "status",
 					width: "160px",
 					renderHeader({ label }) {
+						const textLabel = filterParams.status
+							? ITEM_OPTIONS_VDOM.status(filterParams.status)
+							: label;
 						return (
 							<div class="flex">
-								<span class="flex1">
-									<span>{label}</span>
-									{ITEM_OPTIONS_VDOM.status(filterParams.status)}
-								</span>
+								<span class="flex1">{textLabel}</span>
 								<aPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
@@ -369,7 +369,11 @@ export function useInterfaceTableConfigs(isAll = false) {
 						);
 					},
 					renderCell({ cell }) {
-						return ITEM_OPTIONS_VDOM.status(cell);
+						return (
+							<div class="flex center width100">
+								{ITEM_OPTIONS_VDOM.status(cell)}
+							</div>
+						);
 					}
 				}),
 				...defCol({

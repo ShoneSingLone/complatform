@@ -19,17 +19,11 @@ const privateLodash = {
 	launchFullscreen(element: any) {
 		if (element.requestFullscreen) {
 			element.requestFullscreen();
-		} else if (element.mozRequestFullScreen) {
-			element.mozRequestFullScreen();
-		} else if (element.msRequestFullscreen) {
-			element.msRequestFullscreen();
-		} else if (element.webkitRequestFullscreen) {
-			element.webkitRequestFullScreen();
 		}
 	},
 	exitFullscreen() {
 		/* @ts-ignore */
-		document.exitFullscreen();
+		document.exitFullscreen && document.exitFullscreen();
 	},
 	hashCode(str: string) {
 		var hash = 0,

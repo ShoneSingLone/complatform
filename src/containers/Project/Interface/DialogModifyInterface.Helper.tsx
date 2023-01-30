@@ -194,9 +194,22 @@ export const ResponseRender = defineComponent({
 					res_body
 				});
 			}
+		},
+		resBodyType: {
+			get() {
+				return this.properties?.value?.res_body_type || "";
+			},
+			set(res_body_type) {
+				this.listeners["onUpdate:value"]({
+					...this.properties.value,
+					res_body_type
+				});
+			}
 		}
 	},
 	render(vm) {
-		return <ResponsePanel v-model:body={vm.body} />;
+		return (
+			<ResponsePanel v-model:body={vm.body} v-model:bodyType={vm.resBodyType} />
+		);
 	}
 });

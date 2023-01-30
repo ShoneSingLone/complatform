@@ -538,10 +538,24 @@ async ${xU.camelCase(path)}({params,data}) {
 							<xGap t="20" />
 							<InfoCard title={"返回信息"}>
 								<div style="height:300px;width:90%">
-									<JsonSchemaMonaco
-										v-model:schemaString={vm.detailInfo.res_body}
-										readOnly={true}
-									/>
+									{(() => {
+										if (vm.detailInfo.res_body_type === "json") {
+											return (
+												<JsonSchemaMonaco
+													v-model:schemaString={vm.detailInfo.res_body}
+													readOnly={true}
+												/>
+											);
+										}
+
+										return (
+											<MonacoEditor
+												language="json"
+												code={vm.detailInfo.res_body}
+												readOnly={true}
+											/>
+										);
+									})()}
 								</div>
 							</InfoCard>
 						</>
