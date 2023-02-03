@@ -3,6 +3,7 @@ import { $, xU, UI, State_UI, defCol, defXVirTableConfigs } from "@ventose/ui";
 import { API } from "../../../api";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { Cpt_url } from "../../../router/router";
+import { State_App } from "@/state/State_App";
 
 const { $t } = State_UI;
 const defautlValue = () => ({
@@ -74,7 +75,6 @@ export const Methods_Project = {
 			return;
 		}
 		const { data } = await API.project.fetchInterfaceListMenu(projectId);
-
 		if (data) {
 			/* @ts-ignore */
 			const allCategory = data.map(category => {
@@ -141,7 +141,8 @@ export function useInterfaceTableConfigs(isAll = false) {
 		path: "",
 		catid: [],
 		status: "",
-		tag: []
+		tag: [],
+		witchEnv: []
 	});
 
 	const configs_interfaceTable = reactive(
@@ -377,6 +378,67 @@ export function useInterfaceTableConfigs(isAll = false) {
 					}
 				}),
 				...defCol({
+					label: "转发",
+					prop: "isProxy",
+					width: "150px",
+					renderHeader({ label }) {
+						return (
+							<div class="flex">
+								<span class="flex1">
+									<span>{label}</span>
+									{xU.isArrayFill(filterParams.witchEnv) ? (
+										<aTag class="ml10">{filterParams.witchEnv.length}</aTag>
+									) : null}
+								</span>
+								<aPopover placement="bottomRight" trigger="click">
+									{{
+										default() {
+											return <xIcon icon="iconFilter" class="pointer" />;
+										},
+										content() {
+											return (
+												<div style="padding: 8px">
+													<aSelect
+														allowClear
+														mode="multiple"
+														style="width: 400px"
+														v-model:value={filterParams.witchEnv}
+														class="select">
+														<aSelectOption value="unset">{$t('未设置').label}</aSelectOption>
+														{xU.map(State_App.currProject.env, i => {
+															return (
+																<aSelectOption value={i._id}>{i.name}</aSelectOption>
+															);
+														})}
+													</aSelect>
+												</div>
+											);
+										}
+									}}
+								</aPopover>
+							</div>
+						);
+					},
+					renderCell({ cell: isProxy, record }) {
+						if (isProxy) {
+							const { witchEnv } = record;
+							if (!witchEnv) {
+								return "任意";
+							}
+							if (witchEnv) {
+								const envArray = State_App.currProject.env;
+								let env = xU.find(envArray, { _id: witchEnv });
+								if (env) {
+									return (<aTag color="cyan">{env.name}</aTag>);
+								}
+							} else {
+								return "--";
+							}
+						}
+						return "";
+					}
+				}),
+				...defCol({
 					label: "tag",
 					prop: "tag",
 					renderHeader({ label }) {
@@ -440,6 +502,16 @@ export function useInterfaceTableConfigs(isAll = false) {
 						return search.includes(i.catid);
 					} else if (prop == "tag") {
 						return xU.some(i.tag, tag => search.includes(tag));
+					} else if (prop == "witchEnv") {
+						if (search.includes('unset')) {
+							if (!i.witchEnv) {
+								return true;
+							}
+						}
+						if (!i.isProxy) {
+							return false;
+						}
+						return search.includes(i.witchEnv);
 					} else {
 						return new RegExp(search, "i").test(i[prop]);
 					}

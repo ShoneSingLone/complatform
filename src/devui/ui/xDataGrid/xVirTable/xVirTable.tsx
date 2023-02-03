@@ -50,7 +50,6 @@ export const xVirTable = defineComponent({
 	data() {
 		return {
 			selectedAll: false,
-			dataSource: []
 		};
 	},
 	computed: {
@@ -194,12 +193,6 @@ export const xVirTable = defineComponent({
 				this.selectedAll = false;
 			}
 		},
-		"configs.dataSource": {
-			immediate: true,
-			handler() {
-				this.dataSource = this.configs.dataSource;
-			}
-		},
 		styleContent() {
 			this.updateStyle(this.styleContent);
 		}
@@ -216,7 +209,7 @@ export const xVirTable = defineComponent({
 			const $style = $(`#style_${this.xVirTableId}`);
 			$style.html(styleContent);
 		},
-		handleSelectedChange() {},
+		handleSelectedChange() { },
 		handleSelectedChangeTh(e) {
 			const { checked } = e.target;
 			if (checked) {

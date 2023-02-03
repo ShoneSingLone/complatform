@@ -1,13 +1,12 @@
 /* @ts-nocheck */
 import { State_App } from "@/state/State_App";
 
+/* 如果是桌面端 */
 if (window.electronAPI) {
-	debugger;
 	/* cookies */
-	(function (document) {
+	/* (function (document) {
 		localStorage.cookies || (localStorage.cookies = "{}");
 		document.__defineGetter__("cookie", function () {
-			debugger;
 			var cookieName, cookies, output, res, val, validName;
 			cookies = JSON.parse(localStorage.cookies || "{}");
 			output = [];
@@ -39,7 +38,7 @@ if (window.electronAPI) {
 		document.clearCookies = function () {
 			return delete localStorage.cookies;
 		};
-	})(window.document);
+	})(window.document); */
 
 	/* cookies */
 	window.electronAPI.onChangePort((_event, port) => {

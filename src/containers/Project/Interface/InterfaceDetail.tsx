@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI, defCol, defDataGridOption, State_UI } from "@ventose/ui";
+import { $, xU, UI, defCol, defDataGridOption, State_UI, $t } from "@ventose/ui";
 import { API } from "../../../api";
 import { Methods_Project, State_Project } from "./State_Project";
 import { Cpt_url } from "../../../router/router";
@@ -12,6 +12,7 @@ import copy from "copy-to-clipboard";
 import { asyncGetTuiEditor } from "../../../components/TuiEditor/LoadTuiEditorLibs";
 import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 import { JsonSchemaMonaco } from "../../../components/JsonSchemaEditor/JsonSchemaMonaco";
+import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 
 const colParamsName = defCol({
 	prop: "name",
@@ -273,11 +274,10 @@ export const InterfaceDetail = defineComponent({
 				return "--";
 			}
 		},
-		vDomCopyAjaxCodePanel() {
-			const { tag, up_time, title, uid, username, path, method } =
-				this.detailInfo;
+		ajaxCode() {
+			const { tag, up_time, title, uid, username, path, method } = this.detailInfo;
 			/* TODO:后端获取模板 */
-			const ajaxCode = `/**
+			return `/**
 *  ${title}
 *  ${window.location.href}
 */
@@ -289,33 +289,19 @@ async ${xU.camelCase(path)}({params,data}) {
 		data:data||{}
 	});
 }`;
-
+		},
+		vDomCopyAjaxCodePanel() {
 			return (
 				<div style="position:relative;overflow:auto;height:100%;">
-					<aButton
-						onClick={() => this.copyUrl(ajaxCode)}
-						style={{
-							position: "absolute",
-							top: 0,
-							right: 0,
-							zIndex: 1
-						}}>
-						复制代码
-					</aButton>
-					<MonacoEditor
-						code={ajaxCode}
-						style={{ minHeight: 180 }}
-						readOnly={true}
-					/>
+					<MonacoEditor code={this.ajaxCode} style={{ minHeight: 180 }} readOnly={true} />
 				</div>
 			);
 		},
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
-				this.State_App.currProject._id
-			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
+				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const vm = this;
@@ -402,8 +388,8 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: (
 								<div class="flex middle">
-									<span class="mr10">Mock地址</span>
-									<aButton type="primary">{vm.$t("测试").label}</aButton>
+									<aButton type="primary">{vm.$t("运行").label}</aButton>
+									<span class="flex1">{$t("Mock地址").label}</span>
 								</div>
 							),
 							col: 3,
@@ -426,7 +412,14 @@ async ${xU.camelCase(path)}({params,data}) {
 					style: `height:200px;`,
 					colArray: [
 						{
-							label: "ajax代码",
+							label: (
+								<div class="flex middle">
+									<aButton onClick={() => vm.copyUrl(vm.ajaxCode)}>
+										{$t('复制代码').label}
+									</aButton>
+									<span class="flex1">{$t("ajax代码").label}</span>
+								</div>
+							),
 							col: 3,
 							value: this.vDomCopyAjaxCodePanel
 						}

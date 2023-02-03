@@ -43,24 +43,10 @@ export const xVirTableBody = defineComponent({
 		});
 		this.$watch(
 			() => {
-				return `${this.configs.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper1}`;
+				return `${this.configs.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper1}_${this.styleWrapper2}_${this.styleWrapper3}`;
 			},
 			() => {
-				this.setVirs1();
-			}
-		);
-		this.$watch(
-			() =>
-				`${this.configs.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper2}`,
-			() => {
-				this.setVirs2();
-			}
-		);
-		this.$watch(
-			() =>
-				`${this.configs.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper3}`,
-			() => {
-				this.setVirs3();
+				this.updateCell();
 			}
 		);
 	},
@@ -99,48 +85,39 @@ export const xVirTableBody = defineComponent({
 		/* style */
 		styleWrapper1() {
 			if (this.positionBlock === 0) {
-				return `transform:translateY(${
-					this.blockInViewCount * this.perBlockHeight
-				}px)`;
+				return `transform:translateY(${this.blockInViewCount * this.perBlockHeight
+					}px)`;
 			}
 			if (this.positionBlock === 1) {
-				return `transform:translateY(${
-					(this.blockInViewCount + 2) * this.perBlockHeight
-				}px)`;
+				return `transform:translateY(${(this.blockInViewCount + 2) * this.perBlockHeight
+					}px)`;
 			}
-			return `transform:translateY(${
-				(this.blockInViewCount + 1) * this.perBlockHeight
-			}px)`;
+			return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight
+				}px)`;
 		},
 		styleWrapper2() {
 			if (this.positionBlock === 0) {
-				return `transform:translateY(${
-					(this.blockInViewCount + 1) * this.perBlockHeight
-				}px)`;
+				return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight
+					}px)`;
 			}
 			if (this.positionBlock === 1) {
-				return `transform:translateY(${
-					this.blockInViewCount * this.perBlockHeight
-				}px)`;
+				return `transform:translateY(${this.blockInViewCount * this.perBlockHeight
+					}px)`;
 			}
-			return `transform:translateY(${
-				(this.blockInViewCount - 1) * this.perBlockHeight
-			}px)`;
+			return `transform:translateY(${(this.blockInViewCount - 1) * this.perBlockHeight
+				}px)`;
 		},
 		styleWrapper3() {
 			if (this.positionBlock === 0) {
-				return `transform:translateY(${
-					(this.blockInViewCount + 2) * this.perBlockHeight
-				}px)`;
+				return `transform:translateY(${(this.blockInViewCount + 2) * this.perBlockHeight
+					}px)`;
 			}
 			if (this.positionBlock === 1) {
-				return `transform:translateY(${
-					(this.blockInViewCount + 1) * this.perBlockHeight
-				}px)`;
+				return `transform:translateY(${(this.blockInViewCount + 1) * this.perBlockHeight
+					}px)`;
 			}
-			return `transform:translateY(${
-				this.blockInViewCount * this.perBlockHeight
-			}px)`;
+			return `transform:translateY(${this.blockInViewCount * this.perBlockHeight
+				}px)`;
 		},
 		vDomBodyTr1() {
 			return this.genTr(this.virs1);
@@ -226,6 +203,12 @@ export const xVirTableBody = defineComponent({
 				}
 			})();
 			return vDomBlock;
+		},
+		updateCell() {
+			xU("updateCell");
+			this.setVirs1();
+			this.setVirs2();
+			this.setVirs3();
 		},
 		setVirs1() {
 			const position =
@@ -344,9 +327,10 @@ export const xVirTableBody = defineComponent({
 		top() {
 			this.setTop();
 		},
-		"configs.dataSource.length": {
+		"configs.dataSource": {
 			immediate: true,
 			handler() {
+				this.updateCell();
 				this.clearCacheRow();
 				this.updateTop(false);
 				this.setHeight();

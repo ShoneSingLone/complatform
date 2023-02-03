@@ -5,6 +5,8 @@ import { ResponsePanel } from "@/components/ResponsePanel";
 import { TuiEditor } from "@/components/TuiEditor/TuiEditor";
 import { $, UI, xU, $t } from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
+import { DialogInterfaceStatusModify } from "./DialogInterfaceStatusModify";
+import { DialogInterfaceProxyModify } from "./DialogInterfaceProxyModify";
 
 export async function openProxyEnvDialog() {
 	const { _layerKey } = await UI.dialog.component({
@@ -213,3 +215,20 @@ export const ResponseRender = defineComponent({
 		);
 	}
 });
+
+
+export async function openDialogInterfaceStatusModify({ selected }) {
+	await UI.dialog.component({
+		title: $t("变更状态").label,
+		component: DialogInterfaceStatusModify,
+		selected
+	});
+}
+
+export async function openDialogInterfaceProxyModify({ selected }) {
+	await UI.dialog.component({
+		title: $t("变更代理").label,
+		component: DialogInterfaceProxyModify,
+		selected
+	});
+}

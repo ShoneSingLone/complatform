@@ -22,8 +22,8 @@ export const ITEM_OPTIONS = {
 		{ label: "https://", value: "https://" }
 	],
 	interfaceStatus: [
+		{ label: "未完成", value: "undone" },
 		{ label: "已完成", value: "done" },
-		{ label: "未完成", value: "undone" }
 	],
 	status: [
 		{ label: "开通", value: "ACTIVATED" },

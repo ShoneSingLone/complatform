@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import $ from "jquery";
 import { iStorage } from "./tools/storage";
 import { State_UI } from ".";
+import axios from "axios";
 
 /* 组件属性是否是on开头，组件的事件监听*/
 const onRE = /^on[^a-z]/;
@@ -384,22 +385,23 @@ const privateLodash = {
 		}
 		/* https://learn.jquery.com/ */
 		/* https://api.jquery.com/jQuery.ajax/  */
-		return new Promise((resolve, reject) =>
-			$.ajax({
-				type: "GET",
-				async: true,
-				url,
-				dataType: "text",
-				success(...args) {
-					/* @ts-ignore */
-					if (!State_UI.isDev) {
-						iStorage(url, args[0]);
+		return new Promise(async (resolve, reject) => {
+			try {
+				const { data }: any = await axios.get(url, {
+					headers: {
+						"Content-Type": "text/plain"
 					}
-					/* @ts-ignore */
-					resolve.apply(null, args);
-				},
-				error: reject
-			})
+				});
+				/* @ts-ignore */
+				if (!State_UI.isDev) {
+					await iStorage(url, data);
+				}
+				/* @ts-ignore */
+				resolve(data);
+			} catch (error) {
+				reject(error)
+			}
+		}
 		);
 	},
 	/**

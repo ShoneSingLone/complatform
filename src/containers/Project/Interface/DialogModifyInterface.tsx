@@ -1,5 +1,6 @@
 import {
 	$,
+	$t,
 	AllWasWell,
 	defItem,
 	pickValueFrom,
@@ -14,7 +15,7 @@ import { defineComponent, markRaw } from "vue";
 import { API } from "src/api/index";
 import { State_App } from "../../../state/State_App";
 import { FormRules } from "../../../utils/common.FormRules";
-import { ITEM_OPTIONS } from "../../../utils/common.options";
+import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
 import { HTTP_METHOD } from "./../../../utils/variable";
 import { Methods_Project, State_Project } from "./State_Project";
 import { _$handlePath } from "src/utils/common";
@@ -46,7 +47,6 @@ export const DialogModifyInterface = defineComponent({
 			if (xU.isArrayFill(this.dataXItem.pathParams.value)) {
 				return (
 					<>
-						{/* {JSON.stringify(this.dataXItem.pathParams.value, null, 2)} */}
 						<xGap t="10" />
 						<xItem configs={this.dataXItem.pathParams} />
 					</>
@@ -211,6 +211,13 @@ export const DialogModifyInterface = defineComponent({
 					itemType: TagSelectRender
 				}),
 				...defItem({
+					prop: "status",
+					label: $t('状态').label,
+					value: ITEM_OPTIONS.interfaceStatus[0].value,
+					options: ITEM_OPTIONS.interfaceStatus,
+					itemType: "Select"
+				}),
+				...defItem({
 					prop: "isProxy",
 					value: false,
 					label: vm.$t("是否开启转发").label,
@@ -313,6 +320,7 @@ export const DialogModifyInterface = defineComponent({
 				path,
 				req_params,
 				tag,
+				status,
 				isProxy,
 				witchEnv,
 				method,
@@ -329,6 +337,7 @@ export const DialogModifyInterface = defineComponent({
 				desc,
 				markdown
 			} = this.detailInfo;
+			xU(this.detailInfo);
 			setValueTo(this.dataXItem, {
 				witchEnv,
 				catid,
@@ -338,6 +347,7 @@ export const DialogModifyInterface = defineComponent({
 				remark: { md: markdown, html: desc },
 				pathParams: req_params,
 				tag: String(tag).split(",").filter(xU.isInput),
+				status,
 				isProxy,
 				requestArgs: {
 					req_headers,
@@ -378,6 +388,7 @@ export const DialogModifyInterface = defineComponent({
 				apiMethod,
 				path,
 				tag,
+				status,
 				isProxy,
 				witchEnv,
 				remark,
@@ -412,6 +423,7 @@ export const DialogModifyInterface = defineComponent({
 				witchEnv,
 				req_params: pathParams,
 				tag,
+				status,
 				/* 请求 */
 				req_body_type,
 				req_body_other,
@@ -462,12 +474,12 @@ export const DialogModifyInterface = defineComponent({
 			} else if (_formData.req_body_type === "json") {
 				_formData.req_headers
 					? xU.each(_formData.req_headers, item => {
-							delete item._id;
-							if (item.name === "Content-Type") {
-								item.value = "application/json";
-								haveContentType = true;
-							}
-					  })
+						delete item._id;
+						if (item.name === "Content-Type") {
+							item.value = "application/json";
+							haveContentType = true;
+						}
+					})
 					: [];
 
 				if (haveContentType === false) {
@@ -560,7 +572,6 @@ export const DialogModifyInterface = defineComponent({
 					<div class="flex1">
 						<xForm labelStyle={{ "min-width": "120px", width: "unset" }}>
 							<xGap t="10" />
-							<xGap t="10" />
 							<xItem configs={this.dataXItem.catid} />
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.title} />
@@ -572,6 +583,8 @@ export const DialogModifyInterface = defineComponent({
 							{this.vDomXItemPathparams}
 							<xGap t="10" />
 							<xItem configs={this.dataXItem.tag} />
+							<xGap t="10" />
+							<xItem configs={this.dataXItem.status} />
 							<xGap t="10" />
 							<div class="flex">
 								<xItem configs={this.dataXItem.isProxy} />

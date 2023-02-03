@@ -133,10 +133,10 @@ export default defineComponent({
 		},
 		title() {
 			return (
-				<h4 class="ui-title">
-					<span class="mr10">{this.projectData._id}</span>
+				<div class="ui-title" v-uiPopover={{ onlyEllipsis: true }}>
+					{/* <span class="mr10">{this.projectData._id}</span> */}
 					<span>{this.projectData.name || this.projectData.projectname}</span>
-				</h4>
+				</div>
 			);
 		}
 	},

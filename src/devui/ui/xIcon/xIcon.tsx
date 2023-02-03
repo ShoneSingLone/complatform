@@ -56,7 +56,8 @@ export default defineComponent(
 				if (!State_UI.assetsSvgPath) {
 					debugger;
 				}
-				return `${State_UI.assetsSvgPath}/${this.icon}.svg`;
+				const iconPath = `${State_UI.assetsSvgPath}/${this.icon}.svg`;
+				return iconPath;
 			},
 			async setIcon() {
 				if (!this.icon) return;
@@ -65,17 +66,22 @@ export default defineComponent(
 						/* 已缓存为组件 */
 						let _SvgIconAny = insideIcons[this.icon];
 						if (_SvgIconAny) {
+							xU(this.icon)
 							return _SvgIconAny;
 						}
-						/* indexedDB 缓存成字符串 */
-						_SvgIconAny = await iStorage(this.iconKey);
-						if (_SvgIconAny) {
-							return _SvgIconAny;
+						if (!State_UI.isDev) {
+							/* indexedDB 缓存成字符串 */
+							_SvgIconAny = await iStorage(this.iconKey);
+							if (_SvgIconAny) {
+								return _SvgIconAny;
+							}
 						}
 						try {
 							/* public asset remote 加载 svg 字符串 */
 							_SvgIconAny = await xU.asyncLoadText(this.getIconPath());
-						} catch (error) {}
+						} catch (error) {
+							console.error(error);
+						}
 						return _SvgIconAny;
 					})();
 
@@ -86,7 +92,6 @@ export default defineComponent(
 						};
 						/* indexedDB 缓存 字符串*/
 						await iStorage(this.iconKey, SvgIconAny);
-
 						/* 内存 缓存 */
 						insideIcons[this.icon] = SvgComponentByString;
 						this.svgIcon = <SvgComponentByString {...this.baseAttrs} />;
