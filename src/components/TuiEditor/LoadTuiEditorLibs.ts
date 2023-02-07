@@ -1,4 +1,4 @@
-import { xU, State_UI } from "@ventose/ui";
+import { State_UI, xU } from "@ventose/ui";
 
 export const asyncGetTuiEditor = async () => {
 	if (window.TuiEditor) {

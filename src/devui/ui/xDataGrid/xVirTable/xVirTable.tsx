@@ -49,7 +49,7 @@ export const xVirTable = defineComponent({
 	},
 	data() {
 		return {
-			selectedAll: false,
+			selectedAll: false
 		};
 	},
 	computed: {
@@ -209,7 +209,7 @@ export const xVirTable = defineComponent({
 			const $style = $(`#style_${this.xVirTableId}`);
 			$style.html(styleContent);
 		},
-		handleSelectedChange() { },
+		handleSelectedChange() {},
 		handleSelectedChangeTh(e) {
 			const { checked } = e.target;
 			if (checked) {

@@ -1,6 +1,6 @@
 //@ts-nocheck
-import { xU, $ } from "@ventose/ui";
-import { defineComponent, defineAsyncComponent } from "vue";
+import { $, xU } from "@ventose/ui";
+import { defineAsyncComponent, defineComponent } from "vue";
 import { asyncGetTuiEditor } from "./LoadTuiEditorLibs";
 
 export const TuiEditor = defineAsyncComponent(

@@ -1,4 +1,3 @@
-import { resolveComponent } from "vue";
 import { xU } from "../../ventoseUtils";
 
 export default ({

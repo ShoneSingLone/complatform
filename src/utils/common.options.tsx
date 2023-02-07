@@ -1,5 +1,5 @@
-import { HTTP_METHOD } from "./variable";
 import { xU } from "@ventose/ui";
+import { HTTP_METHOD } from "./variable";
 
 export const ITEM_OPTIONS = {
 	httpMethod: xU.map(HTTP_METHOD, (item, prop) => ({
@@ -23,7 +23,7 @@ export const ITEM_OPTIONS = {
 	],
 	interfaceStatus: [
 		{ label: "未完成", value: "undone" },
-		{ label: "已完成", value: "done" },
+		{ label: "已完成", value: "done" }
 	],
 	status: [
 		{ label: "开通", value: "ACTIVATED" },

@@ -1,7 +1,7 @@
 import "./Footer.scss";
 import { defineComponent } from "vue";
 import { $ } from "@ventose/ui";
-import { State_App, Methods_App } from "../../state/State_App";
+import { Methods_App, State_App } from "../../state/State_App";
 import { Cpt_url } from "./../../router/router";
 
 const version = Date.now();

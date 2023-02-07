@@ -16,13 +16,11 @@
 <script lang="jsx">
 import { defineComponent } from "vue";
 import {
-	defItem,
-	State_UI,
-	FormRules,
-	xU,
-	UI,
 	AllWasWell,
+	defItem,
+	FormRules,
 	pickValueFrom,
+	UI,
 	validateForm
 } from "@ventose/ui";
 import {

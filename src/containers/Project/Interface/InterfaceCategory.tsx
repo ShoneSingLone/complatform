@@ -1,13 +1,6 @@
-import { defineComponent, ref, watch } from "vue";
-import { State_UI } from "@ventose/ui";
-import {
-	Methods_Project,
-	State_Project,
-	useInterfaceTableConfigs
-} from "./State_Project";
-import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
-import { Cpt_url } from "./../../../router/router";
-const { $t } = State_UI;
+import { defineComponent } from "vue";
+import { Cpt_url } from "@/router/router";
+import { State_Project, useInterfaceTableConfigs } from "./State_Project";
 
 export const InterfaceCategory = defineComponent({
 	setup() {

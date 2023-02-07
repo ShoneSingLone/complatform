@@ -1,7 +1,5 @@
 import "./Subnav.scss";
 
-import { Menu } from "ant-design-vue";
-
 class Subnav extends Component {
 	constructor(props) {
 		super(props);

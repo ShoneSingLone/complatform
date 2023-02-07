@@ -18,7 +18,7 @@ export const xLogObject = defineComponent({
 		}
 	},
 	render() {
-		/* Ö»ÔÚ¿ª·¢Ä£Ê½ÓĞĞèÒªµÄÇé¿öÏÂÊ¹ÓÃ */
+		/* åªåœ¨å¼€å‘æ¨¡å¼æœ‰éœ€è¦çš„æƒ…å†µä¸‹ä½¿ç”¨ */
 		if (!State_UI.isDev || this.$attrs.hide) {
 			return null;
 		} else {

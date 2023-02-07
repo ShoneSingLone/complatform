@@ -1,6 +1,6 @@
 //@ts-nocheck
-import { State_UI, xU } from "@ventose/ui";
-import { defineComponent, defineAsyncComponent } from "vue";
+import { xU } from "@ventose/ui";
+import { defineAsyncComponent, defineComponent } from "vue";
 import { asyncGetMonaco } from "./LoadMonacoLibs";
 
 const theme = ["vs", "vs-dark", "hc-black", "hc-light"];

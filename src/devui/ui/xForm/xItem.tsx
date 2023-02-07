@@ -1,4 +1,4 @@
-import { computed, defineComponent, isProxy, markRaw, toRaw } from "vue";
+import { computed, defineComponent, isProxy, toRaw } from "vue";
 import renders from "./itemRenders";
 import { checkXItem, EVENT_TYPE, TIPS_TYPE } from "../tools/validate";
 import { xU } from "../ventoseUtils";
@@ -49,15 +49,23 @@ export const xItem = defineComponent({
 		}
 		/*readonly 在configs中，各个render自行实现*/
 
+		return {
+			Cpt_isShowXItem,
+			Cpt_isDisabled
+		};
+	},
+	data(vm) {
+		const { $props, $attrs } = vm;
+
 		const { listeners, propsWillDeleteFromConfigs } = (() => {
-			const { configs } = props;
+			const { configs } = $props;
 			/* 后面的属性覆盖前面的属性 */
 			/* propsWillDeleteFromConfigsSet jsx 避免 listener 与 properties 实践名称重复 */
 			const propsSet = new Set();
 
 			const triggerValidate = eventType => {
 				/*validate的定义 搜索 MutatingProps_configs_validate */
-				configs.validate && configs.validate(eventType);
+				configs.validate && configs.validate(eventType, vm.properties.value);
 			};
 
 			/* 需要一个事件分发，拦截所有事件，再根据配置信息   */
@@ -66,15 +74,14 @@ export const xItem = defineComponent({
 				"onUpdate:value": val => {
 					/* 使用configs.value的形式，一般是configs与组件是一对一的关系,configs需要是reactive的  */
 					if (configs.value !== undefined) {
-						if (configs.modelValue === val) {
+						if (configs.value === val) {
 							return;
 						} else {
 							configs.value = val;
 						}
 					}
-					configs.modelValue = val;
 					/* 双向绑定 */
-					emit("update:modelValue", val);
+					vm.$emit("update:modelValue", val);
 					/* @ts-ignore */
 					if (xU.isFunction(listeners.onAfterValueEmit)) {
 						/* @ts-ignore */
@@ -124,7 +131,7 @@ export const xItem = defineComponent({
 					makeEventHandlerSupportMultiple(prop, value);
 				}
 			});
-			xU.each(attrs, (value, prop) => {
+			xU.each($attrs, (value, prop) => {
 				/* FIX: 监听函数单独出来。listener不知道在哪里被覆盖了，inputPassword  被 pop 包裹，childListener被修改了,UI库？？*/
 				if (xU.isListener(prop)) {
 					makeEventHandlerSupportMultiple(prop, value);
@@ -134,19 +141,13 @@ export const xItem = defineComponent({
 		})();
 
 		return {
-			Cpt_isShowXItem,
-			Cpt_isDisabled,
-			listeners,
-			propsWillDeleteFromConfigs
-		};
-	},
-	data() {
-		return {
 			/* validateInfo */
 			isRequired: false,
 			/* validateInfo */
 			properties: null,
-			itemSlots: {}
+			itemSlots: {},
+			listeners,
+			propsWillDeleteFromConfigs
 		};
 	},
 	computed: {
@@ -304,28 +305,8 @@ export const xItem = defineComponent({
 		vm.configs.FormItemId = vm.FormItemId;
 		/*似乎Vue3 用的是类方法不是实例方法，同一种组件，类方法用 debounce 只会执行最后一个*/
 		(() => {
-			vm.updateValue = xU.debounce(function () {
-				/* modelValue configs.value configs.defaultValue */
-				const value = (() => {
-					if (vm.modelValue !== undefined) {
-						return vm.modelValue;
-					}
-					if (vm.configs.value == undefined) {
-						if (vm.configs.defaultValue !== undefined) {
-							return vm.configs.defaultValue;
-						} else {
-							xU("either configs.value or modelValue");
-						}
-					}
-					return vm.configs.value;
-				})();
-				const diffRes = diff(vm.properties.value, value);
-				if (diffRes) {
-					xU(diffRes);
-					vm.properties.value = value;
-					vm.listeners["onUpdate:value"](value);
-				}
-			}, 96);
+			vm.updateValue = xU.debounce(vm.updateValueSync, 94);
+			// vm.updateValue = vm.updateValueSync;
 			vm.updateValue();
 		})();
 
@@ -340,14 +321,12 @@ export const xItem = defineComponent({
 							__properties[prop] = item(this);
 							return;
 						}
-
 						/* 用于xForm 控件，以下配置信息跟UI库控件相关，用不上，遂删除 */
 						if (
 							["itemTips", "rules", "labelVNodeRender", "slots"].includes(prop)
 						) {
 							return;
 						}
-
 						__properties[prop] = item;
 					});
 				};
@@ -368,6 +347,32 @@ export const xItem = defineComponent({
 		delete devHelper[this._.uid];
 	},
 	methods: {
+		async updateValueSync() {
+			await xU.ensureValueDone(() => this.properties);
+			const vm = this;
+			/* modelValue configs.value configs.defaultValue */
+			const value = (() => {
+				if (vm.modelValue !== undefined) {
+					return vm.modelValue;
+				}
+				if (vm.configs.value == undefined) {
+					if (vm.configs.defaultValue !== undefined) {
+						return vm.configs.defaultValue;
+					} else {
+						xU("either configs.value or modelValue");
+					}
+				}
+
+				return vm.configs.value;
+			})();
+
+			const diffRes = diff(vm.properties.value, value);
+			if (diffRes) {
+				xU("xItem diffRes", diffRes);
+				vm.properties.value = value;
+				vm.listeners["onUpdate:value"](value);
+			}
+		},
 		setTips(type = "", msg = "") {
 			MutatingProps(this, "configs.itemTips", { type, msg });
 		},
@@ -450,7 +455,10 @@ export const xItem = defineComponent({
 				<div class="ant-form-item-control" data-type={itemTypeName}>
 					<CurrentXItem
 						propsWillDeleteFromConfigs={propsWillDeleteFromConfigs}
-						properties={{ ...properties, disabled: Cpt_isDisabled }}
+						properties={{
+							...properties,
+							disabled: Cpt_isDisabled
+						}}
 						listeners={this.listeners}
 						slots={this.itemSlots}
 					/>

@@ -39,12 +39,12 @@
 <script>
 import { h, markRaw } from "vue";
 import {
+	$t,
 	AllWasWell,
 	components,
 	defItem,
 	FormRules,
 	pickValueFrom,
-	State_UI,
 	UI,
 	validateForm,
 	VNodeCollection
@@ -52,8 +52,6 @@ import {
 import { DemoXFormWithForm } from "./DemoXFormWithForm.tsx";
 
 const { xItem } = components;
-
-import { $t } from "@ventose/ui";
 
 export default {
 	components: {

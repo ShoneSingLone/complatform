@@ -66,7 +66,7 @@ export default defineComponent(
 						/* 已缓存为组件 */
 						let _SvgIconAny = insideIcons[this.icon];
 						if (_SvgIconAny) {
-							xU(this.icon)
+							xU(this.icon);
 							return _SvgIconAny;
 						}
 						if (!State_UI.isDev) {

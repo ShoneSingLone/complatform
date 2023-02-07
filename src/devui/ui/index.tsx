@@ -25,7 +25,7 @@ import {
 	xVirTable
 } from "./xDataGrid/xVirTable/xVirTable";
 import { xU } from "./ventoseUtils";
-import { Cpt_UI_locale, State_UI, $t } from "./State_UI";
+import { $t, Cpt_UI_locale, State_UI } from "./State_UI";
 import dayjs from "dayjs";
 import { FormRules, RegexFn } from "./xForm/FormRules";
 import { installUIDialogComponent } from "./xSingle/dialog/dialog";

@@ -2,11 +2,15 @@ import { defineComponent } from "vue";
 
 import { State_Project, useInterfaceTableConfigs } from "./State_Project";
 import { $t, xU } from "@/devui/ui";
-import { openDialogInterfaceProxyModify, openDialogInterfaceStatusModify } from "./DialogModifyInterface.Helper";
+import {
+	openDialogInterfaceProxyModify,
+	openDialogInterfaceStatusModify
+} from "./DialogModifyInterface.Helper";
 
 export const InterfaceAll = defineComponent({
 	setup() {
-		const { filterParams, configs_interfaceTable, fnUpdateListForShow } = useInterfaceTableConfigs(true);
+		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
+			useInterfaceTableConfigs(true);
 		return {
 			State_Project,
 			filterParams,
@@ -16,7 +20,7 @@ export const InterfaceAll = defineComponent({
 	},
 	computed: {
 		disabled() {
-			return !this.configs_interfaceTable.selected.length
+			return !this.configs_interfaceTable.selected.length;
 		}
 	},
 	watch: {
@@ -46,8 +50,8 @@ export const InterfaceAll = defineComponent({
 				},
 				async onClick() {
 					openDialogInterfaceStatusModify({
-						selected: vm.configs_interfaceTable.selected,
-					})
+						selected: vm.configs_interfaceTable.selected
+					});
 				}
 			},
 			btnChangeProxy: {
@@ -57,10 +61,10 @@ export const InterfaceAll = defineComponent({
 				},
 				async onClick() {
 					openDialogInterfaceProxyModify({
-						selected: vm.configs_interfaceTable.selected,
-					})
+						selected: vm.configs_interfaceTable.selected
+					});
 				}
-			},
+			}
 		};
 	},
 	render() {

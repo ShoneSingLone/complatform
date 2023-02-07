@@ -1,7 +1,6 @@
-import { xU, UI, lStorage, $ } from "@ventose/ui";
+import { UI, xU } from "@ventose/ui";
 import axios from "axios";
 import { State_App } from "../state/State_App";
-import { Cpt_url } from "./../router/router";
 
 const ajax = axios.create({
 	timeout: 20000 // request timeout

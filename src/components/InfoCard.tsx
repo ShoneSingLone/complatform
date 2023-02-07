@@ -1,6 +1,7 @@
-import { xU, compositionAPI, $ } from "@ventose/ui";
+import { $, compositionAPI, xU } from "@ventose/ui";
 import { defineComponent } from "vue";
 import "./InfoCard.less";
+
 const { useScopeStyle } = compositionAPI;
 
 export const InfoCardCol = defineComponent({

@@ -2,7 +2,6 @@ import "./Header.scss";
 
 import Srch from "./Search/Search";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
-import GuideBtns from "../GuideBtns/GuideBtns";
 import { defineComponent, VNode } from "vue";
 import { UI, xU } from "@ventose/ui";
 import { Methods_App, State_App } from "./../../state/State_App";

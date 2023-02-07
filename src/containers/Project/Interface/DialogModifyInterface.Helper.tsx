@@ -216,7 +216,6 @@ export const ResponseRender = defineComponent({
 	}
 });
 
-
 export async function openDialogInterfaceStatusModify({ selected }) {
 	await UI.dialog.component({
 		title: $t("变更状态").label,

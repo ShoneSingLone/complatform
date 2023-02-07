@@ -1,7 +1,15 @@
-import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI, defCol, defDataGridOption, State_UI, $t } from "@ventose/ui";
+import { defineComponent } from "vue";
+import {
+	$,
+	xU,
+	UI,
+	defCol,
+	defDataGridOption,
+	State_UI,
+	$t
+} from "@ventose/ui";
 import { API } from "../../../api";
-import { Methods_Project, State_Project } from "./State_Project";
+import { State_Project } from "./State_Project";
 import { Cpt_url } from "../../../router/router";
 import { InfoCard } from "../../../components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
@@ -275,7 +283,8 @@ export const InterfaceDetail = defineComponent({
 			}
 		},
 		ajaxCode() {
-			const { tag, up_time, title, uid, username, path, method } = this.detailInfo;
+			const { tag, up_time, title, uid, username, path, method } =
+				this.detailInfo;
 			/* TODO:后端获取模板 */
 			return `/**
 *  ${title}
@@ -293,15 +302,20 @@ async ${xU.camelCase(path)}({params,data}) {
 		vDomCopyAjaxCodePanel() {
 			return (
 				<div style="position:relative;overflow:auto;height:100%;">
-					<MonacoEditor code={this.ajaxCode} style={{ minHeight: 180 }} readOnly={true} />
+					<MonacoEditor
+						code={this.ajaxCode}
+						style={{ minHeight: 180 }}
+						readOnly={true}
+					/>
 				</div>
 			);
 		},
 		vDomMockHref() {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
-			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${this.State_App.currProject._id
-				}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
+				this.State_App.currProject._id
+			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const vm = this;
@@ -415,7 +429,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							label: (
 								<div class="flex middle">
 									<aButton onClick={() => vm.copyUrl(vm.ajaxCode)}>
-										{$t('复制代码').label}
+										{$t("复制代码").label}
 									</aButton>
 									<span class="flex1">{$t("ajax代码").label}</span>
 								</div>

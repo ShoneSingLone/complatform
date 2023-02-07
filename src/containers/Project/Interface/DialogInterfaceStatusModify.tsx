@@ -24,7 +24,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 			dataXItem: {
 				...defItem({
 					prop: "status",
-					label: $t('状态').label,
+					label: $t("状态").label,
 					value: ITEM_OPTIONS.interfaceStatus[0].value,
 					options: ITEM_OPTIONS.interfaceStatus,
 					itemType: "Select"
@@ -57,7 +57,9 @@ export const DialogInterfaceStatusModify = defineComponent({
 			if (AllWasWell(validateResults)) {
 				const { status } = pickValueFrom(this.dataXItem);
 				try {
-					const res = await Promise.all(xU.map(selected, id => API.project.updateInterface({ id, status })))
+					const res = await Promise.all(
+						xU.map(selected, id => API.project.updateInterface({ id, status }))
+					);
 					Methods_Project.updateInterfaceMenuList();
 					this.propDialogOptions.closeDialog();
 					UI.message.success(this.$t("修改_成功", { title: "状态" }).label);
@@ -65,7 +67,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 					UI.message.error(this.$t("修改_失败", { title: "状态" }).label);
 				}
 			}
-		},
+		}
 	},
 	render() {
 		return (

@@ -1,6 +1,4 @@
 import React from "react";
-
-import { Icon } from "ant-design-vue";
 import "./Intro.scss";
 import { OverPack } from "rc-scroll-anim";
 import TweenOne from "rc-tween-one";

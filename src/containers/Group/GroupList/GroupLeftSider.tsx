@@ -197,6 +197,7 @@ export const GroupLeftSider = defineComponent({
 					</aTooltip>
 					<div class="search">
 						{/* 搜索框 */}
+						{this.configsSearch.value}
 						<xItem configs={this.configsSearch} />
 					</div>
 				</div>

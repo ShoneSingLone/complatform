@@ -1,10 +1,11 @@
-import { Icon, Input, AutoComplete } from "ant-design-vue";
+import { AutoComplete } from "ant-design-vue";
 import "./Search.scss";
 
 import axios from "axios";
 
 import { defineComponent } from "vue";
 import { Methods_App } from "@/state/State_App";
+
 const Option = AutoComplete.Option;
 
 /* @connect(

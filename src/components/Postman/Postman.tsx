@@ -1,29 +1,14 @@
-import {
-	Button,
-	Input,
-	Checkbox,
-	Modal,
-	Select,
-	Spin,
-	Icon,
-	Collapse,
-	Tooltip,
-	Tabs,
-	Switch,
-	Row,
-	Col,
-	Alert
-} from "ant-design-vue";
+import {Alert, Checkbox, Collapse, Input, Select, Switch, Tabs} from "ant-design-vue";
 import AceEditor from "client/components/AceEditor/AceEditor";
-import { xU } from "@ventose/ui";
-import { isJson, deepCopyJson, json5_parse } from "../../common.js";
+import {xU} from "@ventose/ui";
+import {deepCopyJson, isJson} from "../../common.js";
 import axios from "axios";
-import ModalPostman from "../ModalPostman/index.js";
-import CheckCrossInstall, { initCrossRequest } from "./CheckCrossInstall.js";
+import CheckCrossInstall, {initCrossRequest} from "./CheckCrossInstall.js";
 import "./Postman.scss";
 import ProjectEnv from "../../containers/Project/Setting/ProjectEnv/index.js";
 import json5 from "json5";
-import { HTTP_METHOD } from "../../utils/variable";
+import {HTTP_METHOD} from "../../utils/variable";
+
 const {
 	handleParamsValue,
 	ArrayToObject,

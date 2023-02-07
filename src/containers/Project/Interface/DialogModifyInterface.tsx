@@ -212,7 +212,7 @@ export const DialogModifyInterface = defineComponent({
 				}),
 				...defItem({
 					prop: "status",
-					label: $t('状态').label,
+					label: $t("状态").label,
 					value: ITEM_OPTIONS.interfaceStatus[0].value,
 					options: ITEM_OPTIONS.interfaceStatus,
 					itemType: "Select"
@@ -474,12 +474,12 @@ export const DialogModifyInterface = defineComponent({
 			} else if (_formData.req_body_type === "json") {
 				_formData.req_headers
 					? xU.each(_formData.req_headers, item => {
-						delete item._id;
-						if (item.name === "Content-Type") {
-							item.value = "application/json";
-							haveContentType = true;
-						}
-					})
+							delete item._id;
+							if (item.name === "Content-Type") {
+								item.value = "application/json";
+								haveContentType = true;
+							}
+					  })
 					: [];
 
 				if (haveContentType === false) {

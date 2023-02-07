@@ -1,4 +1,4 @@
-import { reactive, getCurrentInstance, onMounted } from "vue";
+import { getCurrentInstance, reactive } from "vue";
 import { xU } from "../ventoseUtils";
 
 export const useScopeStyle = () => {

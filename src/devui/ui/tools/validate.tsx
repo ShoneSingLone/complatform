@@ -4,8 +4,6 @@ import { markRaw } from "vue";
 export const getValueNeedVarigy = ({ value, xItemConfigs }) => {
 	if (value !== undefined) {
 		return value;
-	} else if (xItemConfigs.modelValue !== undefined) {
-		return xItemConfigs.modelValue;
 	} else if (xItemConfigs.value !== undefined) {
 		return xItemConfigs.value;
 	} else {
@@ -46,7 +44,7 @@ export async function validateForm(configsForm, valuesCollection?: Object) {
 		xU.map(propsArray, prop => {
 			const configs = configsForm[prop];
 			const valueNeedVarify = getValueNeedVarigy({
-				value: valuesCollection && valuesCollection[prop],
+				value: (valuesCollection && valuesCollection[prop]) || configs.value,
 				xItemConfigs: configs
 			});
 

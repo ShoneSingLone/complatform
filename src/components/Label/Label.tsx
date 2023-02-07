@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Icon, Input, Tooltip } from "ant-design-vue";
 
 import "./Label.scss";
 

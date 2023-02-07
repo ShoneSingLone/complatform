@@ -16,9 +16,7 @@
 
 <script>
 import { ITEM_OPTIONS } from "../../common/options";
-import { defCol, defDataGridOption, State_UI, xU } from "@ventose/ui";
-
-import { $t } from "@ventose/ui";
+import { $t, defCol, defDataGridOption, xU } from "@ventose/ui";
 
 export default {
 	name: "DemoXDataGrid",

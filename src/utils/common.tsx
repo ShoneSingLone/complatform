@@ -1,12 +1,13 @@
-import { xU, $, VentoseUIWithInstall, State_UI } from "@ventose/ui";
+import { $, State_UI, VentoseUIWithInstall, xU } from "@ventose/ui";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { RouterView } from "../components/RouterView/RouterView";
 import { ErrMsg } from "../components/ErrMsg/ErrMsg";
 import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
-export { ITEM_OPTIONS } from "./common.options";
 import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "src/components/MonacoEditor/MonacoEditor";
+
+export { ITEM_OPTIONS } from "./common.options";
 
 dayjs.locale("zh-cn");
 
@@ -88,30 +89,31 @@ export const _$handlePath = path => {
 };
 
 export const _$timeAgo = function (timestamp) {
-	let minutes, hours, days, seconds, mouth, year;
-	const timeNow = parseInt(new Date().getTime() / 1000);
-	seconds = timeNow - timestamp;
+	let minutes, hours, days, mouth;
+	let year: any;
+	const timeNow = parseInt(String(new Date().getTime() / 1000));
+	let seconds = timeNow - timestamp;
 	if (seconds > 86400 * 30 * 12) {
-		year = parseInt(seconds / (86400 * 30 * 12));
+		year = parseInt(String(seconds / (86400 * 30 * 12)));
 	} else {
 		year = 0;
 	}
 	if (seconds > 86400 * 30) {
-		mouth = parseInt(seconds / (86400 * 30));
+		mouth = parseInt(String(seconds / (86400 * 30)));
 	} else {
 		mouth = 0;
 	}
 	if (seconds > 86400) {
-		days = parseInt(seconds / 86400);
+		days = parseInt(String(seconds / 86400));
 	} else {
 		days = 0;
 	}
 	if (seconds > 3600) {
-		hours = parseInt(seconds / 3600);
+		hours = parseInt(String(seconds / 3600));
 	} else {
 		hours = 0;
 	}
-	minutes = parseInt(seconds / 60);
+	minutes = parseInt(String(seconds / 60));
 	if (year > 0) {
 		return year + "年前";
 	} else if (mouth > 0 && year <= 0) {

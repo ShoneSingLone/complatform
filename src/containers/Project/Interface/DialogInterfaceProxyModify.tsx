@@ -57,8 +57,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 						});
 					},
 					itemType: EnvSelectRender
-				}),
-
+				})
 			}
 		};
 	},
@@ -87,7 +86,11 @@ export const DialogInterfaceProxyModify = defineComponent({
 			if (AllWasWell(validateResults)) {
 				const { isProxy, witchEnv } = pickValueFrom(this.dataXItem);
 				try {
-					const res = await Promise.all(xU.map(selected, id => API.project.updateInterface({ id, witchEnv, isProxy })))
+					const res = await Promise.all(
+						xU.map(selected, id =>
+							API.project.updateInterface({ id, witchEnv, isProxy })
+						)
+					);
 					Methods_Project.updateInterfaceMenuList();
 					this.propDialogOptions.closeDialog();
 					UI.message.success(this.$t("修改_成功", { title: "代理" }).label);
@@ -95,7 +98,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 					UI.message.error(this.$t("修改_失败", { title: "代理" }).label);
 				}
 			}
-		},
+		}
 	},
 	render() {
 		return (

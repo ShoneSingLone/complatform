@@ -38,7 +38,15 @@ const appOptions = {
 		assetsInlineLimit: 512,
 		cssCodeSplit: true,
 		sourcemap: false,
-		manifest: true
+		manifest: true,
+		rollupOptions: {
+			output: {
+				/* https://www.rollupjs.com/guide/big-list-of-options/#outputentryfilenames */
+				entryFileNames: "assets/js/[name].[hash].js",
+				chunkFileNames: "assets/js/[name].[hash].js",
+				assetFileNames: "assets/[name].[hash][extname]"
+			}
+		}
 	},
 	plugins: [
 		useVue(),

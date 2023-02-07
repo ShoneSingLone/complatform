@@ -1,4 +1,4 @@
-import { FormRules, EVENT_TYPE, xU, State_UI } from "@ventose/ui";
+import { EVENT_TYPE, FormRules, State_UI, xU } from "@ventose/ui";
 import { NAME_LIMIT } from "./variable";
 
 FormRules.nameLength = ({ label, max, min }) => {

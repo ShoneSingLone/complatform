@@ -1,5 +1,5 @@
-import { defineComponent, inject, provide, h, markRaw } from "vue";
-import { routes, Cpt_url } from "../../router/router";
+import { defineComponent, h, inject, markRaw, provide } from "vue";
+import { Cpt_url, routes } from "../../router/router";
 import { State_UI, xU } from "@ventose/ui";
 import { ViewNotFound } from "../ViewNotFound";
 import NProgress from "nprogress"; // progress bar

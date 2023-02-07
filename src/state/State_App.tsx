@@ -1,5 +1,5 @@
 import { reactive, watch } from "vue";
-import { lStorage, UI, xU, State_UI } from "@ventose/ui";
+import { lStorage, State_UI, UI, xU } from "@ventose/ui";
 import { Cpt_url } from "./../router/router";
 import { API } from "./../api";
 
@@ -10,7 +10,7 @@ const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
 
 let _State_App = {
-	baseURL: `http://localhost:3010`,
+	baseURL: window.location.origin,
 	isFooterFold: false,
 	urlHash: window.location.hash,
 	user: {
@@ -54,8 +54,9 @@ let _State_App = {
 	}
 };
 
-_State_App = reactive(xU.merge(_State_App, lStorage.State_App));
-
+_State_App = reactive(
+	xU.merge(_State_App, lStorage.State_App, { baseURL: window.location.origin })
+);
 _State_App.urlHash = window.location.hash;
 
 export const Methods_App = {

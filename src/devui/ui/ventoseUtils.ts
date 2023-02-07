@@ -1,5 +1,4 @@
-import { LoDashStatic } from "lodash";
-import _ from "lodash";
+import _, { LoDashStatic } from "lodash";
 /* @ts-ignore */
 import dayjs from "dayjs";
 import $ from "jquery";
@@ -399,10 +398,9 @@ const privateLodash = {
 				/* @ts-ignore */
 				resolve(data);
 			} catch (error) {
-				reject(error)
+				reject(error);
 			}
-		}
-		);
+		});
 	},
 	/**
 	 * 异步加载js 在window中名为globalName的全局变量

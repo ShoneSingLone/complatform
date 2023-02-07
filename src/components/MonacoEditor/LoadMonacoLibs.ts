@@ -1,4 +1,5 @@
-import { xU, State_UI, iStorage, $ } from "@ventose/ui";
+import { $, iStorage, State_UI, xU } from "@ventose/ui";
+
 export const asyncGetMonaco = async () => {
 	if (window.monaco) {
 		return window.monaco;
