@@ -6,7 +6,7 @@ import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
 import { Cpt_url } from "./router/router";
 import { Methods_App, State_App } from "./state/State_App";
-import { Methods_Project } from "./containers/Project/Interface/State_Project";
+import { Methods_Project } from "@/containers/Project/State_Project";
 
 export default defineComponent({
 	components: { AppFooter, AppHeader },

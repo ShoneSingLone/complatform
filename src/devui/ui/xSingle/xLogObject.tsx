@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { defineComponent } from "vue";
 import { xU } from "../ventoseUtils";
 import { State_UI } from "../State_UI";

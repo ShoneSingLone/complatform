@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { Cpt_url } from "@/router/router";
-import { State_Project, useInterfaceTableConfigs } from "../State_Project";
+import { State_Project, useInterfaceTableConfigs } from "./State_Project";
 
 export const InterfaceCategory = defineComponent({
 	setup() {

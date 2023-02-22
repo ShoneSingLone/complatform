@@ -6,7 +6,7 @@ import {
 	UI,
 	xU
 } from "@ventose/ui";
-import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "src/utils/common.options";
+import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { defineComponent, markRaw, reactive, watch } from "vue";
 import { DialogBulkValues } from "./DialogBulkValues";
 

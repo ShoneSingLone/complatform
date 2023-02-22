@@ -1,8 +1,8 @@
 import { computed, reactive, ref, watch } from "vue";
 import { $, xU, UI, State_UI, defCol, defXVirTableConfigs } from "@ventose/ui";
-import { API } from "../../../api";
-import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../../utils/common.options";
-import { Cpt_url } from "../../../router/router";
+import { API } from "../../api/index";
+import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "../../utils/common.options";
+import { Cpt_url } from "../../router/router";
 import { State_App } from "@/state/State_App";
 
 const { $t } = State_UI;

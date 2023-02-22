@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 
-import { State_Project, useInterfaceTableConfigs } from "../State_Project";
+import { State_Project, useInterfaceTableConfigs } from "./State_Project";
 import { $t, xU } from "@/devui/ui";
 import {
 	openDialogInterfaceProxyModify,

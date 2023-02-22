@@ -8,7 +8,7 @@ import {
 	xU
 } from "@ventose/ui";
 import { defineComponent, h, inject } from "vue";
-import { ITEM_OPTIONS } from "src/utils/common.options";
+import { ITEM_OPTIONS } from "@/utils/common.options";
 import { SubformObject, objectNeedProps } from "./SubformObject";
 import { SubformString, stringNeedProps } from "./SubformString";
 import { SubformNumber, numberNeedProps } from "./SubformNumber";

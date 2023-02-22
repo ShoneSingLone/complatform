@@ -13,9 +13,12 @@ export const pickValueFrom = configs => {
 	);
 };
 export const setValueTo = (configs, values) => {
-	return xU.map(
+	return xU.each(
 		values,
 		(value, prop) => {
+			if (value === undefined) {
+				return;
+			}
 			if (configs[prop]) {
 				configs[prop].value = value;
 				/* onChange */

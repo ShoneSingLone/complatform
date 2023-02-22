@@ -10,11 +10,11 @@ import {
 	State_UI
 } from "@ventose/ui";
 import { API } from "../../../api";
-import optionsXIcon from "../../../utils/common.options.xIcon";
-import { PROJECT_COLOR } from "../../../utils/variable";
-import { Methods_App, State_App } from "../../../state/State_App";
-import { FormRules } from "../../../utils/common.FormRules";
-import { _$handlePath, _$randomValueAndProp } from "../../../utils/common";
+import optionsXIcon from "@/utils/common.options.xIcon";
+import { PROJECT_COLOR } from "@/utils/variable";
+import { Methods_App, State_App } from "@/state/State_App";
+import { FormRules } from "@/utils/common.FormRules";
+import { _$handlePath, _$randomValueAndProp } from "@/utils/common";
 
 export const xItem_ProjectColor = (options: any = {}) => {
 	const [value] = _$randomValueAndProp(PROJECT_COLOR);

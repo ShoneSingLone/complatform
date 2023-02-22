@@ -1,7 +1,7 @@
 import { xU } from "../ventoseUtils";
 import { markRaw } from "vue";
 
-export const getValueNeedVarigy = ({ value, xItemConfigs }) => {
+export const getValueNeedVarigy = ({ value, xItemConfigs }: any) => {
 	if (value !== undefined) {
 		return value;
 	} else if (xItemConfigs.value !== undefined) {
@@ -34,7 +34,10 @@ export const TIPS_TYPE = {
  * @param {*} configsForm
  * @returns
  */
-export async function validateForm(configsForm, valuesCollection?: Object) {
+export async function validateForm(
+	configsForm: any,
+	valuesCollection?: Object
+) {
 	let propsArray = Object.keys(configsForm);
 	/* 如果提供 数据集，则以数据集的数据为校验对象 */
 	if (valuesCollection) {
@@ -44,6 +47,7 @@ export async function validateForm(configsForm, valuesCollection?: Object) {
 		xU.map(propsArray, prop => {
 			const configs = configsForm[prop];
 			const valueNeedVarify = getValueNeedVarigy({
+				//@ts-ignore
 				value: (valuesCollection && valuesCollection[prop]) || configs.value,
 				xItemConfigs: configs
 			});
@@ -67,7 +71,7 @@ export async function validateForm(configsForm, valuesCollection?: Object) {
 
 					if (configs.validate) {
 						/*xItem的validate使用了debounce ，采用callback异步处理resolve*/
-						configs.__onAfterValidate = markRaw(function (result) {
+						configs.__onAfterValidate = markRaw(function (result: any) {
 							delete configs.__onAfterValidate;
 							resolve(result);
 						});
@@ -83,6 +87,7 @@ export async function validateForm(configsForm, valuesCollection?: Object) {
 		})
 	)
 		.then(results => {
+			//@ts-ignore
 			results = results.filter(res => res && res[0] && res[1]);
 			return results;
 		})
@@ -96,7 +101,7 @@ export async function validateForm(configsForm, valuesCollection?: Object) {
  * @param {*} res
  * @returns
  */
-export const AllWasWell = res => {
+export const AllWasWell = (res: any) => {
 	return xU.isArray(res) && res.length === 0;
 };
 
@@ -105,7 +110,7 @@ export const checkXItem = async ({
 	fnCheckedCallback,
 	value,
 	FormItemId
-}) => {
+}: any) => {
 	const valueNeedVarify = getValueNeedVarigy({ value, xItemConfigs });
 	xItemConfigs.checking = true;
 	fnCheckedCallback = fnCheckedCallback || xU.doNothing;
@@ -130,7 +135,7 @@ export const checkXItem = async ({
 							trigBy = "validateForm";
 							return true;
 						}
-						const isInTrigger = eventName =>
+						const isInTrigger = (eventName: string) =>
 							xItemConfigs.validate.triggerEventsObj[eventName];
 						/*some Event In Trigger*/
 						if (xU.some(trigger, isInTrigger)) {

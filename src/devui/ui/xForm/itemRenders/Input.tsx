@@ -28,7 +28,10 @@ export default defineComponent({
 				return this.ComponentInstance;
 			}
 			this.oldComponent = type;
-			this.ComponentInstance = resolveComponent(type);
+			const ComponentInstance = resolveComponent(type);
+			/* @ts-ignore */
+			ComponentInstance.__v_skip = true;
+			this.ComponentInstance = ComponentInstance;
 			if (type === "aTextarea") {
 				this.properties.autoSize = this.properties.autoSize || {
 					minRows: 4,
@@ -50,19 +53,6 @@ export default defineComponent({
 		}
 	},
 	computed: {
-		modelValue: {
-			get() {
-				if (this._modelValue != this.properties?.value) {
-					return this.properties?.value || "";
-				} else {
-					return this._modelValue;
-				}
-			},
-			set(modelValue) {
-				this._modelValue = modelValue;
-				this.listeners["onUpdate:value"](modelValue);
-			}
-		},
 		component({ properties }) {
 			if (!this.ComponentInstance) {
 				this.diffComponent("aInput");
@@ -98,7 +88,7 @@ export default defineComponent({
 			<component
 				v-model:value={this._modelValue}
 				{...xU.omit(properties, ["value", ...propsWillDeleteFromConfigs])}
-				{...listeners}
+				{...xU.omit(listeners, ["onUpdate:value"])}
 				v-slots={slots}
 			/>
 		);

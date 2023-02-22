@@ -65,10 +65,10 @@ export const routes = [
 	{
 		label: $t("自动化测试").label,
 		path: "/project/test_case",
-		componentName: "InterfaceDetail",
-		component: () => import("../containers/Project/Interface/InterfaceDetail"),
+		componentName: "ProjectTestCase",
+		component: () => import("../containers/Project/TestCase/ProjectTestCase"),
 		meta: {
-			title: $t("接口").label
+			title: $t("自动化测试").label
 		}
 	},
 	{

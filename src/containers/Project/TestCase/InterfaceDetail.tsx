@@ -9,7 +9,7 @@ import {
 	$t
 } from "@ventose/ui";
 import { API } from "../../../api";
-import { State_Project } from "../State_Project";
+import { State_Project } from "./State_Project";
 import { Cpt_url } from "../../../router/router";
 import { InfoCard } from "../../../components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
@@ -283,12 +283,15 @@ export const InterfaceDetail = defineComponent({
 			}
 		},
 		ajaxCode() {
-			const { tag, up_time, title, uid, username, path, method } = this.detailInfo;
+			const { tag, up_time, title, uid, username, path, method } =
+				this.detailInfo;
 			/* TODO:后端获取模板 */
 			return `/**
 *  ${title}
 *  ${window.location.href}
-*  http://10.143.133.216:3001/project/${this.State_App.currProject._id}/interface/api/${this.Cpt_url.query.interface_id}
+*  http://10.143.133.216:3001/project/${
+				this.State_App.currProject._id
+			}/interface/api/${this.Cpt_url.query.interface_id}
 */
 async ${xU.camelCase(path)}({params,data}) {
 	return await request({

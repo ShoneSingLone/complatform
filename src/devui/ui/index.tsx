@@ -25,7 +25,7 @@ import {
 	xVirTable
 } from "./xDataGrid/xVirTable/xVirTable";
 import { xU } from "./ventoseUtils";
-import { $t, Cpt_UI_locale, State_UI } from "./State_UI";
+import { Cpt_UI_locale, State_UI, $t } from "./State_UI";
 import dayjs from "dayjs";
 import { FormRules, RegexFn } from "./xForm/FormRules";
 import { installUIDialogComponent } from "./xSingle/dialog/dialog";
@@ -40,11 +40,11 @@ import {
 	setDataGridInfo,
 	setPagination
 } from "./xDataGrid/common";
-import { antColKey, defItem, vModel } from "./xForm/common.jsx";
+import { antColKey, defItem, vModel } from "./xForm/common";
 import { AllWasWell, EVENT_TYPE, validateForm } from "./tools/validate.js";
-import { setCSSVariables, setDocumentTitle } from "./tools/dom.js";
+import { setCSSVariables, setDocumentTitle } from "./tools/dom";
 import { iStorage, lStorage } from "./tools/storage.js";
-import { pickValueFrom, resetValueOf, setValueTo } from "./tools/form.js";
+import { pickValueFrom, resetValueOf, setValueTo } from "./tools/form";
 import { UI } from "./UI";
 import { VNodeCollection } from "./tools/VNodeRender";
 import { compileVNode } from "./tools/framework";

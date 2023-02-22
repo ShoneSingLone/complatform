@@ -16,7 +16,7 @@ const content = `export default ${JSON.stringify(
 const targetPath = path.resolve(
 	__dirname,
 	"..",
-	"src/utils/common.options.xIcon.ts"
+	"@/utils/common.options.xIcon.ts"
 );
 fs.writeFileSync(targetPath, content);
 

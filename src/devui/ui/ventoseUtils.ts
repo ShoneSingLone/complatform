@@ -1,9 +1,11 @@
-import _, { LoDashStatic } from "lodash";
+import { LoDashStatic } from "lodash";
+import _ from "lodash";
 /* @ts-ignore */
 import dayjs from "dayjs";
 import $ from "jquery";
 import { iStorage } from "./tools/storage";
 import { State_UI } from ".";
+//@ts-ignore
 import axios from "axios";
 
 /* 组件属性是否是on开头，组件的事件监听*/

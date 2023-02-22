@@ -1,5 +1,6 @@
 import { xU } from "../ventoseUtils";
-import { clear, get as idbGet, set as idbSet } from "idb-keyval";
+//@ts-ignore
+import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
 /* keys().then((keys) => console.log(keys)); */
 
 export const lStorage = new Proxy(localStorage, {
@@ -23,20 +24,14 @@ export const lStorage = new Proxy(localStorage, {
 		}
 	}
 });
-
+//@ts-ignore
 if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
 	clear();
+	//@ts-ignore
 	lStorage.__APP_VERSION = window.__APP_VERSION || Date.now();
 	/* keys().then((keys) => console.log(keys)); */
 }
 
-lStorage.appConfigs = lStorage.appConfigs || {
-	pagination: {
-		page: "page",
-		size: "size",
-		total: "total"
-	}
-};
 
 /**
  *

@@ -3,10 +3,11 @@ import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { State_App } from "@/state/State_App";
-import { Methods_Project } from "../State_Project";
+import { Methods_Project } from "./State_Project";
 import { ITEM_OPTIONS } from "@/utils/common.options";
+import { EnvSelectRender } from "./DialogModifyInterface.Helper";
 
-export const DialogInterfaceStatusModify = defineComponent({
+export const DialogInterfaceProxyModify = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
 		propDialogOptions: {
@@ -19,15 +20,43 @@ export const DialogInterfaceStatusModify = defineComponent({
 	setup() {
 		return { State_App };
 	},
-	data() {
+	watch: {
+		"State_App.currProject": {
+			immediate: true,
+			deep: true,
+			handler(currProject) {
+				const { env: envArray } = currProject;
+				this.dataXItem.witchEnv.setOptions(envArray);
+			}
+		}
+	},
+	data(vm) {
 		return {
 			dataXItem: {
 				...defItem({
-					prop: "status",
-					label: $t("状态").label,
-					value: ITEM_OPTIONS.interfaceStatus[0].value,
-					options: ITEM_OPTIONS.interfaceStatus,
-					itemType: "Select"
+					prop: "isProxy",
+					value: false,
+					label: vm.$t("是否开启转发").label,
+					options: ITEM_OPTIONS.trueOrFalse,
+					itemType: "Switch"
+				}),
+				...defItem({
+					isShow() {
+						return vm.dataXItem.isProxy.value;
+					},
+					prop: "witchEnv",
+					label: vm.$t("转发环境").label,
+					value: "",
+					options: [],
+					setOptions(envArray) {
+						this.options = xU.map(envArray, i => {
+							return {
+								value: i._id,
+								label: `${i.name} ${i.domain}`
+							};
+						});
+					},
+					itemType: EnvSelectRender
 				})
 			}
 		};
@@ -55,16 +84,18 @@ export const DialogInterfaceStatusModify = defineComponent({
 			const validateResults = await validateForm(this.dataXItem);
 			const { selected } = this.propDialogOptions;
 			if (AllWasWell(validateResults)) {
-				const { status } = pickValueFrom(this.dataXItem);
+				const { isProxy, witchEnv } = pickValueFrom(this.dataXItem);
 				try {
 					const res = await Promise.all(
-						xU.map(selected, id => API.project.updateInterface({ id, status }))
+						xU.map(selected, id =>
+							API.project.updateInterface({ id, witchEnv, isProxy })
+						)
 					);
 					Methods_Project.updateInterfaceMenuList();
 					this.propDialogOptions.closeDialog();
-					UI.message.success(this.$t("修改_成功", { title: "状态" }).label);
+					UI.message.success(this.$t("修改_成功", { title: "代理" }).label);
 				} catch (error) {
-					UI.message.error(this.$t("修改_失败", { title: "状态" }).label);
+					UI.message.error(this.$t("修改_失败", { title: "代理" }).label);
 				}
 			}
 		}
@@ -75,16 +106,11 @@ export const DialogInterfaceStatusModify = defineComponent({
 				<div class="g-row flex1 height100 ">
 					<xGap t="10" />
 					<xForm
-						class="flex vertical"
+						class="flex"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
-						{xU.map(this.dataXItem, (configs, prop) => {
-							return (
-								<>
-									<xGap t="10" />
-									<xItem configs={configs} />
-								</>
-							);
-						})}
+						<xItem configs={this.dataXItem.isProxy} />
+						<xGap t="10" />
+						<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 					</xForm>
 					<xGap b="38" />
 				</div>

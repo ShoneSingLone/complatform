@@ -3,15 +3,18 @@ import { $, xU, UI, compositionAPI } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
 import { ALL, DefaultInterfaceMenu } from "@/utils/variable";
-import { Methods_Project, State_Project } from "@/containers/Project/State_Project";
+import {
+	Methods_Project,
+	State_Project
+} from "@/containers/Project/State_Project";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "@/utils/common";
-import { State_App } from "src/state/State_App";
+import { State_App } from "@/state/State_App";
 const { usefnObserveDomResize } = compositionAPI;
 
-export const ProjectInterfaceLeftSider = defineComponent({
+export const ProjectTestCaseLeftSider = defineComponent({
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();

@@ -72,9 +72,9 @@ import {
 } from "./xDataGrid/common";
 import { antColKey, defItem, vModel } from "./xForm/common.jsx";
 import { AllWasWell, EVENT_TYPE, validateForm } from "./tools/validate.js";
-import { setCSSVariables, setDocumentTitle } from "./tools/dom.js";
+import { setCSSVariables, setDocumentTitle } from "./tools/dom.jsx";
 import { lStorage } from "./tools/storage.js";
-import { pickValueFrom, resetValueOf } from "./tools/form.js";
+import { pickValueFrom, resetValueOf } from "./tools/form.jsx";
 import { UI } from "./UI";
 /* @ts-ignore */
 window.dayjs = dayjs;

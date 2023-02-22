@@ -5,9 +5,11 @@ $(window).on("click.virTableTdId", function (e) {
 	const virTableTdId = (() => {
 		let $ele = $(e.target);
 		let _virTableTdId = $ele.attr("id");
+		//@ts-ignore
 		if (/^virTableTdId_/.test(_virTableTdId)) {
 			return _virTableTdId;
 		} else {
+			//@ts-ignore
 			$ele = $ele.parents("[id^=virTableTdId_]");
 			_virTableTdId = $ele.attr("id");
 			return _virTableTdId;

@@ -3,7 +3,7 @@ import { computed, defineComponent } from "vue";
 import { Cpt_url, ProjectChildren } from "../../router/router";
 import { State_App } from "../../state/State_App";
 import { API } from "../../api";
-import { State_Project, resetStateInterface } from "./Interface/State_Project";
+import { State_Project, resetStateInterface } from "./State_Project";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 

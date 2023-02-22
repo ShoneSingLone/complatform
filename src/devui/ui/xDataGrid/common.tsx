@@ -2,7 +2,6 @@
 import { t_buttonOptions } from "../xButton/xButton";
 import { xU } from "../ventoseUtils";
 import { ColumnProps } from "ant-design-vue/es/table";
-import { lStorage } from "../tools/storage.js";
 import { State_UI } from "../State_UI";
 
 /*ui 内部使用*/
@@ -56,12 +55,19 @@ export type t_dataGridOptions = {
 
 /* 默认 pagination onPaginationChange isLoading */
 
-/*  */
+/**
+ * 如果没有queryTableList 则不会显示 query 和 refresh 按钮
+ *
+ *
+ * @export
+ * @param {t_dataGridOptions} options
+ * @returns
+ */
 export function defDataGridOption(options: t_dataGridOptions) {
 	/* @ts-ignore */
 	options.pagination = options.pagination || defPagination();
 	options.isLoading = Boolean(options.isLoading);
-	/* 如果没有queryTableList 则不会显示 query 和 refresh 按钮 */
+
 	if (options.queryTableList) {
 		/* @ts-ignore */
 		options._queryTableList_origin = options.queryTableList;
@@ -83,7 +89,7 @@ export function defDataGridOption(options: t_dataGridOptions) {
 
 export function defPagination(num_page = 1, num_size = 10, num_total = 0) {
 	/*APP可以自定义prop*/
-	const { page, size, total } = lStorage.appConfigs.pagination;
+	const { page, size, total } = State_UI.pagination;
 	return {
 		[page]: num_page || 1,
 		[size]: num_size || 10,
@@ -97,14 +103,18 @@ export function defPagination(num_page = 1, num_size = 10, num_total = 0) {
  * @param pagination 属性是page size total 根据appConfigs的pagination_map给pagination赋值
  */
 export function setPagination(StateTable, pagination: t_pagination) {
-	const PAGINATION_MAP = lStorage.appConfigs.pagination;
+	const PAGINATION_MAP = State_UI.pagination;
 	xU.each(pagination, (value, prop) => {
-		StateTable.pagination[PAGINATION_MAP[prop]] = value;
+		let realProp = PAGINATION_MAP[prop];
+		if (!realProp) {
+			realProp = prop;
+		}
+		StateTable.pagination[realProp] = value;
 	});
 }
 
 export function getPaginationPageSize(StateTable) {
-	const PAGINATION_MAP = lStorage.appConfigs.pagination;
+	const PAGINATION_MAP = State_UI.pagination;
 	const pagination: t_pagination = StateTable.pagination;
 	const { page, size } = PAGINATION_MAP;
 	return {

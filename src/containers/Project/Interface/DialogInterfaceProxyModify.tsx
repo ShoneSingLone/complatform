@@ -2,8 +2,8 @@ import { validateForm, AllWasWell, pickValueFrom, UI, $t } from "@ventose/ui";
 import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
-import { State_App } from "../../../state/State_App";
-import { Methods_Project } from "./State_Project";
+import { State_App } from "@/state/State_App";
+import { Methods_Project } from "../State_Project";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { EnvSelectRender } from "./DialogModifyInterface.Helper";
 

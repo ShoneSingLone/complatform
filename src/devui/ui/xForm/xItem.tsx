@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { computed, defineComponent, isProxy, toRaw } from "vue";
 import renders from "./itemRenders";
 import { checkXItem, EVENT_TYPE, TIPS_TYPE } from "../tools/validate";
@@ -57,21 +58,22 @@ export const xItem = defineComponent({
 	data(vm) {
 		const { $props, $attrs } = vm;
 
+		const triggerValidate = xU.debounce(function (eventType: string) {
+			const { configs } = vm.$props;
+			/*validate的定义 搜索 MutatingProps_configs_validate */
+			configs.validate && configs.validate(eventType, vm.properties.value);
+		}, 500);
+
 		const { listeners, propsWillDeleteFromConfigs } = (() => {
 			const { configs } = $props;
 			/* 后面的属性覆盖前面的属性 */
 			/* propsWillDeleteFromConfigsSet jsx 避免 listener 与 properties 实践名称重复 */
 			const propsSet = new Set();
 
-			const triggerValidate = eventType => {
-				/*validate的定义 搜索 MutatingProps_configs_validate */
-				configs.validate && configs.validate(eventType, vm.properties.value);
-			};
-
 			/* 需要一个事件分发，拦截所有事件，再根据配置信息   */
 			const listeners = {
 				/* 主要的触发方式 */
-				"onUpdate:value": val => {
+				"onUpdate:value": (val: any) => {
 					/* 使用configs.value的形式，一般是configs与组件是一对一的关系,configs需要是reactive的  */
 					if (configs.value !== undefined) {
 						if (configs.value === val) {
@@ -104,7 +106,10 @@ export const xItem = defineComponent({
 				}
 			};
 
-			function makeEventHandlerSupportMultiple(prop, xItemInnerEventHandler) {
+			function makeEventHandlerSupportMultiple(
+				prop: unknown,
+				xItemInnerEventHandler: unknown
+			) {
 				propsSet.add(prop);
 				if (
 					typeof listeners[prop] === "object" &&
@@ -112,7 +117,7 @@ export const xItem = defineComponent({
 				) {
 					listeners[prop].handlerArray.push(xItemInnerEventHandler);
 				} else {
-					listeners[prop] = (...args) => {
+					listeners[prop] = (...args: any) => {
 						xU.each(listeners[prop].handlerArray, listener => {
 							listener?.apply(configs, args);
 						});
@@ -272,6 +277,11 @@ export const xItem = defineComponent({
 				this.setProperties();
 			}
 		},
+		"properties.value": {
+			handler(value) {
+				xU(value);
+			}
+		},
 		"configs.value": {
 			handler() {
 				this.updateValue();
@@ -311,20 +321,27 @@ export const xItem = defineComponent({
 		})();
 
 		(() => {
-			vm.setProperties = xU.debounce(function setProperties() {
+			vm.setProperties = xU.debounce(function setProperties(this: any) {
 				/* @ts-ignore */
 				xU(vm._.uid);
 				const __properties = {};
-				const pickProps = originConfigs => {
+				const pickProps = (originConfigs: any) => {
 					xU.each(originConfigs, (item, prop) => {
-						if (["placeholder"].includes(prop) && xU.isFunction(item)) {
-							__properties[prop] = item(this);
-							return;
-						}
 						/* 用于xForm 控件，以下配置信息跟UI库控件相关，用不上，遂删除 */
 						if (
-							["itemTips", "rules", "labelVNodeRender", "slots"].includes(prop)
+							[
+								"itemTips",
+								"rules",
+								"labelVNodeRender",
+								"slots",
+								/* value 用updateValue处理，该值会触发render */
+								"value"
+							].includes(prop)
 						) {
+							return;
+						}
+						if (["placeholder"].includes(prop) && xU.isFunction(item)) {
+							__properties[prop] = item(this);
 							return;
 						}
 						__properties[prop] = item;
@@ -380,7 +397,7 @@ export const xItem = defineComponent({
 			this.itemSlots = this.configs.slots || {};
 		},
 		/* 如果有可用rules，为当前item配置校验函数 */
-		setValidateInfo(rules) {
+		setValidateInfo(rules: any) {
 			/* 修改rules Array 要求全量替换 */
 			let isRequired = false;
 			if (xU.isArrayFill(rules)) {
@@ -403,7 +420,7 @@ export const xItem = defineComponent({
 				};
 				const debounceCheckXItem = xU.debounce(checkXItem, 300);
 
-				const fnConfigsValidate = (eventType, value) => {
+				const fnConfigsValidate = (eventType: any, value: any) => {
 					/* 短时间内，多个事件触发同一校验，使用队列，只执行一次 */
 					const prop = `configs.validate.triggerEventsObj.${eventType}`;
 					MutatingProps(this, prop, true);

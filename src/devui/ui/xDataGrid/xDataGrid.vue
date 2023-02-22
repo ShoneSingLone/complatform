@@ -124,6 +124,14 @@ export default defineComponent({
 			this.configs.onMounted({ id: this.State.id });
 		}
 	},
+	watch: {
+		"configs.pagination": {
+			deep: true,
+			handler(pagination) {
+				console.log(JSON.stringify(pagination));
+			}
+		}
+	},
 	methods: {
 		async handlePaginationChange(pagination) {
 			if (this?.configs?.onPaginationChange) {

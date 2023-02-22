@@ -3,7 +3,7 @@ import { xU, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { UI, State_UI } from "@ventose/ui";
 import { API } from "@/api";
-import { Methods_App, State_App } from "../../../state/State_App";
+import { Methods_App, State_App } from "@/state/State_App";
 import { DialogEditGroup } from "./DialogEditGroup";
 import { DialogAddGroup } from "./DialogAddGroup";
 import { Cpt_url } from "./../../../router/router";

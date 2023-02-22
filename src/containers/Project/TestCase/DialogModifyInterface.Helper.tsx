@@ -1,14 +1,12 @@
 import { DialogUpsertTags } from "./DialogUpsertTags";
+import { DialogUpsertProxyEnv } from "./DialogUpsertProxyEnv";
+import { RequestArgsPanel } from "@/components/RequestArgsPanel";
+import { ResponsePanel } from "@/components/ResponsePanel";
+import { TuiEditor } from "@/components/TuiEditor/TuiEditor";
 import { $, UI, xU, $t } from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { DialogInterfaceStatusModify } from "./DialogInterfaceStatusModify";
 import { DialogInterfaceProxyModify } from "./DialogInterfaceProxyModify";
-import {
-	DialogUpsertProxyEnv,
-	RequestArgsPanel,
-	ResponsePanel,
-	TuiEditor
-} from "@/components";
 
 export async function openProxyEnvDialog() {
 	const { _layerKey } = await UI.dialog.component({

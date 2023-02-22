@@ -1,5 +1,5 @@
 import { defItem, UI, xU } from "@ventose/ui";
-import { ITEM_OPTIONS } from "src/utils/common.options";
+import { ITEM_OPTIONS } from "@/utils/common.options";
 import { defineComponent } from "vue";
 import { BodyParamsForm } from "./BodyParamsForm";
 import { BodyParamsJson } from "./BodyParamsJson";
