@@ -3,9 +3,9 @@ import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { State_App } from "@/state/State_App";
-import { Methods_Project } from "../State_Project";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { EnvSelectRender } from "./DialogModifyInterface.Helper";
+import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
 export const DialogInterfaceProxyModify = defineComponent({
 	props: {
@@ -91,7 +91,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 							API.project.updateInterface({ id, witchEnv, isProxy })
 						)
 					);
-					Methods_Project.updateInterfaceMenuList();
+					Methods_ProjectInterface.updateInterfaceMenuList();
 					this.propDialogOptions.closeDialog();
 					UI.message.success(this.$t("修改_成功", { title: "代理" }).label);
 				} catch (error) {

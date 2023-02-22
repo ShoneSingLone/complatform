@@ -9,18 +9,18 @@ import {
 	$t
 } from "@ventose/ui";
 import { API } from "../../../api";
-import { State_Project } from "../State_Project";
 import { Cpt_url } from "../../../router/router";
 import { InfoCard } from "../../../components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { State_App } from "./../../../state/State_App";
 import { DialogModifyInterface } from "./DialogModifyInterface";
-import { makeAhref } from "src/components/RouterView/RouterView";
+import { makeAhref } from "@/components/RouterView/RouterView";
 import copy from "copy-to-clipboard";
 import { asyncGetTuiEditor } from "../../../components/TuiEditor/LoadTuiEditorLibs";
 import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 import { JsonSchemaMonaco } from "../../../components/JsonSchemaEditor/JsonSchemaMonaco";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
+import { State_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
 const colParamsName = defCol({
 	prop: "name",
@@ -41,7 +41,7 @@ const colExample = defCol({
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		return { State_Project, Cpt_url };
+		return { State_Project: State_ProjectInterface, Cpt_url };
 	},
 	data(vm) {
 		return {
@@ -283,12 +283,15 @@ export const InterfaceDetail = defineComponent({
 			}
 		},
 		ajaxCode() {
-			const { tag, up_time, title, uid, username, path, method } = this.detailInfo;
+			const { tag, up_time, title, uid, username, path, method } =
+				this.detailInfo;
 			/* TODO:后端获取模板 */
 			return `/**
 *  ${title}
 *  ${window.location.href}
-*  http://10.143.133.216:3001/project/${this.State_App.currProject._id}/interface/api/${this.Cpt_url.query.interface_id}
+*  http://10.143.133.216:3001/project/${
+				this.State_App.currProject._id
+			}/interface/api/${this.Cpt_url.query.interface_id}
 */
 async ${xU.camelCase(path)}({params,data}) {
 	return await request({

@@ -1,10 +1,11 @@
 import { defineComponent } from "vue";
 import { State_App } from "@/state/State_App";
 import { Cpt_url } from "../../../router/router";
-import "./interface.scss";
 import { ProjectInterfaceLeftSider } from "./ProjectInterfaceLeftSider";
-import { xU } from "@ventose/ui";
-import { State_Project, Methods_Project } from "../State_Project";
+import {
+	State_ProjectInterface,
+	Methods_ProjectInterface
+} from "@/containers/Project/Interface/State_ProjectInterface";
 
 export const ProjectInterface = defineComponent({
 	components: {
@@ -13,7 +14,7 @@ export const ProjectInterface = defineComponent({
 	setup() {
 		return {
 			State_App,
-			State_Project: State_Project,
+			State_Project: State_ProjectInterface,
 			Cpt_url
 		};
 	},
@@ -23,7 +24,7 @@ export const ProjectInterface = defineComponent({
 		};
 	},
 	created() {
-		Methods_Project.resetURL();
+		Methods_ProjectInterface.resetURL();
 	},
 	methods: {},
 	render() {

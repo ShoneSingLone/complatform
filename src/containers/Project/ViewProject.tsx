@@ -3,7 +3,11 @@ import { computed, defineComponent } from "vue";
 import { Cpt_url, ProjectChildren } from "../../router/router";
 import { State_App } from "../../state/State_App";
 import { API } from "../../api";
-import { State_Project, resetStateInterface } from "./State_Project";
+import {
+	State_ProjectInterface,
+	resetStateInterface
+} from "./Interface/State_ProjectInterface";
+import "./ViewProject.scss";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
@@ -13,7 +17,7 @@ export const ViewProject = defineComponent({
 		/* 以project为root，共享数据随project生命周期重置 */
 		resetStateInterface();
 		return {
-			State_Project,
+			State_Project: State_ProjectInterface,
 			State_App,
 			Cpt_url
 		};
@@ -36,6 +40,7 @@ export const ViewProject = defineComponent({
 		if (!this.State_App.currProject._id) {
 			return <aSpin class="flex vertical middle center height100" />;
 		}
+
 		return (
 			<div id="ViewProject">
 				<aMenu

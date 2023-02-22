@@ -1,4 +1,4 @@
-@import "../../../styles/mixin.scss";
+@import "../../styles/mixin.scss";
 
 #ViewProject {
 	display: flex;
@@ -7,7 +7,8 @@
 	height: 100px;
 }
 
-#ViewProjectInterface {
+#ViewProjectInterface,
+#ViewProjectTestcase {
 	display: flex;
 	flex: 1;
 	flex-flow: row nowrap;

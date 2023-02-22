@@ -24,7 +24,7 @@ const appOptions = {
 		},
 		proxy: {
 			"^/api": {
-				target: YAPI_TARGET_HOST,
+				target: "http://10.143.133.216:3001/",
 				changeOrigin: true,
 				secure: false,
 				ws: true,

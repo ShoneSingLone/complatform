@@ -3,7 +3,10 @@ import { $, xU, UI, compositionAPI } from "@ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
 import { ALL, DefaultInterfaceMenu } from "@/utils/variable";
-import { Methods_Project, State_Project } from "@/containers/Project/State_Project";
+import {
+	Methods_ProjectInterface,
+	State_ProjectInterface
+} from "@/containers/Project/Interface/State_ProjectInterface";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
@@ -17,7 +20,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			usefnObserveDomResize();
 		return {
 			State_App,
-			State_Project,
+			State_Project: State_ProjectInterface,
 			Cpt_url,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -62,8 +65,8 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 20;
 			this.setSiderHeight(siderHeight);
 		});
-		Methods_Project.updateInterfaceMenuList();
-		Methods_Project.setExpand();
+		Methods_ProjectInterface.updateInterfaceMenuList();
+		Methods_ProjectInterface.setExpand();
 	},
 	beforeUnmount() {
 		this.fnUnobserveDomResize(this.$refs.wrapper);
@@ -162,7 +165,8 @@ export const ProjectInterfaceLeftSider = defineComponent({
 												{genIcon({
 													icon: "refresh",
 													tips: vm.$t("刷新").label,
-													clickHandler: Methods_Project.updateInterfaceMenuList
+													clickHandler:
+														Methods_ProjectInterface.updateInterfaceMenuList
 												})}
 											</div>
 										</div>
@@ -257,7 +261,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 				} else {
 					await this.switchCategoryOrder(params);
 				}
-				Methods_Project.updateInterfaceMenuList();
+				Methods_ProjectInterface.updateInterfaceMenuList();
 			} catch (error) {
 				UI.message.error(error.message);
 			} finally {
@@ -313,7 +317,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 					try {
 						await API.project.deleteInterfaceById(id);
 						UI.message.success(vm.$t("删除接口成功").label);
-						Methods_Project.updateInterfaceMenuList();
+						Methods_ProjectInterface.updateInterfaceMenuList();
 						vm.Cpt_url.go(
 							"/project/interface/all",
 							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
@@ -333,7 +337,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 					try {
 						await API.project.deleteCategoryById(id);
 						UI.message.success("删除分类成功");
-						Methods_Project.updateInterfaceMenuList();
+						Methods_ProjectInterface.updateInterfaceMenuList();
 						vm.Cpt_url.go(
 							"/project/interface/all",
 							xU.omit(vm.Cpt_url.query, ["category_id"])

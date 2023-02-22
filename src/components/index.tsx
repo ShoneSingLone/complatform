@@ -17,7 +17,7 @@ export {
 	// Breadcrumb,
 	// Intro,
 	// Loading,
-	ProjectCard,
+	ProjectCard
 	// Subnav,
 	// Postman
 };

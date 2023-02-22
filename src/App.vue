@@ -6,7 +6,7 @@ import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
 import { Cpt_url } from "./router/router";
 import { Methods_App, State_App } from "./state/State_App";
-import { Methods_Project } from "@/containers/Project/State_Project";
+import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
 export default defineComponent({
 	components: { AppFooter, AppHeader },
@@ -35,7 +35,7 @@ export default defineComponent({
 					await Methods_App.fetchProjectList(this.Cpt_url.query.group_id);
 					if (this.Cpt_url.query.project_id) {
 						await Methods_App.setCurrProject(this.Cpt_url.query.project_id);
-						await Methods_Project.updateInterfaceMenuList();
+						await Methods_ProjectInterface.updateInterfaceMenuList();
 					}
 				}
 			} catch (error) {

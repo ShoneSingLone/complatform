@@ -1,6 +1,9 @@
 import { defineComponent } from "vue";
 
-import { State_Project, useInterfaceTableConfigs } from "../State_Project";
+import {
+	State_ProjectInterface,
+	useInterfaceTableConfigs
+} from "@/containers/Project/Interface/State_ProjectInterface";
 import { $t, xU } from "@/devui/ui";
 import {
 	openDialogInterfaceProxyModify,
@@ -12,7 +15,7 @@ export const InterfaceAll = defineComponent({
 		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
 			useInterfaceTableConfigs(true);
 		return {
-			State_Project,
+			State_Project: State_ProjectInterface,
 			filterParams,
 			configs_interfaceTable,
 			fnUpdateListForShow

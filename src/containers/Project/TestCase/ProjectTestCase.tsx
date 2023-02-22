@@ -1,22 +1,20 @@
 import { defineComponent } from "vue";
 import { State_App } from "@/state/State_App";
 import { Cpt_url } from "../../../router/router";
-import "./interface.scss";
-import { ProjectTestCaseLeftSider } from "./ProjectTestCaseLeftSider";
-import { xU } from "@ventose/ui";
+import { ProjectTestcaseLeftSider } from "./ProjectTestcaseLeftSider";
 import {
-	State_Project,
-	Methods_Project
-} from "@/containers/Project/State_Project";
+	State_ProjectTestcase,
+	Methods_ProjectTestcase
+} from "@/containers/Project/Testcase/State_ProjectTestcase";
 
-export const ProjectTestCase = defineComponent({
+export const ProjectTestcase = defineComponent({
 	components: {
-		ProjectInterfaceLeftSider: ProjectTestCaseLeftSider
+		ProjectInterfaceLeftSider: ProjectTestcaseLeftSider
 	},
 	setup() {
 		return {
 			State_App,
-			State_Project: State_Project,
+			State_ProjectTestcase,
 			Cpt_url
 		};
 	},
@@ -26,16 +24,17 @@ export const ProjectTestCase = defineComponent({
 		};
 	},
 	created() {
-		Methods_Project.resetURL();
+		debugger;
+		Methods_ProjectTestcase.resetURL();
 	},
 	methods: {},
 	render() {
 		return (
 			<section
-				id="ViewProjectInterface"
-				v-loading={this.State_Project.isLoading}>
-				<ProjectTestCaseLeftSider />
-				<main class="flex flex1 padding10" style="width:1px;">
+				id="ViewProjectTestcase"
+				v-loading={this.State_ProjectTestcase.isLoading}>
+				<ProjectTestcaseLeftSider />
+				<main class="flex flex1 padding10" style="width:1px;height:100%">
 					<RouterView class="flex flex1 width100 height100 vertical padding10" />
 				</main>
 			</section>

@@ -3,8 +3,8 @@ import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { State_App } from "@/state/State_App";
-import { Methods_Project } from "../State_Project";
 import { ITEM_OPTIONS } from "@/utils/common.options";
+import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
 export const DialogInterfaceStatusModify = defineComponent({
 	props: {
@@ -60,7 +60,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 					const res = await Promise.all(
 						xU.map(selected, id => API.project.updateInterface({ id, status }))
 					);
-					Methods_Project.updateInterfaceMenuList();
+					Methods_ProjectInterface.updateInterfaceMenuList();
 					this.propDialogOptions.closeDialog();
 					UI.message.success(this.$t("修改_成功", { title: "状态" }).label);
 				} catch (error) {

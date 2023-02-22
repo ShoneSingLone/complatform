@@ -32,7 +32,6 @@ if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
 	/* keys().then((keys) => console.log(keys)); */
 }
 
-
 /**
  *
  * @param key

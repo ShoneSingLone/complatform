@@ -3,7 +3,7 @@ import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { State_App } from "@/state/State_App";
-import { Methods_Project } from "../State_Project";
+import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
 export const DialogUpsertCategory = defineComponent({
 	props: {
@@ -69,7 +69,7 @@ export const DialogUpsertCategory = defineComponent({
 					} else {
 						await this.insertNewCategory({ name, desc, project_id });
 					}
-					Methods_Project.updateInterfaceMenuList();
+					Methods_ProjectInterface.updateInterfaceMenuList();
 					this.propDialogOptions.closeDialog();
 				} catch (error) {
 					if (this.category) {

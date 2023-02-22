@@ -10,7 +10,10 @@ import {
 import { defineComponent, markRaw } from "vue";
 import { API } from "../../../api";
 import { State_App } from "@/state/State_App";
-import { Methods_Project, State_Project } from "@/containers/Project/State_Project";
+import {
+	Methods_ProjectInterface,
+	State_ProjectInterface
+} from "@/containers/Project/Interface/State_ProjectInterface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "../../../router/router";
@@ -52,7 +55,7 @@ export const DialogAddInterface = defineComponent({
 					options: [],
 					rules: [FormRules.required()],
 					once() {
-						this.options = State_Project.allCategory;
+						this.options = State_ProjectInterface.allCategory;
 						/* 默认在点击的分类下添加新接口 */
 						if (vm.propDialogOptions.categoryId) {
 							this.value = vm.propDialogOptions.categoryId;
@@ -105,7 +108,7 @@ export const DialogAddInterface = defineComponent({
 						method: this.apiMethod.value
 					});
 					if (data) {
-						Methods_Project.updateInterfaceMenuList();
+						Methods_ProjectInterface.updateInterfaceMenuList();
 						Cpt_url.value.go("/project/interface/detail", {
 							...Cpt_url.value.query,
 							interface_id: data._id

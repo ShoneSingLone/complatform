@@ -17,7 +17,10 @@ import { State_App } from "@/state/State_App";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { HTTP_METHOD } from "./../../../utils/variable";
-import { Methods_Project, State_Project } from "@/containers/Project/State_Project";
+import {
+	Methods_ProjectInterface,
+	State_ProjectInterface
+} from "@/containers/Project/Interface/State_ProjectInterface";
 import { _$handlePath } from "@/utils/common";
 import {
 	EnvSelectRender,
@@ -40,7 +43,7 @@ export const DialogModifyInterface = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App, State_Project };
+		return { State_App, State_Project: State_ProjectInterface };
 	},
 	computed: {
 		vDomXItemPathparams() {
@@ -544,9 +547,9 @@ export const DialogModifyInterface = defineComponent({
 							/* 可能修改了分类，影响对应url */
 							Cpt_url.value.query.category_id = formData.catid;
 							/* 刷新右侧接口树 */
-							await Methods_Project.updateInterfaceMenuList();
+							await Methods_ProjectInterface.updateInterfaceMenuList();
 							/* 设置树展开 */
-							Methods_Project.setExpand();
+							Methods_ProjectInterface.setExpand();
 
 							if (this.propDialogOptions.updateInterfaceInfo) {
 								/* 更新详情  */
