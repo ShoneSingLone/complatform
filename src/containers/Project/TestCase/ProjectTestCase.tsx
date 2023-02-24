@@ -1,11 +1,12 @@
 import { defineComponent } from "vue";
 import { State_App } from "@/state/State_App";
-import { Cpt_url } from "../../../router/router";
 import { ProjectTestcaseLeftSider } from "./ProjectTestcaseLeftSider";
 import {
 	State_ProjectTestcase,
 	Methods_ProjectTestcase
 } from "@/containers/Project/Testcase/State_ProjectTestcase";
+import { API } from "@/api/index";
+import { Cpt_url } from "@/router/router";
 
 export const ProjectTestcase = defineComponent({
 	components: {
@@ -24,7 +25,6 @@ export const ProjectTestcase = defineComponent({
 		};
 	},
 	created() {
-		debugger;
 		Methods_ProjectTestcase.resetURL();
 	},
 	methods: {},

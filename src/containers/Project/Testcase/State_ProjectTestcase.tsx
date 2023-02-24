@@ -31,12 +31,15 @@ export const State_ProjectTestcase = reactive(_State_Project_Testcase);
 export const Methods_ProjectTestcase = {
 	setExpand: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
-		debugger;
 		if (!pathname.includes("/project/testcase")) {
 			return;
 		}
 
-		State_ProjectTestcase.expandedKeys = [];
+		if ("/project/testcase/detail" === pathname) {
+			State_ProjectTestcase.expandedKeys = [Number(query.category_id)];
+		} else {
+			State_ProjectTestcase.expandedKeys = [];
+		}
 	}, 500),
 	resetURL: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
@@ -71,23 +74,24 @@ export const Methods_ProjectTestcase = {
 			fnStrategyMap["/project/testcase/all"]();
 		}
 	}, 100),
-	async updateInterfaceMenuList() {
+	async updateTestcaseMenuList() {
 		/* 必然是有当前project的id */
 		const projectId = Number(Cpt_url.value?.query?.project_id);
 		if (!projectId) {
-			debugger;
 			console.error("miss project_id in url");
 			return;
 		}
-		const { data } = await API.project.fetchInterfaceListMenu(projectId);
+		const { data } = await API.testcase.getListBy(projectId);
 		if (data) {
 			/* @ts-ignore */
 			const allCategory = data.map(category => {
-				const list = xU.map(category.list, i => {
+				const list = xU.map(category.caseList, i => {
 					return {
 						...i,
+						/*  */
+						title: i.casename,
 						menuType: "interface",
-						categoryName: category.title,
+						categoryName: category.name,
 						categoryId: category._id
 					};
 				});
@@ -95,7 +99,7 @@ export const Methods_ProjectTestcase = {
 					...category,
 					list,
 					isCategory: true,
-					categoryName: category.title,
+					categoryName: category.name,
 					categoryId: category._id,
 					menuType: "category",
 					title: category.name,
@@ -245,7 +249,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 												<div style="padding: 8px">
 													<aTextarea
 														auto-size={{ minRows: 3, maxRows: 5 }}
-														placeholder={$t("接口名称").label}
+														placeholder={$t("用例名称").label}
 														v-model:value={filterParams.title}
 														allowClear
 														style="width: 400px"

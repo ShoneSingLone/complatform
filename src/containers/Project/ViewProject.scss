@@ -15,6 +15,21 @@
 	height: 100px;
 	width: 100%;
 
+
+	.testcase-title__wrapper{
+		display: flex;
+		justify-content: center;
+		// border-radius: 50%;
+		width: 16px;
+		height: 16px;
+		font-size: 20px;
+		border: 1px solid #5d9cec;
+		align-items: center;
+		font-weight: 700;
+		>.testcase-title{
+			transform: scale(.5);
+		}
+	}	
 	.ant-layout-sider {
 		background-color: var(--color-white);
 	}

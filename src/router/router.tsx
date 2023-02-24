@@ -74,21 +74,21 @@ export const routes = [
 	{
 		label: $t("测试集-全部").label,
 		path: "/project/testcase/all",
-		componentName: "InterfaceAll",
-		component: () => import("../containers/Project/Interface/InterfaceAll")
+		componentName: "ProjectTestcaseAll",
+		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
 	},
-	/* {
+	{
 		label: $t("测试集-分类").label,
-		path: "/project/interface/category",
-		componentName: "InterfaceCategory",
-		component: () => import("../containers/Project/Interface/InterfaceCategory")
+		path: "/project/testcase/category",
+		componentName: "ProjectTestcaseAll",
+		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
 	},
 	{
 		label: $t("测试集-详情").label,
-		path: "/project/interface/detail",
-		componentName: "InterfaceDetail",
-		component: () => import("../containers/Project/Interface/InterfaceDetail")
-	}, */
+		path: "/project/testcase/detail",
+		componentName: "ProjectTestcaseAll",
+		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
+	},
 	{
 		label: $t("动态").label,
 		path: "/project/activity",
@@ -222,8 +222,9 @@ async function setLocationHash(href: string, url: URL) {
 			href = "/";
 		}
 		const route = xU.find(routes, { path: url.pathname });
-		if (route?.meta?.title) {
-			setDocumentTitle(route.meta.title);
+		const label = route.label || route?.meta?.title;
+		if (label) {
+			setDocumentTitle(label);
 		} else {
 			setDocumentTitle("YApi-高效、易用、功能强大的可视化接口管理平台");
 		}

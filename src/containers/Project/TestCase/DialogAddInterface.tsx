@@ -108,7 +108,7 @@ export const DialogAddInterface = defineComponent({
 						method: this.apiMethod.value
 					});
 					if (data) {
-						Methods_ProjectInterface.updateInterfaceMenuList();
+						Methods_ProjectInterface.updateTestcaseMenuList();
 						Cpt_url.value.go("/project/interface/detail", {
 							...Cpt_url.value.query,
 							interface_id: data._id

@@ -48,7 +48,6 @@ export const Methods_ProjectInterface = {
 			return;
 		}
 		const { category_id, interface_id } = query;
-		debugger;
 		const fnStrategyMap = {
 			"/project/interface/all": () => {
 				Cpt_url.value.go(
@@ -79,7 +78,6 @@ export const Methods_ProjectInterface = {
 		/* 必然是有当前project的id */
 		const projectId = Number(Cpt_url.value?.query?.project_id);
 		if (!projectId) {
-			debugger;
 			console.error("miss project_id in url");
 			return;
 		}

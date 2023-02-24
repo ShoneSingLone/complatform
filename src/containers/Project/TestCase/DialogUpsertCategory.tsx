@@ -69,7 +69,7 @@ export const DialogUpsertCategory = defineComponent({
 					} else {
 						await this.insertNewCategory({ name, desc, project_id });
 					}
-					Methods_ProjectInterface.updateInterfaceMenuList();
+					Methods_ProjectInterface.updateTestcaseMenuList();
 					this.propDialogOptions.closeDialog();
 				} catch (error) {
 					if (this.category) {

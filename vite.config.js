@@ -24,7 +24,7 @@ const appOptions = {
 		},
 		proxy: {
 			"^/api": {
-				target: "http://10.143.133.216:3001/",
+				target: "http://localhost:3001/",
 				changeOrigin: true,
 				secure: false,
 				ws: true,

@@ -1,13 +1,10 @@
 import { xU } from "@ventose/ui";
-import { computed, defineComponent } from "vue";
-import { Cpt_url, ProjectChildren } from "../../router/router";
-import { State_App } from "../../state/State_App";
-import { API } from "../../api";
-import {
-	State_ProjectInterface,
-	resetStateInterface
-} from "./Interface/State_ProjectInterface";
+import { defineComponent } from "vue";
+import { resetStateInterface } from "./Interface/State_ProjectInterface";
 import "./ViewProject.scss";
+import { RouterView } from "@/components/RouterView/RouterView";
+import { Cpt_url, ProjectChildren } from "@/router/router";
+import { State_App } from "@/state/State_App";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
@@ -17,15 +14,27 @@ export const ViewProject = defineComponent({
 		/* 以project为root，共享数据随project生命周期重置 */
 		resetStateInterface();
 		return {
-			State_Project: State_ProjectInterface,
 			State_App,
 			Cpt_url
 		};
 	},
+	watch: {
+		Cpt_url: {
+			deep: true,
+			handler(Cpt_url) {
+				const [_, a, b] = String(Cpt_url.pathname).split("/");
+				const currentViewKey = `/${a}/${b}`;
+				if (this.currentViewKey != currentViewKey) {
+					this.currentViewKey = currentViewKey;
+				}
+			}
+		}
+	},
 	data() {
+		const [_, a, b] = String(this.Cpt_url.pathname).split("/");
 		return {
-			currentViewKey: ProjectChildren[0].path,
-			ProjectChildren
+			ProjectChildren,
+			currentViewKey: `/${a}/${b}`
 		};
 	},
 	methods: {
