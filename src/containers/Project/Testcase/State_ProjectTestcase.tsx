@@ -32,7 +32,7 @@ export const Methods_ProjectTestcase = {
 	setExpand: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
 		debugger;
-		if (!pathname.includes("/project/test_case")) {
+		if (!pathname.includes("/project/testcase")) {
 			return;
 		}
 
@@ -40,26 +40,26 @@ export const Methods_ProjectTestcase = {
 	}, 500),
 	resetURL: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
-		if (!pathname.includes("/project/test_case")) {
+		if (!pathname.includes("/project/testcase")) {
 			return;
 		}
 
 		const { category_id, interface_id } = query;
 		const fnStrategyMap = {
-			"/project/test_case/all": () => {
+			"/project/testcase/all": () => {
 				Cpt_url.value.go(
-					"/project/test_case/all",
+					"/project/testcase/all",
 					xU.pick(Cpt_url.value.query, ["group_id", "project_id"])
 				);
 			},
-			"/project/test_case/category": () => {
+			"/project/testcase/category": () => {
 				if (!category_id) {
-					fnStrategyMap["/project/test_case/all"]();
+					fnStrategyMap["/project/testcase/all"]();
 				}
 			},
-			"/project/test_case/detail": () => {
+			"/project/testcase/detail": () => {
 				if (!interface_id) {
-					fnStrategyMap["/project/test_case/all"]();
+					fnStrategyMap["/project/testcase/all"]();
 				}
 			}
 		};
@@ -68,7 +68,7 @@ export const Methods_ProjectTestcase = {
 		if (fn) {
 			fn();
 		} else {
-			fnStrategyMap["/project/test_case/all"]();
+			fnStrategyMap["/project/testcase/all"]();
 		}
 	}, 100),
 	async updateInterfaceMenuList() {
@@ -262,7 +262,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 						return (
 							<a
 								onClick={() => {
-									Cpt_url.value.go("/project/test_case/detail", {
+									Cpt_url.value.go("/project/testcase/detail", {
 										...Cpt_url.value.query,
 										category_id: record.categoryId,
 										interface_id: record._id

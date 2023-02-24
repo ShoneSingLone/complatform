@@ -63,14 +63,32 @@ export const routes = [
 		component: () => import("../containers/Project/Interface/InterfaceDetail")
 	},
 	{
-		label: $t("自动化测试").label,
-		path: "/project/test_case",
+		label: $t("测试集").label,
+		path: "/project/testcase",
 		componentName: "ProjectTestcase",
 		component: () => import("../containers/Project/TestCase/ProjectTestcase"),
 		meta: {
-			title: $t("自动化测试").label
+			title: $t("测试集").label
 		}
 	},
+	{
+		label: $t("测试集-全部").label,
+		path: "/project/testcase/all",
+		componentName: "InterfaceAll",
+		component: () => import("../containers/Project/Interface/InterfaceAll")
+	},
+	/* {
+		label: $t("测试集-分类").label,
+		path: "/project/interface/category",
+		componentName: "InterfaceCategory",
+		component: () => import("../containers/Project/Interface/InterfaceCategory")
+	},
+	{
+		label: $t("测试集-详情").label,
+		path: "/project/interface/detail",
+		componentName: "InterfaceDetail",
+		component: () => import("../containers/Project/Interface/InterfaceDetail")
+	}, */
 	{
 		label: $t("动态").label,
 		path: "/project/activity",

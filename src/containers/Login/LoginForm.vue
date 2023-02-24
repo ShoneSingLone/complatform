@@ -2,14 +2,12 @@
 	<form>
 		<!-- 用户名 -->
 		<xItem
-			v-model="data.email"
 			:configs="configsForm.email"
 			autocomplete="email"
 			@keypress.enter="login" />
 		<xGap t="20" />
 		<!-- 密码 -->
 		<xItem
-			v-model="data.password"
 			:configs="configsForm.password"
 			autocomplete="current-password"
 			@keypress.enter="login" />
@@ -31,7 +29,8 @@ import {
 	AllWasWell,
 	lStorage,
 	State_UI,
-	FormRules
+	FormRules,
+	pickValueFrom
 } from "@ventose/ui";
 import { API } from "@/api";
 import { Cpt_url } from "../../router/router";
@@ -62,12 +61,9 @@ export default defineComponent({
 	data(vm) {
 		return {
 			loginType: "ldap",
-			data: {
-				email: lStorage.email || "",
-				password: lStorage.password || ""
-			},
 			configsForm: {
 				...defItem({
+					value: lStorage.email || "",
 					prop: "email",
 					size: "large",
 					/* render的时候重新获取 */
@@ -84,6 +80,7 @@ export default defineComponent({
 					]
 				}),
 				...defItem({
+					value: lStorage.password || "",
 					prop: "password",
 					isPassword: true,
 					size: "large",
@@ -113,7 +110,8 @@ export default defineComponent({
 			try {
 				const validateResults = await validateForm(vm.configsForm);
 				if (AllWasWell(validateResults)) {
-					await API.user.loginActions(vm.data);
+					const formData = pickValueFrom(vm.configsForm);
+					await API.user.loginActions(formData);
 					UI.notification.success("登录成功! ");
 					Cpt_url.value.go("/group");
 				} else {
