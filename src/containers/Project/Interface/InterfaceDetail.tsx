@@ -285,13 +285,14 @@ export const InterfaceDetail = defineComponent({
 		ajaxCode() {
 			const { tag, up_time, title, uid, username, path, method } =
 				this.detailInfo;
+			const projectId = this.State_App.currProject._id;
+			const interfaceId = this.Cpt_url.query.interface_id;
 			/* TODO:后端获取模板 */
-			return `/**
+			return `\`\`\`js
+/**
 *  ${title}
 *  ${window.location.href}
-*  http://10.143.133.216:3001/project/${
-				this.State_App.currProject._id
-			}/interface/api/${this.Cpt_url.query.interface_id}
+*  http://10.143.133.216:3001/project/${projectId}/interface/api/${interfaceId}
 */
 async ${xU.camelCase(path)}({params,data}) {
 	return await request({
@@ -300,16 +301,16 @@ async ${xU.camelCase(path)}({params,data}) {
 		params:params||{},
 		data:data||{}
 	});
-}`;
+}
+\`\`\`
+`;
 		},
 		vDomCopyAjaxCodePanel() {
+			// const ajaxCode = HighlightJS.highlight("javascript", this.ajaxCode);
 			return (
 				<div style="position:relative;overflow:auto;height:100%;">
-					<MonacoEditor
-						code={this.ajaxCode}
-						style={{ minHeight: 180 }}
-						readOnly={true}
-					/>
+					<Mkit md={this.ajaxCode} />
+					{/* <MonacoEditor code={this.ajaxCode} style={{ minHeight: 180 }} readOnly={true} /> */}
 				</div>
 			);
 		},
@@ -425,7 +426,7 @@ async ${xU.camelCase(path)}({params,data}) {
 					]
 				},
 				{
-					style: `height:200px;`,
+					style: `height:400px;`,
 					colArray: [
 						{
 							label: (
@@ -518,10 +519,13 @@ async ${xU.camelCase(path)}({params,data}) {
 									<xGap t="10" />
 									<aCard title={vm.$t("Body").label}>
 										<div style="height:300px;width:90%">
-											<JsonSchemaMonaco
-												v-model:schemaString={vm.detailInfo.req_body_other}
-												readOnly={true}
-											/>
+											{vm.detailInfo.req_body_other}
+											{
+												<JsonSchemaMonaco
+													v-model:schemaString={vm.detailInfo.req_body_other}
+													readOnly={true}
+												/>
+											}
 										</div>
 									</aCard>
 								</>

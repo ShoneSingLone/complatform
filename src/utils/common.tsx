@@ -6,6 +6,7 @@ import { ErrMsg } from "../components/ErrMsg/ErrMsg";
 import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
 import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "src/components/MonacoEditor/MonacoEditor";
+import Mkit from "@/components/Mkit/MarkdownIt.vue";
 
 export { ITEM_OPTIONS } from "./common.options";
 
@@ -26,6 +27,7 @@ export const appPlugins = {
 		});
 		app.use({
 			install: (app, { watch } = {}) => {
+				app.component("Mkit", Mkit);
 				app.component("InfoCard", InfoCard);
 				app.component("InfoCardRow", InfoCardRow);
 				app.component("InfoCardCol", InfoCardCol);
