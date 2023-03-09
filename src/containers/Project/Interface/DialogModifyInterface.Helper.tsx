@@ -13,6 +13,7 @@ import {
 export async function openProxyEnvDialog() {
 	const { _layerKey } = await UI.dialog.component({
 		title: $t("管理项目接口转发环境").label,
+		offset: [20, 20],
 		component: DialogUpsertProxyEnv
 	});
 	/*弹窗里面的弹窗点击之后不关闭（点不到其他位置）*/
@@ -22,6 +23,7 @@ export async function openProxyEnvDialog() {
 export async function openUpsertTagDialog() {
 	const { _layerKey } = await UI.dialog.component({
 		title: $t("管理项目接口Tags").label,
+		offset: [20, 20],
 		component: DialogUpsertTags
 	});
 	/*弹窗里面的弹窗点击之后不关闭（点不到其他位置）*/

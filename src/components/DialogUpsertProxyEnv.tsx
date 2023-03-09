@@ -257,21 +257,10 @@ export const DialogUpsertProxyEnv = defineComponent({
 						labelStyle={{
 							"text-align": "left",
 							width: "80px",
-							padding: "0 8px"
+							padding: "0 14px"
 						}}>
 						<xGap t="10" />
-						<xItem configs={this.configsForm.name}>
-							{{
-								afterControll: () => {
-									return (
-										<aButton
-											configs={{ preset: "save", onClick: vm.onOk }}
-											class="ml10"
-										/>
-									);
-								}
-							}}
-						</xItem>
+						<xItem configs={this.configsForm.name} />
 						<xGap t="10" />
 						<xItem configs={this.configsForm.domain} />
 						<xGap t="10" />
@@ -447,26 +436,38 @@ export const DialogUpsertProxyEnv = defineComponent({
 						{this.vdomEnvconfigs}
 					</div>
 				</div>
+				<xDialogFooter
+					configs={{
+						textOk: this.$t("暂存").label,
+						onOk: this.onOk,
+						onCancel: this.propDialogOptions.closeDialog
+					}}
+				/>
 			</>
 		);
 	}
 });
 
-const KeyValuePanel = args => {
-	const { properties, listeners } = args;
-	properties.value = properties.value || [];
-	properties.fnCheck = properties.fnCheck || false;
-	const fnUpdate = val => {
-		listeners["onUpdate:value"](val);
-	};
-	return (
-		<div class="ant-card ant-card-bordered" style="padding:10px">
-			<InputKeyValue
-				items={properties.value}
-				onUpdate:items={fnUpdate}
-				genItem={properties.genItem}
-				fnCheck={properties.fnCheck}
-			/>
-		</div>
-	);
-};
+const KeyValuePanel = defineComponent({
+	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+	methods: {
+		fnUpdate(val) {
+			this.listeners["onUpdate:value"](val);
+		}
+	},
+	render(vm) {
+		const { properties, fnUpdate } = this;
+		properties.value = properties.value || [];
+		properties.fnCheck = properties.fnCheck || false;
+		return (
+			<div class="ant-card ant-card-bordered" style="padding:10px">
+				<InputKeyValue
+					items={properties.value}
+					onUpdate:items={fnUpdate}
+					genItem={properties.genItem}
+					fnCheck={properties.fnCheck}
+				/>
+			</div>
+		);
+	}
+});

@@ -113,7 +113,6 @@ export const installUIDialogComponent = (
 				dialogOptions._yes = dialogOptions.yes;
 				delete dialogOptions.yes;
 			}
-
 			dialogOptions.closeDialog = async () => {
 				let isCloseDialog = true;
 				if (dialogOptions.onBeforeClose) {
@@ -152,19 +151,21 @@ export const installUIDialogComponent = (
 			};
 
 			const layerOptions = xU.merge(
-				dialogOptions,
 				{
 					/* 传入自定义样式 */
 					contentClass: "flex1",
+					offset: ["160px", null],
+					btn: [
+						/*'确定', '取消'*/
+					]
+				},
+				dialogOptions,
+				{
 					type: LayerUtils.DIALOG,
 					title: [title || ""],
 					area: area || [],
 					content: $container,
-					offset: ["160px", null],
 					/* 无按钮 */
-					btn: [
-						/*'确定', '取消'*/
-					],
 					success($eleLayer, _layerKey) {
 						handleEcsPress.on(_layerKey);
 						/* dialog jQuery 实例 */

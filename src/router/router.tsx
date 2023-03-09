@@ -116,7 +116,7 @@ export const routes = [
 	{
 		label: $t("设置").label,
 		path: "/project/setting",
-		component: ViewNotFound,
+		component: () => import("../containers/Project/Setting/ProjectSetting"),
 		meta: {
 			title: $t("设置").label
 		}

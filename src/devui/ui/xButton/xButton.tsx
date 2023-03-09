@@ -2,35 +2,35 @@
 
 import { defineComponent } from "vue";
 import { xU } from "../ventoseUtils";
-import { State_UI } from "../State_UI";
+import { $t } from "../State_UI";
 
 /*$t 可能会变，所以每次render用新的数据*/
 const BTN_PRESET_MAP = {
 	query: () => ({
 		icon: <xIcon class="x-button_icon-wrapper" icon="InsideSearchOutlined" />,
-		text: State_UI.$t("查询").label
+		text: $t("查询").label
 	}),
 	refresh: () => ({
 		icon: <xIcon class="x-button_icon-wrapper" icon="InsideSyncOutlined" />,
-		text: State_UI.$t("刷新").label
+		text: $t("刷新").label
 	}),
 	cancel: () => ({
-		text: State_UI.$t("取消").label
+		text: $t("取消").label
 	}),
 	save: () => ({
 		icon: <xIcon class="x-button_icon-wrapper" icon="InsideSaveOutlined" />,
-		text: State_UI.$t("保存").label
+		text: $t("保存").label
 	}),
 	upload: () => ({
 		icon: <xIcon class="x-button_icon-wrapper" icon="InsideUploadOutlined" />,
-		text: State_UI.$t("上传").label
+		text: $t("上传").label
 	}),
 	delete: configs => {
 		configs.type = "danger";
 		configs.ghost = true;
 		return {
 			icon: <xIcon class="x-button_icon-wrapper" icon="InsideDeleteOutlined" />,
-			text: State_UI.$t("删除").label
+			text: $t("删除").label
 		};
 	}
 };
@@ -156,7 +156,6 @@ export default defineComponent({
 		if (this.title) {
 			_properties.title = this.title;
 		}
-
 		return (
 			<aButton
 				class="x-button antdv-button"

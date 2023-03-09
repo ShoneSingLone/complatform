@@ -8,7 +8,7 @@ import {
 	setValueTo
 } from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
-import { API } from "../../../api";
+import { API } from "@/api";
 import { State_App } from "@/state/State_App";
 import {
 	Methods_ProjectInterface,
@@ -16,7 +16,7 @@ import {
 } from "@/containers/Project/Interface/State_ProjectInterface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
-import { Cpt_url } from "../../../router/router";
+import { Cpt_url } from "@/router/router";
 
 export const DialogAddInterface = defineComponent({
 	props: {

@@ -1,6 +1,7 @@
+import { diff } from "jsondiffpatch";
 import { FormRules, xU } from "src/devui/ui/index";
 import { State_App } from "src/state/State_App";
-import { defineComponent } from "vue";
+import { defineComponent, toRaw, toRefs } from "vue";
 
 export function makeKeyValueObj(i: any) {
 	return { key: i.name, value: i.value };
@@ -29,14 +30,21 @@ export const InputKeyValue = defineComponent({
 		return { privateItems: {}, isLoading: true };
 	},
 	watch: {
+		items: {
+			deep: true,
+			handler() {
+				const diffContent = toRaw(diff(this.items, this.oldItems));
+				if (diffContent) {
+					this.setPrivateItems();
+				}
+			}
+		},
 		formData() {
 			this.isLoading = true;
 			this.checkFormDataDebounce();
 		}
 	},
-	mounted() {
-		this.setPrivateItems();
-	},
+	mounted() {},
 	computed: {
 		formData() {
 			const formData = xU.reduce(
@@ -51,36 +59,12 @@ export const InputKeyValue = defineComponent({
 				{}
 			);
 			return formData;
-		},
-		vDomItems() {
-			const vDomItems = xU.map(
-				this.privateItems,
-				({ valueConfigs, keyConfigs, _id }, index) => {
-					return (
-						<div class="flex mt10 baseline" key={index}>
-							<xItem configs={keyConfigs} />
-							<xGap l="10" />
-							<span class="flex middle">
-								<xItem configs={valueConfigs} />
-								<xGap l="10" />
-								<xIcon
-									v-loading={this.isLoading}
-									icon="delete"
-									onClick={() => this.deleteItem(index)}
-									style="color:red;"
-									class="pointer"
-								/>
-							</span>
-						</div>
-					);
-				}
-			);
-			return vDomItems;
 		}
 	},
 	methods: {
 		setPrivateItems() {
 			const { items } = this;
+			this.oldItems = items;
 			const vm = this;
 			if (xU.isArrayFill(items)) {
 				let index = 1;
@@ -170,7 +154,38 @@ export const InputKeyValue = defineComponent({
 		const vm = this;
 		return (
 			<>
-				<div class="ml10 mr10">{this.vDomItems}</div>
+				<div class="ml10 mr10">
+					{xU.map(
+						this.privateItems,
+						({ valueConfigs, keyConfigs, _id }, index) => {
+							return (
+								<div class="flex mt10 baseline">
+									<xItem
+										configs={keyConfigs}
+										v-model={keyConfigs.value}
+										key={`${this._.uid}_key_${index}`}
+									/>
+									<xGap l="10" />
+									<span class="flex middle">
+										<xItem
+											configs={valueConfigs}
+											v-model={valueConfigs.value}
+											key={`${this._.uid}_value_${index}`}
+										/>
+										<xGap l="10" />
+										<xIcon
+											v-loading={this.isLoading}
+											icon="delete"
+											onClick={() => this.deleteItem(index)}
+											style="color:red;"
+											class="pointer"
+										/>
+									</span>
+								</div>
+							);
+						}
+					)}
+				</div>
 				<xIcon
 					v-loading={vm.isLoading}
 					icon="add"

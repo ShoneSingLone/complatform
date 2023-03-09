@@ -178,7 +178,9 @@ const LayerUtils = {
 		LayerUtils.cache = READY.config = $.extend({}, READY.config, options);
 		LayerUtils.path = READY.config.path || LayerUtils.path;
 		typeof options.extend === "string" && (options.extend = [options.extend]);
-		if (!options.extend) return this;
+		if (!options.extend) {
+			return this;
+		}
 		return this;
 	},
 	open(options: i_layerOptions) {
@@ -984,8 +986,14 @@ class ClassLayer {
 		return layerInstance;
 	}
 
+	/**
+	 * 计算坐标
+	 *
+	 * @returns
+	 *
+	 * @memberOf ClassLayer
+	 */
 	offset() {
-		/* 计算坐标 */
 		var layerInstance = this,
 			config = layerInstance.config,
 			$eleLayer = layerInstance.$eleLayer;

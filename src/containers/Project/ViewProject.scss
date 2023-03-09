@@ -15,8 +15,7 @@
 	height: 100px;
 	width: 100%;
 
-
-	.testcase-title__wrapper{
+	.testcase-title__wrapper {
 		display: flex;
 		justify-content: center;
 		// border-radius: 50%;
@@ -26,10 +25,10 @@
 		border: 1px solid #5d9cec;
 		align-items: center;
 		font-weight: 700;
-		>.testcase-title{
-			transform: scale(.5);
+		> .testcase-title {
+			transform: scale(0.5);
 		}
-	}	
+	}
 	.ant-layout-sider {
 		background-color: var(--color-white);
 	}
@@ -127,8 +126,9 @@
 
 	.env-list-wrapper,
 	.env-list {
-		width: 120px;
-		height: 400px;
+		width: 228px;
+		height: 100%;
+		min-height: 424px;
 		.delete-env-icon {
 			transition: 0.3s ease-in-out;
 			display: none;
@@ -157,7 +157,9 @@
 	}
 	.env-configs-wrapper {
 		width: 560px;
-		height: 400px;
+		height: 100%;
+		max-height: 600px;
+		min-height: 424px;
 		overflow: auto;
 		transition: 0.3s ease-in-out;
 		padding-left: 10px;

@@ -4,6 +4,11 @@ import {
 	State_ProjectInterface,
 	useInterfaceTableConfigs
 } from "@/containers/Project/Interface/State_ProjectInterface";
+import { $t } from "@/devui/ui/State_UI";
+import {
+	openDialogInterfaceStatusModify,
+	openDialogInterfaceProxyModify
+} from "./DialogModifyInterface.Helper";
 
 export const InterfaceCategory = defineComponent({
 	setup() {
@@ -18,7 +23,37 @@ export const InterfaceCategory = defineComponent({
 			fnUpdateListForShow
 		};
 	},
-	computed: {},
+	computed: {
+		disabled() {
+			return !this.configs_interfaceTable.selected.length;
+		}
+	},
+	data(vm) {
+		return {
+			btnChangeStatus: {
+				text: $t("变更状态").label,
+				disabled() {
+					return vm.disabled;
+				},
+				async onClick() {
+					openDialogInterfaceStatusModify({
+						selected: vm.configs_interfaceTable.selected
+					});
+				}
+			},
+			btnChangeProxy: {
+				text: $t("变更代理").label,
+				disabled() {
+					return vm.disabled;
+				},
+				async onClick() {
+					openDialogInterfaceProxyModify({
+						selected: vm.configs_interfaceTable.selected
+					});
+				}
+			}
+		};
+	},
 	watch: {
 		"State_Project.allInterface": {
 			immediate: true,
@@ -44,14 +79,12 @@ export const InterfaceCategory = defineComponent({
 			}
 		}
 	},
-	render() {
+	render(vm) {
 		return (
 			<xView class="Interface-view">
 				<div class="Operation mb10">
-					<aCard>
-						<aButton>this.Cpt</aButton>
-						{this.configs_interfaceTable.selected}
-					</aCard>
+					<xButton class="mr4" configs={vm.btnChangeStatus} />
+					<xButton class="mr4" configs={vm.btnChangeProxy} />
 				</div>
 				<div class="elevation-1 padding20 flex1" style={{ height: "100px" }}>
 					<xVirTable

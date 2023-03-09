@@ -147,7 +147,7 @@ export const DialogUpsertTags = defineComponent({
 		const vm = this;
 		return (
 			<>
-				<div class="flex1" style="max-height:500px;overflow:auto;">
+				<div class="flex1" style="max-height:500px;overflow:auto;padding:20px;">
 					{xU.map(this.privateTags, (data, index) => {
 						const { descConfigs, nameConfigs } = data || {};
 						return (

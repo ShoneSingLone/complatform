@@ -36,20 +36,24 @@ export const xItem = defineComponent({
 		if (xU.isFunction(props.configs.isShow)) {
 			Cpt_isShowXItem = computed(props.configs.isShow);
 		} else if (xU.isBoolean(props.configs.isShow)) {
-			Cpt_isShowXItem = computed(() => props.configs.isShow);
+			Cpt_isShowXItem = computed(() => !!props.configs.isShow);
 		} else {
-			props.configs.isShow = true;
-			Cpt_isShowXItem = computed(() => props.configs.isShow);
+			/* isShow 可能不存在 */
+			Cpt_isShowXItem = computed(() => {
+				if (xU.isUndefined(props.configs.isShow)) {
+					props.configs.isShow = true;
+				}
+				return !!props.configs.isShow;
+			});
 		}
 
 		/*disabled*/
 		if (xU.isFunction(props.configs.disabled)) {
 			Cpt_isDisabled = computed(props.configs.disabled);
 		} else if (xU.isBoolean(props.configs.disabled)) {
-			Cpt_isDisabled = computed(() => props.configs.disabled);
+			Cpt_isDisabled = computed(() => !!props.configs.disabled);
 		}
 		/*readonly 在configs中，各个render自行实现*/
-
 		return {
 			Cpt_isShowXItem,
 			Cpt_isDisabled
@@ -449,6 +453,9 @@ export const xItem = defineComponent({
 	render() {
 		if (!this.properties) {
 			return null;
+		}
+		if (xU.isUndefined(this.Cpt_isShowXItem)) {
+			debugger;
 		}
 		if (!this.Cpt_isShowXItem) {
 			return null;

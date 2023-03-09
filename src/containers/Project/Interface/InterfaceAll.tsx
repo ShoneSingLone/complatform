@@ -43,8 +43,7 @@ export const InterfaceAll = defineComponent({
 		}
 	},
 	methods: {},
-	data() {
-		const vm = this;
+	data(vm) {
 		return {
 			btnChangeStatus: {
 				text: $t("变更状态").label,
@@ -70,8 +69,7 @@ export const InterfaceAll = defineComponent({
 			}
 		};
 	},
-	render() {
-		const vm = this;
+	render(vm) {
 		return (
 			<xView class="Interface-view">
 				<div class="Operation mb10">
