@@ -1,0 +1,54 @@
+.JsonSchemaMonaco {
+  height: 100%;
+  width: 100%;
+}
+.JsonSchemaMonaco .left-json-tree_readonly {
+  width: 100%;
+}
+.JsonSchemaMonaco .left-json-tree_readonly .ant-tree-node-content-wrapper {
+  flex: 1;
+}
+.JsonSchemaMonaco .left-json-tree_readonly .ant-tree .ant-tree-treenode {
+  width: 100%;
+}
+.JsonSchemaMonaco .left-json-tree_readonly .cell-width {
+  width: 80px;
+}
+.JsonSchemaMonaco .left-json-tree {
+  width: 300px;
+}
+.JsonSchemaMonaco .left-json-tree .JsonSchemaMonaco-json-tree .ant-tree-treenode {
+  width: 100%;
+}
+.JsonSchemaMonaco .left-json-tree .JsonSchemaMonaco-json-tree .ant-tree-treenode .ant-tree-node-content-wrapper {
+  flex: 1;
+  width: 1px;
+  cursor: unset;
+}
+.JsonSchemaMonaco .left-json-tree .JsonSchemaMonaco-json-tree .ant-tree-treenode .ant-tree-node-content-wrapper .ant-tree-title {
+  display: flex;
+}
+.JsonSchemaMonaco .left-json-tree .JsonSchemaMonaco-json-tree .ant-tree-treenode .ant-tree-node-content-wrapper .ant-tree-title .title-wrapper {
+  display: flex;
+  flex: 1;
+  width: 1px;
+}
+.JsonSchemaMonaco .left-json-tree .JsonSchemaMonaco-json-tree .ant-tree-treenode .ant-tree-node-content-wrapper .ant-tree-title .title-wrapper .title {
+  width: 1px;
+}
+.JsonSchemaMonaco .JsonSchemaMonaco-monaco-panel {
+  position: relative;
+}
+.JsonSchemaMonaco .JsonSchemaMonaco-monaco-panel .JsonSchemaMonaco-monaco-panel_button {
+  padding: 10px;
+  padding-left: 0;
+}
+.SchemaEditor {
+  width: 1px;
+  flex: 1;
+  position: relative;
+  height: 100%;
+}
+.SchemaEditor .SchemaEditor_button {
+  padding: 10px;
+}

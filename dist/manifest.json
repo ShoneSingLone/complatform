@@ -1,0 +1,160 @@
+{
+  "src/devui/ui/xSingle/layer/imgs/loading-2.gif": {
+    "file": "assets/loading-2.16ea0cf6.gif",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-2.gif"
+  },
+  "src/devui/assets/svg/input.svg": {
+    "file": "assets/input.6b0bacb4.svg",
+    "src": "src/devui/assets/svg/input.svg"
+  },
+  "src/devui/ui/xSingle/layer/imgs/loading-1.gif": {
+    "file": "assets/loading-1.7c6380e9.gif",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-1.gif"
+  },
+  "src/devui/ui/xSingle/layer/imgs/icon.png": {
+    "file": "assets/icon.99942159.png",
+    "src": "src/devui/ui/xSingle/layer/imgs/icon.png"
+  },
+  "src/devui/ui/xSingle/layer/imgs/loading-0.gif": {
+    "file": "assets/loading-0.07236f68.gif",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-0.gif"
+  },
+  "src/devui/ui/xSingle/layer/imgs/icon-ext.png": {
+    "file": "assets/icon-ext.e2e7a838.png",
+    "src": "src/devui/ui/xSingle/layer/imgs/icon-ext.png"
+  },
+  "index.html": {
+    "file": "assets/js/index.4744bf8d.js",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/containers/Login/LoginContainer.tsx",
+      "src/containers/Project/ViewProject.tsx",
+      "src/containers/Project/Interface/ProjectInterface.tsx",
+      "src/containers/Project/Interface/InterfaceAll.tsx",
+      "src/containers/Project/Interface/InterfaceCategory.tsx",
+      "src/containers/Project/Interface/InterfaceDetail.tsx",
+      "src/containers/Project/TestCase/ProjectTestcase.tsx",
+      "src/containers/Project/TestCase/ProjectTestcaseAll.tsx",
+      "src/containers/Project/Setting/ProjectSetting.tsx"
+    ],
+    "css": [
+      "assets/index.760baf82.css"
+    ],
+    "assets": [
+      "assets/loading-1.7c6380e9.gif",
+      "assets/icon.99942159.png",
+      "assets/loading-0.07236f68.gif",
+      "assets/loading-2.16ea0cf6.gif",
+      "assets/icon-ext.e2e7a838.png",
+      "assets/input.6b0bacb4.svg"
+    ]
+  },
+  "src/containers/Login/LoginContainer.tsx": {
+    "file": "assets/js/LoginContainer.a86e2ed1.js",
+    "src": "src/containers/Login/LoginContainer.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "css": [
+      "assets/LoginContainer.02d8757a.css"
+    ]
+  },
+  "src/containers/Project/ViewProject.tsx": {
+    "file": "assets/js/ViewProject.6daa0ea3.js",
+    "src": "src/containers/Project/ViewProject.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "css": [
+      "assets/ViewProject.701d7dd4.css"
+    ]
+  },
+  "src/containers/Project/Interface/ProjectInterface.tsx": {
+    "file": "assets/js/ProjectInterface.a88375f1.js",
+    "src": "src/containers/Project/Interface/ProjectInterface.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/containers/Project/Interface/InterfaceAll.tsx": {
+    "file": "assets/js/InterfaceAll.f01874fc.js",
+    "src": "src/containers/Project/Interface/InterfaceAll.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_DialogModifyInterface.Helper.d9e9c598.js"
+    ]
+  },
+  "_DialogModifyInterface.Helper.d9e9c598.js": {
+    "file": "assets/js/DialogModifyInterface.Helper.d9e9c598.js",
+    "imports": [
+      "index.html"
+    ],
+    "css": [
+      "assets/DialogModifyInterface.9b709bfa.css"
+    ]
+  },
+  "src/containers/Project/Interface/InterfaceCategory.tsx": {
+    "file": "assets/js/InterfaceCategory.58beb2bb.js",
+    "src": "src/containers/Project/Interface/InterfaceCategory.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_DialogModifyInterface.Helper.d9e9c598.js"
+    ]
+  },
+  "src/containers/Project/Interface/InterfaceDetail.tsx": {
+    "file": "assets/js/InterfaceDetail.5c4b683c.js",
+    "src": "src/containers/Project/Interface/InterfaceDetail.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_DialogModifyInterface.Helper.d9e9c598.js"
+    ]
+  },
+  "src/containers/Project/TestCase/ProjectTestcase.tsx": {
+    "file": "assets/js/ProjectTestcase.9c2c68aa.js",
+    "src": "src/containers/Project/TestCase/ProjectTestcase.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/containers/Project/TestCase/ProjectTestcaseAll.tsx": {
+    "file": "assets/js/ProjectTestcaseAll.166e28a6.js",
+    "src": "src/containers/Project/TestCase/ProjectTestcaseAll.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/containers/Project/Setting/ProjectSetting.tsx": {
+    "file": "assets/js/ProjectSetting.b80698d7.js",
+    "src": "src/containers/Project/Setting/ProjectSetting.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_DialogModifyInterface.Helper.d9e9c598.js"
+    ]
+  },
+  "src/containers/Project/ViewProject.css": {
+    "file": "assets/ViewProject.701d7dd4.css",
+    "src": "src/containers/Project/ViewProject.css"
+  },
+  "DialogModifyInterface.css": {
+    "file": "assets/DialogModifyInterface.9b709bfa.css",
+    "src": "DialogModifyInterface.css"
+  },
+  "index.css": {
+    "file": "assets/index.760baf82.css",
+    "src": "index.css"
+  },
+  "src/containers/Login/LoginContainer.css": {
+    "file": "assets/LoginContainer.02d8757a.css",
+    "src": "src/containers/Login/LoginContainer.css"
+  }
+}
