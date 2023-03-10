@@ -7,10 +7,12 @@ import svgHelper from "./preprocess/plugins/svg";
 import { visualizer } from "rollup-plugin-visualizer";
 
 const IS_DEV = process.env.IS_DEV != "PRD";
-console.log('🚀:', 'IS_DEV', JSON.stringify(IS_DEV, null, 2));
 const __APP_VERSION = Date.now().toString();
 const PROD_SERVER_ADDRESS = `https://www.singlone.work/s/0`;
-const __BASE_URL = IS_DEV ? "" : PROD_SERVER_ADDRESS;
+const DEV_SERVER_ADDRESS = "http://localhost:3001";
+// const DEV_SERVER_ADDRESS = "http://192.168.68.112:3001";
+const __BASE_URL = IS_DEV ? DEV_SERVER_ADDRESS : PROD_SERVER_ADDRESS;
+console.log('🚀:', '__BASE_URL', __BASE_URL);
 
 const isBuildLibTui = process.env.type === "lib:tui";
 
@@ -25,15 +27,7 @@ const appOptions = {
 		fs: {
 			allow: [searchForWorkspaceRoot(process.cwd())]
 		},
-		proxy: {
-			"^/api": {
-				target: "http://localhost:3001/",
-				changeOrigin: true,
-				secure: false,
-				ws: true,
-				rewrite: path => path.replace(/^\/api/, "/api")
-			}
-		}
+		// proxy: { "^/api": { target: "http://localhost:3001/", changeOrigin: true, secure: false, ws: true, rewrite: path => path.replace(/^\/api/, "/api") } }
 	},
 	build: {
 		/* 没有混缩 */

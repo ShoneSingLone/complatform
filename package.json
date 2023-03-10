@@ -1,6 +1,7 @@
 {
   "name": "complatfrom",
   "private": true,
+  "module": "es2020",
   "version": "0.0.0",
   "scripts": {
     "usenpm": "npm i",
