@@ -1,34 +1,40 @@
-import { _ } from "@ventose/ui";
-import { computed, defineComponent } from "vue";
-import { Cpt_url, ProjectChildren } from "../../router/router";
-import { State_App } from "../../state/State_App";
-import { API } from "../../api";
-import { useProjectBasicProperties } from "../../compositions";
-import {
-	State_Interface,
-	resetStateInterface
-} from "./Interface/State_Interface";
+import { xU } from "@ventose/ui";
+import { defineComponent } from "vue";
+import { resetStateInterface } from "./Interface/State_ProjectInterface";
+import "./ViewProject.scss";
+import { RouterView } from "@/components/RouterView/RouterView";
+import { Cpt_url, ProjectChildren } from "@/router/router";
+import { State_App } from "@/state/State_App";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
 export const ViewProject = defineComponent({
 	name: "ViewProject",
 	setup() {
-		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
 		/* 以project为root，共享数据随project生命周期重置 */
 		resetStateInterface();
 		return {
-			State_Interface,
 			State_App,
-			Cpt_url,
-			Cpt_currGroupId,
-			Cpt_currProjectId
+			Cpt_url
 		};
 	},
+	watch: {
+		Cpt_url: {
+			deep: true,
+			handler(Cpt_url) {
+				const [_, a, b] = String(Cpt_url.pathname).split("/");
+				const currentViewKey = `/${a}/${b}`;
+				if (this.currentViewKey != currentViewKey) {
+					this.currentViewKey = currentViewKey;
+				}
+			}
+		}
+	},
 	data() {
+		const [_, a, b] = String(this.Cpt_url.pathname).split("/");
 		return {
-			currentViewKey: ProjectChildren[0].path,
-			ProjectChildren
+			ProjectChildren,
+			currentViewKey: `/${a}/${b}`
 		};
 	},
 	methods: {
@@ -40,9 +46,10 @@ export const ViewProject = defineComponent({
 	computed: {},
 	render() {
 		/* 如果没有projectId 则重定向到group */
-		if (!this.Cpt_currProjectId) {
+		if (!this.State_App.currProject._id) {
 			return <aSpin class="flex vertical middle center height100" />;
 		}
+
 		return (
 			<div id="ViewProject">
 				<aMenu
@@ -50,7 +57,7 @@ export const ViewProject = defineComponent({
 					selectedKeys={[this.currentViewKey]}
 					mode="horizontal"
 					class="">
-					{_.map(this.ProjectChildren, (item, index) => {
+					{xU.map(this.ProjectChildren, (item, index) => {
 						// 若导航标题为两个字，则自动在中间加个空格
 						if (item.label.length === 2) {
 							item.label = item.label[0] + " " + item.label[1];
@@ -62,7 +69,7 @@ export const ViewProject = defineComponent({
 						);
 					})}
 				</aMenu>
-				<xRouterView />
+				<RouterView />
 			</div>
 		);
 	}

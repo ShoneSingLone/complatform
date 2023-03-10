@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import {
-	_,
+	xU,
 	defItem,
 	State_UI,
 	FormRules,
@@ -9,7 +9,7 @@ import {
 	UI,
 	components
 } from "@ventose/ui";
-import { Methods_App, State_App } from "../../../state/State_App";
+import { Methods_App, State_App } from "@/state/State_App";
 import { Alert } from "ant-design-vue";
 import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
@@ -27,7 +27,7 @@ export const DialogEditGroup = defineComponent({
 	},
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -36,10 +36,10 @@ export const DialogEditGroup = defineComponent({
 	},
 	computed: {
 		row() {
-			return this.options?.row || {};
+			return this.propDialogOptions?.row || {};
 		},
 		vDomFormItems() {
-			return _.map(this.formItems, (item, prop) => {
+			return xU.map(this.formItems, (item, prop) => {
 				return (
 					<>
 						<xGap t="10" />
@@ -100,19 +100,32 @@ export const DialogEditGroup = defineComponent({
 	render() {
 		/* {JSON.stringify(pickValueFrom(this.formItems))} */
 		return (
-			<div class="padding20">
-				<aCard>
-					<xForm
-						class="flex vertical"
-						labelStyle={{
-							"min-width": "170px",
-							width: "unset"
-						}}>
-						{this.vDomFormItems}
-					</xForm>
-				</aCard>
-				{this.vDomDeleteGroup}
-			</div>
+			<>
+				<div class="padding20 flex1 overflow-auto">
+					<aCard>
+						<xForm
+							class="flex vertical"
+							labelStyle={{
+								"min-width": "170px",
+								width: "unset"
+							}}>
+							{this.vDomFormItems}
+						</xForm>
+					</aCard>
+					{this.vDomDeleteGroup}
+				</div>
+				<xDialogFooter
+					configs={{
+						onCancel: this.propDialogOptions.closeDialog,
+						onOk: () => {
+							this.propDialogOptions.onOk({
+								formItems: this.formItems,
+								closeDialog: this.propDialogOptions.closeDialog
+							});
+						}
+					}}
+				/>
+			</>
 		);
 	},
 	data() {
@@ -194,7 +207,7 @@ export const DialogEditGroup = defineComponent({
 		showDeleteGroupConfirm() {
 			const vm = this;
 			vm.formDelete.authText.value = "";
-			UI.dialog.confirm({
+			UI.confirm({
 				title: "确认删除 " + vm.State_App.currGroup.group_name + " 分组吗？",
 				content: vm.vDomDeleteConfirmAuth,
 				onOk() {
@@ -205,7 +218,7 @@ export const DialogEditGroup = defineComponent({
 							return reject();
 						} else {
 							await vm.deleteGroup();
-							vm.options?.close();
+							vm.propDialogOptions?.close();
 							return resolve("");
 						}
 					});
@@ -219,12 +232,12 @@ export const DialogEditGroup = defineComponent({
 			const res = await API.group.deleteGroup({ id: currGroup._id });
 			UI.notification.success("删除成功");
 			await Methods_App.fetchGroupList();
-			const firstGroup = _.first(this.State_App.groupList);
+			const firstGroup = xU.first(this.State_App.groupList);
 			this.Cpt_url.go("/group", { group_id: firstGroup._id });
 		}
 	},
 	mounted() {
 		this.init();
-		this.options.vm = this;
+		this.propDialogOptions.vm = this;
 	}
 });

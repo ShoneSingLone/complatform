@@ -41,6 +41,11 @@
 }
 
 #ViewAppFooter {
+	position: relative;
+	> .toggle-fold-btn {
+		position: absolute;
+		z-index: 1;
+	}
 	.footItem {
 		padding: 24px 2%;
 		width: 25%;
@@ -75,29 +80,30 @@
 			text-indent: 0;
 		}
 	}
+}
 
-	.ant-btn.x-button.footer-toggle {
-		position: absolute;
-		bottom: -40px;
-		right: -40px;
-		opacity: 0.5;
-		transform: scale(0.5);
-		overflow: hidden;
-		width: 80px;
-		height: 80px;
-		border-radius: 50%;
-		transition: 0.3s all ease-in;
+.ant-btn.x-button.toggle-fold-btn.footer-toggle {
+	position: fixed;
+	bottom: -40px;
+	right: -40px;
+	opacity: 0.5;
+	transform: scale(0.5);
+	overflow: hidden;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	transition: 0.3s all ease-in;
+	z-index: 1;
 
-		&.unfold {
-			right: 0;
-			bottom: 0;
-			opacity: 1;
-			transform: scale(0.8);
-		}
+	&.unfold {
+		right: 0;
+		bottom: 0;
+		opacity: 1;
+		transform: scale(0.8);
+	}
 
-		&:hover {
-			transform: scale(1);
-			opacity: 1;
-		}
+	&:hover {
+		transform: scale(1);
+		opacity: 1;
 	}
 }

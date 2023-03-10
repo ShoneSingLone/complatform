@@ -1,5 +1,5 @@
 <template>
-	<aCard>
+	<aCard class="flex1">
 		<xForm
 			class="flex vertical"
 			:label-style="{ 'min-width': '120px', width: 'unset' }">
@@ -9,19 +9,20 @@
 			</template>
 		</xForm>
 	</aCard>
+	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { _, defItem, State_UI, FormRules } from "@ventose/ui";
-import { xItemUAC } from "@/components/xItemRender/xItemUAC";
+import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
+import { ItemUAC } from "@/components/ItemRender/ItemUAC";
 
 const { $t } = State_UI;
 
 export default defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -35,7 +36,7 @@ export default defineComponent({
 				...defItem({
 					value: [],
 					prop: "member_uids",
-					itemType: xItemUAC,
+					itemType: ItemUAC,
 					label: $t("用户名").label,
 					rules: [FormRules.required()]
 				}),
@@ -54,8 +55,18 @@ export default defineComponent({
 			}
 		};
 	},
-	mounted() {
-		this.options.vm = this;
+	computed: {
+		dialogDefautBtn() {
+			return {
+				onCancel: this.propDialogOptions.closeDialog,
+				onOk: () => {
+					this.propDialogOptions.onOk({
+						formItems: this.formItems,
+						closeDialog: this.propDialogOptions.closeDialog
+					});
+				}
+			};
+		}
 	}
 });
 </script>

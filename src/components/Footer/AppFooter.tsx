@@ -1,7 +1,7 @@
 import "./Footer.scss";
 import { defineComponent } from "vue";
 import { $ } from "@ventose/ui";
-import { State_App, Methods_App } from "../../state/State_App";
+import { Methods_App, State_App } from "../../state/State_App";
 import { Cpt_url } from "./../../router/router";
 
 const version = Date.now();
@@ -105,6 +105,13 @@ export const AppFooter = defineComponent({
 				return { height: "0" };
 			}
 		},
+		contentStyle() {
+			if (this.State_App.isFooterFold) {
+				return { display: "flex" };
+			} else {
+				return { display: "none" };
+			}
+		},
 		toggleText() {
 			if (this.State_App.isFooterFold) {
 				return "折叠";
@@ -115,7 +122,10 @@ export const AppFooter = defineComponent({
 		toggleFoldBtn() {
 			return {
 				type: "primary",
-				class: { "footer-toggle": true, unfold: this.State_App.isFooterFold },
+				class: {
+					"toggle-fold-btn footer-toggle": true,
+					unfold: this.State_App.isFooterFold
+				},
 				text: this.toggleText,
 				isHide: true,
 				onClick: Methods_App.toggleFooterFold
@@ -124,21 +134,26 @@ export const AppFooter = defineComponent({
 	},
 	render() {
 		return (
-			<div class="footer-wrapper" style={this.wrapperStyle} id="ViewAppFooter">
-				<xButton configs={this.toggleFoldBtn} class="toggle-fold-btn" />
-				<aRow class="footer-container">
-					{this.footList.map((item, i) => {
-						return (
-							<FootItem
-								key={i}
-								linkList={item.linkList}
-								title={item.title}
-								iconType={item.iconType}
-							/>
-						);
-					})}
-				</aRow>
-			</div>
+			<>
+				<xButton configs={this.toggleFoldBtn} />
+				<div
+					class="footer-wrapper"
+					style={this.wrapperStyle}
+					id="ViewAppFooter">
+					<aRow class="footer-container" style={this.contentStyle}>
+						{this.footList.map((item, i) => {
+							return (
+								<FootItem
+									key={i}
+									linkList={item.linkList}
+									title={item.title}
+									iconType={item.iconType}
+								/>
+							);
+						})}
+					</aRow>
+				</div>
+			</>
 		);
 	}
 });

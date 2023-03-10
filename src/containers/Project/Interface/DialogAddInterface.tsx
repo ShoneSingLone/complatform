@@ -1,16 +1,27 @@
-import { validateForm, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
-import { defItem, _, setValueTo } from "@ventose/ui";
+import {
+	validateForm,
+	AllWasWell,
+	pickValueFrom,
+	UI,
+	defItem,
+	xU,
+	setValueTo
+} from "@ventose/ui";
 import { defineComponent, markRaw } from "vue";
-import { API } from "../../../api";
-import { Cpt_currProject, State_App } from "../../../state/State_App";
-import { State_Interface } from "./State_Interface";
-import { FormRules } from "../../../utils/common.FormRules";
-import { ITEM_OPTIONS } from "../../../utils/common.options";
+import { API } from "@/api";
+import { State_App } from "@/state/State_App";
+import {
+	Methods_ProjectInterface,
+	State_ProjectInterface
+} from "@/containers/Project/Interface/State_ProjectInterface";
+import { FormRules } from "@/utils/common.FormRules";
+import { ITEM_OPTIONS } from "@/utils/common.options";
+import { Cpt_url } from "@/router/router";
 
 export const DialogAddInterface = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -30,7 +41,7 @@ export const DialogAddInterface = defineComponent({
 				options: ITEM_OPTIONS.httpMethod,
 				rules: [FormRules.required()],
 				once() {
-					this.value = _.first(this.options).value;
+					this.value = xU.first(this.options).value;
 				},
 				style: { width: "120px" }
 			}),
@@ -44,14 +55,12 @@ export const DialogAddInterface = defineComponent({
 					options: [],
 					rules: [FormRules.required()],
 					once() {
-						this.options = State_Interface.list.map(i => ({
-							value: i._id,
-							label: i.title
-						}));
-						if (vm.options.categoryId) {
-							this.value = vm.options.categoryId;
+						this.options = State_ProjectInterface.allCategory;
+						/* 默认在点击的分类下添加新接口 */
+						if (vm.propDialogOptions.categoryId) {
+							this.value = vm.propDialogOptions.categoryId;
 						} else {
-							this.value = _.first(this.options).value;
+							this.value = xU.first(this.options).value;
 						}
 					}
 				}),
@@ -82,22 +91,31 @@ export const DialogAddInterface = defineComponent({
 		};
 	},
 	mounted() {
-		this.options.vm = this;
+		this.propDialogOptions.vm = this;
 	},
 	methods: {
-		async submit() {
+		async onOk() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-				const { name, desc } = pickValueFrom(this.dataXItem);
-				const project_id = Cpt_currProject.value._id;
+				const { catid, title, path } = pickValueFrom(this.dataXItem);
+				const { projectId, closeDialog } = this.propDialogOptions;
 				try {
-					const res = await API.project.addInterfaceCategory({
-						project_id,
-						name,
-						desc
+					const { data } = await API.project.addInterface({
+						project_id: projectId,
+						catid,
+						title,
+						path,
+						method: this.apiMethod.value
 					});
-					if (res) {
-						return true;
+					if (data) {
+						Methods_ProjectInterface.updateInterfaceMenuList();
+						Cpt_url.value.go("/project/interface/detail", {
+							...Cpt_url.value.query,
+							interface_id: data._id
+						});
+
+						UI.message.success("添加接口成功");
+						closeDialog();
 					}
 				} catch (error) {
 					UI.message.error("添加失败");
@@ -107,28 +125,36 @@ export const DialogAddInterface = defineComponent({
 	},
 	render() {
 		return (
-			<div class="g-row flex1 height100">
-				<xGap t="10" />
-				<aAlert
-					message={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
-					type="info"
-					closable
-					className="width100"
+			<>
+				<div class="g-row flex1 height100">
+					<xGap t="10" />
+					<aAlert
+						message={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
+						type="info"
+						closable
+						className="width100"
+					/>
+					<xForm
+						class="flex vertical"
+						labelStyle={{ "min-width": "120px", width: "unset" }}>
+						{xU.map(this.dataXItem, (configs, prop) => {
+							return (
+								<>
+									<xGap t="10" />
+									<xItem configs={configs} />
+								</>
+							);
+						})}
+					</xForm>
+					<xGap t="10" />
+				</div>
+				<xDialogFooter
+					configs={{
+						onCancel: this.propDialogOptions.closeDialog,
+						onOk: this.onOk
+					}}
 				/>
-				<xForm
-					class="flex vertical"
-					labelStyle={{ "min-width": "120px", width: "unset" }}>
-					{_.map(this.dataXItem, (configs, prop) => {
-						return (
-							<>
-								<xGap t="10" />
-								<xItem configs={configs} />
-							</>
-						);
-					})}
-				</xForm>
-				<xGap t="10" />
-			</div>
+			</>
 		);
 	}
 });

@@ -1,20 +1,11 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 import "./index.scss";
-import {
-	Alert,
-	Modal,
-	Row,
-	Col,
-	Icon,
-	Collapse,
-	Input,
-	Tooltip
-} from "ant-design-vue";
+import {Alert, Collapse} from "ant-design-vue";
 import MockList from "./MockList.js";
 import MethodsList from "./MethodsList.js";
 import VariablesSelect from "./VariablesSelect.js";
-import { trim } from "../../common.js";
+import {trim} from "../../common.js";
 
 const { handleParamsValue } = require("common/utils.js");
 const Panel = Collapse.Panel;
@@ -70,7 +61,7 @@ class ModalPostman extends Component {
 		};
 	}
 
-	UNSAFE_componentWillMount() {
+	UNSAFExU.omponentWillMount() {
 		let { inputValue } = this.props;
 		this.setState({
 			constantInput: inputValue

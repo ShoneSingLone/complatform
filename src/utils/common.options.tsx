@@ -1,47 +1,96 @@
+import { xU } from "@ventose/ui";
 import { HTTP_METHOD } from "./variable";
-import { _ } from "@ventose/ui";
 
 export const ITEM_OPTIONS = {
-	httpMethod: _.map(HTTP_METHOD, (item, prop) => ({
+	httpMethod: xU.map(HTTP_METHOD, (item, prop) => ({
 		label: prop,
-		value: prop
+		value: prop,
+		color: item.color
 	})),
+	interfaceBodyType: [
+		{ label: "form", value: "form", isForm: true },
+		{ label: "json", value: "json" },
+		{ label: "file", value: "file" },
+		{ label: "raw", value: "raw" }
+	],
+	interfaceBodyFormType: [
+		{ label: "text", value: "text" },
+		{ label: "file", value: "file" }
+	],
+	httpProtocol: [
+		{ label: "http://", value: "http://" },
+		{ label: "https://", value: "https://" }
+	],
+	interfaceStatus: [
+		{ label: "未完成", value: "undone" },
+		{ label: "已完成", value: "done" }
+	],
 	status: [
 		{ label: "开通", value: "ACTIVATED" },
 		{ label: "未开通", value: "NONACTIVATED" }
+	],
+	YesOrNo: [
+		{ label: "是", value: "true" },
+		{ label: "否", value: "false" }
+	],
+	trueOrFalse: [
+		{ label: "是", value: true },
+		{ label: "否", value: false }
+	],
+	required: [
+		{ label: "必需", value: "1", color: "red" },
+		{ label: "非必需", value: "0" }
 	],
 	statusFn(action) {
 		if (action === "all") {
 			return [{ label: "所有状态", value: "" }].concat(this.status);
 		}
 		return this.status;
+	}
+};
+
+/*状态显示样式统一处理*/
+export const ITEM_OPTIONS_VDOM = {
+	interfaceBodyFormType(cell) {
+		if (!xU.isInput(cell)) return null;
+		const i = xU.find(ITEM_OPTIONS.interfaceBodyFormType, {
+			value: cell
+		});
+		/*@ts-ignore*/
+		return <aTag>{i.label}</aTag>;
 	},
-	serviceType: [
-		{ label: "镜像", value: 1 },
-		{ label: "SAAS", value: 0 }
-	],
-	support: [
-		{ label: "支持", value: 1 },
-		{ label: "不支持", value: 0 }
-	],
-	/* 架构类型 */
-	specType: [
-		{ label: "aarch64", value: "aarch64" },
-		{ label: "x86_64", value: "x86_64" }
-	],
-	vmStatus: [
-		{ label: "运行中", value: "ACTIVE" },
-		{ label: "--", value: "DELETE" }
-	],
-	instanceStatus: [
-		{ label: "已激活", value: 7 },
-		{ label: "删除成功", value: 4 }
-	],
-	op: [
-		{ label: "跳转", value: 0 },
-		{ label: "访问管理", value: 1 },
-		{ label: "变更", value: 2 },
-		{ label: "销毁", value: 3 },
-		{ label: "agent下载", value: 4 }
-	]
+	required(cell) {
+		if (!xU.isInput(cell)) return null;
+		const i = xU.find(ITEM_OPTIONS.required, {
+			value: String(cell).toLocaleUpperCase()
+		});
+		/*@ts-ignore*/
+		return <aTag color={i.color}>{i.label}</aTag>;
+	},
+	httpMethod(cell) {
+		if (!xU.isInput(cell)) return null;
+		const i = xU.find(ITEM_OPTIONS.httpMethod, {
+			value: String(cell).toLocaleUpperCase()
+		});
+		/*@ts-ignore*/
+		return <aTag color={i.color}>{i.label}</aTag>;
+	},
+	status: status => {
+		if (!xU.isInput(status)) return null;
+		const item = xU.find(ITEM_OPTIONS.interfaceStatus, {
+			value: status
+		});
+		/*@ts-ignore*/
+		return <span class={"tag-status " + item.value}>{item.label}</span>;
+	},
+	tags: tags => {
+		if (!xU.isInput(tags)) return null;
+		if (typeof tags === "string") {
+			tags = tags.split(",");
+		}
+		return xU.map(tags, i => (
+			/*@ts-ignore*/
+			<aTag color="blue">{i}</aTag>
+		));
+	}
 };

@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { TimeLine } from "../../../components/TimeLine/TimeLine";
-import { State_App } from "../../../state/State_App";
+import { State_App } from "@/state/State_App";
 
 export default defineComponent({
 	props: ["match"],

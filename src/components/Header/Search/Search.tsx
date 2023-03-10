@@ -1,10 +1,11 @@
-import { Icon, Input, AutoComplete } from "ant-design-vue";
+import { AutoComplete } from "ant-design-vue";
 import "./Search.scss";
 
 import axios from "axios";
 
 import { defineComponent } from "vue";
 import { Methods_App } from "@/state/State_App";
+
 const Option = AutoComplete.Option;
 
 /* @connect(
@@ -43,10 +44,7 @@ export default defineComponent({
 			if (option.props.type === "分组") {
 				this.props.changeMenuItem("/group");
 				this.$router.push({ path: "/group/" + option.props["id"] });
-				Methods_App.setCurrGroup({
-					group_name: value,
-					_id: option.props["id"] - 0
-				});
+				Methods_App.setCurrGroup(ption.props["id"] - 0);
 			} else if (option.props.type === "项目") {
 				await Methods_App.setCurrGroup(option.props["groupId"]);
 				this.$router.push({ path: "/project/" + option.props["id"] });

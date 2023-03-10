@@ -1,57 +1,42 @@
-import { defineComponent, ref } from "vue";
-import { Methods_App, State_App } from "../../../state/State_App";
-import { API } from "../../../api";
+import { defineComponent } from "vue";
+import { State_App } from "@/state/State_App";
 import { Cpt_url } from "../../../router/router";
-import { useProjectBasicProperties } from "../../../compositions";
-import "./interface.scss";
-import { InterfaceSider } from "./InterfaceSider";
+import { ProjectInterfaceLeftSider } from "./ProjectInterfaceLeftSider";
+import {
+	State_ProjectInterface,
+	Methods_ProjectInterface
+} from "@/containers/Project/Interface/State_ProjectInterface";
 
 export const ProjectInterface = defineComponent({
 	components: {
-		InterfaceSider
+		ProjectInterfaceLeftSider
 	},
 	setup() {
-		const { Cpt_currGroupId, Cpt_currProjectId } = useProjectBasicProperties();
 		return {
 			State_App,
-			Cpt_url,
-			Cpt_currGroupId,
-			Cpt_currProjectId
+			State_Project: State_ProjectInterface,
+			Cpt_url
 		};
 	},
 	data() {
 		return {
-			state: {},
-			styleContent: {
-				height: "100%",
-				margin: "0 24px 0 16px",
-				overflow: "initial",
-				backgroundColor: "#fff"
-			},
-			styleLayout: {
-				marginLeft: "24px",
-				marginTop: "24px"
-			}
+			state: {}
 		};
 	},
-	computed: {},
+	created() {
+		Methods_ProjectInterface.resetURL();
+	},
+	methods: {},
 	render() {
 		return (
-			<aLayout id="ViewProjectInterface">
-				<aLayoutSider
-					width={300}
-					class="flex vertical height100"
-					ref="__$$sider">
-					<InterfaceSider />
-				</aLayoutSider>
-				<aLayout>
-					<aLayoutContent
-						data-app-position="Group-layout-content"
-						style={this.StyleContent}>
-						<xRouterView />
-					</aLayoutContent>
-				</aLayout>
-			</aLayout>
+			<section
+				id="ViewProjectInterface"
+				v-loading={this.State_Project.isLoading}>
+				<ProjectInterfaceLeftSider />
+				<main class="flex flex1 padding10" style="width:1px;">
+					<RouterView class="flex flex1 width100 height100 vertical padding10" />
+				</main>
+			</section>
 		);
 	}
 });

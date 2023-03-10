@@ -2,47 +2,11 @@ import "./Header.scss";
 
 import Srch from "./Search/Search";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
-import GuideBtns from "../GuideBtns/GuideBtns";
 import { defineComponent, VNode } from "vue";
-import { UI, _ } from "@ventose/ui";
+import { UI, xU } from "@ventose/ui";
 import { Methods_App, State_App } from "./../../state/State_App";
 import { Cpt_url } from "../../router/router";
 
-const tipFollow = (
-	<div class="title-container">
-		<h3 class="title">
-			<xIcon icon="star" />
-			关注
-		</h3>
-		<p>这里是你的专属收藏夹，便于你找到自己的项目</p>
-	</div>
-);
-const tipAdd = (
-	<div class="title-container">
-		<h3 class="title">
-			<xIcon icon="plus-circle" />
-			新建项目
-		</h3>
-		<p>在任何页面都可以快速新建项目</p>
-	</div>
-);
-const tipDoc = (
-	<div class="title-container">
-		<h3 class="title">
-			使用文档 <aTag color="orange">推荐!</aTag>
-		</h3>
-		<p>
-			初次使用 YApi，强烈建议你阅读{" "}
-			<a
-				target="_blank"
-				href="https://hellosean1025.github.io/yapi/"
-				rel="noopener noreferrer">
-				使用文档
-			</a>
-			，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！{" "}
-		</p>
-	</div>
-);
 export const AppHeader = defineComponent({
 	props: [
 		"router",
@@ -51,7 +15,6 @@ export const AppHeader = defineComponent({
 		"uid",
 		"role",
 		"login",
-		"relieveLink",
 		"logoutActions",
 		"loginTypeAction",
 		"changeMenuItem",
@@ -144,8 +107,9 @@ export const AppHeader = defineComponent({
 						</a>
 					);
 				}
+				const configsPopover = { content: i.content, placement: "bottom" };
 				return (
-					<div class="toolbar-li" v-uiPopover={{ content: i.content }}>
+					<div class="toolbar-li" v-uiPopover={configsPopover}>
 						{link}
 					</div>
 				);
@@ -183,7 +147,7 @@ export const AppHeader = defineComponent({
 							Methods_App.logoutActions();
 						}
 					}}>
-					{_.map(
+					{xU.map(
 						{
 							user: {
 								path: `/user/profile/${uid}`,
@@ -240,6 +204,42 @@ export const AppHeader = defineComponent({
 		};
 	},
 	render() {
+		const tipFollow = (
+			<div class="title-container">
+				<h3 class="title">
+					<xIcon icon="star" />
+					关注
+				</h3>
+				<p>这里是你的专属收藏夹，便于你找到自己的项目</p>
+			</div>
+		);
+		const tipAdd = (
+			<div class="title-container">
+				<h3 class="title">
+					<xIcon icon="plus-circle" />
+					新建项目
+				</h3>
+				<p>在任何页面都可以快速新建项目</p>
+			</div>
+		);
+		const tipDoc = (
+			<div class="title-container">
+				<h3 class="title">
+					使用文档 <aTag color="orange">推荐!</aTag>
+				</h3>
+				<p>
+					初次使用 YApi，强烈建议你阅读{" "}
+					<a
+						target="_blank"
+						href="https://hellosean1025.github.io/yapi/"
+						rel="noopener noreferrer">
+						使用文档
+					</a>
+					，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！{" "}
+				</p>
+			</div>
+		);
+
 		return (
 			<aLayoutHeader class="header-box m-header elevation-4">
 				<div class="content g-row flex middle">

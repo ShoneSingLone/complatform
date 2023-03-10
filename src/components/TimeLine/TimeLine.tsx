@@ -3,16 +3,15 @@ import "jsondiffpatch/dist/formatters-styles/html.css";
 import "./TimeLine.scss";
 import * as jsondiffpatch from "jsondiffpatch";
 
-import { UI, State_UI, _, defPagination } from "@ventose/ui";
+import { defPagination, State_UI, UI, xU } from "@ventose/ui";
 import { defineComponent } from "vue";
-import { State_App, Methods_App } from "../../state/State_App";
+import { Methods_App, State_App } from "../../state/State_App";
 import { Cpt_url } from "../../router/router";
-import { DialogApiModify } from "./DialogApiModify";
+import { DialogShowApiModify } from "./DialogShowApiModify";
 import { LOG_TYPE, METHOD_COLOR } from "../../utils/variable";
 import { _$timeAgo } from "../../utils/common";
 import { API } from "../../api";
 import { diffMessage } from "../../utils/diff-view";
-import { dayjs } from "@ventose/ui";
 
 const { $t } = State_UI;
 
@@ -62,7 +61,6 @@ export const TimeLine = defineComponent({
 					limit: this.pagination.size,
 					selectValue: this.curSelectValue
 				});
-				debugger;
 				const { list, total } = data || {};
 				if (list && total) {
 					this.newsWillShow = list;
@@ -83,8 +81,7 @@ export const TimeLine = defineComponent({
 		showDiffLogDialog(data) {
 			UI.dialog.component({
 				title: $t("Api 改动日志(Esc 关闭弹窗)").label,
-				hideButtons: true,
-				component: DialogApiModify,
+				component: DialogShowApiModify,
 				maxmin: true,
 				fullscreen: true,
 				diffView: diffMessage(jsondiffpatch, formattersHtml, data)
@@ -101,7 +98,7 @@ export const TimeLine = defineComponent({
 
 		handleSelectApi(selectValue) {
 			this.curSelectValue = selectValue;
-			this.props.fetchNewsData(this.typeid, this.type, 1, 10, selectValue);
+			Methods_App.fetchNewsData({ id: this.typeid, type: this.type });
 		}
 	},
 	computed: {
@@ -175,9 +172,9 @@ export const TimeLine = defineComponent({
 		vDomSectionRecords() {
 			let records = <ErrMsg type="noData" />;
 			if (this.newsWillShow.length) {
-				const vDomTimeLineItem = _.map(this.newsWillShow, (newsItem, i) => {
-					let interfaceDiff = _.isPlainObject(newsItem.data);
-					const addTime = _.dateFormat(dayjs.unix(newsItem.add_time), 1);
+				const vDomTimeLineItem = xU.map(this.newsWillShow, (newsItem, i) => {
+					let interfaceDiff = xU.isPlainObject(newsItem.data);
+					const addTime = xU.dateFormat(newsItem.add_time, 1);
 					return (
 						<aTimelineItem
 							dot={
@@ -191,7 +188,9 @@ export const TimeLine = defineComponent({
 							}
 							key={i}>
 							<div class="logMesHeade">
-								<span class="logoTimeago">{_$timeAgo(newsItem.add_time)}</span>
+								<span class="logo_$timeAgo">
+									{_$timeAgo(newsItem.add_time)}
+								</span>
 								<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
 								<span class="logtime">{addTime}</span>
 							</div>

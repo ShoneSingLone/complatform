@@ -1,7 +1,6 @@
-import { _, UI, lStorage, $ } from "@ventose/ui";
+import { UI, xU } from "@ventose/ui";
 import axios from "axios";
 import { State_App } from "../state/State_App";
-import { Cpt_url } from "./../router/router";
 
 const ajax = axios.create({
 	timeout: 20000 // request timeout
@@ -10,10 +9,11 @@ const ajax = axios.create({
 // request interceptor
 ajax.interceptors.request.use(
 	config => {
+		config.url = `${State_App.baseURL}${config.url}`;
 		if (config.data) {
-			_.each(["name"], prop => {
+			xU.each(["name"], prop => {
 				if (config.data[prop]) {
-					config.data[prop] = _.htmlFilter(config.data[prop]);
+					config.data[prop] = xU.htmlFilter(config.data[prop]);
 				}
 			});
 		}
@@ -29,10 +29,15 @@ ajax.interceptors.response.use(
 			State_App.user.isLogin = false;
 			window.location.hash = "/login";
 		}
+
+		if (response.config.url == "/api/interface/schema2json") {
+			return Promise.resolve({ data: response.data, response });
+		}
 		if (response?.data?.errcode !== 0) {
 			UI.message.error(response?.data?.errmsg);
 			return Promise.reject(response);
 		}
+
 		return Promise.resolve({ data: response.data.data, response });
 	},
 	async error => {

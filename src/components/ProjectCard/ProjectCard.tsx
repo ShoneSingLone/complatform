@@ -1,9 +1,9 @@
 import "./ProjectCard.scss";
 import { defineComponent } from "vue";
-import { State_App, Methods_App } from "@/state/State_App";
-import { API } from "@/api";
+import { State_App } from "@/state/State_App";
+import { API } from "src/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
-import { _, UI, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
+import { UI, xU } from "@ventose/ui";
 import { Cpt_url } from "../../router/router";
 
 export default defineComponent({
@@ -22,38 +22,17 @@ export default defineComponent({
 	},
 	methods: {
 		showCopyProjectDialog() {
-			const vm = this;
 			UI.dialog.component({
 				title: `复制项目${this.projectData.name}`,
 				component: ViewCopyProject,
-				area: ["540px", "320px"],
-				okText: "复制",
-				projectName: this.projectData.name,
-				async onOk(dialog) {
-					try {
-						const validateResults = await validateForm(dialog.vm.formItems);
-						if (AllWasWell(validateResults)) {
-							const { name, icon } = pickValueFrom(dialog.vm.formItems);
-							try {
-								await vm.copyProject({ newProjectName: name, icon });
-								dialog.close();
-							} catch (error) {
-								console.error(error);
-								UI.message.error("复制失败");
-							}
-						} else {
-							throw new Error("未通过验证");
-						}
-					} catch (error) {
-						console.error(error);
-					}
-				}
+				copyProject: this.copyProject,
+				projectName: this.projectData.name
 			});
 		},
 		async copyProject({ newProjectName, icon }) {
 			const id = this.projectData._id;
 			let { data } = await API.project.getProjectById(id);
-			data = _.merge(
+			data = xU.merge(
 				data,
 				{ icon },
 				{ name: newProjectName },
@@ -69,7 +48,7 @@ export default defineComponent({
 				group_id: this.Cpt_url.query.group_id
 			});
 		},
-		add: _.debounce(async function () {
+		add: xU.debounce(async function () {
 			try {
 				const { projectData } = this;
 				const uid = this.State_App.user.uid;
@@ -87,7 +66,7 @@ export default defineComponent({
 				this.callbackResult();
 			}
 		}, 300),
-		del: _.debounce(async function () {
+		del: xU.debounce(async function () {
 			try {
 				const id = this.projectData.projectid || this.projectData._id;
 				await API.project.delFollow(id);
@@ -154,10 +133,10 @@ export default defineComponent({
 		},
 		title() {
 			return (
-				<h4 class="ui-title">
-					<span class="mr10">{this.projectData._id}</span>
+				<div class="ui-title" v-uiPopover={{ onlyEllipsis: true }}>
+					{/* <span class="mr10">{this.projectData._id}</span> */}
 					<span>{this.projectData.name || this.projectData.projectname}</span>
-				</h4>
+				</div>
 			);
 		}
 	},

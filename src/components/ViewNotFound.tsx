@@ -18,6 +18,9 @@ export const ViewNotFound = defineComponent({
 			this.goHome();
 		}
 	},
+	data(vm) {
+		return {};
+	},
 	render() {
 		return (
 			<aResult status="404" title="404" subTitle={this.pathname} class="flex1">

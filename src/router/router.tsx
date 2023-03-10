@@ -1,12 +1,15 @@
+import { ViewGroup } from "../containers/Group/ViewGroup";
 import { computed, ComputedRef } from "vue";
-import { setDocumentTitle, State_UI, _ } from "@ventose/ui";
+import { setDocumentTitle, State_UI, xU } from "@ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
 import { Methods_App, State_App } from "../state/State_App";
+
 const { $t } = State_UI;
-const LazyComponent = (componentName, componentPath) => ({
+/* const LazyComponent = (componentName, componentPath) => ({
 	componentName: componentName,
 	component: () => import(componentPath)
-});
+}); */
+
 export const routes = [
 	{
 		path: `/login`,
@@ -19,7 +22,7 @@ export const routes = [
 	{
 		path: `/group`,
 		componentName: "ViewGroup",
-		component: () => import("../containers/Group/ViewGroup"),
+		component: ViewGroup,
 		meta: {
 			title: $t("分组").label
 		}
@@ -60,13 +63,31 @@ export const routes = [
 		component: () => import("../containers/Project/Interface/InterfaceDetail")
 	},
 	{
-		label: $t("自动化测试").label,
-		path: "/project/test_case",
-		componentName: "InterfaceDetail",
-		component: () => import("../containers/Project/Interface/InterfaceDetail"),
+		label: $t("测试集").label,
+		path: "/project/testcase",
+		componentName: "ProjectTestcase",
+		component: () => import("../containers/Project/TestCase/ProjectTestcase"),
 		meta: {
-			title: $t("接口").label
+			title: $t("测试集").label
 		}
+	},
+	{
+		label: $t("测试集-全部").label,
+		path: "/project/testcase/all",
+		componentName: "ProjectTestcaseAll",
+		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
+	},
+	{
+		label: $t("测试集-分类").label,
+		path: "/project/testcase/category",
+		componentName: "ProjectTestcaseAll",
+		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
+	},
+	{
+		label: $t("测试集-详情").label,
+		path: "/project/testcase/detail",
+		componentName: "ProjectTestcaseAll",
+		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
 	},
 	{
 		label: $t("动态").label,
@@ -95,7 +116,7 @@ export const routes = [
 	{
 		label: $t("设置").label,
 		path: "/project/setting",
-		component: ViewNotFound,
+		component: () => import("../containers/Project/Setting/ProjectSetting"),
 		meta: {
 			title: $t("设置").label
 		}
@@ -133,7 +154,7 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 	try {
 		_url = new URL(urlHash.replace("#", ""), origin);
 	} catch (e) {
-		console.log(urlHash, origin);
+		xU(urlHash, origin);
 		console.error(e);
 	}
 
@@ -149,7 +170,7 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 		},
 		set(_query, prop, val) {
 			_query[prop] = val;
-			onlyModifyQuery(_.merge({}, _query));
+			onlyModifyQuery(xU.merge({}, _query));
 			return true;
 		}
 	});
@@ -200,9 +221,10 @@ async function setLocationHash(href: string, url: URL) {
 		if (["/login"].includes(url.pathname)) {
 			href = "/";
 		}
-		const route = _.find(routes, { path: url.pathname });
-		if (route?.meta?.title) {
-			setDocumentTitle(route.meta.title);
+		const route = xU.find(routes, { path: url.pathname });
+		const label = route.label || route?.meta?.title;
+		if (label) {
+			setDocumentTitle(label);
 		} else {
 			setDocumentTitle("YApi-高效、易用、功能强大的可视化接口管理平台");
 		}

@@ -1,9 +1,9 @@
 import GuideBtns from "@/components/GuideBtns/GuideBtns";
-import { _, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
+import { xU, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { UI, State_UI } from "@ventose/ui";
 import { API } from "@/api";
-import { Methods_App, State_App } from "../../../state/State_App";
+import { Methods_App, State_App } from "@/state/State_App";
 import { DialogEditGroup } from "./DialogEditGroup";
 import { DialogAddGroup } from "./DialogAddGroup";
 import { Cpt_url } from "./../../../router/router";
@@ -20,7 +20,10 @@ export async function fnUpsertGroupInfo(formData = {}) {
 	/*TODO:*/
 	await Methods_App.fetchGroupList();
 	await Methods_App.setCurrGroup(State_App.currGroup._id);
-	await Methods_App.fetchNewsData(State_App.currGroup._id, "group", 1, 10);
+	await Methods_App.fetchNewsData({
+		id: State_App.currGroup._id,
+		type: "group"
+	});
 }
 
 export function fnShowUpsertGroupDialog(row = {}) {
@@ -29,20 +32,29 @@ export function fnShowUpsertGroupDialog(row = {}) {
 	UI.dialog.component({
 		title: isUpdate ? $t("修改分组信息").label : $t("添加分组").label,
 		component: isUpdate ? DialogEditGroup : DialogAddGroup,
-		fullscreen: isUpdate,
 		row,
-		area: ["580px", "460px"],
-		onOk: async instance => {
+		area: (() => {
+			if (isUpdate) {
+				if (State_App.user.role === "admin") {
+					return ["840px", "648px"];
+				} else {
+					return ["840px", "448px"];
+				}
+			} else {
+				return ["580px", "460px"];
+			}
+		})(),
+		onOk: async ({ formItems, closeDialog }) => {
 			let formData = {};
 			if (isUpdate) {
-				const validateResults = await validateForm(instance.vm.formItems);
+				const validateResults = await validateForm(formItems);
 				if (AllWasWell(validateResults)) {
 					const {
 						currGroupName,
 						currGroupDesc,
 						custom_field1_enable,
 						custom_field1_name
-					} = pickValueFrom(instance.vm.formItems);
+					} = pickValueFrom(formItems);
 					formData = {
 						...row,
 						group_name: currGroupName,
@@ -57,11 +69,10 @@ export function fnShowUpsertGroupDialog(row = {}) {
 					throw new Error("未通过验证");
 				}
 			} else {
-				const validateResults = await validateForm(instance.vm.formItems);
+				const validateResults = await validateForm(formItems);
 				if (AllWasWell(validateResults)) {
-					const { newGroupName, newGroupDesc, owner_uids } = pickValueFrom(
-						instance.vm.formItems
-					);
+					const { newGroupName, newGroupDesc, owner_uids } =
+						pickValueFrom(formItems);
 					formData = {
 						group_name: newGroupName,
 						group_desc: newGroupDesc,
@@ -72,7 +83,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 				}
 			}
 			await vm.fnUpsertGroupInfo(formData);
-			instance.close();
+			closeDialog();
 		}
 	});
 }
@@ -118,7 +129,7 @@ export const GroupLeftSider = defineComponent({
 				isSearch: false,
 				value: "",
 				placeholder: "搜索分类",
-				onAfterValueChange: this.searchGroup,
+				onAfterValueEmit: this.searchGroup,
 				allowClear: true
 			},
 			groupListForShow: [],
@@ -147,18 +158,17 @@ export const GroupLeftSider = defineComponent({
 			}
 		},
 		async selectGroup({ key: groupId }) {
-			const currGroup = _.find(this.State_App.groupList, { _id: +groupId });
-			await Methods_App.setCurrGroup(currGroup);
-			this.Cpt_url.go("/group", { group_id: currGroup._id });
-			await Methods_App.fetchNewsData(groupId, "group", 1, 10);
+			await Methods_App.setCurrGroup(groupId);
+			this.Cpt_url.go("/group", { group_id: groupId });
+			await Methods_App.fetchNewsData({ id: groupId, type: "group" });
 		},
-		searchGroup: _.debounce(function () {
+		searchGroup: xU.debounce(function () {
 			const { groupList } = this.State_App;
 			const keywords = this.configsSearch.value;
 			if (keywords === "") {
 				this.groupListForShow = groupList;
 			} else {
-				this.groupListForShow = _.filter(groupList, group =>
+				this.groupListForShow = xU.filter(groupList, group =>
 					new RegExp(keywords, "i").test(group.group_name)
 				);
 			}
@@ -176,16 +186,6 @@ export const GroupLeftSider = defineComponent({
 					<div class="curr-group-name">
 						<span class="curr-group-name_title name">
 							{this.State_App.currGroup.group_name}
-							<aTooltip title="修改分组信息">
-								<xIcon
-									class="btn editSet pointer"
-									icon="edit"
-									onClick={() =>
-										this.fnShowUpsertGroupDialog(this.State_App.currGroup)
-									}
-									style="width:16px;"
-								/>
-							</aTooltip>
 						</span>
 					</div>
 					<div class="curr-group-desc">
@@ -207,12 +207,14 @@ export const GroupLeftSider = defineComponent({
 					</aTooltip>
 					<div class="search">
 						{/* 搜索框 */}
+						{this.configsSearch.value}
 						<xItem configs={this.configsSearch} />
 					</div>
 				</div>
 			);
 		},
 		vDomGroupList() {
+			const vm = this;
 			return (
 				<aMenu
 					class="group-list flex1"
@@ -220,7 +222,7 @@ export const GroupLeftSider = defineComponent({
 					v-loading={this.groupListForShow.length === 0}
 					onClick={this.selectGroup}
 					selectedKeys={[`${this.State_App.currGroup._id}`]}>
-					{_.map(this.groupListForShow, group => {
+					{xU.map(this.groupListForShow, group => {
 						let icon = "folderOpen";
 						if (group.type === "private") {
 							icon = "user";
@@ -229,7 +231,16 @@ export const GroupLeftSider = defineComponent({
 							<aMenuItem key={`${group._id}`} class="group-item flex">
 								<div class="flex middle">
 									<xIcon icon={icon} style="width:16px;" />
-									<span>{group.group_name}</span>
+									<span class="flex1">{group.group_name}</span>
+									<xIcon
+										v-uiPopover={{ content: vm.$t("修改分组信息").label }}
+										class="btn editSet pointer"
+										icon="edit"
+										onClick={() =>
+											vm.fnShowUpsertGroupDialog(this.State_App.currGroup)
+										}
+										style="width:16px;"
+									/>
 								</div>
 							</aMenuItem>
 						);

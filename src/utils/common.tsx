@@ -1,9 +1,15 @@
-import { _, $, VentoseUIWithInstall, State_UI } from "@ventose/ui";
+import { $, State_UI, VentoseUIWithInstall, xU } from "@ventose/ui";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
-import { xRouterView } from "../components/xRouterView/xRouterView";
+import { RouterView } from "../components/RouterView/RouterView";
 import { ErrMsg } from "../components/ErrMsg/ErrMsg";
+import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
+import CopyContent from "../components/CopyContent.vue";
+import { MonacoEditor } from "src/components/MonacoEditor/MonacoEditor";
+import Mkit from "@/components/Mkit/MarkdownIt.vue";
+
 export { ITEM_OPTIONS } from "./common.options";
+
 dayjs.locale("zh-cn");
 
 /**
@@ -21,11 +27,17 @@ export const appPlugins = {
 		});
 		app.use({
 			install: (app, { watch } = {}) => {
-				app.component("xRouterView", xRouterView);
+				app.component("Mkit", Mkit);
+				app.component("InfoCard", InfoCard);
+				app.component("InfoCardRow", InfoCardRow);
+				app.component("InfoCardCol", InfoCardCol);
+				app.component("RouterView", RouterView);
 				app.component("ErrMsg", ErrMsg);
+				app.component("CopyContent", CopyContent);
+				app.component("MonacoEditor", MonacoEditor);
 				//注册i8n实例并引入语言文件
 				app.config.globalProperties.$t = State_UI.$t;
-				State_UI.assetsSvgPath = `${__URL_STATIC_DIR}assets/img/svg`;
+				State_UI.setAssetsBaseById("favicon-icon");
 				$("html").attr("lang", State_UI.language);
 				watch && watch();
 			}
@@ -35,7 +47,7 @@ export const appPlugins = {
 };
 
 // 从 Javascript 对象中选取随机属性
-export const pickRandomProperty = obj => {
+export const _$pickRandomProperty = obj => {
 	let result;
 	let count = 0;
 	for (let prop in obj) {
@@ -47,26 +59,26 @@ export const pickRandomProperty = obj => {
 };
 // 从 Javascript 对象中选取随机属性
 
-export const randomValueAndProp = (obj: any) => {
-	if (_.isArray(obj) && obj.length > 0) {
+export const _$randomValueAndProp = (obj: any) => {
+	if (xU.isArray(obj) && obj.length > 0) {
 		const start = 0;
 		const end = obj.length;
 		const key = Math.floor(Math.random() * end + start);
 		return [obj[key], key];
-	} else if (_.isPlainObject(obj)) {
+	} else if (xU.isPlainObject(obj)) {
 		const objArray = Object.keys(obj);
-		const [prop] = randomValueAndProp(objArray);
+		const [prop] = _$randomValueAndProp(objArray);
 		return [obj[prop], prop];
 	} else {
 		return ["", 0];
 	}
 };
-export const randomNum = (start = 0, end = 100) => {
+export const _$randomNum = (start = 0, end = 100) => {
 	return Math.floor(Math.random() * end + start);
 };
 
-export const handlePath = path => {
-	path = _.trim(path);
+export const _$handlePath = path => {
+	path = xU.trim(path);
 	if (!path) {
 		return path;
 	}
@@ -79,30 +91,31 @@ export const handlePath = path => {
 };
 
 export const _$timeAgo = function (timestamp) {
-	let minutes, hours, days, seconds, mouth, year;
-	const timeNow = parseInt(new Date().getTime() / 1000);
-	seconds = timeNow - timestamp;
+	let minutes, hours, days, mouth;
+	let year: any;
+	const timeNow = parseInt(String(new Date().getTime() / 1000));
+	let seconds = timeNow - timestamp;
 	if (seconds > 86400 * 30 * 12) {
-		year = parseInt(seconds / (86400 * 30 * 12));
+		year = parseInt(String(seconds / (86400 * 30 * 12)));
 	} else {
 		year = 0;
 	}
 	if (seconds > 86400 * 30) {
-		mouth = parseInt(seconds / (86400 * 30));
+		mouth = parseInt(String(seconds / (86400 * 30)));
 	} else {
 		mouth = 0;
 	}
 	if (seconds > 86400) {
-		days = parseInt(seconds / 86400);
+		days = parseInt(String(seconds / 86400));
 	} else {
 		days = 0;
 	}
 	if (seconds > 3600) {
-		hours = parseInt(seconds / 3600);
+		hours = parseInt(String(seconds / 3600));
 	} else {
 		hours = 0;
 	}
-	minutes = parseInt(seconds / 60);
+	minutes = parseInt(String(seconds / 60));
 	if (year > 0) {
 		return year + "年前";
 	} else if (mouth > 0 && year <= 0) {
@@ -121,5 +134,35 @@ export const _$timeAgo = function (timestamp) {
 		}
 	} else {
 		return "刚刚";
+	}
+};
+
+// 交换数组的位置
+export const _$arrayChangeIndex = (arr, dragId, dropId) => {
+	arr = JSON.parse(JSON.stringify(arr));
+	const findBy = { _id: dragId };
+	const dragItem = xU.find(arr, findBy);
+	const dragIndex = xU.findIndex(arr, findBy);
+	const dropIndex = xU.findIndex(arr, { _id: dropId });
+
+	if (dragIndex > -1 && dropIndex > -1) {
+		arr[dragIndex] = null;
+		arr.splice(dropIndex, 0, dragItem);
+		let index = 0;
+		return xU.reduce(
+			arr,
+			(_arr, item) => {
+				if (item) {
+					_arr.push({
+						id: item._id,
+						index: index++
+					});
+				}
+				return _arr;
+			},
+			[]
+		);
+	} else {
+		return [];
 	}
 };

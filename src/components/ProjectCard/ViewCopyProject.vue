@@ -1,5 +1,5 @@
 <template>
-	<aCard>
+	<aCard class="flex1">
 		<aAlert :message="alertMessage" type="info" />
 		<xForm
 			class="flex vertical"
@@ -10,11 +10,19 @@
 			</template>
 		</xForm>
 	</aCard>
+	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { _, defItem, State_UI, FormRules } from "@ventose/ui";
+import {
+	AllWasWell,
+	defItem,
+	FormRules,
+	pickValueFrom,
+	UI,
+	validateForm
+} from "@ventose/ui";
 import {
 	xItem_ProjectIcon,
 	xItem_ProjectName
@@ -23,16 +31,43 @@ import {
 export default defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
 			}
 		}
 	},
+	methods: {
+		async onOk() {
+			const validateResults = await validateForm(this.formItems);
+			if (AllWasWell(validateResults)) {
+				const { name, icon } = pickValueFrom(this.formItems);
+				try {
+					await this.propDialogOptions.copyProject({
+						newProjectName: name,
+						icon
+					});
+					this.propDialogOptions.closeDialog();
+				} catch (error) {
+					console.error(error);
+					UI.message.error("复制失败");
+				}
+			} else {
+				throw new Error("未通过验证");
+			}
+		}
+	},
 	computed: {
 		propProjectName() {
-			return String(this.options?.projectName || "");
+			return String(this.propDialogOptions?.projectName || "");
+		},
+		dialogDefautBtn() {
+			return {
+				textOk: this.$t("复制").label,
+				onCancel: this.propDialogOptions.closeDialog,
+				onOk: this.onOk
+			};
 		}
 	},
 	data() {
@@ -46,7 +81,7 @@ export default defineComponent({
 						appendRules: [
 							FormRules.custom({
 								validator(value, { configs, rule }) {
-									if (value === vm.options.projectName) {
+									if (value === vm.propDialogOptions.projectName) {
 										rule.msg = "不能与原项目名相同";
 										return FormRules.FAIL;
 									} else {
@@ -60,9 +95,6 @@ export default defineComponent({
 				...defItem(xItem_ProjectIcon())
 			}
 		};
-	},
-	mounted() {
-		this.options.vm = this;
 	}
 });
 </script>

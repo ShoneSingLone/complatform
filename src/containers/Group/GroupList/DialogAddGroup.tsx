@@ -1,13 +1,13 @@
 import { defineComponent } from "vue";
-import { _, defItem, State_UI, FormRules } from "@ventose/ui";
-import { xItemUAC } from "../../../components/xItemRender/xItemUAC";
+import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
+import { ItemUAC } from "../../../components/ItemRender/ItemUAC";
 
 const { $t } = State_UI;
 
 export const DialogAddGroup = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		options: {
+		propDialogOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -34,7 +34,7 @@ export const DialogAddGroup = defineComponent({
 					rules: [FormRules.required()]
 				}),
 				...defItem({
-					itemType: xItemUAC,
+					itemType: ItemUAC,
 					prop: "owner_uids",
 					value: "",
 					label: $t("组长").label,
@@ -46,11 +46,11 @@ export const DialogAddGroup = defineComponent({
 		};
 	},
 	mounted() {
-		this.options.vm = this;
+		this.propDialogOptions.vm = this;
 	},
 	computed: {
 		vDomFormItems() {
-			return _.map(this.formItems, (item, prop) => {
+			return xU.map(this.formItems, (item, prop) => {
 				return (
 					<>
 						<xGap t="10" />
@@ -62,11 +62,24 @@ export const DialogAddGroup = defineComponent({
 	},
 	render() {
 		return (
-			<aCard>
-				<xForm class="flex vertical" labelStyle={this.styleLabel}>
-					{this.vDomFormItems}
-				</xForm>
-			</aCard>
+			<>
+				<aCard class="flex1 overflow-auto">
+					<xForm class="flex vertical" labelStyle={this.styleLabel}>
+						{this.vDomFormItems}
+					</xForm>
+				</aCard>
+				<xDialogFooter
+					configs={{
+						onCancel: this.propDialogOptions.closeDialog,
+						onOk: () => {
+							this.propDialogOptions.onOk({
+								formItems: this.formItems,
+								closeDialog: this.propDialogOptions.closeDialog
+							});
+						}
+					}}
+				/>
+			</>
 		);
 	}
 });

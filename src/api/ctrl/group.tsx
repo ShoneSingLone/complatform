@@ -60,7 +60,7 @@ export const group = {
 			method: "get",
 			url: "/api/group/get",
 			params: {
-				id: groupId
+				id: Number(groupId)
 			}
 		});
 	},
@@ -69,7 +69,7 @@ export const group = {
 			method: "get",
 			url: "/api/group/get_member_list",
 			params: {
-				id: groupId
+				id: Number(groupId)
 			}
 		});
 	}

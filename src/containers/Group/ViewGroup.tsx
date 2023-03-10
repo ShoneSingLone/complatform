@@ -5,7 +5,7 @@ import {
 	fnShowUpsertGroupDialog,
 	fnUpsertGroupInfo
 } from "./GroupList/GroupLeftSider";
-import ProjectList from "./GroupProjectList/ProjectList";
+import { GroupProjectList } from "./GroupProjectList/GroupProjectList";
 import GroupLog from "./GroupLog/GroupLog";
 import { Cpt_url } from "../../router/router";
 import { API } from "../../api";
@@ -95,7 +95,9 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		vDomTabGroupLog() {
-			const isGroupRoleAuth = this.State_App?.group?.role === "admin";
+			const isGroupRoleAuth = ["admin", "owner"].includes(
+				this.State_App?.currGroup?.role
+			);
 			const isUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(
 				this.State_App.user.role
 			);
@@ -163,16 +165,19 @@ export const ViewGroup = defineComponent({
 
 			if (isGroupRoleAuth || isUserRoleAuth) {
 				return (
-					<aTooltip title="修改分组信息">
-						<xIcon
-							class="btn editSet pointer"
-							icon="edit"
-							onClick={() =>
-								this.fnShowUpsertGroupDialog(this.State_App.currGroup)
-							}
-							style="width:16px;"
-						/>
-					</aTooltip>
+					<xIcon
+						class="btn editSet pointer"
+						icon="edit"
+						onClick={() =>
+							this.fnShowUpsertGroupDialog(this.State_App.currGroup)
+						}
+						v-uiPopover={{
+							content: "修改分组信息",
+							placement: "bottom",
+							delay: 1500
+						}}
+						style="width:16px;"
+					/>
 				);
 			}
 		},
@@ -180,7 +185,7 @@ export const ViewGroup = defineComponent({
 			/* TODO: 权限校验 */
 			return (
 				<div class="curr-group-name">
-					<div class="curr-group-name_title">
+					<div class="curr-group-name_title elevation-1">
 						{this.vDomGroupName}
 						{this.vDomEditIcon}
 					</div>
@@ -193,7 +198,7 @@ export const ViewGroup = defineComponent({
 			return <aSpin class="flex vertical middle center height100" />;
 		}
 		return (
-			<aLayout id="GroupView" style={{ marginLeft: "24px", marginTop: "24px" }}>
+			<aLayout id="GroupView" class="padding20">
 				<aLayoutSider id="ViewGroup_sider" class={this.stylePanel} width="300">
 					<GroupLeftSider />
 				</aLayoutSider>
@@ -218,7 +223,7 @@ export const ViewGroup = defineComponent({
 											<aTabPane
 												tab={TAB_KEY_PROJECT_LIST}
 												key={TAB_KEY_PROJECT_LIST}>
-												<ProjectList />
+												<GroupProjectList />
 											</aTabPane>
 											{this.vDomTabMember}
 											{this.vDomTabGroupLog}

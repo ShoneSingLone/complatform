@@ -1,4 +1,3 @@
-import { static_word } from "@ventose/ui/xDataGrid/common";
 import { ajax } from "@/api/ajax";
 
 export const news = {

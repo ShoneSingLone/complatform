@@ -2,10 +2,11 @@
 
 import React from "react";
 
-import { Select, Row, Col, Collapse, Icon, Tooltip } from "ant-design-vue";
+import { Collapse, Select } from "ant-design-vue";
+import "./index.scss";
+
 const Option = Select.Option;
 const Panel = Collapse.Panel;
-import "./index.scss";
 
 export default class CaseEnv extends React.Component {
 	constructor(props) {

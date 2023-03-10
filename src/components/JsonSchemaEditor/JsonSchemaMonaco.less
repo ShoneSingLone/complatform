@@ -1,0 +1,59 @@
+.JsonSchemaMonaco {
+	height: 100%;
+	width: 100%;
+	.left-json-tree_readonly {
+		width: 100%;
+		.ant-tree-node-content-wrapper {
+			flex: 1;
+		}
+		.ant-tree .ant-tree-treenode {
+			width: 100%;
+		}
+		.cell-width {
+			width: 80px;
+		}
+	}
+	.left-json-tree {
+		width: 300px;
+		.JsonSchemaMonaco-json-tree {
+			.ant-tree-treenode {
+				width: 100%;
+				.ant-tree-node-content-wrapper {
+					flex: 1;
+					width: 1px;
+					cursor: unset;
+					.ant-tree-title {
+						display: flex;
+						.title-wrapper {
+							display: flex;
+							flex: 1;
+							width: 1px;
+							.title {
+								width: 1px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.JsonSchemaMonaco-monaco-panel {
+		position: relative;
+		.JsonSchemaMonaco-monaco-panel_button {
+			padding: 10px;
+			padding-left: 0;
+		}
+	}
+}
+
+.SchemaEditor {
+	width: 1px;
+	flex: 1;
+	position: relative;
+	height: 100%;
+
+	.SchemaEditor_button {
+		padding: 10px;
+	}
+}

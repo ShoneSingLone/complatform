@@ -1,18 +1,98 @@
-import { defineComponent, ref, watch } from "vue";
-import { $, _, UI } from "@ventose/ui";
-import { DialogAddCategory } from "./DialogAddCategory";
-import { usefnObserveDomResize } from "../../../compositions/useDomResize";
-import { API } from "../../../api";
-import { Cpt_currProject } from "../../../state/State_App";
-import { ALL } from "../../../utils/variable";
+import { defineComponent } from "vue";
+import { Cpt_url } from "@/router/router";
 import {
-	Cpt_interfaceMenuForShow,
-	Methods_Interface,
-	State_Interface
-} from "./State_Interface";
+	State_ProjectInterface,
+	useInterfaceTableConfigs
+} from "@/containers/Project/Interface/State_ProjectInterface";
+import { $t } from "@/devui/ui/State_UI";
+import {
+	openDialogInterfaceStatusModify,
+	openDialogInterfaceProxyModify
+} from "./DialogModifyInterface.Helper";
 
 export const InterfaceCategory = defineComponent({
-	render() {
-		return <h1>InterfaceCategory</h1>;
+	setup() {
+		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
+			useInterfaceTableConfigs();
+
+		return {
+			State_Project: State_ProjectInterface,
+			Cpt_url,
+			filterParams,
+			configs_interfaceTable,
+			fnUpdateListForShow
+		};
+	},
+	computed: {
+		disabled() {
+			return !this.configs_interfaceTable.selected.length;
+		}
+	},
+	data(vm) {
+		return {
+			btnChangeStatus: {
+				text: $t("变更状态").label,
+				disabled() {
+					return vm.disabled;
+				},
+				async onClick() {
+					openDialogInterfaceStatusModify({
+						selected: vm.configs_interfaceTable.selected
+					});
+				}
+			},
+			btnChangeProxy: {
+				text: $t("变更代理").label,
+				disabled() {
+					return vm.disabled;
+				},
+				async onClick() {
+					openDialogInterfaceProxyModify({
+						selected: vm.configs_interfaceTable.selected
+					});
+				}
+			}
+		};
+	},
+	watch: {
+		"State_Project.allInterface": {
+			immediate: true,
+			handler() {
+				this.fnUpdateListForShow();
+			}
+		},
+		filterParams: {
+			deep: true,
+			handler(allInterface) {
+				this.State_Project.isLoading = true;
+				this.configs_interfaceTable.selected = [];
+				this.fnUpdateListForShow();
+				setTimeout(() => {
+					this.State_Project.isLoading = false;
+				}, 10 * 1000);
+			}
+		},
+		"Cpt_url.query.category_id": {
+			immediate: true,
+			handler(catid) {
+				this.filterParams.catid = [Number(catid)];
+			}
+		}
+	},
+	render(vm) {
+		return (
+			<xView class="Interface-view">
+				<div class="Operation mb10">
+					<xButton class="mr4" configs={vm.btnChangeStatus} />
+					<xButton class="mr4" configs={vm.btnChangeProxy} />
+				</div>
+				<div class="elevation-1 padding20 flex1" style={{ height: "100px" }}>
+					<xVirTable
+						configs={this.configs_interfaceTable}
+						class="flex1 width100 "
+					/>
+				</div>
+			</xView>
+		);
 	}
 });
