@@ -3,6 +3,8 @@ import axios from "axios";
 import { State_App } from "../state/State_App";
 
 const ajax = axios.create({
+	/* 跨域携带cookies */
+	withCredentials: true,
 	timeout: 20000 // request timeout
 });
 

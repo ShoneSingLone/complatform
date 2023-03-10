@@ -14,7 +14,7 @@ export const routes = [
 	{
 		path: `/login`,
 		componentName: "LoginContainer",
-		component: () => import("../containers/Login/LoginContainer"),
+		component: () => import("../containers/Login/LoginContainer.js"),
 		meta: {
 			title: $t("用户登录").label
 		}
@@ -30,7 +30,7 @@ export const routes = [
 	{
 		path: `/project`,
 		componentName: "ViewProject",
-		component: () => import("../containers/Project/ViewProject"),
+		component: () => import("../containers/Project/ViewProject.js"),
 		meta: {
 			title: $t("项目").label
 		}
@@ -39,7 +39,8 @@ export const routes = [
 		label: $t("接口").label,
 		path: "/project/interface",
 		componentName: "ProjectInterface",
-		component: () => import("../containers/Project/Interface/ProjectInterface"),
+		component: () =>
+			import("../containers/Project/Interface/ProjectInterface.js"),
 		meta: {
 			title: $t("接口").label
 		}
@@ -48,25 +49,28 @@ export const routes = [
 		label: $t("接口-全部").label,
 		path: "/project/interface/all",
 		componentName: "InterfaceAll",
-		component: () => import("../containers/Project/Interface/InterfaceAll")
+		component: () => import("../containers/Project/Interface/InterfaceAll.js")
 	},
 	{
 		label: $t("接口-分类").label,
 		path: "/project/interface/category",
 		componentName: "InterfaceCategory",
-		component: () => import("../containers/Project/Interface/InterfaceCategory")
+		component: () =>
+			import("../containers/Project/Interface/InterfaceCategory.js")
 	},
 	{
 		label: $t("接口-详情").label,
 		path: "/project/interface/detail",
 		componentName: "InterfaceDetail",
-		component: () => import("../containers/Project/Interface/InterfaceDetail")
+		component: () =>
+			import("../containers/Project/Interface/InterfaceDetail.js")
 	},
 	{
 		label: $t("测试集").label,
 		path: "/project/testcase",
 		componentName: "ProjectTestcase",
-		component: () => import("../containers/Project/TestCase/ProjectTestcase"),
+		component: () =>
+			import("../containers/Project/TestCase/ProjectTestcase.js"),
 		meta: {
 			title: $t("测试集").label
 		}
@@ -75,19 +79,22 @@ export const routes = [
 		label: $t("测试集-全部").label,
 		path: "/project/testcase/all",
 		componentName: "ProjectTestcaseAll",
-		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
+		component: () =>
+			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
 	},
 	{
 		label: $t("测试集-分类").label,
 		path: "/project/testcase/category",
 		componentName: "ProjectTestcaseAll",
-		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
+		component: () =>
+			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
 	},
 	{
 		label: $t("测试集-详情").label,
 		path: "/project/testcase/detail",
 		componentName: "ProjectTestcaseAll",
-		component: () => import("../containers/Project/TestCase/ProjectTestcaseAll")
+		component: () =>
+			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
 	},
 	{
 		label: $t("动态").label,
@@ -116,7 +123,7 @@ export const routes = [
 	{
 		label: $t("设置").label,
 		path: "/project/setting",
-		component: () => import("../containers/Project/Setting/ProjectSetting"),
+		component: () => import("../containers/Project/Setting/ProjectSetting.js"),
 		meta: {
 			title: $t("设置").label
 		}

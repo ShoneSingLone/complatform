@@ -68,8 +68,8 @@ export default defineComponent({
 					size: "large",
 					/* render的时候重新获取 */
 					placeholder: () => $t("Email").label,
-					onChange() {
-						lStorage.email = vm.data.email;
+					onAfterValueEmit(val) {
+						lStorage.email = val;
 					},
 					rules: [
 						FormRules.required(
@@ -86,8 +86,8 @@ export default defineComponent({
 					size: "large",
 					/* render的时候重新获取 */
 					placeholder: () => $t("密码").label,
-					onChange() {
-						lStorage.password = vm.data.password;
+					onAfterValueEmit(val) {
+						lStorage.password = val;
 					},
 
 					rules: [
@@ -111,7 +111,8 @@ export default defineComponent({
 				const validateResults = await validateForm(vm.configsForm);
 				if (AllWasWell(validateResults)) {
 					const formData = pickValueFrom(vm.configsForm);
-					await API.user.loginActions(formData);
+					const res = await API.user.loginActions(formData);
+					debugger;
 					UI.notification.success("登录成功! ");
 					Cpt_url.value.go("/group");
 				} else {
