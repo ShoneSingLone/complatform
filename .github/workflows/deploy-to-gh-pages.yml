@@ -16,7 +16,7 @@ jobs:
          node-version: 16
 
       - name: Install wasm-pack 🛎️
-      - uses: jetli/wasm-pack-action@v0.3.0
+        uses: jetli/wasm-pack-action@v0.3.0
         with:
           # Optional version of wasm-pack to install(eg. 'v0.9.1', 'latest')
           version: v0.9.1
