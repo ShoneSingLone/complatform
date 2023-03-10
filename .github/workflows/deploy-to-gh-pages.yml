@@ -15,18 +15,15 @@ jobs:
         with:
          node-version: 16
 
-      - name: Install wasm-pack 🛎️
-        uses: jetli/wasm-pack-action@v0.3.0
-        with:
-          # Optional version of wasm-pack to install(eg. 'v0.9.1', 'latest')
-          version: v0.9.1
-
-      - name: Install rsw
-        run: cargo install rsw
-
-      - name: Install and Build 🔧
+      - name: install app dependencies and build it
         run: |
+          curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+          npm ci
+          echo "init-wasm 🛎️"
+          sh ./init-wasm.sh
+          echo "usenpm 🛎️"
           npm run usenpm
+          echo "build 🛎️"
           npm run build
 
       - name: Deploy 🚀
