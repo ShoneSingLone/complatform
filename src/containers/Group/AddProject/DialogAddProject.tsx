@@ -75,7 +75,6 @@ export const xItem_ProjectGroupId = (options: any = {}, vm) => {
 			vm.$watch(
 				"State_App.groupList",
 				groupList => {
-					debugger;
 					this.options = xU.map(groupList, i => {
 						return {
 							label: i.group_name,

@@ -196,8 +196,9 @@ export const InterfaceDetail = defineComponent({
 			}
 			UI.dialog.component({
 				title: this.$t("修改接口").label + `-${item.title}`,
-				fullscreen: true,
+				// fullscreen: true,
 				component: DialogModifyInterface,
+				area: ["1024px", "624px"],
 				interfaceId: item._id,
 				maxmin: true,
 				updateInterfaceInfo: vm.updateInterfaceInfo,

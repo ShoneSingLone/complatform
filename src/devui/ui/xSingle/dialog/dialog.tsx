@@ -18,6 +18,8 @@ const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 }, 100);
 
 export type t_dialogOptions = {
+	/* 弹窗里面的弹窗点击之后不关闭（点不到其他位置） */
+	keepTop?: boolean;
 	payload?: any;
 	isEcsCloseDialog?: boolean;
 	/* 传入的组件的实例 */
@@ -177,6 +179,12 @@ export const installUIDialogComponent = (
 									components: { BussinessComponent },
 									created() {
 										this.dialogOptions._contentInstance = this;
+
+										if (this.dialogOptions.keepTop) {
+											setTimeout(() => {
+												$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
+											}, 6);
+										}
 										resolve(this.dialogOptions);
 									},
 									data() {

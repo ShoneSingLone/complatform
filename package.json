@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "usenpm": "npm i",
     "bs": "pnpm i",
     "start": "vite --open --host --port 3010",
     "build": "npm run genIconJSON && vite build",

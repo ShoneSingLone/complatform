@@ -33,7 +33,17 @@ export function fnShowUpsertGroupDialog(row = {}) {
 		title: isUpdate ? $t("修改分组信息").label : $t("添加分组").label,
 		component: isUpdate ? DialogEditGroup : DialogAddGroup,
 		row,
-		area: ["580px", "460px"],
+		area: (() => {
+			if (isUpdate) {
+				if (State_App.user.role === "admin") {
+					return ["840px", "648px"];
+				} else {
+					return ["840px", "448px"];
+				}
+			} else {
+				return ["580px", "460px"];
+			}
+		})(),
 		onOk: async ({ formItems, closeDialog }) => {
 			let formData = {};
 			if (isUpdate) {

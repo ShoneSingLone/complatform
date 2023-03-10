@@ -8,12 +8,10 @@ export default defineComponent({
 	},
 	methods: {
 		handleClick() {
-			debugger;
 			this.listeners["onUpdate:value"](!this.properties.value);
 		}
 	},
 	render({ handleClick, properties }) {
-		debugger;
 		/*用span包裹：宽度自适应*/
 		return (
 			<div class="x-item_switch">
