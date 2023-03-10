@@ -18,6 +18,8 @@ jobs:
       - name: install app dependencies and build it
         run: |
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+          pwd
+          ll
           echo "init-wasm 🛎️"
           sh ./init-wasm.sh
           echo "usenpm 🛎️"
