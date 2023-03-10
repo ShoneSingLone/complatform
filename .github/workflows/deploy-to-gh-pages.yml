@@ -15,17 +15,6 @@ jobs:
         with:
          node-version: 16
 
-      - name: install app dependencies and build it
-        run: |
-          curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-          sh ./init-wasm.sh
-          pwd
-          ll
-          echo "usenpm 🛎️"
-          npm run usenpm
-          echo "build 🛎️"
-          npm run build
-
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
