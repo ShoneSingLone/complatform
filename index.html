@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script>
 			window.__APP_VERSION = "<%- version %>";
+			window.__BASE_URL = "<%- __BASE_URL %>" || window.location.origin;
 			/* fix:rollup chalk 不对付 */
 			window.process = {};
 			window.__URL_API_VERSION = "/v1";

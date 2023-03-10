@@ -55,7 +55,7 @@ let _State_App = {
 };
 
 _State_App = reactive(
-	xU.merge(_State_App, lStorage.State_App, { baseURL: window.location.origin })
+	xU.merge(_State_App, lStorage.State_App, { baseURL: window.__BASE_URL })
 );
 _State_App.urlHash = window.location.hash;
 
