@@ -1,4 +1,4 @@
-import { UI, xU } from "@ventose/ui";
+import { lStorage, UI, xU } from "@ventose/ui";
 import axios from "axios";
 import { State_App } from "../state/State_App";
 
@@ -12,6 +12,7 @@ const ajax = axios.create({
 ajax.interceptors.request.use(
 	config => {
 		config.url = `${State_App.baseURL}${config.url}`;
+		pickXCookies(config);
 		if (config.data) {
 			xU.each(["name"], prop => {
 				if (config.data[prop]) {
@@ -27,6 +28,7 @@ ajax.interceptors.request.use(
 // response interceptor
 ajax.interceptors.response.use(
 	async response => {
+		saveXCookies(response);
 		if (response?.data?.errcode == 40011) {
 			State_App.user.isLogin = false;
 			window.location.hash = "/login";
@@ -44,11 +46,25 @@ ajax.interceptors.response.use(
 	},
 	async error => {
 		const { response } = error;
-		console.log(response);
+		lStorage["x-cookies"] = response.headers["x-cookies"] || "";
 		logError(response?.data?.data);
 		return Promise.reject(error);
 	}
 );
+
+function pickXCookies(config) {
+	const xCookies = lStorage["x-cookies"];
+	if (xCookies) {
+		config.headers["x-cookies"] = JSON.stringify(xCookies);
+	}
+}
+
+function saveXCookies(response) {
+	const xCookies = response.headers["x-cookies"];
+	if (xCookies) {
+		lStorage["x-cookies"] = xCookies;
+	}
+}
 
 export function logError(msg) {
 	if (!msg) return;

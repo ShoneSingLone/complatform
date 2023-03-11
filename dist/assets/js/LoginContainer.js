@@ -1,4 +1,4 @@
-import { d as defineComponent, C as Cpt_url, M as Methods_App, a as defItem, l as lStorage, F as FormRules, E as EVENT_TYPE, v as validateForm, A as AllWasWell, p as pickValueFrom, b as API, U as UI, S as State_UI, _ as _export_sfc, r as resolveComponent, o as openBlock, c as createElementBlock, e as createVNode, w as withKeys, f as createBaseVNode, g as _State_App, h as createTextVNode } from "./index.4744bf8d.js";
+import { d as defineComponent, C as Cpt_url, M as Methods_App, a as defItem, l as lStorage, F as FormRules, E as EVENT_TYPE, v as validateForm, A as AllWasWell, p as pickValueFrom, b as API, U as UI, S as State_UI, _ as _export_sfc, r as resolveComponent, o as openBlock, c as createElementBlock, e as createVNode, w as withKeys, f as createBaseVNode, g as _State_App, h as createTextVNode } from "./index.js";
 const Login = "";
 const {
   $t: $t$1
@@ -64,7 +64,6 @@ const _sfc_main$1 = defineComponent({
         if (AllWasWell(validateResults)) {
           const formData = pickValueFrom(vm.configsForm);
           const res = await API.user.loginActions(formData);
-          debugger;
           UI.notification.success("\u767B\u5F55\u6210\u529F! ");
           Cpt_url.value.go("/group");
         } else {

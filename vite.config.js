@@ -39,9 +39,9 @@ const appOptions = {
 		rollupOptions: {
 			output: {
 				/* https://www.rollupjs.com/guide/big-list-of-options/#outputentryfilenames */
-				entryFileNames: "assets/js/[name].[hash].js",
-				chunkFileNames: "assets/js/[name].[hash].js",
-				assetFileNames: "assets/[name].[hash][extname]"
+				entryFileNames: "assets/js/[name].js",
+				chunkFileNames: "assets/js/[name].js",
+				assetFileNames: "assets/[name].extname]"
 			}
 		}
 	},

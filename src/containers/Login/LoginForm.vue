@@ -112,7 +112,6 @@ export default defineComponent({
 				if (AllWasWell(validateResults)) {
 					const formData = pickValueFrom(vm.configsForm);
 					const res = await API.user.loginActions(formData);
-					debugger;
 					UI.notification.success("登录成功! ");
 					Cpt_url.value.go("/group");
 				} else {

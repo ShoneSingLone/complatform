@@ -1,5 +1,5 @@
-import { d as defineComponent, g as _State_App, C as Cpt_url, H as $t, a as defItem, ad as xItem_ProjectGroupId, ae as xItem_ProjectName, af as xItem_ProjectIcon, ag as xItem_ProjectColor, ah as xItem_ProjectBasePath, ai as xItem_ProjectDesc, aj as xItem_ProjectType, e as createVNode, r as resolveComponent, x as xU, m as Fragment, h as createTextVNode } from "./index.4744bf8d.js";
-import { e as openUpsertTagDialog, f as openProxyEnvDialog } from "./DialogModifyInterface.Helper.d9e9c598.js";
+import { d as defineComponent, g as _State_App, C as Cpt_url, H as $t, a as defItem, ad as xItem_ProjectGroupId, ae as xItem_ProjectName, af as xItem_ProjectIcon, ag as xItem_ProjectColor, ah as xItem_ProjectBasePath, ai as xItem_ProjectDesc, aj as xItem_ProjectType, e as createVNode, r as resolveComponent, x as xU, m as Fragment, h as createTextVNode } from "./index.js";
+import { e as openUpsertTagDialog, f as openProxyEnvDialog } from "./DialogModifyInterface.Helper.js";
 const ProjectSettingCommon = defineComponent({
   setup() {
     return {
