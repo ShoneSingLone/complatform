@@ -1,30 +1,30 @@
 {
-  "src/devui/ui/xSingle/layer/imgs/loading-2.gif": {
-    "file": "assets/loading-2.16ea0cf6.gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-2.gif"
-  },
-  "src/devui/assets/svg/input.svg": {
-    "file": "assets/input.6b0bacb4.svg",
-    "src": "src/devui/assets/svg/input.svg"
-  },
-  "src/devui/ui/xSingle/layer/imgs/loading-1.gif": {
-    "file": "assets/loading-1.7c6380e9.gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-1.gif"
-  },
   "src/devui/ui/xSingle/layer/imgs/icon.png": {
-    "file": "assets/icon.99942159.png",
+    "file": "assets/icon.extname]",
     "src": "src/devui/ui/xSingle/layer/imgs/icon.png"
   },
+  "src/devui/ui/xSingle/layer/imgs/loading-1.gif": {
+    "file": "assets/loading-1.extname]",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-1.gif"
+  },
   "src/devui/ui/xSingle/layer/imgs/loading-0.gif": {
-    "file": "assets/loading-0.07236f68.gif",
+    "file": "assets/loading-0.extname]",
     "src": "src/devui/ui/xSingle/layer/imgs/loading-0.gif"
   },
+  "src/devui/ui/xSingle/layer/imgs/loading-2.gif": {
+    "file": "assets/loading-2.extname]",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-2.gif"
+  },
   "src/devui/ui/xSingle/layer/imgs/icon-ext.png": {
-    "file": "assets/icon-ext.e2e7a838.png",
+    "file": "assets/icon-ext.extname]",
     "src": "src/devui/ui/xSingle/layer/imgs/icon-ext.png"
   },
+  "src/devui/assets/svg/input.svg": {
+    "file": "assets/input.extname]",
+    "src": "src/devui/assets/svg/input.svg"
+  },
   "index.html": {
-    "file": "assets/js/index.4744bf8d.js",
+    "file": "assets/js/index.js",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
@@ -39,41 +39,41 @@
       "src/containers/Project/Setting/ProjectSetting.tsx"
     ],
     "css": [
-      "assets/index.760baf82.css"
+      "assets/index.extname]"
     ],
     "assets": [
-      "assets/loading-1.7c6380e9.gif",
-      "assets/icon.99942159.png",
-      "assets/loading-0.07236f68.gif",
-      "assets/loading-2.16ea0cf6.gif",
-      "assets/icon-ext.e2e7a838.png",
-      "assets/input.6b0bacb4.svg"
+      "assets/loading-1.extname]",
+      "assets/icon.extname]",
+      "assets/loading-0.extname]",
+      "assets/loading-2.extname]",
+      "assets/icon-ext.extname]",
+      "assets/input.extname]"
     ]
   },
   "src/containers/Login/LoginContainer.tsx": {
-    "file": "assets/js/LoginContainer.a86e2ed1.js",
+    "file": "assets/js/LoginContainer.js",
     "src": "src/containers/Login/LoginContainer.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html"
     ],
     "css": [
-      "assets/LoginContainer.02d8757a.css"
+      "assets/LoginContainer.extname]"
     ]
   },
   "src/containers/Project/ViewProject.tsx": {
-    "file": "assets/js/ViewProject.6daa0ea3.js",
+    "file": "assets/js/ViewProject.js",
     "src": "src/containers/Project/ViewProject.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html"
     ],
     "css": [
-      "assets/ViewProject.701d7dd4.css"
+      "assets/ViewProject.extname]"
     ]
   },
   "src/containers/Project/Interface/ProjectInterface.tsx": {
-    "file": "assets/js/ProjectInterface.a88375f1.js",
+    "file": "assets/js/ProjectInterface.js",
     "src": "src/containers/Project/Interface/ProjectInterface.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -81,43 +81,43 @@
     ]
   },
   "src/containers/Project/Interface/InterfaceAll.tsx": {
-    "file": "assets/js/InterfaceAll.f01874fc.js",
+    "file": "assets/js/InterfaceAll.js",
     "src": "src/containers/Project/Interface/InterfaceAll.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_DialogModifyInterface.Helper.d9e9c598.js"
+      "_DialogModifyInterface.Helper.js"
     ]
   },
-  "_DialogModifyInterface.Helper.d9e9c598.js": {
-    "file": "assets/js/DialogModifyInterface.Helper.d9e9c598.js",
+  "_DialogModifyInterface.Helper.js": {
+    "file": "assets/js/DialogModifyInterface.Helper.js",
     "imports": [
       "index.html"
     ],
     "css": [
-      "assets/DialogModifyInterface.9b709bfa.css"
+      "assets/DialogModifyInterface.extname]"
     ]
   },
   "src/containers/Project/Interface/InterfaceCategory.tsx": {
-    "file": "assets/js/InterfaceCategory.58beb2bb.js",
+    "file": "assets/js/InterfaceCategory.js",
     "src": "src/containers/Project/Interface/InterfaceCategory.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_DialogModifyInterface.Helper.d9e9c598.js"
+      "_DialogModifyInterface.Helper.js"
     ]
   },
   "src/containers/Project/Interface/InterfaceDetail.tsx": {
-    "file": "assets/js/InterfaceDetail.5c4b683c.js",
+    "file": "assets/js/InterfaceDetail.js",
     "src": "src/containers/Project/Interface/InterfaceDetail.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_DialogModifyInterface.Helper.d9e9c598.js"
+      "_DialogModifyInterface.Helper.js"
     ]
   },
   "src/containers/Project/TestCase/ProjectTestcase.tsx": {
-    "file": "assets/js/ProjectTestcase.9c2c68aa.js",
+    "file": "assets/js/ProjectTestcase.js",
     "src": "src/containers/Project/TestCase/ProjectTestcase.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -125,7 +125,7 @@
     ]
   },
   "src/containers/Project/TestCase/ProjectTestcaseAll.tsx": {
-    "file": "assets/js/ProjectTestcaseAll.166e28a6.js",
+    "file": "assets/js/ProjectTestcaseAll.js",
     "src": "src/containers/Project/TestCase/ProjectTestcaseAll.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -133,28 +133,28 @@
     ]
   },
   "src/containers/Project/Setting/ProjectSetting.tsx": {
-    "file": "assets/js/ProjectSetting.b80698d7.js",
+    "file": "assets/js/ProjectSetting.js",
     "src": "src/containers/Project/Setting/ProjectSetting.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_DialogModifyInterface.Helper.d9e9c598.js"
+      "_DialogModifyInterface.Helper.js"
     ]
   },
   "src/containers/Project/ViewProject.css": {
-    "file": "assets/ViewProject.701d7dd4.css",
+    "file": "assets/ViewProject.extname]",
     "src": "src/containers/Project/ViewProject.css"
   },
   "DialogModifyInterface.css": {
-    "file": "assets/DialogModifyInterface.9b709bfa.css",
+    "file": "assets/DialogModifyInterface.extname]",
     "src": "DialogModifyInterface.css"
   },
   "index.css": {
-    "file": "assets/index.760baf82.css",
+    "file": "assets/index.extname]",
     "src": "index.css"
   },
   "src/containers/Login/LoginContainer.css": {
-    "file": "assets/LoginContainer.02d8757a.css",
+    "file": "assets/LoginContainer.extname]",
     "src": "src/containers/Login/LoginContainer.css"
   }
 }

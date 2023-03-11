@@ -1,4 +1,4 @@
-import { d as defineComponent, C as Cpt_url, e as createVNode } from "./index.4744bf8d.js";
+import { d as defineComponent, C as Cpt_url, e as createVNode } from "./index.js";
 const ProjectTestcaseAll = defineComponent({
   setup() {
     return {

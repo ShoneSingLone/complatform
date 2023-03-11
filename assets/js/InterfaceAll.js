@@ -1,15 +1,14 @@
-import { d as defineComponent, G as useInterfaceTableConfigs, n as State_ProjectInterface, C as Cpt_url, H as $t, e as createVNode, r as resolveComponent } from "./index.4744bf8d.js";
-import { o as openDialogInterfaceStatusModify, a as openDialogInterfaceProxyModify } from "./DialogModifyInterface.Helper.d9e9c598.js";
-const InterfaceCategory = defineComponent({
+import { d as defineComponent, G as useInterfaceTableConfigs, n as State_ProjectInterface, H as $t, e as createVNode, r as resolveComponent } from "./index.js";
+import { o as openDialogInterfaceStatusModify, a as openDialogInterfaceProxyModify } from "./DialogModifyInterface.Helper.js";
+const InterfaceAll = defineComponent({
   setup() {
     const {
       filterParams,
       configs_interfaceTable,
       fnUpdateListForShow
-    } = useInterfaceTableConfigs();
+    } = useInterfaceTableConfigs(true);
     return {
       State_Project: State_ProjectInterface,
-      Cpt_url,
       filterParams,
       configs_interfaceTable,
       fnUpdateListForShow
@@ -20,6 +19,23 @@ const InterfaceCategory = defineComponent({
       return !this.configs_interfaceTable.selected.length;
     }
   },
+  watch: {
+    "State_Project.allInterface": {
+      immediate: true,
+      handler() {
+        this.fnUpdateListForShow();
+      }
+    },
+    filterParams: {
+      deep: true,
+      handler() {
+        this.State_Project.isLoading = true;
+        this.configs_interfaceTable.selected = [];
+        this.fnUpdateListForShow();
+      }
+    }
+  },
+  methods: {},
   data(vm) {
     return {
       btnChangeStatus: {
@@ -46,31 +62,6 @@ const InterfaceCategory = defineComponent({
       }
     };
   },
-  watch: {
-    "State_Project.allInterface": {
-      immediate: true,
-      handler() {
-        this.fnUpdateListForShow();
-      }
-    },
-    filterParams: {
-      deep: true,
-      handler(allInterface) {
-        this.State_Project.isLoading = true;
-        this.configs_interfaceTable.selected = [];
-        this.fnUpdateListForShow();
-        setTimeout(() => {
-          this.State_Project.isLoading = false;
-        }, 10 * 1e3);
-      }
-    },
-    "Cpt_url.query.category_id": {
-      immediate: true,
-      handler(catid) {
-        this.filterParams.catid = [Number(catid)];
-      }
-    }
-  },
   render(vm) {
     return createVNode(resolveComponent("xView"), {
       "class": "Interface-view"
@@ -83,7 +74,15 @@ const InterfaceCategory = defineComponent({
       }, null), createVNode(resolveComponent("xButton"), {
         "class": "mr4",
         "configs": vm.btnChangeProxy
-      }, null)]), createVNode("div", {
+      }, null), createVNode(resolveComponent("xButton"), {
+        "class": "mr4"
+      }, {
+        default: () => [vm.$t("\u6DFB\u52A0Tag").label]
+      }), createVNode(resolveComponent("xButton"), {
+        "class": "mr4"
+      }, {
+        default: () => [vm.$t("\u79FB\u9664Tag").label]
+      })]), createVNode("div", {
         "class": "elevation-1 padding20 flex1",
         "style": {
           height: "100px"
@@ -96,5 +95,5 @@ const InterfaceCategory = defineComponent({
   }
 });
 export {
-  InterfaceCategory
+  InterfaceAll
 };
