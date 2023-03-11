@@ -15,8 +15,8 @@
     "lint": "prettier --write ./src",
     "update:ui_comment": "更新UI库",
     "update:ui": "pnpm uninstall @ventose/ui && pnpm i @ventose/ui -S",
-    "git:pull": "git pull gitee dev & git pull github dev",
-    "git:push": "git push gitee dev & git push github dev",
+    "git:pull": "git pull gitee main & git pull github main",
+    "git:push": "git push gitee main & git push github main",
     "preview": "vite preview"
   },
   "dependencies": {
