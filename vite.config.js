@@ -41,7 +41,7 @@ const appOptions = {
 				/* https://www.rollupjs.com/guide/big-list-of-options/#outputentryfilenames */
 				entryFileNames: "assets/js/[name].js",
 				chunkFileNames: "assets/js/[name].js",
-				assetFileNames: "assets/[name].extname]"
+				assetFileNames: "assets/[name].[extname]"
 			}
 		}
 	},
