@@ -121,8 +121,7 @@ export const Methods_App = {
 		_State_App.currGroup = currGroup;
 	},
 	async setCurrProject(project_id, options = {}) {
-		let { isEnforce } = options;
-		isEnforce = isEnforce || false;
+		let isEnforce = options.isEnforce || false;
 
 		if (!xU.isInput(project_id)) {
 			_State_App.currProject = {};

@@ -7,6 +7,7 @@ let xItemNoPropCount = 0;
 /*make item configs */
 export function defItem(options: t_itemConfigs) {
 	const configs = defItem.item(options);
+
 	return {
 		[configs.prop]: configs
 	};
@@ -16,10 +17,11 @@ defItem.item = (options: t_itemConfigs) => {
 	options.itemType = options.itemType || "Input";
 
 	if (xU.isObject(options.itemType)) {
-		options.itemType.__v_isReactive = false;
 		// options.itemType = markRaw(options.itemType);
+		options.itemType.__v_isReactive = false;
 	}
-	return xU.merge(
+
+	const _options = xU.merge(
 		{
 			/* 默认prop */
 			prop: `xItem${xItemNoPropCount++}`,
@@ -28,6 +30,13 @@ defItem.item = (options: t_itemConfigs) => {
 		},
 		options
 	);
+
+	_options._$updateUI = newConfigs => {
+		xU.each(newConfigs, (value, prop) => {
+			_options[prop] = value;
+		});
+	};
+	return _options;
 };
 
 defItem.labelWithTips = ({ label, tips, icon }) => {

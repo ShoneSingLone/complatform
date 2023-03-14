@@ -17,3 +17,7 @@ MemberList
 
 
 usefnObserveDomResize
+
+
+xItem 中UI未直接使用configs，所以configs的属性变动不会触发UI的刷新，使用_$rerender,强制触发刷新
+_$updateUI

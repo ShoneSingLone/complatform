@@ -150,6 +150,8 @@ export const xItem = defineComponent({
 		})();
 
 		return {
+			/* 因修改configs属性，触发的UI刷新 */
+			rerenderCount: 0,
 			/* validateInfo */
 			isRequired: false,
 			/* validateInfo */
@@ -271,11 +273,6 @@ export const xItem = defineComponent({
 		/* VNode */
 	},
 	watch: {
-		configs: {
-			handler(configs, oldConfigs) {
-				this.setProperties();
-			}
-		},
 		$attrs: {
 			handler() {
 				this.setProperties();
@@ -294,6 +291,16 @@ export const xItem = defineComponent({
 		modelValue: {
 			handler() {
 				this.updateValue();
+			}
+		},
+		configs: {
+			handler() {
+				this.setProperties();
+			}
+		},
+		rerenderCount: {
+			handler() {
+				this.setProperties();
 			}
 		},
 		/* 修改rules Array 要求全量替换 */
@@ -317,7 +324,22 @@ export const xItem = defineComponent({
 	created() {
 		const vm = this;
 		vm.configs.FormItemId = vm.FormItemId;
-		/*似乎Vue3 用的是类方法不是实例方法，同一种组件，类方法用 debounce 只会执行最后一个*/
+
+		/*[似乎] Vue3 用的是类方法不是实例方法， (用 debounce,未跟实例绑定，不同实例调用同一个方法只会执行最后一个)*/
+
+		(() => {
+			vm.forceUpdateUI = xU.debounce(() => vm.rerenderCount++, 64);
+		})();
+
+		(() => {
+			vm.configs._$updateUI = newConfigs => {
+				xU.each(newConfigs, (value, prop) => {
+					vm.configs[prop] = value;
+				});
+				vm.forceUpdateUI();
+			};
+		})();
+
 		(() => {
 			vm.updateValue = xU.debounce(vm.updateValueSync, 94);
 			// vm.updateValue = vm.updateValueSync;
@@ -334,6 +356,7 @@ export const xItem = defineComponent({
 						/* 用于xForm 控件，以下配置信息跟UI库控件相关，用不上，遂删除 */
 						if (
 							[
+								"_$updateUI",
 								"itemTips",
 								"rules",
 								"labelVNodeRender",

@@ -41,7 +41,7 @@ export const DialogModifyInterface = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App, State_Project: State_ProjectInterface };
+		return { State_App, State_ProjectInterface };
 	},
 	computed: {
 		vDomXItemPathparams() {
@@ -207,7 +207,9 @@ export const DialogModifyInterface = defineComponent({
 					value: [],
 					options: [],
 					async setOptions(tagArray) {
-						this.options = tagArray;
+						this._$updateUI({
+							options: tagArray
+						});
 					},
 					itemType: TagSelectRender
 				}),
@@ -234,11 +236,11 @@ export const DialogModifyInterface = defineComponent({
 					value: "",
 					options: [],
 					setOptions(envArray) {
-						this.options = xU.map(envArray, i => {
-							return {
+						this._$updateUI({
+							options: xU.map(envArray, i => ({
 								value: i._id,
 								label: `${i.name} ${i.domain}`
-							};
+							}))
 						});
 					},
 					itemType: EnvSelectRender

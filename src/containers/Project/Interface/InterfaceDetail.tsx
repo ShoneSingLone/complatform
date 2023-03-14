@@ -141,8 +141,9 @@ export const InterfaceDetail = defineComponent({
 				["desc", "asc"]
 			);
 		},
-		copyUrl(url) {
-			copy(url);
+		copyCode() {
+			const codeString = this.$refs.ajaxCode.innerText;
+			copy(codeString);
 			UI.message.success("已经成功复制到剪切板");
 		},
 		flagMsg(mock, strice) {
@@ -214,8 +215,9 @@ export const InterfaceDetail = defineComponent({
 
 			return new Promise((resolve, reject) => {
 				try {
+					const wsURL = new URL(State_App.baseURL);
 					const sockei = new WebSocket(
-						`${wsProtocol}://${domain}/api/interface/solve_conflict?id=${item._id}`
+						`${wsProtocol}://${wsURL.host}/ws/api/interface/solve_conflict?id=${item._id}`
 					);
 					sockei.onopen = () => {
 						vm.WebSocket = sockei;
@@ -309,7 +311,9 @@ async ${xU.camelCase(path)}({params,data}) {
 		vDomCopyAjaxCodePanel() {
 			// const ajaxCode = HighlightJS.highlight("javascript", this.ajaxCode);
 			return (
-				<div style="position:relative;overflow:auto;height:100%;">
+				<div
+					style="position:relative;overflow:auto;height:100%;"
+					ref="ajaxCode">
 					<Mkit md={this.ajaxCode} />
 					{/* <MonacoEditor code={this.ajaxCode} style={{ minHeight: 180 }} readOnly={true} /> */}
 				</div>
@@ -432,7 +436,7 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: (
 								<div class="flex middle">
-									<aButton onClick={() => vm.copyUrl(vm.ajaxCode)}>
+									<aButton onClick={() => vm.copyCode()}>
 										{$t("复制代码").label}
 									</aButton>
 									<span class="flex1">{$t("ajax代码").label}</span>

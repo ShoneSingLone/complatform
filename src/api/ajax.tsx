@@ -12,7 +12,7 @@ const ajax = axios.create({
 ajax.interceptors.request.use(
 	config => {
 		config.url = `${State_App.baseURL}${config.url}`;
-		pickXCookies(config);
+		xCookies.pick(config);
 		if (config.data) {
 			xU.each(["name"], prop => {
 				if (config.data[prop]) {
@@ -28,7 +28,7 @@ ajax.interceptors.request.use(
 // response interceptor
 ajax.interceptors.response.use(
 	async response => {
-		saveXCookies(response);
+		xCookies.save(response);
 		if (response?.data?.errcode == 40011) {
 			State_App.user.isLogin = false;
 			window.location.hash = "/login";
@@ -52,19 +52,20 @@ ajax.interceptors.response.use(
 	}
 );
 
-function pickXCookies(config) {
-	const xCookies = lStorage["x-cookies"];
-	if (xCookies) {
-		config.headers["x-cookies"] = JSON.stringify(xCookies);
+const xCookies = {
+	pick(config) {
+		const xCookies = lStorage["x-cookies"];
+		if (xCookies) {
+			config.headers["x-cookies"] = JSON.stringify(xCookies);
+		}
+	},
+	save(response) {
+		const xCookies = response.headers["x-cookies"];
+		if (xCookies) {
+			lStorage["x-cookies"] = xCookies;
+		}
 	}
-}
-
-function saveXCookies(response) {
-	const xCookies = response.headers["x-cookies"];
-	if (xCookies) {
-		lStorage["x-cookies"] = xCookies;
-	}
-}
+};
 
 export function logError(msg) {
 	if (!msg) return;
