@@ -21,23 +21,15 @@ import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 import { JsonSchemaMonaco } from "../../../components/JsonSchemaEditor/JsonSchemaMonaco";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { State_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
-
-const colParamsName = defCol({
-	prop: "name",
-	label: State_UI.$t("参数名称").label,
-	width: "120px"
-});
-const colRemark = defCol({ prop: "desc", label: State_UI.$t("备注").label });
-const colRequired = defCol({
-	prop: "required",
-	label: State_UI.$t("是否必须").label,
-	width: "100px",
-	renderCell: ({ record }) => ITEM_OPTIONS_VDOM.required(record.required)
-});
-const colExample = defCol({
-	prop: "example",
-	label: State_UI.$t("示例").label
-});
+import {
+	colParamsName,
+	colRemark,
+	colRequired,
+	colExample,
+	colType,
+	colValue
+} from "@/utils/common.columns";
+import { DialogPostman } from "./DialogPostman";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
@@ -51,51 +43,46 @@ export const InterfaceDetail = defineComponent({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
-					...colParamsName,
+					...colParamsName(),
 					...defCol({ prop: "example", label: vm.$t("示例").label }),
-					...colRemark
-				}
+					...colRemark()
+				},
+				queryTableList: undefined
 			}),
 			configs_table_headers: defDataGridOption({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
-					...colRequired,
-					...colParamsName,
-					...defCol({
-						prop: "value",
-						label: vm.$t("参数值").label
-					}),
+					...colRequired(),
+					...colParamsName(),
+					...colValue,
 					...colExample,
-					...colRemark
-				}
+					...colRemark()
+				},
+				queryTableList: undefined
 			}),
 			configs_table_query: defDataGridOption({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
-					...colRequired,
-					...colParamsName,
+					...colRequired(),
+					...colParamsName(),
 					...colExample,
-					...colRemark
-				}
+					...colRemark()
+				},
+				queryTableList: undefined
 			}),
 			configs_table_body_form: defDataGridOption({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
-					...colRequired,
-					...colParamsName,
-					...defCol({
-						prop: "type",
-						label: vm.$t("参数类型").label,
-						width: "100px",
-						renderCell: ({ record }) =>
-							ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type)
-					}),
+					...colRequired(),
+					...colParamsName(),
+					...colType,
 					...colExample,
-					...colRemark
-				}
+					...colRemark()
+				},
+				queryTableList: undefined
 			})
 		};
 	},
@@ -114,6 +101,15 @@ export const InterfaceDetail = defineComponent({
 		await asyncGetTuiEditor();
 	},
 	methods: {
+		async runPostman() {
+			const vm = this;
+			UI.dialog.component({
+				title: this.$t("修改接口").label,
+				component: DialogPostman,
+				area: ["1024px", "624px"],
+				maxmin: true
+			});
+		},
 		async updateInterfaceInfo() {
 			const { data } = await API.project.fetchInterfaceDetail(
 				this.Cpt_url.query.interface_id
@@ -410,7 +406,9 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: (
 								<div class="flex middle">
-									<aButton type="primary">{vm.$t("运行").label}</aButton>
+									<aButton type="primary" onClick={vm.runPostman}>
+										{vm.$t("运行").label}
+									</aButton>
 									<span class="flex1">{$t("Mock地址").label}</span>
 								</div>
 							),
@@ -523,15 +521,10 @@ async ${xU.camelCase(path)}({params,data}) {
 								<>
 									<xGap t="10" />
 									<aCard title={vm.$t("Body").label}>
-										<div style="height:300px;width:90%">
-											{vm.detailInfo.req_body_other}
-											{
-												<JsonSchemaMonaco
-													v-model:schemaString={vm.detailInfo.req_body_other}
-													readOnly={true}
-												/>
-											}
-										</div>
+										<JsonSchemaMonaco
+											v-model:schemaString={vm.detailInfo.req_body_other}
+											readOnly={true}
+										/>
 									</aCard>
 								</>
 							)}
@@ -555,26 +548,24 @@ async ${xU.camelCase(path)}({params,data}) {
 						<>
 							<xGap t="20" />
 							<InfoCard title={"返回信息"}>
-								<div style="height:300px;width:90%">
-									{(() => {
-										if (vm.detailInfo.res_body_type === "json") {
-											return (
-												<JsonSchemaMonaco
-													v-model:schemaString={vm.detailInfo.res_body}
-													readOnly={true}
-												/>
-											);
-										}
-
+								{(() => {
+									if (vm.detailInfo.res_body_type === "json") {
 										return (
-											<MonacoEditor
-												language="json"
-												code={vm.detailInfo.res_body}
+											<JsonSchemaMonaco
+												v-model:schemaString={vm.detailInfo.res_body}
 												readOnly={true}
 											/>
 										);
-									})()}
-								</div>
+									}
+
+									return (
+										<MonacoEditor
+											language="json"
+											code={vm.detailInfo.res_body}
+											readOnly={true}
+										/>
+									);
+								})()}
 							</InfoCard>
 						</>
 					)}

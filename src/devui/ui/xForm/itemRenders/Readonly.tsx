@@ -4,8 +4,11 @@ export const ReadonlyItem = defineComponent({
 	props: ["value"],
 	render() {
 		return (
-			<div class="ant-input cursor-not-allowed xItem_readonly">
+			<div
+				class="ant-input cursor-not-allowed xItem_readonly ellipsis"
+				v-uiPopover={{ onlyEllipsis: true }}>
 				{this.value}
+				<span style="opacity:0">.</span>
 			</div>
 		);
 	}

@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { xU } from "../ventoseUtils";
-import { t_itemConfigs } from "./itemRenders/index";
+import { t_itemConfigs } from "./itemRenders";
 
 let xItemNoPropCount = 0;
 

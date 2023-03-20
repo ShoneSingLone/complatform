@@ -54,6 +54,7 @@ export const xItem = defineComponent({
 			Cpt_isDisabled = computed(() => !!props.configs.disabled);
 		}
 		/*readonly 在configs中，各个render自行实现*/
+
 		return {
 			Cpt_isShowXItem,
 			Cpt_isDisabled
@@ -357,6 +358,7 @@ export const xItem = defineComponent({
 						if (
 							[
 								"_$updateUI",
+								"once",
 								"itemTips",
 								"rules",
 								"labelVNodeRender",
@@ -412,7 +414,7 @@ export const xItem = defineComponent({
 
 			const diffRes = diff(vm.properties.value, value);
 			if (diffRes) {
-				xU("xItem diffRes", diffRes);
+				xU("diff xItem value", diffRes);
 				vm.properties.value = value;
 				vm.listeners["onUpdate:value"](value);
 			}

@@ -85,7 +85,7 @@ export const RequestArgsPanel = defineComponent({
 					header={bodyHeader}
 					collapsible={this.bodyCollapsible}>
 					<BodyParamsPanel
-						params={this.params}
+						params={this.params || {}}
 						onUpdate:params={params =>
 							this.$emit("update:params", xU.merge({}, this.params, params))
 						}

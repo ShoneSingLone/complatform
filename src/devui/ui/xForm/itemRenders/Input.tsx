@@ -80,7 +80,7 @@ export default defineComponent({
 
 		/* { properties, slots, listeners, propsWillDeleteFromConfigs } */
 		/* 只读模式下的 */
-		if (properties.readonly) {
+		if (properties.isReadonly) {
 			return <ReadonlyItem value={properties.value} />;
 		}
 

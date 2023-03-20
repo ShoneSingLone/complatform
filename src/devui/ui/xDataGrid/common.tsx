@@ -15,28 +15,28 @@ export type t_col = {
 };
 
 export type t_dataGridOptions = {
-	isLoading: boolean;
+	isLoading?: boolean;
 	/*查询、刷新、onPaginationChange=》isLoading可以内置*/
 	queryTableList: Function;
 	/*ant的table属性*/
-	antTableProperty: object;
+	antTableProperty?: object;
 	/*查询按钮*/
-	isHideQuery: boolean;
+	isHideQuery?: boolean;
 	/*刷新按钮*/
-	isHideRefresh: boolean;
+	isHideRefresh?: boolean;
 	/*是否隐藏列过滤器*/
-	isHideFilter: boolean;
+	isHideFilter?: boolean;
 	/*是否隐藏分页*/
-	isHidePagination: boolean;
-	pagination: {
+	isHidePagination?: boolean;
+	pagination?: {
 		page: number;
 		size: number;
 		total: number;
 	};
 	/*分页page size 改变之后的回调，参数是pagination*/
-	onPaginationChange: Function;
+	onPaginationChange?: Function;
 	/*里面查询区域的配置信息，可以在renderOptions作为参数传入*/
-	optionsConfigs: {
+	optionsConfigs?: {
 		/*xItem value 集合*/
 		data: object;
 		/*xItem form 配置项*/
@@ -48,7 +48,7 @@ export type t_dataGridOptions = {
 	/*如果是分组，filter无效
 	 * columns作为数组，与antdv官方文档参数保持一致
 	 * */
-	isGroupingColumns: boolean;
+	isGroupingColumns?: boolean;
 	/*列信息*/
 	columns: { [p: string]: t_col };
 };
@@ -242,6 +242,7 @@ export function filterColIsShow(isShow, prop) {
 
 type t_result = {
 	total?: false | number;
+	selected?: string[] | false;
 	data: any[];
 };
 
@@ -251,9 +252,12 @@ type t_result = {
  * @param data
  * @param total
  */
-export function setDataGridInfo(StateBind, result: t_result = { data: [] }) {
-	const { data = [], total = false } = result;
+export function setDataGridInfo(StateBind, result: t_result = {}) {
+	const { data = [], total = false, selected = false } = result;
 	StateBind.dataSource = data;
+	if (selected) {
+		StateBind.selected = selected;
+	}
 	if (total || total === 0) {
 		setPagination(StateBind, { total });
 	}

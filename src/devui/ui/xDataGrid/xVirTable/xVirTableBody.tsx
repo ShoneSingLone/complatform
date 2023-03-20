@@ -36,10 +36,23 @@ export const xVirTableBody = defineComponent({
 			virs3: []
 		};
 	},
+	created() {
+		(() => {
+			this.debounceSetPerBlockHeight = xU.debounce(function (
+				viewportHeight: number
+			) {
+				this.viewportHeight = viewportHeight;
+				this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
+				this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
+				this.setHeight();
+			},
+			64);
+		})();
+	},
 	mounted() {
 		/* 监听body高度变化 */
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
-			this.setPerBlockHeight(this.$refs.wrapper.offsetHeight);
+			this.debounceSetPerBlockHeight(this.$refs.wrapper.offsetHeight);
 		});
 		this.$watch(
 			() => {
@@ -57,10 +70,11 @@ export const xVirTableBody = defineComponent({
 		fnIsSelected() {
 			const { isSelect, prop } = this.selectedConfigs || {};
 			if (xU.isFunction(isSelect)) {
-				return args => {
-					return isSelect.call(this, args);
+				return rowInfo => {
+					return isSelect.call(this, { ...rowInfo, selected: this.selected });
 				};
 			} else {
+				/* 默认处理方式 */
 				return ({ rowData }) => {
 					const id = rowData[prop];
 					return this.selected.includes(id);
@@ -70,8 +84,8 @@ export const xVirTableBody = defineComponent({
 		fnIsDisabled() {
 			const { isDisabled } = this.selectedConfigs || {};
 			if (xU.isFunction(isDisabled)) {
-				return () => {
-					return isDisabled.call(this, args);
+				return (...args) => {
+					return isDisabled.apply(this, args);
 				};
 			} else {
 				return () => {
@@ -155,7 +169,10 @@ export const xVirTableBody = defineComponent({
 								role="tr"
 								class="xVirTable-row flex horizon"
 								data-row-key={__virRowIndex}>
-								{this.genSelectedVDom({ rowIndex, rowData: data })}
+								{this.genSelectedVDom({
+									rowIndex: __virRowIndex,
+									rowData: data
+								})}
 								{xU.map(this.columnOrder, (prop: string, index: number) => {
 									return (
 										<xVirTableTd
@@ -188,7 +205,10 @@ export const xVirTableBody = defineComponent({
 											role="tr"
 											class="xVirTable-row flex horizon"
 											data-row-key={__virRowIndex}>
-											{this.genSelectedVDom({ rowIndex, rowData: data })}
+											{this.genSelectedVDom({
+												rowIndex: __virRowIndex,
+												rowData: data
+											})}
 											{xU.map(
 												this.columnOrder,
 												(prop: string, index: number) => {
@@ -247,6 +267,7 @@ export const xVirTableBody = defineComponent({
 			const targetRecords = this.configs.dataSource
 				.slice(start, end)
 				.map((i, index) => {
+					/* 改行数据在DataSource中的实际下标 */
 					i.__virRowIndex = start + index;
 					return i;
 				});
@@ -296,12 +317,6 @@ export const xVirTableBody = defineComponent({
 		emitSelectedChange(checked, id) {
 			this.$emit("selectedChange", { checked, id });
 		},
-		setPerBlockHeight: xU.debounce(function (viewportHeight: number) {
-			this.viewportHeight = viewportHeight;
-			this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
-			this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
-			this.setHeight();
-		}, 64),
 		setTop: xU.debounce(function () {
 			if (this.$refs.refWrapper) {
 				this.$refs.refWrapper.scrollTo({
@@ -330,15 +345,20 @@ export const xVirTableBody = defineComponent({
 		}
 	},
 	watch: {
-		rowHeight() {
-			this.setPerBlockHeight(this.$refs.wrapper.offsetHeight);
+		rowHeight: {
+			immediate: true,
+			async handler() {
+				await xU.ensureValueDone(() => this.$refs?.wrapper?.offsetHeight);
+				this.debounceSetPerBlockHeight(this.$refs.wrapper.offsetHeight);
+			}
 		},
 		top() {
 			this.setTop();
 		},
 		"configs.dataSource": {
 			immediate: true,
-			handler() {
+			async handler() {
+				await xU.ensureValueDone(() => this.perBlockHeight);
 				this.updateCell();
 				this.clearCacheRow();
 				this.updateTop(false);

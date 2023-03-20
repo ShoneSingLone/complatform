@@ -128,7 +128,7 @@ export default defineComponent({
 		"configs.pagination": {
 			deep: true,
 			handler(pagination) {
-				console.log(JSON.stringify(pagination));
+				xU(JSON.stringify(pagination));
 			}
 		}
 	},

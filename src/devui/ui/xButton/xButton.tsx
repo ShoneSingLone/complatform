@@ -78,6 +78,19 @@ export default defineComponent({
 			loading: true
 		};
 	},
+	setup(props) {
+		let Cpt_isShow = true;
+		if (props.configs.isShow !== undefined) {
+			if (xU.isFunction(props.configs.isShow)) {
+				Cpt_isShow = computed(props.configs.isShow);
+			}
+			if (xU.isBoolean(props.configs.isShow)) {
+				Cpt_isShow = props.configs.isShow;
+			}
+		}
+
+		return { Cpt_isShow };
+	},
 	computed: {
 		isClickHandlerOnAttrs() {
 			return !!this.$attrs?.onClick;
@@ -140,6 +153,9 @@ export default defineComponent({
 		}
 	},
 	render() {
+		if (!this.Cpt_isShow) {
+			return null;
+		}
 		const propsWillDeleteFromProperty = [
 			"text",
 			"loading",
@@ -156,6 +172,7 @@ export default defineComponent({
 		if (this.title) {
 			_properties.title = this.title;
 		}
+
 		return (
 			<aButton
 				class="x-button antdv-button"

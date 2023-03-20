@@ -1,32 +1,28 @@
 //@ts-nocheck
-
 import "./index.less";
 import "./ui.scss";
 import "ant-design-vue/dist/antd.css";
 import Antd from "ant-design-vue";
 import $ from "jquery";
 import xRender from "./xRender/xRender.jsx";
-import { xItem } from "./xForm/xItem";
 import xForm from "./xForm/xForm.vue";
 import xButton from "./xButton/xButton";
 import xButtonCountDown from "./xButton/xButtonCountDown.vue";
-import { xGap } from "./xLayout/xGap";
 import xCharts from "./xCharts/xCharts.vue";
 import xView from "./xView/xView.vue";
 import xIcon from "./xIcon/xIcon.tsx";
 import xDataGrid from "./xDataGrid/xDataGrid.vue";
 import xDataGridToolbar from "./xDataGrid/xDataGridToolbar.vue";
 import xCellLabel from "./xDataGrid/xCellLabel.vue";
-import { xPagination } from "./xDataGrid/xPagination";
 import xColFilter from "./xDataGrid/xColFilter.vue";
 import xVirScroll from "./xSingle/xScroll/xVirScroll.vue";
-import {
-	defXVirTableConfigs as defXVirTableConfigs,
-	xVirTable
-} from "./xDataGrid/xVirTable/xVirTable";
+import dayjs from "dayjs";
+import { xPagination } from "./xDataGrid/xPagination";
+import { xItem } from "./xForm/xItem";
+import { xGap } from "./xLayout/xGap";
+import { defXVirTableConfigs as defXVirTableConfigs, xVirTable } from "./xDataGrid/xVirTable/xVirTable";
 import { xU } from "./ventoseUtils";
 import { Cpt_UI_locale, State_UI, $t } from "./State_UI";
-import dayjs from "dayjs";
 import { FormRules, RegexFn } from "./xForm/FormRules";
 import { installUIDialogComponent } from "./xSingle/dialog/dialog";
 import { installDirective } from "./directive";
@@ -51,6 +47,8 @@ import { compileVNode } from "./tools/framework";
 import { xLogObject } from "./xSingle/xLogObject";
 import { usefnObserveDomResize } from "./compositionAPI/useDomResize";
 import { useScopeStyle } from "./compositionAPI/useScopeStyle";
+import { xInfoCard } from "./xView/xInfoCard";
+import { xLinkCopy } from "./xButton/xLinkCopy";
 
 /* @ts-ignore */
 window.dayjs = dayjs;
@@ -82,7 +80,9 @@ const componentMyUI = {
 	xCellLabel,
 	xVirScroll,
 	xVirTable,
-	xLogObject
+	xLogObject,
+	xInfoCard,
+	xLinkCopy
 };
 
 export const components = {

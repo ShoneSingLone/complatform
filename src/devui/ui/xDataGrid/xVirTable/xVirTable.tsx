@@ -5,7 +5,21 @@ import $ from "jquery";
 import { xVirTableTh } from "./xVirTableTh";
 import { xVirTableBody } from "./xVirTableBody";
 
-export function defXVirTableConfigs(options) {
+type t_selectedConfigs = {
+	type: keyof typeof defXVirTableConfigs.type;
+	/* 数据ID */
+	prop: string;
+	isDisabled?: Function;
+	isSelect?: Function;
+};
+type t_options = {
+	selectedConfigs?: t_selectedConfigs;
+	selected?: [];
+	rowHeight: number;
+	dataSource: any[];
+	columns: object;
+};
+export function defXVirTableConfigs(options: t_options) {
 	const required = ["rowHeight", "columns"];
 	if (
 		xU.some(required, prop => {

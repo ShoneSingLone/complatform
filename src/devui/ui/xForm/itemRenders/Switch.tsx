@@ -1,33 +1,22 @@
-import { defineComponent } from "vue";
 import { xU } from "../../ventoseUtils";
 
-export default defineComponent({
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-	mounted() {
-		xU("xItem Switch");
-	},
-	methods: {
-		handleClick() {
-			this.listeners["onUpdate:value"](!this.properties.value);
+export default ({
+	properties,
+	slots,
+	listeners,
+	propsWillDeleteFromConfigs
+}) => {
+	/* { properties, slots, listeners, propsWillDeleteFromConfigs } */
+	const _property = xU.merge({}, properties, {
+		checked: properties.value,
+		onClick() {
+			listeners["onUpdate:value"](!_property.value);
 		}
-	},
-	render({ handleClick, properties }) {
-		/*用span包裹：宽度自适应*/
-		return (
-			<div class="x-item_switch">
-				<aSwitch
-					{...xU.omit(
-						properties,
-						this.propsWillDeleteFromConfigs.concat([
-							"value",
-							"label",
-							"itemType"
-						])
-					)}
-					checked={properties.value}
-					onClick={handleClick}
-				/>
-			</div>
-		);
-	}
-});
+	});
+	/*用span包裹：宽度自适应*/
+	return (
+		<div class="x-item_switch">
+			<aSwitch {...xU.omit(_property, ["value"])} />
+		</div>
+	);
+};

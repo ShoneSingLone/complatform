@@ -10,6 +10,7 @@ import InsideSyncOutlined from "../../assets/svg/SyncOutlined.svg";
 import InsideUploadOutlined from "../../assets/svg/UploadOutlined.svg";
 import Insidetips from "../../assets/svg/tips.svg";
 import InsideEmpty from "../../assets/svg/empty.svg";
+import InsideCopy from "../../assets/svg/copy.svg";
 import insideSettingOutlined from "../../assets/svg/SettingOutlined.svg";
 import { iStorage } from "../tools/storage";
 import "./xIcon.less";
@@ -26,6 +27,7 @@ const insideIcons = {
 	InsideUploadOutlined,
 	Insidetips,
 	InsideEmpty,
+	InsideCopy,
 	insideSettingOutlined
 };
 

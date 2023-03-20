@@ -56,8 +56,12 @@ export const ITEM_OPTIONS_VDOM = {
 		const i = xU.find(ITEM_OPTIONS.interfaceBodyFormType, {
 			value: cell
 		});
+
+		if (!i) {
+			return null;
+		}
 		/*@ts-ignore*/
-		return <aTag>{i.label}</aTag>;
+		return <aTag>{i?.label}</aTag>;
 	},
 	required(cell) {
 		if (!xU.isInput(cell)) return null;

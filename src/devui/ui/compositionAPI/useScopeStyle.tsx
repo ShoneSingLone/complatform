@@ -34,7 +34,6 @@ export const useScopeStyle = () => {
 			instance.ctx,
 			styleObject2String(scopeStyle)
 		);
-		debugger;
 	}
 
 	return {

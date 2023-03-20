@@ -3,7 +3,6 @@ import _ from "lodash";
 /* @ts-ignore */
 import dayjs from "dayjs";
 import $ from "jquery";
-import { iStorage } from "./tools/storage";
 import { State_UI } from ".";
 //@ts-ignore
 import axios from "axios";
@@ -379,6 +378,7 @@ const privateLodash = {
 		/* 在开发模式下App.vue 会设置这个对象 */
 		/* @ts-ignore */
 		if (!State_UI.isDev) {
+			const { iStorage } = await import("./tools/storage");
 			const res = await iStorage(url);
 			if (res) {
 				return res;
@@ -395,6 +395,7 @@ const privateLodash = {
 				});
 				/* @ts-ignore */
 				if (!State_UI.isDev) {
+					const { iStorage } = await import("./tools/storage");
 					await iStorage(url, data);
 				}
 				/* @ts-ignore */
@@ -452,7 +453,7 @@ const privateLodash = {
 					resolve(value);
 				} else {
 					/* @ts-ignore */
-					setTimeout(exeFnGetValue, 1000 * exeFnGetValue.count++);
+					setTimeout(exeFnGetValue, 100 * exeFnGetValue.count++);
 				}
 			};
 			(exeFnGetValue as any).count = 1;
@@ -469,7 +470,7 @@ const privateLodash = {
 	 * @param format 默认 "YYYY-MM-DD" 1："YYYY-MM-DD HH:mm:ss"
 	 * @returns
 	 */
-	dateFormat: (date: dayjs.ConfigType, format = "YYYY-MM-DD") => {
+	dateFormat: (date: dayjs.ConfigType, format: string | 1 = "YYYY-MM-DD") => {
 		if (typeof date === "number") {
 			date = dayjs.unix(date);
 		}
@@ -478,7 +479,8 @@ const privateLodash = {
 			format = "YYYY-MM-DD HH:mm:ss";
 		}
 		const label = dayjs(date).format(format);
-		return label === privateLodash.WORDS.INVALID_DATE ? "--" : label;
+		const isInvalidDate = label == privateLodash.WORDS.INVALID_DATE;
+		return isInvalidDate ? "--" : label;
 	},
 
 	keepDecimals: function (val: number, fractionDigits: 2) {

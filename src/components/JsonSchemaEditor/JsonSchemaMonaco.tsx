@@ -2,11 +2,31 @@ import json5 from "json5";
 import { defineComponent, markRaw } from "vue";
 import { State_App } from "../../state/State_App";
 import "./JsonSchemaMonaco.less";
-import { UI, xU, $, compositionAPI } from "@ventose/ui";
+import {
+	UI,
+	xU,
+	$,
+	compositionAPI,
+	defCol,
+	defDataGridOption,
+	setDataGridInfo,
+	defXVirTableConfigs,
+	$t
+} from "@ventose/ui";
 import { ICON_STRATEGE, SchemaEditor, SPE } from "./SchemaEditor";
 import { diff } from "jsondiffpatch";
 import { API } from "../../api/index";
 import generateSchema from "generate-schema";
+import { MonacoEditor } from "../MonacoEditor/MonacoEditor";
+import {
+	colExample,
+	colParamsName,
+	colRemark,
+	colRequired,
+	colType,
+	colValue
+} from "@/utils/common.columns";
+import { ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 const { usefnObserveDomResize } = compositionAPI;
 
 function makeProps(pre, prop) {
@@ -110,6 +130,7 @@ export const JsonSchemaMonaco = defineComponent({
 		schemaJson: {
 			immediate: true,
 			handler() {
+				this.updateTableDataSource();
 				this.updateTree();
 			}
 		}
@@ -129,6 +150,14 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	methods: {
 		renderReadOnly(vm) {
+			return (
+				<div class="JsonSchemaMonaco flex x-card" ref="JsonSchemaMonaco">
+					<div class="left-json-tree_readonly" style="width:100%">
+						<xDataGrid configs={vm.tableConfigs} />
+					</div>
+				</div>
+			);
+
 			return (
 				<div class="JsonSchemaMonaco flex x-card" ref="JsonSchemaMonaco">
 					<div class="left-json-tree_readonly" style="width:100%">
@@ -249,6 +278,17 @@ export const JsonSchemaMonaco = defineComponent({
 				this.schemaJson = schemaJson;
 			}
 		},
+		async updateTableDataSource() {
+			const { properties } = this.schemaJson;
+			setDataGridInfo(this.tableConfigs, {
+				data: xU.map(properties, (item, name) => {
+					return {
+						name,
+						...item
+					};
+				})
+			});
+		},
 		async updateTree() {
 			xU("updateTree");
 			this.isTreeLoading = true;
@@ -342,6 +382,43 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	data(vm) {
 		return {
+			tableConfigs: defDataGridOption({
+				isHidePagination: true,
+				dataSource: [],
+				columns: {
+					...colRequired(),
+					...colParamsName(),
+					...colType,
+					...colValue,
+					...colRemark({ prop: "description" }),
+					...defCol({
+						prop: "others",
+						label: $t("其他信息").label,
+						renderCell: ({ record }) => {
+							const vDom = [];
+							const newInfo = (label, value) => (
+								<div>
+									<span style="font-weight: 700;">{label}：</span>
+									{value}
+								</div>
+							);
+							if (record.enum) {
+								vDom.push(newInfo($t("枚举").label, record.enum.join(",")));
+							}
+							if (record.maximum) {
+								vDom.push(newInfo($t("最大值").label, record.maximum));
+							}
+							if (record.minimum) {
+								vDom.push(newInfo($t("最小值").label, record.minimum));
+							}
+							if (record.format) {
+								vDom.push(newInfo($t("format").label, record.format));
+							}
+							return <div class="flex vertical">{vDom}</div>;
+						}
+					})
+				}
+			}),
 			currentEditor: "MonacoEditor",
 			onlyOneEditor: false,
 			isMockPreview: false,
