@@ -52,7 +52,7 @@ export const ViewGroup = defineComponent({
 	methods: {
 		async ifUrlNoGroupIdGetAndAddIdToUrl() {
 			try {
-				if (!this.groupId) {
+				if (!this.groupId || this.groupId === "undefined") {
 					let { data: group } = await API.group.getMyGroup();
 					this.Cpt_url.query.group_id = group._id;
 				} else {

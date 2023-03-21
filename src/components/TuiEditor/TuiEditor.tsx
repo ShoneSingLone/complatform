@@ -26,9 +26,7 @@ export const TuiEditor = defineAsyncComponent(
 							immediate: true,
 							async handler(mdString) {
 								await xU.ensureValueDone(() => this.raw$editor);
-								if (this.raw$md !== mdString) {
-									this.raw$editor.setMarkdown(mdString);
-								}
+								this.raw$editor.setMarkdown(mdString);
 							}
 						}
 					},
@@ -47,8 +45,8 @@ export const TuiEditor = defineAsyncComponent(
 									el: vm.$refs.container,
 									initialEditType: "wysiwyg",
 									previewStyle: "vertical",
-									height: "auto",
 									initialValue: vm.raw$md || "",
+									height: "auto",
 									hooks: {
 										/* EventEmitter.prototype.emit  */
 										change: vm.sync,
@@ -103,14 +101,13 @@ export const TuiEditor = defineAsyncComponent(
 							);
 						}
 						return (
-							<div v-loading={vm.isLoading}>
-								<div
-									id={vm.id}
-									ref="container"
-									class="flex1"
-									style="height:300px;width:100%;"
-								/>
-							</div>
+							<div
+								v-loading={vm.isLoading}
+								id={vm.id}
+								ref="container"
+								class="flex1"
+								style="height:300px;width:100%;z-index:1;"
+							/>
 						);
 					}
 				})

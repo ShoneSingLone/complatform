@@ -101,9 +101,9 @@ export const ProjectInterfaceLeftSider = defineComponent({
 							title(item) {
 								const { title, _id, list, menuType, categoryId } = item;
 								const classContentString = (() => {
-									let _classString = "flex middle Interfacesider-tree_menu";
+									let _classString = "flex middle x-sider-tree_menu";
 									if (String(_id) == String(vm.currentSelectedMenu)) {
-										return _classString + " Interfacesider-tree_menu_active";
+										return _classString + " x-sider-tree_menu_active";
 									}
 									return _classString;
 								})();
@@ -136,7 +136,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 										<>
 											<xIcon
 												icon={icon}
-												class="Interfacesider-tree_menu_icon"
+												class="x-sider-tree_menu_icon"
 												v-uiPopover={{ content: tips, delay: 1000 }}
 												onClick={clickHandler}
 											/>
@@ -153,21 +153,12 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											onClick={handleClickMenuItem}>
 											<xGap l="10" />
 											<xIcon icon="allCategory" />
-											<span class="Interfacesider-tree_menu_title">
+											<span class="x-sider-tree_menu_title">
 												{title}
 											</span>
-											<div class="flex middle Interfacesider-tree_menu_opration">
-												{genIcon({
-													icon: "add",
-													tips: vm.$t("添加分类").label,
-													clickHandler: () => vm.showUpsertCategoryDialog()
-												})}
-												{genIcon({
-													icon: "refresh",
-													tips: vm.$t("刷新").label,
-													clickHandler:
-														Methods_ProjectInterface.updateInterfaceMenuList
-												})}
+											<div class="flex middle x-sider-tree_menu_opration">
+												{genIcon({ icon: "add", tips: vm.$t("添加分类").label, clickHandler: () => vm.showUpsertCategoryDialog() })}
+												{genIcon({ icon: "refresh", tips: vm.$t("刷新").label, clickHandler: Methods_ProjectInterface.updateInterfaceMenuList })}
 											</div>
 										</div>
 									);
@@ -180,7 +171,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								const vDomOpration = (() => {
 									if (menuType === "category") {
 										return (
-											<div class="flex middle Interfacesider-tree_menu_opration">
+											<div class="flex middle x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
 													tips: vm.$t("添加接口").label,
@@ -202,7 +193,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 										);
 									} else {
 										return (
-											<div class="flex middle Interfacesider-tree_menu_opration">
+											<div class="flex middle x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "delete",
 													tips: vm.$t("删除接口").label,
@@ -223,7 +214,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 									<div class={classContentString} onClick={handleClickMenuItem}>
 										<xGap l="10" />
 										<xIcon icon={iconName} />
-										<span class="Interfacesider-tree_menu_title">{title}</span>
+										<span class="x-sider-tree_menu_title">{title}</span>
 										{vDomOpration}
 									</div>
 								);
@@ -318,10 +309,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 						await API.project.deleteInterfaceById(id);
 						UI.message.success(vm.$t("删除接口成功").label);
 						Methods_ProjectInterface.updateInterfaceMenuList();
-						vm.Cpt_url.go(
-							"/project/interface/all",
-							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
-						);
+						vm.Cpt_url.go( "/project/interface/all", xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"]) );
 					} catch (error) {
 						UI.message.error(error.message);
 					}
@@ -370,9 +358,9 @@ export const ProjectInterfaceLeftSider = defineComponent({
 	render() {
 		return (
 			<aside
-				class="ViewProject-sider_wrapper flex vertical move-transition padding10"
+				class="x-sider_wrapper flex vertical move-transition padding10"
 				style={this.styleAside}>
-				<div class="ViewProjectInterface_tree flex1 mt10 mb10" ref="wrapper">
+				<div class="x-sider_wrapper_tree flex1 mt10 mb10" ref="wrapper">
 					{this.vDomTree}
 				</div>
 				<div class="resize_bar" icon="scroll" v-uiMove={this.configsResize} />

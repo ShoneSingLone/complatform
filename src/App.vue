@@ -1,5 +1,8 @@
 <script>
 /*https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup*/
+import "./containers/Home/Home.scss";
+import "./styles/App.less";
+import "./style.scss";
 import "./style.css";
 import { defineComponent } from "vue";
 import { AppFooter } from "./components/Footer/AppFooter";
@@ -54,5 +57,3 @@ export default defineComponent({
 	<AppFooter />
 </template>
 
-<style lang="less" src="./styles/App.less"></style>
-<style lang="scss" src="./containers/Home/Home.scss"></style>

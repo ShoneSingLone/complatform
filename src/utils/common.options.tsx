@@ -1,4 +1,4 @@
-import { xU } from "@ventose/ui";
+import { $t, xU } from "@ventose/ui";
 import { HTTP_METHOD } from "./variable";
 
 export const ITEM_OPTIONS = {
@@ -32,6 +32,10 @@ export const ITEM_OPTIONS = {
 	YesOrNo: [
 		{ label: "是", value: "true" },
 		{ label: "否", value: "false" }
+	],
+	wikiType: [
+		{ label: $t("文件夹").label, value: "folder" },
+		{ label: $t("文档").label, value: "artical" }
 	],
 	trueOrFalse: [
 		{ label: "是", value: true },

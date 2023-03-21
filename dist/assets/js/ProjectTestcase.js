@@ -548,9 +548,9 @@ const ProjectTestcaseLeftSider = defineComponent({
             categoryId
           } = item;
           const classContentString = (() => {
-            let _classString = "flex middle Interfacesider-tree_menu";
+            let _classString = "flex middle x-sider-tree_menu";
             if (String(_id) == String(vm.currentSelectedMenu)) {
-              return _classString + " Interfacesider-tree_menu_active";
+              return _classString + " x-sider-tree_menu_active";
             }
             return _classString;
           })();
@@ -578,7 +578,7 @@ const ProjectTestcaseLeftSider = defineComponent({
           }) => {
             return createVNode(Fragment, null, [withDirectives(createVNode(resolveComponent("xIcon"), {
               "icon": icon,
-              "class": "Interfacesider-tree_menu_icon",
+              "class": "x-sider-tree_menu_icon",
               "onClick": clickHandler
             }, null), [[resolveDirective("uiPopover"), {
               content: tips,
@@ -597,9 +597,9 @@ const ProjectTestcaseLeftSider = defineComponent({
             }, null), createVNode(resolveComponent("xIcon"), {
               "icon": "allCategory"
             }, null), createVNode("span", {
-              "class": "Interfacesider-tree_menu_title"
+              "class": "x-sider-tree_menu_title"
             }, [title]), createVNode("div", {
-              "class": "flex middle Interfacesider-tree_menu_opration"
+              "class": "flex middle x-sider-tree_menu_opration"
             }, [genIcon({
               icon: "add",
               tips: vm.$t("\u6DFB\u52A0\u96C6\u5408").label,
@@ -615,7 +615,7 @@ const ProjectTestcaseLeftSider = defineComponent({
           const vDomOpration = (() => {
             if (menuType === "category") {
               return createVNode("div", {
-                "class": "flex middle Interfacesider-tree_menu_opration"
+                "class": "flex middle x-sider-tree_menu_opration"
               }, [genIcon({
                 icon: "add",
                 tips: vm.$t("\u6DFB\u52A0\u7528\u4F8B").label,
@@ -631,7 +631,7 @@ const ProjectTestcaseLeftSider = defineComponent({
               })]);
             } else {
               return createVNode("div", {
-                "class": "flex middle Interfacesider-tree_menu_opration"
+                "class": "flex middle x-sider-tree_menu_opration"
               }, [genIcon({
                 icon: "delete",
                 tips: vm.$t("\u5220\u9664\u7528\u4F8B").label,
@@ -648,14 +648,14 @@ const ProjectTestcaseLeftSider = defineComponent({
             }, null), createVNode(resolveComponent("xIcon"), {
               "icon": "subCategory"
             }, null), createVNode("span", {
-              "class": "Interfacesider-tree_menu_title"
+              "class": "x-sider-tree_menu_title"
             }, [title]), vDomOpration]);
           } else {
             return createVNode("div", {
               "class": classContentString,
               "onClick": handleClickMenuItem
             }, [createVNode("span", {
-              "class": "Interfacesider-tree_menu_title"
+              "class": "x-sider-tree_menu_title"
             }, [createVNode("div", {
               "class": "flex middle"
             }, [createVNode("div", {

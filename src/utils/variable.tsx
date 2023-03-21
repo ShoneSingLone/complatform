@@ -1,6 +1,8 @@
 import { State_UI } from "@ventose/ui";
 
 export const ALL = "ALL";
+export const FOLDER = "folder";
+export const ARTICLE = "article";
 export const GET = "GET";
 export const HEAD = "HEAD";
 export const OPTIONS = "OPTIONS";

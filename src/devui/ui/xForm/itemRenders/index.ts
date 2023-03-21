@@ -41,6 +41,7 @@ export type t_itemConfigs =
 			isTextarea?: boolean;
 			isReadonly?: boolean;
 			prop: string;
+			onAfterValueEmit?:Function
 	  }
 	| InputProps
 	| TextAreaProps;

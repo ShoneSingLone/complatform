@@ -1,36 +1,27 @@
-import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI, State_UI } from "@ventose/ui";
-import { DialogUpsertCategory } from "./DialogUpsertCategory";
+import { defineComponent, reactive, ref, watch } from "vue";
+import { $, xU, UI, compositionAPI, State_UI, $t } from "@ventose/ui";
 import { API } from "@/api/index";
-import { ALL } from "@/utils/variable";
-import { DialogAddInterface } from "./DialogAddInterface";
-import { Cpt_url } from "../../../router/router";
+import { ARTICLE, FOLDER } from "@/utils/variable";
+import { DialogAddArtical } from "./DialogAddArtical";
+import { Cpt_url } from "@/router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "@/utils/common";
 import { State_App } from "@/state/State_App";
-import {
-	State_ProjectTestcase,
-	Methods_ProjectTestcase
-} from "@/containers/Project/Testcase/State_ProjectTestcase";
+import { Methods_Wiki, State_Wiki } from "./State_Wiki";
 
 const { usefnObserveDomResize } = compositionAPI;
 
-export const DefaultTestcaseMenu = [
-	{
-		_id: ALL,
-		title: State_UI.$t("全部用例").label,
-		menuType: ALL,
-		list: []
-	}
-];
+/* root 是文件夹，或者文档都可以 */
+/* 文件夹 编辑、 添加文档、文件夹 */
+/* 文档 编辑、删除 */
 
-export const ProjectTestcaseLeftSider = defineComponent({
+export const WikiLeftSider = defineComponent({
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
+			State_Wiki,
 			State_App,
-			State_ProjectTestcase,
 			Cpt_url,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -38,7 +29,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 	},
 	watch: {
 		filterText(text) {
-			this.State_ProjectTestcase.isLoading = true;
+			this.State_Wiki.isLoading = true;
 			this.setFilterText(text);
 		}
 	},
@@ -59,40 +50,42 @@ export const ProjectTestcaseLeftSider = defineComponent({
 				position: "relative"
 			},
 			filterText: "",
-			selectedKeys: [ALL],
+			selectedKeys: [ARTICLE],
 			siderHeight: 500,
 			configs: {
 				fieldNames: {
-					children: "list",
 					key: "_id"
 				}
 			}
 		};
 	},
-	mounted() {
+	async mounted() {
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
 			/* mt mb 共计20 */
 			const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 20;
 			this.setSiderHeight(siderHeight);
 		});
-		Methods_ProjectTestcase.updateTestcaseMenuList();
-		Methods_ProjectTestcase.setExpand();
+
+		const _id = this.Cpt_url.query.wiki_id;
+		if (_id) {
+			Methods_Wiki.setCurrentWiki(_id);
+		}
 	},
 	beforeUnmount() {
 		this.fnUnobserveDomResize(this.$refs.wrapper);
 	},
 	computed: {
-		currentSelectedMenu() {
-			const { pathname, query } = this.Cpt_url;
-			const StrategyMap = {
-				"/project/testcase/all": ALL,
-				"/project/testcase/category": query.category_id,
-				"/project/testcase/detail": query.interface_id
+		btnAddNew() {
+			return {
+				text: $t("新增").label,
+				onClick: () => this.showUpsertArticleDialog()
 			};
-			return StrategyMap[pathname];
 		},
-		treeData() {
-			return DefaultTestcaseMenu.concat(this.State_ProjectTestcase.allCategory);
+		btnRefresh() {
+			return {
+				preset: "refresh",
+				onClick: Methods_Wiki.updateWikiMenuList
+			};
 		},
 		vDomTree() {
 			const vm = this;
@@ -100,47 +93,26 @@ export const ProjectTestcaseLeftSider = defineComponent({
 				<div
 					class="elevation-2 height100 padding10"
 					style="border-radius: 8px;">
+					<div class="flex mb10">
+						<xButton configs={vm.btnAddNew} />
+						<xGap l="10" />
+						<xButton configs={vm.btnRefresh} />
+					</div>
 					<aTree
-						v-model:expandedKeys={vm.State_ProjectTestcase.expandedKeys}
+						v-model:expandedKeys={vm.State_Wiki.expandedKeys}
 						height={vm.siderHeight}
-						treeData={vm.treeData}
+						treeData={vm.State_Wiki.treeData}
 						draggable
 						onDrop={vm.handleDropInterface}
 						fieldNames={vm.configs.fieldNames}>
 						{{
 							title(item) {
-								const { title, _id, list, menuType, categoryId } = item;
+								const { title, _id, type } = item;
 								const classContentString = (() => {
 									let _classString = "flex middle x-sider-tree_menu";
-									if (String(_id) == String(vm.currentSelectedMenu)) {
-										return _classString + " x-sider-tree_menu_active";
-									}
 									return _classString;
 								})();
 
-								const handleClickMenuItem = () => {
-									if (menuType === ALL) {
-										Cpt_url.value.go(
-											"/project/testcase/all",
-											xU.omit(Cpt_url.value.query, [
-												"category_id",
-												"interface_id"
-											])
-										);
-									} else if (menuType === "category") {
-										Cpt_url.value.go("/project/testcase/category", {
-											...Cpt_url.value.query,
-											category_id: _id
-										});
-									} else {
-										Cpt_url.value.go("/project/testcase/detail", {
-											...Cpt_url.value.query,
-											category_id: categoryId,
-											interface_id: _id
-										});
-									}
-									vm.setSelectedKeys(_id);
-								};
 								const genIcon = ({ icon, tips, clickHandler }) => {
 									return (
 										<>
@@ -154,95 +126,35 @@ export const ProjectTestcaseLeftSider = defineComponent({
 										</>
 									);
 								};
-
-								if (menuType === ALL) {
+								if (type === FOLDER) {
 									return (
 										<div
-											data-testcase-all-menu
 											class={classContentString}
-											onClick={handleClickMenuItem}>
+											onClick={() => {
+												Methods_Wiki.setCurrentWiki(item);
+											}}>
 											<xGap l="10" />
-											<xIcon icon="allCategory" />
-											<span class="x-sider-tree_menu_title">
-												{title}
-											</span>
+											<xIcon icon="folder" />
+											<span class="x-sider-tree_menu_title">{title}</span>
 											<div class="flex middle x-sider-tree_menu_opration">
-												{genIcon({
-													icon: "add",
-													tips: vm.$t("添加集合").label,
-													clickHandler: () =>
-														vm.showUpsertTestcaseCategoryDialog()
-												})}
 												{genIcon({
 													icon: "refresh",
 													tips: vm.$t("刷新").label,
-													clickHandler:
-														Methods_ProjectTestcase.updateTestcaseMenuList
+													clickHandler: vm.showUpsertArticleDialog
 												})}
 											</div>
-										</div>
-									);
-								}
-
-								if (xU.isArray(list)) {
-									/* { "edit_uid": 0, "status": "undone", "isProxy": false, "witchEnv": "", "index": 0, "tag": [], "_id": 9, "method": "GET", "catid": 56, "title": "first", "path": "/aws_ecs/goku/rest/vdc/v3.1/projects", "project_id": 83, "uid": 12, "add_time": 1669122695, "up_time": 1669122695 } */
-								}
-
-								const vDomOpration = (() => {
-									if (menuType === "category") {
-										return (
-											<div class="flex middle x-sider-tree_menu_opration">
-												{genIcon({
-													icon: "add",
-													tips: vm.$t("添加用例").label,
-													clickHandler: $event =>
-														vm.showAddTestcaseDialog(_id, $event)
-												})}
-												{genIcon({
-													icon: "edit",
-													tips: vm.$t("修改集合").label,
-													clickHandler: $event =>
-														vm.showUpsertTestcaseCategoryDialog(item)
-												})}
-												{genIcon({
-													icon: "delete",
-													tips: vm.$t("删除集合").label,
-													clickHandler: $event => vm.deleteCategory(_id, $event)
-												})}
-											</div>
-										);
-									} else {
-										return (
-											<div class="flex middle x-sider-tree_menu_opration">
-												{genIcon({
-													icon: "delete",
-													tips: vm.$t("删除用例").label,
-													clickHandler: $event =>
-														vm.deleteInterface(_id, $event)
-												})}
-											</div>
-										);
-									}
-								})();
-
-								if (menuType === "category") {
-									return (
-										<div
-											class={classContentString}
-											onClick={handleClickMenuItem}>
-											<xGap l="10" />
-											<xIcon icon="subCategory" />
-											<span class="x-sider-tree_menu_title">
-												{title}
-											</span>
-											{vDomOpration}
 										</div>
 									);
 								} else {
 									return (
 										<div
 											class={classContentString}
-											onClick={handleClickMenuItem}>
+											onClick={() => {
+												vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
+												Methods_Wiki.setCurrentWiki(item.data._id);
+											}}>
+											<xGap l="10" />
+											<xIcon icon="article" />
 											<span class="x-sider-tree_menu_title">
 												<div class="flex middle">
 													<div class="testcase-title__wrapper mr4">
@@ -251,7 +163,19 @@ export const ProjectTestcaseLeftSider = defineComponent({
 													{title}
 												</div>
 											</span>
-											{vDomOpration}
+											<div class="flex middle x-sider-tree_menu_opration">
+												{genIcon({
+													icon: "edit",
+													tips: vm.$t("修改文档").label,
+													clickHandler: $event =>
+														vm.showUpsertArticleDialog(item)
+												})}
+												{genIcon({
+													icon: "delete",
+													tips: vm.$t("删除文档").label,
+													clickHandler: $event => vm.deleteCategory(_id, $event)
+												})}
+											</div>
 										</div>
 									);
 								}
@@ -264,7 +188,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 	},
 	methods: {
 		async handleDropInterface(e: AntTreeNodeDropEvent) {
-			this.State_ProjectTestcase.isLoading = true;
+			this.State_Wiki.isLoading = true;
 			/*
 			1.drag testcase
 				1.1 drop 到同一个category
@@ -274,7 +198,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 			*/
 			const dragItem = e.dragNode;
 			const dropItem = e.node;
-			const isDragInterface = dragItem.menuType === "testcase";
+			const isDragInterface = dragItem.type === "testcase";
 			const isDropSameCategory = dragItem.categoryId === dropItem.categoryId;
 
 			const params = { dragItem, dropItem };
@@ -289,18 +213,17 @@ export const ProjectTestcaseLeftSider = defineComponent({
 				} else {
 					await this.switchCategoryOrder(params);
 				}
-				Methods_ProjectTestcase.updateTestcaseMenuList();
 			} catch (error) {
 				UI.message.error(error.message);
 			} finally {
 				setTimeout(() => {
-					this.State_ProjectTestcase.isLoading = false;
+					this.State_Wiki.isLoading = false;
 				}, 400);
 			}
 		},
 		/* 同类 testcase */
 		async switchSameCategoryInterfaceOrder({ dragItem, dropItem }) {
-			const category = xU.find(this.State_ProjectTestcase.allCategory, {
+			const category = xU.find(this.State_Wiki.allCategory, {
 				_id: dragItem.categoryId
 			});
 			const paramsChanges = _$arrayChangeIndex(
@@ -319,15 +242,15 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		},
 		async switchCategoryOrder({ dragItem, dropItem }) {
 			const paramsChanges = _$arrayChangeIndex(
-				this.State_ProjectTestcase.allCategory,
+				this.State_Wiki.allCategory,
 				dragItem._id,
 				dropItem._id
 			);
 			await API.project.switchManyCategoryOrder(paramsChanges);
 		},
 		setFilterText: xU.debounce(function (filterText) {
-			this.State_ProjectTestcase.filterText = filterText;
-			this.State_ProjectTestcase.isLoading = false;
+			this.State_Wiki.filterText = filterText;
+			this.State_Wiki.isLoading = false;
 		}, 600),
 		setSelectedKeys(id) {
 			this.selectedKeys = [id];
@@ -345,7 +268,6 @@ export const ProjectTestcaseLeftSider = defineComponent({
 					try {
 						await API.project.deleteInterfaceById(id);
 						UI.message.success(vm.$t("删除用例成功").label);
-						Methods_ProjectTestcase.updateTestcaseMenuList();
 						vm.Cpt_url.go(
 							"/project/testcase/all",
 							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
@@ -359,13 +281,12 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		deleteCategory(id) {
 			const vm = this;
 			UI.dialog.confirm({
-				title: "确定删除此用例集合吗？",
-				content: `温馨提示：该操作会删除该集合下所有用例，用例删除后无法恢复`,
+				title: "确定删除此用例文档吗？",
+				content: `温馨提示：该操作会删除该文档下所有用例，用例删除后无法恢复`,
 				async onOk() {
 					try {
 						await API.project.deleteCategoryById(id);
-						UI.message.success("删除集合成功");
-						Methods_ProjectTestcase.updateTestcaseMenuList();
+						UI.message.success("删除文档成功");
 						vm.Cpt_url.go(
 							"/project/testcase/all",
 							xU.omit(vm.Cpt_url.query, ["category_id"])
@@ -377,11 +298,13 @@ export const ProjectTestcaseLeftSider = defineComponent({
 				}
 			});
 		},
-		showUpsertTestcaseCategoryDialog(category = false) {
+		showUpsertArticleDialog(parentDoc) {
 			UI.dialog.component({
-				title: category ? this.$t("修改集合").label : this.$t("添加集合").label,
-				component: DialogUpsertCategory,
-				category
+				title: parentDoc
+					? this.$t("修改文档").label
+					: this.$t("添加文档").label,
+				parentDoc,
+				component: DialogAddArtical
 			});
 		},
 		showAddTestcaseDialog(categoryId, $event: Event) {
@@ -391,7 +314,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 				title: this.$t("添加用例").label,
 				categoryId,
 				projectId: this.State_App.currProject._id,
-				component: DialogAddInterface
+				component: DialogAddArtical
 			});
 		}
 	},

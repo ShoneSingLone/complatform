@@ -45,7 +45,19 @@ export default {
 	},
 	methods: {
 		init() {
-			this.originHTML = this.md || this.$slots.default()[0].children;
+			this.originHTML = (() => {
+				if (xU.isInput(this.md)) {
+					return this.md;
+				}
+
+				if (xU.isFunction(this.$slots?.default)) {
+					const defaultItems = this.$slots?.default();
+					if (xU.isArrayFill(defaultItems)) {
+						return xU.first(defaultItems).children;
+					}
+				}
+				return "# No Data";
+			})();
 			const { Renderer } = marked;
 			marked.options = { langClass: "hljs" };
 			const renderer = new Renderer();

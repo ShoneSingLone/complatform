@@ -33,46 +33,19 @@ export const AppHeader = defineComponent({
 				group_id: this.Cpt_url.query.group_id
 			});
 		},
-		linkTo(e) {
-			if (e.key != "/doc") {
-				this.props.changeMenuItem(e.key);
-				if (!this.props.login) {
-					UI.notification.info("请先登录");
-				}
-			}
-		},
-		relieveLink() {
-			this.props.changeMenuItem("");
-		},
-		handleLogin(e) {
-			e.preventDefault();
-			this.props.loginTypeAction("1");
-		},
-		handleReg(e) {
-			e.preventDefault();
-			this.props.loginTypeAction("2");
+		goToWIKI() {
+			this.Cpt_url.go("/wiki", {});
 		}
 	},
 	computed: {
 		icon() {
-			if (this.Cpt_url.pathname === "/group") {
+			if (["/group", "/wiki"].includes(this.Cpt_url.pathname)) {
 				return "yapi_logo";
 			}
 			return "back_group";
 		},
 		ToolUser() {
-			let {
-				imageUrl,
-				uid,
-				groupList,
-				study,
-				studyTip,
-				user,
-				msg,
-				role,
-				logout,
-				isLogin
-			} = this.State_App.user;
+			let { imageUrl, uid, groupList, isLogin } = this.State_App.user;
 
 			if (!isLogin) {
 				return null;
@@ -117,6 +90,9 @@ export const AppHeader = defineComponent({
 			const avatarUrl = imageUrl ? imageUrl : `/api/user/avatar?uid=${uid}`;
 			return (
 				<div class="user-toolbar flex">
+					<span onClick={this.goToWIKI} class="flex middle pointer ml10">
+						<xIcon icon="wikidoc" style={this.styleLogo} />
+					</span>
 					<div class="toolbar-li item-search">
 						<Srch groupList={groupList} />
 					</div>
@@ -185,7 +161,6 @@ export const AppHeader = defineComponent({
 								</a>
 							);
 							if (key === "logout") {
-								let menuLink = <div class="flex horizon">{menuContent}</div>;
 							}
 
 							return <aMenuItem key={key}>{menuLink}</aMenuItem>;
@@ -204,42 +179,6 @@ export const AppHeader = defineComponent({
 		};
 	},
 	render() {
-		const tipFollow = (
-			<div class="title-container">
-				<h3 class="title">
-					<xIcon icon="star" />
-					关注
-				</h3>
-				<p>这里是你的专属收藏夹，便于你找到自己的项目</p>
-			</div>
-		);
-		const tipAdd = (
-			<div class="title-container">
-				<h3 class="title">
-					<xIcon icon="plus-circle" />
-					新建项目
-				</h3>
-				<p>在任何页面都可以快速新建项目</p>
-			</div>
-		);
-		const tipDoc = (
-			<div class="title-container">
-				<h3 class="title">
-					使用文档 <aTag color="orange">推荐!</aTag>
-				</h3>
-				<p>
-					初次使用 YApi，强烈建议你阅读{" "}
-					<a
-						target="_blank"
-						href="https://hellosean1025.github.io/yapi/"
-						rel="noopener noreferrer">
-						使用文档
-					</a>
-					，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！{" "}
-				</p>
-			</div>
-		);
-
 		return (
 			<aLayoutHeader class="header-box m-header elevation-4">
 				<div class="content g-row flex middle">

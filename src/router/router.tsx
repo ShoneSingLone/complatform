@@ -28,6 +28,14 @@ export const routes = [
 		}
 	},
 	{
+		path: `/wiki`,
+		componentName: "ViewWiki",
+		component: () => import("../containers/Wiki/ViewWiki.js"),
+		meta: {
+			title: $t("文档").label
+		}
+	},
+	{
 		path: `/project`,
 		componentName: "ViewProject",
 		component: () => import("../containers/Project/ViewProject.js"),
