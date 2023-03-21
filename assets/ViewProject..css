@@ -88,15 +88,15 @@
   transform: translateX(-32px);
 }
 
-#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu.Interfacesider-tree_menu_active,
-#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu.Interfacesider-tree_menu_active {
+#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu.x-sider-tree_menu_active,
+#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu.x-sider-tree_menu_active {
   color: var(--color-selected);
   background-color: var(--color-selected-bg);
   border-radius: 4px;
 }
 
-#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu .Interfacesider-tree_menu_title,
-#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu .Interfacesider-tree_menu_title {
+#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu .x-sider-tree_menu_title,
+#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu .x-sider-tree_menu_title {
   flex: 1;
   padding-left: 8px;
   width: 100px;
@@ -105,26 +105,26 @@
   white-space: nowrap;
 }
 
-#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu .Interfacesider-tree_menu_opration,
-#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu .Interfacesider-tree_menu_opration {
+#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu .x-sider-tree_menu_opration,
+#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu .x-sider-tree_menu_opration {
   display: none;
   opacity: 0;
   transition: 0.3s all ease-in-out;
 }
 
-#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu .Interfacesider-tree_menu_opration .Interfacesider-tree_menu_icon,
-#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu .Interfacesider-tree_menu_opration .Interfacesider-tree_menu_icon {
+#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu .x-sider-tree_menu_opration .x-sider-tree_menu_icon,
+#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu .x-sider-tree_menu_opration .x-sider-tree_menu_icon {
   width: 16px;
   height: 16px;
 }
 
-#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu .Interfacesider-tree_menu_opration .Interfacesider-tree_menu_icon:hover,
-#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu .Interfacesider-tree_menu_opration .Interfacesider-tree_menu_icon:hover {
+#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu .x-sider-tree_menu_opration .x-sider-tree_menu_icon:hover,
+#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu .x-sider-tree_menu_opration .x-sider-tree_menu_icon:hover {
   color: var(--color-selected);
 }
 
-#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu:hover .Interfacesider-tree_menu_opration,
-#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .Interfacesider-tree_menu:hover .Interfacesider-tree_menu_opration {
+#ViewProjectInterface .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu:hover .x-sider-tree_menu_opration,
+#ViewProjectTestcase .ViewProject-sider_wrapper .ViewProjectInterface_tree .ant-tree-treenode .ant-tree-node-content-wrapper .x-sider-tree_menu:hover .x-sider-tree_menu_opration {
   display: flex;
   opacity: 1;
 }
