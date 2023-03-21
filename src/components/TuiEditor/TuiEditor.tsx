@@ -46,7 +46,7 @@ export const TuiEditor = defineAsyncComponent(
 									initialEditType: "wysiwyg",
 									previewStyle: "vertical",
 									initialValue: vm.raw$md || "",
-									height: "auto",
+									height: "300px",
 									hooks: {
 										/* EventEmitter.prototype.emit  */
 										change: vm.sync,

@@ -38,6 +38,33 @@ export const Methods_Wiki = {
 		const { data } = await API.wiki.action({
 			action: "list"
 		});
-		State_Wiki.treeData = data.list;
+
+		State_Wiki.treeData = buildTree(data.list);
 	}
 };
+
+function buildTree(dataArray) {
+	/* findChildren */
+	var dataObj = xU.reduce(
+		dataArray,
+		(target, i) => {
+			target[i._id] = i;
+			return target;
+		},
+		{}
+	);
+
+	xU.each(dataObj, function (item) {
+		if (!item) return;
+
+		const parent = dataObj[item.p_id];
+		if (parent) {
+			if (!xU.isArray(parent.children)) {
+				parent.children = [];
+			}
+			parent.children.push(item);
+		}
+	});
+	const tree = xU.filter(dataObj, (item) => item.p_id === 0);
+	return tree;
+}

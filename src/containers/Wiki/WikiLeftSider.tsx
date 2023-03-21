@@ -138,7 +138,13 @@ export const WikiLeftSider = defineComponent({
 											<span class="x-sider-tree_menu_title">{title}</span>
 											<div class="flex middle x-sider-tree_menu_opration">
 												{genIcon({
-													icon: "refresh",
+													icon: "add",
+													tips: vm.$t("添加").label,
+													clickHandler: $event =>
+														vm.showUpsertArticleDialog(item.data)
+												})}
+												{genIcon({
+													icon: "delete",
 													tips: vm.$t("刷新").label,
 													clickHandler: vm.showUpsertArticleDialog
 												})}
@@ -164,12 +170,6 @@ export const WikiLeftSider = defineComponent({
 												</div>
 											</span>
 											<div class="flex middle x-sider-tree_menu_opration">
-												{genIcon({
-													icon: "edit",
-													tips: vm.$t("修改文档").label,
-													clickHandler: $event =>
-														vm.showUpsertArticleDialog(item)
-												})}
 												{genIcon({
 													icon: "delete",
 													tips: vm.$t("删除文档").label,
@@ -300,9 +300,7 @@ export const WikiLeftSider = defineComponent({
 		},
 		showUpsertArticleDialog(parentDoc) {
 			UI.dialog.component({
-				title: parentDoc
-					? this.$t("修改文档").label
-					: this.$t("添加文档").label,
+				title: this.$t("添加文档").label,
 				parentDoc,
 				component: DialogAddArtical
 			});

@@ -66,7 +66,8 @@ export const DialogAddArtical = defineComponent({
 	},
 	computed: {
 		pid() {
-			return !this.propDialogOptions.parentDoc?._id;
+			const _id = this.propDialogOptions.parentDoc?._id;
+			return _id || 0;
 		}
 	},
 	mounted() {
@@ -77,14 +78,15 @@ export const DialogAddArtical = defineComponent({
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
 				const { title, type } = pickValueFrom(this.dataXItem);
+				const params = {
+					title,
+					type,
+					p_id: this.pid
+				};
 				try {
 					const { data } = await API.wiki.action({
 						action: "upsertOne",
-						data: {
-							title,
-							type,
-							pid: this.pid
-						}
+						data: params
 					});
 
 					if (data) {

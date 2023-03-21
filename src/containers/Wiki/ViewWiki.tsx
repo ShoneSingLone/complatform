@@ -73,7 +73,7 @@ export const ViewWiki = defineComponent({
 							<Mkit md={this.wikiContent.md} />
 						</div>
 					) : (
-						<TuiEditor v-model={this.wikiContent} />
+						<TuiEditor v-model={this.wikiContent} readonly />
 					)}
 				</main>
 			</section>
