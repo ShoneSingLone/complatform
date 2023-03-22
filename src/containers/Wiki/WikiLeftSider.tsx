@@ -2,7 +2,7 @@ import { defineComponent, reactive, ref, watch } from "vue";
 import { $, xU, UI, compositionAPI, State_UI, $t } from "@ventose/ui";
 import { API } from "@/api/index";
 import { ARTICLE, FOLDER } from "@/utils/variable";
-import { DialogAddArtical } from "./DialogAddArtical";
+import { DialogAddArticle } from "./DialogAddArticle";
 import { Cpt_url } from "@/router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "@/utils/common";
@@ -16,6 +16,7 @@ const { usefnObserveDomResize } = compositionAPI;
 /* 文档 编辑、删除 */
 
 export const WikiLeftSider = defineComponent({
+	emits: ["change"],
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
@@ -50,7 +51,6 @@ export const WikiLeftSider = defineComponent({
 				position: "relative"
 			},
 			filterText: "",
-			selectedKeys: [ARTICLE],
 			siderHeight: 500,
 			configs: {
 				fieldNames: {
@@ -110,6 +110,9 @@ export const WikiLeftSider = defineComponent({
 								const { title, _id, type } = item;
 								const classContentString = (() => {
 									let _classString = "flex middle x-sider-tree_menu";
+									if (String(_id) == String(vm.State_Wiki.currentWiki._id)) {
+										return _classString + " x-sider-tree_menu_active";
+									}
 									return _classString;
 								})();
 
@@ -126,13 +129,18 @@ export const WikiLeftSider = defineComponent({
 										</>
 									);
 								};
+
+								const handleClick = () => {
+									vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
+									Methods_Wiki.setCurrentWiki(item.data._id);
+									vm.$emit("change");
+								};
+
 								if (type === FOLDER) {
+									const canDelete =
+										!item?.children || item?.children?.length === 0;
 									return (
-										<div
-											class={classContentString}
-											onClick={() => {
-												Methods_Wiki.setCurrentWiki(item);
-											}}>
+										<div class={classContentString} onClick={handleClick}>
 											<xGap l="10" />
 											<xIcon icon="folder" />
 											<span class="x-sider-tree_menu_title">{title}</span>
@@ -140,34 +148,25 @@ export const WikiLeftSider = defineComponent({
 												{genIcon({
 													icon: "add",
 													tips: vm.$t("添加").label,
-													clickHandler: $event =>
+													clickHandler: () =>
 														vm.showUpsertArticleDialog(item.data)
 												})}
-												{genIcon({
-													icon: "delete",
-													tips: vm.$t("刷新").label,
-													clickHandler: vm.showUpsertArticleDialog
-												})}
+												{canDelete &&
+													genIcon({
+														icon: "delete",
+														tips: vm.$t("删除").label,
+														clickHandler: vm.showUpsertArticleDialog
+													})}
 											</div>
 										</div>
 									);
 								} else {
 									return (
-										<div
-											class={classContentString}
-											onClick={() => {
-												vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
-												Methods_Wiki.setCurrentWiki(item.data._id);
-											}}>
+										<div class={classContentString} onClick={handleClick}>
 											<xGap l="10" />
 											<xIcon icon="article" />
 											<span class="x-sider-tree_menu_title">
-												<div class="flex middle">
-													<div class="testcase-title__wrapper mr4">
-														<span class="testcase-title">{_id}</span>
-													</div>
-													{title}
-												</div>
+												<div class="flex middle">{title}</div>
 											</span>
 											<div class="flex middle x-sider-tree_menu_opration">
 												{genIcon({
@@ -198,63 +197,39 @@ export const WikiLeftSider = defineComponent({
 			*/
 			const dragItem = e.dragNode;
 			const dropItem = e.node;
-			const isDragInterface = dragItem.type === "testcase";
-			const isDropSameCategory = dragItem.categoryId === dropItem.categoryId;
-
-			const params = { dragItem, dropItem };
-
+			const params = { dragItem: dragItem.dataRef, dropItem: dropItem.dataRef };
 			try {
-				if (isDragInterface) {
-					if (isDropSameCategory) {
-						await this.switchSameCategoryInterfaceOrder(params);
-					} else {
-						await this.switchDiffCategoryInterfaceOrder(params);
-					}
-				} else {
-					await this.switchCategoryOrder(params);
-				}
+				await this.moveItemToFolder(params);
 			} catch (error) {
 				UI.message.error(error.message);
 			} finally {
-				setTimeout(() => {
-					this.State_Wiki.isLoading = false;
-				}, 400);
+				this.State_Wiki.isLoading = false;
 			}
 		},
 		/* 同类 testcase */
-		async switchSameCategoryInterfaceOrder({ dragItem, dropItem }) {
-			const category = xU.find(this.State_Wiki.allCategory, {
-				_id: dragItem.categoryId
-			});
-			const paramsChanges = _$arrayChangeIndex(
-				category.list,
-				dragItem._id,
-				dropItem._id
-			);
-			await API.project.switchManyInterfaceOrder(paramsChanges);
-		},
-		/* testcase 换 category */
-		async switchDiffCategoryInterfaceOrder({ dragItem, dropItem }) {
-			await API.project.updateInterface({
-				id: dragItem._id,
-				catid: dropItem.categoryId
-			});
-		},
-		async switchCategoryOrder({ dragItem, dropItem }) {
-			const paramsChanges = _$arrayChangeIndex(
-				this.State_Wiki.allCategory,
-				dragItem._id,
-				dropItem._id
-			);
-			await API.project.switchManyCategoryOrder(paramsChanges);
+		async moveItemToFolder({ dragItem, dropItem }) {
+			dragItem = { ...dragItem };
+			dropItem = { ...dropItem };
+
+			if (dropItem.type === ARTICLE) {
+				dragItem.p_id = dropItem.p_id;
+			} else if (dropItem.type === FOLDER) {
+				dragItem.p_id = dropItem._id;
+			} else {
+				debugger;
+			}
+			try {
+				await API.wiki.action({ action: "upsertOne", data: dragItem });
+				await Methods_Wiki.updateWikiMenuList();
+				UI.message.success($t("更新成功").label);
+			} catch (error) {
+				UI.message.error(error.message);
+			}
 		},
 		setFilterText: xU.debounce(function (filterText) {
 			this.State_Wiki.filterText = filterText;
 			this.State_Wiki.isLoading = false;
 		}, 600),
-		setSelectedKeys(id) {
-			this.selectedKeys = [id];
-		},
 		/* vDomList 需要实际高度 */
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
@@ -302,7 +277,7 @@ export const WikiLeftSider = defineComponent({
 			UI.dialog.component({
 				title: this.$t("添加文档").label,
 				parentDoc,
-				component: DialogAddArtical
+				component: DialogAddArticle
 			});
 		},
 		showAddTestcaseDialog(categoryId, $event: Event) {
@@ -312,7 +287,7 @@ export const WikiLeftSider = defineComponent({
 				title: this.$t("添加用例").label,
 				categoryId,
 				projectId: this.State_App.currProject._id,
-				component: DialogAddArtical
+				component: DialogAddArticle
 			});
 		}
 	},

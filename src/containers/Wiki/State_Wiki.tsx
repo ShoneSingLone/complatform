@@ -9,7 +9,7 @@ const { $t } = State_UI;
 const defautlValue = () => ({
 	treeData: [],
 	isLoading: false,
-	allWiki: [],
+	allWiki: {},
 	currentWiki: {},
 	/* 左侧 树 展开 */
 	expandedKeys: []
@@ -27,25 +27,44 @@ const _State_Wiki = defautlValue();
 export const State_Wiki = reactive(_State_Wiki);
 
 export const Methods_Wiki = {
-	async setCurrentWiki(_id) {
+	setExpandedKeys: xU.debounce(async _id => {
+		const expandedKeys = new Set(State_Wiki.expandedKeys);
+		let currentWiki = State_Wiki.allWiki[_id];
+		while (currentWiki) {
+			expandedKeys.add(currentWiki._id);
+			if (currentWiki.p_id !== 0) {
+				currentWiki = State_Wiki.allWiki[currentWiki.p_id];
+			} else {
+				currentWiki = null;
+			}
+		}
+		State_Wiki.expandedKeys = [...expandedKeys];
+		/*  */
+	}, 100),
+	async setCurrentWiki(_id, item) {
+		if (item) {
+			State_Wiki.currentWiki = item;
+			Methods_Wiki.setExpandedKeys(item._id);
+			return;
+		}
 		const { data } = await API.wiki.action({
 			action: "detail",
 			_id
 		});
-		State_Wiki.currentWiki = data;
+		if (data) {
+			State_Wiki.currentWiki = data;
+			Methods_Wiki.setExpandedKeys(_id);
+		}
 	},
 	async updateWikiMenuList() {
-		const { data } = await API.wiki.action({
-			action: "list"
-		});
-
+		const { data } = await API.wiki.menu();
 		State_Wiki.treeData = buildTree(data.list);
 	}
 };
 
 function buildTree(dataArray) {
 	/* findChildren */
-	var dataObj = xU.reduce(
+	State_Wiki.allWiki = xU.reduce(
 		dataArray,
 		(target, i) => {
 			target[i._id] = i;
@@ -54,10 +73,10 @@ function buildTree(dataArray) {
 		{}
 	);
 
-	xU.each(dataObj, function (item) {
+	xU.each(State_Wiki.allWiki, function (item) {
 		if (!item) return;
 
-		const parent = dataObj[item.p_id];
+		const parent = State_Wiki.allWiki[item.p_id];
 		if (parent) {
 			if (!xU.isArray(parent.children)) {
 				parent.children = [];
@@ -65,6 +84,6 @@ function buildTree(dataArray) {
 			parent.children.push(item);
 		}
 	});
-	const tree = xU.filter(dataObj, (item) => item.p_id === 0);
+	const tree = xU.filter(State_Wiki.allWiki, item => item.p_id === 0);
 	return tree;
 }

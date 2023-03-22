@@ -19,8 +19,9 @@ import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
 import { Methods_Wiki } from "./State_Wiki";
+import { ARTICLE } from "@/utils/variable";
 
-export const DialogAddArtical = defineComponent({
+export const DialogAddArticle = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
 		propDialogOptions: {
@@ -39,7 +40,7 @@ export const DialogAddArtical = defineComponent({
 			dataXItem: {
 				...defItem({
 					prop: "type",
-					value: "artical",
+					value: ARTICLE,
 					label: $t("类型").label,
 					itemType: "RadioGroup",
 					options: ITEM_OPTIONS.wikiType,
@@ -92,6 +93,7 @@ export const DialogAddArtical = defineComponent({
 					if (data) {
 						UI.message.success("添加接口成功");
 						Methods_Wiki.updateWikiMenuList();
+						Methods_Wiki.setCurrentWiki(data.msg._id);
 						this.propDialogOptions.closeDialog();
 					}
 				} catch (error) {

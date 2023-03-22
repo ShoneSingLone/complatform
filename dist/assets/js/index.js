@@ -621,23 +621,23 @@ const arrayInstrumentations = /* @__PURE__ */ createArrayInstrumentations();
 function createArrayInstrumentations() {
   const instrumentations = {};
   ["includes", "indexOf", "lastIndexOf"].forEach((key2) => {
-    instrumentations[key2] = function(...args2) {
+    instrumentations[key2] = function(...args) {
       const arr = toRaw(this);
       for (let i2 = 0, l2 = this.length; i2 < l2; i2++) {
         track(arr, "get", i2 + "");
       }
-      const res = arr[key2](...args2);
+      const res = arr[key2](...args);
       if (res === -1 || res === false) {
-        return arr[key2](...args2.map(toRaw));
+        return arr[key2](...args.map(toRaw));
       } else {
         return res;
       }
     };
   });
   ["push", "pop", "shift", "unshift", "splice"].forEach((key2) => {
-    instrumentations[key2] = function(...args2) {
+    instrumentations[key2] = function(...args) {
       pauseTracking();
-      const res = toRaw(this)[key2].apply(this, args2);
+      const res = toRaw(this)[key2].apply(this, args);
       resetTracking();
       return res;
     };
@@ -866,13 +866,13 @@ function createForEach(isReadonly2, isShallow2) {
   };
 }
 function createIterableMethod(method4, isReadonly2, isShallow2) {
-  return function(...args2) {
+  return function(...args) {
     const target = this["__v_raw"];
     const rawTarget = toRaw(target);
     const targetIsMap = isMap$3(rawTarget);
     const isPair = method4 === "entries" || method4 === Symbol.iterator && targetIsMap;
     const isKeyOnly = method4 === "keys" && targetIsMap;
-    const innerIterator = target[method4](...args2);
+    const innerIterator = target[method4](...args);
     const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive$1;
     !isReadonly2 && track(rawTarget, "iterate", isKeyOnly ? MAP_KEY_ITERATE_KEY : ITERATE_KEY);
     return {
@@ -890,7 +890,7 @@ function createIterableMethod(method4, isReadonly2, isShallow2) {
   };
 }
 function createReadonlyMethod(type4) {
-  return function(...args2) {
+  return function(...args) {
     return type4 === "delete" ? false : this;
   };
 }
@@ -1243,24 +1243,24 @@ function computed$1(getterOrOptions, debugOptions, isSSR = false) {
   const cRef = new ComputedRefImpl(getter, setter, onlyGetter || !setter, isSSR);
   return cRef;
 }
-function warn(msg, ...args2) {
+function warn(msg, ...args) {
   return;
 }
 function assertNumber(val, type4) {
   return;
 }
-function callWithErrorHandling(fn, instance, type4, args2) {
+function callWithErrorHandling(fn, instance, type4, args) {
   let res;
   try {
-    res = args2 ? fn(...args2) : fn();
+    res = args ? fn(...args) : fn();
   } catch (err) {
     handleError(err, instance, type4);
   }
   return res;
 }
-function callWithAsyncErrorHandling(fn, instance, type4, args2) {
+function callWithAsyncErrorHandling(fn, instance, type4, args) {
   if (isFunction$3(fn)) {
-    const res = callWithErrorHandling(fn, instance, type4, args2);
+    const res = callWithErrorHandling(fn, instance, type4, args);
     if (res && isPromise(res)) {
       res.catch((err) => {
         handleError(err, instance, type4);
@@ -1270,7 +1270,7 @@ function callWithAsyncErrorHandling(fn, instance, type4, args2) {
   }
   const values = [];
   for (let i2 = 0; i2 < fn.length; i2++) {
-    values.push(callWithAsyncErrorHandling(fn[i2], instance, type4, args2));
+    values.push(callWithAsyncErrorHandling(fn[i2], instance, type4, args));
   }
   return values;
 }
@@ -1429,7 +1429,7 @@ function setDevtoolsHook(hook, target) {
   devtools = hook;
   if (devtools) {
     devtools.enabled = true;
-    buffer$1.forEach(({ event: event2, args: args2 }) => devtools.emit(event2, ...args2));
+    buffer$1.forEach(({ event: event2, args }) => devtools.emit(event2, ...args));
     buffer$1 = [];
   } else if (typeof window !== "undefined" && window.HTMLElement && !((_b = (_a = window.navigator) === null || _a === void 0 ? void 0 : _a.userAgent) === null || _b === void 0 ? void 0 : _b.includes("jsdom"))) {
     const replay = target.__VUE_DEVTOOLS_HOOK_REPLAY__ = target.__VUE_DEVTOOLS_HOOK_REPLAY__ || [];
@@ -1450,17 +1450,17 @@ function emit(instance, event2, ...rawArgs) {
   if (instance.isUnmounted)
     return;
   const props3 = instance.vnode.props || EMPTY_OBJ;
-  let args2 = rawArgs;
+  let args = rawArgs;
   const isModelListener2 = event2.startsWith("update:");
   const modelArg = isModelListener2 && event2.slice(7);
   if (modelArg && modelArg in props3) {
     const modifiersKey = `${modelArg === "modelValue" ? "model" : modelArg}Modifiers`;
     const { number: number4, trim: trim2 } = props3[modifiersKey] || EMPTY_OBJ;
     if (trim2) {
-      args2 = rawArgs.map((a2) => isString$4(a2) ? a2.trim() : a2);
+      args = rawArgs.map((a2) => isString$4(a2) ? a2.trim() : a2);
     }
     if (number4) {
-      args2 = rawArgs.map(looseToNumber);
+      args = rawArgs.map(looseToNumber);
     }
   }
   let handlerName;
@@ -1469,7 +1469,7 @@ function emit(instance, event2, ...rawArgs) {
     handler5 = props3[handlerName = toHandlerKey(hyphenate$1(event2))];
   }
   if (handler5) {
-    callWithAsyncErrorHandling(handler5, instance, 6, args2);
+    callWithAsyncErrorHandling(handler5, instance, 6, args);
   }
   const onceHandler = props3[handlerName + `Once`];
   if (onceHandler) {
@@ -1479,7 +1479,7 @@ function emit(instance, event2, ...rawArgs) {
       return;
     }
     instance.emitted[handlerName] = true;
-    callWithAsyncErrorHandling(onceHandler, instance, 6, args2);
+    callWithAsyncErrorHandling(onceHandler, instance, 6, args);
   }
 }
 function normalizeEmitsOptions(comp, appContext, asMixin = false) {
@@ -1553,14 +1553,14 @@ function withCtx(fn, ctx = currentRenderingInstance, isNonScopedSlot) {
   if (fn._n) {
     return fn;
   }
-  const renderFnWithContext = (...args2) => {
+  const renderFnWithContext = (...args) => {
     if (renderFnWithContext._d) {
       setBlockTracking(-1);
     }
     const prevInstance = setCurrentRenderingInstance(ctx);
     let res;
     try {
-      res = fn(...args2);
+      res = fn(...args);
     } finally {
       setCurrentRenderingInstance(prevInstance);
       if (renderFnWithContext._d) {
@@ -2421,12 +2421,12 @@ function resolveTransitionHooks(vnode, props3, state, instance) {
   const { appear, mode, persisted = false, onBeforeEnter, onEnter, onAfterEnter, onEnterCancelled, onBeforeLeave, onLeave, onAfterLeave, onLeaveCancelled, onBeforeAppear, onAppear, onAfterAppear, onAppearCancelled } = props3;
   const key2 = String(vnode.key);
   const leavingVNodesCache = getLeavingNodesForType(state, vnode);
-  const callHook2 = (hook, args2) => {
-    hook && callWithAsyncErrorHandling(hook, instance, 9, args2);
+  const callHook2 = (hook, args) => {
+    hook && callWithAsyncErrorHandling(hook, instance, 9, args);
   };
-  const callAsyncHook = (hook, args2) => {
-    const done = args2[1];
-    callHook2(hook, args2);
+  const callAsyncHook = (hook, args) => {
+    const done = args[1];
+    callHook2(hook, args);
     if (isArray$9(hook)) {
       if (hook.every((hook2) => hook2.length <= 1))
         done();
@@ -2901,13 +2901,13 @@ function getInnerChild(vnode) {
 function injectHook(type4, hook, target = currentInstance, prepend = false) {
   if (target) {
     const hooks = target[type4] || (target[type4] = []);
-    const wrappedHook = hook.__weh || (hook.__weh = (...args2) => {
+    const wrappedHook = hook.__weh || (hook.__weh = (...args) => {
       if (target.isUnmounted) {
         return;
       }
       pauseTracking();
       setCurrentInstance(target);
-      const res = callWithAsyncErrorHandling(hook, target, type4, args2);
+      const res = callWithAsyncErrorHandling(hook, target, type4, args);
       unsetCurrentInstance();
       resetTracking();
       return res;
@@ -2920,7 +2920,7 @@ function injectHook(type4, hook, target = currentInstance, prepend = false) {
     return wrappedHook;
   }
 }
-const createHook = (lifecycle) => (hook, target = currentInstance) => (!isInSSRComponentSetup || lifecycle === "sp") && injectHook(lifecycle, (...args2) => hook(...args2), target);
+const createHook = (lifecycle) => (hook, target = currentInstance) => (!isInSSRComponentSetup || lifecycle === "sp") && injectHook(lifecycle, (...args) => hook(...args), target);
 const onBeforeMount = createHook("bm");
 const onMounted = createHook("m");
 const onBeforeUpdate = createHook("bu");
@@ -3061,8 +3061,8 @@ function createSlots(slots, dynamicSlots) {
         slots[slot[j2].name] = slot[j2].fn;
       }
     } else if (slot) {
-      slots[slot.name] = slot.key ? (...args2) => {
-        const res = slot.fn(...args2);
+      slots[slot.name] = slot.key ? (...args) => {
+        const res = slot.fn(...args);
         if (res)
           res.key = slot.key;
         return res;
@@ -3772,10 +3772,10 @@ const normalizeSlot = (key2, rawSlot, ctx) => {
   if (rawSlot._n) {
     return rawSlot;
   }
-  const normalized = withCtx((...args2) => {
+  const normalized = withCtx((...args) => {
     if (false)
       ;
-    return normalizeSlotValue(rawSlot(...args2));
+    return normalizeSlotValue(rawSlot(...args));
   }, ctx);
   normalized._c = false;
   return normalized;
@@ -5529,10 +5529,10 @@ function normalizeChildren(vnode, children) {
   vnode.children = children;
   vnode.shapeFlag |= type4;
 }
-function mergeProps(...args2) {
+function mergeProps(...args) {
   const ret = {};
-  for (let i2 = 0; i2 < args2.length; i2++) {
-    const toMerge = args2[i2];
+  for (let i2 = 0; i2 < args.length; i2++) {
+    const toMerge = args[i2];
     for (const key2 in toMerge) {
       if (key2 === "class") {
         if (ret.class !== toMerge.class) {
@@ -6271,7 +6271,7 @@ class VueElement extends BaseClass {
     this._connected = false;
     nextTick(() => {
       if (!this._connected) {
-        render$a(null, this.shadowRoot);
+        render$b(null, this.shadowRoot);
         this._instance = null;
       }
     });
@@ -6362,7 +6362,7 @@ class VueElement extends BaseClass {
     }
   }
   _update() {
-    render$a(this._createVNode(), this.shadowRoot);
+    render$b(this._createVNode(), this.shadowRoot);
   }
   _createVNode() {
     const vnode = createVNode(this._def, extend$1({}, this._props));
@@ -6370,15 +6370,15 @@ class VueElement extends BaseClass {
       vnode.ce = (instance) => {
         this._instance = instance;
         instance.isCE = true;
-        const dispatch2 = (event2, args2) => {
+        const dispatch2 = (event2, args) => {
           this.dispatchEvent(new CustomEvent(event2, {
-            detail: args2
+            detail: args
           }));
         };
-        instance.emit = (event2, ...args2) => {
-          dispatch2(event2, args2);
+        instance.emit = (event2, ...args) => {
+          dispatch2(event2, args);
           if (hyphenate$1(event2) !== event2) {
-            dispatch2(hyphenate$1(event2), args2);
+            dispatch2(hyphenate$1(event2), args);
           }
         };
         let parent2 = this;
@@ -6498,11 +6498,11 @@ const DOMTransitionPropsValidators = {
   leaveToClass: String
 };
 const TransitionPropsValidators = Transition$1.props = /* @__PURE__ */ extend$1({}, BaseTransition.props, DOMTransitionPropsValidators);
-const callHook = (hook, args2 = []) => {
+const callHook = (hook, args = []) => {
   if (isArray$9(hook)) {
-    hook.forEach((h2) => h2(...args2));
+    hook.forEach((h2) => h2(...args));
   } else if (hook) {
-    hook(...args2);
+    hook(...args);
   }
 };
 const hasExplicitCallback = (hook) => {
@@ -7082,13 +7082,13 @@ const modifierGuards = {
   exact: (e2, modifiers) => systemModifiers.some((m2) => e2[`${m2}Key`] && !modifiers.includes(m2))
 };
 const withModifiers = (fn, modifiers) => {
-  return (event2, ...args2) => {
+  return (event2, ...args) => {
     for (let i2 = 0; i2 < modifiers.length; i2++) {
       const guard = modifierGuards[modifiers[i2]];
       if (guard && guard(event2, modifiers))
         return;
     }
-    return fn(event2, ...args2);
+    return fn(event2, ...args);
   };
 };
 const keyNames = {
@@ -7167,14 +7167,14 @@ function ensureHydrationRenderer() {
   enabledHydration = true;
   return renderer;
 }
-const render$a = (...args2) => {
-  ensureRenderer().render(...args2);
+const render$b = (...args) => {
+  ensureRenderer().render(...args);
 };
-const hydrate = (...args2) => {
-  ensureHydrationRenderer().hydrate(...args2);
+const hydrate = (...args) => {
+  ensureHydrationRenderer().hydrate(...args);
 };
-const createApp = (...args2) => {
-  const app = ensureRenderer().createApp(...args2);
+const createApp = (...args) => {
+  const app = ensureRenderer().createApp(...args);
   const { mount } = app;
   app.mount = (containerOrSelector) => {
     const container = normalizeContainer(containerOrSelector);
@@ -7194,8 +7194,8 @@ const createApp = (...args2) => {
   };
   return app;
 };
-const createSSRApp = (...args2) => {
-  const app = ensureHydrationRenderer().createApp(...args2);
+const createSSRApp = (...args) => {
+  const app = ensureHydrationRenderer().createApp(...args);
   const { mount } = app;
   app.mount = (containerOrSelector) => {
     const container = normalizeContainer(containerOrSelector);
@@ -7231,7 +7231,7 @@ const runtimeDom = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePr
   defineSSRCustomElement,
   hydrate,
   initDirectivesForSSR,
-  render: render$a,
+  render: render$b,
   useCssModule,
   useCssVars,
   vModelCheckbox,
@@ -7551,12 +7551,12 @@ function createCompoundExpression(children, loc = locStub) {
     children
   };
 }
-function createCallExpression(callee, args2 = [], loc = locStub) {
+function createCallExpression(callee, args = [], loc = locStub) {
   return {
     type: 14,
     loc,
     callee,
-    arguments: args2
+    arguments: args
   };
 }
 function createFunctionExpression(params, returns = void 0, newline = false, isSlot = false, loc = locStub) {
@@ -7863,7 +7863,7 @@ function isCompatEnabled(key2, context2) {
   const value = getCompatValue(key2, context2);
   return mode === 3 ? value === true : value !== false;
 }
-function checkCompatEnabled(key2, context2, loc, ...args2) {
+function checkCompatEnabled(key2, context2, loc, ...args) {
   const enabled = isCompatEnabled(key2, context2);
   return enabled;
 }
@@ -9038,8 +9038,8 @@ function generate$2(ast, options = {}) {
     genFunctionPreamble(ast, preambleContext);
   }
   const functionName = ssr ? `ssrRender` : `render`;
-  const args2 = ssr ? ["_ctx", "_push", "_parent", "_attrs"] : ["_ctx", "_cache"];
-  const signature = args2.join(", ");
+  const args = ssr ? ["_ctx", "_push", "_parent", "_attrs"] : ["_ctx", "_cache"];
+  const signature = args.join(", ");
   {
     push2(`function ${functionName}(${signature}) {`);
   }
@@ -9317,13 +9317,13 @@ function genVNodeCall(node, context2) {
     push2(`)`);
   }
 }
-function genNullableArgs(args2) {
-  let i2 = args2.length;
+function genNullableArgs(args) {
+  let i2 = args.length;
   while (i2--) {
-    if (args2[i2] != null)
+    if (args[i2] != null)
       break;
   }
-  return args2.slice(0, i2 + 1).map((arg) => arg || `null`);
+  return args.slice(0, i2 + 1).map((arg) => arg || `null`);
 }
 function genCallExpression(node, context2) {
   const { push: push2, helper, pure } = context2;
@@ -9734,13 +9734,13 @@ function createAliasExpression(range3, content, offset3) {
 function createForLoopParams({ value, key: key2, index: index2 }, memoArgs = []) {
   return createParamsList([value, key2, index2, ...memoArgs]);
 }
-function createParamsList(args2) {
-  let i2 = args2.length;
+function createParamsList(args) {
+  let i2 = args.length;
   while (i2--) {
-    if (args2[i2])
+    if (args[i2])
       break;
   }
-  return args2.slice(0, i2 + 1).map((arg, i3) => arg || createSimpleExpression(`_`.repeat(i3 + 1), false));
+  return args.slice(0, i2 + 1).map((arg, i3) => arg || createSimpleExpression(`_`.repeat(i3 + 1), false));
 }
 const defaultFallback = createSimpleExpression(`undefined`, false);
 const trackSlotScopes = (node, context2) => {
@@ -10747,9 +10747,9 @@ function wrapFilter(exp, filter, context2) {
     return `${toValidAssetId(filter, "filter")}(${exp})`;
   } else {
     const name2 = filter.slice(0, i2);
-    const args2 = filter.slice(i2 + 1);
+    const args = filter.slice(i2 + 1);
     context2.filters.add(name2);
-    return `${toValidAssetId(name2, "filter")}(${exp}${args2 !== ")" ? "," + args2 : args2}`;
+    return `${toValidAssetId(name2, "filter")}(${exp}${args !== ")" ? "," + args : args}`;
   }
 }
 const seen$2 = /* @__PURE__ */ new WeakSet();
@@ -11181,6 +11181,9 @@ function compileToFunction(template, options) {
   return compileCache[key2] = render14;
 }
 registerRuntimeCompiler(compileToFunction);
+const Home = "";
+const App$1 = "";
+const style$1 = "";
 const style = "";
 const Footer$2 = "";
 const index$n = "";
@@ -12359,18 +12362,18 @@ wrapperRaf.cancel = function(id) {
 };
 function throttleByAnimationFrame(fn) {
   var requestId;
-  var later = function later2(args2) {
+  var later = function later2(args) {
     return function() {
       requestId = null;
-      fn.apply(void 0, _toConsumableArray(args2));
+      fn.apply(void 0, _toConsumableArray(args));
     };
   };
   var throttled = function throttled2() {
     if (requestId == null) {
-      for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-        args2[_key] = arguments[_key];
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
-      requestId = wrapperRaf(later(args2));
+      requestId = wrapperRaf(later(args));
     }
   };
   throttled.cancel = function() {
@@ -12379,16 +12382,16 @@ function throttleByAnimationFrame(fn) {
   return throttled;
 }
 var tuple$1 = function tuple() {
-  for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-    args2[_key] = arguments[_key];
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
   }
-  return args2;
+  return args;
 };
 var tupleNum = function tupleNum2() {
-  for (var _len2 = arguments.length, args2 = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    args2[_key2] = arguments[_key2];
+  for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    args[_key2] = arguments[_key2];
   }
-  return args2;
+  return args;
 };
 var withInstall = function withInstall2(comp) {
   var c2 = comp;
@@ -13661,7 +13664,7 @@ Notification.newInstance = function newNotificationInstance(properties, callback
             (_notiRef$value2 = notiRef.value) === null || _notiRef$value2 === void 0 ? void 0 : _notiRef$value2.remove(key2);
           },
           destroy: function destroy3() {
-            render$a(null, div);
+            render$b(null, div);
             if (div.parentNode) {
               div.parentNode.removeChild(div);
             }
@@ -13692,7 +13695,7 @@ Notification.newInstance = function newNotificationInstance(properties, callback
   });
   var vm = createVNode(Wrapper, props3);
   vm.appContext = appContext || vm.appContext;
-  render$a(vm, div);
+  render$b(vm, div);
 };
 const Notification$1 = Notification;
 var LoadingOutlined$2 = { "icon": { "tag": "svg", "attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" }, "children": [{ "tag": "path", "attrs": { "d": "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z" } }] }, "name": "loading", "theme": "outlined" };
@@ -15402,21 +15405,21 @@ function setMessageConfig(options) {
     rtl$1 = options.rtl;
   }
 }
-function getMessageInstance(args2, callback) {
+function getMessageInstance(args, callback) {
   if (messageInstance) {
     callback(messageInstance);
     return;
   }
   Notification$1.newInstance({
-    appContext: args2.appContext,
-    prefixCls: args2.prefixCls || localPrefixCls,
-    rootPrefixCls: args2.rootPrefixCls,
+    appContext: args.appContext,
+    prefixCls: args.prefixCls || localPrefixCls,
+    rootPrefixCls: args.rootPrefixCls,
     transitionName,
     hasTransitionName,
     style: {
       top: defaultTop$1
     },
-    getContainer: getContainer$1 || args2.getPopupContainer,
+    getContainer: getContainer$1 || args.getPopupContainer,
     maxCount: maxCount$1,
     name: "message"
   }, function(instance) {
@@ -15435,34 +15438,34 @@ var typeToIcon$1 = {
   warning: ExclamationCircleFilled$1,
   loading: LoadingOutlined$1
 };
-function notice$1(args2) {
-  var duration = args2.duration !== void 0 ? args2.duration : defaultDuration$1;
-  var target = args2.key || getKeyThenIncreaseKey();
+function notice$1(args) {
+  var duration = args.duration !== void 0 ? args.duration : defaultDuration$1;
+  var target = args.key || getKeyThenIncreaseKey();
   var closePromise = new Promise(function(resolve2) {
     var callback = function callback2() {
-      if (typeof args2.onClose === "function") {
-        args2.onClose();
+      if (typeof args.onClose === "function") {
+        args.onClose();
       }
       return resolve2(true);
     };
-    getMessageInstance(args2, function(instance) {
+    getMessageInstance(args, function(instance) {
       instance.notice({
         key: target,
         duration,
-        style: args2.style || {},
-        class: args2.class,
+        style: args.style || {},
+        class: args.class,
         content: function content(_ref) {
           var _classNames;
           var prefixCls = _ref.prefixCls;
-          var Icon3 = typeToIcon$1[args2.type];
+          var Icon3 = typeToIcon$1[args.type];
           var iconNode = Icon3 ? createVNode(Icon3, null, null) : "";
-          var messageClass = classNames("".concat(prefixCls, "-custom-content"), (_classNames = {}, _defineProperty$U(_classNames, "".concat(prefixCls, "-").concat(args2.type), args2.type), _defineProperty$U(_classNames, "".concat(prefixCls, "-rtl"), rtl$1 === true), _classNames));
+          var messageClass = classNames("".concat(prefixCls, "-custom-content"), (_classNames = {}, _defineProperty$U(_classNames, "".concat(prefixCls, "-").concat(args.type), args.type), _defineProperty$U(_classNames, "".concat(prefixCls, "-rtl"), rtl$1 === true), _classNames));
           return createVNode("div", {
             "class": messageClass
-          }, [typeof args2.icon === "function" ? args2.icon() : args2.icon || iconNode, createVNode("span", null, [typeof args2.content === "function" ? args2.content() : args2.content])]);
+          }, [typeof args.icon === "function" ? args.icon() : args.icon || iconNode, createVNode("span", null, [typeof args.content === "function" ? args.content() : args.content])]);
         },
         onClose: callback,
-        onClick: args2.onClick
+        onClick: args.onClick
       });
     });
   });
@@ -15536,9 +15539,9 @@ function asyncGeneratorStep(gen, resolve2, reject, _next, _throw, key2, arg) {
 }
 function _asyncToGenerator(fn) {
   return function() {
-    var self2 = this, args2 = arguments;
+    var self2 = this, args = arguments;
     return new Promise(function(resolve2, reject) {
-      var gen = fn.apply(self2, args2);
+      var gen = fn.apply(self2, args);
       function _next(value) {
         asyncGeneratorStep(gen, resolve2, reject, _next, _throw, "next", value);
       }
@@ -16208,10 +16211,10 @@ var typeToIcon = {
   error: CloseCircleOutlined$1,
   warning: ExclamationCircleOutlined$1
 };
-function notice(args2) {
-  var icon = args2.icon, type4 = args2.type, description = args2.description, message2 = args2.message, btn = args2.btn;
-  var duration = args2.duration === void 0 ? defaultDuration : args2.duration;
-  getNotificationInstance(args2, function(notification2) {
+function notice(args) {
+  var icon = args.icon, type4 = args.type, description = args.description, message2 = args.message, btn = args.btn;
+  var duration = args.duration === void 0 ? defaultDuration : args.duration;
+  getNotificationInstance(args, function(notification2) {
     notification2.notice({
       content: function content(_ref3) {
         var outerPrefixCls = _ref3.prefixCls;
@@ -16245,11 +16248,11 @@ function notice(args2) {
       },
       duration,
       closable: true,
-      onClose: args2.onClose,
-      onClick: args2.onClick,
-      key: args2.key,
-      style: args2.style || {},
-      class: args2.class
+      onClose: args.onClose,
+      onClick: args.onClick,
+      key: args.key,
+      style: args.style || {},
+      class: args.class
     });
   });
 }
@@ -16274,8 +16277,8 @@ var api = {
 };
 var iconTypes = ["success", "info", "warning", "error"];
 iconTypes.forEach(function(type4) {
-  api[type4] = function(args2) {
-    return api.open(_objectSpread2$1(_objectSpread2$1({}, args2), {}, {
+  api[type4] = function(args) {
+    return api.open(_objectSpread2$1(_objectSpread2$1({}, args), {}, {
       type: type4
     }));
   };
@@ -18176,16 +18179,16 @@ var cssShow = {
   display: "block"
 };
 function getWHIgnoreDisplay() {
-  for (var _len = arguments.length, args2 = new Array(_len), _key2 = 0; _key2 < _len; _key2++) {
-    args2[_key2] = arguments[_key2];
+  for (var _len = arguments.length, args = new Array(_len), _key2 = 0; _key2 < _len; _key2++) {
+    args[_key2] = arguments[_key2];
   }
   var val;
-  var elem = args2[0];
+  var elem = args[0];
   if (elem.offsetWidth !== 0) {
-    val = getWH.apply(void 0, args2);
+    val = getWH.apply(void 0, args);
   } else {
     swap(elem, cssShow, function() {
-      val = getWH.apply(void 0, args2);
+      val = getWH.apply(void 0, args);
     });
   }
   return val;
@@ -19829,17 +19832,17 @@ const BaseMixin = {
       });
     },
     __emit: function __emit() {
-      var args2 = [].slice.call(arguments, 0);
-      var eventName = args2[0];
+      var args = [].slice.call(arguments, 0);
+      var eventName = args[0];
       eventName = "on".concat(eventName[0].toUpperCase()).concat(eventName.substring(1));
       var event2 = this.$props[eventName] || this.$attrs[eventName];
-      if (args2.length && event2) {
+      if (args.length && event2) {
         if (Array.isArray(event2)) {
           for (var i2 = 0, l2 = event2.length; i2 < l2; i2++) {
-            event2[i2].apply(event2, _toConsumableArray(args2.slice(1)));
+            event2[i2].apply(event2, _toConsumableArray(args.slice(1)));
           }
         } else {
-          event2.apply(void 0, _toConsumableArray(args2.slice(1)));
+          event2.apply(void 0, _toConsumableArray(args.slice(1)));
         }
       }
     }
@@ -21102,13 +21105,13 @@ var Input$2 = defineComponent({
           VCSelectContainerEvent === null || VCSelectContainerEvent === void 0 ? void 0 : VCSelectContainerEvent.focus(arguments.length <= 0 ? void 0 : arguments[0]);
         },
         onBlur: function onBlur2() {
-          for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-            args2[_key] = arguments[_key];
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
           }
           blurTimeout = setTimeout(function() {
-            onOriginBlur && onOriginBlur(args2[0]);
-            _onBlur && _onBlur(args2[0]);
-            VCSelectContainerEvent === null || VCSelectContainerEvent === void 0 ? void 0 : VCSelectContainerEvent.blur(args2[0]);
+            onOriginBlur && onOriginBlur(args[0]);
+            _onBlur && _onBlur(args[0]);
+            VCSelectContainerEvent === null || VCSelectContainerEvent === void 0 ? void 0 : VCSelectContainerEvent.blur(args[0]);
           }, 100);
         }
       }), inputNode.type === "textarea" ? {} : {
@@ -23797,11 +23800,11 @@ var OptionList$2 = defineComponent({
     var onListMouseDown = function onListMouseDown2(event2) {
       event2.preventDefault();
     };
-    var scrollIntoView2 = function scrollIntoView3(args2) {
+    var scrollIntoView2 = function scrollIntoView3(args) {
       if (listRef.current) {
-        listRef.current.scrollTo(typeof args2 === "number" ? {
-          index: args2
-        } : args2);
+        listRef.current.scrollTo(typeof args === "number" ? {
+          index: args
+        } : args);
       }
     };
     var getEnabledActiveIndex = function getEnabledActiveIndex2(index2) {
@@ -25026,11 +25029,11 @@ var Select$1 = defineComponent({
       return classNames((_classNames = {}, _defineProperty$U(_classNames, "".concat(prefixCls.value, "-lg"), size2.value === "large"), _defineProperty$U(_classNames, "".concat(prefixCls.value, "-sm"), size2.value === "small"), _defineProperty$U(_classNames, "".concat(prefixCls.value, "-rtl"), direction.value === "rtl"), _defineProperty$U(_classNames, "".concat(prefixCls.value, "-borderless"), !props3.bordered), _classNames));
     });
     var triggerChange = function triggerChange2() {
-      for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-        args2[_key] = arguments[_key];
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
-      emit2("update:value", args2[0]);
-      emit2.apply(void 0, ["change"].concat(args2));
+      emit2("update:value", args[0]);
+      emit2.apply(void 0, ["change"].concat(args));
       formItemContext.onFieldChange();
     };
     var handleBlur = function handleBlur2(e2) {
@@ -31378,10 +31381,10 @@ function leftPad(str, length) {
   return current2;
 }
 var tuple2 = function tuple3() {
-  for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-    args2[_key] = arguments[_key];
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
   }
-  return args2;
+  return args;
 };
 function toArray$6(val) {
   if (val === null || val === void 0) {
@@ -35091,13 +35094,13 @@ function useRaf(callback) {
   var rafRef = ref();
   var removedRef = ref(false);
   function trigger2() {
-    for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-      args2[_key] = arguments[_key];
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
     if (!removedRef.value) {
       wrapperRaf.cancel(rafRef.value);
       rafRef.value = wrapperRaf(function() {
-        callback.apply(void 0, args2);
+        callback.apply(void 0, args);
       });
     }
   }
@@ -35717,11 +35720,11 @@ function memoize(func, resolver) {
     throw new TypeError(FUNC_ERROR_TEXT$1);
   }
   var memoized = function() {
-    var args2 = arguments, key2 = resolver ? resolver.apply(this, args2) : args2[0], cache = memoized.cache;
+    var args = arguments, key2 = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
     if (cache.has(key2)) {
       return cache.get(key2);
     }
-    var result = func.apply(this, args2);
+    var result = func.apply(this, args);
     memoized.cache = cache.set(key2, result) || cache;
     return result;
   };
@@ -35890,31 +35893,31 @@ function flatten(array4) {
   var length = array4 == null ? 0 : array4.length;
   return length ? baseFlatten(array4, 1) : [];
 }
-function apply(func, thisArg, args2) {
-  switch (args2.length) {
+function apply(func, thisArg, args) {
+  switch (args.length) {
     case 0:
       return func.call(thisArg);
     case 1:
-      return func.call(thisArg, args2[0]);
+      return func.call(thisArg, args[0]);
     case 2:
-      return func.call(thisArg, args2[0], args2[1]);
+      return func.call(thisArg, args[0], args[1]);
     case 3:
-      return func.call(thisArg, args2[0], args2[1], args2[2]);
+      return func.call(thisArg, args[0], args[1], args[2]);
   }
-  return func.apply(thisArg, args2);
+  return func.apply(thisArg, args);
 }
 var nativeMax$2 = Math.max;
 function overRest(func, start, transform2) {
   start = nativeMax$2(start === void 0 ? func.length - 1 : start, 0);
   return function() {
-    var args2 = arguments, index2 = -1, length = nativeMax$2(args2.length - start, 0), array4 = Array(length);
+    var args = arguments, index2 = -1, length = nativeMax$2(args.length - start, 0), array4 = Array(length);
     while (++index2 < length) {
-      array4[index2] = args2[start + index2];
+      array4[index2] = args[start + index2];
     }
     index2 = -1;
     var otherArgs = Array(start + 1);
     while (++index2 < start) {
-      otherArgs[index2] = args2[index2];
+      otherArgs[index2] = args[index2];
     }
     otherArgs[start] = transform2(array4);
     return apply(func, this, otherArgs);
@@ -37900,10 +37903,10 @@ function debounce(func, wait, options) {
     trailing = "trailing" in options ? !!options.trailing : trailing;
   }
   function invokeFunc(time) {
-    var args2 = lastArgs, thisArg = lastThis;
+    var args = lastArgs, thisArg = lastThis;
     lastArgs = lastThis = void 0;
     lastInvokeTime = time;
-    result = func.apply(thisArg, args2);
+    result = func.apply(thisArg, args);
     return result;
   }
   function leadingEdge(time) {
@@ -42942,13 +42945,13 @@ function _isNativeReflectConstruct() {
     return false;
   }
 }
-function _construct(Parent, args2, Class) {
+function _construct(Parent, args, Class) {
   if (_isNativeReflectConstruct()) {
     _construct = Reflect.construct.bind();
   } else {
-    _construct = function _construct2(Parent2, args3, Class2) {
+    _construct = function _construct2(Parent2, args2, Class2) {
       var a2 = [null];
-      a2.push.apply(a2, args3);
+      a2.push.apply(a2, args2);
       var Constructor = Function.bind.apply(Parent2, a2);
       var instance = new Constructor();
       if (Class2)
@@ -43015,13 +43018,13 @@ function convertFieldsError(errors) {
   return fields;
 }
 function format$5(template) {
-  for (var _len = arguments.length, args2 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args2[_key - 1] = arguments[_key];
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
   }
   var i2 = 0;
-  var len = args2.length;
+  var len = args.length;
   if (typeof template === "function") {
-    return template.apply(null, args2);
+    return template.apply(null, args);
   }
   if (typeof template === "string") {
     var str = template.replace(formatRegExp, function(x2) {
@@ -43033,12 +43036,12 @@ function format$5(template) {
       }
       switch (x2) {
         case "%s":
-          return String(args2[i2++]);
+          return String(args[i2++]);
         case "%d":
-          return Number(args2[i2++]);
+          return Number(args[i2++]);
         case "%j":
           try {
-            return JSON.stringify(args2[i2++]);
+            return JSON.stringify(args[i2++]);
           } catch (_2) {
             return "[Circular]";
           }
@@ -44186,12 +44189,12 @@ function validateRules(namePath, value, rules2, options, validateFirst, messageV
       cloneRule.validator = function(rule, val, callback) {
         var hasPromise = false;
         var wrappedCallback = function wrappedCallback2() {
-          for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-            args2[_key] = arguments[_key];
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
           }
           Promise.resolve().then(function() {
             if (!hasPromise) {
-              callback.apply(void 0, args2);
+              callback.apply(void 0, args);
             }
           });
         };
@@ -46009,18 +46012,18 @@ var Cascader = defineComponent({
       }
     });
     var handleChange2 = function handleChange3() {
-      for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-        args2[_key] = arguments[_key];
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
-      emit2("update:value", args2[0]);
-      emit2.apply(void 0, ["change"].concat(args2));
+      emit2("update:value", args[0]);
+      emit2.apply(void 0, ["change"].concat(args));
       formItemContext.onFieldChange();
     };
     var handleBlur = function handleBlur2() {
-      for (var _len2 = arguments.length, args2 = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args2[_key2] = arguments[_key2];
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
       }
-      emit2.apply(void 0, ["blur"].concat(args2));
+      emit2.apply(void 0, ["blur"].concat(args));
       formItemContext.onFieldBlur();
     };
     var mergedShowArrow = computed(function() {
@@ -46230,10 +46233,10 @@ const Checkbox$1 = defineComponent({
       }, restAttrs);
       if (checkboxGroup && !skipGroup) {
         checkboxProps3.onChange = function() {
-          for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-            args2[_key] = arguments[_key];
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
           }
-          emit2.apply(void 0, ["change"].concat(args2));
+          emit2.apply(void 0, ["change"].concat(args));
           checkboxGroup.toggleOption({
             label: children,
             value: props3.value
@@ -55524,10 +55527,10 @@ var Mentions = defineComponent({
       formItemContext.onFieldBlur();
     };
     var handleSelect = function handleSelect2() {
-      for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-        args2[_key] = arguments[_key];
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
-      emit2.apply(void 0, ["select"].concat(args2));
+      emit2.apply(void 0, ["select"].concat(args));
       focused.value = true;
     };
     var handleChange2 = function handleChange3(val) {
@@ -55992,18 +55995,18 @@ var confirm = function confirm2(config) {
   var confirmDialogInstance = null;
   function destroy3() {
     if (confirmDialogInstance) {
-      render$a(null, container);
+      render$b(null, container);
       confirmDialogInstance.component.update();
       confirmDialogInstance = null;
     }
-    for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-      args2[_key] = arguments[_key];
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
-    var triggerCancel = args2.some(function(param) {
+    var triggerCancel = args.some(function(param) {
       return param && param.triggerCancel;
     });
     if (config.onCancel && triggerCancel) {
-      config.onCancel.apply(config, args2);
+      config.onCancel.apply(config, args);
     }
     for (var i2 = 0; i2 < destroyFns.length; i2++) {
       var fn = destroyFns[i2];
@@ -56015,8 +56018,8 @@ var confirm = function confirm2(config) {
   }
   function close3() {
     var _this = this;
-    for (var _len2 = arguments.length, args2 = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args2[_key2] = arguments[_key2];
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
     }
     currentConfig = _objectSpread2$1(_objectSpread2$1({}, currentConfig), {}, {
       visible: false,
@@ -56024,7 +56027,7 @@ var confirm = function confirm2(config) {
         if (typeof config.afterClose === "function") {
           config.afterClose();
         }
-        destroy3.apply(_this, args2);
+        destroy3.apply(_this, args);
       }
     });
     update(currentConfig);
@@ -56059,7 +56062,7 @@ var confirm = function confirm2(config) {
   function render14(props3) {
     var vm = createVNode(Wrapper, _objectSpread2$1({}, props3));
     vm.appContext = config.parentContext || config.appContext || vm.appContext;
-    render$a(vm, container);
+    render$b(vm, container);
     return vm;
   }
   confirmDialogInstance = render14(currentConfig);
@@ -62089,10 +62092,10 @@ const BodyRow = defineComponent({
       if (bodyContext.expandRowByClick && mergedExpandable.value) {
         onInternalTriggerExpand(props3.record, event2);
       }
-      for (var _len = arguments.length, args2 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args2[_key - 1] = arguments[_key];
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
       }
-      (_additionalProps$valu = additionalProps.value) === null || _additionalProps$valu === void 0 ? void 0 : (_additionalProps$valu2 = _additionalProps$valu.onClick) === null || _additionalProps$valu2 === void 0 ? void 0 : _additionalProps$valu2.call.apply(_additionalProps$valu2, [_additionalProps$valu, event2].concat(args2));
+      (_additionalProps$valu = additionalProps.value) === null || _additionalProps$valu === void 0 ? void 0 : (_additionalProps$valu2 = _additionalProps$valu.onClick) === null || _additionalProps$valu2 === void 0 ? void 0 : _additionalProps$valu2.call.apply(_additionalProps$valu2, [_additionalProps$valu, event2].concat(args));
     };
     var computeRowClassName = computed(function() {
       var record = props3.record, index2 = props3.index, indent = props3.indent;
@@ -66194,10 +66197,10 @@ const Tree$1 = defineComponent({
       treeRef,
       onNodeExpand: function onNodeExpand() {
         var _treeRef$value2;
-        for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-          args2[_key] = arguments[_key];
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
         }
-        (_treeRef$value2 = treeRef.value) === null || _treeRef$value2 === void 0 ? void 0 : _treeRef$value2.onNodeExpand.apply(_treeRef$value2, args2);
+        (_treeRef$value2 = treeRef.value) === null || _treeRef$value2 === void 0 ? void 0 : _treeRef$value2.onNodeExpand.apply(_treeRef$value2, args);
       },
       scrollTo: scrollTo2,
       selectedKeys: computed(function() {
@@ -69007,10 +69010,10 @@ const OptionList = defineComponent({
     expose({
       scrollTo: function scrollTo2() {
         var _treeRef$value2, _treeRef$value2$scrol;
-        for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-          args2[_key] = arguments[_key];
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
         }
-        return (_treeRef$value2 = treeRef.value) === null || _treeRef$value2 === void 0 ? void 0 : (_treeRef$value2$scrol = _treeRef$value2.scrollTo) === null || _treeRef$value2$scrol === void 0 ? void 0 : _treeRef$value2$scrol.call.apply(_treeRef$value2$scrol, [_treeRef$value2].concat(args2));
+        return (_treeRef$value2 = treeRef.value) === null || _treeRef$value2 === void 0 ? void 0 : (_treeRef$value2$scrol = _treeRef$value2.scrollTo) === null || _treeRef$value2$scrol === void 0 ? void 0 : _treeRef$value2$scrol.call.apply(_treeRef$value2$scrol, [_treeRef$value2].concat(args));
       },
       onKeydown: function onKeydown(event2) {
         var _treeRef$value3;
@@ -70049,11 +70052,11 @@ var TreeSelect = defineComponent({
       }
     });
     var handleChange2 = function handleChange3() {
-      for (var _len = arguments.length, args2 = new Array(_len), _key = 0; _key < _len; _key++) {
-        args2[_key] = arguments[_key];
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
-      emit2("update:value", args2[0]);
-      emit2.apply(void 0, ["change"].concat(args2));
+      emit2("update:value", args[0]);
+      emit2.apply(void 0, ["change"].concat(args));
       formItemContext.onFieldChange();
     };
     var handleTreeExpand = function handleTreeExpand2(keys2) {
@@ -74348,12 +74351,12 @@ var jquery = { exports: {} };
             };
           },
           "PSEUDO": function(pseudo, argument) {
-            var args2, fn = Expr.pseudos[pseudo] || Expr.setFilters[pseudo.toLowerCase()] || Sizzle2.error("unsupported pseudo: " + pseudo);
+            var args, fn = Expr.pseudos[pseudo] || Expr.setFilters[pseudo.toLowerCase()] || Sizzle2.error("unsupported pseudo: " + pseudo);
             if (fn[expando]) {
               return fn(argument);
             }
             if (fn.length > 1) {
-              args2 = [pseudo, pseudo, "", argument];
+              args = [pseudo, pseudo, "", argument];
               return Expr.setFilters.hasOwnProperty(pseudo.toLowerCase()) ? markFunction(function(seed2, matches3) {
                 var idx, matched = fn(seed2, argument), i3 = matched.length;
                 while (i3--) {
@@ -74361,7 +74364,7 @@ var jquery = { exports: {} };
                   seed2[idx] = !(matches3[idx] = matched[i3]);
                 }
               }) : function(elem) {
-                return fn(elem, 0, args2);
+                return fn(elem, 0, args);
               };
             }
             return fn;
@@ -75207,8 +75210,8 @@ var jquery = { exports: {} };
               firingIndex = list.length - 1;
               queue2.push(memory);
             }
-            (function add2(args2) {
-              jQuery.each(args2, function(_2, arg) {
+            (function add2(args) {
+              jQuery.each(args, function(_2, arg) {
                 if (isFunction3(arg)) {
                   if (!options.unique || !self2.has(arg)) {
                     list.push(arg);
@@ -75263,11 +75266,11 @@ var jquery = { exports: {} };
         locked: function() {
           return !!locked;
         },
-        fireWith: function(context2, args2) {
+        fireWith: function(context2, args) {
           if (!locked) {
-            args2 = args2 || [];
-            args2 = [context2, args2.slice ? args2.slice() : args2];
-            queue2.push(args2);
+            args = args || [];
+            args = [context2, args.slice ? args.slice() : args];
+            queue2.push(args);
             if (!firing) {
               fire();
             }
@@ -75365,12 +75368,12 @@ var jquery = { exports: {} };
             var maxDepth = 0;
             function resolve2(depth, deferred2, handler5, special) {
               return function() {
-                var that = this, args2 = arguments, mightThrow = function() {
+                var that = this, args = arguments, mightThrow = function() {
                   var returned, then;
                   if (depth < maxDepth) {
                     return;
                   }
-                  returned = handler5.apply(that, args2);
+                  returned = handler5.apply(that, args);
                   if (returned === deferred2.promise()) {
                     throw new TypeError("Thenable self-resolution");
                   }
@@ -75399,9 +75402,9 @@ var jquery = { exports: {} };
                   } else {
                     if (handler5 !== Identity) {
                       that = void 0;
-                      args2 = [returned];
+                      args = [returned];
                     }
-                    (special || deferred2.resolveWith)(that, args2);
+                    (special || deferred2.resolveWith)(that, args);
                   }
                 }, process2 = special ? mightThrow : function() {
                   try {
@@ -75416,9 +75419,9 @@ var jquery = { exports: {} };
                     if (depth + 1 >= maxDepth) {
                       if (handler5 !== Thrower) {
                         that = void 0;
-                        args2 = [e2];
+                        args = [e2];
                       }
-                      deferred2.rejectWith(that, args2);
+                      deferred2.rejectWith(that, args);
                     }
                   }
                 };
@@ -76274,10 +76277,10 @@ var jquery = { exports: {} };
         }
       },
       dispatch: function(nativeEvent) {
-        var i2, j2, ret, matched, handleObj, handlerQueue, args2 = new Array(arguments.length), event2 = jQuery.event.fix(nativeEvent), handlers = (dataPriv.get(this, "events") || /* @__PURE__ */ Object.create(null))[event2.type] || [], special = jQuery.event.special[event2.type] || {};
-        args2[0] = event2;
+        var i2, j2, ret, matched, handleObj, handlerQueue, args = new Array(arguments.length), event2 = jQuery.event.fix(nativeEvent), handlers = (dataPriv.get(this, "events") || /* @__PURE__ */ Object.create(null))[event2.type] || [], special = jQuery.event.special[event2.type] || {};
+        args[0] = event2;
         for (i2 = 1; i2 < arguments.length; i2++) {
-          args2[i2] = arguments[i2];
+          args[i2] = arguments[i2];
         }
         event2.delegateTarget = this;
         if (special.preDispatch && special.preDispatch.call(this, event2) === false) {
@@ -76292,7 +76295,7 @@ var jquery = { exports: {} };
             if (!event2.rnamespace || handleObj.namespace === false || event2.rnamespace.test(handleObj.namespace)) {
               event2.handleObj = handleObj;
               event2.data = handleObj.data;
-              ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args2);
+              ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
               if (ret !== void 0) {
                 if ((event2.result = ret) === false) {
                   event2.preventDefault();
@@ -76649,20 +76652,20 @@ var jquery = { exports: {} };
         dest.defaultValue = src2.defaultValue;
       }
     }
-    function domManip(collection, args2, callback, ignored) {
-      args2 = flat(args2);
-      var fragment, first, scripts, hasScripts, node, doc2, i2 = 0, l2 = collection.length, iNoClone = l2 - 1, value = args2[0], valueIsFunction = isFunction3(value);
+    function domManip(collection, args, callback, ignored) {
+      args = flat(args);
+      var fragment, first, scripts, hasScripts, node, doc2, i2 = 0, l2 = collection.length, iNoClone = l2 - 1, value = args[0], valueIsFunction = isFunction3(value);
       if (valueIsFunction || l2 > 1 && typeof value === "string" && !support.checkClone && rchecked.test(value)) {
         return collection.each(function(index2) {
           var self2 = collection.eq(index2);
           if (valueIsFunction) {
-            args2[0] = value.call(this, index2, self2.html());
+            args[0] = value.call(this, index2, self2.html());
           }
-          domManip(self2, args2, callback, ignored);
+          domManip(self2, args, callback, ignored);
         });
       }
       if (l2) {
-        fragment = buildFragment(args2, collection[0].ownerDocument, false, collection, ignored);
+        fragment = buildFragment(args, collection[0].ownerDocument, false, collection, ignored);
         first = fragment.firstChild;
         if (fragment.childNodes.length === 1) {
           fragment = first;
@@ -79442,7 +79445,7 @@ var jquery = { exports: {} };
     );
     var rtrim = /^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;
     jQuery.proxy = function(fn, context2) {
-      var tmp, args2, proxy;
+      var tmp, args, proxy;
       if (typeof context2 === "string") {
         tmp = fn[context2];
         context2 = fn;
@@ -79451,9 +79454,9 @@ var jquery = { exports: {} };
       if (!isFunction3(fn)) {
         return void 0;
       }
-      args2 = slice2.call(arguments, 2);
+      args = slice2.call(arguments, 2);
       proxy = function() {
-        return fn.apply(context2 || this, args2.concat(slice2.call(arguments)));
+        return fn.apply(context2 || this, args.concat(slice2.call(arguments)));
       };
       proxy.guid = fn.guid = fn.guid || jQuery.guid++;
       return proxy;
@@ -79513,300 +79516,50 @@ const xRender = defineComponent(markRaw({
     });
   }
 }));
-const ReadonlyItem = defineComponent({
-  props: ["value"],
-  render() {
-    return createVNode("div", {
-      "class": "ant-input cursor-not-allowed xItem_readonly"
-    }, [this.value]);
+const scriptRel = "modulepreload";
+const assetsURL = function(dep, importerUrl) {
+  return new URL(dep, importerUrl).href;
+};
+const seen = {};
+const __vitePreload = function preload(baseModule, deps, importerUrl) {
+  if (!deps || deps.length === 0) {
+    return baseModule();
   }
-});
-const Input = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  mounted() {
-    xU("xItem Input");
-  },
-  data(vm) {
-    return {
-      oldComponent: "",
-      ComponentInstance: "",
-      _modelValue: ""
-    };
-  },
-  methods: {
-    diffComponent(type4) {
-      if (type4 === this.oldComponent) {
-        return this.ComponentInstance;
-      }
-      this.oldComponent = type4;
-      const ComponentInstance = resolveComponent(type4);
-      ComponentInstance.__v_skip = true;
-      this.ComponentInstance = ComponentInstance;
-      if (type4 === "aTextarea") {
-        this.properties.autoSize = this.properties.autoSize || {
-          minRows: 4,
-          maxRows: 6
-        };
-      }
-    }
-  },
-  watch: {
-    "properties.value"(value) {
-      if (value !== void 0) {
-        if (value !== this._modelValue) {
-          this._modelValue = value;
+  const links = document.getElementsByTagName("link");
+  return Promise.all(deps.map((dep) => {
+    dep = assetsURL(dep, importerUrl);
+    if (dep in seen)
+      return;
+    seen[dep] = true;
+    const isCss = dep.endsWith(".css");
+    const cssSelector = isCss ? '[rel="stylesheet"]' : "";
+    const isBaseRelative = !!importerUrl;
+    if (isBaseRelative) {
+      for (let i2 = links.length - 1; i2 >= 0; i2--) {
+        const link3 = links[i2];
+        if (link3.href === dep && (!isCss || link3.rel === "stylesheet")) {
+          return;
         }
       }
-    },
-    _modelValue(modelValue) {
-      this.listeners["onUpdate:value"](modelValue);
+    } else if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) {
+      return;
     }
-  },
-  computed: {
-    component({
-      properties
-    }) {
-      if (!this.ComponentInstance) {
-        this.diffComponent("aInput");
-      }
-      if (properties.isPassword) {
-        this.diffComponent("aInputPassword");
-      } else if (properties.isNumber) {
-        this.diffComponent("aInputNumber");
-      } else if (properties.isTextarea) {
-        this.diffComponent("aTextarea");
-      } else if (properties.isSearch) {
-        this.diffComponent("aInputSearch");
-      }
-      return this.ComponentInstance;
+    const link2 = document.createElement("link");
+    link2.rel = isCss ? "stylesheet" : scriptRel;
+    if (!isCss) {
+      link2.as = "script";
+      link2.crossOrigin = "";
     }
-  },
-  render(vm) {
-    const {
-      properties,
-      slots,
-      listeners,
-      propsWillDeleteFromConfigs,
-      component
-    } = vm;
-    if (properties.readonly) {
-      return createVNode(ReadonlyItem, {
-        "value": properties.value
-      }, null);
+    link2.href = dep;
+    document.head.appendChild(link2);
+    if (isCss) {
+      return new Promise((res, rej) => {
+        link2.addEventListener("load", res);
+        link2.addEventListener("error", () => rej(new Error(`Unable to preload CSS for ${dep}`)));
+      });
     }
-    return createVNode(component, mergeProps({
-      "value": this._modelValue,
-      "onUpdate:value": ($event) => this._modelValue = $event
-    }, xU.omit(properties, ["value", ...propsWillDeleteFromConfigs]), xU.omit(listeners, ["onUpdate:value"])), slots);
-  }
-});
-var locale$2 = {
-  locale: "zh_CN",
-  today: "\u4ECA\u5929",
-  now: "\u6B64\u523B",
-  backToToday: "\u8FD4\u56DE\u4ECA\u5929",
-  ok: "\u786E\u5B9A",
-  timeSelect: "\u9009\u62E9\u65F6\u95F4",
-  dateSelect: "\u9009\u62E9\u65E5\u671F",
-  weekSelect: "\u9009\u62E9\u5468",
-  clear: "\u6E05\u9664",
-  month: "\u6708",
-  year: "\u5E74",
-  previousMonth: "\u4E0A\u4E2A\u6708 (\u7FFB\u9875\u4E0A\u952E)",
-  nextMonth: "\u4E0B\u4E2A\u6708 (\u7FFB\u9875\u4E0B\u952E)",
-  monthSelect: "\u9009\u62E9\u6708\u4EFD",
-  yearSelect: "\u9009\u62E9\u5E74\u4EFD",
-  decadeSelect: "\u9009\u62E9\u5E74\u4EE3",
-  yearFormat: "YYYY\u5E74",
-  dayFormat: "D\u65E5",
-  dateFormat: "YYYY\u5E74M\u6708D\u65E5",
-  dateTimeFormat: "YYYY\u5E74M\u6708D\u65E5 HH\u65F6mm\u5206ss\u79D2",
-  previousYear: "\u4E0A\u4E00\u5E74 (Control\u952E\u52A0\u5DE6\u65B9\u5411\u952E)",
-  nextYear: "\u4E0B\u4E00\u5E74 (Control\u952E\u52A0\u53F3\u65B9\u5411\u952E)",
-  previousDecade: "\u4E0A\u4E00\u5E74\u4EE3",
-  nextDecade: "\u4E0B\u4E00\u5E74\u4EE3",
-  previousCentury: "\u4E0A\u4E00\u4E16\u7EAA",
-  nextCentury: "\u4E0B\u4E00\u4E16\u7EAA"
+  })).then(() => baseModule());
 };
-const CalendarLocale = locale$2;
-var locale$1 = {
-  placeholder: "\u8BF7\u9009\u62E9\u65F6\u95F4",
-  rangePlaceholder: ["\u5F00\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4"]
-};
-const TimePicker = locale$1;
-var locale = {
-  lang: _objectSpread2$1({
-    placeholder: "\u8BF7\u9009\u62E9\u65E5\u671F",
-    yearPlaceholder: "\u8BF7\u9009\u62E9\u5E74\u4EFD",
-    quarterPlaceholder: "\u8BF7\u9009\u62E9\u5B63\u5EA6",
-    monthPlaceholder: "\u8BF7\u9009\u62E9\u6708\u4EFD",
-    weekPlaceholder: "\u8BF7\u9009\u62E9\u5468",
-    rangePlaceholder: ["\u5F00\u59CB\u65E5\u671F", "\u7ED3\u675F\u65E5\u671F"],
-    rangeYearPlaceholder: ["\u5F00\u59CB\u5E74\u4EFD", "\u7ED3\u675F\u5E74\u4EFD"],
-    rangeMonthPlaceholder: ["\u5F00\u59CB\u6708\u4EFD", "\u7ED3\u675F\u6708\u4EFD"],
-    rangeQuarterPlaceholder: ["\u5F00\u59CB\u5B63\u5EA6", "\u7ED3\u675F\u5B63\u5EA6"],
-    rangeWeekPlaceholder: ["\u5F00\u59CB\u5468", "\u7ED3\u675F\u5468"]
-  }, CalendarLocale),
-  timePickerLocale: _objectSpread2$1({}, TimePicker)
-};
-locale.lang.ok = "\u786E\u5B9A";
-const DatePicker$1 = locale;
-var typeTemplate = "${label}\u4E0D\u662F\u4E00\u4E2A\u6709\u6548\u7684${type}";
-var localeValues = {
-  locale: "zh-cn",
-  Pagination: Pagination$2,
-  DatePicker: DatePicker$1,
-  TimePicker,
-  Calendar: DatePicker$1,
-  global: {
-    placeholder: "\u8BF7\u9009\u62E9"
-  },
-  Table: {
-    filterTitle: "\u7B5B\u9009",
-    filterConfirm: "\u786E\u5B9A",
-    filterReset: "\u91CD\u7F6E",
-    filterEmptyText: "\u65E0\u7B5B\u9009\u9879",
-    filterCheckall: "\u5168\u9009",
-    filterSearchPlaceholder: "\u5728\u7B5B\u9009\u9879\u4E2D\u641C\u7D22",
-    selectAll: "\u5168\u9009\u5F53\u9875",
-    selectInvert: "\u53CD\u9009\u5F53\u9875",
-    selectNone: "\u6E05\u7A7A\u6240\u6709",
-    selectionAll: "\u5168\u9009\u6240\u6709",
-    sortTitle: "\u6392\u5E8F",
-    expand: "\u5C55\u5F00\u884C",
-    collapse: "\u5173\u95ED\u884C",
-    triggerDesc: "\u70B9\u51FB\u964D\u5E8F",
-    triggerAsc: "\u70B9\u51FB\u5347\u5E8F",
-    cancelSort: "\u53D6\u6D88\u6392\u5E8F"
-  },
-  Modal: {
-    okText: "\u786E\u5B9A",
-    cancelText: "\u53D6\u6D88",
-    justOkText: "\u77E5\u9053\u4E86"
-  },
-  Popconfirm: {
-    cancelText: "\u53D6\u6D88",
-    okText: "\u786E\u5B9A"
-  },
-  Transfer: {
-    searchPlaceholder: "\u8BF7\u8F93\u5165\u641C\u7D22\u5185\u5BB9",
-    itemUnit: "\u9879",
-    itemsUnit: "\u9879",
-    remove: "\u5220\u9664",
-    selectCurrent: "\u5168\u9009\u5F53\u9875",
-    removeCurrent: "\u5220\u9664\u5F53\u9875",
-    selectAll: "\u5168\u9009\u6240\u6709",
-    removeAll: "\u5220\u9664\u5168\u90E8",
-    selectInvert: "\u53CD\u9009\u5F53\u9875"
-  },
-  Upload: {
-    uploading: "\u6587\u4EF6\u4E0A\u4F20\u4E2D",
-    removeFile: "\u5220\u9664\u6587\u4EF6",
-    uploadError: "\u4E0A\u4F20\u9519\u8BEF",
-    previewFile: "\u9884\u89C8\u6587\u4EF6",
-    downloadFile: "\u4E0B\u8F7D\u6587\u4EF6"
-  },
-  Empty: {
-    description: "\u6682\u65E0\u6570\u636E"
-  },
-  Icon: {
-    icon: "\u56FE\u6807"
-  },
-  Text: {
-    edit: "\u7F16\u8F91",
-    copy: "\u590D\u5236",
-    copied: "\u590D\u5236\u6210\u529F",
-    expand: "\u5C55\u5F00"
-  },
-  PageHeader: {
-    back: "\u8FD4\u56DE"
-  },
-  Form: {
-    optional: "\uFF08\u53EF\u9009\uFF09",
-    defaultValidateMessages: {
-      default: "\u5B57\u6BB5\u9A8C\u8BC1\u9519\u8BEF${label}",
-      required: "\u8BF7\u8F93\u5165${label}",
-      enum: "${label}\u5FC5\u987B\u662F\u5176\u4E2D\u4E00\u4E2A[${enum}]",
-      whitespace: "${label}\u4E0D\u80FD\u4E3A\u7A7A\u5B57\u7B26",
-      date: {
-        format: "${label}\u65E5\u671F\u683C\u5F0F\u65E0\u6548",
-        parse: "${label}\u4E0D\u80FD\u8F6C\u6362\u4E3A\u65E5\u671F",
-        invalid: "${label}\u662F\u4E00\u4E2A\u65E0\u6548\u65E5\u671F"
-      },
-      types: {
-        string: typeTemplate,
-        method: typeTemplate,
-        array: typeTemplate,
-        object: typeTemplate,
-        number: typeTemplate,
-        date: typeTemplate,
-        boolean: typeTemplate,
-        integer: typeTemplate,
-        float: typeTemplate,
-        regexp: typeTemplate,
-        email: typeTemplate,
-        url: typeTemplate,
-        hex: typeTemplate
-      },
-      string: {
-        len: "${label}\u987B\u4E3A${len}\u4E2A\u5B57\u7B26",
-        min: "${label}\u6700\u5C11${min}\u4E2A\u5B57\u7B26",
-        max: "${label}\u6700\u591A${max}\u4E2A\u5B57\u7B26",
-        range: "${label}\u987B\u5728${min}-${max}\u5B57\u7B26\u4E4B\u95F4"
-      },
-      number: {
-        len: "${label}\u5FC5\u987B\u7B49\u4E8E${len}",
-        min: "${label}\u6700\u5C0F\u503C\u4E3A${min}",
-        max: "${label}\u6700\u5927\u503C\u4E3A${max}",
-        range: "${label}\u987B\u5728${min}-${max}\u4E4B\u95F4"
-      },
-      array: {
-        len: "\u987B\u4E3A${len}\u4E2A${label}",
-        min: "\u6700\u5C11${min}\u4E2A${label}",
-        max: "\u6700\u591A${max}\u4E2A${label}",
-        range: "${label}\u6570\u91CF\u987B\u5728${min}-${max}\u4E4B\u95F4"
-      },
-      pattern: {
-        mismatch: "${label}\u4E0E\u6A21\u5F0F\u4E0D\u5339\u914D${pattern}"
-      }
-    }
-  },
-  Image: {
-    preview: "\u9884\u89C8"
-  }
-};
-const zhCn$1 = localeValues;
-var zhCn = { exports: {} };
-(function(module2, exports2) {
-  !function(e2, _2) {
-    module2.exports = _2(dayjs_min.exports);
-  }(commonjsGlobal, function(e2) {
-    function _2(e3) {
-      return e3 && "object" == typeof e3 && "default" in e3 ? e3 : { default: e3 };
-    }
-    var t2 = _2(e2), d2 = { name: "zh-cn", weekdays: "\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split("_"), weekdaysShort: "\u5468\u65E5_\u5468\u4E00_\u5468\u4E8C_\u5468\u4E09_\u5468\u56DB_\u5468\u4E94_\u5468\u516D".split("_"), weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split("_"), months: "\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split("_"), monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split("_"), ordinal: function(e3, _3) {
-      return "W" === _3 ? e3 + "\u5468" : e3 + "\u65E5";
-    }, weekStart: 1, yearStart: 4, formats: { LT: "HH:mm", LTS: "HH:mm:ss", L: "YYYY/MM/DD", LL: "YYYY\u5E74M\u6708D\u65E5", LLL: "YYYY\u5E74M\u6708D\u65E5Ah\u70B9mm\u5206", LLLL: "YYYY\u5E74M\u6708D\u65E5ddddAh\u70B9mm\u5206", l: "YYYY/M/D", ll: "YYYY\u5E74M\u6708D\u65E5", lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm", llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm" }, relativeTime: { future: "%s\u5185", past: "%s\u524D", s: "\u51E0\u79D2", m: "1 \u5206\u949F", mm: "%d \u5206\u949F", h: "1 \u5C0F\u65F6", hh: "%d \u5C0F\u65F6", d: "1 \u5929", dd: "%d \u5929", M: "1 \u4E2A\u6708", MM: "%d \u4E2A\u6708", y: "1 \u5E74", yy: "%d \u5E74" }, meridiem: function(e3, _3) {
-      var t3 = 100 * e3 + _3;
-      return t3 < 600 ? "\u51CC\u6668" : t3 < 900 ? "\u65E9\u4E0A" : t3 < 1100 ? "\u4E0A\u5348" : t3 < 1300 ? "\u4E2D\u5348" : t3 < 1800 ? "\u4E0B\u5348" : "\u665A\u4E0A";
-    } };
-    return t2.default.locale(d2, null, true), d2;
-  });
-})(zhCn);
-var enAu = { exports: {} };
-(function(module2, exports2) {
-  !function(e2, a2) {
-    module2.exports = a2(dayjs_min.exports);
-  }(commonjsGlobal, function(e2) {
-    function a2(e3) {
-      return e3 && "object" == typeof e3 && "default" in e3 ? e3 : { default: e3 };
-    }
-    var t2 = a2(e2), _2 = { name: "en-au", weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), weekStart: 1, weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"), weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"), ordinal: function(e3) {
-      return e3;
-    }, formats: { LT: "h:mm A", LTS: "h:mm:ss A", L: "DD/MM/YYYY", LL: "D MMMM YYYY", LLL: "D MMMM YYYY h:mm A", LLLL: "dddd, D MMMM YYYY h:mm A" }, relativeTime: { future: "in %s", past: "%s ago", s: "a few seconds", m: "a minute", mm: "%d minutes", h: "an hour", hh: "%d hours", d: "a day", dd: "%d days", M: "a month", MM: "%d months", y: "a year", yy: "%d years" } };
-    return t2.default.locale(_2, null, true), _2;
-  });
-})(enAu);
 var lodash = { exports: {} };
 /**
  * @license
@@ -80157,18 +79910,18 @@ var lodash = { exports: {} };
       }
     }();
     var nodeIsArrayBuffer = nodeUtil2 && nodeUtil2.isArrayBuffer, nodeIsDate = nodeUtil2 && nodeUtil2.isDate, nodeIsMap2 = nodeUtil2 && nodeUtil2.isMap, nodeIsRegExp = nodeUtil2 && nodeUtil2.isRegExp, nodeIsSet2 = nodeUtil2 && nodeUtil2.isSet, nodeIsTypedArray2 = nodeUtil2 && nodeUtil2.isTypedArray;
-    function apply2(func, thisArg, args2) {
-      switch (args2.length) {
+    function apply2(func, thisArg, args) {
+      switch (args.length) {
         case 0:
           return func.call(thisArg);
         case 1:
-          return func.call(thisArg, args2[0]);
+          return func.call(thisArg, args[0]);
         case 2:
-          return func.call(thisArg, args2[0], args2[1]);
+          return func.call(thisArg, args[0], args[1]);
         case 3:
-          return func.call(thisArg, args2[0], args2[1], args2[2]);
+          return func.call(thisArg, args[0], args[1], args[2]);
       }
-      return func.apply(thisArg, args2);
+      return func.apply(thisArg, args);
     }
     function arrayAggregator2(array4, setter, iteratee, accumulator) {
       var index2 = -1, length = array4 == null ? 0 : array4.length;
@@ -80984,12 +80737,12 @@ var lodash = { exports: {} };
         }
         return true;
       }
-      function baseDelay(func, wait, args2) {
+      function baseDelay(func, wait, args) {
         if (typeof func != "function") {
           throw new TypeError2(FUNC_ERROR_TEXT2);
         }
         return setTimeout2(function() {
-          func.apply(undefined$12, args2);
+          func.apply(undefined$12, args);
         }, wait);
       }
       function baseDifference(array4, values2, iteratee2, comparator2) {
@@ -81170,11 +80923,11 @@ var lodash = { exports: {} };
         });
         return accumulator;
       }
-      function baseInvoke(object4, path2, args2) {
+      function baseInvoke(object4, path2, args) {
         path2 = castPath2(path2, object4);
         object4 = parent2(object4, path2);
         var func = object4 == null ? object4 : object4[toKey2(last3(path2))];
-        return func == null ? undefined$12 : apply2(func, object4, args2);
+        return func == null ? undefined$12 : apply2(func, object4, args);
       }
       function baseIsArguments2(value) {
         return isObjectLike2(value) && baseGetTag2(value) == argsTag2;
@@ -81827,25 +81580,25 @@ var lodash = { exports: {} };
         }
         return object4.index - other.index;
       }
-      function composeArgs(args2, partials, holders, isCurried) {
-        var argsIndex = -1, argsLength = args2.length, holdersLength = holders.length, leftIndex = -1, leftLength = partials.length, rangeLength = nativeMax2(argsLength - holdersLength, 0), result2 = Array2(leftLength + rangeLength), isUncurried = !isCurried;
+      function composeArgs(args, partials, holders, isCurried) {
+        var argsIndex = -1, argsLength = args.length, holdersLength = holders.length, leftIndex = -1, leftLength = partials.length, rangeLength = nativeMax2(argsLength - holdersLength, 0), result2 = Array2(leftLength + rangeLength), isUncurried = !isCurried;
         while (++leftIndex < leftLength) {
           result2[leftIndex] = partials[leftIndex];
         }
         while (++argsIndex < holdersLength) {
           if (isUncurried || argsIndex < argsLength) {
-            result2[holders[argsIndex]] = args2[argsIndex];
+            result2[holders[argsIndex]] = args[argsIndex];
           }
         }
         while (rangeLength--) {
-          result2[leftIndex++] = args2[argsIndex++];
+          result2[leftIndex++] = args[argsIndex++];
         }
         return result2;
       }
-      function composeArgsRight(args2, partials, holders, isCurried) {
-        var argsIndex = -1, argsLength = args2.length, holdersIndex = -1, holdersLength = holders.length, rightIndex = -1, rightLength = partials.length, rangeLength = nativeMax2(argsLength - holdersLength, 0), result2 = Array2(rangeLength + rightLength), isUncurried = !isCurried;
+      function composeArgsRight(args, partials, holders, isCurried) {
+        var argsIndex = -1, argsLength = args.length, holdersIndex = -1, holdersLength = holders.length, rightIndex = -1, rightLength = partials.length, rangeLength = nativeMax2(argsLength - holdersLength, 0), result2 = Array2(rangeLength + rightLength), isUncurried = !isCurried;
         while (++argsIndex < rangeLength) {
-          result2[argsIndex] = args2[argsIndex];
+          result2[argsIndex] = args[argsIndex];
         }
         var offset3 = argsIndex;
         while (++rightIndex < rightLength) {
@@ -81853,7 +81606,7 @@ var lodash = { exports: {} };
         }
         while (++holdersIndex < holdersLength) {
           if (isUncurried || argsIndex < argsLength) {
-            result2[offset3 + holders[holdersIndex]] = args2[argsIndex++];
+            result2[offset3 + holders[holdersIndex]] = args[argsIndex++];
           }
         }
         return result2;
@@ -81967,37 +81720,37 @@ var lodash = { exports: {} };
       }
       function createCtor(Ctor) {
         return function() {
-          var args2 = arguments;
-          switch (args2.length) {
+          var args = arguments;
+          switch (args.length) {
             case 0:
               return new Ctor();
             case 1:
-              return new Ctor(args2[0]);
+              return new Ctor(args[0]);
             case 2:
-              return new Ctor(args2[0], args2[1]);
+              return new Ctor(args[0], args[1]);
             case 3:
-              return new Ctor(args2[0], args2[1], args2[2]);
+              return new Ctor(args[0], args[1], args[2]);
             case 4:
-              return new Ctor(args2[0], args2[1], args2[2], args2[3]);
+              return new Ctor(args[0], args[1], args[2], args[3]);
             case 5:
-              return new Ctor(args2[0], args2[1], args2[2], args2[3], args2[4]);
+              return new Ctor(args[0], args[1], args[2], args[3], args[4]);
             case 6:
-              return new Ctor(args2[0], args2[1], args2[2], args2[3], args2[4], args2[5]);
+              return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
             case 7:
-              return new Ctor(args2[0], args2[1], args2[2], args2[3], args2[4], args2[5], args2[6]);
+              return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
           }
-          var thisBinding = baseCreate2(Ctor.prototype), result2 = Ctor.apply(thisBinding, args2);
+          var thisBinding = baseCreate2(Ctor.prototype), result2 = Ctor.apply(thisBinding, args);
           return isObject3(result2) ? result2 : thisBinding;
         };
       }
       function createCurry(func, bitmask, arity) {
         var Ctor = createCtor(func);
         function wrapper() {
-          var length = arguments.length, args2 = Array2(length), index2 = length, placeholder = getHolder(wrapper);
+          var length = arguments.length, args = Array2(length), index2 = length, placeholder = getHolder(wrapper);
           while (index2--) {
-            args2[index2] = arguments[index2];
+            args[index2] = arguments[index2];
           }
-          var holders = length < 3 && args2[0] !== placeholder && args2[length - 1] !== placeholder ? [] : replaceHolders(args2, placeholder);
+          var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
           length -= holders.length;
           if (length < arity) {
             return createRecurry(
@@ -82006,7 +81759,7 @@ var lodash = { exports: {} };
               createHybrid,
               wrapper.placeholder,
               undefined$12,
-              args2,
+              args,
               holders,
               undefined$12,
               undefined$12,
@@ -82014,7 +81767,7 @@ var lodash = { exports: {} };
             );
           }
           var fn = this && this !== root2 && this instanceof wrapper ? Ctor : func;
-          return apply2(fn, this, args2);
+          return apply2(fn, this, args);
         }
         return wrapper;
       }
@@ -82058,11 +81811,11 @@ var lodash = { exports: {} };
             }
           }
           return function() {
-            var args2 = arguments, value = args2[0];
-            if (wrapper && args2.length == 1 && isArray2(value)) {
+            var args = arguments, value = args[0];
+            if (wrapper && args.length == 1 && isArray2(value)) {
               return wrapper.plant(value).value();
             }
-            var index3 = 0, result2 = length ? funcs[index3].apply(this, args2) : value;
+            var index3 = 0, result2 = length ? funcs[index3].apply(this, args) : value;
             while (++index3 < length) {
               result2 = funcs[index3].call(this, result2);
             }
@@ -82073,29 +81826,29 @@ var lodash = { exports: {} };
       function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary2, arity) {
         var isAry = bitmask & WRAP_ARY_FLAG, isBind = bitmask & WRAP_BIND_FLAG, isBindKey = bitmask & WRAP_BIND_KEY_FLAG, isCurried = bitmask & (WRAP_CURRY_FLAG | WRAP_CURRY_RIGHT_FLAG), isFlip = bitmask & WRAP_FLIP_FLAG, Ctor = isBindKey ? undefined$12 : createCtor(func);
         function wrapper() {
-          var length = arguments.length, args2 = Array2(length), index2 = length;
+          var length = arguments.length, args = Array2(length), index2 = length;
           while (index2--) {
-            args2[index2] = arguments[index2];
+            args[index2] = arguments[index2];
           }
           if (isCurried) {
-            var placeholder = getHolder(wrapper), holdersCount = countHolders(args2, placeholder);
+            var placeholder = getHolder(wrapper), holdersCount = countHolders(args, placeholder);
           }
           if (partials) {
-            args2 = composeArgs(args2, partials, holders, isCurried);
+            args = composeArgs(args, partials, holders, isCurried);
           }
           if (partialsRight) {
-            args2 = composeArgsRight(args2, partialsRight, holdersRight, isCurried);
+            args = composeArgsRight(args, partialsRight, holdersRight, isCurried);
           }
           length -= holdersCount;
           if (isCurried && length < arity) {
-            var newHolders = replaceHolders(args2, placeholder);
+            var newHolders = replaceHolders(args, placeholder);
             return createRecurry(
               func,
               bitmask,
               createHybrid,
               wrapper.placeholder,
               thisArg,
-              args2,
+              args,
               newHolders,
               argPos,
               ary2,
@@ -82103,19 +81856,19 @@ var lodash = { exports: {} };
             );
           }
           var thisBinding = isBind ? thisArg : this, fn = isBindKey ? thisBinding[func] : func;
-          length = args2.length;
+          length = args.length;
           if (argPos) {
-            args2 = reorder(args2, argPos);
+            args = reorder(args, argPos);
           } else if (isFlip && length > 1) {
-            args2.reverse();
+            args.reverse();
           }
           if (isAry && ary2 < length) {
-            args2.length = ary2;
+            args.length = ary2;
           }
           if (this && this !== root2 && this instanceof wrapper) {
             fn = Ctor || createCtor(fn);
           }
-          return fn.apply(thisBinding, args2);
+          return fn.apply(thisBinding, args);
         }
         return wrapper;
       }
@@ -82152,10 +81905,10 @@ var lodash = { exports: {} };
       function createOver(arrayFunc) {
         return flatRest2(function(iteratees) {
           iteratees = arrayMap2(iteratees, baseUnary2(getIteratee()));
-          return baseRest2(function(args2) {
+          return baseRest2(function(args) {
             var thisArg = this;
             return arrayFunc(iteratees, function(iteratee2) {
-              return apply2(iteratee2, thisArg, args2);
+              return apply2(iteratee2, thisArg, args);
             });
           });
         });
@@ -82172,14 +81925,14 @@ var lodash = { exports: {} };
       function createPartial(func, bitmask, thisArg, partials) {
         var isBind = bitmask & WRAP_BIND_FLAG, Ctor = createCtor(func);
         function wrapper() {
-          var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials.length, args2 = Array2(leftLength + argsLength), fn = this && this !== root2 && this instanceof wrapper ? Ctor : func;
+          var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials.length, args = Array2(leftLength + argsLength), fn = this && this !== root2 && this instanceof wrapper ? Ctor : func;
           while (++leftIndex < leftLength) {
-            args2[leftIndex] = partials[leftIndex];
+            args[leftIndex] = partials[leftIndex];
           }
           while (argsLength--) {
-            args2[leftIndex++] = arguments[++argsIndex];
+            args[leftIndex++] = arguments[++argsIndex];
           }
-          return apply2(fn, isBind ? thisArg : this, args2);
+          return apply2(fn, isBind ? thisArg : this, args);
         }
         return wrapper;
       }
@@ -82785,14 +82538,14 @@ var lodash = { exports: {} };
       function overRest2(func, start, transform3) {
         start = nativeMax2(start === undefined$12 ? func.length - 1 : start, 0);
         return function() {
-          var args2 = arguments, index2 = -1, length = nativeMax2(args2.length - start, 0), array4 = Array2(length);
+          var args = arguments, index2 = -1, length = nativeMax2(args.length - start, 0), array4 = Array2(length);
           while (++index2 < length) {
-            array4[index2] = args2[start + index2];
+            array4[index2] = args[start + index2];
           }
           index2 = -1;
           var otherArgs = Array2(start + 1);
           while (++index2 < start) {
-            otherArgs[index2] = args2[index2];
+            otherArgs[index2] = args[index2];
           }
           otherArgs[start] = transform3(array4);
           return apply2(func, this, otherArgs);
@@ -82933,11 +82686,11 @@ var lodash = { exports: {} };
         if (!length) {
           return [];
         }
-        var args2 = Array2(length - 1), array4 = arguments[0], index2 = length;
+        var args = Array2(length - 1), array4 = arguments[0], index2 = length;
         while (index2--) {
-          args2[index2 - 1] = arguments[index2];
+          args[index2 - 1] = arguments[index2];
         }
-        return arrayPush2(isArray2(array4) ? copyArray2(array4) : [array4], baseFlatten2(args2, 1));
+        return arrayPush2(isArray2(array4) ? copyArray2(array4) : [array4], baseFlatten2(args, 1));
       }
       var difference = baseRest2(function(array4, values2) {
         return isArrayLikeObject2(array4) ? baseDifference(array4, baseFlatten2(values2, 1, isArrayLikeObject2, true)) : [];
@@ -83434,10 +83187,10 @@ var lodash = { exports: {} };
         }
         return isString3(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf2(collection, value, fromIndex) > -1;
       }
-      var invokeMap = baseRest2(function(collection, path2, args2) {
+      var invokeMap = baseRest2(function(collection, path2, args) {
         var index2 = -1, isFunc = typeof path2 == "function", result2 = isArrayLike2(collection) ? Array2(collection.length) : [];
         baseEach2(collection, function(value) {
-          result2[++index2] = isFunc ? apply2(path2, value, args2) : baseInvoke(value, path2, args2);
+          result2[++index2] = isFunc ? apply2(path2, value, args) : baseInvoke(value, path2, args);
         });
         return result2;
       });
@@ -83603,10 +83356,10 @@ var lodash = { exports: {} };
           trailing = "trailing" in options ? !!options.trailing : trailing;
         }
         function invokeFunc(time) {
-          var args2 = lastArgs, thisArg = lastThis;
+          var args = lastArgs, thisArg = lastThis;
           lastArgs = lastThis = undefined$12;
           lastInvokeTime = time;
-          result2 = func.apply(thisArg, args2);
+          result2 = func.apply(thisArg, args);
           return result2;
         }
         function leadingEdge(time) {
@@ -83671,11 +83424,11 @@ var lodash = { exports: {} };
         debounced.flush = flush;
         return debounced;
       }
-      var defer = baseRest2(function(func, args2) {
-        return baseDelay(func, 1, args2);
+      var defer = baseRest2(function(func, args) {
+        return baseDelay(func, 1, args);
       });
-      var delay = baseRest2(function(func, wait, args2) {
-        return baseDelay(func, toNumber2(wait) || 0, args2);
+      var delay = baseRest2(function(func, wait, args) {
+        return baseDelay(func, toNumber2(wait) || 0, args);
       });
       function flip2(func) {
         return createWrap(func, WRAP_FLIP_FLAG);
@@ -83685,11 +83438,11 @@ var lodash = { exports: {} };
           throw new TypeError2(FUNC_ERROR_TEXT2);
         }
         var memoized = function() {
-          var args2 = arguments, key2 = resolver ? resolver.apply(this, args2) : args2[0], cache = memoized.cache;
+          var args = arguments, key2 = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
           if (cache.has(key2)) {
             return cache.get(key2);
           }
-          var result2 = func.apply(this, args2);
+          var result2 = func.apply(this, args);
           memoized.cache = cache.set(key2, result2) || cache;
           return result2;
         };
@@ -83702,18 +83455,18 @@ var lodash = { exports: {} };
           throw new TypeError2(FUNC_ERROR_TEXT2);
         }
         return function() {
-          var args2 = arguments;
-          switch (args2.length) {
+          var args = arguments;
+          switch (args.length) {
             case 0:
               return !predicate.call(this);
             case 1:
-              return !predicate.call(this, args2[0]);
+              return !predicate.call(this, args[0]);
             case 2:
-              return !predicate.call(this, args2[0], args2[1]);
+              return !predicate.call(this, args[0], args[1]);
             case 3:
-              return !predicate.call(this, args2[0], args2[1], args2[2]);
+              return !predicate.call(this, args[0], args[1], args[2]);
           }
-          return !predicate.apply(this, args2);
+          return !predicate.apply(this, args);
         };
       }
       function once(func) {
@@ -83722,12 +83475,12 @@ var lodash = { exports: {} };
       var overArgs = castRest(function(func, transforms) {
         transforms = transforms.length == 1 && isArray2(transforms[0]) ? arrayMap2(transforms[0], baseUnary2(getIteratee())) : arrayMap2(baseFlatten2(transforms, 1), baseUnary2(getIteratee()));
         var funcsLength = transforms.length;
-        return baseRest2(function(args2) {
-          var index2 = -1, length = nativeMin2(args2.length, funcsLength);
+        return baseRest2(function(args) {
+          var index2 = -1, length = nativeMin2(args.length, funcsLength);
           while (++index2 < length) {
-            args2[index2] = transforms[index2].call(this, args2[index2]);
+            args[index2] = transforms[index2].call(this, args[index2]);
           }
-          return apply2(func, this, args2);
+          return apply2(func, this, args);
         });
       });
       var partial = baseRest2(function(func, partials) {
@@ -83753,8 +83506,8 @@ var lodash = { exports: {} };
           throw new TypeError2(FUNC_ERROR_TEXT2);
         }
         start = start == null ? 0 : nativeMax2(toInteger2(start), 0);
-        return baseRest2(function(args2) {
-          var array4 = args2[start], otherArgs = castSlice2(args2, 0, start);
+        return baseRest2(function(args) {
+          var array4 = args[start], otherArgs = castSlice2(args, 0, start);
           if (array4) {
             arrayPush2(otherArgs, array4);
           }
@@ -84061,9 +83814,9 @@ var lodash = { exports: {} };
         }
         return object4;
       });
-      var defaultsDeep = baseRest2(function(args2) {
-        args2.push(undefined$12, customDefaultsMerge);
-        return apply2(mergeWith, undefined$12, args2);
+      var defaultsDeep = baseRest2(function(args) {
+        args.push(undefined$12, customDefaultsMerge);
+        return apply2(mergeWith, undefined$12, args);
       });
       function findKey(object4, predicate) {
         return baseFindKey(object4, getIteratee(predicate, 3), baseForOwn2);
@@ -84379,8 +84132,8 @@ var lodash = { exports: {} };
         return baseRepeat2(toString3(string3), n2);
       }
       function replace2() {
-        var args2 = arguments, string3 = toString3(args2[0]);
-        return args2.length < 3 ? string3 : string3.replace(args2[1], args2[2]);
+        var args = arguments, string3 = toString3(args[0]);
+        return args.length < 3 ? string3 : string3.replace(args[1], args[2]);
       }
       var snakeCase = createCompounder(function(result2, word, index2) {
         return result2 + (index2 ? "_" : "") + word.toLowerCase();
@@ -84562,9 +84315,9 @@ var lodash = { exports: {} };
         }
         return string3.match(pattern4) || [];
       }
-      var attempt = baseRest2(function(func, args2) {
+      var attempt = baseRest2(function(func, args) {
         try {
-          return apply2(func, undefined$12, args2);
+          return apply2(func, undefined$12, args);
         } catch (e2) {
           return isError2(e2) ? e2 : new Error2(e2);
         }
@@ -84584,12 +84337,12 @@ var lodash = { exports: {} };
           }
           return [toIteratee(pair[0]), pair[1]];
         });
-        return baseRest2(function(args2) {
+        return baseRest2(function(args) {
           var index2 = -1;
           while (++index2 < length) {
             var pair = pairs[index2];
-            if (apply2(pair[0], this, args2)) {
-              return apply2(pair[1], this, args2);
+            if (apply2(pair[0], this, args)) {
+              return apply2(pair[1], this, args);
             }
           }
         });
@@ -84619,14 +84372,14 @@ var lodash = { exports: {} };
       function matchesProperty(path2, srcValue) {
         return baseMatchesProperty2(path2, baseClone2(srcValue, CLONE_DEEP_FLAG2));
       }
-      var method4 = baseRest2(function(path2, args2) {
+      var method4 = baseRest2(function(path2, args) {
         return function(object4) {
-          return baseInvoke(object4, path2, args2);
+          return baseInvoke(object4, path2, args);
         };
       });
-      var methodOf = baseRest2(function(object4, args2) {
+      var methodOf = baseRest2(function(object4, args) {
         return function(path2) {
-          return baseInvoke(object4, path2, args2);
+          return baseInvoke(object4, path2, args);
         };
       });
       function mixin(object4, source2, options) {
@@ -84666,8 +84419,8 @@ var lodash = { exports: {} };
       }
       function nthArg(n2) {
         n2 = toInteger2(n2);
-        return baseRest2(function(args2) {
-          return baseNth(args2, n2);
+        return baseRest2(function(args) {
+          return baseNth(args, n2);
         });
       }
       var over = createOver(arrayMap2);
@@ -85131,12 +84884,12 @@ var lodash = { exports: {} };
       LazyWrapper.prototype.findLast = function(predicate) {
         return this.reverse().find(predicate);
       };
-      LazyWrapper.prototype.invokeMap = baseRest2(function(path2, args2) {
+      LazyWrapper.prototype.invokeMap = baseRest2(function(path2, args) {
         if (typeof path2 == "function") {
           return new LazyWrapper(this);
         }
         return this.map(function(value) {
-          return baseInvoke(value, path2, args2);
+          return baseInvoke(value, path2, args);
         });
       });
       LazyWrapper.prototype.reject = function(predicate) {
@@ -85171,9 +84924,9 @@ var lodash = { exports: {} };
           return;
         }
         lodash2.prototype[methodName] = function() {
-          var value = this.__wrapped__, args2 = isTaker ? [1] : arguments, isLazy = value instanceof LazyWrapper, iteratee2 = args2[0], useLazy = isLazy || isArray2(value);
+          var value = this.__wrapped__, args = isTaker ? [1] : arguments, isLazy = value instanceof LazyWrapper, iteratee2 = args[0], useLazy = isLazy || isArray2(value);
           var interceptor = function(value2) {
-            var result3 = lodashFunc.apply(lodash2, arrayPush2([value2], args2));
+            var result3 = lodashFunc.apply(lodash2, arrayPush2([value2], args));
             return isTaker && chainAll ? result3[0] : result3;
           };
           if (useLazy && checkIteratee && typeof iteratee2 == "function" && iteratee2.length != 1) {
@@ -85182,12 +84935,12 @@ var lodash = { exports: {} };
           var chainAll = this.__chain__, isHybrid = !!this.__actions__.length, isUnwrapped = retUnwrapped && !chainAll, onlyLazy = isLazy && !isHybrid;
           if (!retUnwrapped && useLazy) {
             value = onlyLazy ? value : new LazyWrapper(this);
-            var result2 = func.apply(value, args2);
+            var result2 = func.apply(value, args);
             result2.__actions__.push({ "func": thru, "args": [interceptor], "thisArg": undefined$12 });
             return new LodashWrapper(result2, chainAll);
           }
           if (isUnwrapped && onlyLazy) {
-            return func.apply(this, args2);
+            return func.apply(this, args);
           }
           result2 = this.thru(interceptor);
           return isUnwrapped ? isTaker ? result2.value()[0] : result2.value() : result2;
@@ -85196,13 +84949,13 @@ var lodash = { exports: {} };
       arrayEach2(["pop", "push", "shift", "sort", "splice", "unshift"], function(methodName) {
         var func = arrayProto2[methodName], chainName = /^(?:push|sort|unshift)$/.test(methodName) ? "tap" : "thru", retUnwrapped = /^(?:pop|shift)$/.test(methodName);
         lodash2.prototype[methodName] = function() {
-          var args2 = arguments;
+          var args = arguments;
           if (retUnwrapped && !this.__chain__) {
             var value = this.value();
-            return func.apply(isArray2(value) ? value : [], args2);
+            return func.apply(isArray2(value) ? value : [], args);
           }
           return this[chainName](function(value2) {
-            return func.apply(isArray2(value2) ? value2 : [], args2);
+            return func.apply(isArray2(value2) ? value2 : [], args);
           });
         };
       });
@@ -85250,11 +85003,11 @@ var axios$3 = { exports: {} };
 var axios$2 = { exports: {} };
 var bind$4 = function bind(fn, thisArg) {
   return function wrap() {
-    var args2 = new Array(arguments.length);
-    for (var i2 = 0; i2 < args2.length; i2++) {
-      args2[i2] = arguments[i2];
+    var args = new Array(arguments.length);
+    for (var i2 = 0; i2 < args.length; i2++) {
+      args[i2] = arguments[i2];
     }
-    return fn.apply(thisArg, args2);
+    return fn.apply(thisArg, args);
   };
 };
 var bind$3 = bind$4;
@@ -86581,12 +86334,12 @@ return (${scfObjSourceCode})(argVue,argPayload);`
     const data9 = await privateLodash.asyncLoadText(url2);
     return privateLodash.parseContent(data9);
   },
-  doNothing: (...args2) => {
+  doNothing: (...args) => {
     var _a;
     if (localStorage.isShowDevLog) {
       const e2 = new Error();
       console.log("\u{1F680}:", (_a = e2 == null ? void 0 : e2.stack) == null ? void 0 : _a.split("\n")[2].replace("    at ", ""));
-      console.log.apply(console, args2);
+      console.log.apply(console, args);
     }
   },
   sleep: (t2) => new Promise((r2) => setTimeout(r2, t2)),
@@ -86717,7 +86470,8 @@ return (${scfObjSourceCode})(argVue,argPayload);`
   },
   asyncLoadText: async function(url2) {
     if (!State_UI.isDev) {
-      const res = await iStorage(url2);
+      const { iStorage: iStorage2 } = await __vitePreload(() => Promise.resolve().then(() => storage), true ? void 0 : void 0, import.meta.url);
+      const res = await iStorage2(url2);
       if (res) {
         return res;
       }
@@ -86730,7 +86484,8 @@ return (${scfObjSourceCode})(argVue,argPayload);`
           }
         });
         if (!State_UI.isDev) {
-          await iStorage(url2, data9);
+          const { iStorage: iStorage2 } = await __vitePreload(() => Promise.resolve().then(() => storage), true ? void 0 : void 0, import.meta.url);
+          await iStorage2(url2, data9);
         }
         resolve2(data9);
       } catch (error) {
@@ -86769,7 +86524,7 @@ return (${scfObjSourceCode})(argVue,argPayload);`
           exeFnGetValue = null;
           resolve2(value);
         } else {
-          setTimeout(exeFnGetValue, 1e3 * exeFnGetValue.count++);
+          setTimeout(exeFnGetValue, 100 * exeFnGetValue.count++);
         }
       };
       exeFnGetValue.count = 1;
@@ -86787,7 +86542,8 @@ return (${scfObjSourceCode})(argVue,argPayload);`
       format5 = "YYYY-MM-DD HH:mm:ss";
     }
     const label = dayjs(date4).format(format5);
-    return label === privateLodash.WORDS.INVALID_DATE ? "--" : label;
+    const isInvalidDate = label == privateLodash.WORDS.INVALID_DATE;
+    return isInvalidDate ? "--" : label;
   },
   keepDecimals: function(val, fractionDigits) {
     let num = Number(val * 100 / 1024 / 100).toFixed(fractionDigits);
@@ -86910,13 +86666,13 @@ return (${scfObjSourceCode})(argVue,argPayload);`
   }
 };
 const xU = new Proxy(
-  function(...args2) {
+  function(...args) {
     if (State_UI.isDev) {
       try {
         throw new Error("");
       } catch (error) {
-        args2.unshift(String(error.stack).split("\n")[2], "\n");
-        console.log.apply(console, args2);
+        args.unshift(String(error.stack).split("\n")[2], "\n");
+        console.log.apply(console, args);
       }
     }
   },
@@ -86936,6 +86692,278 @@ const xU = new Proxy(
     }
   }
 );
+const _sfc_main$d = defineComponent({
+  name: "xForm",
+  props: {
+    col: {
+      type: Number,
+      default: 1
+    },
+    labelStyle: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  emits: [],
+  data() {
+    return {};
+  },
+  computed: {
+    xFormId() {
+      return `xForm_${this._.uid}`;
+    },
+    labelStyleText() {
+      return xU.map(xU.merge({
+        width: "120px",
+        "text-align": "right"
+      }, this.labelStyle), (value, prop) => `${prop}: ${value}`).join(";");
+    },
+    styleContent() {
+      return [`#${this.xFormId} { width:100%; padding:0 16px; display: grid;grid-template-columns: repeat(${this.col},1fr);}`, `#${this.xFormId} div.ant-form-item-label { ${this.labelStyleText} }`].join("\n");
+    }
+  },
+  mounted() {
+    const $form = $$1(`#${this.xFormId}`);
+    const $style = $$1("<style/>", {
+      id: `style_${this.xFormId}`
+    }).append(this.styleContent);
+    $form.prepend($style);
+  },
+  watch: {
+    styleContent() {
+      this.updateStyle(this.styleContent);
+    }
+  },
+  methods: {
+    updateStyle(styleContent) {
+      const $style = $$1(`#style_${this.xFormId}`);
+      $style.html(styleContent);
+    }
+  }
+});
+const _export_sfc = (sfc, props3) => {
+  const target = sfc.__vccOpts || sfc;
+  for (const [key2, val] of props3) {
+    target[key2] = val;
+  }
+  return target;
+};
+const _hoisted_1$i = ["id"];
+function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("form", { id: _ctx.xFormId }, [
+    renderSlot(_ctx.$slots, "default")
+  ], 8, _hoisted_1$i);
+}
+const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c]]);
+var locale$2 = {
+  locale: "zh_CN",
+  today: "\u4ECA\u5929",
+  now: "\u6B64\u523B",
+  backToToday: "\u8FD4\u56DE\u4ECA\u5929",
+  ok: "\u786E\u5B9A",
+  timeSelect: "\u9009\u62E9\u65F6\u95F4",
+  dateSelect: "\u9009\u62E9\u65E5\u671F",
+  weekSelect: "\u9009\u62E9\u5468",
+  clear: "\u6E05\u9664",
+  month: "\u6708",
+  year: "\u5E74",
+  previousMonth: "\u4E0A\u4E2A\u6708 (\u7FFB\u9875\u4E0A\u952E)",
+  nextMonth: "\u4E0B\u4E2A\u6708 (\u7FFB\u9875\u4E0B\u952E)",
+  monthSelect: "\u9009\u62E9\u6708\u4EFD",
+  yearSelect: "\u9009\u62E9\u5E74\u4EFD",
+  decadeSelect: "\u9009\u62E9\u5E74\u4EE3",
+  yearFormat: "YYYY\u5E74",
+  dayFormat: "D\u65E5",
+  dateFormat: "YYYY\u5E74M\u6708D\u65E5",
+  dateTimeFormat: "YYYY\u5E74M\u6708D\u65E5 HH\u65F6mm\u5206ss\u79D2",
+  previousYear: "\u4E0A\u4E00\u5E74 (Control\u952E\u52A0\u5DE6\u65B9\u5411\u952E)",
+  nextYear: "\u4E0B\u4E00\u5E74 (Control\u952E\u52A0\u53F3\u65B9\u5411\u952E)",
+  previousDecade: "\u4E0A\u4E00\u5E74\u4EE3",
+  nextDecade: "\u4E0B\u4E00\u5E74\u4EE3",
+  previousCentury: "\u4E0A\u4E00\u4E16\u7EAA",
+  nextCentury: "\u4E0B\u4E00\u4E16\u7EAA"
+};
+const CalendarLocale = locale$2;
+var locale$1 = {
+  placeholder: "\u8BF7\u9009\u62E9\u65F6\u95F4",
+  rangePlaceholder: ["\u5F00\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4"]
+};
+const TimePicker = locale$1;
+var locale = {
+  lang: _objectSpread2$1({
+    placeholder: "\u8BF7\u9009\u62E9\u65E5\u671F",
+    yearPlaceholder: "\u8BF7\u9009\u62E9\u5E74\u4EFD",
+    quarterPlaceholder: "\u8BF7\u9009\u62E9\u5B63\u5EA6",
+    monthPlaceholder: "\u8BF7\u9009\u62E9\u6708\u4EFD",
+    weekPlaceholder: "\u8BF7\u9009\u62E9\u5468",
+    rangePlaceholder: ["\u5F00\u59CB\u65E5\u671F", "\u7ED3\u675F\u65E5\u671F"],
+    rangeYearPlaceholder: ["\u5F00\u59CB\u5E74\u4EFD", "\u7ED3\u675F\u5E74\u4EFD"],
+    rangeMonthPlaceholder: ["\u5F00\u59CB\u6708\u4EFD", "\u7ED3\u675F\u6708\u4EFD"],
+    rangeQuarterPlaceholder: ["\u5F00\u59CB\u5B63\u5EA6", "\u7ED3\u675F\u5B63\u5EA6"],
+    rangeWeekPlaceholder: ["\u5F00\u59CB\u5468", "\u7ED3\u675F\u5468"]
+  }, CalendarLocale),
+  timePickerLocale: _objectSpread2$1({}, TimePicker)
+};
+locale.lang.ok = "\u786E\u5B9A";
+const DatePicker$1 = locale;
+var typeTemplate = "${label}\u4E0D\u662F\u4E00\u4E2A\u6709\u6548\u7684${type}";
+var localeValues = {
+  locale: "zh-cn",
+  Pagination: Pagination$2,
+  DatePicker: DatePicker$1,
+  TimePicker,
+  Calendar: DatePicker$1,
+  global: {
+    placeholder: "\u8BF7\u9009\u62E9"
+  },
+  Table: {
+    filterTitle: "\u7B5B\u9009",
+    filterConfirm: "\u786E\u5B9A",
+    filterReset: "\u91CD\u7F6E",
+    filterEmptyText: "\u65E0\u7B5B\u9009\u9879",
+    filterCheckall: "\u5168\u9009",
+    filterSearchPlaceholder: "\u5728\u7B5B\u9009\u9879\u4E2D\u641C\u7D22",
+    selectAll: "\u5168\u9009\u5F53\u9875",
+    selectInvert: "\u53CD\u9009\u5F53\u9875",
+    selectNone: "\u6E05\u7A7A\u6240\u6709",
+    selectionAll: "\u5168\u9009\u6240\u6709",
+    sortTitle: "\u6392\u5E8F",
+    expand: "\u5C55\u5F00\u884C",
+    collapse: "\u5173\u95ED\u884C",
+    triggerDesc: "\u70B9\u51FB\u964D\u5E8F",
+    triggerAsc: "\u70B9\u51FB\u5347\u5E8F",
+    cancelSort: "\u53D6\u6D88\u6392\u5E8F"
+  },
+  Modal: {
+    okText: "\u786E\u5B9A",
+    cancelText: "\u53D6\u6D88",
+    justOkText: "\u77E5\u9053\u4E86"
+  },
+  Popconfirm: {
+    cancelText: "\u53D6\u6D88",
+    okText: "\u786E\u5B9A"
+  },
+  Transfer: {
+    searchPlaceholder: "\u8BF7\u8F93\u5165\u641C\u7D22\u5185\u5BB9",
+    itemUnit: "\u9879",
+    itemsUnit: "\u9879",
+    remove: "\u5220\u9664",
+    selectCurrent: "\u5168\u9009\u5F53\u9875",
+    removeCurrent: "\u5220\u9664\u5F53\u9875",
+    selectAll: "\u5168\u9009\u6240\u6709",
+    removeAll: "\u5220\u9664\u5168\u90E8",
+    selectInvert: "\u53CD\u9009\u5F53\u9875"
+  },
+  Upload: {
+    uploading: "\u6587\u4EF6\u4E0A\u4F20\u4E2D",
+    removeFile: "\u5220\u9664\u6587\u4EF6",
+    uploadError: "\u4E0A\u4F20\u9519\u8BEF",
+    previewFile: "\u9884\u89C8\u6587\u4EF6",
+    downloadFile: "\u4E0B\u8F7D\u6587\u4EF6"
+  },
+  Empty: {
+    description: "\u6682\u65E0\u6570\u636E"
+  },
+  Icon: {
+    icon: "\u56FE\u6807"
+  },
+  Text: {
+    edit: "\u7F16\u8F91",
+    copy: "\u590D\u5236",
+    copied: "\u590D\u5236\u6210\u529F",
+    expand: "\u5C55\u5F00"
+  },
+  PageHeader: {
+    back: "\u8FD4\u56DE"
+  },
+  Form: {
+    optional: "\uFF08\u53EF\u9009\uFF09",
+    defaultValidateMessages: {
+      default: "\u5B57\u6BB5\u9A8C\u8BC1\u9519\u8BEF${label}",
+      required: "\u8BF7\u8F93\u5165${label}",
+      enum: "${label}\u5FC5\u987B\u662F\u5176\u4E2D\u4E00\u4E2A[${enum}]",
+      whitespace: "${label}\u4E0D\u80FD\u4E3A\u7A7A\u5B57\u7B26",
+      date: {
+        format: "${label}\u65E5\u671F\u683C\u5F0F\u65E0\u6548",
+        parse: "${label}\u4E0D\u80FD\u8F6C\u6362\u4E3A\u65E5\u671F",
+        invalid: "${label}\u662F\u4E00\u4E2A\u65E0\u6548\u65E5\u671F"
+      },
+      types: {
+        string: typeTemplate,
+        method: typeTemplate,
+        array: typeTemplate,
+        object: typeTemplate,
+        number: typeTemplate,
+        date: typeTemplate,
+        boolean: typeTemplate,
+        integer: typeTemplate,
+        float: typeTemplate,
+        regexp: typeTemplate,
+        email: typeTemplate,
+        url: typeTemplate,
+        hex: typeTemplate
+      },
+      string: {
+        len: "${label}\u987B\u4E3A${len}\u4E2A\u5B57\u7B26",
+        min: "${label}\u6700\u5C11${min}\u4E2A\u5B57\u7B26",
+        max: "${label}\u6700\u591A${max}\u4E2A\u5B57\u7B26",
+        range: "${label}\u987B\u5728${min}-${max}\u5B57\u7B26\u4E4B\u95F4"
+      },
+      number: {
+        len: "${label}\u5FC5\u987B\u7B49\u4E8E${len}",
+        min: "${label}\u6700\u5C0F\u503C\u4E3A${min}",
+        max: "${label}\u6700\u5927\u503C\u4E3A${max}",
+        range: "${label}\u987B\u5728${min}-${max}\u4E4B\u95F4"
+      },
+      array: {
+        len: "\u987B\u4E3A${len}\u4E2A${label}",
+        min: "\u6700\u5C11${min}\u4E2A${label}",
+        max: "\u6700\u591A${max}\u4E2A${label}",
+        range: "${label}\u6570\u91CF\u987B\u5728${min}-${max}\u4E4B\u95F4"
+      },
+      pattern: {
+        mismatch: "${label}\u4E0E\u6A21\u5F0F\u4E0D\u5339\u914D${pattern}"
+      }
+    }
+  },
+  Image: {
+    preview: "\u9884\u89C8"
+  }
+};
+const zhCn$1 = localeValues;
+var zhCn = { exports: {} };
+(function(module2, exports2) {
+  !function(e2, _2) {
+    module2.exports = _2(dayjs_min.exports);
+  }(commonjsGlobal, function(e2) {
+    function _2(e3) {
+      return e3 && "object" == typeof e3 && "default" in e3 ? e3 : { default: e3 };
+    }
+    var t2 = _2(e2), d2 = { name: "zh-cn", weekdays: "\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split("_"), weekdaysShort: "\u5468\u65E5_\u5468\u4E00_\u5468\u4E8C_\u5468\u4E09_\u5468\u56DB_\u5468\u4E94_\u5468\u516D".split("_"), weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split("_"), months: "\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split("_"), monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split("_"), ordinal: function(e3, _3) {
+      return "W" === _3 ? e3 + "\u5468" : e3 + "\u65E5";
+    }, weekStart: 1, yearStart: 4, formats: { LT: "HH:mm", LTS: "HH:mm:ss", L: "YYYY/MM/DD", LL: "YYYY\u5E74M\u6708D\u65E5", LLL: "YYYY\u5E74M\u6708D\u65E5Ah\u70B9mm\u5206", LLLL: "YYYY\u5E74M\u6708D\u65E5ddddAh\u70B9mm\u5206", l: "YYYY/M/D", ll: "YYYY\u5E74M\u6708D\u65E5", lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm", llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm" }, relativeTime: { future: "%s\u5185", past: "%s\u524D", s: "\u51E0\u79D2", m: "1 \u5206\u949F", mm: "%d \u5206\u949F", h: "1 \u5C0F\u65F6", hh: "%d \u5C0F\u65F6", d: "1 \u5929", dd: "%d \u5929", M: "1 \u4E2A\u6708", MM: "%d \u4E2A\u6708", y: "1 \u5E74", yy: "%d \u5E74" }, meridiem: function(e3, _3) {
+      var t3 = 100 * e3 + _3;
+      return t3 < 600 ? "\u51CC\u6668" : t3 < 900 ? "\u65E9\u4E0A" : t3 < 1100 ? "\u4E0A\u5348" : t3 < 1300 ? "\u4E2D\u5348" : t3 < 1800 ? "\u4E0B\u5348" : "\u665A\u4E0A";
+    } };
+    return t2.default.locale(d2, null, true), d2;
+  });
+})(zhCn);
+var enAu = { exports: {} };
+(function(module2, exports2) {
+  !function(e2, a2) {
+    module2.exports = a2(dayjs_min.exports);
+  }(commonjsGlobal, function(e2) {
+    function a2(e3) {
+      return e3 && "object" == typeof e3 && "default" in e3 ? e3 : { default: e3 };
+    }
+    var t2 = a2(e2), _2 = { name: "en-au", weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), weekStart: 1, weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"), weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"), ordinal: function(e3) {
+      return e3;
+    }, formats: { LT: "h:mm A", LTS: "h:mm:ss A", L: "DD/MM/YYYY", LL: "D MMMM YYYY", LLL: "D MMMM YYYY h:mm A", LLLL: "dddd, D MMMM YYYY h:mm A" }, relativeTime: { future: "in %s", past: "%s ago", s: "a few seconds", m: "a minute", mm: "%d minutes", h: "an hour", hh: "%d hours", d: "a day", dd: "%d days", M: "a month", MM: "%d months", y: "a year", yy: "%d years" } };
+    return t2.default.locale(_2, null, true), _2;
+  });
+})(enAu);
 function promisifyRequest(request2) {
   return new Promise((resolve2, reject) => {
     request2.oncomplete = request2.onsuccess = () => resolve2(request2.result);
@@ -87016,6 +87044,11 @@ const iStorage = async function(key2, val) {
   }
 };
 iStorage.clear = clear;
+const storage = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  lStorage,
+  iStorage
+}, Symbol.toStringTag, { value: "Module" }));
 function $t$9(prop, payload = {}, i18nMessage = false) {
   const result = {
     label: prop,
@@ -87086,6 +87119,1471 @@ const Cpt_UI_locale = computed(() => {
   const locale2 = State_UI.LANGUAGE[currentLanguage];
   return locale2;
 });
+const BTN_PRESET_MAP = {
+  query: () => ({
+    icon: createVNode(resolveComponent("xIcon"), {
+      "class": "x-button_icon-wrapper",
+      "icon": "InsideSearchOutlined"
+    }, null),
+    text: $t$9("\u67E5\u8BE2").label
+  }),
+  refresh: () => ({
+    icon: createVNode(resolveComponent("xIcon"), {
+      "class": "x-button_icon-wrapper",
+      "icon": "InsideSyncOutlined"
+    }, null),
+    text: $t$9("\u5237\u65B0").label
+  }),
+  cancel: () => ({
+    text: $t$9("\u53D6\u6D88").label
+  }),
+  save: () => ({
+    icon: createVNode(resolveComponent("xIcon"), {
+      "class": "x-button_icon-wrapper",
+      "icon": "InsideSaveOutlined"
+    }, null),
+    text: $t$9("\u4FDD\u5B58").label
+  }),
+  upload: () => ({
+    icon: createVNode(resolveComponent("xIcon"), {
+      "class": "x-button_icon-wrapper",
+      "icon": "InsideUploadOutlined"
+    }, null),
+    text: $t$9("\u4E0A\u4F20").label
+  }),
+  delete: (configs) => {
+    configs.type = "danger";
+    configs.ghost = true;
+    return {
+      icon: createVNode(resolveComponent("xIcon"), {
+        "class": "x-button_icon-wrapper",
+        "icon": "InsideDeleteOutlined"
+      }, null),
+      text: $t$9("\u5220\u9664").label
+    };
+  }
+};
+const xButton = defineComponent({
+  name: "xButton",
+  props: {
+    payload: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  beforeMount() {
+    if (!this.configs) {
+      debugger;
+      return;
+    }
+    const presetFn = BTN_PRESET_MAP[this.configs.preset];
+    if (presetFn) {
+      const preset = presetFn(this.configs);
+      this.configs.text = createVNode(Fragment, null, [preset.icon, createVNode("span", {
+        "class": "ml4"
+      }, [preset.text])]);
+    }
+  },
+  data() {
+    return {
+      loading: true
+    };
+  },
+  setup(props3) {
+    let Cpt_isShow = true;
+    if (props3.configs.isShow !== void 0) {
+      if (xU.isFunction(props3.configs.isShow)) {
+        Cpt_isShow = computed(props3.configs.isShow);
+      }
+      if (xU.isBoolean(props3.configs.isShow)) {
+        Cpt_isShow = props3.configs.isShow;
+      }
+    }
+    return {
+      Cpt_isShow
+    };
+  },
+  computed: {
+    isClickHandlerOnAttrs() {
+      var _a;
+      return !!((_a = this.$attrs) == null ? void 0 : _a.onClick);
+    },
+    type() {
+      if (["query", "save"].includes(this.configs.preset)) {
+        return "primary";
+      }
+      return this.configs.type;
+    },
+    title() {
+      if (xU.isString(this.disabled) && this.disabled.length > 0) {
+        return this.disabled;
+      }
+      if (xU.isString(this.configs.title) && this.configs.title.length > 0) {
+        return this.configs.title;
+      }
+      return false;
+    },
+    disabled() {
+      if (xU.isBoolean(this.configs.disabled)) {
+        return this.configs.disabled;
+      }
+      if (xU.isFunction(this.configs.disabled)) {
+        return this.configs.disabled(this);
+      }
+      return false;
+    },
+    text() {
+      if (xU.isFunction(this.configs.text)) {
+        return this.configs.text(this) || "";
+      }
+      return this.configs.text || "";
+    }
+  },
+  watch: {
+    configs: {
+      immediate: true,
+      handler(configs) {
+        this.loading = !!configs.loading;
+      }
+    }
+  },
+  created() {
+  },
+  methods: {
+    async handleButtonClick() {
+      var _a, _b;
+      if (xU.isFunction((_a = this == null ? void 0 : this.configs) == null ? void 0 : _a.onClick)) {
+        this.loading = true;
+        try {
+          await ((_b = this == null ? void 0 : this.configs) == null ? void 0 : _b.onClick.call(this.configs, this));
+        } catch (e2) {
+          console.error(e2);
+        } finally {
+          this.loading = false;
+        }
+      }
+    }
+  },
+  render() {
+    if (!this.Cpt_isShow) {
+      return null;
+    }
+    const propsWillDeleteFromProperty = ["text", "loading", "disabled", "title", "onClick"];
+    const _properties = xU.omit(this.configs, propsWillDeleteFromProperty);
+    if (!this.isClickHandlerOnAttrs) {
+      _properties.onClick = this.handleButtonClick;
+    }
+    if (this.title) {
+      _properties.title = this.title;
+    }
+    return createVNode(resolveComponent("aButton"), mergeProps({
+      "class": "x-button antdv-button",
+      "loading": this.loading,
+      "disabled": !!this.disabled,
+      "type": this.type
+    }, _properties), {
+      default: () => {
+        const vDomDefautl = this.$slots.default && this.$slots.default();
+        return createVNode(Fragment, null, [this.text, vDomDefautl]);
+      }
+    });
+  }
+});
+const _sfc_main$c = defineComponent({
+  name: "XButtonCountDown",
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  data() {
+    const vm = this;
+    return {
+      state: {
+        captchaCount: 0
+      },
+      btnConfigs: {
+        disabled: false,
+        size: "large",
+        style: {
+          minWidth: "112px"
+        },
+        class: "center",
+        text: vm.configs.text.normal,
+        async onClick() {
+          if (xU.isFunction(vm.configs.onClick)) {
+            await vm.configs.onClick({
+              countDown: vm.countDown
+            });
+          }
+        }
+      }
+    };
+  },
+  watch: {
+    "state.captchaCount"(captchaCount) {
+      this.handleCaptchaCountChange(captchaCount);
+    }
+  },
+  methods: {
+    countDown() {
+      this.state.captchaCount++;
+      if (this.state.captchaCount <= this.configs.countMax) {
+        setTimeout(this.countDown, 1e3);
+      } else {
+        this.state.captchaCount = 0;
+      }
+    },
+    handleCaptchaCountChange(captchaCount) {
+      if (captchaCount === 0) {
+        this.btnConfigs.text = this.configs.text.normal;
+        this.btnConfigs.disabled = false;
+        return;
+      }
+      const setCounDownText = () => {
+        return this.btnConfigs.text = `${this.configs.countMax - captchaCount} s`;
+      };
+      if (captchaCount === 1) {
+        setCounDownText();
+        this.btnConfigs.disabled = true;
+        return;
+      }
+      if (captchaCount && captchaCount <= this.configs.countMax) {
+        setCounDownText();
+        return;
+      }
+    }
+  }
+});
+function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_xButton = resolveComponent("xButton");
+  return openBlock(), createBlock(_component_xButton, { configs: _ctx.btnConfigs }, null, 8, ["configs"]);
+}
+const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b]]);
+const line$1 = {};
+const CONFIGS_MAP = {
+  line: line$1
+};
+const _sfc_main$b = defineComponent({
+  name: "xCharts",
+  props: {
+    payload: {
+      type: Object,
+      default: ""
+    },
+    configs: {
+      type: [String, Object],
+      required: true
+    },
+    dataset: {
+      type: [Array, Object],
+      default() {
+        return [];
+      }
+    }
+  },
+  data() {
+    const id = xU.genId("xChart");
+    return {
+      id
+    };
+  },
+  computed: {
+    helper() {
+      if (xU.isPlainObject(this.configs)) {
+        return this.configs;
+      }
+      return CONFIGS_MAP[this.configs];
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      this.updateOptions();
+      this.observe();
+    },
+    updateOptions() {
+      if (this.myChart) {
+        this.myChart.dispose();
+      }
+      const options = this.helper.initOptions(this.$props);
+      this.options = this.helper.updateOptions(options, this.dataset);
+      const dom = document.querySelector(`#${this.id}`);
+      this.myChart = this.$echarts.init(dom);
+      this.myChart.showLoading();
+      this.myChart.setOption(this.options);
+      this.myChart.hideLoading();
+    },
+    observe() {
+      this.resizeObserver = new ResizeObserver(() => {
+        var _a;
+        if (this.myChart) {
+          ((_a = this.myChart) == null ? void 0 : _a.resize) && this.myChart.resize();
+        }
+      });
+      this.resizeObserver.observe(this.$el);
+    }
+  }
+});
+const _hoisted_1$h = ["id"];
+function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", {
+    id: _ctx.id,
+    class: "x-charts flex flex1 center middle"
+  }, null, 8, _hoisted_1$h);
+}
+const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a]]);
+const _sfc_main$a = defineComponent({
+  name: "xView",
+  props: {
+    isShow: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    id() {
+      return `xView_${this._.uid}`;
+    }
+  }
+});
+const _hoisted_1$g = ["id"];
+function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  return withDirectives((openBlock(), createElementBlock("div", { id: _ctx.id }, [
+    renderSlot(_ctx.$slots, "default")
+  ], 8, _hoisted_1$g)), [
+    [vShow, !!_ctx.isShow]
+  ]);
+}
+const xView = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9]]);
+const _hoisted_1$f = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$c = /* @__PURE__ */ createBaseVNode("path", { d: "M338.261 137.045h-9.13a9.16 9.16 0 0 0 9.13-9.159v9.16h347.45v-9.16c0 5.035 4.095 9.16 9.101 9.16h-9.102v82.26h82.262v-91.42a73.216 73.216 0 0 0-73.131-73.13H329.102a73.216 73.216 0 0 0-73.159 73.13v91.45h82.29v-82.29zm576 82.29h-804.55c-20.253 0-36.58 16.327-36.58 36.551v36.58c0 5.034 4.096 9.159 9.13 9.159h69.063l28.217 597.703a73.216 73.216 0 0 0 73.046 69.689h518.826a73.045 73.045 0 0 0 73.046-69.689l28.245-597.732h69.006a9.16 9.16 0 0 0 9.16-9.102v-36.636c0-20.196-16.356-36.551-36.58-36.551zm-151.665 667.42h-501.22l-27.648-585.159H790.3l-27.676 585.16z" }, null, -1);
+const _hoisted_3$b = [
+  _hoisted_2$c
+];
+function render$a(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$f, _hoisted_3$b);
+}
+const InsideDeleteOutlined = { name: "DeleteOutlined", render: render$a };
+const _hoisted_1$e = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$b = /* @__PURE__ */ createBaseVNode("path", { d: "M512 628c17.6 0 32-14.4 32-32V308c0-17.6-14.4-32-32-32s-32 14.4-32 32v288c0 17.6 14.4 32 32 32zm-44 76a44 44 0 1 0 88 0 44 44 0 1 0-88 0Zm44-640C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm271.5 719.5c-35.3 35.3-76.4 63-122.1 82.3-47.3 20-97.6 30.2-149.5 30.2s-102.2-10.1-149.5-30.2c-45.7-19.3-86.8-47-122.1-82.3s-63-76.4-82.3-122.1c-20-47.3-30.2-97.6-30.2-149.5s10.1-102.2 30.2-149.5c19.3-45.7 47-86.8 82.3-122.1s76.4-63 122.1-82.3c47.3-20 97.6-30.2 149.5-30.2s102.2 10.1 149.5 30.2c45.7 19.3 86.8 47 122.1 82.3s63 76.4 82.3 122.1c20 47.3 30.2 97.6 30.2 149.5s-10.1 102.2-30.2 149.5c-19.3 45.8-47 86.8-82.3 122.1z" }, null, -1);
+const _hoisted_3$a = [
+  _hoisted_2$b
+];
+function render$9(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$e, _hoisted_3$a);
+}
+const InsideExclamationCircleOutlined = { name: "ExclamationCircleOutlined", render: render$9 };
+const _hoisted_1$d = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$a = /* @__PURE__ */ createBaseVNode("path", { d: "M448 128a64 64 0 1 0 128 0 64 64 0 1 0-128 0ZM257.1 180.5a61.3 61.3 0 1 0 122.6 0 61.3 61.3 0 1 0-122.6 0ZM121.8 318.4a58.7 58.7 0 1 0 117.4 0 58.7 58.7 0 1 0-117.4 0ZM72 512a56 56 0 1 0 112 0 56 56 0 1 0-112 0Zm55.2 193.6a53.3 53.3 0 1 0 106.6 0 53.3 53.3 0 1 0-106.6 0Zm140.5 137.9a50.7 50.7 0 1 0 101.4 0 50.7 50.7 0 1 0-101.4 0ZM464 896a48 48 0 1 0 96 0 48 48 0 1 0-96 0Zm196.3-52.5a45.3 45.3 0 1 0 90.6 0 45.3 45.3 0 1 0-90.6 0Zm140.5-137.9a42.7 42.7 0 1 0 85.4 0 42.7 42.7 0 1 0-85.4 0ZM856 512a40 40 0 1 0 80 0 40 40 0 1 0-80 0ZM837.9 377.7a33.8 33.8 0 1 0 67.6 0 33.8 33.8 0 1 0-67.6 0Zm-61.5-113.5a28.3 28.3 0 1 0 56.6 0 28.3 28.3 0 1 0-56.6 0ZM680 180a24 24 0 1 0 48 0 24 24 0 1 0-48 0Z" }, null, -1);
+const _hoisted_3$9 = /* @__PURE__ */ createBaseVNode("animateTransform", {
+  additive: "sum",
+  attributeName: "transform",
+  attributeType: "XML",
+  begin: "0s",
+  dur: "4s",
+  from: "0",
+  repeatCount: "indefinite",
+  to: "360",
+  type: "rotate"
+}, null, -1);
+const _hoisted_4 = [
+  _hoisted_2$a,
+  _hoisted_3$9
+];
+function render$8(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$d, _hoisted_4);
+}
+const InsideLoadingOutlined = { name: "LoadingOutlined", render: render$8 };
+const _hoisted_1$c = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$9 = /* @__PURE__ */ createBaseVNode("path", { d: "M144 928a48 48 0 0 1-48-48V144a48 48 0 0 1 48-48h592v.448a48 48 0 0 1 27.328 13.6l150.624 150.624A48 48 0 0 1 928 294.624V880a48 48 0 0 1-48 48H144zm144-768H160v704h128V496a48 48 0 0 1 43.392-47.776L336 448h352a48 48 0 0 1 48 48v368h128V301.248l-128-128V272a48 48 0 0 1-48 48H336a48 48 0 0 1-48-48V160zm384 352H352v352h320V512zm0-352H352v96h320v-96z" }, null, -1);
+const _hoisted_3$8 = [
+  _hoisted_2$9
+];
+function render$7(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$c, _hoisted_3$8);
+}
+const InsideSaveOutlined = { name: "SaveOutlined", render: render$7 };
+const _hoisted_1$b = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$8 = /* @__PURE__ */ createBaseVNode("path", { d: "M479.04 128c176.16 0 318.976 142.848 318.976 319.04a317.984 317.984 0 0 1-86.976 218.976l175.616 175.552c11.52 11.52 12.384 29.568 2.656 42.08l-2.656 3.008a31.872 31.872 0 0 1-45.088 0L662.784 707.904a317.504 317.504 0 0 1-183.776 58.24C302.816 766.144 160 623.296 160 447.04S302.816 128 479.04 128zm0 63.808a255.232 255.232 0 0 0-255.232 255.264 255.232 255.232 0 1 0 510.4 0 255.232 255.232 0 0 0-255.2-255.264z" }, null, -1);
+const _hoisted_3$7 = [
+  _hoisted_2$8
+];
+function render$6(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$b, _hoisted_3$7);
+}
+const InsideSearchOutlined = { name: "SearchOutlined", render: render$6 };
+const _hoisted_1$a = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$7 = /* @__PURE__ */ createBaseVNode("path", { d: "M168 504.2c1-43.7 10-86.1 26.9-126 17.3-41 42.1-77.7 73.7-109.4S337 212.3 378 195c42.4-17.9 87.4-27 133.9-27s91.5 9.1 133.8 27c40.9 17.3 77.7 42.1 109.3 73.8 9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47c-5.3 4.1-3.5 12.5 3 14.1l175.7 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c0-6.7-7.7-10.5-12.9-6.3l-56.4 44.1C765.8 155.1 646.2 92 511.8 92 282.7 92 96.3 275.6 92 503.8c-.1 4.5 3.5 8.2 8 8.2h60c4.4 0 7.9-3.5 8-7.8zm756 7.8h-60c-4.4 0-7.9 3.5-8 7.8-1 43.7-10 86.1-26.9 126-17.3 41-42.1 77.8-73.7 109.4S687 811.7 646 829c-42.4 17.9-87.4 27-133.9 27s-91.5-9.1-133.9-27c-40.9-17.3-77.7-42.1-109.3-73.8-9.9-9.9-19.2-20.4-27.8-31.4l60.2-47c5.3-4.1 3.5-12.5-3-14.1l-175.7-43c-5-1.2-9.9 2.6-9.9 7.7l-.7 181c0 6.7 7.7 10.5 12.9 6.3l56.4-44.1C258.2 868.9 377.8 932 512.2 932c229.2 0 415.5-183.7 419.8-411.8.1-4.5-3.5-8.2-8-8.2z" }, null, -1);
+const _hoisted_3$6 = [
+  _hoisted_2$7
+];
+function render$5(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$a, _hoisted_3$6);
+}
+const InsideSyncOutlined = { name: "SyncOutlined", render: render$5 };
+const _hoisted_1$9 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$6 = /* @__PURE__ */ createBaseVNode("path", { d: "M512 85.333A426.667 426.667 0 1 0 938.667 512 426.667 426.667 0 0 0 512 85.333zm0 768A341.333 341.333 0 1 1 853.333 512 341.333 341.333 0 0 1 512 853.333zm30.72-587.946A32.853 32.853 0 0 0 520.107 256h-16.214a32 32 0 0 0-22.613 9.387L347.733 399.36a21.333 21.333 0 0 0 0 30.293l29.867 30.294a21.333 21.333 0 0 0 30.293 0l61.44-61.867v348.587A21.333 21.333 0 0 0 490.667 768h42.666a21.333 21.333 0 0 0 21.334-21.333V398.08l61.44 61.44a20.907 20.907 0 0 0 29.866 0l30.294-30.293a21.333 21.333 0 0 0 0-30.294z" }, null, -1);
+const _hoisted_3$5 = [
+  _hoisted_2$6
+];
+function render$4(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$9, _hoisted_3$5);
+}
+const InsideUploadOutlined = { name: "UploadOutlined", render: render$4 };
+const _hoisted_1$8 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$5 = /* @__PURE__ */ createBaseVNode("path", { d: "M512 128c212 0 384 172 384 384S724 896 512 896 128 724 128 512s172-384 384-384m0-64C264.8 64 64 264.8 64 512s200.8 448 448 448 448-200.8 448-448S759.2 64 512 64zm32 704h-64v-64h64v64zm11.2-203.2-5.6 4.8c-3.2 2.4-5.6 8-5.6 12.8v58.4h-64v-58.4c0-24.8 11.2-48 29.6-63.2l5.6-4.8c56-44.8 83.2-68 83.2-108 0-48-38.4-86.4-86.4-86.4-49.6 0-86.4 36.8-86.4 86.4h-64c0-84 66.4-150.4 150.4-150.4 83.2 0 150.4 67.2 150.4 150.4 0 72.8-49.6 112.8-107.2 158.4z" }, null, -1);
+const _hoisted_3$4 = [
+  _hoisted_2$5
+];
+function render$3(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$8, _hoisted_3$4);
+}
+const Insidetips = { name: "tips", render: render$3 };
+const _hoisted_1$7 = {
+  width: "64",
+  height: "41",
+  class: "ant-empty-img-simple"
+};
+const _hoisted_2$4 = /* @__PURE__ */ createStaticVNode('<g fill="none" fill-rule="evenodd" transform="translate(0 1)"><ellipse cx="32" cy="33" fill="#F5F5F5" class="ant-empty-img-simple-ellipse" rx="32" ry="7"></ellipse><g fill-rule="nonzero" stroke="#D9D9D9" class="ant-empty-img-simple-g"><path d="M55 12.76 44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"></path><path fill="#FAFAFA" d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z" class="ant-empty-img-simple-path"></path></g></g>', 1);
+const _hoisted_3$3 = [
+  _hoisted_2$4
+];
+function render$2(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$7, _hoisted_3$3);
+}
+const InsideEmpty = { name: "empty", render: render$2 };
+const _hoisted_1$6 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$3 = /* @__PURE__ */ createBaseVNode("path", { d: "M629.392 415.033 465.775 251.416c-7.992-7.992-20.947-7.992-28.939 0-7.992 8.002-7.992 20.957 0 28.95l128.68 128.68H389.97V184.083c0-11.298-9.17-20.467-20.466-20.467H21.813c-11.307 0-20.465 9.17-20.465 20.467v818.082c0 11.307 9.158 20.466 20.466 20.466h593.108c11.308 0 20.466-9.159 20.466-20.466V429.512c0-5.433-2.159-10.632-5.996-14.48zm-34.936 566.666H42.28v-777.15h306.756v224.963c0 11.298 9.159 20.466 20.467 20.466h224.953v531.72zm429.523-715.803v572.652c0 11.308-9.16 20.466-20.467 20.466H695.651c-11.298 0-20.466-9.158-20.466-20.466 0-11.297 9.168-20.466 20.466-20.466h287.395v-531.72H758.093c-11.308 0-20.466-9.169-20.466-20.466V40.932H430.87v75.694c0 11.308-9.169 20.466-20.466 20.466-11.307 0-20.466-9.158-20.466-20.466v-96.16C389.938 9.17 399.097 0 410.404 0h347.689c11.297 0 20.466 9.169 20.466 20.466V245.43h175.548l-128.68-128.681c-7.993-7.992-7.993-20.947 0-28.95 7.991-7.991 20.946-7.991 28.939 0l163.616 163.627a20.455 20.455 0 0 1 5.997 14.47z" }, null, -1);
+const _hoisted_3$2 = [
+  _hoisted_2$3
+];
+function render$1(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$6, _hoisted_3$2);
+}
+const InsideCopy = { name: "copy", render: render$1 };
+const _hoisted_1$5 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "icon",
+  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
+  viewBox: "0 0 1024 1024"
+};
+const _hoisted_2$2 = /* @__PURE__ */ createBaseVNode("path", {
+  fill: "#5A626A",
+  d: "M439.264 208a16 16 0 0 0-16 16v67.968a239.744 239.744 0 0 0-46.496 26.896l-58.912-34A16 16 0 0 0 296 290.72l-80 138.56a16 16 0 0 0 5.856 21.856l58.896 34a242.624 242.624 0 0 0 0 53.728l-58.88 34a16 16 0 0 0-6.72 20.176l.848 1.68 80 138.56a16 16 0 0 0 21.856 5.856l58.912-34a239.744 239.744 0 0 0 46.496 26.88V800a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16v-67.968a239.744 239.744 0 0 0 46.512-26.896l58.912 34a16 16 0 0 0 21.856-5.856l80-138.56a16 16 0 0 0-4.288-20.832l-1.568-1.024-58.896-34a242.624 242.624 0 0 0 0-53.728l58.88-34a16 16 0 0 0 6.72-20.176l-.848-1.68-80-138.56a16 16 0 0 0-21.856-5.856l-58.912 34a239.744 239.744 0 0 0-46.496-26.88V224a16 16 0 0 0-16-16h-160zm32 48h96v67.376l28.8 12.576a192.21 192.21 0 0 1 37.184 21.52l25.28 18.688 58.448-33.728 48 83.136-58.368 33.68 3.472 31.2a194.624 194.624 0 0 1 0 43.104l-3.472 31.2 58.368 33.68-48 83.136-58.432-33.728-25.296 18.688a192.21 192.21 0 0 1-37.184 21.52l-28.8 12.576V768h-96v-67.376l-28.784-12.576a192.21 192.21 0 0 1-37.184-21.52l-25.28-18.688-58.448 33.728-48-83.136 58.368-33.68-3.472-31.2a194.624 194.624 0 0 1 0-43.104l3.472-31.2-58.368-33.68 48-83.136L380 376.16l25.296-18.688a191.744 191.744 0 0 1 37.184-21.52l28.8-12.576V256zm47.28 144a112 112 0 1 0 0 224 112 112 0 0 0 0-224zm0 48a64 64 0 1 1 0 128 64 64 0 0 1 0-128z"
+}, null, -1);
+const _hoisted_3$1 = [
+  _hoisted_2$2
+];
+function render13(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$5, _hoisted_3$1);
+}
+const insideSettingOutlined = { name: "SettingOutlined", render: render13 };
+const xIcon$1 = "";
+const insideIcons = {
+  InsideDeleteOutlined,
+  InsideExclamationCircleOutlined,
+  InsideLoadingOutlined,
+  InsideSaveOutlined,
+  InsideSearchOutlined,
+  InsideSyncOutlined,
+  InsideUploadOutlined,
+  Insidetips,
+  InsideEmpty,
+  InsideCopy,
+  insideSettingOutlined
+};
+const xIcon = defineComponent(markRaw({
+  name: "xIcon",
+  props: ["icon"],
+  data() {
+    const id = "lazy-svg_" + this._.uid;
+    return {
+      id,
+      svgIcon: null
+    };
+  },
+  computed: {
+    baseAttrs() {
+      return {
+        id: this.id,
+        role: "img",
+        ariaLabel: this.icon,
+        class: "xIcon anticon"
+      };
+    },
+    iconKey() {
+      const _iconKey = xU.camelCase(this.getIconPath()).replace(/\s/, "");
+      return _iconKey;
+    }
+  },
+  methods: {
+    getIconPath() {
+      if (!State_UI.assetsSvgPath) {
+        debugger;
+      }
+      const iconPath = `${State_UI.assetsSvgPath}/${this.icon}.svg`;
+      return iconPath;
+    },
+    async setIcon() {
+      if (!this.icon)
+        return;
+      try {
+        let SvgIconAny = await (async () => {
+          let _SvgIconAny = insideIcons[this.icon];
+          if (_SvgIconAny) {
+            xU(this.icon);
+            return _SvgIconAny;
+          }
+          if (!State_UI.isDev) {
+            _SvgIconAny = await iStorage(this.iconKey);
+            if (_SvgIconAny) {
+              return _SvgIconAny;
+            }
+          }
+          try {
+            _SvgIconAny = await xU.asyncLoadText(this.getIconPath());
+          } catch (error) {
+            console.error(error);
+          }
+          return _SvgIconAny;
+        })();
+        if (xU.isString(SvgIconAny) && SvgIconAny.length > 0) {
+          const SvgComponentByString = {
+            name: this.icon,
+            template: SvgIconAny
+          };
+          await iStorage(this.iconKey, SvgIconAny);
+          insideIcons[this.icon] = SvgComponentByString;
+          this.svgIcon = createVNode(SvgComponentByString, this.baseAttrs, null);
+        } else if ((SvgIconAny == null ? void 0 : SvgIconAny.render) || (SvgIconAny == null ? void 0 : SvgIconAny.template)) {
+          this.svgIcon = createVNode(SvgIconAny, this.baseAttrs, null);
+        } else {
+          console.error("component xIcon miss svg: " + this.icon);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+  render() {
+    if (this.svgIcon) {
+      return this.svgIcon;
+    }
+    return createVNode(InsideLoadingOutlined, this.baseAttrs, null);
+  },
+  watch: {
+    icon: {
+      immediate: true,
+      handler() {
+        this.setIcon();
+      }
+    }
+  }
+}));
+function defDataGridOption(options) {
+  options.pagination = options.pagination || defPagination();
+  options.isLoading = Boolean(options.isLoading);
+  if (options.queryTableList) {
+    options._queryTableList_origin = options.queryTableList;
+    options.queryTableList = async function(...args) {
+      this.isLoading = true;
+      await this._queryTableList_origin.apply(this, args);
+      this.isLoading = false;
+    };
+  }
+  options.onPaginationChange = options.onPaginationChange || async function(pagination) {
+    await this.queryTableList({
+      pagination
+    });
+  };
+  return options;
+}
+function defPagination(num_page = 1, num_size = 10, num_total = 0) {
+  const {
+    page,
+    size: size2,
+    total: total2
+  } = State_UI.pagination;
+  return {
+    [page]: num_page || 1,
+    [size2]: num_size || 10,
+    [total2]: num_total || 0
+  };
+}
+function setPagination(StateTable, pagination) {
+  const PAGINATION_MAP = State_UI.pagination;
+  xU.each(pagination, (value, prop) => {
+    let realProp = PAGINATION_MAP[prop];
+    if (!realProp) {
+      realProp = prop;
+    }
+    StateTable.pagination[realProp] = value;
+  });
+}
+function defCol(options) {
+  return {
+    [options.prop]: {
+      ...options,
+      key: options.prop,
+      title: options.label,
+      dataIndex: options.prop
+    }
+  };
+}
+function filterColIsShow(isShow, prop) {
+  if (xU.isBoolean(isShow)) {
+    return isShow;
+  } else {
+    return true;
+  }
+}
+function setDataGridInfo(StateBind, result = {}) {
+  const {
+    data: data9 = [],
+    total: total2 = false,
+    selected = false
+  } = result;
+  StateBind.dataSource = data9;
+  if (selected) {
+    StateBind.selected = selected;
+  }
+  if (total2 || total2 === 0) {
+    setPagination(StateBind, {
+      total: total2
+    });
+  }
+}
+const PAGE_SIZE_OPTIONS = ["10", "20", "30"];
+const xPagination = defineComponent({
+  name: "xPagination",
+  setup() {
+    return {
+      State_UI
+    };
+  },
+  props: {
+    onPaginationChange: {
+      type: Function,
+      default: false
+    },
+    pagination: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  data() {
+    const {
+      page,
+      size: size2,
+      total: total2
+    } = State_UI.pagination;
+    return {
+      pageSizeOptions: PAGE_SIZE_OPTIONS,
+      page,
+      size: size2,
+      total: total2
+    };
+  },
+  methods: {
+    onShowSizeChange: xU.debounce(function(page, size2) {
+      setPagination(this, {
+        page,
+        size: size2
+      });
+      if (this.onPaginationChange) {
+        this.onPaginationChange(this.pagination);
+      }
+    }, 30)
+  },
+  computed: {
+    i18nMessage() {
+      return {
+        \u603B\u6761\u6570: "\u603B\u6761\u6570 {total}",
+        \u6761\u9875: "{size}\u6761/\u9875",
+        ...this.State_UI.i18nMessage
+      };
+    }
+  },
+  render() {
+    const {
+      page,
+      size: size2,
+      total: total2
+    } = State_UI.pagination;
+    console.log(page, size2, total2);
+    return createVNode(resolveComponent("aPagination"), {
+      "current": this.pagination[page],
+      "onUpdate:current": ($event) => this.pagination[page] = $event,
+      "pageSizeOptions": this.pageSizeOptions,
+      "total": this.pagination[total2],
+      "pageSize": this.pagination[size2],
+      "show-size-changer": true,
+      "showTotal": (total3) => this.$t("\u603B\u6761\u6570", {
+        total: total3
+      }, this.i18nMessage).label,
+      "onShowSizeChange": this.onShowSizeChange,
+      "onChange": this.onShowSizeChange
+    }, {
+      buildOptionText: (props3) => {
+        return createVNode("span", null, [this.$t("\u6761\u9875", {
+          size: props3.value
+        }, this.i18nMessage).label]);
+      }
+    });
+  }
+});
+const _sfc_main$9 = defineComponent({
+  name: "XDataGrid",
+  components: {
+    xPagination
+  },
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  setup() {
+    return {
+      Cpt_UI_locale
+    };
+  },
+  data() {
+    return {
+      State: {
+        id: xU.genId("xDataGrid")
+      }
+    };
+  },
+  computed: {
+    Cpt_Columns() {
+      if (this.configs.isGroupingColumns) {
+        return this.configs.columns;
+      }
+      let columns = null;
+      columns = xU.map(this.Cpt_ColumnsOrder, (prop) => xU.find(this.configs.columns, {
+        prop
+      }));
+      columns = xU.filter(columns, (i2) => filterColIsShow(i2 == null ? void 0 : i2.isShow, i2 == null ? void 0 : i2.prop));
+      return columns;
+    },
+    Cpt_ColumnsOrder() {
+      const order = (() => {
+        if (this.configs.columns_order) {
+          return this.configs.columns_order;
+        } else {
+          return xU.map(this.configs.columns, (i2) => i2.prop);
+        }
+      })();
+      return xU.filter(order, (i2) => !!i2);
+    },
+    Cpt_AntTableProperty() {
+      if (this.configs.antTableProperty) {
+        return this.configs.antTableProperty;
+      } else {
+        return {};
+      }
+    },
+    Cpt_VNodeTable() {
+      if (this.configs.renderTable) {
+        return this.configs.renderTable({
+          vm: this
+        });
+      } else {
+        const slots = {
+          emptyText: () => createVNode("div", {
+            "class": "ant-empty ant-empty-normal"
+          }, [createVNode("div", {
+            "class": "ant-empty-image"
+          }, [createVNode(resolveComponent("xIcon"), {
+            "icon": "InsideEmpty",
+            "style": "width:64px"
+          }, null)]), createVNode("p", {
+            "class": "ant-empty-description"
+          }, [this.Cpt_UI_locale.Empty.description])]),
+          bodyCell: (args) => {
+            const {
+              column: column2
+            } = args;
+            if (column2 && column2.renderCell) {
+              const vNode = column2.renderCell(args);
+              if (xU.isNull(vNode) || xU.isUndefined(vNode)) {
+                return "";
+              }
+              return vNode;
+            }
+          }
+        };
+        const scroll = (() => {
+          if (this.configs.scroll) {
+            return this.configs.scroll;
+          }
+          return {
+            x: 300
+          };
+        })();
+        return createVNode(Table, mergeProps({
+          "loading": this.configs.isLoading,
+          "dataSource": this.configs.dataSource,
+          "columns": this.Cpt_Columns,
+          "scroll": scroll,
+          "pagination": false,
+          "locale": this.Cpt_UI_locale.Table
+        }, this.Cpt_AntTableProperty), slots);
+      }
+    },
+    Cpt_VNodePagination() {
+      if (this.configs.isHidePagination) {
+        return null;
+      }
+      return createVNode(xPagination, {
+        "class": "table-pagination",
+        "pagination": this.configs.pagination,
+        "onPaginationChange": this.handlePaginationChange
+      }, null);
+    }
+  },
+  mounted() {
+    if (this.configs.onMounted) {
+      this.configs.onMounted({
+        id: this.State.id
+      });
+    }
+  },
+  watch: {
+    "configs.pagination": {
+      deep: true,
+      handler(pagination) {
+        xU(JSON.stringify(pagination));
+      }
+    }
+  },
+  methods: {
+    async handlePaginationChange(pagination) {
+      var _a;
+      if ((_a = this == null ? void 0 : this.configs) == null ? void 0 : _a.onPaginationChange) {
+        this.configs.isLoading = true;
+        await this.configs.onPaginationChange(pagination);
+        this.configs.isLoading = false;
+      }
+    }
+  },
+  render() {
+    return createVNode("div", {
+      "id": this.State.id
+    }, [this.Cpt_VNodeTable, this.Cpt_VNodePagination]);
+  }
+});
+const xDataGrid_vue_vue_type_style_index_0_lang = "";
+const _sfc_main$8 = defineComponent({
+  name: "xColFilter",
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  methods: {
+    handleChecked(col) {
+      const target = xU.find(this.configs.columns, {
+        key: col.key
+      });
+      target.isShow = xU.isBoolean(target.isShow) ? !target.isShow : false;
+    }
+  },
+  computed: {
+    Cpt_ColumnsOrder() {
+      const order = (() => {
+        if (this.configs.columns_order) {
+          return this.configs.columns_order;
+        } else {
+          return xU.map(this.configs.columns, (i2) => i2.prop);
+        }
+      })();
+      return xU.filter(order, (i2) => !!i2);
+    },
+    Cpt_Columns() {
+      return xU.map(this.Cpt_ColumnsOrder, (prop) => xU.find(this.configs.columns, {
+        prop
+      }));
+    },
+    checkedList() {
+      return xU.filter(this.Cpt_ColumnsOrder, (prop) => {
+        const {
+          isShow
+        } = this.configs.columns[prop];
+        return filterColIsShow(isShow);
+      });
+    }
+  }
+});
+function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_aCheckbox = resolveComponent("aCheckbox");
+  const _component_xIcon = resolveComponent("xIcon");
+  const _component_aButton = resolveComponent("aButton");
+  const _component_aPopover = resolveComponent("aPopover");
+  return openBlock(), createBlock(_component_aPopover, {
+    placement: "leftTop",
+    trigger: "click"
+  }, {
+    content: withCtx(() => [
+      (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.Cpt_Columns, (col) => {
+        return openBlock(), createElementBlock("p", {
+          key: col.key
+        }, [
+          createVNode(_component_aCheckbox, {
+            checked: _ctx.checkedList.includes(col.key),
+            onChange: ($event) => _ctx.handleChecked(col)
+          }, {
+            default: withCtx(() => [
+              createTextVNode(toDisplayString(col.title), 1)
+            ]),
+            _: 2
+          }, 1032, ["checked", "onChange"])
+        ]);
+      }), 128))
+    ]),
+    default: withCtx(() => [
+      createVNode(_component_aButton, null, {
+        icon: withCtx(() => [
+          createVNode(_component_xIcon, {
+            icon: "insideSettingOutlined",
+            style: { "height": "100%", "width": "100%" }
+          })
+        ]),
+        _: 1
+      })
+    ]),
+    _: 1
+  });
+}
+const xColFilter = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
+const _sfc_main$7 = defineComponent({
+  name: "xDataGridToolbar",
+  components: {
+    xColFilter
+  },
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  computed: {
+    Cpt_btn_query() {
+      return {
+        preset: "query",
+        onClick: async () => {
+          if (this.configs.queryTableList) {
+            setPagination(this.configs, {
+              page: 1
+            });
+            await this.configs.queryTableList({
+              pagination: {
+                page: 1
+              }
+            });
+          }
+        }
+      };
+    },
+    Cpt_btn_refresh() {
+      return {
+        preset: "refresh",
+        onClick: async () => {
+          if (this.configs.queryTableList) {
+            await this.configs.queryTableList();
+          }
+        }
+      };
+    },
+    Cpt_isShowQuery() {
+      if (!this.configs.queryTableList) {
+        return false;
+      }
+      return !this.configs.isHideQuery;
+    },
+    Cpt_isShowRefresh() {
+      if (!this.configs.queryTableList) {
+        return false;
+      }
+      return !this.configs.isHideRefresh;
+    },
+    Cpt_isShowFilter() {
+      if (this.configs.isGroupingColumns) {
+        return false;
+      }
+      if (this.configs.isHideFilter) {
+        return false;
+      }
+      return true;
+    },
+    Cpt_isSetConfigs() {
+      return this.configs && this.configs.pagination;
+    }
+  }
+});
+const _hoisted_1$4 = { class: "table-options" };
+const _hoisted_2$1 = { class: "table-option-left flex flex1" };
+const _hoisted_3 = {
+  key: 0,
+  class: "table-filter flex"
+};
+function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_xButton = resolveComponent("xButton");
+  const _component_xGap = resolveComponent("xGap");
+  const _component_xColFilter = resolveComponent("xColFilter");
+  return openBlock(), createElementBlock("div", _hoisted_1$4, [
+    createBaseVNode("div", _hoisted_2$1, [
+      renderSlot(_ctx.$slots, "default")
+    ]),
+    _ctx.Cpt_isSetConfigs ? (openBlock(), createElementBlock("div", _hoisted_3, [
+      _ctx.Cpt_isShowQuery ? (openBlock(), createBlock(_component_xButton, {
+        key: 0,
+        configs: _ctx.Cpt_btn_query
+      }, null, 8, ["configs"])) : createCommentVNode("", true),
+      createVNode(_component_xGap, { l: "4" }),
+      _ctx.Cpt_isShowRefresh ? (openBlock(), createBlock(_component_xButton, {
+        key: 1,
+        configs: _ctx.Cpt_btn_refresh
+      }, null, 8, ["configs"])) : createCommentVNode("", true),
+      createVNode(_component_xGap, { l: "4" }),
+      _ctx.Cpt_isShowFilter ? (openBlock(), createBlock(_component_xColFilter, {
+        key: 2,
+        configs: _ctx.configs
+      }, null, 8, ["configs"])) : createCommentVNode("", true)
+    ])) : createCommentVNode("", true)
+  ]);
+}
+const xDataGridToolbar = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
+const _sfc_main$6 = defineComponent({
+  name: "xCellLabel",
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      title: ""
+    };
+  },
+  computed: {
+    id() {
+      return `xLabel_${this._.uid}`;
+    }
+  },
+  watch: {
+    configs: {
+      immediate: true,
+      handler(configs) {
+        this.loading = !!configs.loading;
+      }
+    }
+  },
+  methods: {
+    updateTitle(title) {
+      if (this.title !== title) {
+        this.title = title;
+      }
+    }
+  },
+  updated() {
+    const $dom = $$1(`#${this.id}`);
+    const domWidth = $dom.width();
+    const $span = $$1(`#${this.id} > span`);
+    const spanWidth = $span.width();
+    if (domWidth < spanWidth) {
+      const text = $dom.text();
+      this.updateTitle(text);
+    } else {
+      this.updateTitle("");
+    }
+  }
+});
+const _hoisted_1$3 = ["title", "id"];
+function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", {
+    class: "ellipsis",
+    title: _ctx.title,
+    id: _ctx.id
+  }, [
+    createBaseVNode("span", null, [
+      renderSlot(_ctx.$slots, "default")
+    ])
+  ], 8, _hoisted_1$3);
+}
+const xCellLabel = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
+const xVirScroll_vue_vue_type_style_index_0_lang = "";
+const itemHeight = 48;
+const oneBlockHeight = 580;
+const _sfc_main$5 = defineComponent({
+  name: "XVirScroll",
+  props: {
+    configs: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    top: {
+      type: Number,
+      default: 0
+    },
+    height: {
+      type: Number,
+      default: 0
+    },
+    scrollHeight: {
+      type: Number,
+      default: 0
+    }
+  },
+  emits: ["update:top", "update:height", "update:scrollHeight"],
+  setup() {
+    return {};
+  },
+  data() {
+    return {
+      itemComponent: this.$slots.item,
+      blockCount: 0,
+      isLoading: false,
+      styleWrapperAll: {
+        height: 0
+      }
+    };
+  },
+  computed: {
+    allItems() {
+      return this.configs.items || [];
+    },
+    positionBlock() {
+      return this.blockCount % 3;
+    },
+    virs1() {
+      const position = Number(this.styleWrapper1.match(/(\d)/g).join("")) / 580;
+      const start = position * 10;
+      const end = start + 10;
+      return this.allItems.slice(start, end).map((i2, index2) => ({
+        ...i2,
+        index: start + 1 + index2
+      }));
+    },
+    virs2() {
+      const position = Number(this.styleWrapper2.match(/(\d)/g).join("")) / 580;
+      const start = position * 10;
+      const end = start + 10;
+      return this.allItems.slice(start, end).map((i2, index2) => ({
+        ...i2,
+        index: start + 1 + index2
+      }));
+    },
+    virs3() {
+      const position = Number(this.styleWrapper3.match(/(\d)/g).join("")) / 580;
+      const start = position * 10;
+      const end = start + 10;
+      return this.allItems.slice(start, end).map((i2, index2) => ({
+        ...i2,
+        index: start + 1 + index2
+      }));
+    },
+    styleWrapper1() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${this.blockCount * 580}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${(this.blockCount + 2) * 580}px)`;
+      }
+      return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
+    },
+    styleWrapper2() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${this.blockCount * 580}px)`;
+      }
+      return `transform:translateY(${(this.blockCount - 1) * 580}px)`;
+    },
+    styleWrapper3() {
+      if (this.positionBlock === 0) {
+        return `transform:translateY(${(this.blockCount + 2) * 580}px)`;
+      }
+      if (this.positionBlock === 1) {
+        return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
+      }
+      return `transform:translateY(${this.blockCount * 580}px)`;
+    }
+  },
+  watch: {
+    top() {
+      this.setTop();
+    },
+    "allItems.length": {
+      immediate: true,
+      handler() {
+        this.updateTop();
+        this.setHeight();
+      }
+    }
+  },
+  updated() {
+    var _a, _b;
+    const height = (_a = this.$wrapperEle) == null ? void 0 : _a.height();
+    if (height !== this.height) {
+      this.$emit("update:height", ((_b = this.$wrapperEle) == null ? void 0 : _b.height()) || 0);
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  beforeUnmount() {
+    this.$wrapperEle.off("scroll");
+  },
+  methods: {
+    setTop: xU.debounce(function() {
+      if (this.$refs.refWrapper) {
+        this.$refs.refWrapper.scrollTo({
+          top: this.top,
+          behavior: "smooth"
+        });
+      }
+    }, 1e3),
+    init() {
+      this.$wrapperEle = $$1(this.$refs.refWrapper);
+      this.$wrapperEle.on("scroll", () => this.updateTop());
+    },
+    updateTop(event2) {
+      if (this.$refs.refWrapper) {
+        const top = this.$refs.refWrapper.scrollTop;
+        this.blockCount = Math.floor(top / oneBlockHeight);
+        this.$emit("update:top", top);
+      }
+    },
+    setHeight() {
+      const height = this.allItems.length * itemHeight;
+      this.styleWrapperAll.height = `${height}px`;
+      this.$emit("update:scrollHeight", height);
+    }
+  }
+});
+const _hoisted_1$2 = {
+  ref: "refWrapper",
+  class: "wrapper vir-item-component"
+};
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$2, [
+    createBaseVNode("div", {
+      style: normalizeStyle(_ctx.styleWrapperAll)
+    }, [
+      createBaseVNode("div", {
+        class: "vir-item-wrapper item1",
+        style: normalizeStyle(_ctx.styleWrapper1)
+      }, [
+        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs1, (vir) => {
+          return openBlock(), createElementBlock("div", {
+            key: vir.id,
+            class: "vir-item"
+          }, [
+            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
+          ]);
+        }), 128))
+      ], 4),
+      createBaseVNode("div", {
+        class: "vir-item-wrapper item2",
+        style: normalizeStyle(_ctx.styleWrapper2)
+      }, [
+        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs2, (vir) => {
+          return openBlock(), createElementBlock("div", {
+            key: vir.id,
+            class: "vir-item"
+          }, [
+            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
+          ]);
+        }), 128))
+      ], 4),
+      createBaseVNode("div", {
+        class: "vir-item-wrapper item3",
+        style: normalizeStyle(_ctx.styleWrapper3)
+      }, [
+        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs3, (vir) => {
+          return openBlock(), createElementBlock("div", {
+            key: vir.id,
+            class: "vir-item"
+          }, [
+            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
+          ]);
+        }), 128))
+      ], 4)
+    ], 4)
+  ], 512);
+}
+const xVirScroll = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
+const ReadonlyItem = defineComponent({
+  props: ["value"],
+  render() {
+    return withDirectives(createVNode("div", {
+      "class": "ant-input cursor-not-allowed xItem_readonly ellipsis"
+    }, [this.value, createVNode("span", {
+      "style": "opacity:0"
+    }, [createTextVNode(".")])]), [[resolveDirective("uiPopover"), {
+      onlyEllipsis: true
+    }]]);
+  }
+});
+const Input = defineComponent({
+  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+  mounted() {
+    xU("xItem Input");
+  },
+  data(vm) {
+    return {
+      oldComponent: "",
+      ComponentInstance: "",
+      _modelValue: ""
+    };
+  },
+  methods: {
+    diffComponent(type4) {
+      if (type4 === this.oldComponent) {
+        return this.ComponentInstance;
+      }
+      this.oldComponent = type4;
+      const ComponentInstance = resolveComponent(type4);
+      ComponentInstance.__v_skip = true;
+      this.ComponentInstance = ComponentInstance;
+      if (type4 === "aTextarea") {
+        this.properties.autoSize = this.properties.autoSize || {
+          minRows: 4,
+          maxRows: 6
+        };
+      }
+    }
+  },
+  watch: {
+    "properties.value"(value) {
+      if (value !== void 0) {
+        if (value !== this._modelValue) {
+          this._modelValue = value;
+        }
+      }
+    },
+    _modelValue(modelValue) {
+      this.listeners["onUpdate:value"](modelValue);
+    }
+  },
+  computed: {
+    component({
+      properties
+    }) {
+      if (!this.ComponentInstance) {
+        this.diffComponent("aInput");
+      }
+      if (properties.isPassword) {
+        this.diffComponent("aInputPassword");
+      } else if (properties.isNumber) {
+        this.diffComponent("aInputNumber");
+      } else if (properties.isTextarea) {
+        this.diffComponent("aTextarea");
+      } else if (properties.isSearch) {
+        this.diffComponent("aInputSearch");
+      }
+      return this.ComponentInstance;
+    }
+  },
+  render(vm) {
+    const {
+      properties,
+      slots,
+      listeners,
+      propsWillDeleteFromConfigs,
+      component
+    } = vm;
+    if (properties.isReadonly) {
+      return createVNode(ReadonlyItem, {
+        "value": properties.value
+      }, null);
+    }
+    return createVNode(component, mergeProps({
+      "value": this._modelValue,
+      "onUpdate:value": ($event) => this._modelValue = $event
+    }, xU.omit(properties, ["value", ...propsWillDeleteFromConfigs]), xU.omit(listeners, ["onUpdate:value"])), slots);
+  }
+});
 const DatePicker = ({
   properties,
   slots,
@@ -87137,30 +88635,60 @@ const Checkbox = defineComponent({
     }, this.listeners, _properties), this.slots);
   }
 });
-const Select = ({
-  properties,
-  slots,
-  listeners,
-  propsWillDeleteFromConfigs
-}) => {
-  const _property = xU.omit(properties, [...propsWillDeleteFromConfigs, "options", "renderOptions"]);
-  const renderOptions = () => {
-    if (properties.renderOptions) {
-      return properties.renderOptions();
-    } else {
-      return xU.map(properties.options, (option) => {
-        return createVNode(resolveComponent("aSelectOption"), {
-          "value": option.value
-        }, {
-          default: () => [option.label]
-        });
-      });
+const Select = defineComponent({
+  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+  mounted() {
+    xU("xItem Select");
+  },
+  data(vm) {
+    return {
+      _modelValue: ""
+    };
+  },
+  methods: {},
+  watch: {
+    "properties.value"(value) {
+      if (value !== void 0) {
+        if (value !== this._modelValue) {
+          this._modelValue = value;
+        }
+      }
+    },
+    _modelValue(modelValue) {
+      this.listeners["onUpdate:value"](modelValue);
     }
-  };
-  return createVNode(resolveComponent("aSelect"), mergeProps(listeners, _property), {
-    default: renderOptions
-  });
-};
+  },
+  computed: {},
+  render(vm) {
+    const {
+      properties,
+      listeners,
+      propsWillDeleteFromConfigs
+    } = vm;
+    if (properties.isReadonly) {
+      return createVNode(resolveComponent("ReadonlyItem"), {
+        "value": properties.value
+      }, null);
+    }
+    const _property = xU.omit(properties, [...propsWillDeleteFromConfigs, "options", "renderOptions"]);
+    const renderOptions = () => {
+      if (properties.renderOptions) {
+        return properties.renderOptions();
+      } else {
+        return xU.map(properties.options, (option) => {
+          return createVNode(resolveComponent("aSelectOption"), {
+            "value": option.value
+          }, {
+            default: () => [option.label]
+          });
+        });
+      }
+    };
+    return createVNode(resolveComponent("aSelect"), mergeProps(listeners, _property), {
+      default: renderOptions
+    });
+  }
+});
 const RadioGroup = ({
   properties,
   slots,
@@ -87201,28 +88729,22 @@ const CheckboxGroup = ({
 }) => {
   return createVNode(resolveComponent("aCheckboxGroup"), mergeProps(properties, listeners), slots);
 };
-const Switch = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  mounted() {
-    xU("xItem Switch");
-  },
-  methods: {
-    handleClick() {
-      this.listeners["onUpdate:value"](!this.properties.value);
+const Switch = ({
+  properties,
+  slots,
+  listeners,
+  propsWillDeleteFromConfigs
+}) => {
+  const _property = xU.merge({}, properties, {
+    checked: properties.value,
+    onClick() {
+      listeners["onUpdate:value"](!_property.value);
     }
-  },
-  render({
-    handleClick: handleClick2,
-    properties
-  }) {
-    return createVNode("div", {
-      "class": "x-item_switch"
-    }, [createVNode(resolveComponent("aSwitch"), mergeProps(xU.omit(properties, this.propsWillDeleteFromConfigs.concat(["value", "label", "itemType"])), {
-      "checked": properties.value,
-      "onClick": handleClick2
-    }), null)]);
-  }
-});
+  });
+  return createVNode("div", {
+    "class": "x-item_switch"
+  }, [createVNode(resolveComponent("aSwitch"), xU.omit(_property, ["value"]), null)]);
+};
 const itemRenders = {
   Input,
   Checkbox,
@@ -89447,11 +90969,11 @@ convert$1.lch.lab = function(lch) {
   b2 = c2 * Math.sin(hr);
   return [l2, a2, b2];
 };
-convert$1.rgb.ansi16 = function(args2) {
-  var r2 = args2[0];
-  var g2 = args2[1];
-  var b2 = args2[2];
-  var value = 1 in arguments ? arguments[1] : convert$1.rgb.hsv(args2)[2];
+convert$1.rgb.ansi16 = function(args) {
+  var r2 = args[0];
+  var g2 = args[1];
+  var b2 = args[2];
+  var value = 1 in arguments ? arguments[1] : convert$1.rgb.hsv(args)[2];
   value = Math.round(value / 50);
   if (value === 0) {
     return 30;
@@ -89462,13 +90984,13 @@ convert$1.rgb.ansi16 = function(args2) {
   }
   return ansi;
 };
-convert$1.hsv.ansi16 = function(args2) {
-  return convert$1.rgb.ansi16(convert$1.hsv.rgb(args2), args2[2]);
+convert$1.hsv.ansi16 = function(args) {
+  return convert$1.rgb.ansi16(convert$1.hsv.rgb(args), args[2]);
 };
-convert$1.rgb.ansi256 = function(args2) {
-  var r2 = args2[0];
-  var g2 = args2[1];
-  var b2 = args2[2];
+convert$1.rgb.ansi256 = function(args) {
+  var r2 = args[0];
+  var g2 = args[1];
+  var b2 = args[2];
   if (r2 === g2 && g2 === b2) {
     if (r2 < 8) {
       return 16;
@@ -89481,40 +91003,40 @@ convert$1.rgb.ansi256 = function(args2) {
   var ansi = 16 + 36 * Math.round(r2 / 255 * 5) + 6 * Math.round(g2 / 255 * 5) + Math.round(b2 / 255 * 5);
   return ansi;
 };
-convert$1.ansi16.rgb = function(args2) {
-  var color = args2 % 10;
+convert$1.ansi16.rgb = function(args) {
+  var color = args % 10;
   if (color === 0 || color === 7) {
-    if (args2 > 50) {
+    if (args > 50) {
       color += 3.5;
     }
     color = color / 10.5 * 255;
     return [color, color, color];
   }
-  var mult = (~~(args2 > 50) + 1) * 0.5;
+  var mult = (~~(args > 50) + 1) * 0.5;
   var r2 = (color & 1) * mult * 255;
   var g2 = (color >> 1 & 1) * mult * 255;
   var b2 = (color >> 2 & 1) * mult * 255;
   return [r2, g2, b2];
 };
-convert$1.ansi256.rgb = function(args2) {
-  if (args2 >= 232) {
-    var c2 = (args2 - 232) * 10 + 8;
+convert$1.ansi256.rgb = function(args) {
+  if (args >= 232) {
+    var c2 = (args - 232) * 10 + 8;
     return [c2, c2, c2];
   }
-  args2 -= 16;
+  args -= 16;
   var rem;
-  var r2 = Math.floor(args2 / 36) / 5 * 255;
-  var g2 = Math.floor((rem = args2 % 36) / 6) / 5 * 255;
+  var r2 = Math.floor(args / 36) / 5 * 255;
+  var g2 = Math.floor((rem = args % 36) / 6) / 5 * 255;
   var b2 = rem % 6 / 5 * 255;
   return [r2, g2, b2];
 };
-convert$1.rgb.hex = function(args2) {
-  var integer4 = ((Math.round(args2[0]) & 255) << 16) + ((Math.round(args2[1]) & 255) << 8) + (Math.round(args2[2]) & 255);
+convert$1.rgb.hex = function(args) {
+  var integer4 = ((Math.round(args[0]) & 255) << 16) + ((Math.round(args[1]) & 255) << 8) + (Math.round(args[2]) & 255);
   var string3 = integer4.toString(16).toUpperCase();
   return "000000".substring(string3.length) + string3;
 };
-convert$1.hex.rgb = function(args2) {
-  var match2 = args2.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
+convert$1.hex.rgb = function(args) {
+  var match2 = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
   if (!match2) {
     return [0, 0, 0];
   }
@@ -89677,11 +91199,11 @@ convert$1.apple.rgb = function(apple) {
 convert$1.rgb.apple = function(rgb) {
   return [rgb[0] / 255 * 65535, rgb[1] / 255 * 65535, rgb[2] / 255 * 65535];
 };
-convert$1.gray.rgb = function(args2) {
-  return [args2[0] / 100 * 255, args2[0] / 100 * 255, args2[0] / 100 * 255];
+convert$1.gray.rgb = function(args) {
+  return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
 };
-convert$1.gray.hsl = convert$1.gray.hsv = function(args2) {
-  return [0, 0, args2[0]];
+convert$1.gray.hsl = convert$1.gray.hsv = function(args) {
+  return [0, 0, args[0]];
 };
 convert$1.gray.hwb = function(gray) {
   return [0, 100, gray[0]];
@@ -89734,8 +91256,8 @@ function deriveBFS(fromModel) {
   return graph;
 }
 function link(from, to) {
-  return function(args2) {
-    return to(from(args2));
+  return function(args) {
+    return to(from(args));
   };
 }
 function wrapConversion(toModel, graph) {
@@ -89769,14 +91291,14 @@ var route = route$1;
 var convert = {};
 var models = Object.keys(conversions);
 function wrapRaw(fn) {
-  var wrappedFn = function(args2) {
-    if (args2 === void 0 || args2 === null) {
-      return args2;
+  var wrappedFn = function(args) {
+    if (args === void 0 || args === null) {
+      return args;
     }
     if (arguments.length > 1) {
-      args2 = Array.prototype.slice.call(arguments);
+      args = Array.prototype.slice.call(arguments);
     }
-    return fn(args2);
+    return fn(args);
   };
   if ("conversion" in fn) {
     wrappedFn.conversion = fn.conversion;
@@ -89784,14 +91306,14 @@ function wrapRaw(fn) {
   return wrappedFn;
 }
 function wrapRounded(fn) {
-  var wrappedFn = function(args2) {
-    if (args2 === void 0 || args2 === null) {
-      return args2;
+  var wrappedFn = function(args) {
+    if (args === void 0 || args === null) {
+      return args;
     }
     if (arguments.length > 1) {
-      args2 = Array.prototype.slice.call(arguments);
+      args = Array.prototype.slice.call(arguments);
     }
-    var result = fn(args2);
+    var result = fn(args);
     if (typeof result === "object") {
       for (var len = result.length, i2 = 0; i2 < len; i2++) {
         result[i2] = Math.round(result[i2]);
@@ -89978,9 +91500,9 @@ function unescape$1(c2) {
   }
   return ESCAPES.get(c2) || c2;
 }
-function parseArguments(name2, args2) {
+function parseArguments(name2, args) {
   const results = [];
-  const chunks = args2.trim().split(/\s*,\s*/g);
+  const chunks = args.trim().split(/\s*,\s*/g);
   let matches2;
   for (const chunk of chunks) {
     if (!isNaN(chunk)) {
@@ -90000,8 +91522,8 @@ function parseStyle(style2) {
   while ((matches2 = STYLE_REGEX.exec(style2)) !== null) {
     const name2 = matches2[1];
     if (matches2[2]) {
-      const args2 = parseArguments(name2, matches2[2]);
-      results.push([name2].concat(args2));
+      const args = parseArguments(name2, matches2[2]);
+      results.push([name2].concat(args));
     } else {
       results.push([name2]);
     }
@@ -90080,8 +91602,8 @@ var templates = (chalk2, tmp) => {
       const chalk2 = {};
       applyOptions2(chalk2, options);
       chalk2.template = function() {
-        const args2 = [].slice.call(arguments);
-        return chalkTag.apply(null, [chalk2.template].concat(args2));
+        const args = [].slice.call(arguments);
+        return chalkTag.apply(null, [chalk2.template].concat(args));
       };
       Object.setPrototypeOf(chalk2, Chalk.prototype);
       Object.setPrototypeOf(chalk2.template, chalk2);
@@ -90180,15 +91702,15 @@ var templates = (chalk2, tmp) => {
     return builder;
   }
   function applyStyle() {
-    const args2 = arguments;
-    const argsLen = args2.length;
+    const args = arguments;
+    const argsLen = args.length;
     let str = String(arguments[0]);
     if (argsLen === 0) {
       return "";
     }
     if (argsLen > 1) {
       for (let a2 = 1; a2 < argsLen; a2++) {
-        str += " " + args2[a2];
+        str += " " + args[a2];
       }
     }
     if (!this.enabled || this.level <= 0 || !str) {
@@ -90209,10 +91731,10 @@ var templates = (chalk2, tmp) => {
     if (!Array.isArray(strings)) {
       return [].slice.call(arguments, 1).join(" ");
     }
-    const args2 = [].slice.call(arguments, 2);
+    const args = [].slice.call(arguments, 2);
     const parts = [strings.raw[0]];
     for (let i2 = 1; i2 < strings.length; i2++) {
-      parts.push(String(args2[i2 - 1]).replace(/[{}\\]/g, "\\$&"));
+      parts.push(String(args[i2 - 1]).replace(/[{}\\]/g, "\\$&"));
       parts.push(String(strings.raw[i2]));
     }
     return template(chalk2, parts.join(""));
@@ -92363,10 +93885,10 @@ var jsonpatch = Object.freeze({
 });
 function chalkColor(name2) {
   return chalk && chalk[name2] || function() {
-    for (var _len = arguments.length, args2 = Array(_len), _key = 0; _key < _len; _key++) {
-      args2[_key] = arguments[_key];
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
-    return args2;
+    return args;
   };
 }
 var colors = {
@@ -92399,11 +93921,11 @@ var ConsoleFormatter = function(_BaseFormatter) {
         this.buffer.push("\n" + (this.indentPad || ""));
       };
       context2.out = function() {
-        for (var _len2 = arguments.length, args2 = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args2[_key2] = arguments[_key2];
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
         }
-        for (var i2 = 0, l2 = args2.length; i2 < l2; i2++) {
-          var lines = args2[i2].split("\n");
+        for (var i2 = 0, l2 = args.length; i2 < l2; i2++) {
+          var lines = args[i2].split("\n");
           var text = lines.join("\n" + (this.indentPad || ""));
           if (this.color && this.color[0]) {
             text = this.color[0](text);
@@ -92733,9 +94255,9 @@ const xItem$1 = defineComponent({
         if (typeof listeners2[prop] === "object" && xU.isArray(listeners2[prop].handlerArray)) {
           listeners2[prop].handlerArray.push(xItemInnerEventHandler);
         } else {
-          listeners2[prop] = (...args2) => {
+          listeners2[prop] = (...args) => {
             xU.each(listeners2[prop].handlerArray, (listener) => {
-              listener == null ? void 0 : listener.apply(configs, args2);
+              listener == null ? void 0 : listener.apply(configs, args);
             });
           };
           listeners2[prop].handlerArray = [xItemInnerEventHandler];
@@ -92758,6 +94280,7 @@ const xItem$1 = defineComponent({
       };
     })();
     return {
+      rerenderCount: 0,
       isRequired: false,
       properties: null,
       itemSlots: {},
@@ -92863,11 +94386,6 @@ const xItem$1 = defineComponent({
     }
   },
   watch: {
-    configs: {
-      handler(configs, oldConfigs) {
-        this.setProperties();
-      }
-    },
     $attrs: {
       handler() {
         this.setProperties();
@@ -92886,6 +94404,16 @@ const xItem$1 = defineComponent({
     modelValue: {
       handler() {
         this.updateValue();
+      }
+    },
+    configs: {
+      handler() {
+        this.setProperties();
+      }
+    },
+    rerenderCount: {
+      handler() {
+        this.setProperties();
       }
     },
     "configs.rules": {
@@ -92909,6 +94437,17 @@ const xItem$1 = defineComponent({
     const vm = this;
     vm.configs.FormItemId = vm.FormItemId;
     (() => {
+      vm.forceUpdateUI = xU.debounce(() => vm.rerenderCount++, 64);
+    })();
+    (() => {
+      vm.configs._$updateUI = (newConfigs) => {
+        xU.each(newConfigs, (value, prop) => {
+          vm.configs[prop] = value;
+        });
+        vm.forceUpdateUI();
+      };
+    })();
+    (() => {
       vm.updateValue = xU.debounce(vm.updateValueSync, 94);
       vm.updateValue();
     })();
@@ -92919,6 +94458,8 @@ const xItem$1 = defineComponent({
         const pickProps = (originConfigs) => {
           xU.each(originConfigs, (item, prop) => {
             if ([
+              "_$updateUI",
+              "once",
               "itemTips",
               "rules",
               "labelVNodeRender",
@@ -92970,7 +94511,7 @@ const xItem$1 = defineComponent({
       })();
       const diffRes = diff(vm.properties.value, value);
       if (diffRes) {
-        xU("xItem diffRes", diffRes);
+        xU("diff xItem value", diffRes);
         vm.properties.value = value;
         vm.listeners["onUpdate:value"](value);
       }
@@ -93060,306 +94601,6 @@ const xItem$1 = defineComponent({
     }, null), this.tipsVNode]), this.$slots.afterControll && this.$slots.afterControll()]);
   }
 });
-const _sfc_main$d = defineComponent({
-  name: "xForm",
-  props: {
-    col: {
-      type: Number,
-      default: 1
-    },
-    labelStyle: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  emits: [],
-  data() {
-    return {};
-  },
-  computed: {
-    xFormId() {
-      return `xForm_${this._.uid}`;
-    },
-    labelStyleText() {
-      return xU.map(xU.merge({
-        width: "120px",
-        "text-align": "right"
-      }, this.labelStyle), (value, prop) => `${prop}: ${value}`).join(";");
-    },
-    styleContent() {
-      return [`#${this.xFormId} { width:100%; padding:0 16px; display: grid;grid-template-columns: repeat(${this.col},1fr);}`, `#${this.xFormId} div.ant-form-item-label { ${this.labelStyleText} }`].join("\n");
-    }
-  },
-  mounted() {
-    const $form = $$1(`#${this.xFormId}`);
-    const $style = $$1("<style/>", {
-      id: `style_${this.xFormId}`
-    }).append(this.styleContent);
-    $form.prepend($style);
-  },
-  watch: {
-    styleContent() {
-      this.updateStyle(this.styleContent);
-    }
-  },
-  methods: {
-    updateStyle(styleContent) {
-      const $style = $$1(`#style_${this.xFormId}`);
-      $style.html(styleContent);
-    }
-  }
-});
-const _export_sfc = (sfc, props3) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key2, val] of props3) {
-    target[key2] = val;
-  }
-  return target;
-};
-const _hoisted_1$h = ["id"];
-function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("form", { id: _ctx.xFormId }, [
-    renderSlot(_ctx.$slots, "default")
-  ], 8, _hoisted_1$h);
-}
-const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c]]);
-const BTN_PRESET_MAP = {
-  query: () => ({
-    icon: createVNode(resolveComponent("xIcon"), {
-      "class": "x-button_icon-wrapper",
-      "icon": "InsideSearchOutlined"
-    }, null),
-    text: $t$9("\u67E5\u8BE2").label
-  }),
-  refresh: () => ({
-    icon: createVNode(resolveComponent("xIcon"), {
-      "class": "x-button_icon-wrapper",
-      "icon": "InsideSyncOutlined"
-    }, null),
-    text: $t$9("\u5237\u65B0").label
-  }),
-  cancel: () => ({
-    text: $t$9("\u53D6\u6D88").label
-  }),
-  save: () => ({
-    icon: createVNode(resolveComponent("xIcon"), {
-      "class": "x-button_icon-wrapper",
-      "icon": "InsideSaveOutlined"
-    }, null),
-    text: $t$9("\u4FDD\u5B58").label
-  }),
-  upload: () => ({
-    icon: createVNode(resolveComponent("xIcon"), {
-      "class": "x-button_icon-wrapper",
-      "icon": "InsideUploadOutlined"
-    }, null),
-    text: $t$9("\u4E0A\u4F20").label
-  }),
-  delete: (configs) => {
-    configs.type = "danger";
-    configs.ghost = true;
-    return {
-      icon: createVNode(resolveComponent("xIcon"), {
-        "class": "x-button_icon-wrapper",
-        "icon": "InsideDeleteOutlined"
-      }, null),
-      text: $t$9("\u5220\u9664").label
-    };
-  }
-};
-const xButton = defineComponent({
-  name: "xButton",
-  props: {
-    payload: {
-      type: Object,
-      default() {
-        return {};
-      }
-    },
-    configs: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  beforeMount() {
-    if (!this.configs) {
-      debugger;
-      return;
-    }
-    const presetFn = BTN_PRESET_MAP[this.configs.preset];
-    if (presetFn) {
-      const preset = presetFn(this.configs);
-      this.configs.text = createVNode(Fragment, null, [preset.icon, createVNode("span", {
-        "class": "ml4"
-      }, [preset.text])]);
-    }
-  },
-  data() {
-    return {
-      loading: true
-    };
-  },
-  computed: {
-    isClickHandlerOnAttrs() {
-      var _a;
-      return !!((_a = this.$attrs) == null ? void 0 : _a.onClick);
-    },
-    type() {
-      if (["query", "save"].includes(this.configs.preset)) {
-        return "primary";
-      }
-      return this.configs.type;
-    },
-    title() {
-      if (xU.isString(this.disabled) && this.disabled.length > 0) {
-        return this.disabled;
-      }
-      if (xU.isString(this.configs.title) && this.configs.title.length > 0) {
-        return this.configs.title;
-      }
-      return false;
-    },
-    disabled() {
-      if (xU.isBoolean(this.configs.disabled)) {
-        return this.configs.disabled;
-      }
-      if (xU.isFunction(this.configs.disabled)) {
-        return this.configs.disabled(this);
-      }
-      return false;
-    },
-    text() {
-      if (xU.isFunction(this.configs.text)) {
-        return this.configs.text(this) || "";
-      }
-      return this.configs.text || "";
-    }
-  },
-  watch: {
-    configs: {
-      immediate: true,
-      handler(configs) {
-        this.loading = !!configs.loading;
-      }
-    }
-  },
-  created() {
-  },
-  methods: {
-    async handleButtonClick() {
-      var _a, _b;
-      if (xU.isFunction((_a = this == null ? void 0 : this.configs) == null ? void 0 : _a.onClick)) {
-        this.loading = true;
-        try {
-          await ((_b = this == null ? void 0 : this.configs) == null ? void 0 : _b.onClick.call(this.configs, this));
-        } catch (e2) {
-          console.error(e2);
-        } finally {
-          this.loading = false;
-        }
-      }
-    }
-  },
-  render() {
-    const propsWillDeleteFromProperty = ["text", "loading", "disabled", "title", "onClick"];
-    const _properties = xU.omit(this.configs, propsWillDeleteFromProperty);
-    if (!this.isClickHandlerOnAttrs) {
-      _properties.onClick = this.handleButtonClick;
-    }
-    if (this.title) {
-      _properties.title = this.title;
-    }
-    return createVNode(resolveComponent("aButton"), mergeProps({
-      "class": "x-button antdv-button",
-      "loading": this.loading,
-      "disabled": !!this.disabled,
-      "type": this.type
-    }, _properties), {
-      default: () => {
-        const vDomDefautl = this.$slots.default && this.$slots.default();
-        return createVNode(Fragment, null, [this.text, vDomDefautl]);
-      }
-    });
-  }
-});
-const _sfc_main$c = defineComponent({
-  name: "XButtonCountDown",
-  props: {
-    configs: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  data() {
-    const vm = this;
-    return {
-      state: {
-        captchaCount: 0
-      },
-      btnConfigs: {
-        disabled: false,
-        size: "large",
-        style: {
-          minWidth: "112px"
-        },
-        class: "center",
-        text: vm.configs.text.normal,
-        async onClick() {
-          if (xU.isFunction(vm.configs.onClick)) {
-            await vm.configs.onClick({
-              countDown: vm.countDown
-            });
-          }
-        }
-      }
-    };
-  },
-  watch: {
-    "state.captchaCount"(captchaCount) {
-      this.handleCaptchaCountChange(captchaCount);
-    }
-  },
-  methods: {
-    countDown() {
-      this.state.captchaCount++;
-      if (this.state.captchaCount <= this.configs.countMax) {
-        setTimeout(this.countDown, 1e3);
-      } else {
-        this.state.captchaCount = 0;
-      }
-    },
-    handleCaptchaCountChange(captchaCount) {
-      if (captchaCount === 0) {
-        this.btnConfigs.text = this.configs.text.normal;
-        this.btnConfigs.disabled = false;
-        return;
-      }
-      const setCounDownText = () => {
-        return this.btnConfigs.text = `${this.configs.countMax - captchaCount} s`;
-      };
-      if (captchaCount === 1) {
-        setCounDownText();
-        this.btnConfigs.disabled = true;
-        return;
-      }
-      if (captchaCount && captchaCount <= this.configs.countMax) {
-        setCounDownText();
-        return;
-      }
-    }
-  }
-});
-function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_xButton = resolveComponent("xButton");
-  return openBlock(), createBlock(_component_xButton, { configs: _ctx.btnConfigs }, null, 8, ["configs"]);
-}
-const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b]]);
 const xGap = defineComponent({
   name: "xGap",
   props: ["t", "l", "r", "b", "a", "f"],
@@ -93407,1097 +94648,6 @@ const xGap = defineComponent({
     }, null);
   }
 });
-const line$1 = {};
-const CONFIGS_MAP = {
-  line: line$1
-};
-const _sfc_main$b = defineComponent({
-  name: "xCharts",
-  props: {
-    payload: {
-      type: Object,
-      default: ""
-    },
-    configs: {
-      type: [String, Object],
-      required: true
-    },
-    dataset: {
-      type: [Array, Object],
-      default() {
-        return [];
-      }
-    }
-  },
-  data() {
-    const id = xU.genId("xChart");
-    return {
-      id
-    };
-  },
-  computed: {
-    helper() {
-      if (xU.isPlainObject(this.configs)) {
-        return this.configs;
-      }
-      return CONFIGS_MAP[this.configs];
-    }
-  },
-  mounted() {
-    this.init();
-  },
-  methods: {
-    init() {
-      this.updateOptions();
-      this.observe();
-    },
-    updateOptions() {
-      if (this.myChart) {
-        this.myChart.dispose();
-      }
-      const options = this.helper.initOptions(this.$props);
-      this.options = this.helper.updateOptions(options, this.dataset);
-      const dom = document.querySelector(`#${this.id}`);
-      this.myChart = this.$echarts.init(dom);
-      this.myChart.showLoading();
-      this.myChart.setOption(this.options);
-      this.myChart.hideLoading();
-    },
-    observe() {
-      this.resizeObserver = new ResizeObserver(() => {
-        var _a;
-        if (this.myChart) {
-          ((_a = this.myChart) == null ? void 0 : _a.resize) && this.myChart.resize();
-        }
-      });
-      this.resizeObserver.observe(this.$el);
-    }
-  }
-});
-const _hoisted_1$g = ["id"];
-function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", {
-    id: _ctx.id,
-    class: "x-charts flex flex1 center middle"
-  }, null, 8, _hoisted_1$g);
-}
-const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a]]);
-const _sfc_main$a = defineComponent({
-  name: "xView",
-  props: {
-    isShow: {
-      type: Boolean,
-      default: true
-    }
-  },
-  data() {
-    return {};
-  },
-  computed: {
-    id() {
-      return `xView_${this._.uid}`;
-    }
-  }
-});
-const _hoisted_1$f = ["id"];
-function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
-  return withDirectives((openBlock(), createElementBlock("div", { id: _ctx.id }, [
-    renderSlot(_ctx.$slots, "default")
-  ], 8, _hoisted_1$f)), [
-    [vShow, !!_ctx.isShow]
-  ]);
-}
-const xView = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9]]);
-const _hoisted_1$e = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$b = /* @__PURE__ */ createBaseVNode("path", { d: "M338.261 137.045h-9.13a9.16 9.16 0 0 0 9.13-9.159v9.16h347.45v-9.16c0 5.035 4.095 9.16 9.101 9.16h-9.102v82.26h82.262v-91.42a73.216 73.216 0 0 0-73.131-73.13H329.102a73.216 73.216 0 0 0-73.159 73.13v91.45h82.29v-82.29zm576 82.29h-804.55c-20.253 0-36.58 16.327-36.58 36.551v36.58c0 5.034 4.096 9.159 9.13 9.159h69.063l28.217 597.703a73.216 73.216 0 0 0 73.046 69.689h518.826a73.045 73.045 0 0 0 73.046-69.689l28.245-597.732h69.006a9.16 9.16 0 0 0 9.16-9.102v-36.636c0-20.196-16.356-36.551-36.58-36.551zm-151.665 667.42h-501.22l-27.648-585.159H790.3l-27.676 585.16z" }, null, -1);
-const _hoisted_3$a = [
-  _hoisted_2$b
-];
-function render$9(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$e, _hoisted_3$a);
-}
-const InsideDeleteOutlined = { name: "DeleteOutlined", render: render$9 };
-const _hoisted_1$d = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$a = /* @__PURE__ */ createBaseVNode("path", { d: "M512 628c17.6 0 32-14.4 32-32V308c0-17.6-14.4-32-32-32s-32 14.4-32 32v288c0 17.6 14.4 32 32 32zm-44 76a44 44 0 1 0 88 0 44 44 0 1 0-88 0Zm44-640C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm271.5 719.5c-35.3 35.3-76.4 63-122.1 82.3-47.3 20-97.6 30.2-149.5 30.2s-102.2-10.1-149.5-30.2c-45.7-19.3-86.8-47-122.1-82.3s-63-76.4-82.3-122.1c-20-47.3-30.2-97.6-30.2-149.5s10.1-102.2 30.2-149.5c19.3-45.7 47-86.8 82.3-122.1s76.4-63 122.1-82.3c47.3-20 97.6-30.2 149.5-30.2s102.2 10.1 149.5 30.2c45.7 19.3 86.8 47 122.1 82.3s63 76.4 82.3 122.1c20 47.3 30.2 97.6 30.2 149.5s-10.1 102.2-30.2 149.5c-19.3 45.8-47 86.8-82.3 122.1z" }, null, -1);
-const _hoisted_3$9 = [
-  _hoisted_2$a
-];
-function render$8(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$d, _hoisted_3$9);
-}
-const InsideExclamationCircleOutlined = { name: "ExclamationCircleOutlined", render: render$8 };
-const _hoisted_1$c = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$9 = /* @__PURE__ */ createBaseVNode("path", { d: "M448 128a64 64 0 1 0 128 0 64 64 0 1 0-128 0ZM257.1 180.5a61.3 61.3 0 1 0 122.6 0 61.3 61.3 0 1 0-122.6 0ZM121.8 318.4a58.7 58.7 0 1 0 117.4 0 58.7 58.7 0 1 0-117.4 0ZM72 512a56 56 0 1 0 112 0 56 56 0 1 0-112 0Zm55.2 193.6a53.3 53.3 0 1 0 106.6 0 53.3 53.3 0 1 0-106.6 0Zm140.5 137.9a50.7 50.7 0 1 0 101.4 0 50.7 50.7 0 1 0-101.4 0ZM464 896a48 48 0 1 0 96 0 48 48 0 1 0-96 0Zm196.3-52.5a45.3 45.3 0 1 0 90.6 0 45.3 45.3 0 1 0-90.6 0Zm140.5-137.9a42.7 42.7 0 1 0 85.4 0 42.7 42.7 0 1 0-85.4 0ZM856 512a40 40 0 1 0 80 0 40 40 0 1 0-80 0ZM837.9 377.7a33.8 33.8 0 1 0 67.6 0 33.8 33.8 0 1 0-67.6 0Zm-61.5-113.5a28.3 28.3 0 1 0 56.6 0 28.3 28.3 0 1 0-56.6 0ZM680 180a24 24 0 1 0 48 0 24 24 0 1 0-48 0Z" }, null, -1);
-const _hoisted_3$8 = /* @__PURE__ */ createBaseVNode("animateTransform", {
-  additive: "sum",
-  attributeName: "transform",
-  attributeType: "XML",
-  begin: "0s",
-  dur: "4s",
-  from: "0",
-  repeatCount: "indefinite",
-  to: "360",
-  type: "rotate"
-}, null, -1);
-const _hoisted_4 = [
-  _hoisted_2$9,
-  _hoisted_3$8
-];
-function render$7(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$c, _hoisted_4);
-}
-const InsideLoadingOutlined = { name: "LoadingOutlined", render: render$7 };
-const _hoisted_1$b = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$8 = /* @__PURE__ */ createBaseVNode("path", { d: "M144 928a48 48 0 0 1-48-48V144a48 48 0 0 1 48-48h592v.448a48 48 0 0 1 27.328 13.6l150.624 150.624A48 48 0 0 1 928 294.624V880a48 48 0 0 1-48 48H144zm144-768H160v704h128V496a48 48 0 0 1 43.392-47.776L336 448h352a48 48 0 0 1 48 48v368h128V301.248l-128-128V272a48 48 0 0 1-48 48H336a48 48 0 0 1-48-48V160zm384 352H352v352h320V512zm0-352H352v96h320v-96z" }, null, -1);
-const _hoisted_3$7 = [
-  _hoisted_2$8
-];
-function render$6(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$b, _hoisted_3$7);
-}
-const InsideSaveOutlined = { name: "SaveOutlined", render: render$6 };
-const _hoisted_1$a = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$7 = /* @__PURE__ */ createBaseVNode("path", { d: "M479.04 128c176.16 0 318.976 142.848 318.976 319.04a317.984 317.984 0 0 1-86.976 218.976l175.616 175.552c11.52 11.52 12.384 29.568 2.656 42.08l-2.656 3.008a31.872 31.872 0 0 1-45.088 0L662.784 707.904a317.504 317.504 0 0 1-183.776 58.24C302.816 766.144 160 623.296 160 447.04S302.816 128 479.04 128zm0 63.808a255.232 255.232 0 0 0-255.232 255.264 255.232 255.232 0 1 0 510.4 0 255.232 255.232 0 0 0-255.2-255.264z" }, null, -1);
-const _hoisted_3$6 = [
-  _hoisted_2$7
-];
-function render$5(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$a, _hoisted_3$6);
-}
-const InsideSearchOutlined = { name: "SearchOutlined", render: render$5 };
-const _hoisted_1$9 = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$6 = /* @__PURE__ */ createBaseVNode("path", { d: "M168 504.2c1-43.7 10-86.1 26.9-126 17.3-41 42.1-77.7 73.7-109.4S337 212.3 378 195c42.4-17.9 87.4-27 133.9-27s91.5 9.1 133.8 27c40.9 17.3 77.7 42.1 109.3 73.8 9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47c-5.3 4.1-3.5 12.5 3 14.1l175.7 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c0-6.7-7.7-10.5-12.9-6.3l-56.4 44.1C765.8 155.1 646.2 92 511.8 92 282.7 92 96.3 275.6 92 503.8c-.1 4.5 3.5 8.2 8 8.2h60c4.4 0 7.9-3.5 8-7.8zm756 7.8h-60c-4.4 0-7.9 3.5-8 7.8-1 43.7-10 86.1-26.9 126-17.3 41-42.1 77.8-73.7 109.4S687 811.7 646 829c-42.4 17.9-87.4 27-133.9 27s-91.5-9.1-133.9-27c-40.9-17.3-77.7-42.1-109.3-73.8-9.9-9.9-19.2-20.4-27.8-31.4l60.2-47c5.3-4.1 3.5-12.5-3-14.1l-175.7-43c-5-1.2-9.9 2.6-9.9 7.7l-.7 181c0 6.7 7.7 10.5 12.9 6.3l56.4-44.1C258.2 868.9 377.8 932 512.2 932c229.2 0 415.5-183.7 419.8-411.8.1-4.5-3.5-8.2-8-8.2z" }, null, -1);
-const _hoisted_3$5 = [
-  _hoisted_2$6
-];
-function render$4(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$9, _hoisted_3$5);
-}
-const InsideSyncOutlined = { name: "SyncOutlined", render: render$4 };
-const _hoisted_1$8 = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$5 = /* @__PURE__ */ createBaseVNode("path", { d: "M512 85.333A426.667 426.667 0 1 0 938.667 512 426.667 426.667 0 0 0 512 85.333zm0 768A341.333 341.333 0 1 1 853.333 512 341.333 341.333 0 0 1 512 853.333zm30.72-587.946A32.853 32.853 0 0 0 520.107 256h-16.214a32 32 0 0 0-22.613 9.387L347.733 399.36a21.333 21.333 0 0 0 0 30.293l29.867 30.294a21.333 21.333 0 0 0 30.293 0l61.44-61.867v348.587A21.333 21.333 0 0 0 490.667 768h42.666a21.333 21.333 0 0 0 21.334-21.333V398.08l61.44 61.44a20.907 20.907 0 0 0 29.866 0l30.294-30.293a21.333 21.333 0 0 0 0-30.294z" }, null, -1);
-const _hoisted_3$4 = [
-  _hoisted_2$5
-];
-function render$3(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$8, _hoisted_3$4);
-}
-const InsideUploadOutlined = { name: "UploadOutlined", render: render$3 };
-const _hoisted_1$7 = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$4 = /* @__PURE__ */ createBaseVNode("path", { d: "M512 128c212 0 384 172 384 384S724 896 512 896 128 724 128 512s172-384 384-384m0-64C264.8 64 64 264.8 64 512s200.8 448 448 448 448-200.8 448-448S759.2 64 512 64zm32 704h-64v-64h64v64zm11.2-203.2-5.6 4.8c-3.2 2.4-5.6 8-5.6 12.8v58.4h-64v-58.4c0-24.8 11.2-48 29.6-63.2l5.6-4.8c56-44.8 83.2-68 83.2-108 0-48-38.4-86.4-86.4-86.4-49.6 0-86.4 36.8-86.4 86.4h-64c0-84 66.4-150.4 150.4-150.4 83.2 0 150.4 67.2 150.4 150.4 0 72.8-49.6 112.8-107.2 158.4z" }, null, -1);
-const _hoisted_3$3 = [
-  _hoisted_2$4
-];
-function render$2(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$7, _hoisted_3$3);
-}
-const Insidetips = { name: "tips", render: render$2 };
-const _hoisted_1$6 = {
-  width: "64",
-  height: "41",
-  class: "ant-empty-img-simple"
-};
-const _hoisted_2$3 = /* @__PURE__ */ createStaticVNode('<g fill="none" fill-rule="evenodd" transform="translate(0 1)"><ellipse cx="32" cy="33" fill="#F5F5F5" class="ant-empty-img-simple-ellipse" rx="32" ry="7"></ellipse><g fill-rule="nonzero" stroke="#D9D9D9" class="ant-empty-img-simple-g"><path d="M55 12.76 44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"></path><path fill="#FAFAFA" d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z" class="ant-empty-img-simple-path"></path></g></g>', 1);
-const _hoisted_3$2 = [
-  _hoisted_2$3
-];
-function render$1(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$6, _hoisted_3$2);
-}
-const InsideEmpty = { name: "empty", render: render$1 };
-const _hoisted_1$5 = {
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "icon",
-  style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
-  viewBox: "0 0 1024 1024"
-};
-const _hoisted_2$2 = /* @__PURE__ */ createBaseVNode("path", {
-  fill: "#5A626A",
-  d: "M439.264 208a16 16 0 0 0-16 16v67.968a239.744 239.744 0 0 0-46.496 26.896l-58.912-34A16 16 0 0 0 296 290.72l-80 138.56a16 16 0 0 0 5.856 21.856l58.896 34a242.624 242.624 0 0 0 0 53.728l-58.88 34a16 16 0 0 0-6.72 20.176l.848 1.68 80 138.56a16 16 0 0 0 21.856 5.856l58.912-34a239.744 239.744 0 0 0 46.496 26.88V800a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16v-67.968a239.744 239.744 0 0 0 46.512-26.896l58.912 34a16 16 0 0 0 21.856-5.856l80-138.56a16 16 0 0 0-4.288-20.832l-1.568-1.024-58.896-34a242.624 242.624 0 0 0 0-53.728l58.88-34a16 16 0 0 0 6.72-20.176l-.848-1.68-80-138.56a16 16 0 0 0-21.856-5.856l-58.912 34a239.744 239.744 0 0 0-46.496-26.88V224a16 16 0 0 0-16-16h-160zm32 48h96v67.376l28.8 12.576a192.21 192.21 0 0 1 37.184 21.52l25.28 18.688 58.448-33.728 48 83.136-58.368 33.68 3.472 31.2a194.624 194.624 0 0 1 0 43.104l-3.472 31.2 58.368 33.68-48 83.136-58.432-33.728-25.296 18.688a192.21 192.21 0 0 1-37.184 21.52l-28.8 12.576V768h-96v-67.376l-28.784-12.576a192.21 192.21 0 0 1-37.184-21.52l-25.28-18.688-58.448 33.728-48-83.136 58.368-33.68-3.472-31.2a194.624 194.624 0 0 1 0-43.104l3.472-31.2-58.368-33.68 48-83.136L380 376.16l25.296-18.688a191.744 191.744 0 0 1 37.184-21.52l28.8-12.576V256zm47.28 144a112 112 0 1 0 0 224 112 112 0 0 0 0-224zm0 48a64 64 0 1 1 0 128 64 64 0 0 1 0-128z"
-}, null, -1);
-const _hoisted_3$1 = [
-  _hoisted_2$2
-];
-function render13(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$5, _hoisted_3$1);
-}
-const insideSettingOutlined = { name: "SettingOutlined", render: render13 };
-const xIcon$1 = "";
-const insideIcons = {
-  InsideDeleteOutlined,
-  InsideExclamationCircleOutlined,
-  InsideLoadingOutlined,
-  InsideSaveOutlined,
-  InsideSearchOutlined,
-  InsideSyncOutlined,
-  InsideUploadOutlined,
-  Insidetips,
-  InsideEmpty,
-  insideSettingOutlined
-};
-const xIcon = defineComponent(markRaw({
-  name: "xIcon",
-  props: ["icon"],
-  data() {
-    const id = "lazy-svg_" + this._.uid;
-    return {
-      id,
-      svgIcon: null
-    };
-  },
-  computed: {
-    baseAttrs() {
-      return {
-        id: this.id,
-        role: "img",
-        ariaLabel: this.icon,
-        class: "xIcon anticon"
-      };
-    },
-    iconKey() {
-      const _iconKey = xU.camelCase(this.getIconPath()).replace(/\s/, "");
-      return _iconKey;
-    }
-  },
-  methods: {
-    getIconPath() {
-      if (!State_UI.assetsSvgPath) {
-        debugger;
-      }
-      const iconPath = `${State_UI.assetsSvgPath}/${this.icon}.svg`;
-      return iconPath;
-    },
-    async setIcon() {
-      if (!this.icon)
-        return;
-      try {
-        let SvgIconAny = await (async () => {
-          let _SvgIconAny = insideIcons[this.icon];
-          if (_SvgIconAny) {
-            xU(this.icon);
-            return _SvgIconAny;
-          }
-          if (!State_UI.isDev) {
-            _SvgIconAny = await iStorage(this.iconKey);
-            if (_SvgIconAny) {
-              return _SvgIconAny;
-            }
-          }
-          try {
-            _SvgIconAny = await xU.asyncLoadText(this.getIconPath());
-          } catch (error) {
-            console.error(error);
-          }
-          return _SvgIconAny;
-        })();
-        if (xU.isString(SvgIconAny) && SvgIconAny.length > 0) {
-          const SvgComponentByString = {
-            name: this.icon,
-            template: SvgIconAny
-          };
-          await iStorage(this.iconKey, SvgIconAny);
-          insideIcons[this.icon] = SvgComponentByString;
-          this.svgIcon = createVNode(SvgComponentByString, this.baseAttrs, null);
-        } else if ((SvgIconAny == null ? void 0 : SvgIconAny.render) || (SvgIconAny == null ? void 0 : SvgIconAny.template)) {
-          this.svgIcon = createVNode(SvgIconAny, this.baseAttrs, null);
-        } else {
-          console.error("component xIcon miss svg: " + this.icon);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  },
-  render() {
-    if (this.svgIcon) {
-      return this.svgIcon;
-    }
-    return createVNode(InsideLoadingOutlined, this.baseAttrs, null);
-  },
-  watch: {
-    icon: {
-      immediate: true,
-      handler() {
-        this.setIcon();
-      }
-    }
-  }
-}));
-function defDataGridOption(options) {
-  options.pagination = options.pagination || defPagination();
-  options.isLoading = Boolean(options.isLoading);
-  if (options.queryTableList) {
-    options._queryTableList_origin = options.queryTableList;
-    options.queryTableList = async function(...args2) {
-      this.isLoading = true;
-      await this._queryTableList_origin.apply(this, args2);
-      this.isLoading = false;
-    };
-  }
-  options.onPaginationChange = options.onPaginationChange || async function(pagination) {
-    await this.queryTableList({
-      pagination
-    });
-  };
-  return options;
-}
-function defPagination(num_page = 1, num_size = 10, num_total = 0) {
-  const {
-    page,
-    size: size2,
-    total: total2
-  } = State_UI.pagination;
-  return {
-    [page]: num_page || 1,
-    [size2]: num_size || 10,
-    [total2]: num_total || 0
-  };
-}
-function setPagination(StateTable, pagination) {
-  const PAGINATION_MAP = State_UI.pagination;
-  xU.each(pagination, (value, prop) => {
-    let realProp = PAGINATION_MAP[prop];
-    if (!realProp) {
-      realProp = prop;
-    }
-    StateTable.pagination[realProp] = value;
-  });
-}
-function defCol(options) {
-  return {
-    [options.prop]: {
-      ...options,
-      key: options.prop,
-      title: options.label,
-      dataIndex: options.prop
-    }
-  };
-}
-function filterColIsShow(isShow, prop) {
-  if (xU.isBoolean(isShow)) {
-    return isShow;
-  } else {
-    return true;
-  }
-}
-const PAGE_SIZE_OPTIONS = ["10", "20", "30"];
-const xPagination = defineComponent({
-  name: "xPagination",
-  setup() {
-    return {
-      State_UI
-    };
-  },
-  props: {
-    onPaginationChange: {
-      type: Function,
-      default: false
-    },
-    pagination: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  data() {
-    const {
-      page,
-      size: size2,
-      total: total2
-    } = State_UI.pagination;
-    return {
-      pageSizeOptions: PAGE_SIZE_OPTIONS,
-      page,
-      size: size2,
-      total: total2
-    };
-  },
-  methods: {
-    onShowSizeChange: xU.debounce(function(page, size2) {
-      setPagination(this, {
-        page,
-        size: size2
-      });
-      if (this.onPaginationChange) {
-        this.onPaginationChange(this.pagination);
-      }
-    }, 30)
-  },
-  computed: {
-    i18nMessage() {
-      return {
-        \u603B\u6761\u6570: "\u603B\u6761\u6570 {total}",
-        \u6761\u9875: "{size}\u6761/\u9875",
-        ...this.State_UI.i18nMessage
-      };
-    }
-  },
-  render() {
-    const {
-      page,
-      size: size2,
-      total: total2
-    } = State_UI.pagination;
-    console.log(page, size2, total2);
-    return createVNode(resolveComponent("aPagination"), {
-      "current": this.pagination[page],
-      "onUpdate:current": ($event) => this.pagination[page] = $event,
-      "pageSizeOptions": this.pageSizeOptions,
-      "total": this.pagination[total2],
-      "pageSize": this.pagination[size2],
-      "show-size-changer": true,
-      "showTotal": (total3) => this.$t("\u603B\u6761\u6570", {
-        total: total3
-      }, this.i18nMessage).label,
-      "onShowSizeChange": this.onShowSizeChange,
-      "onChange": this.onShowSizeChange
-    }, {
-      buildOptionText: (props3) => {
-        return createVNode("span", null, [this.$t("\u6761\u9875", {
-          size: props3.value
-        }, this.i18nMessage).label]);
-      }
-    });
-  }
-});
-const _sfc_main$9 = defineComponent({
-  name: "XDataGrid",
-  components: {
-    xPagination
-  },
-  props: {
-    configs: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  setup() {
-    return {
-      Cpt_UI_locale
-    };
-  },
-  data() {
-    return {
-      State: {
-        id: xU.genId("xDataGrid")
-      }
-    };
-  },
-  computed: {
-    Cpt_Columns() {
-      if (this.configs.isGroupingColumns) {
-        return this.configs.columns;
-      }
-      let columns = null;
-      columns = xU.map(this.Cpt_ColumnsOrder, (prop) => xU.find(this.configs.columns, {
-        prop
-      }));
-      columns = xU.filter(columns, (i2) => filterColIsShow(i2 == null ? void 0 : i2.isShow, i2 == null ? void 0 : i2.prop));
-      return columns;
-    },
-    Cpt_ColumnsOrder() {
-      const order = (() => {
-        if (this.configs.columns_order) {
-          return this.configs.columns_order;
-        } else {
-          return xU.map(this.configs.columns, (i2) => i2.prop);
-        }
-      })();
-      return xU.filter(order, (i2) => !!i2);
-    },
-    Cpt_AntTableProperty() {
-      if (this.configs.antTableProperty) {
-        return this.configs.antTableProperty;
-      } else {
-        return {};
-      }
-    },
-    Cpt_VNodeTable() {
-      if (this.configs.renderTable) {
-        return this.configs.renderTable({
-          vm: this
-        });
-      } else {
-        const slots = {
-          emptyText: () => createVNode("div", {
-            "class": "ant-empty ant-empty-normal"
-          }, [createVNode("div", {
-            "class": "ant-empty-image"
-          }, [createVNode(resolveComponent("xIcon"), {
-            "icon": "InsideEmpty",
-            "style": "width:64px"
-          }, null)]), createVNode("p", {
-            "class": "ant-empty-description"
-          }, [this.Cpt_UI_locale.Empty.description])]),
-          bodyCell: (args2) => {
-            const {
-              column: column2
-            } = args2;
-            if (column2 && column2.renderCell) {
-              const vNode = column2.renderCell(args2);
-              if (xU.isNull(vNode) || xU.isUndefined(vNode)) {
-                return "";
-              }
-              return vNode;
-            }
-          }
-        };
-        const scroll = (() => {
-          if (this.configs.scroll) {
-            return this.configs.scroll;
-          }
-          return {
-            x: 300
-          };
-        })();
-        return createVNode(Table, mergeProps({
-          "loading": this.configs.isLoading,
-          "dataSource": this.configs.dataSource,
-          "columns": this.Cpt_Columns,
-          "scroll": scroll,
-          "pagination": false,
-          "locale": this.Cpt_UI_locale.Table
-        }, this.Cpt_AntTableProperty), slots);
-      }
-    },
-    Cpt_VNodePagination() {
-      if (this.configs.isHidePagination) {
-        return null;
-      }
-      return createVNode(xPagination, {
-        "class": "table-pagination",
-        "pagination": this.configs.pagination,
-        "onPaginationChange": this.handlePaginationChange
-      }, null);
-    }
-  },
-  mounted() {
-    if (this.configs.onMounted) {
-      this.configs.onMounted({
-        id: this.State.id
-      });
-    }
-  },
-  watch: {
-    "configs.pagination": {
-      deep: true,
-      handler(pagination) {
-        console.log(JSON.stringify(pagination));
-      }
-    }
-  },
-  methods: {
-    async handlePaginationChange(pagination) {
-      var _a;
-      if ((_a = this == null ? void 0 : this.configs) == null ? void 0 : _a.onPaginationChange) {
-        this.configs.isLoading = true;
-        await this.configs.onPaginationChange(pagination);
-        this.configs.isLoading = false;
-      }
-    }
-  },
-  render() {
-    return createVNode("div", {
-      "id": this.State.id
-    }, [this.Cpt_VNodeTable, this.Cpt_VNodePagination]);
-  }
-});
-const xDataGrid_vue_vue_type_style_index_0_lang = "";
-const _sfc_main$8 = defineComponent({
-  name: "xColFilter",
-  props: {
-    configs: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  methods: {
-    handleChecked(col) {
-      const target = xU.find(this.configs.columns, {
-        key: col.key
-      });
-      target.isShow = xU.isBoolean(target.isShow) ? !target.isShow : false;
-    }
-  },
-  computed: {
-    Cpt_ColumnsOrder() {
-      const order = (() => {
-        if (this.configs.columns_order) {
-          return this.configs.columns_order;
-        } else {
-          return xU.map(this.configs.columns, (i2) => i2.prop);
-        }
-      })();
-      return xU.filter(order, (i2) => !!i2);
-    },
-    Cpt_Columns() {
-      return xU.map(this.Cpt_ColumnsOrder, (prop) => xU.find(this.configs.columns, {
-        prop
-      }));
-    },
-    checkedList() {
-      return xU.filter(this.Cpt_ColumnsOrder, (prop) => {
-        const {
-          isShow
-        } = this.configs.columns[prop];
-        return filterColIsShow(isShow);
-      });
-    }
-  }
-});
-function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_aCheckbox = resolveComponent("aCheckbox");
-  const _component_xIcon = resolveComponent("xIcon");
-  const _component_aButton = resolveComponent("aButton");
-  const _component_aPopover = resolveComponent("aPopover");
-  return openBlock(), createBlock(_component_aPopover, {
-    placement: "leftTop",
-    trigger: "click"
-  }, {
-    content: withCtx(() => [
-      (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.Cpt_Columns, (col) => {
-        return openBlock(), createElementBlock("p", {
-          key: col.key
-        }, [
-          createVNode(_component_aCheckbox, {
-            checked: _ctx.checkedList.includes(col.key),
-            onChange: ($event) => _ctx.handleChecked(col)
-          }, {
-            default: withCtx(() => [
-              createTextVNode(toDisplayString(col.title), 1)
-            ]),
-            _: 2
-          }, 1032, ["checked", "onChange"])
-        ]);
-      }), 128))
-    ]),
-    default: withCtx(() => [
-      createVNode(_component_aButton, null, {
-        icon: withCtx(() => [
-          createVNode(_component_xIcon, {
-            icon: "insideSettingOutlined",
-            style: { "height": "100%", "width": "100%" }
-          })
-        ]),
-        _: 1
-      })
-    ]),
-    _: 1
-  });
-}
-const xColFilter = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
-const _sfc_main$7 = defineComponent({
-  name: "xDataGridToolbar",
-  components: {
-    xColFilter
-  },
-  props: {
-    configs: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  computed: {
-    Cpt_btn_query() {
-      return {
-        preset: "query",
-        onClick: async () => {
-          if (this.configs.queryTableList) {
-            setPagination(this.configs, {
-              page: 1
-            });
-            await this.configs.queryTableList({
-              pagination: {
-                page: 1
-              }
-            });
-          }
-        }
-      };
-    },
-    Cpt_btn_refresh() {
-      return {
-        preset: "refresh",
-        onClick: async () => {
-          if (this.configs.queryTableList) {
-            await this.configs.queryTableList();
-          }
-        }
-      };
-    },
-    Cpt_isShowQuery() {
-      if (!this.configs.queryTableList) {
-        return false;
-      }
-      return !this.configs.isHideQuery;
-    },
-    Cpt_isShowRefresh() {
-      if (!this.configs.queryTableList) {
-        return false;
-      }
-      return !this.configs.isHideRefresh;
-    },
-    Cpt_isShowFilter() {
-      if (this.configs.isGroupingColumns) {
-        return false;
-      }
-      if (this.configs.isHideFilter) {
-        return false;
-      }
-      return true;
-    },
-    Cpt_isSetConfigs() {
-      return this.configs && this.configs.pagination;
-    }
-  }
-});
-const _hoisted_1$4 = { class: "table-options" };
-const _hoisted_2$1 = { class: "table-option-left flex flex1" };
-const _hoisted_3 = {
-  key: 0,
-  class: "table-filter flex"
-};
-function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_xButton = resolveComponent("xButton");
-  const _component_xGap = resolveComponent("xGap");
-  const _component_xColFilter = resolveComponent("xColFilter");
-  return openBlock(), createElementBlock("div", _hoisted_1$4, [
-    createBaseVNode("div", _hoisted_2$1, [
-      renderSlot(_ctx.$slots, "default")
-    ]),
-    _ctx.Cpt_isSetConfigs ? (openBlock(), createElementBlock("div", _hoisted_3, [
-      _ctx.Cpt_isShowQuery ? (openBlock(), createBlock(_component_xButton, {
-        key: 0,
-        configs: _ctx.Cpt_btn_query
-      }, null, 8, ["configs"])) : createCommentVNode("", true),
-      createVNode(_component_xGap, { l: "4" }),
-      _ctx.Cpt_isShowRefresh ? (openBlock(), createBlock(_component_xButton, {
-        key: 1,
-        configs: _ctx.Cpt_btn_refresh
-      }, null, 8, ["configs"])) : createCommentVNode("", true),
-      createVNode(_component_xGap, { l: "4" }),
-      _ctx.Cpt_isShowFilter ? (openBlock(), createBlock(_component_xColFilter, {
-        key: 2,
-        configs: _ctx.configs
-      }, null, 8, ["configs"])) : createCommentVNode("", true)
-    ])) : createCommentVNode("", true)
-  ]);
-}
-const xDataGridToolbar = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
-const _sfc_main$6 = defineComponent({
-  name: "xCellLabel",
-  props: {
-    configs: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  data() {
-    return {
-      loading: false,
-      title: ""
-    };
-  },
-  computed: {
-    id() {
-      return `xLabel_${this._.uid}`;
-    }
-  },
-  watch: {
-    configs: {
-      immediate: true,
-      handler(configs) {
-        this.loading = !!configs.loading;
-      }
-    }
-  },
-  methods: {
-    updateTitle(title) {
-      if (this.title !== title) {
-        this.title = title;
-      }
-    }
-  },
-  updated() {
-    const $dom = $$1(`#${this.id}`);
-    const domWidth = $dom.width();
-    const $span = $$1(`#${this.id} > span`);
-    const spanWidth = $span.width();
-    if (domWidth < spanWidth) {
-      const text = $dom.text();
-      this.updateTitle(text);
-    } else {
-      this.updateTitle("");
-    }
-  }
-});
-const _hoisted_1$3 = ["title", "id"];
-function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", {
-    class: "ellipsis",
-    title: _ctx.title,
-    id: _ctx.id
-  }, [
-    createBaseVNode("span", null, [
-      renderSlot(_ctx.$slots, "default")
-    ])
-  ], 8, _hoisted_1$3);
-}
-const xCellLabel = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
-const xVirScroll_vue_vue_type_style_index_0_lang = "";
-const itemHeight = 48;
-const oneBlockHeight = 580;
-const _sfc_main$5 = defineComponent({
-  name: "XVirScroll",
-  props: {
-    configs: {
-      type: Object,
-      default() {
-        return {};
-      }
-    },
-    top: {
-      type: Number,
-      default: 0
-    },
-    height: {
-      type: Number,
-      default: 0
-    },
-    scrollHeight: {
-      type: Number,
-      default: 0
-    }
-  },
-  emits: ["update:top", "update:height", "update:scrollHeight"],
-  setup() {
-    return {};
-  },
-  data() {
-    return {
-      itemComponent: this.$slots.item,
-      blockCount: 0,
-      isLoading: false,
-      styleWrapperAll: {
-        height: 0
-      }
-    };
-  },
-  computed: {
-    allItems() {
-      return this.configs.items || [];
-    },
-    positionBlock() {
-      return this.blockCount % 3;
-    },
-    virs1() {
-      const position = Number(this.styleWrapper1.match(/(\d)/g).join("")) / 580;
-      const start = position * 10;
-      const end = start + 10;
-      return this.allItems.slice(start, end).map((i2, index2) => ({
-        ...i2,
-        index: start + 1 + index2
-      }));
-    },
-    virs2() {
-      const position = Number(this.styleWrapper2.match(/(\d)/g).join("")) / 580;
-      const start = position * 10;
-      const end = start + 10;
-      return this.allItems.slice(start, end).map((i2, index2) => ({
-        ...i2,
-        index: start + 1 + index2
-      }));
-    },
-    virs3() {
-      const position = Number(this.styleWrapper3.match(/(\d)/g).join("")) / 580;
-      const start = position * 10;
-      const end = start + 10;
-      return this.allItems.slice(start, end).map((i2, index2) => ({
-        ...i2,
-        index: start + 1 + index2
-      }));
-    },
-    styleWrapper1() {
-      if (this.positionBlock === 0) {
-        return `transform:translateY(${this.blockCount * 580}px)`;
-      }
-      if (this.positionBlock === 1) {
-        return `transform:translateY(${(this.blockCount + 2) * 580}px)`;
-      }
-      return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
-    },
-    styleWrapper2() {
-      if (this.positionBlock === 0) {
-        return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
-      }
-      if (this.positionBlock === 1) {
-        return `transform:translateY(${this.blockCount * 580}px)`;
-      }
-      return `transform:translateY(${(this.blockCount - 1) * 580}px)`;
-    },
-    styleWrapper3() {
-      if (this.positionBlock === 0) {
-        return `transform:translateY(${(this.blockCount + 2) * 580}px)`;
-      }
-      if (this.positionBlock === 1) {
-        return `transform:translateY(${(this.blockCount + 1) * 580}px)`;
-      }
-      return `transform:translateY(${this.blockCount * 580}px)`;
-    }
-  },
-  watch: {
-    top() {
-      this.setTop();
-    },
-    "allItems.length": {
-      immediate: true,
-      handler() {
-        this.updateTop();
-        this.setHeight();
-      }
-    }
-  },
-  updated() {
-    var _a, _b;
-    const height = (_a = this.$wrapperEle) == null ? void 0 : _a.height();
-    if (height !== this.height) {
-      this.$emit("update:height", ((_b = this.$wrapperEle) == null ? void 0 : _b.height()) || 0);
-    }
-  },
-  mounted() {
-    this.init();
-  },
-  beforeUnmount() {
-    this.$wrapperEle.off("scroll");
-  },
-  methods: {
-    setTop: xU.debounce(function() {
-      if (this.$refs.refWrapper) {
-        this.$refs.refWrapper.scrollTo({
-          top: this.top,
-          behavior: "smooth"
-        });
-      }
-    }, 1e3),
-    init() {
-      this.$wrapperEle = $$1(this.$refs.refWrapper);
-      this.$wrapperEle.on("scroll", () => this.updateTop());
-    },
-    updateTop(event2) {
-      if (this.$refs.refWrapper) {
-        const top = this.$refs.refWrapper.scrollTop;
-        this.blockCount = Math.floor(top / oneBlockHeight);
-        this.$emit("update:top", top);
-      }
-    },
-    setHeight() {
-      const height = this.allItems.length * itemHeight;
-      this.styleWrapperAll.height = `${height}px`;
-      this.$emit("update:scrollHeight", height);
-    }
-  }
-});
-const _hoisted_1$2 = {
-  ref: "refWrapper",
-  class: "wrapper vir-item-component"
-};
-function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$2, [
-    createBaseVNode("div", {
-      style: normalizeStyle(_ctx.styleWrapperAll)
-    }, [
-      createBaseVNode("div", {
-        class: "vir-item-wrapper item1",
-        style: normalizeStyle(_ctx.styleWrapper1)
-      }, [
-        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs1, (vir) => {
-          return openBlock(), createElementBlock("div", {
-            key: vir.id,
-            class: "vir-item"
-          }, [
-            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
-          ]);
-        }), 128))
-      ], 4),
-      createBaseVNode("div", {
-        class: "vir-item-wrapper item2",
-        style: normalizeStyle(_ctx.styleWrapper2)
-      }, [
-        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs2, (vir) => {
-          return openBlock(), createElementBlock("div", {
-            key: vir.id,
-            class: "vir-item"
-          }, [
-            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
-          ]);
-        }), 128))
-      ], 4),
-      createBaseVNode("div", {
-        class: "vir-item-wrapper item3",
-        style: normalizeStyle(_ctx.styleWrapper3)
-      }, [
-        (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.virs3, (vir) => {
-          return openBlock(), createElementBlock("div", {
-            key: vir.id,
-            class: "vir-item"
-          }, [
-            (openBlock(), createBlock(resolveDynamicComponent(_ctx.itemComponent), { item: vir }, null, 8, ["item"]))
-          ]);
-        }), 128))
-      ], 4)
-    ], 4)
-  ], 512);
-}
-const xVirScroll = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
 const xVirTableTh = defineComponent({
   props: ["column", "index"],
   computed: {
@@ -94726,9 +94876,19 @@ const xVirTableBody = defineComponent({
       virs3: []
     };
   },
+  created() {
+    (() => {
+      this.debounceSetPerBlockHeight = xU.debounce(function(viewportHeight) {
+        this.viewportHeight = viewportHeight;
+        this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
+        this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
+        this.setHeight();
+      }, 64);
+    })();
+  },
   mounted() {
     this.fnObserveDomResize(this.$refs.wrapper, () => {
-      this.setPerBlockHeight(this.$refs.wrapper.offsetHeight);
+      this.debounceSetPerBlockHeight(this.$refs.wrapper.offsetHeight);
     });
     this.$watch(() => {
       return `${this.configs.dataSource.length}_${this.perBlockHeight}_${this.perBlockRowCount}_${this.styleWrapper1}_${this.styleWrapper2}_${this.styleWrapper3}`;
@@ -94746,8 +94906,11 @@ const xVirTableBody = defineComponent({
         prop
       } = this.selectedConfigs || {};
       if (xU.isFunction(isSelect)) {
-        return (args2) => {
-          return isSelect.call(this, args2);
+        return (rowInfo) => {
+          return isSelect.call(this, {
+            ...rowInfo,
+            selected: this.selected
+          });
         };
       } else {
         return ({
@@ -94763,8 +94926,8 @@ const xVirTableBody = defineComponent({
         isDisabled
       } = this.selectedConfigs || {};
       if (xU.isFunction(isDisabled)) {
-        return () => {
-          return isDisabled.call(this, args);
+        return (...args) => {
+          return isDisabled.apply(this, args);
         };
       } else {
         return () => {
@@ -94829,7 +94992,7 @@ const xVirTableBody = defineComponent({
               "class": "xVirTable-row flex horizon",
               "data-row-key": __virRowIndex
             }, [this.genSelectedVDom({
-              rowIndex,
+              rowIndex: __virRowIndex,
               rowData: data9
             }), xU.map(this.columnOrder, (prop, index2) => {
               return createVNode(xVirTableTd, {
@@ -94856,7 +95019,7 @@ const xVirTableBody = defineComponent({
                   "class": "xVirTable-row flex horizon",
                   "data-row-key": __virRowIndex
                 }, [this.genSelectedVDom({
-                  rowIndex,
+                  rowIndex: __virRowIndex,
                   rowData: data9
                 }), xU.map(this.columnOrder, (prop, index2) => {
                   return createVNode(xVirTableTd, {
@@ -94948,12 +95111,6 @@ const xVirTableBody = defineComponent({
         id
       });
     },
-    setPerBlockHeight: xU.debounce(function(viewportHeight) {
-      this.viewportHeight = viewportHeight;
-      this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
-      this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
-      this.setHeight();
-    }, 64),
     setTop: xU.debounce(function() {
       if (this.$refs.refWrapper) {
         this.$refs.refWrapper.scrollTo({
@@ -94979,15 +95136,23 @@ const xVirTableBody = defineComponent({
     }
   },
   watch: {
-    rowHeight() {
-      this.setPerBlockHeight(this.$refs.wrapper.offsetHeight);
+    rowHeight: {
+      immediate: true,
+      async handler() {
+        await xU.ensureValueDone(() => {
+          var _a, _b;
+          return (_b = (_a = this.$refs) == null ? void 0 : _a.wrapper) == null ? void 0 : _b.offsetHeight;
+        });
+        this.debounceSetPerBlockHeight(this.$refs.wrapper.offsetHeight);
+      }
     },
     top() {
       this.setTop();
     },
     "configs.dataSource": {
       immediate: true,
-      handler() {
+      async handler() {
+        await xU.ensureValueDone(() => this.perBlockHeight);
         this.updateCell();
         this.clearCacheRow();
         this.updateTop(false);
@@ -96520,7 +96685,7 @@ const installUIDialogComponent = (UI2, {
         handleEcsPress = null;
       }
     };
-    const layerOptions = xU.merge({
+    const layerOptions = xU.merge(dialogOptions, {
       contentClass: "flex1",
       offset: ["160px", null],
       btn: []
@@ -96529,6 +96694,8 @@ const installUIDialogComponent = (UI2, {
       title: [title || ""],
       area: area || [],
       content: $container,
+      offset: ["160px", null],
+      btn: [],
       success($eleLayer, _layerKey) {
         handleEcsPress.on(_layerKey);
         dialogOptions._dialog$ele = $eleLayer;
@@ -96865,13 +97032,19 @@ defItem.item = (options) => {
   if (xU.isObject(options.itemType)) {
     options.itemType.__v_isReactive = false;
   }
-  return xU.merge({
+  const _options = xU.merge({
     prop: `xItem${xItemNoPropCount++}`,
     itemTips: {
       type: "",
       msg: ""
     }
   }, options);
+  _options._$updateUI = (newConfigs) => {
+    xU.each(newConfigs, (value, prop) => {
+      _options[prop] = value;
+    });
+  };
+  return _options;
 };
 defItem.labelWithTips = ({
   label,
@@ -97199,12 +97372,325 @@ const useScopeStyle = () => {
       instance.ctx,
       styleObject2String(scopeStyle)
     );
-    debugger;
   }
   return {
     setStyle: setStyle2
   };
 };
+const xInfoCard$1 = "";
+const InfoCardCol$1 = defineComponent({
+  props: ["col"],
+  computed: {
+    isHide() {
+      return this.col.isHide || false;
+    },
+    styleLabel() {
+      return {};
+    },
+    vDomLabel() {
+      return this.col.label;
+    },
+    vDomContent() {
+      return this.col.value;
+    }
+  },
+  render() {
+    if (this.isHide) {
+      return null;
+    }
+    return createVNode(Fragment, null, [createVNode("div", {
+      "class": "ant-descriptions-item-label",
+      "style": this.styleLabel
+    }, [this.vDomLabel]), createVNode("div", {
+      "class": "ant-descriptions-item-content flex1"
+    }, [this.vDomContent])]);
+  }
+});
+const InfoCardRow$1 = defineComponent({
+  props: ["row"],
+  computed: {
+    colArray() {
+      var _a;
+      return ((_a = this == null ? void 0 : this.row) == null ? void 0 : _a.colArray) || false;
+    },
+    vDomCol() {
+      if (this.row) {
+        return xU.map(this.colArray, (col) => {
+          return createVNode(InfoCardCol$1, {
+            "col": col
+          }, null);
+        });
+      }
+      return null;
+    },
+    styleRow() {
+      var _a;
+      if ((_a = this == null ? void 0 : this.row) == null ? void 0 : _a.style) {
+        return this.row.style;
+      }
+      return "";
+    }
+  },
+  render() {
+    return createVNode("div", {
+      "class": "InfoCardRow ant-descriptions-row flex middle",
+      "style": this.styleRow
+    }, [this.vDomCol]);
+  }
+});
+const xInfoCard = defineComponent({
+  props: ["info", "title"],
+  methods: {
+    updateLableStyle(styleObject) {
+      const styleString = xU.map(xU.merge({
+        "min-width": "120px",
+        "text-align": "right"
+      }, styleObject), (value, prop) => `${prop}: ${value}`).join(";");
+      const styleContent = `#${this.id} .ant-descriptions-item-label {${styleString}}`;
+      if (!this.$styleEle) {
+        const $form = $$1(`#${this.id}`);
+        const $style = $$1("<style/>", {
+          id: `style_${this.id}`
+        });
+        $form.prepend($style);
+        this.$styleEle = $style;
+      }
+      this.$styleEle.html(styleContent);
+    }
+  },
+  mounted() {
+    this.$watch("info.colLabelWidth", (width) => {
+      if (width) {
+        xU("width", width);
+        this.updateLableStyle({
+          width
+        });
+      }
+    }, {
+      immediate: true,
+      deep: true
+    });
+  },
+  computed: {
+    id() {
+      return `InfoCard_${this._.uid}`;
+    },
+    colLabelWidth() {
+      var _a;
+      return ((_a = this == null ? void 0 : this.info) == null ? void 0 : _a.colLabelWidth) || "120px";
+    },
+    rowArray() {
+      var _a;
+      return ((_a = this == null ? void 0 : this.info) == null ? void 0 : _a.rowArray) || false;
+    },
+    vDomTitle() {
+      if (!this.title) {
+        return null;
+      }
+      return createVNode("div", {
+        "class": "ant-descriptions-header"
+      }, [createVNode("div", {
+        "class": "ant-descriptions-title"
+      }, [this.title])]);
+    },
+    vDomDescriptions() {
+      if (this.rowArray) {
+        return createVNode("div", {
+          "class": "ant-descriptions-view"
+        }, [xU.map(this.rowArray, (row) => {
+          return createVNode(InfoCardRow$1, {
+            "row": row
+          }, null);
+        })]);
+      }
+      if (this.$slots.default) {
+        return this.$slots.default();
+      }
+      return null;
+    }
+  },
+  render() {
+    return createVNode("div", {
+      "class": "ant-descriptions ant-descriptions-middle ant-descriptions-bordered x-infomation-card",
+      "id": this.id
+    }, [this.vDomTitle, this.vDomDescriptions]);
+  }
+});
+var toggleSelection = function() {
+  var selection = document.getSelection();
+  if (!selection.rangeCount) {
+    return function() {
+    };
+  }
+  var active = document.activeElement;
+  var ranges = [];
+  for (var i2 = 0; i2 < selection.rangeCount; i2++) {
+    ranges.push(selection.getRangeAt(i2));
+  }
+  switch (active.tagName.toUpperCase()) {
+    case "INPUT":
+    case "TEXTAREA":
+      active.blur();
+      break;
+    default:
+      active = null;
+      break;
+  }
+  selection.removeAllRanges();
+  return function() {
+    selection.type === "Caret" && selection.removeAllRanges();
+    if (!selection.rangeCount) {
+      ranges.forEach(function(range3) {
+        selection.addRange(range3);
+      });
+    }
+    active && active.focus();
+  };
+};
+var deselectCurrent2 = toggleSelection;
+var clipboardToIE11Formatting = {
+  "text/plain": "Text",
+  "text/html": "Url",
+  "default": "Text"
+};
+var defaultMessage = "Copy to clipboard: #{key}, Enter";
+function format4(message2) {
+  var copyKey = (/mac os x/i.test(navigator.userAgent) ? "\u2318" : "Ctrl") + "+C";
+  return message2.replace(/#{\s*key\s*}/g, copyKey);
+}
+function copy(text, options) {
+  var debug, message2, reselectPrevious, range3, selection, mark, success = false;
+  if (!options) {
+    options = {};
+  }
+  debug = options.debug || false;
+  try {
+    reselectPrevious = deselectCurrent2();
+    range3 = document.createRange();
+    selection = document.getSelection();
+    mark = document.createElement("span");
+    mark.textContent = text;
+    mark.ariaHidden = "true";
+    mark.style.all = "unset";
+    mark.style.position = "fixed";
+    mark.style.top = 0;
+    mark.style.clip = "rect(0, 0, 0, 0)";
+    mark.style.whiteSpace = "pre";
+    mark.style.webkitUserSelect = "text";
+    mark.style.MozUserSelect = "text";
+    mark.style.msUserSelect = "text";
+    mark.style.userSelect = "text";
+    mark.addEventListener("copy", function(e2) {
+      e2.stopPropagation();
+      if (options.format) {
+        e2.preventDefault();
+        if (typeof e2.clipboardData === "undefined") {
+          debug && console.warn("unable to use e.clipboardData");
+          debug && console.warn("trying IE specific stuff");
+          window.clipboardData.clearData();
+          var format5 = clipboardToIE11Formatting[options.format] || clipboardToIE11Formatting["default"];
+          window.clipboardData.setData(format5, text);
+        } else {
+          e2.clipboardData.clearData();
+          e2.clipboardData.setData(options.format, text);
+        }
+      }
+      if (options.onCopy) {
+        e2.preventDefault();
+        options.onCopy(e2.clipboardData);
+      }
+    });
+    document.body.appendChild(mark);
+    range3.selectNodeContents(mark);
+    selection.addRange(range3);
+    var successful = document.execCommand("copy");
+    if (!successful) {
+      throw new Error("copy command was unsuccessful");
+    }
+    success = true;
+  } catch (err) {
+    debug && console.error("unable to copy using execCommand: ", err);
+    debug && console.warn("trying IE specific stuff");
+    try {
+      window.clipboardData.setData(options.format || "text", text);
+      options.onCopy && options.onCopy(window.clipboardData);
+      success = true;
+    } catch (err2) {
+      debug && console.error("unable to copy using clipboardData: ", err2);
+      debug && console.error("falling back to prompt");
+      message2 = format4("message" in options ? options.message : defaultMessage);
+      window.prompt(message2, text);
+    }
+  } finally {
+    if (selection) {
+      if (typeof selection.removeRange == "function") {
+        selection.removeRange(range3);
+      } else {
+        selection.removeAllRanges();
+      }
+    }
+    if (mark) {
+      document.body.removeChild(mark);
+    }
+    reselectPrevious();
+  }
+  return success;
+}
+var copyToClipboard = copy;
+const xLinkCopy = defineComponent({
+  name: "xLinkCopy",
+  props: ["to"],
+  data() {
+    return {};
+  },
+  setup(props3) {
+  },
+  computed: {
+    xDomText() {
+      var _a;
+      if ((_a = this.$slots) == null ? void 0 : _a.default) {
+        return this.$slots.default();
+      }
+      return "";
+    }
+  },
+  watch: {},
+  created() {
+  },
+  methods: {
+    handleClickText(...args) {
+      if (this.to) {
+        this.to.apply(this, args);
+      }
+    },
+    copyText() {
+      if (copyToClipboard($$1(this.$refs.contents).text())) {
+        UI.message.success(this.$t("\u5DF2\u7ECF\u6210\u529F\u590D\u5236\u5230\u526A\u5207\u677F").label);
+      } else {
+        UI.message.error(this.$t("\u590D\u5236\u5230\u526A\u5207\u677F\u5931\u8D25").label);
+      }
+    }
+  },
+  render({
+    xDomText,
+    handleClickText,
+    copyText
+  }) {
+    return createVNode("div", {
+      "class": "xLinkCopy ant-btn ant-btn-link flex"
+    }, [withDirectives(createVNode("div", {
+      "class": "flex1 ellipsis mr4",
+      "onClick": handleClickText,
+      "ref": "contents"
+    }, [xDomText]), [[resolveDirective("uiPopover"), {
+      onlyEllipsis: true
+    }]]), createVNode(resolveComponent("xIcon"), {
+      "icon": "InsideCopy",
+      "class": "xLinkCopy_icon",
+      "onClick": copyText
+    }, null)]);
+  }
+});
 window.dayjs = dayjs;
 window.moment = dayjs;
 window.jquery = $$1;
@@ -97229,7 +97715,9 @@ const componentMyUI = {
   xCellLabel,
   xVirScroll,
   xVirTable,
-  xLogObject
+  xLogObject,
+  xInfoCard,
+  xLinkCopy
 };
 const components = {
   ...componentMyUI
@@ -97249,50 +97737,6 @@ const VentoseUIWithInstall = {
     app.use(Antd);
   }
 };
-const scriptRel = "modulepreload";
-const assetsURL = function(dep, importerUrl) {
-  return new URL(dep, importerUrl).href;
-};
-const seen = {};
-const __vitePreload = function preload(baseModule, deps, importerUrl) {
-  if (!deps || deps.length === 0) {
-    return baseModule();
-  }
-  const links = document.getElementsByTagName("link");
-  return Promise.all(deps.map((dep) => {
-    dep = assetsURL(dep, importerUrl);
-    if (dep in seen)
-      return;
-    seen[dep] = true;
-    const isCss = dep.endsWith(".css");
-    const cssSelector = isCss ? '[rel="stylesheet"]' : "";
-    const isBaseRelative = !!importerUrl;
-    if (isBaseRelative) {
-      for (let i2 = links.length - 1; i2 >= 0; i2--) {
-        const link3 = links[i2];
-        if (link3.href === dep && (!isCss || link3.rel === "stylesheet")) {
-          return;
-        }
-      }
-    } else if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) {
-      return;
-    }
-    const link2 = document.createElement("link");
-    link2.rel = isCss ? "stylesheet" : scriptRel;
-    if (!isCss) {
-      link2.as = "script";
-      link2.crossOrigin = "";
-    }
-    link2.href = dep;
-    document.head.appendChild(link2);
-    if (isCss) {
-      return new Promise((res, rej) => {
-        link2.addEventListener("load", res);
-        link2.addEventListener("error", () => rej(new Error(`Unable to preload CSS for ${dep}`)));
-      });
-    }
-  })).then(() => baseModule());
-};
 const Group = "";
 const ajax = axios.create({
   withCredentials: true,
@@ -97300,7 +97744,7 @@ const ajax = axios.create({
 });
 ajax.interceptors.request.use((config) => {
   config.url = `${_State_App.baseURL}${config.url}`;
-  pickXCookies(config);
+  xCookies.pick(config);
   if (config.data) {
     xU.each(["name"], (prop) => {
       if (config.data[prop]) {
@@ -97312,7 +97756,7 @@ ajax.interceptors.request.use((config) => {
 }, (error) => Promise.reject(error));
 ajax.interceptors.response.use(async (response) => {
   var _a, _b, _c;
-  saveXCookies(response);
+  xCookies.save(response);
   if (((_a = response == null ? void 0 : response.data) == null ? void 0 : _a.errcode) == 40011) {
     _State_App.user.isLogin = false;
     window.location.hash = "/login";
@@ -97340,18 +97784,20 @@ ajax.interceptors.response.use(async (response) => {
   logError((_a = response == null ? void 0 : response.data) == null ? void 0 : _a.data);
   return Promise.reject(error);
 });
-function pickXCookies(config) {
-  const xCookies = lStorage["x-cookies"];
-  if (xCookies) {
-    config.headers["x-cookies"] = JSON.stringify(xCookies);
+const xCookies = {
+  pick(config) {
+    const xCookies2 = lStorage["x-cookies"];
+    if (xCookies2) {
+      config.headers["x-cookies"] = JSON.stringify(xCookies2);
+    }
+  },
+  save(response) {
+    const xCookies2 = response.headers["x-cookies"];
+    if (xCookies2) {
+      lStorage["x-cookies"] = xCookies2;
+    }
   }
-}
-function saveXCookies(response) {
-  const xCookies = response.headers["x-cookies"];
-  if (xCookies) {
-    lStorage["x-cookies"] = xCookies;
-  }
-}
+};
 function logError(msg) {
   if (!msg)
     return;
@@ -97389,6 +97835,20 @@ const user = {
     return ajax({
       method: "post",
       url: "/api/user/reg",
+      data: data9
+    });
+  }
+};
+const wiki = {
+  menu() {
+    return this.action({
+      action: "menu"
+    });
+  },
+  action(data9) {
+    return ajax({
+      method: "post",
+      url: "/api/wiki/action",
       data: data9
     });
   }
@@ -97464,13 +97924,13 @@ var implementation$1 = function bind2(that) {
   if (typeof target !== "function" || toStr$1.call(target) !== funcType) {
     throw new TypeError(ERROR_MESSAGE + target);
   }
-  var args2 = slice.call(arguments, 1);
+  var args = slice.call(arguments, 1);
   var bound;
   var binder = function() {
     if (this instanceof bound) {
       var result = target.apply(
         this,
-        args2.concat(slice.call(arguments))
+        args.concat(slice.call(arguments))
       );
       if (Object(result) === result) {
         return result;
@@ -97479,11 +97939,11 @@ var implementation$1 = function bind2(that) {
     } else {
       return target.apply(
         that,
-        args2.concat(slice.call(arguments))
+        args.concat(slice.call(arguments))
       );
     }
   };
-  var boundLength = Math.max(0, target.length - args2.length);
+  var boundLength = Math.max(0, target.length - args.length);
   var boundArgs = [];
   for (var i2 = 0; i2 < boundLength; i2++) {
     boundArgs.push("$" + i2);
@@ -99389,6 +99849,7 @@ const testcase = {
   }
 };
 const API = {
+  wiki,
   user,
   group,
   news,
@@ -100034,6 +100495,7 @@ const optionsXIcon = [
   "allCategory",
   "arrow_left",
   "arrow_right",
+  "article",
   "back_group",
   "cached",
   "CaretDownOutlined",
@@ -100050,6 +100512,7 @@ const optionsXIcon = [
   "delete",
   "edit",
   "feedback",
+  "folder",
   "folderOpen",
   "follow",
   "github",
@@ -100095,9 +100558,12 @@ const optionsXIcon = [
   "unfollow",
   "unlock",
   "user",
+  "wikidoc",
   "yapi_logo"
 ];
 const ALL = "ALL";
+const FOLDER = "folder";
+const ARTICLE = "article";
 const GET = "GET";
 const HEAD = "HEAD";
 const OPTIONS = "OPTIONS";
@@ -100517,15 +100983,15 @@ var nprogress$1 = { exports: {} };
         element.style[prop] = value;
       }
       return function(element, properties) {
-        var args2 = arguments, prop, value;
-        if (args2.length == 2) {
+        var args = arguments, prop, value;
+        if (args.length == 2) {
           for (prop in properties) {
             value = properties[prop];
             if (value !== void 0 && properties.hasOwnProperty(prop))
               applyCss(element, prop, value);
           }
         } else {
-          applyCss(element, args2[1], args2[2]);
+          applyCss(element, args[1], args[2]);
         }
       };
     }();
@@ -100840,127 +101306,6 @@ const InfoCard = defineComponent({
     }, [this.vDomTitle, this.vDomDescriptions]);
   }
 });
-var toggleSelection = function() {
-  var selection = document.getSelection();
-  if (!selection.rangeCount) {
-    return function() {
-    };
-  }
-  var active = document.activeElement;
-  var ranges = [];
-  for (var i2 = 0; i2 < selection.rangeCount; i2++) {
-    ranges.push(selection.getRangeAt(i2));
-  }
-  switch (active.tagName.toUpperCase()) {
-    case "INPUT":
-    case "TEXTAREA":
-      active.blur();
-      break;
-    default:
-      active = null;
-      break;
-  }
-  selection.removeAllRanges();
-  return function() {
-    selection.type === "Caret" && selection.removeAllRanges();
-    if (!selection.rangeCount) {
-      ranges.forEach(function(range3) {
-        selection.addRange(range3);
-      });
-    }
-    active && active.focus();
-  };
-};
-var deselectCurrent2 = toggleSelection;
-var clipboardToIE11Formatting = {
-  "text/plain": "Text",
-  "text/html": "Url",
-  "default": "Text"
-};
-var defaultMessage = "Copy to clipboard: #{key}, Enter";
-function format4(message2) {
-  var copyKey = (/mac os x/i.test(navigator.userAgent) ? "\u2318" : "Ctrl") + "+C";
-  return message2.replace(/#{\s*key\s*}/g, copyKey);
-}
-function copy(text, options) {
-  var debug, message2, reselectPrevious, range3, selection, mark, success = false;
-  if (!options) {
-    options = {};
-  }
-  debug = options.debug || false;
-  try {
-    reselectPrevious = deselectCurrent2();
-    range3 = document.createRange();
-    selection = document.getSelection();
-    mark = document.createElement("span");
-    mark.textContent = text;
-    mark.ariaHidden = "true";
-    mark.style.all = "unset";
-    mark.style.position = "fixed";
-    mark.style.top = 0;
-    mark.style.clip = "rect(0, 0, 0, 0)";
-    mark.style.whiteSpace = "pre";
-    mark.style.webkitUserSelect = "text";
-    mark.style.MozUserSelect = "text";
-    mark.style.msUserSelect = "text";
-    mark.style.userSelect = "text";
-    mark.addEventListener("copy", function(e2) {
-      e2.stopPropagation();
-      if (options.format) {
-        e2.preventDefault();
-        if (typeof e2.clipboardData === "undefined") {
-          debug && console.warn("unable to use e.clipboardData");
-          debug && console.warn("trying IE specific stuff");
-          window.clipboardData.clearData();
-          var format5 = clipboardToIE11Formatting[options.format] || clipboardToIE11Formatting["default"];
-          window.clipboardData.setData(format5, text);
-        } else {
-          e2.clipboardData.clearData();
-          e2.clipboardData.setData(options.format, text);
-        }
-      }
-      if (options.onCopy) {
-        e2.preventDefault();
-        options.onCopy(e2.clipboardData);
-      }
-    });
-    document.body.appendChild(mark);
-    range3.selectNodeContents(mark);
-    selection.addRange(range3);
-    var successful = document.execCommand("copy");
-    if (!successful) {
-      throw new Error("copy command was unsuccessful");
-    }
-    success = true;
-  } catch (err) {
-    debug && console.error("unable to copy using execCommand: ", err);
-    debug && console.warn("trying IE specific stuff");
-    try {
-      window.clipboardData.setData(options.format || "text", text);
-      options.onCopy && options.onCopy(window.clipboardData);
-      success = true;
-    } catch (err2) {
-      debug && console.error("unable to copy using clipboardData: ", err2);
-      debug && console.error("falling back to prompt");
-      message2 = format4("message" in options ? options.message : defaultMessage);
-      window.prompt(message2, text);
-    }
-  } finally {
-    if (selection) {
-      if (typeof selection.removeRange == "function") {
-        selection.removeRange(range3);
-      } else {
-        selection.removeAllRanges();
-      }
-    }
-    if (mark) {
-      document.body.removeChild(mark);
-    }
-    reselectPrevious();
-  }
-  return success;
-}
-var copyToClipboard = copy;
 const _sfc_main$4 = {
   methods: {
     copyText() {
@@ -107879,7 +108224,19 @@ const _sfc_main$3 = {
   },
   methods: {
     init() {
-      this.originHTML = this.md || this.$slots.default()[0].children;
+      this.originHTML = (() => {
+        var _a, _b;
+        if (xU.isInput(this.md)) {
+          return this.md;
+        }
+        if (xU.isFunction((_a = this.$slots) == null ? void 0 : _a.default)) {
+          const defaultItems = (_b = this.$slots) == null ? void 0 : _b.default();
+          if (xU.isArrayFill(defaultItems)) {
+            return xU.first(defaultItems).children;
+          }
+        }
+        return "---";
+      })();
       const { Renderer } = marked;
       marked.options = { langClass: "hljs" };
       const renderer2 = new Renderer();
@@ -107965,6 +108322,13 @@ const ITEM_OPTIONS = {
     label: "\u5426",
     value: "false"
   }],
+  wikiType: [{
+    label: $t$9("\u6587\u4EF6\u5939").label,
+    value: FOLDER
+  }, {
+    label: $t$9("\u6587\u6863").label,
+    value: ARTICLE
+  }],
   trueOrFalse: [{
     label: "\u662F",
     value: true
@@ -107997,8 +108361,11 @@ const ITEM_OPTIONS_VDOM = {
     const i2 = xU.find(ITEM_OPTIONS.interfaceBodyFormType, {
       value: cell
     });
+    if (!i2) {
+      return null;
+    }
     return createVNode(resolveComponent("aTag"), null, {
-      default: () => [i2.label]
+      default: () => [i2 == null ? void 0 : i2.label]
     });
   },
   required(cell) {
@@ -110811,7 +111178,7 @@ const ViewGroup = defineComponent({
   methods: {
     async ifUrlNoGroupIdGetAndAddIdToUrl() {
       try {
-        if (!this.groupId) {
+        if (!this.groupId || this.groupId === "undefined") {
           let {
             data: group2
           } = await API.group.getMyGroup();
@@ -110999,6 +111366,13 @@ const routes = [{
     title: $t$2("\u5206\u7EC4").label
   }
 }, {
+  path: `/wiki`,
+  componentName: "ViewWiki",
+  component: () => __vitePreload(() => import("./ViewWiki.js"), true ? ["./ViewWiki.js","./TuiEditor.js","..\\TuiEditor..css","..\\ViewWiki..css"] : void 0, import.meta.url),
+  meta: {
+    title: $t$2("\u6587\u6863").label
+  }
+}, {
   path: `/project`,
   componentName: "ViewProject",
   component: () => __vitePreload(() => import("./ViewProject.js"), true ? ["./ViewProject.js","..\\ViewProject..css"] : void 0, import.meta.url),
@@ -111017,17 +111391,17 @@ const routes = [{
   label: $t$2("\u63A5\u53E3-\u5168\u90E8").label,
   path: "/project/interface/all",
   componentName: "InterfaceAll",
-  component: () => __vitePreload(() => import("./InterfaceAll.js"), true ? ["./InterfaceAll.js","./DialogModifyInterface.Helper.js","..\\DialogModifyInterface..css"] : void 0, import.meta.url)
+  component: () => __vitePreload(() => import("./InterfaceAll.js"), true ? ["./InterfaceAll.js","./DialogModifyInterface.Helper.js","./TuiEditor.js","..\\TuiEditor..css"] : void 0, import.meta.url)
 }, {
   label: $t$2("\u63A5\u53E3-\u5206\u7C7B").label,
   path: "/project/interface/category",
   componentName: "InterfaceCategory",
-  component: () => __vitePreload(() => import("./InterfaceCategory.js"), true ? ["./InterfaceCategory.js","./DialogModifyInterface.Helper.js","..\\DialogModifyInterface..css"] : void 0, import.meta.url)
+  component: () => __vitePreload(() => import("./InterfaceCategory.js"), true ? ["./InterfaceCategory.js","./DialogModifyInterface.Helper.js","./TuiEditor.js","..\\TuiEditor..css"] : void 0, import.meta.url)
 }, {
   label: $t$2("\u63A5\u53E3-\u8BE6\u60C5").label,
   path: "/project/interface/detail",
   componentName: "InterfaceDetail",
-  component: () => __vitePreload(() => import("./InterfaceDetail.js"), true ? ["./InterfaceDetail.js","./DialogModifyInterface.Helper.js","..\\DialogModifyInterface..css"] : void 0, import.meta.url)
+  component: () => __vitePreload(() => import("./InterfaceDetail.js"), true ? ["./InterfaceDetail.js","./DialogModifyInterface.Helper.js","./TuiEditor.js","..\\TuiEditor..css"] : void 0, import.meta.url)
 }, {
   label: $t$2("\u6D4B\u8BD5\u96C6").label,
   path: "/project/testcase",
@@ -111075,7 +111449,7 @@ const routes = [{
 }, {
   label: $t$2("\u8BBE\u7F6E").label,
   path: "/project/setting",
-  component: () => __vitePreload(() => import("./ProjectSetting.js"), true ? ["./ProjectSetting.js","./DialogModifyInterface.Helper.js","..\\DialogModifyInterface..css"] : void 0, import.meta.url),
+  component: () => __vitePreload(() => import("./ProjectSetting.js"), true ? ["./ProjectSetting.js","./DialogModifyInterface.Helper.js","./TuiEditor.js","..\\TuiEditor..css"] : void 0, import.meta.url),
   meta: {
     title: $t$2("\u8BBE\u7F6E").label
   }
@@ -111307,10 +111681,7 @@ const Methods_App = {
     _State_App.currGroup = currGroup;
   },
   async setCurrProject(project_id, options = {}) {
-    let {
-      isEnforce
-    } = options;
-    isEnforce = isEnforce || false;
+    let isEnforce = options.isEnforce || false;
     if (!xU.isInput(project_id)) {
       _State_App.currProject = {};
     }
@@ -111751,29 +112122,13 @@ const AppHeader = defineComponent({
         group_id: this.Cpt_url.query.group_id
       });
     },
-    linkTo(e2) {
-      if (e2.key != "/doc") {
-        this.props.changeMenuItem(e2.key);
-        if (!this.props.login) {
-          UI.notification.info("\u8BF7\u5148\u767B\u5F55");
-        }
-      }
-    },
-    relieveLink() {
-      this.props.changeMenuItem("");
-    },
-    handleLogin(e2) {
-      e2.preventDefault();
-      this.props.loginTypeAction("1");
-    },
-    handleReg(e2) {
-      e2.preventDefault();
-      this.props.loginTypeAction("2");
+    goToWIKI() {
+      this.Cpt_url.go("/wiki", {});
     }
   },
   computed: {
     icon() {
-      if (this.Cpt_url.pathname === "/group") {
+      if (["/group", "/wiki"].includes(this.Cpt_url.pathname)) {
         return "yapi_logo";
       }
       return "back_group";
@@ -111783,12 +112138,6 @@ const AppHeader = defineComponent({
         imageUrl,
         uid: uid2,
         groupList,
-        study,
-        studyTip,
-        user: user2,
-        msg,
-        role,
-        logout,
         isLogin
       } = this.State_App.user;
       if (!isLogin) {
@@ -111841,7 +112190,13 @@ const AppHeader = defineComponent({
       const avatarUrl = imageUrl ? imageUrl : `/api/user/avatar?uid=${uid2}`;
       return createVNode("div", {
         "class": "user-toolbar flex"
-      }, [createVNode("div", {
+      }, [createVNode("span", {
+        "onClick": this.goToWIKI,
+        "class": "flex middle pointer ml10"
+      }, [createVNode(resolveComponent("xIcon"), {
+        "icon": "wikidoc",
+        "style": this.styleLogo
+      }, null)]), createVNode("div", {
         "class": "toolbar-li item-search"
       }, [createVNode(Srch, {
         "groupList": groupList
@@ -111904,11 +112259,6 @@ const AppHeader = defineComponent({
           "to": item.path || "",
           "class": "flex horizon"
         }, [menuContent]);
-        if (key2 === "logout") {
-          createVNode("div", {
-            "class": "flex horizon"
-          }, [menuContent]);
-        }
         return createVNode(resolveComponent("aMenuItem"), {
           "key": key2
         }, _isSlot$1(menuLink) ? menuLink : {
@@ -111928,33 +112278,6 @@ const AppHeader = defineComponent({
     };
   },
   render() {
-    createVNode("div", {
-      "class": "title-container"
-    }, [createVNode("h3", {
-      "class": "title"
-    }, [createVNode(resolveComponent("xIcon"), {
-      "icon": "star"
-    }, null), createTextVNode("\u5173\u6CE8")]), createVNode("p", null, [createTextVNode("\u8FD9\u91CC\u662F\u4F60\u7684\u4E13\u5C5E\u6536\u85CF\u5939\uFF0C\u4FBF\u4E8E\u4F60\u627E\u5230\u81EA\u5DF1\u7684\u9879\u76EE")])]);
-    createVNode("div", {
-      "class": "title-container"
-    }, [createVNode("h3", {
-      "class": "title"
-    }, [createVNode(resolveComponent("xIcon"), {
-      "icon": "plus-circle"
-    }, null), createTextVNode("\u65B0\u5EFA\u9879\u76EE")]), createVNode("p", null, [createTextVNode("\u5728\u4EFB\u4F55\u9875\u9762\u90FD\u53EF\u4EE5\u5FEB\u901F\u65B0\u5EFA\u9879\u76EE")])]);
-    createVNode("div", {
-      "class": "title-container"
-    }, [createVNode("h3", {
-      "class": "title"
-    }, [createTextVNode("\u4F7F\u7528\u6587\u6863 "), createVNode(resolveComponent("aTag"), {
-      "color": "orange"
-    }, {
-      default: () => [createTextVNode("\u63A8\u8350!")]
-    })]), createVNode("p", null, [createTextVNode("\u521D\u6B21\u4F7F\u7528 YApi\uFF0C\u5F3A\u70C8\u5EFA\u8BAE\u4F60\u9605\u8BFB"), " ", createVNode("a", {
-      "target": "_blank",
-      "href": "https://hellosean1025.github.io/yapi/",
-      "rel": "noopener noreferrer"
-    }, [createTextVNode("\u4F7F\u7528\u6587\u6863")]), createTextVNode("\uFF0C\u6211\u4EEC\u4E3A\u4F60\u63D0\u4F9B\u4E86\u901A\u4FD7\u6613\u61C2\u7684\u5FEB\u901F\u5165\u95E8\u6559\u7A0B\uFF0C\u66F4\u6709\u8BE6\u7EC6\u7684\u4F7F\u7528\u8BF4\u660E\uFF0C\u6B22\u8FCE\u9605\u8BFB\uFF01"), " "])]);
     return createVNode(resolveComponent("aLayoutHeader"), {
       "class": "header-box m-header elevation-4"
     }, {
@@ -112542,8 +112865,6 @@ function useInterfaceTableConfigs(isAll = false) {
     fnUpdateListForShow
   };
 }
-const App_less_vue_type_style_index_0_src_true_lang = "";
-const Home_scss_vue_type_style_index_1_src_true_lang = "";
 const _sfc_main = defineComponent({
   components: { AppFooter, AppHeader },
   setup() {
@@ -112609,55 +112930,58 @@ async function main() {
 }
 main();
 export {
-  $$1 as $,
+  $t$9 as $,
   AllWasWell as A,
-  compositionAPI as B,
+  markRaw as B,
   Cpt_url as C,
-  DefaultInterfaceMenu as D,
+  setValueTo as D,
   EVENT_TYPE as E,
   FormRules as F,
-  useInterfaceTableConfigs as G,
-  $t$9 as H,
+  defXVirTableConfigs as G,
+  defCol as H,
   ITEM_OPTIONS as I,
-  toRaw as J,
-  diff as K,
-  defXVirTableConfigs as L,
+  ITEM_OPTIONS_VDOM as J,
+  h$1 as K,
+  inject as L,
   Methods_App as M,
-  defCol as N,
-  ITEM_OPTIONS_VDOM as O,
-  ProjectChildren as P,
-  inject as Q,
-  RouterView as R,
+  components as N,
+  setDataGridInfo as O,
+  lib as P,
+  defDataGridOption as Q,
+  MonacoEditor as R,
   State_UI as S,
-  h$1 as T,
+  HTTP_REQUEST_HEADER as T,
   UI as U,
-  components as V,
-  lib as W,
-  MonacoEditor as X,
-  HTTP_REQUEST_HEADER as Y,
-  compileVNode as Z,
+  compileVNode as V,
+  QUERY as W,
+  GET as X,
+  HTTP_METHOD as Y,
+  BODY as Z,
   _export_sfc as _,
   defItem as a,
-  QUERY as a0,
-  GET as a1,
-  HTTP_METHOD as a2,
-  BODY as a3,
-  defineAsyncComponent as a4,
-  VNodeCollection as a5,
-  _$handlePath as a6,
-  defDataGridOption as a7,
-  copyToClipboard as a8,
-  makeAhref as a9,
-  InfoCard as aa,
-  reactive as ab,
-  watch as ac,
-  xItem_ProjectGroupId as ad,
-  xItem_ProjectName as ae,
-  xItem_ProjectIcon as af,
-  xItem_ProjectColor as ag,
-  xItem_ProjectBasePath as ah,
-  xItem_ProjectDesc as ai,
-  xItem_ProjectType as aj,
+  defineAsyncComponent as a0,
+  resetStateInterface as a1,
+  ProjectChildren as a2,
+  RouterView as a3,
+  Methods_ProjectInterface as a4,
+  State_ProjectInterface as a5,
+  ALL as a6,
+  DefaultInterfaceMenu as a7,
+  _$arrayChangeIndex as a8,
+  useInterfaceTableConfigs as a9,
+  VNodeCollection as aa,
+  _$handlePath as ab,
+  copyToClipboard as ac,
+  makeAhref as ad,
+  InfoCard as ae,
+  watch as af,
+  xItem_ProjectGroupId as ag,
+  xItem_ProjectName as ah,
+  xItem_ProjectIcon as ai,
+  xItem_ProjectColor as aj,
+  xItem_ProjectBasePath as ak,
+  xItem_ProjectDesc as al,
+  xItem_ProjectType as am,
   API as b,
   createElementBlock as c,
   defineComponent as d,
@@ -112665,22 +112989,22 @@ export {
   createBaseVNode as f,
   _State_App as g,
   createTextVNode as h,
-  resetStateInterface as i,
-  isVNode as j,
-  Methods_ProjectInterface as k,
+  reactive as i,
+  ARTICLE as j,
+  Fragment as k,
   lStorage as l,
-  Fragment as m,
-  State_ProjectInterface as n,
+  isVNode as m,
+  $$1 as n,
   openBlock as o,
   pickValueFrom as p,
-  markRaw as q,
+  FOLDER as q,
   resolveComponent as r,
-  setValueTo as s,
-  ALL as t,
-  _$arrayChangeIndex as u,
+  withDirectives as s,
+  resolveDirective as t,
+  compositionAPI as u,
   validateForm as v,
   withKeys as w,
   xU as x,
-  withDirectives as y,
-  resolveDirective as z
+  toRaw as y,
+  diff as z
 };

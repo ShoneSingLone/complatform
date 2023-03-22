@@ -1,5 +1,5 @@
 import { $t, xU } from "@ventose/ui";
-import { HTTP_METHOD } from "./variable";
+import { ARTICLE, FOLDER, HTTP_METHOD } from "./variable";
 
 export const ITEM_OPTIONS = {
 	httpMethod: xU.map(HTTP_METHOD, (item, prop) => ({
@@ -34,8 +34,8 @@ export const ITEM_OPTIONS = {
 		{ label: "否", value: "false" }
 	],
 	wikiType: [
-		{ label: $t("文件夹").label, value: "folder" },
-		{ label: $t("文档").label, value: "artical" }
+		{ label: $t("文件夹").label, value: FOLDER },
+		{ label: $t("文档").label, value: ARTICLE }
 	],
 	trueOrFalse: [
 		{ label: "是", value: true },

@@ -56,7 +56,7 @@ export default {
 						return xU.first(defaultItems).children;
 					}
 				}
-				return "# No Data";
+				return "---";
 			})();
 			const { Renderer } = marked;
 			marked.options = { langClass: "hljs" };

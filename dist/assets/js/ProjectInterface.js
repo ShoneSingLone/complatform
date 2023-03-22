@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, a as defItem, F as FormRules, s as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, k as Methods_ProjectInterface, U as UI, b as API, e as createVNode, r as resolveComponent, x as xU, m as Fragment, j as isVNode, I as ITEM_OPTIONS, n as State_ProjectInterface, q as markRaw, C as Cpt_url, t as ALL, $, D as DefaultInterfaceMenu, u as _$arrayChangeIndex, y as withDirectives, z as resolveDirective, B as compositionAPI } from "./index.js";
+import { d as defineComponent, g as _State_App, a as defItem, F as FormRules, D as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, a4 as Methods_ProjectInterface, U as UI, b as API, e as createVNode, r as resolveComponent, x as xU, k as Fragment, m as isVNode, I as ITEM_OPTIONS, a5 as State_ProjectInterface, B as markRaw, C as Cpt_url, a6 as ALL, n as $, a7 as DefaultInterfaceMenu, a8 as _$arrayChangeIndex, s as withDirectives, t as resolveDirective, u as compositionAPI } from "./index.js";
 function _isSlot$1(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
@@ -655,10 +655,10 @@ const ProjectInterfaceLeftSider = defineComponent({
   },
   render() {
     return createVNode("aside", {
-      "class": "ViewProject-sider_wrapper flex vertical move-transition padding10",
+      "class": "x-sider_wrapper flex vertical move-transition padding10",
       "style": this.styleAside
     }, [createVNode("div", {
-      "class": "ViewProjectInterface_tree flex1 mt10 mb10",
+      "class": "x-sider_wrapper_tree flex1 mt10 mb10",
       "ref": "wrapper"
     }, [this.vDomTree]), withDirectives(createVNode("div", {
       "class": "resize_bar",

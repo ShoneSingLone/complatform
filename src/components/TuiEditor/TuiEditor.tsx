@@ -26,6 +26,10 @@ export const TuiEditor = defineAsyncComponent(
 							immediate: true,
 							async handler(mdString) {
 								await xU.ensureValueDone(() => this.raw$editor);
+								const _mdString = this.raw$editor.getMarkdown();
+								if (_mdString === mdString) {
+									return;
+								}
 								this.raw$editor.setMarkdown(mdString);
 							}
 						}
