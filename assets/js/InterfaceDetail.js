@@ -1,5 +1,6 @@
-import { d as defineComponent, g as _State_App, n as State_ProjectInterface, x as xU, e as createVNode, r as resolveComponent, m as Fragment, a as defItem, F as FormRules, a5 as VNodeCollection, I as ITEM_OPTIONS, h as createTextVNode, q as markRaw, a6 as _$handlePath, s as setValueTo, p as pickValueFrom, H as $t, b as API, a2 as HTTP_METHOD, v as validateForm, A as AllWasWell, C as Cpt_url, k as Methods_ProjectInterface, U as UI, N as defCol, S as State_UI, O as ITEM_OPTIONS_VDOM, a7 as defDataGridOption, a8 as copyToClipboard, $, a9 as makeAhref, aa as InfoCard, X as MonacoEditor } from "./index.js";
-import { I as InpterfacePathParams, E as EnvSelectRender, R as RequestArgsRender, b as ResponseRender, M as MarkdownRender, T as TagSelectRender, c as asyncGetTuiEditor, d as TuiEditor, J as JsonSchemaMonaco } from "./DialogModifyInterface.Helper.js";
+import { d as defineComponent, g as _State_App, a5 as State_ProjectInterface, x as xU, e as createVNode, r as resolveComponent, k as Fragment, a as defItem, F as FormRules, aa as VNodeCollection, I as ITEM_OPTIONS, h as createTextVNode, B as markRaw, ab as _$handlePath, D as setValueTo, p as pickValueFrom, $ as $t, b as API, Y as HTTP_METHOD, v as validateForm, A as AllWasWell, C as Cpt_url, a4 as Methods_ProjectInterface, U as UI, m as isVNode, Q as defDataGridOption, H as defCol, ac as copyToClipboard, n as $, ad as makeAhref, J as ITEM_OPTIONS_VDOM, ae as InfoCard, R as MonacoEditor } from "./index.js";
+import { I as InpterfacePathParams, E as EnvSelectRender, R as RequestArgsRender, b as ResponseRender, M as MarkdownRender, T as TagSelectRender } from "./DialogModifyInterface.Helper.js";
+import { c as colParamsName, b as colRemark, d as colRequired, e as colValue, f as colExample, g as colType, h as asyncGetTuiEditor, T as TuiEditor, J as JsonSchemaMonaco } from "./TuiEditor.js";
 const DialogModifyInterface = defineComponent({
   props: {
     propDialogOptions: {
@@ -14,7 +15,7 @@ const DialogModifyInterface = defineComponent({
   setup() {
     return {
       State_App: _State_App,
-      State_Project: State_ProjectInterface
+      State_ProjectInterface
     };
   },
   computed: {
@@ -175,7 +176,9 @@ const DialogModifyInterface = defineComponent({
           value: [],
           options: [],
           async setOptions(tagArray) {
-            this.options = tagArray;
+            this._$updateUI({
+              options: tagArray
+            });
           },
           itemType: TagSelectRender
         }),
@@ -202,11 +205,11 @@ const DialogModifyInterface = defineComponent({
           value: "",
           options: [],
           setOptions(envArray) {
-            this.options = xU.map(envArray, (i) => {
-              return {
+            this._$updateUI({
+              options: xU.map(envArray, (i) => ({
                 value: i._id,
                 label: `${i.name} ${i.domain}`
-              };
+              }))
             });
           },
           itemType: EnvSelectRender
@@ -586,27 +589,165 @@ const DialogModifyInterface = defineComponent({
     })]);
   }
 });
-const colParamsName = defCol({
-  prop: "name",
-  label: State_UI.$t("\u53C2\u6570\u540D\u79F0").label,
-  width: "120px"
+function _isSlot$1(s) {
+  return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
+}
+const DialogPostman = defineComponent({
+  props: {
+    propDialogOptions: {
+      type: Object,
+      default() {
+        return {
+          __elId: false
+        };
+      }
+    }
+  },
+  setup() {
+    return {
+      State_App: _State_App
+    };
+  },
+  data() {
+    const vm = this;
+    return {
+      ...defItem({
+        value: "",
+        itemType: "Select",
+        prop: "apiMethod",
+        options: ITEM_OPTIONS.httpMethod,
+        rules: [FormRules.required()],
+        once() {
+          this.value = xU.first(this.options).value;
+        },
+        style: {
+          width: "120px"
+        }
+      }),
+      dataXItem: {
+        ...defItem({
+          value: "",
+          itemType: "Select",
+          prop: "catid",
+          label: vm.$t("\u63A5\u53E3\u5206\u7C7B").label,
+          placeholder: "\u5206\u7C7B\u540D\u79F0",
+          options: [],
+          rules: [FormRules.required()],
+          once() {
+            this.options = State_ProjectInterface.allCategory;
+            if (vm.propDialogOptions.categoryId) {
+              this.value = vm.propDialogOptions.categoryId;
+            } else {
+              this.value = xU.first(this.options).value;
+            }
+          }
+        }),
+        ...defItem({
+          value: "",
+          prop: "title",
+          label: vm.$t("\u63A5\u53E3\u540D\u79F0").label,
+          placeholder: vm.$t("\u63A5\u53E3\u540D\u79F0").label,
+          rules: [FormRules.required(), FormRules.nameLength({
+            label: vm.$t("\u63A5\u53E3").label
+          })]
+        }),
+        ...defItem({
+          value: "/",
+          prop: "path",
+          label: vm.$t("\u63A5\u53E3\u8DEF\u5F84").label,
+          placeholder: "/path",
+          rules: [FormRules.required(), FormRules.apiPath()],
+          once() {
+            const vDomApiMethodsSelector = createVNode(resolveComponent("xItem"), {
+              "configs": vm.apiMethod
+            }, null);
+            this.slots = markRaw({
+              addonBefore: () => vDomApiMethodsSelector
+            });
+          }
+        })
+      }
+    };
+  },
+  mounted() {
+    this.propDialogOptions.vm = this;
+  },
+  methods: {
+    async onOk() {
+      const validateResults = await validateForm(this.dataXItem);
+      if (AllWasWell(validateResults)) {
+        const {
+          catid,
+          title,
+          path
+        } = pickValueFrom(this.dataXItem);
+        const {
+          projectId,
+          closeDialog
+        } = this.propDialogOptions;
+        try {
+          const {
+            data
+          } = await API.project.addInterface({
+            project_id: projectId,
+            catid,
+            title,
+            path,
+            method: this.apiMethod.value
+          });
+          if (data) {
+            Methods_ProjectInterface.updateInterfaceMenuList();
+            Cpt_url.value.go("/project/interface/detail", {
+              ...Cpt_url.value.query,
+              interface_id: data._id
+            });
+            UI.message.success("\u6DFB\u52A0\u63A5\u53E3\u6210\u529F");
+            closeDialog();
+          }
+        } catch (error) {
+          UI.message.error("\u6DFB\u52A0\u5931\u8D25");
+        }
+      }
+    }
+  },
+  render() {
+    let _slot;
+    return createVNode(Fragment, null, [createVNode("div", {
+      "class": "g-row flex1 height100"
+    }, [createVNode(resolveComponent("xGap"), {
+      "t": "10"
+    }, null), createVNode(resolveComponent("aAlert"), {
+      "message": this.$t("\u6CE8\uFF1A \u8BE6\u7EC6\u7684\u63A5\u53E3\u6570\u636E\u53EF\u4EE5\u5728\u7F16\u8F91\u9875\u9762\u4E2D\u6DFB\u52A0").label,
+      "type": "info",
+      "closable": true,
+      "className": "width100"
+    }, null), createVNode(resolveComponent("xForm"), {
+      "class": "flex vertical",
+      "labelStyle": {
+        "min-width": "120px",
+        width: "unset"
+      }
+    }, _isSlot$1(_slot = xU.map(this.dataXItem, (configs, prop) => {
+      return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
+        "t": "10"
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": configs
+      }, null)]);
+    })) ? _slot : {
+      default: () => [_slot]
+    }), createVNode(resolveComponent("xGap"), {
+      "t": "10"
+    }, null)]), createVNode(resolveComponent("xDialogFooter"), {
+      "configs": {
+        onCancel: this.propDialogOptions.closeDialog,
+        onOk: this.onOk
+      }
+    }, null)]);
+  }
 });
-const colRemark = defCol({
-  prop: "desc",
-  label: State_UI.$t("\u5907\u6CE8").label
-});
-const colRequired = defCol({
-  prop: "required",
-  label: State_UI.$t("\u662F\u5426\u5FC5\u987B").label,
-  width: "100px",
-  renderCell: ({
-    record
-  }) => ITEM_OPTIONS_VDOM.required(record.required)
-});
-const colExample = defCol({
-  prop: "example",
-  label: State_UI.$t("\u793A\u4F8B").label
-});
+function _isSlot(s) {
+  return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
+}
 const InterfaceDetail = defineComponent({
   setup() {
     return {
@@ -622,55 +763,49 @@ const InterfaceDetail = defineComponent({
         isHidePagination: true,
         dataSource: [],
         columns: {
-          ...colParamsName,
+          ...colParamsName(),
           ...defCol({
             prop: "example",
             label: vm.$t("\u793A\u4F8B").label
           }),
-          ...colRemark
-        }
+          ...colRemark()
+        },
+        queryTableList: void 0
       }),
       configs_table_headers: defDataGridOption({
         isHidePagination: true,
         dataSource: [],
         columns: {
-          ...colRequired,
-          ...colParamsName,
-          ...defCol({
-            prop: "value",
-            label: vm.$t("\u53C2\u6570\u503C").label
-          }),
+          ...colRequired(),
+          ...colParamsName(),
+          ...colValue,
           ...colExample,
-          ...colRemark
-        }
+          ...colRemark()
+        },
+        queryTableList: void 0
       }),
       configs_table_query: defDataGridOption({
         isHidePagination: true,
         dataSource: [],
         columns: {
-          ...colRequired,
-          ...colParamsName,
+          ...colRequired(),
+          ...colParamsName(),
           ...colExample,
-          ...colRemark
-        }
+          ...colRemark()
+        },
+        queryTableList: void 0
       }),
       configs_table_body_form: defDataGridOption({
         isHidePagination: true,
         dataSource: [],
         columns: {
-          ...colRequired,
-          ...colParamsName,
-          ...defCol({
-            prop: "type",
-            label: vm.$t("\u53C2\u6570\u7C7B\u578B").label,
-            width: "100px",
-            renderCell: ({
-              record
-            }) => ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type)
-          }),
+          ...colRequired(),
+          ...colParamsName(),
+          ...colType,
           ...colExample,
-          ...colRemark
-        }
+          ...colRemark()
+        },
+        queryTableList: void 0
       })
     };
   },
@@ -689,6 +824,14 @@ const InterfaceDetail = defineComponent({
     await asyncGetTuiEditor();
   },
   methods: {
+    async runPostman() {
+      UI.dialog.component({
+        title: this.$t("\u4FEE\u6539\u63A5\u53E3").label,
+        component: DialogPostman,
+        area: ["1024px", "624px"],
+        maxmin: true
+      });
+    },
     async updateInterfaceInfo() {
       const {
         data
@@ -700,8 +843,9 @@ const InterfaceDetail = defineComponent({
       this.configs_table_query.dataSource = xU.orderBy(data.req_query, ["required", "type"], ["desc", "asc"]);
       this.configs_table_body_form.dataSource = xU.orderBy(data.req_body_form, ["required", "type"], ["desc", "asc"]);
     },
-    copyUrl(url) {
-      copyToClipboard(url);
+    copyCode() {
+      const codeString = this.$refs.ajaxCode.innerText;
+      copyToClipboard(codeString);
       UI.message.success("\u5DF2\u7ECF\u6210\u529F\u590D\u5236\u5230\u526A\u5207\u677F");
     },
     flagMsg(mock, strice) {
@@ -768,11 +912,11 @@ const InterfaceDetail = defineComponent({
         port,
         protocol
       } = location;
-      let domain = hostname + (port !== "" ? ":" + port : "");
       let wsProtocol = protocol === "https:" ? "wss" : "ws";
       return new Promise((resolve, reject) => {
         try {
-          const sockei = new WebSocket(`${wsProtocol}://${domain}/api/interface/solve_conflict?id=${item._id}`);
+          const wsURL = new URL(_State_App.baseURL);
+          const sockei = new WebSocket(`${wsProtocol}://${wsURL.host}/ws/api/interface/solve_conflict?id=${item._id}`);
           sockei.onopen = () => {
             vm.WebSocket = sockei;
           };
@@ -871,7 +1015,8 @@ async ${xU.camelCase(path)}({params,data}) {
     },
     vDomCopyAjaxCodePanel() {
       return createVNode("div", {
-        "style": "position:relative;overflow:auto;height:100%;"
+        "style": "position:relative;overflow:auto;height:100%;",
+        "ref": "ajaxCode"
       }, [createVNode(resolveComponent("Mkit"), {
         "md": this.ajaxCode
       }, null)]);
@@ -954,7 +1099,8 @@ async ${xU.camelCase(path)}({params,data}) {
           label: createVNode("div", {
             "class": "flex middle"
           }, [createVNode(resolveComponent("aButton"), {
-            "type": "primary"
+            "type": "primary",
+            "onClick": vm.runPostman
           }, {
             default: () => [vm.$t("\u8FD0\u884C").label]
           }), createVNode("span", {
@@ -977,7 +1123,7 @@ async ${xU.camelCase(path)}({params,data}) {
           label: createVNode("div", {
             "class": "flex middle"
           }, [createVNode(resolveComponent("aButton"), {
-            "onClick": () => vm.copyUrl(vm.ajaxCode)
+            "onClick": () => vm.copyCode()
           }, {
             default: () => [$t("\u590D\u5236\u4EE3\u7801").label]
           }), createVNode("span", {
@@ -1001,6 +1147,7 @@ async ${xU.camelCase(path)}({params,data}) {
     }
   },
   render(vm) {
+    let _slot;
     if (!vm.detailInfo || !vm.State_App.currProject) {
       return createVNode(resolveComponent("aSpin"), {
         "spinning": true,
@@ -1075,13 +1222,11 @@ async ${xU.camelCase(path)}({params,data}) {
         }, null), createVNode(resolveComponent("aCard"), {
           "title": vm.$t("Body").label
         }, {
-          default: () => [createVNode("div", {
-            "style": "height:300px;width:90%"
-          }, [vm.detailInfo.req_body_other, createVNode(JsonSchemaMonaco, {
+          default: () => [createVNode(JsonSchemaMonaco, {
             "schemaString": vm.detailInfo.req_body_other,
             "onUpdate:schemaString": ($event) => vm.detailInfo.req_body_other = $event,
             "readOnly": true
-          }, null)])]
+          }, null)]
         })]), vm.detailInfo.req_body_type == "raw" && vm.detailInfo.req_body_other && createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
           "t": "10"
         }, null), createVNode(resolveComponent("aCard"), {
@@ -1099,23 +1244,21 @@ async ${xU.camelCase(path)}({params,data}) {
         "t": "20"
       }, null), createVNode(InfoCard, {
         "title": "\u8FD4\u56DE\u4FE1\u606F"
-      }, {
-        default: () => [createVNode("div", {
-          "style": "height:300px;width:90%"
-        }, [(() => {
-          if (vm.detailInfo.res_body_type === "json") {
-            return createVNode(JsonSchemaMonaco, {
-              "schemaString": vm.detailInfo.res_body,
-              "onUpdate:schemaString": ($event) => vm.detailInfo.res_body = $event,
-              "readOnly": true
-            }, null);
-          }
-          return createVNode(MonacoEditor, {
-            "language": "json",
-            "code": vm.detailInfo.res_body,
+      }, _isSlot(_slot = (() => {
+        if (vm.detailInfo.res_body_type === "json") {
+          return createVNode(JsonSchemaMonaco, {
+            "schemaString": vm.detailInfo.res_body,
+            "onUpdate:schemaString": ($event) => vm.detailInfo.res_body = $event,
             "readOnly": true
           }, null);
-        })()])]
+        }
+        return createVNode(MonacoEditor, {
+          "language": "json",
+          "code": vm.detailInfo.res_body,
+          "readOnly": true
+        }, null);
+      })()) ? _slot : {
+        default: () => [_slot]
       })])])]
     });
   }
