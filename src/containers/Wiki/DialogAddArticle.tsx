@@ -39,23 +39,6 @@ export const DialogAddArticle = defineComponent({
 		return {
 			dataXItem: {
 				...defItem({
-					prop: "type",
-					value: ARTICLE,
-					label: $t("类型").label,
-					itemType: "RadioGroup",
-					options: ITEM_OPTIONS.wikiType,
-					onAfterValueEmit() {
-						const label =
-							this.value === "folder"
-								? $t("文件夹名称").label
-								: $t("文档名称").label;
-						vm.dataXItem.title._$updateUI({
-							label,
-							placeholder: label
-						});
-					}
-				}),
-				...defItem({
 					value: "",
 					prop: "title",
 					label: $t("文档名称").label,
@@ -78,10 +61,10 @@ export const DialogAddArticle = defineComponent({
 		async onOk() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-				const { title, type } = pickValueFrom(this.dataXItem);
+				const { title } = pickValueFrom(this.dataXItem);
 				const params = {
 					title,
-					type,
+					type: ARTICLE,
 					p_id: this.pid
 				};
 				try {

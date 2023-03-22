@@ -41,7 +41,17 @@ export const Methods_Wiki = {
 		State_Wiki.expandedKeys = [...expandedKeys];
 		/*  */
 	}, 100),
-	async setCurrentWiki(_id, item) {
+	/**
+	 * 
+	 * 如果提供item，则不需要查，直接赋值
+	 * @param {any} _id 
+	 * @param {*} [item] 
+	 * @returns 
+	 */
+	async setCurrentWiki(_id, item?: any) {
+		if (!xU.isInput(_id)) {
+			return;
+		}
 		if (item) {
 			State_Wiki.currentWiki = item;
 			Methods_Wiki.setExpandedKeys(item._id);

@@ -136,48 +136,32 @@ export const WikiLeftSider = defineComponent({
 									vm.$emit("change");
 								};
 
-								if (type === FOLDER) {
-									const canDelete =
-										!item?.children || item?.children?.length === 0;
-									return (
-										<div class={classContentString} onClick={handleClick}>
-											<xGap l="10" />
-											<xIcon icon="folder" />
-											<span class="x-sider-tree_menu_title">{title}</span>
-											<div class="flex middle x-sider-tree_menu_opration">
-												{genIcon({
-													icon: "add",
-													tips: vm.$t("添加").label,
-													clickHandler: () =>
-														vm.showUpsertArticleDialog(item.data)
-												})}
-												{canDelete &&
-													genIcon({
-														icon: "delete",
-														tips: vm.$t("删除").label,
-														clickHandler: vm.showUpsertArticleDialog
-													})}
-											</div>
-										</div>
-									);
-								} else {
-									return (
-										<div class={classContentString} onClick={handleClick}>
-											<xGap l="10" />
-											<xIcon icon="article" />
-											<span class="x-sider-tree_menu_title">
-												<div class="flex middle">{title}</div>
-											</span>
-											<div class="flex middle x-sider-tree_menu_opration">
-												{genIcon({
+								const canDelete =
+									!item?.children || item?.children?.length === 0;
+
+								return (
+									<div class={classContentString} onClick={handleClick}>
+										<xGap l="10" />
+										<xIcon icon="article" />
+										<span class="x-sider-tree_menu_title">
+											<div class="flex middle">{title}</div>
+										</span>
+										<div class="flex middle x-sider-tree_menu_opration">
+											{genIcon({
+												icon: "add",
+												tips: vm.$t("添加").label,
+												clickHandler: () =>
+													vm.showUpsertArticleDialog(item.data)
+											})}
+											{canDelete &&
+												genIcon({
 													icon: "delete",
-													tips: vm.$t("删除文档").label,
-													clickHandler: $event => vm.deleteCategory(_id, $event)
+													tips: vm.$t("删除").label,
+													clickHandler: () => vm.deleteArticle(_id)
 												})}
-											</div>
 										</div>
-									);
-								}
+									</div>
+								);
 							}
 						}}
 					</aTree>
@@ -189,15 +173,19 @@ export const WikiLeftSider = defineComponent({
 		async handleDropInterface(e: AntTreeNodeDropEvent) {
 			this.State_Wiki.isLoading = true;
 			/*
-			1.drag testcase
-				1.1 drop 到同一个category
-				1.2 drop 到不同category
-			2.drag category
-				2.1 调整 category 顺序
-			*/
-			const dragItem = e.dragNode;
-			const dropItem = e.node;
-			const params = { dragItem: dragItem.dataRef, dropItem: dropItem.dataRef };
+			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。
+			 * dropPosition:dropItemPos=index
+			 * * * 拖拽到节点之上： index-1
+			 * * * 拖拽到节点上： 	index
+			 * * * 拖拽到节点之下： index+1
+			 */
+			const { dragNode: dragItem, node: dropItem, dropPosition, dropToGap } = e;
+			const params = {
+				dragItem: dragItem.dataRef,
+				dropItem: dropItem.dataRef,
+				dropToGap,
+				dropPosition
+			};
 			try {
 				await this.moveItemToFolder(params);
 			} catch (error) {
@@ -207,17 +195,16 @@ export const WikiLeftSider = defineComponent({
 			}
 		},
 		/* 同类 testcase */
-		async moveItemToFolder({ dragItem, dropItem }) {
+		async moveItemToFolder({ dragItem, dropItem, dropToGap, dropPosition }) {
 			dragItem = { ...dragItem };
 			dropItem = { ...dropItem };
 
-			if (dropItem.type === ARTICLE) {
+			if (dropToGap) {
 				dragItem.p_id = dropItem.p_id;
-			} else if (dropItem.type === FOLDER) {
-				dragItem.p_id = dropItem._id;
 			} else {
-				debugger;
+				dragItem.p_id = dropItem._id;
 			}
+
 			try {
 				await API.wiki.action({ action: "upsertOne", data: dragItem });
 				await Methods_Wiki.updateWikiMenuList();
@@ -234,38 +221,17 @@ export const WikiLeftSider = defineComponent({
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
 		}, 20),
-		deleteInterface(id) {
-			const vm = this;
-			UI.confirm({
-				title: vm.$t("您确认删除此用例？").label,
-				content: vm.$t(`温馨提示：用例删除后，无法恢复`).label,
-				async onOk() {
-					try {
-						await API.project.deleteInterfaceById(id);
-						UI.message.success(vm.$t("删除用例成功").label);
-						vm.Cpt_url.go(
-							"/project/testcase/all",
-							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
-						);
-					} catch (error) {
-						UI.message.error(error.message);
-					}
-				}
-			});
-		},
-		deleteCategory(id) {
+		deleteArticle(_id) {
 			const vm = this;
 			UI.dialog.confirm({
-				title: "确定删除此用例文档吗？",
-				content: `温馨提示：该操作会删除该文档下所有用例，用例删除后无法恢复`,
+				title: "确定删除此文档吗？",
+				content: `文档删除后无法恢复`,
 				async onOk() {
 					try {
-						await API.project.deleteCategoryById(id);
+						await API.wiki.delete(_id);
 						UI.message.success("删除文档成功");
-						vm.Cpt_url.go(
-							"/project/testcase/all",
-							xU.omit(vm.Cpt_url.query, ["category_id"])
-						);
+						await Methods_Wiki.updateWikiMenuList();
+						Methods_Wiki.setCurrentWiki(xU.first(State_Wiki.treeData)?._id);
 					} catch (error) {
 						UI.message.error(error.message);
 						return Promise.reject();
@@ -277,16 +243,6 @@ export const WikiLeftSider = defineComponent({
 			UI.dialog.component({
 				title: this.$t("添加文档").label,
 				parentDoc,
-				component: DialogAddArticle
-			});
-		},
-		showAddTestcaseDialog(categoryId, $event: Event) {
-			$event.stopPropagation();
-			$event.preventDefault();
-			UI.dialog.component({
-				title: this.$t("添加用例").label,
-				categoryId,
-				projectId: this.State_App.currProject._id,
 				component: DialogAddArticle
 			});
 		}

@@ -5,6 +5,8 @@ import { injectHtml } from "vite-plugin-html";
 import path from "path";
 import svgHelper from "./preprocess/plugins/svg";
 import { visualizer } from "rollup-plugin-visualizer";
+import viteCompression from "vite-plugin-compression";
+
 import { PROD_SERVER_ADDRESS, DEV_SERVER_ADDRESS } from "../privateConfigs";
 
 /* const DEV_SERVER_ADDRESS = "http://localhost:3001" */
@@ -85,6 +87,13 @@ if (isBuildLibTui) {
 			fileName: () => `tui.js`
 		}
 	};
+}
+
+if (!IS_DEV) {
+	appOptions.plugins.push(viteCompression({
+		/* 100kb */
+		threshold: 100
+	}));
 }
 
 // https://vitejs.dev/config/
