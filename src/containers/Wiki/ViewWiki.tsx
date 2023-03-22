@@ -95,7 +95,7 @@ export const ViewWiki = defineComponent({
 						<xButton configs={btnSave} />
 					</div>
 					{this.isReadonly.value ? (
-						<div>
+						<div class="flex overflow-auto">
 							<Mkit md={this.wikiContent.md} />
 						</div>
 					) : (

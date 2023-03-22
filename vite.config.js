@@ -7,13 +7,15 @@ import svgHelper from "./preprocess/plugins/svg";
 import { visualizer } from "rollup-plugin-visualizer";
 import viteCompression from "vite-plugin-compression";
 
-import { PROD_SERVER_ADDRESS, DEV_SERVER_ADDRESS } from "../privateConfigs";
+import { PROD_SERVER_ADDRESS, PROD_SERVER_ADDRESS2, DEV_SERVER_ADDRESS } from "../privateConfigs";
 
 /* const DEV_SERVER_ADDRESS = "http://localhost:3001" */
 const IS_DEV = process.env.IS_DEV != "PRD";
+const { PRD_USE } = process.env;
 const __APP_VERSION = Date.now().toString();
-const __BASE_URL = IS_DEV ? DEV_SERVER_ADDRESS : PROD_SERVER_ADDRESS;
-console.log('🚀: __BASE_URL', __BASE_URL);
+const __BASE_URL = IS_DEV ? DEV_SERVER_ADDRESS : PRD_USE == "1" ? PROD_SERVER_ADDRESS : PROD_SERVER_ADDRESS2;
+
+console.log("PRD_USE: ", PRD_USE, "__BASE_URL: ", __BASE_URL);
 
 const isBuildLibTui = process.env.type === "lib:tui";
 

@@ -1,9 +1,9 @@
 <template>
 	<div
-		class="markdown-wrapper"
+		class="markdown-wrapper_description mt10"
 		v-uiPopover="configsPopoverChangeTheme"
+		v-html="html"
 		title="右键点击可以修改<code/>元素高亮样式">
-		<div class="markdown-wrapper_description mt10" v-html="html"></div>
 	</div>
 </template>
 <script>
@@ -73,6 +73,8 @@ export default {
 <style lang="scss">
 .markdown-wrapper {
 	position: relative;
+	height: 100%;
+	overflow: auto;
 
 	.markdown-theme {
 		display: none;
@@ -87,13 +89,46 @@ export default {
 			display: block;
 		}
 	}
+}
 
-	.markdown-wrapper_description {
-		position: relative;
+.markdown-wrapper_description {
+	position: relative;
 
-		code.hljs.language-js {
-			border-radius: 6px;
+
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		display: block;
+		width: 100%;
+		overflow: auto;
+		word-break: normal;
+		word-break: keep-all;
+
+		th {
+			font-weight: 700
 		}
+
+		td,
+		th {
+			padding: 6px 13px;
+			border: 1px solid #ddd
+		}
+
+		tr {
+			background-color: #fff;
+			border-top: 1px solid #ccc
+		}
+
+		tr:nth-child(2n) {
+			background-color: #f8f8f8
+		}
+	}
+
+
+
+
+	code.hljs.language-js {
+		border-radius: 6px;
 	}
 }
 </style>
