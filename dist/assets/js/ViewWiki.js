@@ -1,4 +1,4 @@
-import { i as reactive, x as xU, b as API, d as defineComponent, g as _State_App, a as defItem, $ as $t, F as FormRules, v as validateForm, A as AllWasWell, p as pickValueFrom, j as ARTICLE, U as UI, e as createVNode, r as resolveComponent, k as Fragment, m as isVNode, C as Cpt_url, n as $, q as withDirectives, s as resolveDirective, t as compositionAPI } from "./index.js";
+import { i as reactive, x as xU, b as API, j as watch, s as setDocumentTitle, d as defineComponent, g as _State_App, a as defItem, $ as $t, F as FormRules, v as validateForm, A as AllWasWell, p as pickValueFrom, k as ARTICLE, U as UI, e as createVNode, r as resolveComponent, m as Fragment, n as isVNode, C as Cpt_url, q as $, t as withDirectives, u as resolveDirective, y as compositionAPI } from "./index.js";
 import { T as TuiEditor } from "./TuiEditor.js";
 const ViewWiki$1 = "";
 const defautlValue = () => ({
@@ -23,25 +23,25 @@ const Methods_Wiki = {
       }
     }
     State_Wiki.expandedKeys = [...expandedKeys];
-  }, 100),
+  }, 1e3),
   async setCurrentWiki(_id, item) {
     if (!xU.isInput(_id)) {
       return;
-    }
-    if (item) {
+    } else if (item) {
       State_Wiki.currentWiki = item;
       Methods_Wiki.setExpandedKeys(item._id);
       return;
-    }
-    const {
-      data
-    } = await API.wiki.action({
-      action: "detail",
-      _id
-    });
-    if (data) {
-      State_Wiki.currentWiki = data;
-      Methods_Wiki.setExpandedKeys(_id);
+    } else {
+      const {
+        data
+      } = await API.wiki.action({
+        action: "detail",
+        _id
+      });
+      if (data) {
+        State_Wiki.currentWiki = data;
+        Methods_Wiki.setExpandedKeys(_id);
+      }
     }
   },
   async updateWikiMenuList() {
@@ -51,6 +51,13 @@ const Methods_Wiki = {
     State_Wiki.treeData = buildTree(data.list);
   }
 };
+watch(() => {
+  var _a;
+  return (_a = State_Wiki == null ? void 0 : State_Wiki.currentWiki) == null ? void 0 : _a.title;
+}, () => {
+  var _a;
+  setDocumentTitle(`\u6587\u6863-${(_a = State_Wiki.currentWiki) == null ? void 0 : _a.title}`);
+});
 function buildTree(dataArray) {
   State_Wiki.allWiki = xU.reduce(dataArray, (target, i) => {
     target[i._id] = i;
@@ -458,16 +465,13 @@ const ViewWiki = defineComponent({
         placeholder: $t("\u6587\u6863\u540D\u79F0").label
       }),
       isReadonly: defItem.item({
-        value: true,
+        value: false,
         itemType: "Switch",
         checkedChildren: $t("\u9884\u89C8").label
       }),
       btnSave: {
         preset: "save",
-        onClick: vm.save,
-        isShow() {
-          return !vm.isReadonly.value;
-        }
+        onClick: vm.save
       }
     };
   },
@@ -499,12 +503,7 @@ const ViewWiki = defineComponent({
       }
     },
     vDomTitle() {
-      if (this.isReadonly.value) {
-        return createVNode("span", {
-          "class": "ml10",
-          "style": "font-weight:700;font-size:18px;"
-        }, [this.State_Wiki.currentWiki.title]);
-      } else {
+      {
         return createVNode(Fragment, null, [createVNode(resolveComponent("xItem"), {
           "configs": this.titleConfigs,
           "modelValue": this.State_Wiki.currentWiki.title,
@@ -523,19 +522,15 @@ const ViewWiki = defineComponent({
     }, [createVNode(WikiLeftSider, {
       "onChange": () => this.isReadonly.value = true
     }, null), createVNode("main", {
-      "class": "flex flex1 padding10 vertical"
+      "class": "flex flex1 padding10 vertical paddingB20"
     }, [createVNode("div", {
       "class": "flex mb10 middle",
       "style": "height:48px;"
-    }, [createVNode(resolveComponent("xItem"), {
-      "configs": this.isReadonly
-    }, null), vDomTitle, createVNode(resolveComponent("xGap"), {
+    }, [vDomTitle, createVNode(resolveComponent("xGap"), {
       "f": "1"
     }, null), createVNode(resolveComponent("xButton"), {
       "configs": btnSave
-    }, null)]), this.isReadonly.value ? createVNode("div", null, [createVNode(resolveComponent("Mkit"), {
-      "md": this.wikiContent.md
-    }, null)]) : createVNode(TuiEditor, {
+    }, null)]), createVNode(TuiEditor, {
       "modelValue": this.wikiContent,
       "onUpdate:modelValue": ($event) => this.wikiContent = $event
     }, null)])]);

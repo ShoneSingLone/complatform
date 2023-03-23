@@ -25,12 +25,7 @@ export const TuiEditor = defineAsyncComponent(
 						"modelValue.md": {
 							immediate: true,
 							async handler(mdString) {
-								await xU.ensureValueDone(() => this.raw$editor);
-								const _mdString = this.raw$editor.getMarkdown();
-								if (_mdString === mdString) {
-									return;
-								}
-								this.raw$editor.setMarkdown(mdString);
+								this.setMDDebounce && this.setMDDebounce(mdString);
 							}
 						}
 					},
@@ -82,6 +77,15 @@ export const TuiEditor = defineAsyncComponent(
 							})();
 
 							(() => {
+								vm.setMDDebounce = xU.debounce(async function (mdString) {
+									await xU.ensureValueDone(() => this.raw$editor);
+									const _mdString = this.raw$editor.getMarkdown();
+									if (_mdString === mdString) {
+										return;
+									}
+									this.raw$editor.setMarkdown(mdString);
+								}, 1000);
+
 								vm.syncDebounce = xU.debounce(async function () {
 									const mdString = vm.raw$editor.getMarkdown();
 									if (vm.modelValue.md !== mdString) {

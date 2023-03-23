@@ -44,7 +44,7 @@ const appOptions = {
 				/* https://www.rollupjs.com/guide/big-list-of-options/#outputentryfilenames */
 				entryFileNames: "assets/js/[name].js",
 				chunkFileNames: "assets/js/[name].js",
-				assetFileNames: "assets/[name].[extname]"
+				assetFileNames: "assets/[name][extname]"
 			}
 		}
 	},
@@ -91,12 +91,12 @@ if (isBuildLibTui) {
 	};
 }
 
-if (!IS_DEV) {
-	appOptions.plugins.push(viteCompression({
-		/* 100kb */
-		threshold: 100
-	}));
-}
+// if (!IS_DEV) {
+// 	appOptions.plugins.push(viteCompression({
+// 		/* 100kb */
+// 		threshold: 100
+// 	}));
+// }
 
 // https://vitejs.dev/config/
 export default defineConfig(appOptions);

@@ -1,5 +1,11 @@
 import { reactive, watch } from "vue";
-import { xU, State_UI, defCol, defXVirTableConfigs } from "@ventose/ui";
+import {
+	xU,
+	State_UI,
+	defCol,
+	defXVirTableConfigs,
+	setDocumentTitle
+} from "@ventose/ui";
 import { API } from "@/api/index";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
@@ -40,30 +46,30 @@ export const Methods_Wiki = {
 		}
 		State_Wiki.expandedKeys = [...expandedKeys];
 		/*  */
-	}, 100),
+	}, 1000),
 	/**
-	 * 
+	 *
 	 * 如果提供item，则不需要查，直接赋值
-	 * @param {any} _id 
-	 * @param {*} [item] 
-	 * @returns 
+	 * @param {any} _id
+	 * @param {*} [item]
+	 * @returns
 	 */
 	async setCurrentWiki(_id, item?: any) {
 		if (!xU.isInput(_id)) {
 			return;
-		}
-		if (item) {
+		} else if (item) {
 			State_Wiki.currentWiki = item;
 			Methods_Wiki.setExpandedKeys(item._id);
 			return;
-		}
-		const { data } = await API.wiki.action({
-			action: "detail",
-			_id
-		});
-		if (data) {
-			State_Wiki.currentWiki = data;
-			Methods_Wiki.setExpandedKeys(_id);
+		} else {
+			const { data } = await API.wiki.action({
+				action: "detail",
+				_id
+			});
+			if (data) {
+				State_Wiki.currentWiki = data;
+				Methods_Wiki.setExpandedKeys(_id);
+			}
 		}
 	},
 	async updateWikiMenuList() {
@@ -71,6 +77,13 @@ export const Methods_Wiki = {
 		State_Wiki.treeData = buildTree(data.list);
 	}
 };
+
+watch(
+	() => State_Wiki?.currentWiki?.title,
+	() => {
+		setDocumentTitle(`文档-${State_Wiki.currentWiki?.title}`);
+	}
+);
 
 function buildTree(dataArray) {
 	/* findChildren */

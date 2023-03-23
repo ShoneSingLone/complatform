@@ -70,7 +70,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .markdown-wrapper {
 	position: relative;
 	height: 100%;
@@ -95,6 +95,30 @@ export default {
 	position: relative;
 
 
+	h3 {
+		font-size: 1.5em;
+		line-height: 1.43;
+	}
+
+	ul {
+		padding: 10px;
+
+		&>li {
+			list-style-type: circle;
+			margin-left: 10px;
+		}
+	}
+
+	td,
+	p {
+		code {
+			border-radius: 4px;
+			padding: 2px 8px;
+			background: #e8f3ff;
+		}
+	}
+
+
 	table {
 		border-collapse: collapse;
 		border-spacing: 0;
@@ -103,6 +127,9 @@ export default {
 		overflow: auto;
 		word-break: normal;
 		word-break: keep-all;
+
+		margin: 20px;
+		margin-left: 0;
 
 		th {
 			font-weight: 700

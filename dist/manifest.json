@@ -1,26 +1,26 @@
 {
+  "src/devui/ui/xSingle/layer/imgs/loading-1.gif": {
+    "file": "assets/loading-1.gif",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-1.gif"
+  },
   "src/devui/ui/xSingle/layer/imgs/loading-2.gif": {
-    "file": "assets/loading-2..gif",
+    "file": "assets/loading-2.gif",
     "src": "src/devui/ui/xSingle/layer/imgs/loading-2.gif"
   },
   "src/devui/assets/svg/input.svg": {
-    "file": "assets/input..svg",
+    "file": "assets/input.svg",
     "src": "src/devui/assets/svg/input.svg"
   },
-  "src/devui/ui/xSingle/layer/imgs/loading-1.gif": {
-    "file": "assets/loading-1..gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-1.gif"
-  },
   "src/devui/ui/xSingle/layer/imgs/icon.png": {
-    "file": "assets/icon..png",
+    "file": "assets/icon.png",
     "src": "src/devui/ui/xSingle/layer/imgs/icon.png"
   },
   "src/devui/ui/xSingle/layer/imgs/loading-0.gif": {
-    "file": "assets/loading-0..gif",
+    "file": "assets/loading-0.gif",
     "src": "src/devui/ui/xSingle/layer/imgs/loading-0.gif"
   },
   "src/devui/ui/xSingle/layer/imgs/icon-ext.png": {
-    "file": "assets/icon-ext..png",
+    "file": "assets/icon-ext.png",
     "src": "src/devui/ui/xSingle/layer/imgs/icon-ext.png"
   },
   "index.html": {
@@ -40,15 +40,15 @@
       "src/containers/Project/Setting/ProjectSetting.tsx"
     ],
     "css": [
-      "assets/index..css"
+      "assets/index.css"
     ],
     "assets": [
-      "assets/loading-1..gif",
-      "assets/icon..png",
-      "assets/loading-0..gif",
-      "assets/loading-2..gif",
-      "assets/icon-ext..png",
-      "assets/input..svg"
+      "assets/loading-1.gif",
+      "assets/icon.png",
+      "assets/loading-0.gif",
+      "assets/loading-2.gif",
+      "assets/icon-ext.png",
+      "assets/input.svg"
     ]
   },
   "src/containers/Login/LoginContainer.tsx": {
@@ -59,7 +59,7 @@
       "index.html"
     ],
     "css": [
-      "assets/LoginContainer..css"
+      "assets/LoginContainer.css"
     ]
   },
   "src/containers/Wiki/ViewWiki.tsx": {
@@ -71,7 +71,7 @@
       "_TuiEditor.js"
     ],
     "css": [
-      "assets/ViewWiki..css"
+      "assets/ViewWiki.css"
     ]
   },
   "_TuiEditor.js": {
@@ -80,7 +80,7 @@
       "index.html"
     ],
     "css": [
-      "assets/TuiEditor..css"
+      "assets/TuiEditor.css"
     ]
   },
   "src/containers/Project/ViewProject.tsx": {
@@ -91,7 +91,7 @@
       "index.html"
     ],
     "css": [
-      "assets/ViewProject..css"
+      "assets/ViewProject.css"
     ]
   },
   "src/containers/Project/Interface/ProjectInterface.tsx": {
@@ -166,23 +166,23 @@
     ]
   },
   "src/containers/Wiki/ViewWiki.css": {
-    "file": "assets/ViewWiki..css",
+    "file": "assets/ViewWiki.css",
     "src": "src/containers/Wiki/ViewWiki.css"
   },
   "TuiEditor.css": {
-    "file": "assets/TuiEditor..css",
+    "file": "assets/TuiEditor.css",
     "src": "TuiEditor.css"
   },
   "src/containers/Project/ViewProject.css": {
-    "file": "assets/ViewProject..css",
+    "file": "assets/ViewProject.css",
     "src": "src/containers/Project/ViewProject.css"
   },
   "index.css": {
-    "file": "assets/index..css",
+    "file": "assets/index.css",
     "src": "index.css"
   },
   "src/containers/Login/LoginContainer.css": {
-    "file": "assets/LoginContainer..css",
+    "file": "assets/LoginContainer.css",
     "src": "src/containers/Login/LoginContainer.css"
   }
 }

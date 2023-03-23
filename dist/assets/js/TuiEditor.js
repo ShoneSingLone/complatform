@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, u as toRaw, y as diff, x as xU, F as FormRules, e as createVNode, r as resolveComponent, q as withDirectives, s as resolveDirective, k as Fragment, a as defItem, z as markRaw, U as UI, p as pickValueFrom, B as setValueTo, v as validateForm, A as AllWasWell, b as API, M as Methods_App, I as ITEM_OPTIONS, D as defXVirTableConfigs, G as defCol, H as ITEM_OPTIONS_VDOM, J as h, K as inject, L as components, $ as $t, n as $, N as setDataGridInfo, O as lib, P as defDataGridOption, Q as MonacoEditor, t as compositionAPI, h as createTextVNode, R as HTTP_REQUEST_HEADER, T as compileVNode, V as QUERY, W as GET, X as HTTP_METHOD, Y as BODY, S as State_UI, Z as defineAsyncComponent } from "./index.js";
+import { d as defineComponent, g as _State_App, z as toRaw, B as diff, x as xU, F as FormRules, e as createVNode, r as resolveComponent, t as withDirectives, u as resolveDirective, m as Fragment, a as defItem, D as markRaw, U as UI, p as pickValueFrom, G as setValueTo, v as validateForm, A as AllWasWell, b as API, M as Methods_App, I as ITEM_OPTIONS, H as defXVirTableConfigs, J as defCol, K as ITEM_OPTIONS_VDOM, L as h, N as inject, O as components, $ as $t, q as $, P as setDataGridInfo, Q as lib, R as defDataGridOption, T as MonacoEditor, y as compositionAPI, h as createTextVNode, V as HTTP_REQUEST_HEADER, W as compileVNode, X as QUERY, Y as GET, Z as HTTP_METHOD, a0 as BODY, S as State_UI, a1 as defineAsyncComponent } from "./index.js";
 function makeKeyValueObj(i) {
   return {
     key: i.name,
@@ -3274,12 +3274,7 @@ const TuiEditor = defineAsyncComponent(() => new Promise(async (resolve) => {
       "modelValue.md": {
         immediate: true,
         async handler(mdString) {
-          await xU.ensureValueDone(() => this.raw$editor);
-          const _mdString = this.raw$editor.getMarkdown();
-          if (_mdString === mdString) {
-            return;
-          }
-          this.raw$editor.setMarkdown(mdString);
+          this.setMDDebounce && this.setMDDebounce(mdString);
         }
       }
     },
@@ -3329,6 +3324,14 @@ const TuiEditor = defineAsyncComponent(() => new Promise(async (resolve) => {
           });
         })();
         (() => {
+          vm.setMDDebounce = xU.debounce(async function(mdString) {
+            await xU.ensureValueDone(() => this.raw$editor);
+            const _mdString = this.raw$editor.getMarkdown();
+            if (_mdString === mdString) {
+              return;
+            }
+            this.raw$editor.setMarkdown(mdString);
+          }, 1e3);
           vm.syncDebounce = xU.debounce(async function() {
             const mdString = vm.raw$editor.getMarkdown();
             if (vm.modelValue.md !== mdString) {
