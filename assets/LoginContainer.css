@@ -196,6 +196,9 @@ em {
 .link-tooltip:hover {
   color: #2395f1;
 }
+.border-radius {
+  border-radius: 8px;
+}
 .login-container {
   padding-bottom: 0.6rem;
 }
