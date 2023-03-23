@@ -6,7 +6,7 @@ import { ErrMsg } from "../components/ErrMsg/ErrMsg";
 import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
 import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "src/components/MonacoEditor/MonacoEditor";
-import Mkit from "@/components/Mkit/MarkdownIt.vue";
+import { MarkdownIt as Mkit } from "@/components/Mkit/MarkdownIt";
 
 export { ITEM_OPTIONS } from "./common.options";
 

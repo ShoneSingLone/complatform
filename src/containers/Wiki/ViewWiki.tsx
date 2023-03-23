@@ -20,12 +20,15 @@ export const ViewWiki = defineComponent({
 			title: "",
 			titleConfigs: defItem.item({ placeholder: $t("文档名称").label }),
 			isReadonly: defItem.item({
-				value: false,
+				value: true,
 				itemType: "Switch",
 				checkedChildren: $t("预览").label
 			}),
 			btnSave: {
 				preset: "save",
+				isShow() {
+					return !vm.isReadonly.value;
+				},
 				onClick: vm.save
 			}
 		};
@@ -61,7 +64,7 @@ export const ViewWiki = defineComponent({
 			}
 		},
 		vDomTitle() {
-			if (false) {
+			if (this.isReadonly.value) {
 				return (
 					<span class="ml10" style="font-weight:700;font-size:18px;">
 						{this.State_Wiki.currentWiki.title}
@@ -83,15 +86,16 @@ export const ViewWiki = defineComponent({
 	render({ btnSave, vDomTitle }) {
 		return (
 			<section id="ViewWiki" class="flex flex1">
-				<WikiLeftSider onChange={() => (this.isReadonly.value = true)} />
+				{/* onChange={() => (this.isReadonly.value = true)} */}
+				<WikiLeftSider />
 				<main class="flex flex1 padding10 vertical paddingB20">
 					<div class="flex mb10 middle" style="height:48px;">
-						{/* <xItem configs={this.isReadonly} /> */}
+						<xItem configs={this.isReadonly} />
 						{vDomTitle}
 						<xGap f="1" />
 						<xButton configs={btnSave} />
 					</div>
-					{false ? (
+					{this.isReadonly.value ? (
 						<div class="flex flex1 overflow-auto border-radius elevation-1 padding20">
 							<Mkit md={this.wikiContent.md} />
 						</div>
