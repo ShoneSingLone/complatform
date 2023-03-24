@@ -20,7 +20,10 @@ import dayjs from "dayjs";
 import { xPagination } from "./xDataGrid/xPagination";
 import { xItem } from "./xForm/xItem";
 import { xGap } from "./xLayout/xGap";
-import { defXVirTableConfigs as defXVirTableConfigs, xVirTable } from "./xDataGrid/xVirTable/xVirTable";
+import {
+	defXVirTableConfigs as defXVirTableConfigs,
+	xVirTable
+} from "./xDataGrid/xVirTable/xVirTable";
 import { xU } from "./ventoseUtils";
 import { Cpt_UI_locale, State_UI, $t } from "./State_UI";
 import { FormRules, RegexFn } from "./xForm/FormRules";

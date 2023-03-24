@@ -465,12 +465,15 @@ const ViewWiki = defineComponent({
         placeholder: $t("\u6587\u6863\u540D\u79F0").label
       }),
       isReadonly: defItem.item({
-        value: false,
+        value: true,
         itemType: "Switch",
         checkedChildren: $t("\u9884\u89C8").label
       }),
       btnSave: {
         preset: "save",
+        isShow() {
+          return !vm.isReadonly.value;
+        },
         onClick: vm.save
       }
     };
@@ -503,7 +506,12 @@ const ViewWiki = defineComponent({
       }
     },
     vDomTitle() {
-      {
+      if (this.isReadonly.value) {
+        return createVNode("span", {
+          "class": "ml10",
+          "style": "font-weight:700;font-size:18px;"
+        }, [this.State_Wiki.currentWiki.title]);
+      } else {
         return createVNode(Fragment, null, [createVNode(resolveComponent("xItem"), {
           "configs": this.titleConfigs,
           "modelValue": this.State_Wiki.currentWiki.title,
@@ -526,13 +534,16 @@ const ViewWiki = defineComponent({
     }, [createVNode("div", {
       "class": "flex mb10 middle",
       "style": "height:48px;"
-    }, [vDomTitle, createVNode(resolveComponent("xGap"), {
+    }, [createVNode(resolveComponent("xItem"), {
+      "configs": this.isReadonly
+    }, null), vDomTitle, createVNode(resolveComponent("xGap"), {
       "f": "1"
     }, null), createVNode(resolveComponent("xButton"), {
       "configs": btnSave
     }, null)]), createVNode(TuiEditor, {
       "modelValue": this.wikiContent,
-      "onUpdate:modelValue": ($event) => this.wikiContent = $event
+      "onUpdate:modelValue": ($event) => this.wikiContent = $event,
+      "isReadonly": this.isReadonly.value
     }, null)])]);
   }
 });

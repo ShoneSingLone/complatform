@@ -5,8 +5,8 @@ import {
 	defXVirTableConfigs,
 	xU
 } from "@ventose/ui";
-import { State_Project } from "src/containers/Project/Interface/State_Project";
-import { Cpt_url } from "src/router/router";
+import { State_Project } from "@/containers/Project/Interface/State_Project";
+import { Cpt_url } from "@/router/router";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { defineComponent } from "vue";
 import { MonacoEditor } from "../MonacoEditor/MonacoEditor";

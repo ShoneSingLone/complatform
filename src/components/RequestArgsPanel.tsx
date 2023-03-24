@@ -1,5 +1,5 @@
 import { xU } from "@ventose/ui";
-import { BODY, GET, HTTP_METHOD, QUERY } from "src/utils/variable";
+import { BODY, GET, HTTP_METHOD, QUERY } from "@/utils/variable";
 import { defineComponent } from "vue";
 import { BodyParamsPanel } from "./interfaceParams/BodyParamsPanel";
 import { HeaderParamsPanel } from "./interfaceParams/HeaderParamsPanel";

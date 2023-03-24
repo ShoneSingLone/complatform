@@ -199,6 +199,9 @@ em {
 .border-radius {
   border-radius: 8px;
 }
+.display-none {
+  display: none;
+}
 .login-container {
   padding-bottom: 0.6rem;
 }

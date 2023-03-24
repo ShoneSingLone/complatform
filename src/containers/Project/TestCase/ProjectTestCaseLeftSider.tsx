@@ -163,9 +163,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											onClick={handleClickMenuItem}>
 											<xGap l="10" />
 											<xIcon icon="allCategory" />
-											<span class="x-sider-tree_menu_title">
-												{title}
-											</span>
+											<span class="x-sider-tree_menu_title">{title}</span>
 											<div class="flex middle x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
@@ -232,9 +230,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											onClick={handleClickMenuItem}>
 											<xGap l="10" />
 											<xIcon icon="subCategory" />
-											<span class="x-sider-tree_menu_title">
-												{title}
-											</span>
+											<span class="x-sider-tree_menu_title">{title}</span>
 											{vDomOpration}
 										</div>
 									);

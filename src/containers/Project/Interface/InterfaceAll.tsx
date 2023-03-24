@@ -4,7 +4,7 @@ import {
 	State_ProjectInterface,
 	useInterfaceTableConfigs
 } from "@/containers/Project/Interface/State_ProjectInterface";
-import { $t, xU } from "@/devui/ui";
+import { $t, xU } from "@ventose/ui";
 import {
 	openDialogInterfaceProxyModify,
 	openDialogInterfaceStatusModify

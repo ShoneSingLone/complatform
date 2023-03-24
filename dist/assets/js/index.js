@@ -2038,7 +2038,7 @@ function normalizeSuspenseChildren(vnode) {
   vnode.ssFallback = isSlotChildren ? normalizeSuspenseSlot(children.fallback) : createVNode(Comment$1);
 }
 function normalizeSuspenseSlot(s2) {
-  let block;
+  let block2;
   if (isFunction$3(s2)) {
     const trackBlock = isBlockTreeEnabled && s2._c;
     if (trackBlock) {
@@ -2048,7 +2048,7 @@ function normalizeSuspenseSlot(s2) {
     s2 = s2();
     if (trackBlock) {
       s2._d = true;
-      block = currentBlock;
+      block2 = currentBlock;
       closeBlock();
     }
   }
@@ -2057,8 +2057,8 @@ function normalizeSuspenseSlot(s2) {
     s2 = singleChild;
   }
   s2 = normalizeVNode(s2);
-  if (block && !s2.dynamicChildren) {
-    s2.dynamicChildren = block.filter((c2) => c2 !== s2);
+  if (block2 && !s2.dynamicChildren) {
+    s2.dynamicChildren = block2.filter((c2) => c2 !== s2);
   }
   return s2;
 }
@@ -2628,7 +2628,7 @@ function defineAsyncComponent(source2) {
       if (resolvedComp) {
         return () => createInnerComp(resolvedComp, instance);
       }
-      const onError = (err) => {
+      const onError2 = (err) => {
         pendingRequest = null;
         handleError(err, instance, 13, !errorComponent);
       };
@@ -2636,7 +2636,7 @@ function defineAsyncComponent(source2) {
         return load().then((comp) => {
           return () => createInnerComp(comp, instance);
         }).catch((err) => {
-          onError(err);
+          onError2(err);
           return () => errorComponent ? createVNode(errorComponent, {
             error: err
           }) : null;
@@ -2654,7 +2654,7 @@ function defineAsyncComponent(source2) {
         setTimeout(() => {
           if (!loaded.value && !error.value) {
             const err = new Error(`Async component timed out after ${timeout}ms.`);
-            onError(err);
+            onError2(err);
             error.value = err;
           }
         }, timeout);
@@ -2665,7 +2665,7 @@ function defineAsyncComponent(source2) {
           queueJob(instance.parent.update);
         }
       }).catch((err) => {
-        onError(err);
+        onError2(err);
         error.value = err;
       });
       return () => {
@@ -8746,7 +8746,7 @@ function getPatchFlag(node) {
   const flag = node.patchFlag;
   return flag ? parseInt(flag, 10) : void 0;
 }
-function createTransformContext(root2, { filename = "", prefixIdentifiers = false, hoistStatic: hoistStatic2 = false, cacheHandlers = false, nodeTransforms = [], directiveTransforms = {}, transformHoist = null, isBuiltInComponent = NOOP, isCustomElement = NOOP, expressionPlugins = [], scopeId = null, slotted = true, ssr = false, inSSR = false, ssrCssVars = ``, bindingMetadata = EMPTY_OBJ, inline = false, isTS = false, onError = defaultOnError, onWarn = defaultOnWarn, compatConfig }) {
+function createTransformContext(root2, { filename = "", prefixIdentifiers = false, hoistStatic: hoistStatic2 = false, cacheHandlers = false, nodeTransforms = [], directiveTransforms = {}, transformHoist = null, isBuiltInComponent = NOOP, isCustomElement = NOOP, expressionPlugins = [], scopeId = null, slotted = true, ssr = false, inSSR = false, ssrCssVars = ``, bindingMetadata = EMPTY_OBJ, inline: inline2 = false, isTS = false, onError: onError2 = defaultOnError, onWarn = defaultOnWarn, compatConfig }) {
   const nameMatch = filename.replace(/\?.*$/, "").match(/([^/\\]+)\.\w+$/);
   const context2 = {
     selfName: nameMatch && capitalize(camelize$2(nameMatch[1])),
@@ -8765,9 +8765,9 @@ function createTransformContext(root2, { filename = "", prefixIdentifiers = fals
     inSSR,
     ssrCssVars,
     bindingMetadata,
-    inline,
+    inline: inline2,
     isTS,
-    onError,
+    onError: onError2,
     onWarn,
     compatConfig,
     root: root2,
@@ -10798,21 +10798,21 @@ function getBaseTransformPreset(prefixIdentifiers) {
   ];
 }
 function baseCompile(template, options = {}) {
-  const onError = options.onError || defaultOnError;
+  const onError2 = options.onError || defaultOnError;
   const isModuleMode = options.mode === "module";
   {
     if (options.prefixIdentifiers === true) {
-      onError(createCompilerError(47));
+      onError2(createCompilerError(47));
     } else if (isModuleMode) {
-      onError(createCompilerError(48));
+      onError2(createCompilerError(48));
     }
   }
   const prefixIdentifiers = false;
   if (options.cacheHandlers) {
-    onError(createCompilerError(49));
+    onError2(createCompilerError(49));
   }
   if (options.scopeId && !isModuleMode) {
-    onError(createCompilerError(50));
+    onError2(createCompilerError(50));
   }
   const ast = isString$4(template) ? baseParse(template, options) : template;
   const [nodeTransforms, directiveTransforms] = getBaseTransformPreset();
@@ -15599,7 +15599,7 @@ var _typeof$2 = { exports: {} };
     var exports2 = {}, Op = Object.prototype, hasOwn3 = Op.hasOwnProperty, defineProperty2 = Object.defineProperty || function(obj, key2, desc) {
       obj[key2] = desc.value;
     }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-    function define2(obj, key2, value) {
+    function define(obj, key2, value) {
       return Object.defineProperty(obj, key2, {
         value,
         enumerable: true,
@@ -15608,9 +15608,9 @@ var _typeof$2 = { exports: {} };
       }), obj[key2];
     }
     try {
-      define2({}, "");
+      define({}, "");
     } catch (err) {
-      define2 = function define3(obj, key2, value) {
+      define = function define2(obj, key2, value) {
         return obj[key2] = value;
       };
     }
@@ -15642,7 +15642,7 @@ var _typeof$2 = { exports: {} };
     function GeneratorFunctionPrototype() {
     }
     var IteratorPrototype = {};
-    define2(IteratorPrototype, iteratorSymbol, function() {
+    define(IteratorPrototype, iteratorSymbol, function() {
       return this;
     });
     var getProto2 = Object.getPrototypeOf, NativeIteratorPrototype = getProto2 && getProto2(getProto2(values([])));
@@ -15650,7 +15650,7 @@ var _typeof$2 = { exports: {} };
     var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
     function defineIteratorMethods(prototype) {
       ["next", "throw", "return"].forEach(function(method4) {
-        define2(prototype, method4, function(arg) {
+        define(prototype, method4, function(arg) {
           return this._invoke(method4, arg);
         });
       });
@@ -15784,16 +15784,16 @@ var _typeof$2 = { exports: {} };
     }), defineProperty2(GeneratorFunctionPrototype, "constructor", {
       value: GeneratorFunction,
       configurable: true
-    }), GeneratorFunction.displayName = define2(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports2.isGeneratorFunction = function(genFun) {
+    }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports2.isGeneratorFunction = function(genFun) {
       var ctor = "function" == typeof genFun && genFun.constructor;
       return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
     }, exports2.mark = function(genFun) {
-      return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define2(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
+      return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
     }, exports2.awrap = function(arg) {
       return {
         __await: arg
       };
-    }, defineIteratorMethods(AsyncIterator.prototype), define2(AsyncIterator.prototype, asyncIteratorSymbol, function() {
+    }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function() {
       return this;
     }), exports2.AsyncIterator = AsyncIterator, exports2.async = function(innerFn, outerFn, self2, tryLocsList, PromiseImpl) {
       void 0 === PromiseImpl && (PromiseImpl = Promise);
@@ -15801,9 +15801,9 @@ var _typeof$2 = { exports: {} };
       return exports2.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
         return result.done ? result.value : iter.next();
       });
-    }, defineIteratorMethods(Gp), define2(Gp, toStringTagSymbol, "Generator"), define2(Gp, iteratorSymbol, function() {
+    }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function() {
       return this;
-    }), define2(Gp, "toString", function() {
+    }), define(Gp, "toString", function() {
       return "[object Generator]";
     }), exports2.keys = function(val) {
       var object4 = Object(val), keys2 = [];
@@ -27547,7 +27547,7 @@ const Button$1 = defineComponent({
     });
     var classes = computed(function() {
       var _ref2;
-      var type4 = props3.type, _props$shape = props3.shape, shape = _props$shape === void 0 ? "default" : _props$shape, ghost = props3.ghost, block = props3.block, danger = props3.danger;
+      var type4 = props3.type, _props$shape = props3.shape, shape = _props$shape === void 0 ? "default" : _props$shape, ghost = props3.ghost, block2 = props3.block, danger = props3.danger;
       var pre = prefixCls.value;
       var sizeClassNameMap = {
         large: "lg",
@@ -27556,7 +27556,7 @@ const Button$1 = defineComponent({
       };
       var sizeFullname = size2.value;
       var sizeCls = sizeFullname ? sizeClassNameMap[sizeFullname] || "" : "";
-      return _ref2 = {}, _defineProperty$U(_ref2, "".concat(pre), true), _defineProperty$U(_ref2, "".concat(pre, "-").concat(type4), type4), _defineProperty$U(_ref2, "".concat(pre, "-").concat(shape), shape !== "default" && shape), _defineProperty$U(_ref2, "".concat(pre, "-").concat(sizeCls), sizeCls), _defineProperty$U(_ref2, "".concat(pre, "-loading"), innerLoading.value), _defineProperty$U(_ref2, "".concat(pre, "-background-ghost"), ghost && !isUnborderedButtonType(type4)), _defineProperty$U(_ref2, "".concat(pre, "-two-chinese-chars"), hasTwoCNChar.value && autoInsertSpace.value), _defineProperty$U(_ref2, "".concat(pre, "-block"), block), _defineProperty$U(_ref2, "".concat(pre, "-dangerous"), !!danger), _defineProperty$U(_ref2, "".concat(pre, "-rtl"), direction.value === "rtl"), _ref2;
+      return _ref2 = {}, _defineProperty$U(_ref2, "".concat(pre), true), _defineProperty$U(_ref2, "".concat(pre, "-").concat(type4), type4), _defineProperty$U(_ref2, "".concat(pre, "-").concat(shape), shape !== "default" && shape), _defineProperty$U(_ref2, "".concat(pre, "-").concat(sizeCls), sizeCls), _defineProperty$U(_ref2, "".concat(pre, "-loading"), innerLoading.value), _defineProperty$U(_ref2, "".concat(pre, "-background-ghost"), ghost && !isUnborderedButtonType(type4)), _defineProperty$U(_ref2, "".concat(pre, "-two-chinese-chars"), hasTwoCNChar.value && autoInsertSpace.value), _defineProperty$U(_ref2, "".concat(pre, "-block"), block2), _defineProperty$U(_ref2, "".concat(pre, "-dangerous"), !!danger), _defineProperty$U(_ref2, "".concat(pre, "-rtl"), direction.value === "rtl"), _ref2;
     });
     var fixTwoCNChar = function fixTwoCNChar2() {
       var node = buttonNodeRef.value;
@@ -37290,7 +37290,7 @@ var Card = defineComponent({
       var loadingBlockStyle = bodyStyle.padding === 0 || bodyStyle.padding === "0px" ? {
         padding: "24px"
       } : void 0;
-      var block = createVNode("div", {
+      var block2 = createVNode("div", {
         "class": "".concat(pre, "-loading-block")
       }, null);
       var loadingBlock = createVNode("div", {
@@ -37304,7 +37304,7 @@ var Card = defineComponent({
             "span": 22
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           })];
         }
@@ -37316,13 +37316,13 @@ var Card = defineComponent({
             "span": 8
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           }), createVNode(Col, {
             "span": 15
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           })];
         }
@@ -37334,13 +37334,13 @@ var Card = defineComponent({
             "span": 6
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           }), createVNode(Col, {
             "span": 18
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           })];
         }
@@ -37352,13 +37352,13 @@ var Card = defineComponent({
             "span": 13
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           }), createVNode(Col, {
             "span": 9
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           })];
         }
@@ -37370,19 +37370,19 @@ var Card = defineComponent({
             "span": 4
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           }), createVNode(Col, {
             "span": 3
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           }), createVNode(Col, {
             "span": 16
           }, {
             default: function _default10() {
-              return [block];
+              return [block2];
             }
           })];
         }
@@ -43249,16 +43249,16 @@ var getUrlRegex = function() {
   ip.v6 = function(options) {
     return options && options.exact ? v6exact : new RegExp("" + b2(options) + v6 + b2(options), "g");
   };
-  var protocol = "(?:(?:[a-z]+:)?//)";
+  var protocol2 = "(?:(?:[a-z]+:)?//)";
   var auth = "(?:\\S+(?::\\S*)?@)?";
   var ipv4 = ip.v4().source;
   var ipv6 = ip.v6().source;
   var host = "(?:(?:[a-z\\u00a1-\\uffff0-9][-_]*)*[a-z\\u00a1-\\uffff0-9]+)";
-  var domain = "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*";
+  var domain2 = "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*";
   var tld = "(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))";
   var port = "(?::\\d{2,5})?";
   var path2 = '(?:[/?#][^\\s"]*)?';
-  var regex = "(?:" + protocol + "|www\\.)" + auth + "(?:localhost|" + ipv4 + "|" + ipv6 + "|" + host + domain + tld + ")" + port + path2;
+  var regex = "(?:" + protocol2 + "|www\\.)" + auth + "(?:localhost|" + ipv4 + "|" + ipv6 + "|" + host + domain2 + tld + ")" + port + path2;
   urlReg = new RegExp("(?:^" + regex + "$)", "i");
   return urlReg;
 };
@@ -43697,7 +43697,7 @@ var Schema = /* @__PURE__ */ function() {
     this.define(descriptor);
   }
   var _proto = Schema2.prototype;
-  _proto.define = function define2(rules2) {
+  _proto.define = function define(rules2) {
     var _this = this;
     if (!rules2) {
       throw new Error("Cannot configure a schema with no rules");
@@ -51596,7 +51596,7 @@ var ImageInternal = defineComponent({
     var onLoad = function onLoad2() {
       status.value = "normal";
     };
-    var onError = function onError2(e2) {
+    var onError2 = function onError3(e2) {
       status.value = "error";
       emit2("error", e2);
     };
@@ -51698,7 +51698,7 @@ var ImageInternal = defineComponent({
         src: fallback
       } : {
         onLoad,
-        onError,
+        onError: onError2,
         src: imgSrc
       }), {}, {
         "ref": img
@@ -71165,12 +71165,12 @@ var Base = defineComponent({
         return editable.value.editing;
       })
     }), _useMergedState2 = _slicedToArray$2(_useMergedState, 2), editing = _useMergedState2[0], setEditing = _useMergedState2[1];
-    function triggerEdit(edit) {
+    function triggerEdit(edit2) {
       var onStart3 = editable.value.onStart;
-      if (edit && onStart3) {
+      if (edit2 && onStart3) {
         onStart3();
       }
-      setEditing(edit);
+      setEditing(edit2);
     }
     watch(editing, function(val) {
       if (!val) {
@@ -71353,8 +71353,8 @@ var Base = defineComponent({
           _props$attrs.content;
           var className = _props$attrs.class, style2 = _props$attrs.style, restProps = _objectWithoutProperties$2(_props$attrs, _excluded$5);
           var _ellipsis$value4 = ellipsis.value, rows = _ellipsis$value4.rows, suffix = _ellipsis$value4.suffix, tooltip = _ellipsis$value4.tooltip;
-          var edit = locale2.edit, copyStr = locale2.copy, copied = locale2.copied, expand = locale2.expand;
-          state.editStr = edit;
+          var edit2 = locale2.edit, copyStr = locale2.copy, copied = locale2.copied, expand = locale2.expand;
+          state.editStr = edit2;
           state.copyStr = copyStr;
           state.copiedStr = copied;
           state.expandStr = expand;
@@ -71926,9 +71926,9 @@ const AjaxUpload = defineComponent({
           onSuccess2 === null || onSuccess2 === void 0 ? void 0 : onSuccess2(ret, parsedFile, xhr2);
           delete reqs[uid2];
         },
-        onError: function onError(err, ret) {
-          var onError2 = props3.onError;
-          onError2 === null || onError2 === void 0 ? void 0 : onError2(err, ret, parsedFile);
+        onError: function onError2(err, ret) {
+          var onError3 = props3.onError;
+          onError3 === null || onError3 === void 0 ? void 0 : onError3(err, ret, parsedFile);
           delete reqs[uid2];
         }
       };
@@ -73048,7 +73048,7 @@ const Upload = defineComponent({
       var nextFileList = updateFileList(targetItem, mergedFileList.value);
       onInternalChange(targetItem, nextFileList, e2);
     };
-    var onError = function onError2(error, response, file) {
+    var onError2 = function onError3(error, response, file) {
       if (!getFileItem(file, mergedFileList.value)) {
         return;
       }
@@ -73094,7 +73094,7 @@ const Upload = defineComponent({
       onBatchStart,
       onSuccess,
       onProgress,
-      onError,
+      onError: onError2,
       fileList: mergedFileList,
       upload: upload2
     });
@@ -73135,7 +73135,7 @@ const Upload = defineComponent({
       var transAttrs = _objectWithoutProperties$2(attrs, _excluded$1);
       var rcUploadProps = _objectSpread2$1(_objectSpread2$1(_objectSpread2$1({
         onBatchStart,
-        onError,
+        onError: onError2,
         onProgress,
         onSuccess
       }, transAttrs), props3), {}, {
@@ -73689,7 +73689,7 @@ var jquery = { exports: {} };
           }
         }
         return -1;
-      }, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", whitespace4 = "[\\x20\\t\\r\\n\\f]", identifier = "(?:\\\\[\\da-fA-F]{1,6}" + whitespace4 + "?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+", attributes2 = "\\[" + whitespace4 + "*(" + identifier + ")(?:" + whitespace4 + "*([*^$|!~]?=)" + whitespace4 + `*(?:'((?:\\\\.|[^\\\\'])*)'|"((?:\\\\.|[^\\\\"])*)"|(` + identifier + "))|)" + whitespace4 + "*\\]", pseudos = ":(" + identifier + `)(?:\\((('((?:\\\\.|[^\\\\'])*)'|"((?:\\\\.|[^\\\\"])*)")|((?:\\\\.|[^\\\\()[\\]]|` + attributes2 + ")*)|.*)\\)|)", rwhitespace = new RegExp(whitespace4 + "+", "g"), rtrim2 = new RegExp("^" + whitespace4 + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace4 + "+$", "g"), rcomma = new RegExp("^" + whitespace4 + "*," + whitespace4 + "*"), rleadingCombinator = new RegExp("^" + whitespace4 + "*([>+~]|" + whitespace4 + ")" + whitespace4 + "*"), rdescend = new RegExp(whitespace4 + "|>"), rpseudo = new RegExp(pseudos), ridentifier = new RegExp("^" + identifier + "$"), matchExpr = {
+      }, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", whitespace4 = "[\\x20\\t\\r\\n\\f]", identifier = "(?:\\\\[\\da-fA-F]{1,6}" + whitespace4 + "?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+", attributes2 = "\\[" + whitespace4 + "*(" + identifier + ")(?:" + whitespace4 + "*([*^$|!~]?=)" + whitespace4 + `*(?:'((?:\\\\.|[^\\\\'])*)'|"((?:\\\\.|[^\\\\"])*)"|(` + identifier + "))|)" + whitespace4 + "*\\]", pseudos = ":(" + identifier + `)(?:\\((('((?:\\\\.|[^\\\\'])*)'|"((?:\\\\.|[^\\\\"])*)")|((?:\\\\.|[^\\\\()[\\]]|` + attributes2 + ")*)|.*)\\)|)", rwhitespace = new RegExp(whitespace4 + "+", "g"), rtrim3 = new RegExp("^" + whitespace4 + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace4 + "+$", "g"), rcomma = new RegExp("^" + whitespace4 + "*," + whitespace4 + "*"), rleadingCombinator = new RegExp("^" + whitespace4 + "*([>+~]|" + whitespace4 + ")" + whitespace4 + "*"), rdescend = new RegExp(whitespace4 + "|>"), rpseudo = new RegExp(pseudos), ridentifier = new RegExp("^" + identifier + "$"), matchExpr = {
         "ID": new RegExp("^#(" + identifier + ")"),
         "CLASS": new RegExp("^\\.(" + identifier + ")"),
         "TAG": new RegExp("^(" + identifier + "|[*])"),
@@ -73805,7 +73805,7 @@ var jquery = { exports: {} };
             }
           }
         }
-        return select(selector.replace(rtrim2, "$1"), context2, results, seed2);
+        return select(selector.replace(rtrim3, "$1"), context2, results, seed2);
       }
       function createCache() {
         var keys2 = [];
@@ -74372,7 +74372,7 @@ var jquery = { exports: {} };
         },
         pseudos: {
           "not": markFunction(function(selector) {
-            var input = [], results = [], matcher = compile2(selector.replace(rtrim2, "$1"));
+            var input = [], results = [], matcher = compile2(selector.replace(rtrim3, "$1"));
             return matcher[expando] ? markFunction(function(seed2, matches3, _context, xml) {
               var elem, unmatched = matcher(seed2, null, xml, []), i3 = seed2.length;
               while (i3--) {
@@ -74531,7 +74531,7 @@ var jquery = { exports: {} };
             matched = match2.shift();
             tokens.push({
               value: matched,
-              type: match2[0].replace(rtrim2, " ")
+              type: match2[0].replace(rtrim3, " ")
             });
             soFar = soFar.slice(matched.length);
           }
@@ -74714,7 +74714,7 @@ var jquery = { exports: {} };
                 i3 > 1 && elementMatcher(matchers2),
                 i3 > 1 && toSelector(
                   tokens.slice(0, i3 - 1).concat({ value: tokens[i3 - 2].type === " " ? "*" : "" })
-                ).replace(rtrim2, "$1"),
+                ).replace(rtrim3, "$1"),
                 matcher,
                 i3 < j2 && matcherFromTokens(tokens.slice(i3, j2)),
                 j2 < len && matcherFromTokens(tokens = tokens.slice(j2)),
@@ -79443,7 +79443,7 @@ var jquery = { exports: {} };
         };
       }
     );
-    var rtrim = /^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;
+    var rtrim2 = /^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;
     jQuery.proxy = function(fn, context2) {
       var tmp, args, proxy;
       if (typeof context2 === "string") {
@@ -79481,7 +79481,7 @@ var jquery = { exports: {} };
       return (type4 === "number" || type4 === "string") && !isNaN(obj - parseFloat(obj));
     };
     jQuery.trim = function(text) {
-      return text == null ? "" : (text + "").replace(rtrim, "$1");
+      return text == null ? "" : (text + "").replace(rtrim2, "$1");
     };
     var _jQuery = window2.jQuery, _$ = window2.$;
     jQuery.noConflict = function(deep) {
@@ -85310,7 +85310,7 @@ function requireCookies() {
   var utils2 = utils$c;
   cookies = utils2.isStandardBrowserEnv() ? function standardBrowserEnv() {
     return {
-      write: function write(name2, value, expires, path2, domain, secure) {
+      write: function write(name2, value, expires, path2, domain2, secure) {
         var cookie = [];
         cookie.push(name2 + "=" + encodeURIComponent(value));
         if (utils2.isNumber(expires)) {
@@ -85319,8 +85319,8 @@ function requireCookies() {
         if (utils2.isString(path2)) {
           cookie.push("path=" + path2);
         }
-        if (utils2.isString(domain)) {
-          cookie.push("domain=" + domain);
+        if (utils2.isString(domain2)) {
+          cookie.push("domain=" + domain2);
         }
         if (secure === true) {
           cookie.push("secure");
@@ -85682,7 +85682,7 @@ function stringifySafely(rawValue, parser, encoder) {
   }
   return (encoder || JSON.stringify)(rawValue);
 }
-var defaults$5 = {
+var defaults$6 = {
   transitional: transitionalDefaults,
   adapter: getDefaultAdapter(),
   transformRequest: [function transformRequest(data9, headers) {
@@ -85705,7 +85705,7 @@ var defaults$5 = {
     return data9;
   }],
   transformResponse: [function transformResponse(data9) {
-    var transitional3 = this.transitional || defaults$5.transitional;
+    var transitional3 = this.transitional || defaults$6.transitional;
     var silentJSONParsing = transitional3 && transitional3.silentJSONParsing;
     var forcedJSONParsing = transitional3 && transitional3.forcedJSONParsing;
     var strictJSONParsing = !silentJSONParsing && this.responseType === "json";
@@ -85738,16 +85738,16 @@ var defaults$5 = {
   }
 };
 utils$8.forEach(["delete", "get", "head"], function forEachMethodNoData(method4) {
-  defaults$5.headers[method4] = {};
+  defaults$6.headers[method4] = {};
 });
 utils$8.forEach(["post", "put", "patch"], function forEachMethodWithData(method4) {
-  defaults$5.headers[method4] = utils$8.merge(DEFAULT_CONTENT_TYPE);
+  defaults$6.headers[method4] = utils$8.merge(DEFAULT_CONTENT_TYPE);
 });
-var defaults_1 = defaults$5;
+var defaults_1 = defaults$6;
 var utils$7 = utils$c;
-var defaults$4 = defaults_1;
+var defaults$5 = defaults_1;
 var transformData$1 = function transformData(data9, headers, fns) {
-  var context2 = this || defaults$4;
+  var context2 = this || defaults$5;
   utils$7.forEach(fns, function transform2(fn) {
     data9 = fn.call(context2, data9, headers);
   });
@@ -85767,7 +85767,7 @@ function requireIsCancel() {
 var utils$6 = utils$c;
 var transformData2 = transformData$1;
 var isCancel = requireIsCancel();
-var defaults$3 = defaults_1;
+var defaults$4 = defaults_1;
 var Cancel = requireCancel();
 function throwIfCancellationRequested(config) {
   if (config.cancelToken) {
@@ -85797,7 +85797,7 @@ var dispatchRequest$1 = function dispatchRequest(config) {
       delete config.headers[method4];
     }
   );
-  var adapter = config.adapter || defaults$3.adapter;
+  var adapter = config.adapter || defaults$4.adapter;
   return adapter(config).then(function onAdapterResolution(response) {
     throwIfCancellationRequested(config);
     response.data = transformData2.call(
@@ -86179,7 +86179,7 @@ var utils$3 = utils$c;
 var bind$2 = bind$4;
 var Axios = Axios_1;
 var mergeConfig2 = mergeConfig$2;
-var defaults$2 = defaults_1;
+var defaults$3 = defaults_1;
 function createInstance(defaultConfig) {
   var context2 = new Axios(defaultConfig);
   var instance = bind$2(Axios.prototype.request, context2);
@@ -86190,7 +86190,7 @@ function createInstance(defaultConfig) {
   };
   return instance;
 }
-var axios$1 = createInstance(defaults$2);
+var axios$1 = createInstance(defaults$3);
 axios$1.Axios = Axios;
 axios$1.Cancel = requireCancel();
 axios$1.CancelToken = requireCancelToken();
@@ -86692,7 +86692,7 @@ const xU = new Proxy(
     }
   }
 );
-const _sfc_main$d = defineComponent({
+const _sfc_main$c = defineComponent({
   name: "xForm",
   props: {
     col: {
@@ -86750,13 +86750,13 @@ const _export_sfc = (sfc, props3) => {
   }
   return target;
 };
-const _hoisted_1$i = ["id"];
-function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$h = ["id"];
+function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("form", { id: _ctx.xFormId }, [
     renderSlot(_ctx.$slots, "default")
-  ], 8, _hoisted_1$i);
+  ], 8, _hoisted_1$h);
 }
-const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c]]);
+const xForm = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b]]);
 var locale$2 = {
   locale: "zh_CN",
   today: "\u4ECA\u5929",
@@ -87297,7 +87297,7 @@ const xButton = defineComponent({
     });
   }
 });
-const _sfc_main$c = defineComponent({
+const _sfc_main$b = defineComponent({
   name: "XButtonCountDown",
   props: {
     configs: {
@@ -87366,16 +87366,16 @@ const _sfc_main$c = defineComponent({
     }
   }
 });
-function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_xButton = resolveComponent("xButton");
   return openBlock(), createBlock(_component_xButton, { configs: _ctx.btnConfigs }, null, 8, ["configs"]);
 }
-const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b]]);
+const xButtonCountDown = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a]]);
 const line$1 = {};
 const CONFIGS_MAP = {
   line: line$1
 };
-const _sfc_main$b = defineComponent({
+const _sfc_main$a = defineComponent({
   name: "xCharts",
   props: {
     payload: {
@@ -87438,15 +87438,15 @@ const _sfc_main$b = defineComponent({
     }
   }
 });
-const _hoisted_1$h = ["id"];
-function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$g = ["id"];
+function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     id: _ctx.id,
     class: "x-charts flex flex1 center middle"
-  }, null, 8, _hoisted_1$h);
+  }, null, 8, _hoisted_1$g);
 }
-const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a]]);
-const _sfc_main$a = defineComponent({
+const xCharts = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9]]);
+const _sfc_main$9 = defineComponent({
   name: "xView",
   props: {
     isShow: {
@@ -87463,16 +87463,16 @@ const _sfc_main$a = defineComponent({
     }
   }
 });
-const _hoisted_1$g = ["id"];
-function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$f = ["id"];
+function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
   return withDirectives((openBlock(), createElementBlock("div", { id: _ctx.id }, [
     renderSlot(_ctx.$slots, "default")
-  ], 8, _hoisted_1$g)), [
+  ], 8, _hoisted_1$f)), [
     [vShow, !!_ctx.isShow]
   ]);
 }
-const xView = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9]]);
-const _hoisted_1$f = {
+const xView = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8]]);
+const _hoisted_1$e = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87483,10 +87483,10 @@ const _hoisted_3$b = [
   _hoisted_2$b
 ];
 function render$a(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$f, _hoisted_3$b);
+  return openBlock(), createElementBlock("svg", _hoisted_1$e, _hoisted_3$b);
 }
 const InsideDeleteOutlined = { name: "DeleteOutlined", render: render$a };
-const _hoisted_1$e = {
+const _hoisted_1$d = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87497,10 +87497,10 @@ const _hoisted_3$a = [
   _hoisted_2$a
 ];
 function render$9(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$e, _hoisted_3$a);
+  return openBlock(), createElementBlock("svg", _hoisted_1$d, _hoisted_3$a);
 }
 const InsideExclamationCircleOutlined = { name: "ExclamationCircleOutlined", render: render$9 };
-const _hoisted_1$d = {
+const _hoisted_1$c = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87523,10 +87523,10 @@ const _hoisted_4 = [
   _hoisted_3$9
 ];
 function render$8(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$d, _hoisted_4);
+  return openBlock(), createElementBlock("svg", _hoisted_1$c, _hoisted_4);
 }
 const InsideLoadingOutlined = { name: "LoadingOutlined", render: render$8 };
-const _hoisted_1$c = {
+const _hoisted_1$b = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87537,10 +87537,10 @@ const _hoisted_3$8 = [
   _hoisted_2$8
 ];
 function render$7(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$c, _hoisted_3$8);
+  return openBlock(), createElementBlock("svg", _hoisted_1$b, _hoisted_3$8);
 }
 const InsideSaveOutlined = { name: "SaveOutlined", render: render$7 };
-const _hoisted_1$b = {
+const _hoisted_1$a = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87551,10 +87551,10 @@ const _hoisted_3$7 = [
   _hoisted_2$7
 ];
 function render$6(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$b, _hoisted_3$7);
+  return openBlock(), createElementBlock("svg", _hoisted_1$a, _hoisted_3$7);
 }
 const InsideSearchOutlined = { name: "SearchOutlined", render: render$6 };
-const _hoisted_1$a = {
+const _hoisted_1$9 = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87565,10 +87565,10 @@ const _hoisted_3$6 = [
   _hoisted_2$6
 ];
 function render$5(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$a, _hoisted_3$6);
+  return openBlock(), createElementBlock("svg", _hoisted_1$9, _hoisted_3$6);
 }
 const InsideSyncOutlined = { name: "SyncOutlined", render: render$5 };
-const _hoisted_1$9 = {
+const _hoisted_1$8 = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87579,10 +87579,10 @@ const _hoisted_3$5 = [
   _hoisted_2$5
 ];
 function render$4(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$9, _hoisted_3$5);
+  return openBlock(), createElementBlock("svg", _hoisted_1$8, _hoisted_3$5);
 }
 const InsideUploadOutlined = { name: "UploadOutlined", render: render$4 };
-const _hoisted_1$8 = {
+const _hoisted_1$7 = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87593,10 +87593,10 @@ const _hoisted_3$4 = [
   _hoisted_2$4
 ];
 function render$3(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$8, _hoisted_3$4);
+  return openBlock(), createElementBlock("svg", _hoisted_1$7, _hoisted_3$4);
 }
 const Insidetips = { name: "tips", render: render$3 };
-const _hoisted_1$7 = {
+const _hoisted_1$6 = {
   width: "64",
   height: "41",
   class: "ant-empty-img-simple"
@@ -87606,10 +87606,10 @@ const _hoisted_3$3 = [
   _hoisted_2$3
 ];
 function render$2(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$7, _hoisted_3$3);
+  return openBlock(), createElementBlock("svg", _hoisted_1$6, _hoisted_3$3);
 }
 const InsideEmpty = { name: "empty", render: render$2 };
-const _hoisted_1$6 = {
+const _hoisted_1$5 = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87620,10 +87620,10 @@ const _hoisted_3$2 = [
   _hoisted_2$2
 ];
 function render$1(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$6, _hoisted_3$2);
+  return openBlock(), createElementBlock("svg", _hoisted_1$5, _hoisted_3$2);
 }
 const InsideCopy = { name: "copy", render: render$1 };
-const _hoisted_1$5 = {
+const _hoisted_1$4 = {
   xmlns: "http://www.w3.org/2000/svg",
   class: "icon",
   style: { "width": "1em", "height": "1em", "vertical-align": "middle", "fill": "currentColor", "overflow": "hidden" },
@@ -87637,7 +87637,7 @@ const _hoisted_3$1 = [
   _hoisted_2$1
 ];
 function render13(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$5, _hoisted_3$1);
+  return openBlock(), createElementBlock("svg", _hoisted_1$4, _hoisted_3$1);
 }
 const insideSettingOutlined = { name: "SettingOutlined", render: render13 };
 const xIcon$1 = "";
@@ -87896,7 +87896,7 @@ const xPagination = defineComponent({
     });
   }
 });
-const _sfc_main$9 = defineComponent({
+const _sfc_main$8 = defineComponent({
   name: "XDataGrid",
   components: {
     xPagination
@@ -88041,7 +88041,7 @@ const _sfc_main$9 = defineComponent({
   }
 });
 const xDataGrid_vue_vue_type_style_index_0_lang = "";
-const _sfc_main$8 = defineComponent({
+const _sfc_main$7 = defineComponent({
   name: "xColFilter",
   props: {
     configs: {
@@ -88085,7 +88085,7 @@ const _sfc_main$8 = defineComponent({
     }
   }
 });
-function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_aCheckbox = resolveComponent("aCheckbox");
   const _component_xIcon = resolveComponent("xIcon");
   const _component_aButton = resolveComponent("aButton");
@@ -88125,8 +88125,8 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const xColFilter = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
-const _sfc_main$7 = defineComponent({
+const xColFilter = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
+const _sfc_main$6 = defineComponent({
   name: "xDataGridToolbar",
   components: {
     xColFilter
@@ -88193,17 +88193,17 @@ const _sfc_main$7 = defineComponent({
     }
   }
 });
-const _hoisted_1$4 = { class: "table-options" };
+const _hoisted_1$3 = { class: "table-options" };
 const _hoisted_2 = { class: "table-option-left flex flex1" };
 const _hoisted_3 = {
   key: 0,
   class: "table-filter flex"
 };
-function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_xButton = resolveComponent("xButton");
   const _component_xGap = resolveComponent("xGap");
   const _component_xColFilter = resolveComponent("xColFilter");
-  return openBlock(), createElementBlock("div", _hoisted_1$4, [
+  return openBlock(), createElementBlock("div", _hoisted_1$3, [
     createBaseVNode("div", _hoisted_2, [
       renderSlot(_ctx.$slots, "default")
     ]),
@@ -88225,8 +88225,8 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     ])) : createCommentVNode("", true)
   ]);
 }
-const xDataGridToolbar = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
-const _sfc_main$6 = defineComponent({
+const xDataGridToolbar = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
+const _sfc_main$5 = defineComponent({
   name: "xCellLabel",
   props: {
     configs: {
@@ -88275,8 +88275,8 @@ const _sfc_main$6 = defineComponent({
     }
   }
 });
-const _hoisted_1$3 = ["title", "id"];
-function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$2 = ["title", "id"];
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: "ellipsis",
     title: _ctx.title,
@@ -88285,13 +88285,13 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     createBaseVNode("span", null, [
       renderSlot(_ctx.$slots, "default")
     ])
-  ], 8, _hoisted_1$3);
+  ], 8, _hoisted_1$2);
 }
-const xCellLabel = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
+const xCellLabel = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
 const xVirScroll_vue_vue_type_style_index_0_lang = "";
 const itemHeight = 48;
 const oneBlockHeight = 580;
-const _sfc_main$5 = defineComponent({
+const _sfc_main$4 = defineComponent({
   name: "XVirScroll",
   props: {
     configs: {
@@ -88441,12 +88441,12 @@ const _sfc_main$5 = defineComponent({
     }
   }
 });
-const _hoisted_1$2 = {
+const _hoisted_1$1 = {
   ref: "refWrapper",
   class: "wrapper vir-item-component"
 };
-function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$2, [
+function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$1, [
     createBaseVNode("div", {
       style: normalizeStyle(_ctx.styleWrapperAll)
     }, [
@@ -88492,7 +88492,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     ], 4)
   ], 512);
 }
-const xVirScroll = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
+const xVirScroll = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
 const ReadonlyItem = defineComponent({
   props: ["value"],
   render() {
@@ -89477,28 +89477,28 @@ var diffMatchPatch = { exports: {} };
     while (pointer < diffs.length - 1) {
       if (diffs[pointer - 1][0] == DIFF_EQUAL && diffs[pointer + 1][0] == DIFF_EQUAL) {
         var equality1 = diffs[pointer - 1][1];
-        var edit = diffs[pointer][1];
+        var edit2 = diffs[pointer][1];
         var equality2 = diffs[pointer + 1][1];
-        var commonOffset = this.diff_commonSuffix(equality1, edit);
+        var commonOffset = this.diff_commonSuffix(equality1, edit2);
         if (commonOffset) {
-          var commonString = edit.substring(edit.length - commonOffset);
+          var commonString = edit2.substring(edit2.length - commonOffset);
           equality1 = equality1.substring(0, equality1.length - commonOffset);
-          edit = commonString + edit.substring(0, edit.length - commonOffset);
+          edit2 = commonString + edit2.substring(0, edit2.length - commonOffset);
           equality2 = commonString + equality2;
         }
         var bestEquality1 = equality1;
-        var bestEdit = edit;
+        var bestEdit = edit2;
         var bestEquality2 = equality2;
-        var bestScore = diff_cleanupSemanticScore_(equality1, edit) + diff_cleanupSemanticScore_(edit, equality2);
-        while (edit.charAt(0) === equality2.charAt(0)) {
-          equality1 += edit.charAt(0);
-          edit = edit.substring(1) + equality2.charAt(0);
+        var bestScore = diff_cleanupSemanticScore_(equality1, edit2) + diff_cleanupSemanticScore_(edit2, equality2);
+        while (edit2.charAt(0) === equality2.charAt(0)) {
+          equality1 += edit2.charAt(0);
+          edit2 = edit2.substring(1) + equality2.charAt(0);
           equality2 = equality2.substring(1);
-          var score = diff_cleanupSemanticScore_(equality1, edit) + diff_cleanupSemanticScore_(edit, equality2);
+          var score = diff_cleanupSemanticScore_(equality1, edit2) + diff_cleanupSemanticScore_(edit2, equality2);
           if (score >= bestScore) {
             bestScore = score;
             bestEquality1 = equality1;
-            bestEdit = edit;
+            bestEdit = edit2;
             bestEquality2 = equality2;
           }
         }
@@ -91494,7 +91494,7 @@ const ESCAPES = /* @__PURE__ */ new Map([
   ["e", "\x1B"],
   ["a", "\x07"]
 ]);
-function unescape$1(c2) {
+function unescape$2(c2) {
   if (c2[0] === "u" && c2.length === 5 || c2[0] === "x" && c2.length === 3) {
     return String.fromCharCode(parseInt(c2.slice(1), 16));
   }
@@ -91508,7 +91508,7 @@ function parseArguments(name2, args) {
     if (!isNaN(chunk)) {
       results.push(Number(chunk));
     } else if (matches2 = chunk.match(STRING_REGEX)) {
-      results.push(matches2[2].replace(ESCAPE_REGEX, (m2, escape2, chr) => escape2 ? unescape$1(escape2) : chr));
+      results.push(matches2[2].replace(ESCAPE_REGEX, (m2, escape2, chr) => escape2 ? unescape$2(escape2) : chr));
     } else {
       throw new Error(`Invalid Chalk template style argument: ${chunk} (in style '${name2}')`);
     }
@@ -91558,7 +91558,7 @@ var templates = (chalk2, tmp) => {
   let chunk = [];
   tmp.replace(TEMPLATE_REGEX, (m2, escapeChar, inverse, style2, close3, chr) => {
     if (escapeChar) {
-      chunk.push(unescape$1(escapeChar));
+      chunk.push(unescape$2(escapeChar));
     } else if (style2) {
       const str = chunk.join("");
       chunk = [];
@@ -97708,7 +97708,7 @@ const componentMyUI = {
   xCharts,
   xView,
   xIcon,
-  xDataGrid: _sfc_main$9,
+  xDataGrid: _sfc_main$8,
   xDataGridToolbar,
   xColFilter,
   xPagination,
@@ -99159,7 +99159,7 @@ var pushToArray = function(arr, valueOrArray) {
 };
 var toISO = Date.prototype.toISOString;
 var defaultFormat = formats$1["default"];
-var defaults$1 = {
+var defaults$2 = {
   addQueryPrefix: false,
   allowDots: false,
   charset: "utf-8",
@@ -99214,14 +99214,14 @@ var stringify$2 = function stringify(object4, prefix, generateArrayPrefix, comma
   }
   if (obj === null) {
     if (strictNullHandling) {
-      return encoder && !encodeValuesOnly ? encoder(prefix, defaults$1.encoder, charset, "key", format5) : prefix;
+      return encoder && !encodeValuesOnly ? encoder(prefix, defaults$2.encoder, charset, "key", format5) : prefix;
     }
     obj = "";
   }
   if (isNonNullishPrimitive(obj) || utils$1.isBuffer(obj)) {
     if (encoder) {
-      var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults$1.encoder, charset, "key", format5);
-      return [formatter(keyValue) + "=" + formatter(encoder(obj, defaults$1.encoder, charset, "value", format5))];
+      var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults$2.encoder, charset, "key", format5);
+      return [formatter(keyValue) + "=" + formatter(encoder(obj, defaults$2.encoder, charset, "value", format5))];
     }
     return [formatter(prefix) + "=" + formatter(String(obj))];
   }
@@ -99275,12 +99275,12 @@ var stringify$2 = function stringify(object4, prefix, generateArrayPrefix, comma
 };
 var normalizeStringifyOptions = function normalizeStringifyOptions2(opts) {
   if (!opts) {
-    return defaults$1;
+    return defaults$2;
   }
   if (opts.encoder !== null && typeof opts.encoder !== "undefined" && typeof opts.encoder !== "function") {
     throw new TypeError("Encoder has to be a function.");
   }
-  var charset = opts.charset || defaults$1.charset;
+  var charset = opts.charset || defaults$2.charset;
   if (typeof opts.charset !== "undefined" && opts.charset !== "utf-8" && opts.charset !== "iso-8859-1") {
     throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
   }
@@ -99292,26 +99292,26 @@ var normalizeStringifyOptions = function normalizeStringifyOptions2(opts) {
     format5 = opts.format;
   }
   var formatter = formats$1.formatters[format5];
-  var filter = defaults$1.filter;
+  var filter = defaults$2.filter;
   if (typeof opts.filter === "function" || isArray$1(opts.filter)) {
     filter = opts.filter;
   }
   return {
-    addQueryPrefix: typeof opts.addQueryPrefix === "boolean" ? opts.addQueryPrefix : defaults$1.addQueryPrefix,
-    allowDots: typeof opts.allowDots === "undefined" ? defaults$1.allowDots : !!opts.allowDots,
+    addQueryPrefix: typeof opts.addQueryPrefix === "boolean" ? opts.addQueryPrefix : defaults$2.addQueryPrefix,
+    allowDots: typeof opts.allowDots === "undefined" ? defaults$2.allowDots : !!opts.allowDots,
     charset,
-    charsetSentinel: typeof opts.charsetSentinel === "boolean" ? opts.charsetSentinel : defaults$1.charsetSentinel,
-    delimiter: typeof opts.delimiter === "undefined" ? defaults$1.delimiter : opts.delimiter,
-    encode: typeof opts.encode === "boolean" ? opts.encode : defaults$1.encode,
-    encoder: typeof opts.encoder === "function" ? opts.encoder : defaults$1.encoder,
-    encodeValuesOnly: typeof opts.encodeValuesOnly === "boolean" ? opts.encodeValuesOnly : defaults$1.encodeValuesOnly,
+    charsetSentinel: typeof opts.charsetSentinel === "boolean" ? opts.charsetSentinel : defaults$2.charsetSentinel,
+    delimiter: typeof opts.delimiter === "undefined" ? defaults$2.delimiter : opts.delimiter,
+    encode: typeof opts.encode === "boolean" ? opts.encode : defaults$2.encode,
+    encoder: typeof opts.encoder === "function" ? opts.encoder : defaults$2.encoder,
+    encodeValuesOnly: typeof opts.encodeValuesOnly === "boolean" ? opts.encodeValuesOnly : defaults$2.encodeValuesOnly,
     filter,
     format: format5,
     formatter,
-    serializeDate: typeof opts.serializeDate === "function" ? opts.serializeDate : defaults$1.serializeDate,
-    skipNulls: typeof opts.skipNulls === "boolean" ? opts.skipNulls : defaults$1.skipNulls,
+    serializeDate: typeof opts.serializeDate === "function" ? opts.serializeDate : defaults$2.serializeDate,
+    skipNulls: typeof opts.skipNulls === "boolean" ? opts.skipNulls : defaults$2.skipNulls,
     sort: typeof opts.sort === "function" ? opts.sort : null,
-    strictNullHandling: typeof opts.strictNullHandling === "boolean" ? opts.strictNullHandling : defaults$1.strictNullHandling
+    strictNullHandling: typeof opts.strictNullHandling === "boolean" ? opts.strictNullHandling : defaults$2.strictNullHandling
   };
 };
 var stringify_1 = function(object4, opts) {
@@ -99388,7 +99388,7 @@ var stringify_1 = function(object4, opts) {
 var utils = utils$2;
 var has = Object.prototype.hasOwnProperty;
 var isArray = Array.isArray;
-var defaults = {
+var defaults$1 = {
   allowDots: false,
   allowPrototypes: false,
   allowSparse: false,
@@ -99449,14 +99449,14 @@ var parseValues = function parseQueryStringValues(str, options) {
     var pos2 = bracketEqualsPos === -1 ? part.indexOf("=") : bracketEqualsPos + 1;
     var key2, val;
     if (pos2 === -1) {
-      key2 = options.decoder(part, defaults.decoder, charset, "key");
+      key2 = options.decoder(part, defaults$1.decoder, charset, "key");
       val = options.strictNullHandling ? null : "";
     } else {
-      key2 = options.decoder(part.slice(0, pos2), defaults.decoder, charset, "key");
+      key2 = options.decoder(part.slice(0, pos2), defaults$1.decoder, charset, "key");
       val = utils.maybeMap(
         parseArrayValue(part.slice(pos2 + 1), options),
         function(encodedVal) {
-          return options.decoder(encodedVal, defaults.decoder, charset, "value");
+          return options.decoder(encodedVal, defaults$1.decoder, charset, "value");
         }
       );
     }
@@ -99533,7 +99533,7 @@ var parseKeys = function parseQueryStringKeys(givenKey, val, options, valuesPars
 };
 var normalizeParseOptions = function normalizeParseOptions2(opts) {
   if (!opts) {
-    return defaults;
+    return defaults$1;
   }
   if (opts.decoder !== null && opts.decoder !== void 0 && typeof opts.decoder !== "function") {
     throw new TypeError("Decoder has to be a function.");
@@ -99541,24 +99541,24 @@ var normalizeParseOptions = function normalizeParseOptions2(opts) {
   if (typeof opts.charset !== "undefined" && opts.charset !== "utf-8" && opts.charset !== "iso-8859-1") {
     throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
   }
-  var charset = typeof opts.charset === "undefined" ? defaults.charset : opts.charset;
+  var charset = typeof opts.charset === "undefined" ? defaults$1.charset : opts.charset;
   return {
-    allowDots: typeof opts.allowDots === "undefined" ? defaults.allowDots : !!opts.allowDots,
-    allowPrototypes: typeof opts.allowPrototypes === "boolean" ? opts.allowPrototypes : defaults.allowPrototypes,
-    allowSparse: typeof opts.allowSparse === "boolean" ? opts.allowSparse : defaults.allowSparse,
-    arrayLimit: typeof opts.arrayLimit === "number" ? opts.arrayLimit : defaults.arrayLimit,
+    allowDots: typeof opts.allowDots === "undefined" ? defaults$1.allowDots : !!opts.allowDots,
+    allowPrototypes: typeof opts.allowPrototypes === "boolean" ? opts.allowPrototypes : defaults$1.allowPrototypes,
+    allowSparse: typeof opts.allowSparse === "boolean" ? opts.allowSparse : defaults$1.allowSparse,
+    arrayLimit: typeof opts.arrayLimit === "number" ? opts.arrayLimit : defaults$1.arrayLimit,
     charset,
-    charsetSentinel: typeof opts.charsetSentinel === "boolean" ? opts.charsetSentinel : defaults.charsetSentinel,
-    comma: typeof opts.comma === "boolean" ? opts.comma : defaults.comma,
-    decoder: typeof opts.decoder === "function" ? opts.decoder : defaults.decoder,
-    delimiter: typeof opts.delimiter === "string" || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults.delimiter,
-    depth: typeof opts.depth === "number" || opts.depth === false ? +opts.depth : defaults.depth,
+    charsetSentinel: typeof opts.charsetSentinel === "boolean" ? opts.charsetSentinel : defaults$1.charsetSentinel,
+    comma: typeof opts.comma === "boolean" ? opts.comma : defaults$1.comma,
+    decoder: typeof opts.decoder === "function" ? opts.decoder : defaults$1.decoder,
+    delimiter: typeof opts.delimiter === "string" || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults$1.delimiter,
+    depth: typeof opts.depth === "number" || opts.depth === false ? +opts.depth : defaults$1.depth,
     ignoreQueryPrefix: opts.ignoreQueryPrefix === true,
-    interpretNumericEntities: typeof opts.interpretNumericEntities === "boolean" ? opts.interpretNumericEntities : defaults.interpretNumericEntities,
-    parameterLimit: typeof opts.parameterLimit === "number" ? opts.parameterLimit : defaults.parameterLimit,
+    interpretNumericEntities: typeof opts.interpretNumericEntities === "boolean" ? opts.interpretNumericEntities : defaults$1.interpretNumericEntities,
+    parameterLimit: typeof opts.parameterLimit === "number" ? opts.parameterLimit : defaults$1.parameterLimit,
     parseArrays: opts.parseArrays !== false,
-    plainObjects: typeof opts.plainObjects === "boolean" ? opts.plainObjects : defaults.plainObjects,
-    strictNullHandling: typeof opts.strictNullHandling === "boolean" ? opts.strictNullHandling : defaults.strictNullHandling
+    plainObjects: typeof opts.plainObjects === "boolean" ? opts.plainObjects : defaults$1.plainObjects,
+    strictNullHandling: typeof opts.strictNullHandling === "boolean" ? opts.strictNullHandling : defaults$1.strictNullHandling
   };
 };
 var parse$2 = function(str, opts) {
@@ -101312,7 +101312,7 @@ const InfoCard = defineComponent({
     }, [this.vDomTitle, this.vDomDescriptions]);
   }
 });
-const _sfc_main$4 = {
+const _sfc_main$3 = {
   methods: {
     copyText() {
       if (copyToClipboard($$1(this.$refs.contents).text())) {
@@ -101324,14 +101324,14 @@ const _sfc_main$4 = {
   }
 };
 const CopyContent_vue_vue_type_style_index_0_scoped_1b3c3d24_lang = "";
-const _hoisted_1$1 = {
+const _hoisted_1 = {
   class: "flex middle copy-content-wrapper",
   ref: "contents"
 };
-function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_xIcon = resolveComponent("xIcon");
   const _directive_uiPopover = resolveDirective("uiPopover");
-  return openBlock(), createElementBlock("span", _hoisted_1$1, [
+  return openBlock(), createElementBlock("span", _hoisted_1, [
     renderSlot(_ctx.$slots, "default", {}, void 0, true),
     withDirectives(createVNode(_component_xIcon, {
       icon: "copy",
@@ -101342,7 +101342,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 512);
 }
-const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4], ["__scopeId", "data-v-1b3c3d24"]]);
+const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__scopeId", "data-v-1b3c3d24"]]);
 const asyncGetMonaco = async () => {
   if (window.monaco) {
     return window.monaco;
@@ -101450,1154 +101450,2091 @@ const MonacoEditor = defineAsyncComponent(() => new Promise(async (resolve2) => 
     }
   }));
 }));
-const marked = function(root2) {
-  var block = {
-    newline: /^\n+/,
-    code: /^( {4}[^\n]+\n*)+/,
-    fences: /^ {0,3}(`{3,}|~{3,})([^`~\n]*)\n(?:|([\s\S]*?)\n)(?: {0,3}\1[~`]* *(?:\n+|$)|$)/,
-    hr: /^ {0,3}((?:- *){3,}|(?:_ *){3,}|(?:\* *){3,})(?:\n+|$)/,
-    heading: /^ {0,3}(#{1,6}) +([^\n]*?)(?: +#+)? *(?:\n+|$)/,
-    blockquote: /^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/,
-    list: /^( {0,3})(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/,
-    html: "^ {0,3}(?:<(script|pre|style)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?\\?>\\n*|<![A-Z][\\s\\S]*?>\\n*|<!\\[CDATA\\[[\\s\\S]*?\\]\\]>\\n*|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:\\n{2,}|$)|<(?!script|pre|style)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:\\n{2,}|$)|</(?!script|pre|style)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:\\n{2,}|$))",
-    def: /^ {0,3}\[(label)\]: *\n? *<?([^\s>]+)>?(?:(?: +\n? *| *\n *)(title))? *(?:\n+|$)/,
-    nptable: noop3,
-    table: noop3,
-    lheading: /^([^\n]+)\n {0,3}(=+|-+) *(?:\n+|$)/,
-    _paragraph: /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html)[^\n]+)*)/,
-    text: /^[^\n]+/
+function getDefaults() {
+  return {
+    async: false,
+    baseUrl: null,
+    breaks: false,
+    extensions: null,
+    gfm: true,
+    headerIds: true,
+    headerPrefix: "",
+    highlight: null,
+    hooks: null,
+    langPrefix: "language-",
+    mangle: true,
+    pedantic: false,
+    renderer: null,
+    sanitize: false,
+    sanitizer: null,
+    silent: false,
+    smartypants: false,
+    tokenizer: null,
+    walkTokens: null,
+    xhtml: false
   };
-  block._label = /(?!\s*\])(?:\\[\[\]]|[^\[\]])+/;
-  block._title = /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/;
-  block.def = edit(block.def).replace("label", block._label).replace("title", block._title).getRegex();
-  block.bullet = /(?:[*+-]|\d{1,9}\.)/;
-  block.item = /^( *)(bull) ?[^\n]*(?:\n(?!\1bull ?)[^\n]*)*/;
-  block.item = edit(block.item, "gm").replace(/bull/g, block.bullet).getRegex();
-  block.list = edit(block.list).replace(/bull/g, block.bullet).replace(
-    "hr",
-    "\\n+(?=\\1?(?:(?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$))"
-  ).replace("def", "\\n+(?=" + block.def.source + ")").getRegex();
-  block._tag = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul";
-  block._comment = /<!--(?!-?>)[\s\S]*?-->/;
-  block.html = edit(block.html, "i").replace("comment", block._comment).replace("tag", block._tag).replace(
-    "attribute",
-    / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/
-  ).getRegex();
-  block.paragraph = edit(block._paragraph).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} +").replace("|lheading", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}|~{3,})[^`\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|!--)").replace("tag", block._tag).getRegex();
-  block.blockquote = edit(block.blockquote).replace("paragraph", block.paragraph).getRegex();
-  block.normal = merge4({}, block);
-  block.gfm = merge4({}, block.normal, {
-    nptable: /^ *([^|\n ].*\|.*)\n *([-:]+ *\|[-| :]*)(?:\n((?:.*[^>\n ].*(?:\n|$))*)\n*|$)/,
-    table: /^ *\|(.+)\n *\|?( *[-:]+[-| :]*)(?:\n((?: *[^>\n ].*(?:\n|$))*)\n*|$)/
-  });
-  block.pedantic = merge4({}, block.normal, {
-    html: edit(
-      `^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`
-    ).replace("comment", block._comment).replace(
-      /tag/g,
-      "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b"
-    ).getRegex(),
-    def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,
-    heading: /^ *(#{1,6}) *([^\n]+?) *(?:#+ *)?(?:\n+|$)/,
-    fences: noop3,
-    paragraph: edit(block.normal._paragraph).replace("hr", block.hr).replace("heading", " *#{1,6} *[^\n]").replace("lheading", block.lheading).replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").getRegex()
-  });
-  function Lexer(options) {
-    this.tokens = [];
-    this.tokens.links = /* @__PURE__ */ Object.create(null);
-    this.options = options || marked2.defaults;
-    this.rules = block.normal;
-    if (this.options.pedantic) {
-      this.rules = block.pedantic;
-    } else if (this.options.gfm) {
-      this.rules = block.gfm;
+}
+let defaults = getDefaults();
+function changeDefaults(newDefaults) {
+  defaults = newDefaults;
+}
+const escapeTest = /[&<>"']/;
+const escapeReplace = new RegExp(escapeTest.source, "g");
+const escapeTestNoEncode = /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/;
+const escapeReplaceNoEncode = new RegExp(escapeTestNoEncode.source, "g");
+const escapeReplacements = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;"
+};
+const getEscapeReplacement = (ch) => escapeReplacements[ch];
+function escape$2(html2, encode3) {
+  if (encode3) {
+    if (escapeTest.test(html2)) {
+      return html2.replace(escapeReplace, getEscapeReplacement);
+    }
+  } else {
+    if (escapeTestNoEncode.test(html2)) {
+      return html2.replace(escapeReplaceNoEncode, getEscapeReplacement);
     }
   }
-  Lexer.rules = block;
-  Lexer.lex = function(src2, options) {
-    var lexer = new Lexer(options);
-    return lexer.lex(src2);
+  return html2;
+}
+const unescapeTest = /&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/gi;
+function unescape$1(html2) {
+  return html2.replace(unescapeTest, (_2, n2) => {
+    n2 = n2.toLowerCase();
+    if (n2 === "colon")
+      return ":";
+    if (n2.charAt(0) === "#") {
+      return n2.charAt(1) === "x" ? String.fromCharCode(parseInt(n2.substring(2), 16)) : String.fromCharCode(+n2.substring(1));
+    }
+    return "";
+  });
+}
+const caret = /(^|[^\[])\^/g;
+function edit(regex, opt) {
+  regex = typeof regex === "string" ? regex : regex.source;
+  opt = opt || "";
+  const obj = {
+    replace: (name2, val) => {
+      val = val.source || val;
+      val = val.replace(caret, "$1");
+      regex = regex.replace(name2, val);
+      return obj;
+    },
+    getRegex: () => {
+      return new RegExp(regex, opt);
+    }
   };
-  Lexer.prototype.lex = function(src2) {
-    src2 = src2.replace(/\r\n|\r/g, "\n").replace(/\t/g, "    ");
-    return this.token(src2, true);
+  return obj;
+}
+const nonWordAndColonTest = /[^\w:]/g;
+const originIndependentUrl = /^$|^[a-z][a-z0-9+.-]*:|^[?#]/i;
+function cleanUrl(sanitize, base2, href) {
+  if (sanitize) {
+    let prot;
+    try {
+      prot = decodeURIComponent(unescape$1(href)).replace(nonWordAndColonTest, "").toLowerCase();
+    } catch (e2) {
+      return null;
+    }
+    if (prot.indexOf("javascript:") === 0 || prot.indexOf("vbscript:") === 0 || prot.indexOf("data:") === 0) {
+      return null;
+    }
+  }
+  if (base2 && !originIndependentUrl.test(href)) {
+    href = resolveUrl(base2, href);
+  }
+  try {
+    href = encodeURI(href).replace(/%25/g, "%");
+  } catch (e2) {
+    return null;
+  }
+  return href;
+}
+const baseUrls = {};
+const justDomain = /^[^:]+:\/*[^/]*$/;
+const protocol = /^([^:]+:)[\s\S]*$/;
+const domain = /^([^:]+:\/*[^/]*)[\s\S]*$/;
+function resolveUrl(base2, href) {
+  if (!baseUrls[" " + base2]) {
+    if (justDomain.test(base2)) {
+      baseUrls[" " + base2] = base2 + "/";
+    } else {
+      baseUrls[" " + base2] = rtrim(base2, "/", true);
+    }
+  }
+  base2 = baseUrls[" " + base2];
+  const relativeBase = base2.indexOf(":") === -1;
+  if (href.substring(0, 2) === "//") {
+    if (relativeBase) {
+      return href;
+    }
+    return base2.replace(protocol, "$1") + href;
+  } else if (href.charAt(0) === "/") {
+    if (relativeBase) {
+      return href;
+    }
+    return base2.replace(domain, "$1") + href;
+  } else {
+    return base2 + href;
+  }
+}
+const noopTest = {
+  exec: function noopTest2() {
+  }
+};
+function splitCells(tableRow, count) {
+  const row = tableRow.replace(/\|/g, (match2, offset3, str) => {
+    let escaped = false, curr = offset3;
+    while (--curr >= 0 && str[curr] === "\\")
+      escaped = !escaped;
+    if (escaped) {
+      return "|";
+    } else {
+      return " |";
+    }
+  }), cells = row.split(/ \|/);
+  let i2 = 0;
+  if (!cells[0].trim()) {
+    cells.shift();
+  }
+  if (cells.length > 0 && !cells[cells.length - 1].trim()) {
+    cells.pop();
+  }
+  if (cells.length > count) {
+    cells.splice(count);
+  } else {
+    while (cells.length < count)
+      cells.push("");
+  }
+  for (; i2 < cells.length; i2++) {
+    cells[i2] = cells[i2].trim().replace(/\\\|/g, "|");
+  }
+  return cells;
+}
+function rtrim(str, c2, invert) {
+  const l2 = str.length;
+  if (l2 === 0) {
+    return "";
+  }
+  let suffLen = 0;
+  while (suffLen < l2) {
+    const currChar = str.charAt(l2 - suffLen - 1);
+    if (currChar === c2 && !invert) {
+      suffLen++;
+    } else if (currChar !== c2 && invert) {
+      suffLen++;
+    } else {
+      break;
+    }
+  }
+  return str.slice(0, l2 - suffLen);
+}
+function findClosingBracket(str, b2) {
+  if (str.indexOf(b2[1]) === -1) {
+    return -1;
+  }
+  const l2 = str.length;
+  let level = 0, i2 = 0;
+  for (; i2 < l2; i2++) {
+    if (str[i2] === "\\") {
+      i2++;
+    } else if (str[i2] === b2[0]) {
+      level++;
+    } else if (str[i2] === b2[1]) {
+      level--;
+      if (level < 0) {
+        return i2;
+      }
+    }
+  }
+  return -1;
+}
+function checkSanitizeDeprecation(opt) {
+  if (opt && opt.sanitize && !opt.silent) {
+    console.warn("marked(): sanitize and sanitizer parameters are deprecated since version 0.7.0, should not be used and will be removed in the future. Read more here: https://marked.js.org/#/USING_ADVANCED.md#options");
+  }
+}
+function repeatString(pattern4, count) {
+  if (count < 1) {
+    return "";
+  }
+  let result = "";
+  while (count > 1) {
+    if (count & 1) {
+      result += pattern4;
+    }
+    count >>= 1;
+    pattern4 += pattern4;
+  }
+  return result + pattern4;
+}
+function outputLink(cap, link2, raw, lexer) {
+  const href = link2.href;
+  const title = link2.title ? escape$2(link2.title) : null;
+  const text = cap[1].replace(/\\([\[\]])/g, "$1");
+  if (cap[0].charAt(0) !== "!") {
+    lexer.state.inLink = true;
+    const token2 = {
+      type: "link",
+      raw,
+      href,
+      title,
+      text,
+      tokens: lexer.inlineTokens(text)
+    };
+    lexer.state.inLink = false;
+    return token2;
+  }
+  return {
+    type: "image",
+    raw,
+    href,
+    title,
+    text: escape$2(text)
   };
-  Lexer.prototype.token = function(src2, top) {
-    src2 = src2.replace(/^ +$/gm, "");
-    var next2, loose, cap, bull, b2, item, listStart, listItems, t2, space, i2, tag, l2, isordered, istask, ischecked;
-    while (src2) {
-      if (cap = this.rules.newline.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        if (cap[0].length > 1) {
-          this.tokens.push({
-            type: "space"
-          });
+}
+function indentCodeCompensation(raw, text) {
+  const matchIndentToCode = raw.match(/^(\s+)(?:```)/);
+  if (matchIndentToCode === null) {
+    return text;
+  }
+  const indentToCode = matchIndentToCode[1];
+  return text.split("\n").map((node) => {
+    const matchIndentInNode = node.match(/^\s+/);
+    if (matchIndentInNode === null) {
+      return node;
+    }
+    const [indentInNode] = matchIndentInNode;
+    if (indentInNode.length >= indentToCode.length) {
+      return node.slice(indentToCode.length);
+    }
+    return node;
+  }).join("\n");
+}
+class Tokenizer {
+  constructor(options) {
+    this.options = options || defaults;
+  }
+  space(src2) {
+    const cap = this.rules.block.newline.exec(src2);
+    if (cap && cap[0].length > 0) {
+      return {
+        type: "space",
+        raw: cap[0]
+      };
+    }
+  }
+  code(src2) {
+    const cap = this.rules.block.code.exec(src2);
+    if (cap) {
+      const text = cap[0].replace(/^ {1,4}/gm, "");
+      return {
+        type: "code",
+        raw: cap[0],
+        codeBlockStyle: "indented",
+        text: !this.options.pedantic ? rtrim(text, "\n") : text
+      };
+    }
+  }
+  fences(src2) {
+    const cap = this.rules.block.fences.exec(src2);
+    if (cap) {
+      const raw = cap[0];
+      const text = indentCodeCompensation(raw, cap[3] || "");
+      return {
+        type: "code",
+        raw,
+        lang: cap[2] ? cap[2].trim().replace(this.rules.inline._escapes, "$1") : cap[2],
+        text
+      };
+    }
+  }
+  heading(src2) {
+    const cap = this.rules.block.heading.exec(src2);
+    if (cap) {
+      let text = cap[2].trim();
+      if (/#$/.test(text)) {
+        const trimmed = rtrim(text, "#");
+        if (this.options.pedantic) {
+          text = trimmed.trim();
+        } else if (!trimmed || / $/.test(trimmed)) {
+          text = trimmed.trim();
         }
       }
-      if (cap = this.rules.code.exec(src2)) {
-        var lastToken = this.tokens[this.tokens.length - 1];
-        src2 = src2.substring(cap[0].length);
-        if (lastToken && lastToken.type === "paragraph") {
-          lastToken.text += "\n" + cap[0].trimRight();
+      return {
+        type: "heading",
+        raw: cap[0],
+        depth: cap[1].length,
+        text,
+        tokens: this.lexer.inline(text)
+      };
+    }
+  }
+  hr(src2) {
+    const cap = this.rules.block.hr.exec(src2);
+    if (cap) {
+      return {
+        type: "hr",
+        raw: cap[0]
+      };
+    }
+  }
+  blockquote(src2) {
+    const cap = this.rules.block.blockquote.exec(src2);
+    if (cap) {
+      const text = cap[0].replace(/^ *>[ \t]?/gm, "");
+      const top = this.lexer.state.top;
+      this.lexer.state.top = true;
+      const tokens = this.lexer.blockTokens(text);
+      this.lexer.state.top = top;
+      return {
+        type: "blockquote",
+        raw: cap[0],
+        tokens,
+        text
+      };
+    }
+  }
+  list(src2) {
+    let cap = this.rules.block.list.exec(src2);
+    if (cap) {
+      let raw, istask, ischecked, indent, i2, blankLine, endsWithBlankLine, line2, nextLine, rawLine, itemContents, endEarly;
+      let bull = cap[1].trim();
+      const isordered = bull.length > 1;
+      const list = {
+        type: "list",
+        raw: "",
+        ordered: isordered,
+        start: isordered ? +bull.slice(0, -1) : "",
+        loose: false,
+        items: []
+      };
+      bull = isordered ? `\\d{1,9}\\${bull.slice(-1)}` : `\\${bull}`;
+      if (this.options.pedantic) {
+        bull = isordered ? bull : "[*+-]";
+      }
+      const itemRegex = new RegExp(`^( {0,3}${bull})((?:[	 ][^\\n]*)?(?:\\n|$))`);
+      while (src2) {
+        endEarly = false;
+        if (!(cap = itemRegex.exec(src2))) {
+          break;
+        }
+        if (this.rules.block.hr.test(src2)) {
+          break;
+        }
+        raw = cap[0];
+        src2 = src2.substring(raw.length);
+        line2 = cap[2].split("\n", 1)[0].replace(/^\t+/, (t2) => " ".repeat(3 * t2.length));
+        nextLine = src2.split("\n", 1)[0];
+        if (this.options.pedantic) {
+          indent = 2;
+          itemContents = line2.trimLeft();
         } else {
-          cap = cap[0].replace(/^ {4}/gm, "");
-          this.tokens.push({
-            type: "code",
-            codeBlockStyle: "indented",
-            text: !this.options.pedantic ? rtrim(cap, "\n") : cap
-          });
+          indent = cap[2].search(/[^ ]/);
+          indent = indent > 4 ? 1 : indent;
+          itemContents = line2.slice(indent);
+          indent += cap[1].length;
         }
-        continue;
-      }
-      if (cap = this.rules.fences.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        this.tokens.push({
-          type: "code",
-          lang: cap[2] ? cap[2].trim() : cap[2],
-          text: cap[3] || ""
-        });
-        continue;
-      }
-      if (cap = this.rules.heading.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        this.tokens.push({
-          type: "heading",
-          depth: cap[1].length,
-          text: cap[2]
-        });
-        continue;
-      }
-      if (cap = this.rules.nptable.exec(src2)) {
-        item = {
-          type: "table",
-          header: splitCells(cap[1].replace(/^ *| *\| *$/g, "")),
-          align: cap[2].replace(/^ *|\| *$/g, "").split(/ *\| */),
-          cells: cap[3] ? cap[3].replace(/\n$/, "").split("\n") : []
-        };
-        if (item.header.length === item.align.length) {
-          src2 = src2.substring(cap[0].length);
-          for (i2 = 0; i2 < item.align.length; i2++) {
-            if (/^ *-+: *$/.test(item.align[i2])) {
-              item.align[i2] = "right";
-            } else if (/^ *:-+: *$/.test(item.align[i2])) {
-              item.align[i2] = "center";
-            } else if (/^ *:-+ *$/.test(item.align[i2])) {
-              item.align[i2] = "left";
+        blankLine = false;
+        if (!line2 && /^ *$/.test(nextLine)) {
+          raw += nextLine + "\n";
+          src2 = src2.substring(nextLine.length + 1);
+          endEarly = true;
+        }
+        if (!endEarly) {
+          const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`);
+          const hrRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`);
+          const fencesBeginRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:\`\`\`|~~~)`);
+          const headingBeginRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}#`);
+          while (src2) {
+            rawLine = src2.split("\n", 1)[0];
+            nextLine = rawLine;
+            if (this.options.pedantic) {
+              nextLine = nextLine.replace(/^ {1,4}(?=( {4})*[^ ])/g, "  ");
+            }
+            if (fencesBeginRegex.test(nextLine)) {
+              break;
+            }
+            if (headingBeginRegex.test(nextLine)) {
+              break;
+            }
+            if (nextBulletRegex.test(nextLine)) {
+              break;
+            }
+            if (hrRegex.test(src2)) {
+              break;
+            }
+            if (nextLine.search(/[^ ]/) >= indent || !nextLine.trim()) {
+              itemContents += "\n" + nextLine.slice(indent);
             } else {
-              item.align[i2] = null;
+              if (blankLine) {
+                break;
+              }
+              if (line2.search(/[^ ]/) >= 4) {
+                break;
+              }
+              if (fencesBeginRegex.test(line2)) {
+                break;
+              }
+              if (headingBeginRegex.test(line2)) {
+                break;
+              }
+              if (hrRegex.test(line2)) {
+                break;
+              }
+              itemContents += "\n" + nextLine;
             }
+            if (!blankLine && !nextLine.trim()) {
+              blankLine = true;
+            }
+            raw += rawLine + "\n";
+            src2 = src2.substring(rawLine.length + 1);
+            line2 = nextLine.slice(indent);
           }
-          for (i2 = 0; i2 < item.cells.length; i2++) {
-            item.cells[i2] = splitCells(item.cells[i2], item.header.length);
-          }
-          this.tokens.push(item);
-          continue;
         }
-      }
-      if (cap = this.rules.hr.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        this.tokens.push({
-          type: "hr"
-        });
-        continue;
-      }
-      if (cap = this.rules.blockquote.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        this.tokens.push({
-          type: "blockquote_start"
-        });
-        cap = cap[0].replace(/^ *> ?/gm, "");
-        this.token(cap, top);
-        this.tokens.push({
-          type: "blockquote_end"
-        });
-        continue;
-      }
-      if (cap = this.rules.list.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        bull = cap[2];
-        isordered = bull.length > 1;
-        listStart = {
-          type: "list_start",
-          ordered: isordered,
-          start: isordered ? +bull : "",
-          loose: false
-        };
-        this.tokens.push(listStart);
-        cap = cap[0].match(this.rules.item);
-        listItems = [];
-        next2 = false;
-        l2 = cap.length;
-        i2 = 0;
-        for (; i2 < l2; i2++) {
-          item = cap[i2];
-          space = item.length;
-          item = item.replace(/^ *([*+-]|\d+\.) */, "");
-          if (~item.indexOf("\n ")) {
-            space -= item.length;
-            item = !this.options.pedantic ? item.replace(new RegExp("^ {1," + space + "}", "gm"), "") : item.replace(/^ {1,4}/gm, "");
+        if (!list.loose) {
+          if (endsWithBlankLine) {
+            list.loose = true;
+          } else if (/\n *\n *$/.test(raw)) {
+            endsWithBlankLine = true;
           }
-          if (i2 !== l2 - 1) {
-            b2 = block.bullet.exec(cap[i2 + 1])[0];
-            if (bull.length > 1 ? b2.length === 1 : b2.length > 1 || this.options.smartLists && b2 !== bull) {
-              src2 = cap.slice(i2 + 1).join("\n") + src2;
-              i2 = l2 - 1;
-            }
-          }
-          loose = next2 || /\n\n(?!\s*$)/.test(item);
-          if (i2 !== l2 - 1) {
-            next2 = item.charAt(item.length - 1) === "\n";
-            if (!loose)
-              loose = next2;
-          }
-          if (loose) {
-            listStart.loose = true;
-          }
-          istask = /^\[[ xX]\] /.test(item);
-          ischecked = void 0;
+        }
+        if (this.options.gfm) {
+          istask = /^\[[ xX]\] /.exec(itemContents);
           if (istask) {
-            ischecked = item[1] !== " ";
-            item = item.replace(/^\[[ xX]\] +/, "");
+            ischecked = istask[0] !== "[ ] ";
+            itemContents = itemContents.replace(/^\[[ xX]\] +/, "");
           }
-          t2 = {
-            type: "list_item_start",
-            task: istask,
-            checked: ischecked,
-            loose
+        }
+        list.items.push({
+          type: "list_item",
+          raw,
+          task: !!istask,
+          checked: ischecked,
+          loose: false,
+          text: itemContents
+        });
+        list.raw += raw;
+      }
+      list.items[list.items.length - 1].raw = raw.trimRight();
+      list.items[list.items.length - 1].text = itemContents.trimRight();
+      list.raw = list.raw.trimRight();
+      const l2 = list.items.length;
+      for (i2 = 0; i2 < l2; i2++) {
+        this.lexer.state.top = false;
+        list.items[i2].tokens = this.lexer.blockTokens(list.items[i2].text, []);
+        if (!list.loose) {
+          const spacers = list.items[i2].tokens.filter((t2) => t2.type === "space");
+          const hasMultipleLineBreaks = spacers.length > 0 && spacers.some((t2) => /\n.*\n/.test(t2.raw));
+          list.loose = hasMultipleLineBreaks;
+        }
+      }
+      if (list.loose) {
+        for (i2 = 0; i2 < l2; i2++) {
+          list.items[i2].loose = true;
+        }
+      }
+      return list;
+    }
+  }
+  html(src2) {
+    const cap = this.rules.block.html.exec(src2);
+    if (cap) {
+      const token2 = {
+        type: "html",
+        raw: cap[0],
+        pre: !this.options.sanitizer && (cap[1] === "pre" || cap[1] === "script" || cap[1] === "style"),
+        text: cap[0]
+      };
+      if (this.options.sanitize) {
+        const text = this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape$2(cap[0]);
+        token2.type = "paragraph";
+        token2.text = text;
+        token2.tokens = this.lexer.inline(text);
+      }
+      return token2;
+    }
+  }
+  def(src2) {
+    const cap = this.rules.block.def.exec(src2);
+    if (cap) {
+      const tag = cap[1].toLowerCase().replace(/\s+/g, " ");
+      const href = cap[2] ? cap[2].replace(/^<(.*)>$/, "$1").replace(this.rules.inline._escapes, "$1") : "";
+      const title = cap[3] ? cap[3].substring(1, cap[3].length - 1).replace(this.rules.inline._escapes, "$1") : cap[3];
+      return {
+        type: "def",
+        tag,
+        raw: cap[0],
+        href,
+        title
+      };
+    }
+  }
+  table(src2) {
+    const cap = this.rules.block.table.exec(src2);
+    if (cap) {
+      const item = {
+        type: "table",
+        header: splitCells(cap[1]).map((c2) => {
+          return {
+            text: c2
           };
-          listItems.push(t2);
-          this.tokens.push(t2);
-          this.token(item, false);
-          this.tokens.push({
-            type: "list_item_end"
+        }),
+        align: cap[2].replace(/^ *|\| *$/g, "").split(/ *\| */),
+        rows: cap[3] && cap[3].trim() ? cap[3].replace(/\n[ \t]*$/, "").split("\n") : []
+      };
+      if (item.header.length === item.align.length) {
+        item.raw = cap[0];
+        let l2 = item.align.length;
+        let i2, j2, k2, row;
+        for (i2 = 0; i2 < l2; i2++) {
+          if (/^ *-+: *$/.test(item.align[i2])) {
+            item.align[i2] = "right";
+          } else if (/^ *:-+: *$/.test(item.align[i2])) {
+            item.align[i2] = "center";
+          } else if (/^ *:-+ *$/.test(item.align[i2])) {
+            item.align[i2] = "left";
+          } else {
+            item.align[i2] = null;
+          }
+        }
+        l2 = item.rows.length;
+        for (i2 = 0; i2 < l2; i2++) {
+          item.rows[i2] = splitCells(item.rows[i2], item.header.length).map((c2) => {
+            return {
+              text: c2
+            };
           });
         }
-        if (listStart.loose) {
-          l2 = listItems.length;
-          i2 = 0;
-          for (; i2 < l2; i2++) {
-            listItems[i2].loose = true;
+        l2 = item.header.length;
+        for (j2 = 0; j2 < l2; j2++) {
+          item.header[j2].tokens = this.lexer.inline(item.header[j2].text);
+        }
+        l2 = item.rows.length;
+        for (j2 = 0; j2 < l2; j2++) {
+          row = item.rows[j2];
+          for (k2 = 0; k2 < row.length; k2++) {
+            row[k2].tokens = this.lexer.inline(row[k2].text);
           }
         }
-        this.tokens.push({
-          type: "list_end"
-        });
-        continue;
-      }
-      if (cap = this.rules.html.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        this.tokens.push({
-          type: this.options.sanitize ? "paragraph" : "html",
-          pre: !this.options.sanitizer && (cap[1] === "pre" || cap[1] === "script" || cap[1] === "style"),
-          text: this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape2(cap[0]) : cap[0]
-        });
-        continue;
-      }
-      if (top && (cap = this.rules.def.exec(src2))) {
-        src2 = src2.substring(cap[0].length);
-        if (cap[3])
-          cap[3] = cap[3].substring(1, cap[3].length - 1);
-        tag = cap[1].toLowerCase().replace(/\s+/g, " ");
-        if (!this.tokens.links[tag]) {
-          this.tokens.links[tag] = {
-            href: cap[2],
-            title: cap[3]
-          };
-        }
-        continue;
-      }
-      if (cap = this.rules.table.exec(src2)) {
-        item = {
-          type: "table",
-          header: splitCells(cap[1].replace(/^ *| *\| *$/g, "")),
-          align: cap[2].replace(/^ *|\| *$/g, "").split(/ *\| */),
-          cells: cap[3] ? cap[3].replace(/\n$/, "").split("\n") : []
-        };
-        if (item.header.length === item.align.length) {
-          src2 = src2.substring(cap[0].length);
-          for (i2 = 0; i2 < item.align.length; i2++) {
-            if (/^ *-+: *$/.test(item.align[i2])) {
-              item.align[i2] = "right";
-            } else if (/^ *:-+: *$/.test(item.align[i2])) {
-              item.align[i2] = "center";
-            } else if (/^ *:-+ *$/.test(item.align[i2])) {
-              item.align[i2] = "left";
-            } else {
-              item.align[i2] = null;
-            }
-          }
-          for (i2 = 0; i2 < item.cells.length; i2++) {
-            item.cells[i2] = splitCells(
-              item.cells[i2].replace(/^ *\| *| *\| *$/g, ""),
-              item.header.length
-            );
-          }
-          this.tokens.push(item);
-          continue;
-        }
-      }
-      if (cap = this.rules.lheading.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        this.tokens.push({
-          type: "heading",
-          depth: cap[2].charAt(0) === "=" ? 1 : 2,
-          text: cap[1]
-        });
-        continue;
-      }
-      if (top && (cap = this.rules.paragraph.exec(src2))) {
-        src2 = src2.substring(cap[0].length);
-        this.tokens.push({
-          type: "paragraph",
-          text: cap[1].charAt(cap[1].length - 1) === "\n" ? cap[1].slice(0, -1) : cap[1]
-        });
-        continue;
-      }
-      if (cap = this.rules.text.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        this.tokens.push({
-          type: "text",
-          text: cap[0]
-        });
-        continue;
-      }
-      if (src2) {
-        throw new Error("Infinite loop on byte: " + src2.charCodeAt(0));
-      }
-    }
-    return this.tokens;
-  };
-  var inline = {
-    escape: /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,
-    autolink: /^<(scheme:[^\s\x00-\x1f<>]*|email)>/,
-    url: noop3,
-    tag: "^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>",
-    link: /^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/,
-    reflink: /^!?\[(label)\]\[(?!\s*\])((?:\\[\[\]]?|[^\[\]\\])+)\]/,
-    nolink: /^!?\[(?!\s*\])((?:\[[^\[\]]*\]|\\[\[\]]|[^\[\]])*)\](?:\[\])?/,
-    strong: /^__([^\s_])__(?!_)|^\*\*([^\s*])\*\*(?!\*)|^__([^\s][\s\S]*?[^\s])__(?!_)|^\*\*([^\s][\s\S]*?[^\s])\*\*(?!\*)/,
-    em: /^_([^\s_])_(?!_)|^\*([^\s*<\[])\*(?!\*)|^_([^\s<][\s\S]*?[^\s_])_(?!_|[^\spunctuation])|^_([^\s_<][\s\S]*?[^\s])_(?!_|[^\spunctuation])|^\*([^\s<"][\s\S]*?[^\s\*])\*(?!\*|[^\spunctuation])|^\*([^\s*"<\[][\s\S]*?[^\s])\*(?!\*)/,
-    code: /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,
-    br: /^( {2,}|\\)\n(?!\s*$)/,
-    del: noop3,
-    text: /^(`+|[^`])(?:[\s\S]*?(?:(?=[\\<!\[`*]|\b_|$)|[^ ](?= {2,}\n))|(?= {2,}\n))/
-  };
-  inline._punctuation = `!"#$%&'()*+,\\-./:;<=>?@\\[^_{|}~`;
-  inline.em = edit(inline.em).replace(/punctuation/g, inline._punctuation).getRegex();
-  inline._escapes = /\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/g;
-  inline._scheme = /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/;
-  inline._email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/;
-  inline.autolink = edit(inline.autolink).replace("scheme", inline._scheme).replace("email", inline._email).getRegex();
-  inline._attribute = /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/;
-  inline.tag = edit(inline.tag).replace("comment", block._comment).replace("attribute", inline._attribute).getRegex();
-  inline._label = /(?:\[[^\[\]]*\]|\\.|`[^`]*`|[^\[\]\\`])*?/;
-  inline._href = /<(?:\\[<>]?|[^\s<>\\])*>|[^\s\x00-\x1f]*/;
-  inline._title = /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/;
-  inline.link = edit(inline.link).replace("label", inline._label).replace("href", inline._href).replace("title", inline._title).getRegex();
-  inline.reflink = edit(inline.reflink).replace("label", inline._label).getRegex();
-  inline.normal = merge4({}, inline);
-  inline.pedantic = merge4({}, inline.normal, {
-    strong: /^__(?=\S)([\s\S]*?\S)__(?!_)|^\*\*(?=\S)([\s\S]*?\S)\*\*(?!\*)/,
-    em: /^_(?=\S)([\s\S]*?\S)_(?!_)|^\*(?=\S)([\s\S]*?\S)\*(?!\*)/,
-    link: edit(/^!?\[(label)\]\((.*?)\)/).replace("label", inline._label).getRegex(),
-    reflink: edit(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", inline._label).getRegex()
-  });
-  inline.gfm = merge4({}, inline.normal, {
-    escape: edit(inline.escape).replace("])", "~|])").getRegex(),
-    _extended_email: /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/,
-    url: /^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,
-    _backpedal: /(?:[^?!.,:;*_~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_~)]+(?!$))+/,
-    del: /^~+(?=\S)([\s\S]*?\S)~+/,
-    text: /^(`+|[^`])(?:[\s\S]*?(?:(?=[\\<!\[`*~]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@))|(?= {2,}\n|[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@))/
-  });
-  inline.gfm.url = edit(inline.gfm.url, "i").replace("email", inline.gfm._extended_email).getRegex();
-  inline.breaks = merge4({}, inline.gfm, {
-    br: edit(inline.br).replace("{2,}", "*").getRegex(),
-    text: edit(inline.gfm.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex()
-  });
-  function InlineLexer(links, options) {
-    this.options = options || marked2.defaults;
-    this.links = links;
-    this.rules = inline.normal;
-    this.renderer = this.options.renderer || new Renderer();
-    this.renderer.options = this.options;
-    if (!this.links) {
-      throw new Error("Tokens array requires a `links` property.");
-    }
-    if (this.options.pedantic) {
-      this.rules = inline.pedantic;
-    } else if (this.options.gfm) {
-      if (this.options.breaks) {
-        this.rules = inline.breaks;
-      } else {
-        this.rules = inline.gfm;
+        return item;
       }
     }
   }
-  InlineLexer.rules = inline;
-  InlineLexer.output = function(src2, links, options) {
-    var inline2 = new InlineLexer(links, options);
-    return inline2.output(src2);
-  };
-  InlineLexer.prototype.output = function(src2) {
-    var out = "", link2, text, href, title, cap, prevCapZero;
-    while (src2) {
-      if (cap = this.rules.escape.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        out += escape2(cap[1]);
-        continue;
+  lheading(src2) {
+    const cap = this.rules.block.lheading.exec(src2);
+    if (cap) {
+      return {
+        type: "heading",
+        raw: cap[0],
+        depth: cap[2].charAt(0) === "=" ? 1 : 2,
+        text: cap[1],
+        tokens: this.lexer.inline(cap[1])
+      };
+    }
+  }
+  paragraph(src2) {
+    const cap = this.rules.block.paragraph.exec(src2);
+    if (cap) {
+      const text = cap[1].charAt(cap[1].length - 1) === "\n" ? cap[1].slice(0, -1) : cap[1];
+      return {
+        type: "paragraph",
+        raw: cap[0],
+        text,
+        tokens: this.lexer.inline(text)
+      };
+    }
+  }
+  text(src2) {
+    const cap = this.rules.block.text.exec(src2);
+    if (cap) {
+      return {
+        type: "text",
+        raw: cap[0],
+        text: cap[0],
+        tokens: this.lexer.inline(cap[0])
+      };
+    }
+  }
+  escape(src2) {
+    const cap = this.rules.inline.escape.exec(src2);
+    if (cap) {
+      return {
+        type: "escape",
+        raw: cap[0],
+        text: escape$2(cap[1])
+      };
+    }
+  }
+  tag(src2) {
+    const cap = this.rules.inline.tag.exec(src2);
+    if (cap) {
+      if (!this.lexer.state.inLink && /^<a /i.test(cap[0])) {
+        this.lexer.state.inLink = true;
+      } else if (this.lexer.state.inLink && /^<\/a>/i.test(cap[0])) {
+        this.lexer.state.inLink = false;
       }
-      if (cap = this.rules.tag.exec(src2)) {
-        if (!this.inLink && /^<a /i.test(cap[0])) {
-          this.inLink = true;
-        } else if (this.inLink && /^<\/a>/i.test(cap[0])) {
-          this.inLink = false;
-        }
-        if (!this.inRawBlock && /^<(pre|code|kbd|script)(\s|>)/i.test(cap[0])) {
-          this.inRawBlock = true;
-        } else if (this.inRawBlock && /^<\/(pre|code|kbd|script)(\s|>)/i.test(cap[0])) {
-          this.inRawBlock = false;
-        }
-        src2 = src2.substring(cap[0].length);
-        out += this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape2(cap[0]) : cap[0];
-        continue;
+      if (!this.lexer.state.inRawBlock && /^<(pre|code|kbd|script)(\s|>)/i.test(cap[0])) {
+        this.lexer.state.inRawBlock = true;
+      } else if (this.lexer.state.inRawBlock && /^<\/(pre|code|kbd|script)(\s|>)/i.test(cap[0])) {
+        this.lexer.state.inRawBlock = false;
       }
-      if (cap = this.rules.link.exec(src2)) {
-        var lastParenIndex = findClosingBracket(cap[2], "()");
+      return {
+        type: this.options.sanitize ? "text" : "html",
+        raw: cap[0],
+        inLink: this.lexer.state.inLink,
+        inRawBlock: this.lexer.state.inRawBlock,
+        text: this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape$2(cap[0]) : cap[0]
+      };
+    }
+  }
+  link(src2) {
+    const cap = this.rules.inline.link.exec(src2);
+    if (cap) {
+      const trimmedUrl = cap[2].trim();
+      if (!this.options.pedantic && /^</.test(trimmedUrl)) {
+        if (!/>$/.test(trimmedUrl)) {
+          return;
+        }
+        const rtrimSlash = rtrim(trimmedUrl.slice(0, -1), "\\");
+        if ((trimmedUrl.length - rtrimSlash.length) % 2 === 0) {
+          return;
+        }
+      } else {
+        const lastParenIndex = findClosingBracket(cap[2], "()");
         if (lastParenIndex > -1) {
-          var linkLen = 4 + cap[1].length + lastParenIndex;
+          const start = cap[0].indexOf("!") === 0 ? 5 : 4;
+          const linkLen = start + cap[1].length + lastParenIndex;
           cap[2] = cap[2].substring(0, lastParenIndex);
           cap[0] = cap[0].substring(0, linkLen).trim();
           cap[3] = "";
         }
-        src2 = src2.substring(cap[0].length);
-        this.inLink = true;
-        href = cap[2];
-        if (this.options.pedantic) {
-          link2 = /^([^'"]*[^\s])\s+(['"])(.*)\2/.exec(href);
-          if (link2) {
-            href = link2[1];
-            title = link2[3];
-          } else {
-            title = "";
-          }
-        } else {
-          title = cap[3] ? cap[3].slice(1, -1) : "";
-        }
-        href = href.trim().replace(/^<([\s\S]*)>$/, "$1");
-        out += this.outputLink(cap, {
-          href: InlineLexer.escapes(href),
-          title: InlineLexer.escapes(title)
-        });
-        this.inLink = false;
-        continue;
       }
-      if ((cap = this.rules.reflink.exec(src2)) || (cap = this.rules.nolink.exec(src2))) {
-        src2 = src2.substring(cap[0].length);
-        link2 = (cap[2] || cap[1]).replace(/\s+/g, " ");
-        link2 = this.links[link2.toLowerCase()];
-        if (!link2 || !link2.href) {
-          out += cap[0].charAt(0);
-          src2 = cap[0].substring(1) + src2;
+      let href = cap[2];
+      let title = "";
+      if (this.options.pedantic) {
+        const link2 = /^([^'"]*[^\s])\s+(['"])(.*)\2/.exec(href);
+        if (link2) {
+          href = link2[1];
+          title = link2[3];
+        }
+      } else {
+        title = cap[3] ? cap[3].slice(1, -1) : "";
+      }
+      href = href.trim();
+      if (/^</.test(href)) {
+        if (this.options.pedantic && !/>$/.test(trimmedUrl)) {
+          href = href.slice(1);
+        } else {
+          href = href.slice(1, -1);
+        }
+      }
+      return outputLink(cap, {
+        href: href ? href.replace(this.rules.inline._escapes, "$1") : href,
+        title: title ? title.replace(this.rules.inline._escapes, "$1") : title
+      }, cap[0], this.lexer);
+    }
+  }
+  reflink(src2, links) {
+    let cap;
+    if ((cap = this.rules.inline.reflink.exec(src2)) || (cap = this.rules.inline.nolink.exec(src2))) {
+      let link2 = (cap[2] || cap[1]).replace(/\s+/g, " ");
+      link2 = links[link2.toLowerCase()];
+      if (!link2) {
+        const text = cap[0].charAt(0);
+        return {
+          type: "text",
+          raw: text,
+          text
+        };
+      }
+      return outputLink(cap, link2, cap[0], this.lexer);
+    }
+  }
+  emStrong(src2, maskedSrc, prevChar = "") {
+    let match2 = this.rules.inline.emStrong.lDelim.exec(src2);
+    if (!match2)
+      return;
+    if (match2[3] && prevChar.match(/[\p{L}\p{N}]/u))
+      return;
+    const nextChar = match2[1] || match2[2] || "";
+    if (!nextChar || nextChar && (prevChar === "" || this.rules.inline.punctuation.exec(prevChar))) {
+      const lLength = match2[0].length - 1;
+      let rDelim, rLength, delimTotal = lLength, midDelimTotal = 0;
+      const endReg = match2[0][0] === "*" ? this.rules.inline.emStrong.rDelimAst : this.rules.inline.emStrong.rDelimUnd;
+      endReg.lastIndex = 0;
+      maskedSrc = maskedSrc.slice(-1 * src2.length + lLength);
+      while ((match2 = endReg.exec(maskedSrc)) != null) {
+        rDelim = match2[1] || match2[2] || match2[3] || match2[4] || match2[5] || match2[6];
+        if (!rDelim)
           continue;
-        }
-        this.inLink = true;
-        out += this.outputLink(cap, link2);
-        this.inLink = false;
-        continue;
-      }
-      if (cap = this.rules.strong.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        out += this.renderer.strong(
-          this.output(cap[4] || cap[3] || cap[2] || cap[1])
-        );
-        continue;
-      }
-      if (cap = this.rules.em.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        out += this.renderer.em(
-          this.output(cap[6] || cap[5] || cap[4] || cap[3] || cap[2] || cap[1])
-        );
-        continue;
-      }
-      if (cap = this.rules.code.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        out += this.renderer.codespan(escape2(cap[2].trim(), true));
-        continue;
-      }
-      if (cap = this.rules.br.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        out += this.renderer.br();
-        continue;
-      }
-      if (cap = this.rules.del.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        out += this.renderer.del(this.output(cap[1]));
-        continue;
-      }
-      if (cap = this.rules.autolink.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        if (cap[2] === "@") {
-          text = escape2(this.mangle(cap[1]));
-          href = "mailto:" + text;
-        } else {
-          text = escape2(cap[1]);
-          href = text;
-        }
-        out += this.renderer.link(href, null, text);
-        continue;
-      }
-      if (!this.inLink && (cap = this.rules.url.exec(src2))) {
-        if (cap[2] === "@") {
-          text = escape2(cap[0]);
-          href = "mailto:" + text;
-        } else {
-          do {
-            prevCapZero = cap[0];
-            cap[0] = this.rules._backpedal.exec(cap[0])[0];
-          } while (prevCapZero !== cap[0]);
-          text = escape2(cap[0]);
-          if (cap[1] === "www.") {
-            href = "http://" + text;
-          } else {
-            href = text;
+        rLength = rDelim.length;
+        if (match2[3] || match2[4]) {
+          delimTotal += rLength;
+          continue;
+        } else if (match2[5] || match2[6]) {
+          if (lLength % 3 && !((lLength + rLength) % 3)) {
+            midDelimTotal += rLength;
+            continue;
           }
         }
-        src2 = src2.substring(cap[0].length);
-        out += this.renderer.link(href, null, text);
+        delimTotal -= rLength;
+        if (delimTotal > 0)
+          continue;
+        rLength = Math.min(rLength, rLength + delimTotal + midDelimTotal);
+        const raw = src2.slice(0, lLength + match2.index + (match2[0].length - rDelim.length) + rLength);
+        if (Math.min(lLength, rLength) % 2) {
+          const text2 = raw.slice(1, -1);
+          return {
+            type: "em",
+            raw,
+            text: text2,
+            tokens: this.lexer.inlineTokens(text2)
+          };
+        }
+        const text = raw.slice(2, -2);
+        return {
+          type: "strong",
+          raw,
+          text,
+          tokens: this.lexer.inlineTokens(text)
+        };
+      }
+    }
+  }
+  codespan(src2) {
+    const cap = this.rules.inline.code.exec(src2);
+    if (cap) {
+      let text = cap[2].replace(/\n/g, " ");
+      const hasNonSpaceChars = /[^ ]/.test(text);
+      const hasSpaceCharsOnBothEnds = /^ /.test(text) && / $/.test(text);
+      if (hasNonSpaceChars && hasSpaceCharsOnBothEnds) {
+        text = text.substring(1, text.length - 1);
+      }
+      text = escape$2(text, true);
+      return {
+        type: "codespan",
+        raw: cap[0],
+        text
+      };
+    }
+  }
+  br(src2) {
+    const cap = this.rules.inline.br.exec(src2);
+    if (cap) {
+      return {
+        type: "br",
+        raw: cap[0]
+      };
+    }
+  }
+  del(src2) {
+    const cap = this.rules.inline.del.exec(src2);
+    if (cap) {
+      return {
+        type: "del",
+        raw: cap[0],
+        text: cap[2],
+        tokens: this.lexer.inlineTokens(cap[2])
+      };
+    }
+  }
+  autolink(src2, mangle2) {
+    const cap = this.rules.inline.autolink.exec(src2);
+    if (cap) {
+      let text, href;
+      if (cap[2] === "@") {
+        text = escape$2(this.options.mangle ? mangle2(cap[1]) : cap[1]);
+        href = "mailto:" + text;
+      } else {
+        text = escape$2(cap[1]);
+        href = text;
+      }
+      return {
+        type: "link",
+        raw: cap[0],
+        text,
+        href,
+        tokens: [{
+          type: "text",
+          raw: text,
+          text
+        }]
+      };
+    }
+  }
+  url(src2, mangle2) {
+    let cap;
+    if (cap = this.rules.inline.url.exec(src2)) {
+      let text, href;
+      if (cap[2] === "@") {
+        text = escape$2(this.options.mangle ? mangle2(cap[0]) : cap[0]);
+        href = "mailto:" + text;
+      } else {
+        let prevCapZero;
+        do {
+          prevCapZero = cap[0];
+          cap[0] = this.rules.inline._backpedal.exec(cap[0])[0];
+        } while (prevCapZero !== cap[0]);
+        text = escape$2(cap[0]);
+        if (cap[1] === "www.") {
+          href = "http://" + cap[0];
+        } else {
+          href = cap[0];
+        }
+      }
+      return {
+        type: "link",
+        raw: cap[0],
+        text,
+        href,
+        tokens: [{
+          type: "text",
+          raw: text,
+          text
+        }]
+      };
+    }
+  }
+  inlineText(src2, smartypants2) {
+    const cap = this.rules.inline.text.exec(src2);
+    if (cap) {
+      let text;
+      if (this.lexer.state.inRawBlock) {
+        text = this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape$2(cap[0]) : cap[0];
+      } else {
+        text = escape$2(this.options.smartypants ? smartypants2(cap[0]) : cap[0]);
+      }
+      return {
+        type: "text",
+        raw: cap[0],
+        text
+      };
+    }
+  }
+}
+const block = {
+  newline: /^(?: *(?:\n|$))+/,
+  code: /^( {4}[^\n]+(?:\n(?: *(?:\n|$))*)?)+/,
+  fences: /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/,
+  hr: /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/,
+  heading: /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/,
+  blockquote: /^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/,
+  list: /^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/,
+  html: "^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n *)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$))",
+  def: /^ {0,3}\[(label)\]: *(?:\n *)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n *)?| *\n *)(title))? *(?:\n+|$)/,
+  table: noopTest,
+  lheading: /^((?:.|\n(?!\n))+?)\n {0,3}(=+|-+) *(?:\n+|$)/,
+  _paragraph: /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,
+  text: /^[^\n]+/
+};
+block._label = /(?!\s*\])(?:\\.|[^\[\]\\])+/;
+block._title = /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/;
+block.def = edit(block.def).replace("label", block._label).replace("title", block._title).getRegex();
+block.bullet = /(?:[*+-]|\d{1,9}[.)])/;
+block.listItemStart = edit(/^( *)(bull) */).replace("bull", block.bullet).getRegex();
+block.list = edit(block.list).replace(/bull/g, block.bullet).replace("hr", "\\n+(?=\\1?(?:(?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$))").replace("def", "\\n+(?=" + block.def.source + ")").getRegex();
+block._tag = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul";
+block._comment = /<!--(?!-?>)[\s\S]*?(?:-->|$)/;
+block.html = edit(block.html, "i").replace("comment", block._comment).replace("tag", block._tag).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex();
+block.paragraph = edit(block._paragraph).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
+block.blockquote = edit(block.blockquote).replace("paragraph", block.paragraph).getRegex();
+block.normal = {
+  ...block
+};
+block.gfm = {
+  ...block.normal,
+  table: "^ *([^\\n ].*\\|.*)\\n {0,3}(?:\\| *)?(:?-+:? *(?:\\| *:?-+:? *)*)(?:\\| *)?(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)"
+};
+block.gfm.table = edit(block.gfm.table).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("blockquote", " {0,3}>").replace("code", " {4}[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
+block.gfm.paragraph = edit(block._paragraph).replace("hr", block.hr).replace("heading", " {0,3}#{1,6} ").replace("|lheading", "").replace("table", block.gfm.table).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", block._tag).getRegex();
+block.pedantic = {
+  ...block.normal,
+  html: edit(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", block._comment).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),
+  def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,
+  heading: /^(#{1,6})(.*)(?:\n+|$)/,
+  fences: noopTest,
+  lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,
+  paragraph: edit(block.normal._paragraph).replace("hr", block.hr).replace("heading", " *#{1,6} *[^\n]").replace("lheading", block.lheading).replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").getRegex()
+};
+const inline = {
+  escape: /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,
+  autolink: /^<(scheme:[^\s\x00-\x1f<>]*|email)>/,
+  url: noopTest,
+  tag: "^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>",
+  link: /^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/,
+  reflink: /^!?\[(label)\]\[(ref)\]/,
+  nolink: /^!?\[(ref)\](?:\[\])?/,
+  reflinkSearch: "reflink|nolink(?!\\()",
+  emStrong: {
+    lDelim: /^(?:\*+(?:([punct_])|[^\s*]))|^_+(?:([punct*])|([^\s_]))/,
+    rDelimAst: /^(?:[^_*\\]|\\.)*?\_\_(?:[^_*\\]|\\.)*?\*(?:[^_*\\]|\\.)*?(?=\_\_)|(?:[^*\\]|\\.)+(?=[^*])|[punct_](\*+)(?=[\s]|$)|(?:[^punct*_\s\\]|\\.)(\*+)(?=[punct_\s]|$)|[punct_\s](\*+)(?=[^punct*_\s])|[\s](\*+)(?=[punct_])|[punct_](\*+)(?=[punct_])|(?:[^punct*_\s\\]|\\.)(\*+)(?=[^punct*_\s])/,
+    rDelimUnd: /^(?:[^_*\\]|\\.)*?\*\*(?:[^_*\\]|\\.)*?\_(?:[^_*\\]|\\.)*?(?=\*\*)|(?:[^_\\]|\\.)+(?=[^_])|[punct*](\_+)(?=[\s]|$)|(?:[^punct*_\s\\]|\\.)(\_+)(?=[punct*\s]|$)|[punct*\s](\_+)(?=[^punct*_\s])|[\s](\_+)(?=[punct*])|[punct*](\_+)(?=[punct*])/
+  },
+  code: /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,
+  br: /^( {2,}|\\)\n(?!\s*$)/,
+  del: noopTest,
+  text: /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/,
+  punctuation: /^([\spunctuation])/
+};
+inline._punctuation = "!\"#$%&'()+\\-.,/:;<=>?@\\[\\]`^{|}~";
+inline.punctuation = edit(inline.punctuation).replace(/punctuation/g, inline._punctuation).getRegex();
+inline.blockSkip = /\[[^\]]*?\]\([^\)]*?\)|`[^`]*?`|<[^>]*?>/g;
+inline.escapedEmSt = /(?:^|[^\\])(?:\\\\)*\\[*_]/g;
+inline._comment = edit(block._comment).replace("(?:-->|$)", "-->").getRegex();
+inline.emStrong.lDelim = edit(inline.emStrong.lDelim).replace(/punct/g, inline._punctuation).getRegex();
+inline.emStrong.rDelimAst = edit(inline.emStrong.rDelimAst, "g").replace(/punct/g, inline._punctuation).getRegex();
+inline.emStrong.rDelimUnd = edit(inline.emStrong.rDelimUnd, "g").replace(/punct/g, inline._punctuation).getRegex();
+inline._escapes = /\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/g;
+inline._scheme = /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/;
+inline._email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/;
+inline.autolink = edit(inline.autolink).replace("scheme", inline._scheme).replace("email", inline._email).getRegex();
+inline._attribute = /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/;
+inline.tag = edit(inline.tag).replace("comment", inline._comment).replace("attribute", inline._attribute).getRegex();
+inline._label = /(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/;
+inline._href = /<(?:\\.|[^\n<>\\])+>|[^\s\x00-\x1f]*/;
+inline._title = /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/;
+inline.link = edit(inline.link).replace("label", inline._label).replace("href", inline._href).replace("title", inline._title).getRegex();
+inline.reflink = edit(inline.reflink).replace("label", inline._label).replace("ref", block._label).getRegex();
+inline.nolink = edit(inline.nolink).replace("ref", block._label).getRegex();
+inline.reflinkSearch = edit(inline.reflinkSearch, "g").replace("reflink", inline.reflink).replace("nolink", inline.nolink).getRegex();
+inline.normal = {
+  ...inline
+};
+inline.pedantic = {
+  ...inline.normal,
+  strong: {
+    start: /^__|\*\*/,
+    middle: /^__(?=\S)([\s\S]*?\S)__(?!_)|^\*\*(?=\S)([\s\S]*?\S)\*\*(?!\*)/,
+    endAst: /\*\*(?!\*)/g,
+    endUnd: /__(?!_)/g
+  },
+  em: {
+    start: /^_|\*/,
+    middle: /^()\*(?=\S)([\s\S]*?\S)\*(?!\*)|^_(?=\S)([\s\S]*?\S)_(?!_)/,
+    endAst: /\*(?!\*)/g,
+    endUnd: /_(?!_)/g
+  },
+  link: edit(/^!?\[(label)\]\((.*?)\)/).replace("label", inline._label).getRegex(),
+  reflink: edit(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", inline._label).getRegex()
+};
+inline.gfm = {
+  ...inline.normal,
+  escape: edit(inline.escape).replace("])", "~|])").getRegex(),
+  _extended_email: /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/,
+  url: /^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,
+  _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,
+  del: /^(~~?)(?=[^\s~])([\s\S]*?[^\s~])\1(?=[^~]|$)/,
+  text: /^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/
+};
+inline.gfm.url = edit(inline.gfm.url, "i").replace("email", inline.gfm._extended_email).getRegex();
+inline.breaks = {
+  ...inline.gfm,
+  br: edit(inline.br).replace("{2,}", "*").getRegex(),
+  text: edit(inline.gfm.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex()
+};
+function smartypants(text) {
+  return text.replace(/---/g, "\u2014").replace(/--/g, "\u2013").replace(/(^|[-\u2014/(\[{"\s])'/g, "$1\u2018").replace(/'/g, "\u2019").replace(/(^|[-\u2014/(\[{\u2018\s])"/g, "$1\u201C").replace(/"/g, "\u201D").replace(/\.{3}/g, "\u2026");
+}
+function mangle(text) {
+  let out = "", i2, ch;
+  const l2 = text.length;
+  for (i2 = 0; i2 < l2; i2++) {
+    ch = text.charCodeAt(i2);
+    if (Math.random() > 0.5) {
+      ch = "x" + ch.toString(16);
+    }
+    out += "&#" + ch + ";";
+  }
+  return out;
+}
+class Lexer {
+  constructor(options) {
+    this.tokens = [];
+    this.tokens.links = /* @__PURE__ */ Object.create(null);
+    this.options = options || defaults;
+    this.options.tokenizer = this.options.tokenizer || new Tokenizer();
+    this.tokenizer = this.options.tokenizer;
+    this.tokenizer.options = this.options;
+    this.tokenizer.lexer = this;
+    this.inlineQueue = [];
+    this.state = {
+      inLink: false,
+      inRawBlock: false,
+      top: true
+    };
+    const rules2 = {
+      block: block.normal,
+      inline: inline.normal
+    };
+    if (this.options.pedantic) {
+      rules2.block = block.pedantic;
+      rules2.inline = inline.pedantic;
+    } else if (this.options.gfm) {
+      rules2.block = block.gfm;
+      if (this.options.breaks) {
+        rules2.inline = inline.breaks;
+      } else {
+        rules2.inline = inline.gfm;
+      }
+    }
+    this.tokenizer.rules = rules2;
+  }
+  static get rules() {
+    return {
+      block,
+      inline
+    };
+  }
+  static lex(src2, options) {
+    const lexer = new Lexer(options);
+    return lexer.lex(src2);
+  }
+  static lexInline(src2, options) {
+    const lexer = new Lexer(options);
+    return lexer.inlineTokens(src2);
+  }
+  lex(src2) {
+    src2 = src2.replace(/\r\n|\r/g, "\n");
+    this.blockTokens(src2, this.tokens);
+    let next2;
+    while (next2 = this.inlineQueue.shift()) {
+      this.inlineTokens(next2.src, next2.tokens);
+    }
+    return this.tokens;
+  }
+  blockTokens(src2, tokens = []) {
+    if (this.options.pedantic) {
+      src2 = src2.replace(/\t/g, "    ").replace(/^ +$/gm, "");
+    } else {
+      src2 = src2.replace(/^( *)(\t+)/gm, (_2, leading, tabs) => {
+        return leading + "    ".repeat(tabs.length);
+      });
+    }
+    let token2, lastToken, cutSrc, lastParagraphClipped;
+    while (src2) {
+      if (this.options.extensions && this.options.extensions.block && this.options.extensions.block.some((extTokenizer) => {
+        if (token2 = extTokenizer.call({
+          lexer: this
+        }, src2, tokens)) {
+          src2 = src2.substring(token2.raw.length);
+          tokens.push(token2);
+          return true;
+        }
+        return false;
+      })) {
         continue;
       }
-      if (cap = this.rules.text.exec(src2)) {
-        src2 = src2.substring(cap[0].length);
-        if (this.inRawBlock) {
-          out += this.renderer.text(
-            this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape2(cap[0]) : cap[0]
-          );
+      if (token2 = this.tokenizer.space(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        if (token2.raw.length === 1 && tokens.length > 0) {
+          tokens[tokens.length - 1].raw += "\n";
         } else {
-          out += this.renderer.text(escape2(this.smartypants(cap[0])));
+          tokens.push(token2);
+        }
+        continue;
+      }
+      if (token2 = this.tokenizer.code(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        lastToken = tokens[tokens.length - 1];
+        if (lastToken && (lastToken.type === "paragraph" || lastToken.type === "text")) {
+          lastToken.raw += "\n" + token2.raw;
+          lastToken.text += "\n" + token2.text;
+          this.inlineQueue[this.inlineQueue.length - 1].src = lastToken.text;
+        } else {
+          tokens.push(token2);
+        }
+        continue;
+      }
+      if (token2 = this.tokenizer.fences(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.heading(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.hr(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.blockquote(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.list(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.html(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.def(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        lastToken = tokens[tokens.length - 1];
+        if (lastToken && (lastToken.type === "paragraph" || lastToken.type === "text")) {
+          lastToken.raw += "\n" + token2.raw;
+          lastToken.text += "\n" + token2.raw;
+          this.inlineQueue[this.inlineQueue.length - 1].src = lastToken.text;
+        } else if (!this.tokens.links[token2.tag]) {
+          this.tokens.links[token2.tag] = {
+            href: token2.href,
+            title: token2.title
+          };
+        }
+        continue;
+      }
+      if (token2 = this.tokenizer.table(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.lheading(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      cutSrc = src2;
+      if (this.options.extensions && this.options.extensions.startBlock) {
+        let startIndex = Infinity;
+        const tempSrc = src2.slice(1);
+        let tempStart;
+        this.options.extensions.startBlock.forEach(function(getStartIndex) {
+          tempStart = getStartIndex.call({
+            lexer: this
+          }, tempSrc);
+          if (typeof tempStart === "number" && tempStart >= 0) {
+            startIndex = Math.min(startIndex, tempStart);
+          }
+        });
+        if (startIndex < Infinity && startIndex >= 0) {
+          cutSrc = src2.substring(0, startIndex + 1);
+        }
+      }
+      if (this.state.top && (token2 = this.tokenizer.paragraph(cutSrc))) {
+        lastToken = tokens[tokens.length - 1];
+        if (lastParagraphClipped && lastToken.type === "paragraph") {
+          lastToken.raw += "\n" + token2.raw;
+          lastToken.text += "\n" + token2.text;
+          this.inlineQueue.pop();
+          this.inlineQueue[this.inlineQueue.length - 1].src = lastToken.text;
+        } else {
+          tokens.push(token2);
+        }
+        lastParagraphClipped = cutSrc.length !== src2.length;
+        src2 = src2.substring(token2.raw.length);
+        continue;
+      }
+      if (token2 = this.tokenizer.text(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        lastToken = tokens[tokens.length - 1];
+        if (lastToken && lastToken.type === "text") {
+          lastToken.raw += "\n" + token2.raw;
+          lastToken.text += "\n" + token2.text;
+          this.inlineQueue.pop();
+          this.inlineQueue[this.inlineQueue.length - 1].src = lastToken.text;
+        } else {
+          tokens.push(token2);
         }
         continue;
       }
       if (src2) {
-        throw new Error("Infinite loop on byte: " + src2.charCodeAt(0));
-      }
-    }
-    return out;
-  };
-  InlineLexer.escapes = function(text) {
-    return text ? text.replace(InlineLexer.rules._escapes, "$1") : text;
-  };
-  InlineLexer.prototype.outputLink = function(cap, link2) {
-    var href = link2.href, title = link2.title ? escape2(link2.title) : null;
-    return cap[0].charAt(0) !== "!" ? this.renderer.link(href, title, this.output(cap[1])) : this.renderer.image(href, title, escape2(cap[1]));
-  };
-  InlineLexer.prototype.smartypants = function(text) {
-    if (!this.options.smartypants)
-      return text;
-    return text.replace(/---/g, "\u2014").replace(/--/g, "\u2013").replace(/(^|[-\u2014/(\[{"\s])'/g, "$1\u2018").replace(/'/g, "\u2019").replace(/(^|[-\u2014/(\[{\u2018\s])"/g, "$1\u201C").replace(/"/g, "\u201D").replace(/\.{3}/g, "\u2026");
-  };
-  InlineLexer.prototype.mangle = function(text) {
-    if (!this.options.mangle)
-      return text;
-    var out = "", l2 = text.length, i2 = 0, ch;
-    for (; i2 < l2; i2++) {
-      ch = text.charCodeAt(i2);
-      if (Math.random() > 0.5) {
-        ch = "x" + ch.toString(16);
-      }
-      out += "&#" + ch + ";";
-    }
-    return out;
-  };
-  function Renderer(options) {
-    this.options = options || marked2.defaults;
-  }
-  Renderer.prototype.code = function(code, infostring, escaped) {
-    var lang = (infostring || "").match(/\S*/)[0];
-    if (this.options.highlight) {
-      var out = this.options.highlight(code, lang);
-      if (out != null && out !== code) {
-        escaped = true;
-        code = out;
-      }
-    }
-    if (!lang) {
-      return "<pre><code>" + (escaped ? code : escape2(code, true)) + "</code></pre>";
-    }
-    return '<pre><code class="' + marked2.options.langClass + " " + this.options.langPrefix + escape2(lang, true) + '">' + (escaped ? code : escape2(code, true)) + "</code></pre>\n";
-  };
-  Renderer.prototype.blockquote = function(quote2) {
-    return "<blockquote>\n" + quote2 + "</blockquote>\n";
-  };
-  Renderer.prototype.html = function(html2) {
-    return html2;
-  };
-  Renderer.prototype.heading = function(text, level, raw, slugger) {
-    if (this.options.headerIds) {
-      return "<h" + level + ' id="' + this.options.headerPrefix + slugger.slug(raw) + '">' + text + "</h" + level + ">\n";
-    }
-    return "<h" + level + ">" + text + "</h" + level + ">\n";
-  };
-  Renderer.prototype.hr = function() {
-    return this.options.xhtml ? "<hr/>\n" : "<hr>\n";
-  };
-  Renderer.prototype.list = function(body, ordered, start) {
-    var type4 = ordered ? "ol" : "ul", startatt = ordered && start !== 1 ? ' start="' + start + '"' : "";
-    return "<" + type4 + startatt + ">\n" + body + "</" + type4 + ">\n";
-  };
-  Renderer.prototype.listitem = function(text) {
-    return "<li>" + text + "</li>\n";
-  };
-  Renderer.prototype.checkbox = function(checked) {
-    return "<input " + (checked ? 'checked="" ' : "") + 'disabled="" type="checkbox"' + (this.options.xhtml ? " /" : "") + "> ";
-  };
-  Renderer.prototype.paragraph = function(text) {
-    return "<p>" + text + "</p>\n";
-  };
-  Renderer.prototype.table = function(header, body) {
-    if (body)
-      body = "<tbody>" + body + "</tbody>";
-    return "<table>\n<thead>\n" + header + "</thead>\n" + body + "</table>\n";
-  };
-  Renderer.prototype.tablerow = function(content) {
-    return "<tr>\n" + content + "</tr>\n";
-  };
-  Renderer.prototype.tablecell = function(content, flags) {
-    var type4 = flags.header ? "th" : "td";
-    var tag = flags.align ? "<" + type4 + ' align="' + flags.align + '">' : "<" + type4 + ">";
-    return tag + content + "</" + type4 + ">\n";
-  };
-  Renderer.prototype.strong = function(text) {
-    return "<strong>" + text + "</strong>";
-  };
-  Renderer.prototype.em = function(text) {
-    return "<em>" + text + "</em>";
-  };
-  Renderer.prototype.codespan = function(text) {
-    return "<code>" + text + "</code>";
-  };
-  Renderer.prototype.br = function() {
-    return this.options.xhtml ? "<br/>" : "<br>";
-  };
-  Renderer.prototype.del = function(text) {
-    return "<del>" + text + "</del>";
-  };
-  Renderer.prototype.link = function(href, title, text) {
-    href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
-    if (href === null) {
-      return text;
-    }
-    var regEx = new RegExp("^@@/static", "g");
-    if (regEx.test(href)) {
-      href = href.substring(3);
-    } else {
-      href = escape2(href);
-    }
-    var out = `<a class='link' href="` + href + '"';
-    if (title) {
-      out += ' title="' + title + '"';
-    }
-    out += " target='_blank'>" + text + "</a>";
-    return out;
-  };
-  Renderer.prototype.image = function(href, title, text) {
-    href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
-    if (href === null) {
-      return text;
-    }
-    var out = '<img src="' + href + '" alt="' + text + '"';
-    if (title) {
-      out += ' title="' + title + '"';
-    }
-    out += this.options.xhtml ? "/>" : ">";
-    return out;
-  };
-  Renderer.prototype.text = function(text) {
-    return text;
-  };
-  function TextRenderer() {
-  }
-  TextRenderer.prototype.strong = TextRenderer.prototype.em = TextRenderer.prototype.codespan = TextRenderer.prototype.del = TextRenderer.prototype.text = function(text) {
-    return text;
-  };
-  TextRenderer.prototype.link = TextRenderer.prototype.image = function(href, title, text) {
-    return "" + text;
-  };
-  TextRenderer.prototype.br = function() {
-    return "";
-  };
-  function Parser(options) {
-    this.tokens = [];
-    this.token = null;
-    this.options = options || marked2.defaults;
-    this.options.renderer = this.options.renderer || new Renderer();
-    this.renderer = this.options.renderer;
-    this.renderer.options = this.options;
-    this.slugger = new Slugger();
-  }
-  Parser.parse = function(src2, options) {
-    var parser = new Parser(options);
-    return parser.parse(src2);
-  };
-  Parser.prototype.parse = function(src2) {
-    this.inline = new InlineLexer(src2.links, this.options);
-    this.inlineText = new InlineLexer(
-      src2.links,
-      merge4({}, this.options, {
-        renderer: new TextRenderer()
-      })
-    );
-    this.tokens = src2.reverse();
-    var out = "";
-    while (this.next()) {
-      out += this.tok();
-    }
-    return out;
-  };
-  Parser.prototype.next = function() {
-    this.token = this.tokens.pop();
-    return this.token;
-  };
-  Parser.prototype.peek = function() {
-    return this.tokens[this.tokens.length - 1] || 0;
-  };
-  Parser.prototype.parseText = function() {
-    var body = this.token.text;
-    while (this.peek().type === "text") {
-      body += "\n" + this.next().text;
-    }
-    return this.inline.output(body);
-  };
-  Parser.prototype.tok = function() {
-    switch (this.token.type) {
-      case "space": {
-        return "";
-      }
-      case "hr": {
-        return this.renderer.hr();
-      }
-      case "heading": {
-        return this.renderer.heading(
-          this.inline.output(this.token.text),
-          this.token.depth,
-          unescape2(this.inlineText.output(this.token.text)),
-          this.slugger
-        );
-      }
-      case "code": {
-        return this.renderer.code(
-          this.token.text,
-          this.token.lang,
-          this.token.escaped
-        );
-      }
-      case "table": {
-        var header = "", body = "", i2, row, cell, j2;
-        cell = "";
-        for (i2 = 0; i2 < this.token.header.length; i2++) {
-          cell += this.renderer.tablecell(
-            this.inline.output(this.token.header[i2]),
-            {
-              header: true,
-              align: this.token.align[i2]
-            }
-          );
-        }
-        header += this.renderer.tablerow(cell);
-        for (i2 = 0; i2 < this.token.cells.length; i2++) {
-          row = this.token.cells[i2];
-          cell = "";
-          for (j2 = 0; j2 < row.length; j2++) {
-            cell += this.renderer.tablecell(this.inline.output(row[j2]), {
-              header: false,
-              align: this.token.align[j2]
-            });
-          }
-          body += this.renderer.tablerow(cell);
-        }
-        return this.renderer.table(header, body);
-      }
-      case "blockquote_start": {
-        body = "";
-        while (this.next().type !== "blockquote_end") {
-          body += this.tok();
-        }
-        return this.renderer.blockquote(body);
-      }
-      case "list_start": {
-        body = "";
-        var ordered = this.token.ordered, start = this.token.start;
-        while (this.next().type !== "list_end") {
-          body += this.tok();
-        }
-        return this.renderer.list(body, ordered, start);
-      }
-      case "list_item_start": {
-        body = "";
-        var loose = this.token.loose;
-        var checked = this.token.checked;
-        var task = this.token.task;
-        if (this.token.task) {
-          if (loose) {
-            if (this.peek().type === "text") {
-              var nextToken = this.peek();
-              nextToken.text = this.renderer.checkbox(checked) + " " + nextToken.text;
-            } else {
-              this.tokens.push({
-                type: "text",
-                text: this.renderer.checkbox(checked)
-              });
-            }
-          } else {
-            body += this.renderer.checkbox(checked);
-          }
-        }
-        while (this.next().type !== "list_item_end") {
-          body += !loose && this.token.type === "text" ? this.parseText() : this.tok();
-        }
-        return this.renderer.listitem(body, task, checked);
-      }
-      case "html": {
-        return this.renderer.html(this.token.text);
-      }
-      case "paragraph": {
-        return this.renderer.paragraph(this.inline.output(this.token.text));
-      }
-      case "text": {
-        return this.renderer.paragraph(this.parseText());
-      }
-      default: {
-        var errMsg = 'Token with "' + this.token.type + '" type was not found.';
+        const errMsg = "Infinite loop on byte: " + src2.charCodeAt(0);
         if (this.options.silent) {
-          console.log(errMsg);
+          console.error(errMsg);
+          break;
         } else {
           throw new Error(errMsg);
         }
       }
     }
-  };
-  function Slugger() {
-    this.seen = {};
+    this.state.top = true;
+    return tokens;
   }
-  Slugger.prototype.slug = function(value) {
-    var slug = value.toLowerCase().trim().replace(
-      /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g,
-      ""
-    ).replace(/\s/g, "-");
-    if (this.seen.hasOwnProperty(slug)) {
-      var originalSlug = slug;
-      do {
-        this.seen[originalSlug]++;
-        slug = originalSlug + "-" + this.seen[originalSlug];
-      } while (this.seen.hasOwnProperty(slug));
-    }
-    this.seen[slug] = 0;
-    return slug;
-  };
-  function escape2(html2, encode3) {
-    if (encode3) {
-      if (escape2.escapeTest.test(html2)) {
-        return html2.replace(escape2.escapeReplace, function(ch) {
-          return escape2.replacements[ch];
-        });
-      }
-    } else {
-      if (escape2.escapeTestNoEncode.test(html2)) {
-        return html2.replace(escape2.escapeReplaceNoEncode, function(ch) {
-          return escape2.replacements[ch];
-        });
+  inline(src2, tokens = []) {
+    this.inlineQueue.push({
+      src: src2,
+      tokens
+    });
+    return tokens;
+  }
+  inlineTokens(src2, tokens = []) {
+    let token2, lastToken, cutSrc;
+    let maskedSrc = src2;
+    let match2;
+    let keepPrevChar, prevChar;
+    if (this.tokens.links) {
+      const links = Object.keys(this.tokens.links);
+      if (links.length > 0) {
+        while ((match2 = this.tokenizer.rules.inline.reflinkSearch.exec(maskedSrc)) != null) {
+          if (links.includes(match2[0].slice(match2[0].lastIndexOf("[") + 1, -1))) {
+            maskedSrc = maskedSrc.slice(0, match2.index) + "[" + repeatString("a", match2[0].length - 2) + "]" + maskedSrc.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex);
+          }
+        }
       }
     }
+    while ((match2 = this.tokenizer.rules.inline.blockSkip.exec(maskedSrc)) != null) {
+      maskedSrc = maskedSrc.slice(0, match2.index) + "[" + repeatString("a", match2[0].length - 2) + "]" + maskedSrc.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
+    }
+    while ((match2 = this.tokenizer.rules.inline.escapedEmSt.exec(maskedSrc)) != null) {
+      maskedSrc = maskedSrc.slice(0, match2.index + match2[0].length - 2) + "++" + maskedSrc.slice(this.tokenizer.rules.inline.escapedEmSt.lastIndex);
+      this.tokenizer.rules.inline.escapedEmSt.lastIndex--;
+    }
+    while (src2) {
+      if (!keepPrevChar) {
+        prevChar = "";
+      }
+      keepPrevChar = false;
+      if (this.options.extensions && this.options.extensions.inline && this.options.extensions.inline.some((extTokenizer) => {
+        if (token2 = extTokenizer.call({
+          lexer: this
+        }, src2, tokens)) {
+          src2 = src2.substring(token2.raw.length);
+          tokens.push(token2);
+          return true;
+        }
+        return false;
+      })) {
+        continue;
+      }
+      if (token2 = this.tokenizer.escape(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.tag(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        lastToken = tokens[tokens.length - 1];
+        if (lastToken && token2.type === "text" && lastToken.type === "text") {
+          lastToken.raw += token2.raw;
+          lastToken.text += token2.text;
+        } else {
+          tokens.push(token2);
+        }
+        continue;
+      }
+      if (token2 = this.tokenizer.link(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.reflink(src2, this.tokens.links)) {
+        src2 = src2.substring(token2.raw.length);
+        lastToken = tokens[tokens.length - 1];
+        if (lastToken && token2.type === "text" && lastToken.type === "text") {
+          lastToken.raw += token2.raw;
+          lastToken.text += token2.text;
+        } else {
+          tokens.push(token2);
+        }
+        continue;
+      }
+      if (token2 = this.tokenizer.emStrong(src2, maskedSrc, prevChar)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.codespan(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.br(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.del(src2)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (token2 = this.tokenizer.autolink(src2, mangle)) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      if (!this.state.inLink && (token2 = this.tokenizer.url(src2, mangle))) {
+        src2 = src2.substring(token2.raw.length);
+        tokens.push(token2);
+        continue;
+      }
+      cutSrc = src2;
+      if (this.options.extensions && this.options.extensions.startInline) {
+        let startIndex = Infinity;
+        const tempSrc = src2.slice(1);
+        let tempStart;
+        this.options.extensions.startInline.forEach(function(getStartIndex) {
+          tempStart = getStartIndex.call({
+            lexer: this
+          }, tempSrc);
+          if (typeof tempStart === "number" && tempStart >= 0) {
+            startIndex = Math.min(startIndex, tempStart);
+          }
+        });
+        if (startIndex < Infinity && startIndex >= 0) {
+          cutSrc = src2.substring(0, startIndex + 1);
+        }
+      }
+      if (token2 = this.tokenizer.inlineText(cutSrc, smartypants)) {
+        src2 = src2.substring(token2.raw.length);
+        if (token2.raw.slice(-1) !== "_") {
+          prevChar = token2.raw.slice(-1);
+        }
+        keepPrevChar = true;
+        lastToken = tokens[tokens.length - 1];
+        if (lastToken && lastToken.type === "text") {
+          lastToken.raw += token2.raw;
+          lastToken.text += token2.text;
+        } else {
+          tokens.push(token2);
+        }
+        continue;
+      }
+      if (src2) {
+        const errMsg = "Infinite loop on byte: " + src2.charCodeAt(0);
+        if (this.options.silent) {
+          console.error(errMsg);
+          break;
+        } else {
+          throw new Error(errMsg);
+        }
+      }
+    }
+    return tokens;
+  }
+}
+class Renderer {
+  constructor(options) {
+    this.options = options || defaults;
+  }
+  code(code, infostring, escaped) {
+    const lang = (infostring || "").match(/\S*/)[0];
+    if (this.options.highlight) {
+      const out = this.options.highlight(code, lang);
+      if (out != null && out !== code) {
+        escaped = true;
+        code = out;
+      }
+    }
+    code = code.replace(/\n$/, "") + "\n";
+    if (!lang) {
+      return "<pre><code>" + (escaped ? code : escape$2(code, true)) + "</code></pre>\n";
+    }
+    return '<pre><code class="hljs ' + this.options.langPrefix + escape$2(lang) + '">' + (escaped ? code : escape$2(code, true)) + "</code></pre>\n";
+  }
+  blockquote(quote2) {
+    return `<blockquote>
+${quote2}</blockquote>
+`;
+  }
+  html(html2) {
     return html2;
   }
-  escape2.escapeTest = /[&<>"']/;
-  escape2.escapeReplace = /[&<>"']/g;
-  escape2.replacements = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+  heading(text, level, raw, slugger) {
+    if (this.options.headerIds) {
+      const id = this.options.headerPrefix + slugger.slug(raw);
+      return `<h${level} id="${id}">${text}</h${level}>
+`;
+    }
+    return `<h${level}>${text}</h${level}>
+`;
+  }
+  hr() {
+    return this.options.xhtml ? "<hr/>\n" : "<hr>\n";
+  }
+  list(body, ordered, start) {
+    const type4 = ordered ? "ol" : "ul", startatt = ordered && start !== 1 ? ' start="' + start + '"' : "";
+    return "<" + type4 + startatt + ">\n" + body + "</" + type4 + ">\n";
+  }
+  listitem(text) {
+    return `<li>${text}</li>
+`;
+  }
+  checkbox(checked) {
+    return "<input " + (checked ? 'checked="" ' : "") + 'disabled="" type="checkbox"' + (this.options.xhtml ? " /" : "") + "> ";
+  }
+  paragraph(text) {
+    return `<p>${text}</p>
+`;
+  }
+  table(header, body) {
+    if (body)
+      body = `<tbody>${body}</tbody>`;
+    return "<table>\n<thead>\n" + header + "</thead>\n" + body + "</table>\n";
+  }
+  tablerow(content) {
+    return `<tr>
+${content}</tr>
+`;
+  }
+  tablecell(content, flags) {
+    const type4 = flags.header ? "th" : "td";
+    const tag = flags.align ? `<${type4} align="${flags.align}">` : `<${type4}>`;
+    return tag + content + `</${type4}>
+`;
+  }
+  strong(text) {
+    return `<strong>${text}</strong>`;
+  }
+  em(text) {
+    return `<em>${text}</em>`;
+  }
+  codespan(text) {
+    return `<code>${text}</code>`;
+  }
+  br() {
+    return this.options.xhtml ? "<br/>" : "<br>";
+  }
+  del(text) {
+    return `<del>${text}</del>`;
+  }
+  link(href, title, text) {
+    href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
+    if (href === null) {
+      return text;
+    }
+    let out = '<a href="' + href + '"';
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += ">" + text + "</a>";
+    return out;
+  }
+  image(href, title, text) {
+    href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
+    if (href === null) {
+      return text;
+    }
+    let out = `<img src="${href}" alt="${text}"`;
+    if (title) {
+      out += ` title="${title}"`;
+    }
+    out += this.options.xhtml ? "/>" : ">";
+    return out;
+  }
+  text(text) {
+    return `<span>${text}</span>`;
+  }
+}
+class TextRenderer {
+  strong(text) {
+    return text;
+  }
+  em(text) {
+    return text;
+  }
+  codespan(text) {
+    return text;
+  }
+  del(text) {
+    return text;
+  }
+  html(text) {
+    return text;
+  }
+  text(text) {
+    return text;
+  }
+  link(href, title, text) {
+    return "" + text;
+  }
+  image(href, title, text) {
+    return "" + text;
+  }
+  br() {
+    return "";
+  }
+}
+class Slugger {
+  constructor() {
+    this.seen = {};
+  }
+  serialize(value) {
+    return value.toLowerCase().trim().replace(/<[!\/a-z].*?>/gi, "").replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g, "").replace(/\s/g, "-");
+  }
+  getNextSafeSlug(originalSlug, isDryRun) {
+    let slug = originalSlug;
+    let occurenceAccumulator = 0;
+    if (this.seen.hasOwnProperty(slug)) {
+      occurenceAccumulator = this.seen[originalSlug];
+      do {
+        occurenceAccumulator++;
+        slug = originalSlug + "-" + occurenceAccumulator;
+      } while (this.seen.hasOwnProperty(slug));
+    }
+    if (!isDryRun) {
+      this.seen[originalSlug] = occurenceAccumulator;
+      this.seen[slug] = 0;
+    }
+    return slug;
+  }
+  slug(value, options = {}) {
+    const slug = this.serialize(value);
+    return this.getNextSafeSlug(slug, options.dryrun);
+  }
+}
+class Parser {
+  constructor(options) {
+    this.options = options || defaults;
+    this.options.renderer = this.options.renderer || new Renderer();
+    this.renderer = this.options.renderer;
+    this.renderer.options = this.options;
+    this.textRenderer = new TextRenderer();
+    this.slugger = new Slugger();
+  }
+  static parse(tokens, options) {
+    const parser = new Parser(options);
+    return parser.parse(tokens);
+  }
+  static parseInline(tokens, options) {
+    const parser = new Parser(options);
+    return parser.parseInline(tokens);
+  }
+  parse(tokens, top = true) {
+    let out = "", i2, j2, k2, l2, l3, row, cell, header, body, token2, ordered, start, loose, itemBody, item, checked, task, checkbox, ret;
+    const l4 = tokens.length;
+    for (i2 = 0; i2 < l4; i2++) {
+      token2 = tokens[i2];
+      if (this.options.extensions && this.options.extensions.renderers && this.options.extensions.renderers[token2.type]) {
+        ret = this.options.extensions.renderers[token2.type].call({
+          parser: this
+        }, token2);
+        if (ret !== false || !["space", "hr", "heading", "code", "table", "blockquote", "list", "html", "paragraph", "text"].includes(token2.type)) {
+          out += ret || "";
+          continue;
+        }
+      }
+      switch (token2.type) {
+        case "space": {
+          continue;
+        }
+        case "hr": {
+          out += this.renderer.hr();
+          continue;
+        }
+        case "heading": {
+          out += this.renderer.heading(this.parseInline(token2.tokens), token2.depth, unescape$1(this.parseInline(token2.tokens, this.textRenderer)), this.slugger);
+          continue;
+        }
+        case "code": {
+          out += this.renderer.code(token2.text, token2.lang, token2.escaped);
+          continue;
+        }
+        case "table": {
+          header = "";
+          cell = "";
+          l2 = token2.header.length;
+          for (j2 = 0; j2 < l2; j2++) {
+            cell += this.renderer.tablecell(this.parseInline(token2.header[j2].tokens), {
+              header: true,
+              align: token2.align[j2]
+            });
+          }
+          header += this.renderer.tablerow(cell);
+          body = "";
+          l2 = token2.rows.length;
+          for (j2 = 0; j2 < l2; j2++) {
+            row = token2.rows[j2];
+            cell = "";
+            l3 = row.length;
+            for (k2 = 0; k2 < l3; k2++) {
+              cell += this.renderer.tablecell(this.parseInline(row[k2].tokens), {
+                header: false,
+                align: token2.align[k2]
+              });
+            }
+            body += this.renderer.tablerow(cell);
+          }
+          out += this.renderer.table(header, body);
+          continue;
+        }
+        case "blockquote": {
+          body = this.parse(token2.tokens);
+          out += this.renderer.blockquote(body);
+          continue;
+        }
+        case "list": {
+          ordered = token2.ordered;
+          start = token2.start;
+          loose = token2.loose;
+          l2 = token2.items.length;
+          body = "";
+          for (j2 = 0; j2 < l2; j2++) {
+            item = token2.items[j2];
+            checked = item.checked;
+            task = item.task;
+            itemBody = "";
+            if (item.task) {
+              checkbox = this.renderer.checkbox(checked);
+              if (loose) {
+                if (item.tokens.length > 0 && item.tokens[0].type === "paragraph") {
+                  item.tokens[0].text = checkbox + " " + item.tokens[0].text;
+                  if (item.tokens[0].tokens && item.tokens[0].tokens.length > 0 && item.tokens[0].tokens[0].type === "text") {
+                    item.tokens[0].tokens[0].text = checkbox + " " + item.tokens[0].tokens[0].text;
+                  }
+                } else {
+                  item.tokens.unshift({
+                    type: "text",
+                    text: checkbox
+                  });
+                }
+              } else {
+                itemBody += checkbox;
+              }
+            }
+            itemBody += this.parse(item.tokens, loose);
+            body += this.renderer.listitem(itemBody, task, checked);
+          }
+          out += this.renderer.list(body, ordered, start);
+          continue;
+        }
+        case "html": {
+          out += this.renderer.html(token2.text);
+          continue;
+        }
+        case "paragraph": {
+          out += this.renderer.paragraph(this.parseInline(token2.tokens));
+          continue;
+        }
+        case "text": {
+          body = token2.tokens ? this.parseInline(token2.tokens) : token2.text;
+          while (i2 + 1 < l4 && tokens[i2 + 1].type === "text") {
+            token2 = tokens[++i2];
+            body += "\n" + (token2.tokens ? this.parseInline(token2.tokens) : token2.text);
+          }
+          out += top ? this.renderer.paragraph(body) : body;
+          continue;
+        }
+        default: {
+          const errMsg = 'Token with "' + token2.type + '" type was not found.';
+          if (this.options.silent) {
+            console.error(errMsg);
+            return;
+          } else {
+            throw new Error(errMsg);
+          }
+        }
+      }
+    }
+    return out;
+  }
+  parseInline(tokens, renderer2) {
+    renderer2 = renderer2 || this.renderer;
+    let out = "", i2, token2, ret;
+    const l2 = tokens.length;
+    for (i2 = 0; i2 < l2; i2++) {
+      token2 = tokens[i2];
+      if (this.options.extensions && this.options.extensions.renderers && this.options.extensions.renderers[token2.type]) {
+        ret = this.options.extensions.renderers[token2.type].call({
+          parser: this
+        }, token2);
+        if (ret !== false || !["escape", "html", "link", "image", "strong", "em", "codespan", "br", "del", "text"].includes(token2.type)) {
+          out += ret || "";
+          continue;
+        }
+      }
+      switch (token2.type) {
+        case "escape": {
+          out += renderer2.text(token2.text);
+          break;
+        }
+        case "html": {
+          out += renderer2.html(token2.text);
+          break;
+        }
+        case "link": {
+          out += renderer2.link(token2.href, token2.title, this.parseInline(token2.tokens, renderer2));
+          break;
+        }
+        case "image": {
+          out += renderer2.image(token2.href, token2.title, token2.text);
+          break;
+        }
+        case "strong": {
+          out += renderer2.strong(this.parseInline(token2.tokens, renderer2));
+          break;
+        }
+        case "em": {
+          out += renderer2.em(this.parseInline(token2.tokens, renderer2));
+          break;
+        }
+        case "codespan": {
+          out += renderer2.codespan(token2.text);
+          break;
+        }
+        case "br": {
+          out += renderer2.br();
+          break;
+        }
+        case "del": {
+          out += renderer2.del(this.parseInline(token2.tokens, renderer2));
+          break;
+        }
+        case "text": {
+          out += renderer2.text(token2.text);
+          break;
+        }
+        default: {
+          const errMsg = 'Token with "' + token2.type + '" type was not found.';
+          if (this.options.silent) {
+            console.error(errMsg);
+            return;
+          } else {
+            throw new Error(errMsg);
+          }
+        }
+      }
+    }
+    return out;
+  }
+}
+class Hooks {
+  constructor(options) {
+    this.options = options || defaults;
+  }
+  preprocess(markdown) {
+    return markdown;
+  }
+  postprocess(html2) {
+    return html2;
+  }
+}
+__publicField(Hooks, "passThroughHooks", /* @__PURE__ */ new Set(["preprocess", "postprocess"]));
+function onError(silent, async, callback) {
+  return (e2) => {
+    e2.message += "\nPlease report this to https://github.com/markedjs/marked.";
+    if (silent) {
+      const msg = "<p>An error occurred:</p><pre>" + escape$2(e2.message + "", true) + "</pre>";
+      if (async) {
+        return Promise.resolve(msg);
+      }
+      if (callback) {
+        callback(null, msg);
+        return;
+      }
+      return msg;
+    }
+    if (async) {
+      return Promise.reject(e2);
+    }
+    if (callback) {
+      callback(e2);
+      return;
+    }
+    throw e2;
   };
-  escape2.escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/;
-  escape2.escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g;
-  function unescape2(html2) {
-    return html2.replace(
-      /&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/gi,
-      function(_2, n2) {
-        n2 = n2.toLowerCase();
-        if (n2 === "colon")
-          return ":";
-        if (n2.charAt(0) === "#") {
-          return n2.charAt(1) === "x" ? String.fromCharCode(parseInt(n2.substring(2), 16)) : String.fromCharCode(+n2.substring(1));
-        }
-        return "";
-      }
-    );
-  }
-  function edit(regex, opt) {
-    regex = regex.source || regex;
-    opt = opt || "";
-    return {
-      replace: function(name2, val) {
-        val = val.source || val;
-        val = val.replace(/(^|[^\[])\^/g, "$1");
-        regex = regex.replace(name2, val);
-        return this;
-      },
-      getRegex: function() {
-        return new RegExp(regex, opt);
-      }
+}
+function parseMarkdown(lexer, parser) {
+  return (src2, opt, callback) => {
+    if (typeof opt === "function") {
+      callback = opt;
+      opt = null;
+    }
+    const origOpt = {
+      ...opt
     };
-  }
-  function cleanUrl(sanitize, base2, href) {
-    if (sanitize) {
-      try {
-        var prot = decodeURIComponent(unescape2(href)).replace(/[^\w:]/g, "").toLowerCase();
-      } catch (e2) {
-        return null;
-      }
-      if (prot.indexOf("javascript:") === 0 || prot.indexOf("vbscript:") === 0 || prot.indexOf("data:") === 0) {
-        return null;
-      }
-    }
-    if (base2 && !originIndependentUrl.test(href)) {
-      href = resolveUrl(base2, href);
-    }
-    try {
-      href = encodeURI(href).replace(/%25/g, "%");
-    } catch (e2) {
-      return null;
-    }
-    return href;
-  }
-  function resolveUrl(base2, href) {
-    if (!baseUrls[" " + base2]) {
-      if (/^[^:]+:\/*[^/]*$/.test(base2)) {
-        baseUrls[" " + base2] = base2 + "/";
-      } else {
-        baseUrls[" " + base2] = rtrim(base2, "/", true);
-      }
-    }
-    base2 = baseUrls[" " + base2];
-    var relativeBase = base2.indexOf(":") === -1;
-    if (href.slice(0, 2) === "//") {
-      if (relativeBase) {
-        return href;
-      }
-      return base2.replace(/^([^:]+:)[\s\S]*$/, "$1") + href;
-    } else if (href.charAt(0) === "/") {
-      if (relativeBase) {
-        return href;
-      }
-      return base2.replace(/^([^:]+:\/*[^/]*)[\s\S]*$/, "$1") + href;
-    } else {
-      return base2 + href;
-    }
-  }
-  var baseUrls = {};
-  var originIndependentUrl = /^$|^[a-z][a-z0-9+.-]*:|^[?#]/i;
-  function noop3() {
-  }
-  noop3.exec = noop3;
-  function merge4(obj) {
-    var i2 = 1, target, key2;
-    for (; i2 < arguments.length; i2++) {
-      target = arguments[i2];
-      for (key2 in target) {
-        if (Object.prototype.hasOwnProperty.call(target, key2)) {
-          obj[key2] = target[key2];
-        }
-      }
-    }
-    return obj;
-  }
-  function splitCells(tableRow, count) {
-    var row = tableRow.replace(/\|/g, function(match2, offset3, str) {
-      var escaped = false, curr = offset3;
-      while (--curr >= 0 && str[curr] === "\\")
-        escaped = !escaped;
-      if (escaped) {
-        return "|";
-      } else {
-        return " |";
-      }
-    }), cells = row.split(/ \|/), i2 = 0;
-    if (cells.length > count) {
-      cells.splice(count);
-    } else {
-      while (cells.length < count)
-        cells.push("");
-    }
-    for (; i2 < cells.length; i2++) {
-      cells[i2] = cells[i2].trim().replace(/\\\|/g, "|");
-    }
-    return cells;
-  }
-  function rtrim(str, c2, invert) {
-    if (str.length === 0) {
-      return "";
-    }
-    var suffLen = 0;
-    while (suffLen < str.length) {
-      var currChar = str.charAt(str.length - suffLen - 1);
-      if (currChar === c2 && !invert) {
-        suffLen++;
-      } else if (currChar !== c2 && invert) {
-        suffLen++;
-      } else {
-        break;
-      }
-    }
-    return str.substr(0, str.length - suffLen);
-  }
-  function findClosingBracket(str, b2) {
-    if (str.indexOf(b2[1]) === -1) {
-      return -1;
-    }
-    var level = 0;
-    for (var i2 = 0; i2 < str.length; i2++) {
-      if (str[i2] === "\\") {
-        i2++;
-      } else if (str[i2] === b2[0]) {
-        level++;
-      } else if (str[i2] === b2[1]) {
-        level--;
-        if (level < 0) {
-          return i2;
-        }
-      }
-    }
-    return -1;
-  }
-  function checkSanitizeDeprecation(opt) {
-    if (opt && opt.sanitize && !opt.silent) {
-      console.warn(
-        "marked(): sanitize and sanitizer parameters are deprecated since version 0.7.0, should not be used and will be removed in the future. Read more here: https://marked.js.org/#/USING_ADVANCED.md#options"
-      );
-    }
-  }
-  function marked2(src2, opt, callback) {
+    opt = {
+      ...marked.defaults,
+      ...origOpt
+    };
+    const throwError = onError(opt.silent, opt.async, callback);
     if (typeof src2 === "undefined" || src2 === null) {
-      throw new Error("marked(): input parameter is undefined or null");
+      return throwError(new Error("marked(): input parameter is undefined or null"));
     }
     if (typeof src2 !== "string") {
-      throw new Error(
-        "marked(): input parameter is of type " + Object.prototype.toString.call(src2) + ", string expected"
-      );
+      return throwError(new Error("marked(): input parameter is of type " + Object.prototype.toString.call(src2) + ", string expected"));
     }
-    if (callback || typeof opt === "function") {
-      if (!callback) {
-        callback = opt;
-        opt = null;
-      }
-      opt = merge4({}, marked2.defaults, opt || {});
-      checkSanitizeDeprecation(opt);
-      var highlight = opt.highlight, tokens, pending, i2 = 0;
+    checkSanitizeDeprecation(opt);
+    if (opt.hooks) {
+      opt.hooks.options = opt;
+    }
+    if (callback) {
+      const highlight = opt.highlight;
+      let tokens;
       try {
-        tokens = Lexer.lex(src2, opt);
-      } catch (e2) {
-        return callback(e2);
-      }
-      pending = tokens.length;
-      var done = function(err) {
-        if (err) {
-          opt.highlight = highlight;
-          return callback(err);
+        if (opt.hooks) {
+          src2 = opt.hooks.preprocess(src2);
         }
-        var out;
-        try {
-          out = Parser.parse(tokens, opt);
-        } catch (e2) {
-          err = e2;
+        tokens = lexer(src2, opt);
+      } catch (e2) {
+        return throwError(e2);
+      }
+      const done = function(err) {
+        let out;
+        if (!err) {
+          try {
+            if (opt.walkTokens) {
+              marked.walkTokens(tokens, opt.walkTokens);
+            }
+            out = parser(tokens, opt);
+            if (opt.hooks) {
+              out = opt.hooks.postprocess(out);
+            }
+          } catch (e2) {
+            err = e2;
+          }
         }
         opt.highlight = highlight;
-        return err ? callback(err) : callback(null, out);
+        return err ? throwError(err) : callback(null, out);
       };
       if (!highlight || highlight.length < 3) {
         return done();
       }
       delete opt.highlight;
-      if (!pending)
+      if (!tokens.length)
         return done();
-      for (; i2 < tokens.length; i2++) {
-        (function(token2) {
-          if (token2.type !== "code") {
-            return --pending || done();
-          }
-          return highlight(token2.text, token2.lang, function(err, code) {
-            if (err)
-              return done(err);
-            if (code == null || code === token2.text) {
-              return --pending || done();
-            }
-            token2.text = code;
-            token2.escaped = true;
-            --pending || done();
-          });
-        })(tokens[i2]);
+      let pending = 0;
+      marked.walkTokens(tokens, function(token2) {
+        if (token2.type === "code") {
+          pending++;
+          setTimeout(() => {
+            highlight(token2.text, token2.lang, function(err, code) {
+              if (err) {
+                return done(err);
+              }
+              if (code != null && code !== token2.text) {
+                token2.text = code;
+                token2.escaped = true;
+              }
+              pending--;
+              if (pending === 0) {
+                done();
+              }
+            });
+          }, 0);
+        }
+      });
+      if (pending === 0) {
+        done();
       }
       return;
     }
+    if (opt.async) {
+      return Promise.resolve(opt.hooks ? opt.hooks.preprocess(src2) : src2).then((src3) => lexer(src3, opt)).then((tokens) => opt.walkTokens ? Promise.all(marked.walkTokens(tokens, opt.walkTokens)).then(() => tokens) : tokens).then((tokens) => parser(tokens, opt)).then((html2) => opt.hooks ? opt.hooks.postprocess(html2) : html2).catch(throwError);
+    }
     try {
-      if (opt)
-        opt = merge4({}, marked2.defaults, opt);
-      checkSanitizeDeprecation(opt);
-      return Parser.parse(Lexer.lex(src2, opt), opt);
-    } catch (e2) {
-      e2.message += "\nPlease report this to https://github.com/markedjs/marked.";
-      if ((opt || marked2.defaults).silent) {
-        return "<p>An error occurred:</p><pre>" + escape2(e2.message + "", true) + "</pre>";
+      if (opt.hooks) {
+        src2 = opt.hooks.preprocess(src2);
       }
-      throw e2;
+      const tokens = lexer(src2, opt);
+      if (opt.walkTokens) {
+        marked.walkTokens(tokens, opt.walkTokens);
+      }
+      let html2 = parser(tokens, opt);
+      if (opt.hooks) {
+        html2 = opt.hooks.postprocess(html2);
+      }
+      return html2;
+    } catch (e2) {
+      return throwError(e2);
+    }
+  };
+}
+function marked(src2, opt, callback) {
+  return parseMarkdown(Lexer.lex, Parser.parse)(src2, opt, callback);
+}
+marked.options = marked.setOptions = function(opt) {
+  marked.defaults = {
+    ...marked.defaults,
+    ...opt
+  };
+  changeDefaults(marked.defaults);
+  return marked;
+};
+marked.getDefaults = getDefaults;
+marked.defaults = defaults;
+marked.use = function(...args) {
+  const extensions = marked.defaults.extensions || {
+    renderers: {},
+    childTokens: {}
+  };
+  args.forEach((pack) => {
+    const opts = {
+      ...pack
+    };
+    opts.async = marked.defaults.async || opts.async || false;
+    if (pack.extensions) {
+      pack.extensions.forEach((ext) => {
+        if (!ext.name) {
+          throw new Error("extension name required");
+        }
+        if (ext.renderer) {
+          const prevRenderer = extensions.renderers[ext.name];
+          if (prevRenderer) {
+            extensions.renderers[ext.name] = function(...args2) {
+              let ret = ext.renderer.apply(this, args2);
+              if (ret === false) {
+                ret = prevRenderer.apply(this, args2);
+              }
+              return ret;
+            };
+          } else {
+            extensions.renderers[ext.name] = ext.renderer;
+          }
+        }
+        if (ext.tokenizer) {
+          if (!ext.level || ext.level !== "block" && ext.level !== "inline") {
+            throw new Error("extension level must be 'block' or 'inline'");
+          }
+          if (extensions[ext.level]) {
+            extensions[ext.level].unshift(ext.tokenizer);
+          } else {
+            extensions[ext.level] = [ext.tokenizer];
+          }
+          if (ext.start) {
+            if (ext.level === "block") {
+              if (extensions.startBlock) {
+                extensions.startBlock.push(ext.start);
+              } else {
+                extensions.startBlock = [ext.start];
+              }
+            } else if (ext.level === "inline") {
+              if (extensions.startInline) {
+                extensions.startInline.push(ext.start);
+              } else {
+                extensions.startInline = [ext.start];
+              }
+            }
+          }
+        }
+        if (ext.childTokens) {
+          extensions.childTokens[ext.name] = ext.childTokens;
+        }
+      });
+      opts.extensions = extensions;
+    }
+    if (pack.renderer) {
+      const renderer2 = marked.defaults.renderer || new Renderer();
+      for (const prop in pack.renderer) {
+        const prevRenderer = renderer2[prop];
+        renderer2[prop] = (...args2) => {
+          let ret = pack.renderer[prop].apply(renderer2, args2);
+          if (ret === false) {
+            ret = prevRenderer.apply(renderer2, args2);
+          }
+          return ret;
+        };
+      }
+      opts.renderer = renderer2;
+    }
+    if (pack.tokenizer) {
+      const tokenizer = marked.defaults.tokenizer || new Tokenizer();
+      for (const prop in pack.tokenizer) {
+        const prevTokenizer = tokenizer[prop];
+        tokenizer[prop] = (...args2) => {
+          let ret = pack.tokenizer[prop].apply(tokenizer, args2);
+          if (ret === false) {
+            ret = prevTokenizer.apply(tokenizer, args2);
+          }
+          return ret;
+        };
+      }
+      opts.tokenizer = tokenizer;
+    }
+    if (pack.hooks) {
+      const hooks = marked.defaults.hooks || new Hooks();
+      for (const prop in pack.hooks) {
+        const prevHook = hooks[prop];
+        if (Hooks.passThroughHooks.has(prop)) {
+          hooks[prop] = (arg) => {
+            if (marked.defaults.async) {
+              return Promise.resolve(pack.hooks[prop].call(hooks, arg)).then((ret2) => {
+                return prevHook.call(hooks, ret2);
+              });
+            }
+            const ret = pack.hooks[prop].call(hooks, arg);
+            return prevHook.call(hooks, ret);
+          };
+        } else {
+          hooks[prop] = (...args2) => {
+            let ret = pack.hooks[prop].apply(hooks, args2);
+            if (ret === false) {
+              ret = prevHook.apply(hooks, args2);
+            }
+            return ret;
+          };
+        }
+      }
+      opts.hooks = hooks;
+    }
+    if (pack.walkTokens) {
+      const walkTokens = marked.defaults.walkTokens;
+      opts.walkTokens = function(token2) {
+        let values = [];
+        values.push(pack.walkTokens.call(this, token2));
+        if (walkTokens) {
+          values = values.concat(walkTokens.call(this, token2));
+        }
+        return values;
+      };
+    }
+    marked.setOptions(opts);
+  });
+};
+marked.walkTokens = function(tokens, callback) {
+  let values = [];
+  for (const token2 of tokens) {
+    values = values.concat(callback.call(marked, token2));
+    switch (token2.type) {
+      case "table": {
+        for (const cell of token2.header) {
+          values = values.concat(marked.walkTokens(cell.tokens, callback));
+        }
+        for (const row of token2.rows) {
+          for (const cell of row) {
+            values = values.concat(marked.walkTokens(cell.tokens, callback));
+          }
+        }
+        break;
+      }
+      case "list": {
+        values = values.concat(marked.walkTokens(token2.items, callback));
+        break;
+      }
+      default: {
+        if (marked.defaults.extensions && marked.defaults.extensions.childTokens && marked.defaults.extensions.childTokens[token2.type]) {
+          marked.defaults.extensions.childTokens[token2.type].forEach(function(childTokens) {
+            values = values.concat(marked.walkTokens(token2[childTokens], callback));
+          });
+        } else if (token2.tokens) {
+          values = values.concat(marked.walkTokens(token2.tokens, callback));
+        }
+      }
     }
   }
-  marked2.options = marked2.setOptions = function(opt) {
-    merge4(marked2.defaults, opt);
-    return marked2;
-  };
-  marked2.getDefaults = function() {
-    return {
-      baseUrl: null,
-      breaks: false,
-      gfm: true,
-      headerIds: true,
-      headerPrefix: "",
-      highlight: null,
-      langPrefix: "language-",
-      mangle: true,
-      pedantic: false,
-      renderer: new Renderer(),
-      sanitize: false,
-      sanitizer: null,
-      silent: false,
-      smartLists: false,
-      smartypants: false,
-      xhtml: false
-    };
-  };
-  marked2.defaults = marked2.getDefaults();
-  marked2.Parser = Parser;
-  marked2.parser = Parser.parse;
-  marked2.Renderer = Renderer;
-  marked2.TextRenderer = TextRenderer;
-  marked2.Lexer = Lexer;
-  marked2.lexer = Lexer.lex;
-  marked2.InlineLexer = InlineLexer;
-  marked2.inlineLexer = InlineLexer.output;
-  marked2.Slugger = Slugger;
-  marked2.parse = marked2;
-  if (typeof module !== "undefined" && typeof exports === "object") {
-    module.exports = marked2;
-  } else if (typeof define === "function" && define.amd) {
-    define(function() {
-      return marked2;
-    });
-  } else {
-    root2.marked = marked2;
-  }
-  return marked2;
-}(globalThis || (typeof window !== "undefined" ? window : global));
+  return values;
+};
+marked.parseInline = parseMarkdown(Lexer.lexInline, Parser.parseInline);
+marked.Parser = Parser;
+marked.parser = Parser.parse;
+marked.Renderer = Renderer;
+marked.TextRenderer = TextRenderer;
+marked.Lexer = Lexer;
+marked.lexer = Lexer.lex;
+marked.Tokenizer = Tokenizer;
+marked.Slugger = Slugger;
+marked.Hooks = Hooks;
+marked.parse = marked;
+marked.options;
+marked.setOptions;
+marked.use;
+marked.walkTokens;
+marked.parseInline;
+Parser.parse;
+Lexer.lex;
 var hljs = function() {
   function e2(t3) {
     return t3 instanceof Map ? t3.clear = t3.delete = t3.set = () => {
@@ -108157,7 +109094,7 @@ const MkitCsslist = [
     label: "zenburn.css"
   }
 ];
-const setTheme = async (theme2) => {
+const setTheme = async (theme2 = "") => {
   theme2 = theme2 || localStorage.markdownHightlightTheme || "monokai-sublime.css";
   const cssURL = `${State_UI.assetsPath}/highlightstyles/${theme2}`;
   localStorage.markdownHightlightTheme = theme2;
@@ -108203,14 +109140,75 @@ const MkitTheme = defineComponent({
     })]), [[vModelSelect, this.theme]]);
   }
 });
-const MarkdownIt_vue_vue_type_style_index_0_lang = "";
-const _sfc_main$3 = {
+const rightArrow = `<div class="ant-image-preview-switch-right right"><span role="img" aria-label="right" class="anticon anticon-right"><svg focusable="false" class="" data-icon="right" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"></path></svg></span></div>`;
+const leftArrow = `<div class="ant-image-preview-switch-left left"><span role="img" aria-label="left" class="anticon anticon-left"><svg focusable="false" class="" data-icon="left" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896"><path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 000 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path></svg></span></div>`;
+function newImageDomString(title, text, href, index2) {
+  return `<div class="ant-image" style="max-width: 600px;" title="${title}" alt="${text}" data-ant-image-index="${index2}">
+	<img class="ant-image-img" src="${href}">
+	<div class="ant-image-mask">
+		<div class="ant-image-mask-info">
+			<span role="img" aria-label="eye" class="anticon anticon-eye">
+				<svg focusable="false" class="" data-icon="eye" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path> </svg>
+			</span>
+			\u9884\u89C8
+		</div>
+	</div>
+</div>`;
+}
+class PreprocessHTML {
+  constructor(html2) {
+    this.html = html2;
+    this.img().a().codejs();
+  }
+  img() {
+    const $html2 = $$1(this.html);
+    const imgArray = $html2.find("img");
+    xU.each(imgArray, (img, index2) => {
+      const {
+        alt,
+        src: src2
+      } = img;
+      this.html = this.html.replace(img.outerHTML, newImageDomString(alt, alt, src2, index2));
+    });
+    return this;
+  }
+  a() {
+    const $html2 = $$1(this.html);
+    const aArray = $html2.find("a");
+    xU.each(aArray, (aDom, index2) => {
+      const aDomOuterHTML = aDom.outerHTML;
+      const outerHTML = $$1(aDom).attr({
+        target: "_blank",
+        "data-markdwon-a-index": index2
+      })[0].outerHTML;
+      this.html = this.html.replace(aDomOuterHTML, outerHTML);
+    });
+    return this;
+  }
+  codejs() {
+    const $html2 = $$1(this.html);
+    const codeArray = $html2.find("code[data-language='js']");
+    xU.each(codeArray, (codeDom, index2) => {
+      const $codeDom = $$1(codeDom);
+      const codeDomOuterHTML = codeDom.outerHTML;
+      $codeDom.addClass("hljs");
+      const codeDomInnerHTML = $codeDom[0].innerHTML;
+      $codeDom[0].innerHTML = hljs.highlightAuto(codeDomInnerHTML).value;
+      this.html = this.html.replace(codeDomOuterHTML, $codeDom[0].outerHTML);
+    });
+    return this;
+  }
+}
+const MarkdownIt$1 = "";
+const MarkdownIt = defineComponent({
   props: ["md"],
   setup() {
     setTheme();
   },
   data() {
     return {
+      visible: false,
+      imgSrc: "",
       originHTML: "",
       html: "",
       configsPopoverChangeTheme: {
@@ -108222,6 +109220,9 @@ const _sfc_main$3 = {
   },
   async mounted() {
     this.init();
+  },
+  beforeUnmount() {
+    this.destoryListener();
   },
   watch: {
     md() {
@@ -108243,28 +109244,98 @@ const _sfc_main$3 = {
         }
         return "---";
       })();
-      const { Renderer } = marked;
-      marked.options = { langClass: "hljs" };
+      marked.options = {
+        langClass: "hljs"
+      };
       const renderer2 = new Renderer();
+      renderer2.image = function(href, title, text) {
+        title = title || text;
+        if (!href) {
+          return text || "";
+        }
+        return newImageDomString(title, text, href);
+      };
       this.html = marked(this.originHTML, {
         renderer: renderer2,
         highlight: (code) => hljs.highlightAuto(code).value
       });
+    },
+    setVisible(visible) {
+      this.visible = visible;
+    },
+    destoryListener() {
+      if (this.$previewer) {
+        this.$previewer.off("click");
+        this.$previewer = null;
+      }
+    },
+    showImg(imgSrc) {
+      this.imgSrc = imgSrc;
+      this.setVisible(true);
+      this.ifHasMulImageAddArrow(imgSrc);
+    },
+    ifHasMulImageAddArrow(imgSrc) {
+      const $md = $$1(this.$refs.markdown);
+      const imgList = $md.find("img");
+      if (imgList.length > 1) {
+        this.$rawImgList = imgList;
+        this.$rawImgIndex = xU.findIndex(imgList, (i2) => $$1(i2).attr("src") === imgSrc);
+        setTimeout(() => {
+          this.destoryListener();
+          this.$previewer = $$1(".ant-image-preview-body");
+          this.$previewer.on("click", "[class^=ant-image-preview-switch-]", this.handleClickPreviewSwitch);
+          this.$previewer.append(leftArrow);
+          this.$previewer.append(rightArrow);
+        }, 500);
+      }
+    },
+    handleClickPreviewSwitch({
+      currentTarget
+    }) {
+      const {
+        length
+      } = this.$rawImgList;
+      if ($$1(currentTarget).hasClass("right")) {
+        this.$rawImgIndex = (this.$rawImgIndex + 1) % length;
+      } else {
+        this.$rawImgIndex = (this.$rawImgIndex - 1 + length) % length;
+      }
+      const imgSrc = $$1(this.$rawImgList[this.$rawImgIndex]).attr("src");
+      $$1(".ant-image-preview-img").attr("src", imgSrc);
+    },
+    handleClick(event2) {
+      const {
+        target
+      } = event2;
+      const $ele = $$1(target).parents(".ant-image[data-src]");
+      if ($ele && $ele.length) {
+        this.showImg($ele.attr("data-src"));
+      }
     }
+  },
+  render({
+    visible,
+    setVisible,
+    imgSrc,
+    handleClick: handleClick2
+  }) {
+    return createVNode(Fragment, null, [withDirectives(createVNode("div", {
+      "ref": "markdown",
+      "onClick": handleClick2,
+      "class": "markdown-wrapper_description mt10",
+      "innerHTML": this.html,
+      "title": "\u53F3\u952E\u70B9\u51FB\u53EF\u4EE5\u4FEE\u6539<code/>\u5143\u7D20\u9AD8\u4EAE\u6837\u5F0F"
+    }, null), [[resolveDirective("uiPopover"), this.configsPopoverChangeTheme]]), createVNode("div", {
+      "class": "display-none"
+    }, [createVNode(resolveComponent("a-image"), {
+      "src": imgSrc,
+      "preview": {
+        visible,
+        onVisibleChange: setVisible
+      }
+    }, null)])]);
   }
-};
-const _hoisted_1 = ["innerHTML"];
-function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
-  const _directive_uiPopover = resolveDirective("uiPopover");
-  return withDirectives((openBlock(), createElementBlock("div", {
-    class: "markdown-wrapper_description mt10",
-    innerHTML: $data.html,
-    title: "\u53F3\u952E\u70B9\u51FB\u53EF\u4EE5\u4FEE\u6539<code/>\u5143\u7D20\u9AD8\u4EAE\u6837\u5F0F"
-  }, null, 8, _hoisted_1)), [
-    [_directive_uiPopover, $data.configsPopoverChangeTheme]
-  ]);
-}
-const Mkit = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
+});
 function _isSlot$5(s2) {
   return typeof s2 === "function" || Object.prototype.toString.call(s2) === "[object Object]" && !isVNode(s2);
 }
@@ -108427,7 +109498,7 @@ const appPlugins = {
       install: (app2, {
         watch: watch2
       } = {}) => {
-        app2.component("Mkit", Mkit);
+        app2.component("Mkit", MarkdownIt);
         app2.component("InfoCard", InfoCard);
         app2.component("InfoCardRow", InfoCardRow);
         app2.component("InfoCardCol", InfoCardCol);
@@ -112962,27 +114033,31 @@ export {
   defItem as a,
   BODY as a0,
   defineAsyncComponent as a1,
-  resetStateInterface as a2,
-  ProjectChildren as a3,
-  RouterView as a4,
-  Methods_ProjectInterface as a5,
-  State_ProjectInterface as a6,
-  ALL as a7,
-  DefaultInterfaceMenu as a8,
-  _$arrayChangeIndex as a9,
-  useInterfaceTableConfigs as aa,
-  VNodeCollection as ab,
-  _$handlePath as ac,
-  copyToClipboard as ad,
-  makeAhref as ae,
-  InfoCard as af,
-  xItem_ProjectGroupId as ag,
-  xItem_ProjectName as ah,
-  xItem_ProjectIcon as ai,
-  xItem_ProjectColor as aj,
-  xItem_ProjectBasePath as ak,
-  xItem_ProjectDesc as al,
-  xItem_ProjectType as am,
+  MkitTheme as a2,
+  PreprocessHTML as a3,
+  leftArrow as a4,
+  rightArrow as a5,
+  resetStateInterface as a6,
+  ProjectChildren as a7,
+  RouterView as a8,
+  Methods_ProjectInterface as a9,
+  State_ProjectInterface as aa,
+  ALL as ab,
+  DefaultInterfaceMenu as ac,
+  _$arrayChangeIndex as ad,
+  useInterfaceTableConfigs as ae,
+  VNodeCollection as af,
+  _$handlePath as ag,
+  copyToClipboard as ah,
+  makeAhref as ai,
+  InfoCard as aj,
+  xItem_ProjectGroupId as ak,
+  xItem_ProjectName as al,
+  xItem_ProjectIcon as am,
+  xItem_ProjectColor as an,
+  xItem_ProjectBasePath as ao,
+  xItem_ProjectDesc as ap,
+  xItem_ProjectType as aq,
   API as b,
   createElementBlock as c,
   defineComponent as d,

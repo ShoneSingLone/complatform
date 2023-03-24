@@ -56,4 +56,3 @@ export default defineComponent({
 	<RouterView v-else />
 	<AppFooter />
 </template>
-

@@ -86,8 +86,7 @@ export const ViewWiki = defineComponent({
 	render({ btnSave, vDomTitle }) {
 		return (
 			<section id="ViewWiki" class="flex flex1">
-				{/* onChange={() => (this.isReadonly.value = true)} */}
-				<WikiLeftSider />
+				<WikiLeftSider onChange={() => (this.isReadonly.value = true)} />
 				<main class="flex flex1 padding10 vertical paddingB20">
 					<div class="flex mb10 middle" style="height:48px;">
 						<xItem configs={this.isReadonly} />
@@ -95,13 +94,21 @@ export const ViewWiki = defineComponent({
 						<xGap f="1" />
 						<xButton configs={btnSave} />
 					</div>
-					{this.isReadonly.value ? (
+					<TuiEditor
+						v-model={this.wikiContent}
+						isReadonly={this.isReadonly.value}
+					/>
+
+					{/* {this.isReadonly.value ? (
 						<div class="flex flex1 overflow-auto border-radius elevation-1 padding20">
 							<Mkit md={this.wikiContent.md} />
 						</div>
 					) : (
-						<TuiEditor v-model={this.wikiContent} />
-					)}
+						<TuiEditor
+							v-model={this.wikiContent}
+							isReadonly={this.isReadonly.value}
+						/>
+					)} */}
 				</main>
 			</section>
 		);

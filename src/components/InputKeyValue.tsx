@@ -1,6 +1,6 @@
 import { diff } from "jsondiffpatch";
-import { FormRules, xU } from "src/devui/ui/index";
-import { State_App } from "src/state/State_App";
+import { FormRules, xU } from "@ventose/ui";
+import { State_App } from "@/state/State_App";
 import { defineComponent, toRaw, toRefs } from "vue";
 
 export function makeKeyValueObj(i: any) {

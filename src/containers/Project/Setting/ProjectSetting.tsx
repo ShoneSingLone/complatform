@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { State_App } from "@/state/State_App";
 import { Cpt_url } from "@/router/router";
-import { $t } from "@/devui/ui/State_UI";
+import { $t } from "@ventose/ui";
 import { ProjectSettingCommon } from "./ProjectSettingCommon";
 
 export const ProjectSetting = defineComponent({

@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { State_App } from "@/state/State_App";
 import { Cpt_url } from "@/router/router";
-import { $t } from "@/devui/ui/State_UI";
+import { $t } from "@ventose/ui";
 import {
 	xItem_ProjectName,
 	xItem_ProjectIcon,
@@ -10,8 +10,8 @@ import {
 	xItem_ProjectGroupId,
 	xItem_ProjectType
 } from "@/containers/Group/AddProject/DialogAddProject";
-import { defItem } from "@/devui/ui/index";
-import { xU } from "@/devui/ui/ventoseUtils";
+import { defItem } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import { xItem_ProjectBasePath } from "../../Group/AddProject/DialogAddProject";
 import {
 	openProxyEnvDialog,

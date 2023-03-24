@@ -1,4 +1,4 @@
-import { d as defineComponent, a2 as resetStateInterface, g as _State_App, C as Cpt_url, a3 as ProjectChildren, e as createVNode, r as resolveComponent, x as xU, a4 as RouterView, n as isVNode } from "./index.js";
+import { d as defineComponent, a6 as resetStateInterface, g as _State_App, C as Cpt_url, a7 as ProjectChildren, e as createVNode, r as resolveComponent, x as xU, a8 as RouterView, n as isVNode } from "./index.js";
 const ViewProject$1 = "";
 function _isSlot(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);

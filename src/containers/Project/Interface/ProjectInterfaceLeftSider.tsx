@@ -11,7 +11,7 @@ import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "@/utils/common";
-import { State_App } from "src/state/State_App";
+import { State_App } from "@/state/State_App";
 const { usefnObserveDomResize } = compositionAPI;
 
 export const ProjectInterfaceLeftSider = defineComponent({
@@ -153,12 +153,19 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											onClick={handleClickMenuItem}>
 											<xGap l="10" />
 											<xIcon icon="allCategory" />
-											<span class="x-sider-tree_menu_title">
-												{title}
-											</span>
+											<span class="x-sider-tree_menu_title">{title}</span>
 											<div class="flex middle x-sider-tree_menu_opration">
-												{genIcon({ icon: "add", tips: vm.$t("添加分类").label, clickHandler: () => vm.showUpsertCategoryDialog() })}
-												{genIcon({ icon: "refresh", tips: vm.$t("刷新").label, clickHandler: Methods_ProjectInterface.updateInterfaceMenuList })}
+												{genIcon({
+													icon: "add",
+													tips: vm.$t("添加分类").label,
+													clickHandler: () => vm.showUpsertCategoryDialog()
+												})}
+												{genIcon({
+													icon: "refresh",
+													tips: vm.$t("刷新").label,
+													clickHandler:
+														Methods_ProjectInterface.updateInterfaceMenuList
+												})}
 											</div>
 										</div>
 									);
@@ -309,7 +316,10 @@ export const ProjectInterfaceLeftSider = defineComponent({
 						await API.project.deleteInterfaceById(id);
 						UI.message.success(vm.$t("删除接口成功").label);
 						Methods_ProjectInterface.updateInterfaceMenuList();
-						vm.Cpt_url.go( "/project/interface/all", xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"]) );
+						vm.Cpt_url.go(
+							"/project/interface/all",
+							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
+						);
 					} catch (error) {
 						UI.message.error(error.message);
 					}

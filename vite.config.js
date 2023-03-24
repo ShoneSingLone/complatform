@@ -83,7 +83,7 @@ if (isBuildLibTui) {
 			formats: ["iife"],
 			entry: path.resolve(
 				__dirname,
-				"src/components/TuiEditor/tuiEditorLibs.ts"
+				"@/components/TuiEditor/tuiEditorLibs.ts"
 			),
 			name: "TuiEditor",
 			fileName: () => `tui.js`

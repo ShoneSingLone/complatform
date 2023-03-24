@@ -18,7 +18,7 @@
     "update:ui": "pnpm uninstall @ventose/ui && pnpm i @ventose/ui -S",
     "git:pull": "git pull gitee main & git pull github main",
     "git:push": "git push gitee main & git push github main",
-    "preview": "vite preview"
+    "deploy": "ghca deploy -c ./privateConfigs.js"
   },
   "dependencies": {
     "@toast-ui/editor": "^3.2.2",

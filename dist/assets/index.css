@@ -1269,6 +1269,9 @@ em {
 .border-radius {
   border-radius: 8px;
 }
+.display-none {
+  display: none;
+}
 .footer-wrapper {
   height: 192px;
   width: 100%;
@@ -31556,6 +31559,9 @@ em {
 .border-radius {
   border-radius: 8px;
 }
+.display-none {
+  display: none;
+}
 .m-container {
   margin: 0.24rem auto !important;
   padding: 0.24rem !important;
@@ -31696,6 +31702,9 @@ em {
 }
 .markdown-wrapper_description {
   position: relative;
+}
+.markdown-wrapper_description.hljs {
+  overflow-x: clip;
 }
 .markdown-wrapper_description h3 {
   font-size: 1.5em;

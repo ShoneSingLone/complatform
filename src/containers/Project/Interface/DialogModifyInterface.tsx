@@ -228,9 +228,7 @@ export const DialogModifyInterface = defineComponent({
 					itemType: "Switch"
 				}),
 				...defItem({
-					isShow() {
-						return vm.dataXItem.isProxy.value;
-					},
+					isShow: () => vm.dataXItem.isProxy.value,
 					prop: "witchEnv",
 					label: vm.$t("转发环境").label,
 					value: "",

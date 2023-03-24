@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, a6 as State_ProjectInterface, x as xU, e as createVNode, r as resolveComponent, m as Fragment, a as defItem, F as FormRules, ab as VNodeCollection, I as ITEM_OPTIONS, h as createTextVNode, D as markRaw, ac as _$handlePath, G as setValueTo, p as pickValueFrom, $ as $t, b as API, Z as HTTP_METHOD, v as validateForm, A as AllWasWell, C as Cpt_url, a5 as Methods_ProjectInterface, U as UI, n as isVNode, R as defDataGridOption, J as defCol, ad as copyToClipboard, q as $, ae as makeAhref, K as ITEM_OPTIONS_VDOM, af as InfoCard, T as MonacoEditor } from "./index.js";
+import { d as defineComponent, g as _State_App, aa as State_ProjectInterface, x as xU, e as createVNode, r as resolveComponent, m as Fragment, a as defItem, F as FormRules, af as VNodeCollection, I as ITEM_OPTIONS, h as createTextVNode, D as markRaw, ag as _$handlePath, G as setValueTo, p as pickValueFrom, $ as $t, b as API, Z as HTTP_METHOD, v as validateForm, A as AllWasWell, C as Cpt_url, a9 as Methods_ProjectInterface, U as UI, n as isVNode, R as defDataGridOption, J as defCol, ah as copyToClipboard, q as $, ai as makeAhref, K as ITEM_OPTIONS_VDOM, aj as InfoCard, T as MonacoEditor } from "./index.js";
 import { I as InpterfacePathParams, E as EnvSelectRender, R as RequestArgsRender, b as ResponseRender, M as MarkdownRender, T as TagSelectRender } from "./DialogModifyInterface.Helper.js";
 import { c as colParamsName, b as colRemark, d as colRequired, e as colValue, f as colExample, g as colType, h as asyncGetTuiEditor, T as TuiEditor, J as JsonSchemaMonaco } from "./TuiEditor.js";
 const DialogModifyInterface = defineComponent({
@@ -197,9 +197,7 @@ const DialogModifyInterface = defineComponent({
           itemType: "Switch"
         }),
         ...defItem({
-          isShow() {
-            return vm.dataXItem.isProxy.value;
-          },
+          isShow: () => vm.dataXItem.isProxy.value,
           prop: "witchEnv",
           label: vm.$t("\u8F6C\u53D1\u73AF\u5883").label,
           value: "",
