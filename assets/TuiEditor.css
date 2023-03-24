@@ -52,3 +52,14 @@
 .SchemaEditor .SchemaEditor_button {
   padding: 10px;
 }
+.toastui-editor-contents {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+}
+.toastui-editor-contents pre {
+  background-color: unset;
+}
+.toastui-editor-contents pre code {
+  background-color: unset;
+}
