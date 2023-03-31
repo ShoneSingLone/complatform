@@ -249,8 +249,11 @@ type t_result = {
 /***
  * 设置xDataGrid的列表数据和总数
  * @param StateBind
- * @param data
- * @param total
+ * @param result:{
+	total?: false | number;
+	selected?: string[] | false;
+	data: any[];
+}
  */
 export function setDataGridInfo(StateBind, result: t_result = {}) {
 	const { data = [], total = false, selected = false } = result;

@@ -4,6 +4,7 @@ import renders from "./itemRenders";
 import { checkXItem, EVENT_TYPE, TIPS_TYPE } from "../tools/validate";
 import { xU } from "../ventoseUtils";
 import { diff } from "jsondiffpatch";
+import { State_UI } from "../State_UI";
 
 const { MutatingProps } = xU;
 const domClass = {
@@ -11,6 +12,19 @@ const domClass = {
 };
 
 const devHelper = {};
+
+const WILL_DELETE = [
+								"onValidateForm",
+								"_$updateUI",
+								"once",
+								"itemTips",
+								"rules",
+								"labelVNodeRender",
+								"slots",
+								"validate",
+								/* value 用updateValue处理，该值会触发render */
+								"value"
+							];
 
 /* itemWrapperClass */
 export const xItem = defineComponent({
@@ -66,7 +80,9 @@ export const xItem = defineComponent({
 		const triggerValidate = xU.debounce(function (eventType: string) {
 			const { configs } = vm.$props;
 			/*validate的定义 搜索 MutatingProps_configs_validate */
-			configs.validate && configs.validate(eventType, vm.properties.value);
+			if (configs.validate) {
+				configs.validate({ eventType: eventType, value: vm.properties.value });
+			}
 		}, 500);
 
 		const { listeners, propsWillDeleteFromConfigs } = (() => {
@@ -96,6 +112,9 @@ export const xItem = defineComponent({
 					}
 					/* TODO: rule检测*/
 					triggerValidate(EVENT_TYPE.update);
+				},
+				onValidateForm: () => {
+					triggerValidate(EVENT_TYPE.validateForm);
 				},
 				onChange: () => {
 					triggerValidate(EVENT_TYPE.change);
@@ -356,16 +375,7 @@ export const xItem = defineComponent({
 					xU.each(originConfigs, (item, prop) => {
 						/* 用于xForm 控件，以下配置信息跟UI库控件相关，用不上，遂删除 */
 						if (
-							[
-								"_$updateUI",
-								"once",
-								"itemTips",
-								"rules",
-								"labelVNodeRender",
-								"slots",
-								/* value 用updateValue处理，该值会触发render */
-								"value"
-							].includes(prop)
+							WILL_DELETE.includes(prop)
 						) {
 							return;
 						}
@@ -388,9 +398,11 @@ export const xItem = defineComponent({
 		if (this.configs?.once) {
 			this.configs.once.call(this.configs, this);
 		}
+		State_UI.xItemCollection[this.FormItemId] = this;
 	},
 	beforeUnmount() {
 		delete devHelper[this._.uid];
+		delete State_UI.xItemCollection[this.FormItemId];
 	},
 	methods: {
 		async updateValueSync() {
@@ -449,7 +461,7 @@ export const xItem = defineComponent({
 				};
 				const debounceCheckXItem = xU.debounce(checkXItem, 300);
 
-				const fnConfigsValidate = (eventType: any, value: any) => {
+				const fnConfigsValidate = ({ eventType, value, resolve }) => {
 					/* 短时间内，多个事件触发同一校验，使用队列，只执行一次 */
 					const prop = `configs.validate.triggerEventsObj.${eventType}`;
 					MutatingProps(this, prop, true);
@@ -457,12 +469,12 @@ export const xItem = defineComponent({
 					debounceCheckXItem({
 						FormItemId: this.FormItemId,
 						xItemConfigs: this.configs,
-						fnCheckedCallback,
+						value,
 						/* 异步回调 */
-						value
+						fnCheckedCallback,
+						resolve
 					});
 				};
-
 				/* 如果有检验规则，添加可执行校验方法  MutatingProps_configs_validate */
 				MutatingProps(this, "configs.validate", fnConfigsValidate);
 				/* init */

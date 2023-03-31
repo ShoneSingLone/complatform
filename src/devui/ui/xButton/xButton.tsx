@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import { defineComponent, computed } from "vue";
+import { defineComponent } from "vue";
 import { xU } from "../ventoseUtils";
 import { $t } from "../State_UI";
 

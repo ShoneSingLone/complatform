@@ -1,11 +1,13 @@
-import { xU } from "../ventoseUtils";
 //@ts-ignore
 import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
+import { isInput } from "../ventoseUtils";
+/*循环依赖问题，直接使用lodash*/
+import _ from "lodash";
 /* keys().then((keys) => console.log(keys)); */
 
 export const lStorage = new Proxy(localStorage, {
 	set(_localStorage, prop: string, value) {
-		if (xU.isPlainObject(value)) {
+		if (_.isPlainObject(value)) {
 			_localStorage[prop] = JSON.stringify(value);
 		} else {
 			_localStorage[prop] = value;
@@ -40,10 +42,10 @@ if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
  */
 export const iStorage = async function (key: string, val?: any) {
 	const keyPrefix = window.location.hostname;
-	key = xU.camelCase(keyPrefix + key);
+	key = _.camelCase(keyPrefix + key);
 	let res;
 	try {
-		if (xU.isInput(val)) {
+		if (isInput(val)) {
 			await idbSet(key, String(val));
 			res = true;
 			/* console.log("set", key, res) */

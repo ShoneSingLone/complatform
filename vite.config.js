@@ -7,7 +7,7 @@ import svgHelper from "./preprocess/plugins/svg";
 import { visualizer } from "rollup-plugin-visualizer";
 import viteCompression from "vite-plugin-compression";
 
-import { PROD_SERVER_ADDRESS, PROD_SERVER_ADDRESS2, DEV_SERVER_ADDRESS } from "../privateConfigs";
+import { PROD_SERVER_ADDRESS, PROD_SERVER_ADDRESS2, DEV_SERVER_ADDRESS } from "../privateConfigs.js";
 
 /* const DEV_SERVER_ADDRESS = "http://localhost:3001" */
 const IS_DEV = process.env.IS_DEV != "PRD";

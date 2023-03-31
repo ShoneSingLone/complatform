@@ -3,6 +3,7 @@ import _ from "lodash";
 /* @ts-ignore */
 import dayjs from "dayjs";
 import $ from "jquery";
+import { iStorage } from "./tools/storage";
 import { State_UI } from ".";
 //@ts-ignore
 import axios from "axios";
@@ -11,6 +12,29 @@ import axios from "axios";
 const onRE = /^on[^a-z]/;
 
 const VueComponents: any = {};
+
+export const isInput = (val: any) => {
+	if (val === undefined) {
+		return false;
+	}
+	try {
+		val = JSON.parse(JSON.stringify(val));
+	} catch (error) {
+		xU(val, "JSON.parse failed");
+	}
+	if (val === 0) {
+		return true;
+	}
+	if (val === false) {
+		return true;
+	}
+	if (_.isArray(val)) {
+		return val.length > 0;
+	} else if (val) {
+		return true;
+	}
+	return false;
+};
 
 const privateLodash = {
 	WORDS: {
@@ -284,28 +308,7 @@ const privateLodash = {
 	 * @param val {any}
 	 * @returns {boolean}
 	 */
-	isInput: (val: any) => {
-		if (val === undefined) {
-			return false;
-		}
-		try {
-			val = JSON.parse(JSON.stringify(val));
-		} catch (error) {
-			xU(val, "JSON.parse failed");
-		}
-		if (val === 0) {
-			return true;
-		}
-		if (val === false) {
-			return true;
-		}
-		if (_.isArray(val)) {
-			return val.length > 0;
-		} else if (val) {
-			return true;
-		}
-		return false;
-	},
+	isInput,
 	/*jquery到底有没有选中目标DOM？*/
 	is$Selected: ($ele: JQuery) => $ele && $ele.jquery && $ele.length > 0,
 	/**
@@ -378,7 +381,6 @@ const privateLodash = {
 		/* 在开发模式下App.vue 会设置这个对象 */
 		/* @ts-ignore */
 		if (!State_UI.isDev) {
-			const { iStorage } = await import("./tools/storage");
 			const res = await iStorage(url);
 			if (res) {
 				return res;
@@ -395,7 +397,6 @@ const privateLodash = {
 				});
 				/* @ts-ignore */
 				if (!State_UI.isDev) {
-					const { iStorage } = await import("./tools/storage");
 					await iStorage(url, data);
 				}
 				/* @ts-ignore */

@@ -29,6 +29,7 @@ export function $t(prop: string | number, payload = {}, i18nMessage = false) {
 /* 可以与外部通信，可以增改 */
 
 let _State_UI = {
+	xItemCollection: {},
 	pagination: {
 		page: "page",
 		size: "size",

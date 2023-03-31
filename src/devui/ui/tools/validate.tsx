@@ -1,14 +1,14 @@
 import { xU } from "../ventoseUtils";
-import { markRaw } from "vue";
+import $ from "jquery";
+import { State_UI } from "../State_UI";
 
-export const getValueNeedVarigy = ({ value, xItemConfigs }: any) => {
+export const getValueNeedVarify = ({ value, xItemConfigs }: any) => {
 	if (value !== undefined) {
 		return value;
 	} else if (xItemConfigs.value !== undefined) {
 		return xItemConfigs.value;
 	} else {
-		const error = new Error("miss value");
-		console.error(error);
+		console.error(new Error("miss value"));
 		return xItemConfigs.defaultValue;
 	}
 };
@@ -26,6 +26,13 @@ export const TIPS_TYPE = {
 	success: "success",
 	error: "error"
 };
+
+export async function validateItem(idSelector) {
+	const allItems = $(`${idSelector} [id^=xItem_]`);
+	xU.map(allItems, (domEle, index, $ele) => {
+		console.log(State_UI.xItemCollection[domEle.id]);
+	});
+}
 
 /**
  * 单独调用校验表单的方法:可以附加valuesCollection，以valuesCollection提供的prop为基准进行校验
@@ -46,7 +53,7 @@ export async function validateForm(
 	return Promise.all(
 		xU.map(propsArray, prop => {
 			const configs = configsForm[prop];
-			const valueNeedVarify = getValueNeedVarigy({
+			const valueNeedVarify = getValueNeedVarify({
 				//@ts-ignore
 				value: (valuesCollection && valuesCollection[prop]) || configs.value,
 				xItemConfigs: configs
@@ -70,13 +77,17 @@ export async function validateForm(
 					})();
 
 					if (configs.validate) {
-						/*xItem的validate使用了debounce ，采用callback异步处理resolve*/
-						configs.__onAfterValidate = markRaw(function (result: any) {
-							delete configs.__onAfterValidate;
-							resolve(result);
-						});
+						/*
+						 * xItem的validate使用了debounce ，
+						 * 采用callback异步处理resolve,
+						 * configs.validate完成之后调用resolve
+						 * */
 						/*触发方式是校验表单，将无视其他trigger规则，权重最大*/
-						configs.validate(EVENT_TYPE.validateForm, valueNeedVarify);
+						configs.validate({
+							eventType: EVENT_TYPE.validateForm,
+							value: valueNeedVarify,
+							resolve
+						});
 					} else {
 						resolve("");
 					}
@@ -109,9 +120,10 @@ export const checkXItem = async ({
 	xItemConfigs,
 	fnCheckedCallback,
 	value,
-	FormItemId
+	FormItemId,
+	resolve
 }: any) => {
-	const valueNeedVarify = getValueNeedVarigy({ value, xItemConfigs });
+	const valueNeedVarify = getValueNeedVarify({ value, xItemConfigs });
 	xItemConfigs.checking = true;
 	fnCheckedCallback = fnCheckedCallback || xU.doNothing;
 	FormItemId = FormItemId || xItemConfigs.FormItemId;
@@ -205,8 +217,8 @@ export const checkXItem = async ({
 	} catch (error) {
 		console.error(error);
 	} finally {
-		if (xU.isFunction(xItemConfigs.__onAfterValidate)) {
-			xItemConfigs.__onAfterValidate.call(xItemConfigs, result);
+		if (xU.isFunction(resolve)) {
+			resolve(result);
 		}
 		/*校验执行后*/
 		xItemConfigs.validate.triggerEventsObj = {};

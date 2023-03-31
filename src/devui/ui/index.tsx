@@ -40,7 +40,12 @@ import {
 	setPagination
 } from "./xDataGrid/common";
 import { antColKey, defItem, vModel } from "./xForm/common";
-import { AllWasWell, EVENT_TYPE, validateForm } from "./tools/validate.js";
+import {
+	AllWasWell,
+	EVENT_TYPE,
+	validateForm,
+	validateItem
+} from "./tools/validate";
 import { setCSSVariables, setDocumentTitle } from "./tools/dom";
 import { iStorage, lStorage } from "./tools/storage.js";
 import { pickValueFrom, resetValueOf, setValueTo } from "./tools/form";
@@ -117,6 +122,7 @@ export { EVENT_TYPE as EVENT_TYPE };
 export { setPagination as setPagination };
 export { getPaginationPageSize as getPaginationPageSize };
 
+export { validateItem as validateItem };
 export { validateForm as validateForm };
 export { AllWasWell as AllWasWell };
 export { setDocumentTitle as setDocumentTitle };
