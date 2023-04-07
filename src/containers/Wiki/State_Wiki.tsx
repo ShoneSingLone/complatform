@@ -1,17 +1,8 @@
 import { reactive, watch } from "vue";
-import {
-	xU,
-	State_UI,
-	defCol,
-	defXVirTableConfigs,
-	setDocumentTitle
-} from "@ventose/ui";
+import { xU, State_UI, setDocumentTitle } from "@ventose/ui";
 import { API } from "@/api/index";
-import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
-import { State_App } from "@/state/State_App";
 
-const { $t } = State_UI;
 const defautlValue = () => ({
 	treeData: [],
 	isLoading: false,
@@ -83,6 +74,15 @@ watch(
 	() => {
 		setDocumentTitle(`文档-${State_Wiki.currentWiki?.title}`);
 	}
+);
+watch(
+	() => Cpt_url.value.query.wiki_id,
+	_id => {
+		if (_id) {
+			Methods_Wiki.setCurrentWiki(_id);
+		}
+	},
+	{ immediate: true }
 );
 
 function buildTree(dataArray) {

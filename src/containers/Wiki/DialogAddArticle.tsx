@@ -32,7 +32,7 @@ export const DialogAddArticle = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { State_App, Cpt_url };
 	},
 	data() {
 		const vm = this;
@@ -73,10 +73,10 @@ export const DialogAddArticle = defineComponent({
 						data: params
 					});
 
-					if (data) {
+					if (data?.msg?._id) {
 						UI.message.success("添加接口成功");
 						Methods_Wiki.updateWikiMenuList();
-						Methods_Wiki.setCurrentWiki(data.msg._id);
+						this.Cpt_url.go("/wiki", { wiki_id: data.msg._id });
 						this.propDialogOptions.closeDialog();
 					}
 				} catch (error) {

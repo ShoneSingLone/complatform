@@ -24,10 +24,10 @@ export const TuiEditor = defineAsyncComponent(
 							html: "",
 							visible: false,
 							imgSrc: "",
-							isLoading: false,
+							isLoading: true,
 							id: xU.genId("TuiEditor"),
 							raw$md: "",
-							raw$editorDone: false,
+							vmTuiEditorDone: false,
 							configsPopoverChangeTheme: {
 								trigger: "rightClick",
 								content: MkitTheme,
@@ -47,12 +47,24 @@ export const TuiEditor = defineAsyncComponent(
 							return false;
 						}
 					},
+					created() {
+						const vm = this;
+						vm.setLoadingFalse = xU.debounce(function () {
+							vm.isLoading = false;
+						}, 300);
+					},
 					mounted() {
 						this.init();
 					},
 					watch: {
 						readonly() {
 							this.setHtmlDebounce && this.setHtmlDebounce();
+						},
+						/* 初始化完成后再调用一次渲染 */
+						vmTuiEditorDone: {
+							async handler() {
+								this.setMd(this.modelValue.md);
+							}
 						},
 						"modelValue.md": {
 							immediate: true,
@@ -62,37 +74,43 @@ export const TuiEditor = defineAsyncComponent(
 						}
 					},
 					methods: {
-						setMd(mdString) {
-							try {
-								if (!this.raw$editor) {
-									throw new Error("return");
-								}
-								/* mdString可以为"",但是在editor初始化之后才有赋值的必要 */
-								if (!mdString && !this.raw$editor) {
-									throw new Error("return");
-								}
-								const _mdString = this.raw$editor.getMarkdown();
-								if (_mdString === mdString) {
-									throw new Error("return");
-								}
+						setLoading(isLoading) {
+							if (isLoading) {
 								this.isLoading = true;
-								this.raw$editor.setMarkdown(mdString);
-								this.setHtmlDebounce();
-							} catch (error) {
+							} else if (this.setLoadingFalse) {
+								this.setLoadingFalse();
+							} else {
 								this.isLoading = false;
 							}
 						},
+						setMd(mdString) {
+							try {
+								if (!this.vmTuiEditor) {
+									throw new Error("return");
+								}
+								/* mdString可以为"",但是在editor初始化之后才有赋值的必要 */
+								if (!mdString && !this.vmTuiEditor) {
+									throw new Error("return");
+								}
+								const _mdString = this.vmTuiEditor.getMarkdown();
+								if (_mdString === mdString) {
+									throw new Error("return");
+								}
+								this.vmTuiEditor.setMarkdown(mdString);
+								this.setHtmlDebounce();
+							} catch (error) {}
+						},
 						setHtml() {
 							try {
-								if (!this.raw$editor) {
+								if (!this.vmTuiEditor) {
 									return;
 								}
-								let html = this.raw$editor.getHTML();
+								let html = this.vmTuiEditor.getHTML();
 								this.html = new PreprocessHTML(html).html;
 							} catch (error) {
 								console.error(error);
 							} finally {
-								this.isLoading = false;
+								this.setLoading();
 							}
 						},
 						/*  */
@@ -155,28 +173,28 @@ export const TuiEditor = defineAsyncComponent(
 						async emitModelValue() {
 							const vm = this;
 							$(this.raw$selector).show().addClass("flash infinite");
-							const mdString = vm.raw$editor.getMarkdown();
+							const mdString = vm.vmTuiEditor.getMarkdown();
 							if (vm.modelValue.md !== mdString) {
 								vm.$emit("update:modelValue", {
 									md: mdString,
-									html: vm.raw$editor.getHTML()
+									html: vm.vmTuiEditor.getHTML()
 								});
 							}
-							vm.isLoading = false;
+							vm.setLoading();
 							$(this.raw$selector).removeClass("flash infinite").hide();
 						},
 						//初始化方法
 						async init() {
 							let vm = this;
-							vm.isLoading = true;
+							vm.setLoading(true);
 							await xU.ensureValueDone(() => vm.$refs.container);
 							try {
 								(() => {
-									vm.raw$editor = new TuiEditor({
+									vm.vmTuiEditor = new TuiEditor({
 										el: vm.$refs.container,
 										initialEditType: "wysiwyg",
 										previewStyle: "vertical",
-										initialValue: vm.modelValue?.md || "",
+										initialValue: "",
 										height: "300px",
 										hooks: {
 											/* EventEmitter.prototype.emit  */
@@ -185,17 +203,19 @@ export const TuiEditor = defineAsyncComponent(
 													vm.emitModelValueDebounce();
 											},
 											addImageBlobHook: (blob, callback) => {
-												vm.isLoading = true;
+												vm.setLoading(true);
 												var reader = new FileReader();
 												reader.onload = function (_a) {
 													var target2 = _a.target;
-													vm.isLoading = false;
+													vm.setLoading();
 													return callback(target2.result);
 												};
 												reader.readAsDataURL(blob);
 											}
 										}
 									});
+									/* vmTuiEditor初始化 */
+									vm.vmTuiEditorDone = true;
 									vm.emitModelValueDebounce = xU.debounce(
 										vm.emitModelValue,
 										1000
@@ -203,7 +223,7 @@ export const TuiEditor = defineAsyncComponent(
 									vm.setHtmlDebounce = xU.debounce(vm.setHtml, 1600);
 									const className = `sync_${vm._.uid}`;
 									vm.raw$selector = `.${className}`;
-									vm.raw$editor.insertToolbarItem(
+									vm.vmTuiEditor.insertToolbarItem(
 										{ groupIndex: 4, itemIndex: 2 },
 										{
 											name: "sync",
@@ -217,7 +237,7 @@ export const TuiEditor = defineAsyncComponent(
 							} catch (error) {
 								console.error(error);
 							} finally {
-								vm.isLoading = false;
+								vm.setLoading();
 							}
 
 							(() => {

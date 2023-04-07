@@ -17,6 +17,7 @@ export const makeAhref = (url: string) => {
 
 export const RouterView = defineComponent({
 	name: "RouterView",
+	props: ["guards"],
 	setup() {
 		let ViewLength: any = inject("ViewLength");
 		if (typeof ViewLength != "number") {
@@ -76,10 +77,18 @@ export const RouterView = defineComponent({
 	},
 	computed: {
 		vDomView() {
-			if (!this.currentComponent) {
-				return <aSpin spinning={true} class="flex middle" />;
+			const getView = () => {
+				if (!this.currentComponent) {
+					return <aSpin spinning={true} class="flex middle" />;
+				} else {
+					return h(this.currentComponent, { pathname: this.Cpt_url.pathname });
+				}
+			};
+
+			if (xU.isFunction(this.guards)) {
+				return this.guards(getView());
 			} else {
-				return h(this.currentComponent, { pathname: this.Cpt_url.pathname });
+				return getView();
 			}
 		}
 	},

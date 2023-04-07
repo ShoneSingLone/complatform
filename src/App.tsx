@@ -1,4 +1,3 @@
-<script>
 /*https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup*/
 import "./containers/Home/Home.scss";
 import "./styles/App.less";
@@ -10,6 +9,7 @@ import { AppHeader } from "./components/Header/AppHeader";
 import { Cpt_url } from "./router/router";
 import { Methods_App, State_App } from "./state/State_App";
 import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { $ } from "@ventose/ui";
 
 export default defineComponent({
 	components: { AppFooter, AppHeader },
@@ -28,6 +28,12 @@ export default defineComponent({
 		this.onAfterRefresh();
 	},
 	methods: {
+		routerViewGuards(targetVDom) {
+			if (this.isLoading) {
+				return <div class="flex1"></div>;
+			}
+			return targetVDom;
+		},
 		async onAfterRefresh() {
 			/* 刷新之后重新获取基础信息 */
 			try {
@@ -44,15 +50,18 @@ export default defineComponent({
 			} catch (error) {
 				console.error(error);
 			} finally {
+				$("#app").removeClass("x-loading");
 				this.isLoading = false;
 			}
 		}
+	},
+	render() {
+		return (
+			<>
+				{this.State_App.user.isLogin && <AppHeader />}
+				<RouterView guards={this.routerViewGuards} />
+				<AppFooter />
+			</>
+		);
 	}
 });
-</script>
-<template>
-	<AppHeader v-if="State_App.user.isLogin" />
-	<aSpin v-if="isLoading" :spinning="true" class="flex1 flex middle center" />
-	<RouterView v-else />
-	<AppFooter />
-</template>

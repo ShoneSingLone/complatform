@@ -37,7 +37,7 @@ export const ViewWiki = defineComponent({
 		async save() {
 			const params = xU.merge(
 				{},
-				this.State_Wiki.currentWiki,
+				State_Wiki.currentWiki,
 				{
 					markdown: this.markdown
 				},
@@ -56,18 +56,18 @@ export const ViewWiki = defineComponent({
 		wikiContent: {
 			get() {
 				return {
-					md: this.State_Wiki.currentWiki.markdown || ""
+					md: State_Wiki.currentWiki.markdown || ""
 				};
 			},
 			set(modelValue, oldModelValue) {
-				this.State_Wiki.currentWiki.markdown = modelValue.md;
+				State_Wiki.currentWiki.markdown = modelValue.md;
 			}
 		},
 		vDomTitle() {
 			if (this.isReadonly.value) {
 				return (
 					<span class="ml10" style="font-weight:700;font-size:18px;">
-						{this.State_Wiki.currentWiki.title}
+						{State_Wiki.currentWiki.title}
 					</span>
 				);
 			} else {
@@ -75,7 +75,7 @@ export const ViewWiki = defineComponent({
 					<>
 						<xItem
 							configs={this.titleConfigs}
-							modelValue={this.State_Wiki.currentWiki.title}
+							modelValue={State_Wiki.currentWiki.title}
 							onUpdate:modelValue={val => (this.title = val)}
 						/>
 					</>
@@ -94,6 +94,7 @@ export const ViewWiki = defineComponent({
 						<xGap f="1" />
 						<xButton configs={btnSave} />
 					</div>
+					{/* {this.wikiContent.md} */}
 					<TuiEditor
 						v-model={this.wikiContent}
 						isReadonly={this.isReadonly.value}

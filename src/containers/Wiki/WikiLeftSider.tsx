@@ -65,11 +65,6 @@ export const WikiLeftSider = defineComponent({
 			const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 20;
 			this.setSiderHeight(siderHeight);
 		});
-
-		const _id = this.Cpt_url.query.wiki_id;
-		if (_id) {
-			Methods_Wiki.setCurrentWiki(_id);
-		}
 	},
 	beforeUnmount() {
 		this.fnUnobserveDomResize(this.$refs.wrapper);
@@ -132,7 +127,6 @@ export const WikiLeftSider = defineComponent({
 
 								const handleClick = () => {
 									vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
-									Methods_Wiki.setCurrentWiki(item.data._id);
 									vm.$emit("change");
 								};
 
@@ -231,7 +225,9 @@ export const WikiLeftSider = defineComponent({
 						await API.wiki.delete(_id);
 						UI.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList();
-						Methods_Wiki.setCurrentWiki(xU.first(State_Wiki.treeData)?._id);
+						vm.Cpt_url.go("/wiki", {
+							wiki_id: xU.first(State_Wiki.treeData)?._id
+						});
 					} catch (error) {
 						UI.message.error(error.message);
 						return Promise.reject();

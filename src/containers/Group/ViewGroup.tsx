@@ -194,11 +194,8 @@ export const ViewGroup = defineComponent({
 		}
 	},
 	render() {
-		if (!this.groupId) {
-			return <aSpin class="flex vertical middle center height100" />;
-		}
 		return (
-			<aLayout id="GroupView" class="padding20">
+			<aLayout id="GroupView" class="padding20" v-loading={!this.groupId}>
 				<aLayoutSider id="ViewGroup_sider" class={this.stylePanel} width="300">
 					<GroupLeftSider />
 				</aLayoutSider>

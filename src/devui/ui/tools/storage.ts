@@ -1,6 +1,6 @@
 //@ts-ignore
 import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
-import { isInput } from "../ventoseUtils";
+import { isInput, xU } from "../ventoseUtils";
 /*循环依赖问题，直接使用lodash*/
 import _ from "lodash";
 /* keys().then((keys) => console.log(keys)); */

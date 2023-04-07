@@ -114,8 +114,12 @@ export class PreprocessHTML {
 			const $codeDom = $(codeDom);
 			const codeDomOuterHTML = codeDom.outerHTML;
 			$codeDom.addClass("hljs");
-			const codeDomInnerHTML = $codeDom[0].innerHTML;
-			$codeDom[0].innerHTML = hljs.highlightAuto(codeDomInnerHTML).value;
+			let codeDomInnerHTML = String($codeDom[0].innerHTML);
+			const innerHTML = hljs.highlightAuto(codeDomInnerHTML).value;
+			/* => TODO:解析出问题 实体符的转换*/
+			const innerHTMLReplaceGreatThan = innerHTML.replace(/=\&amp;gt;/g, "=>");
+			/* => 解析出问题 */
+			$codeDom[0].innerHTML = innerHTMLReplaceGreatThan;
 			this.html = this.html.replace(codeDomOuterHTML, $codeDom[0].outerHTML);
 		});
 		return this;
