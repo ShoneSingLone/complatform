@@ -136,7 +136,7 @@ export const WikiLeftSider = defineComponent({
 								return (
 									<div class={classContentString} onClick={handleClick}>
 										<xGap l="10" />
-										<xIcon icon="article" />
+										<xIcon icon="icon_article" />
 										<span class="x-sider-tree_menu_title">
 											<div class="flex middle">{title}</div>
 										</span>
@@ -165,6 +165,7 @@ export const WikiLeftSider = defineComponent({
 	},
 	methods: {
 		async handleDropInterface(e: AntTreeNodeDropEvent) {
+			debugger;
 			this.State_Wiki.isLoading = true;
 			/*
 			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。
