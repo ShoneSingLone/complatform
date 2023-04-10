@@ -1,4 +1,4 @@
-import { i as reactive, x as xU, b as API, j as watch, s as setDocumentTitle, d as defineComponent, g as _State_App, a as defItem, $ as $t, F as FormRules, v as validateForm, A as AllWasWell, p as pickValueFrom, k as ARTICLE, U as UI, e as createVNode, r as resolveComponent, m as Fragment, n as isVNode, C as Cpt_url, q as $, t as withDirectives, u as resolveDirective, y as compositionAPI } from "./index.js";
+import { i as reactive, x as xU, b as API, j as watch, s as setDocumentTitle, C as Cpt_url, d as defineComponent, g as _State_App, a as defItem, $ as $t, F as FormRules, v as validateForm, A as AllWasWell, p as pickValueFrom, k as ARTICLE, U as UI, e as createVNode, r as resolveComponent, m as Fragment, n as isVNode, q as $, t as withDirectives, u as resolveDirective, y as compositionAPI } from "./index.js";
 import { T as TuiEditor } from "./TuiEditor.js";
 const ViewWiki$1 = "";
 const defautlValue = () => ({
@@ -58,6 +58,13 @@ watch(() => {
   var _a;
   setDocumentTitle(`\u6587\u6863-${(_a = State_Wiki.currentWiki) == null ? void 0 : _a.title}`);
 });
+watch(() => Cpt_url.value.query.wiki_id, (_id) => {
+  if (_id) {
+    Methods_Wiki.setCurrentWiki(_id);
+  }
+}, {
+  immediate: true
+});
 function buildTree(dataArray) {
   State_Wiki.allWiki = xU.reduce(dataArray, (target, i) => {
     target[i._id] = i;
@@ -93,7 +100,8 @@ const DialogAddArticle = defineComponent({
   },
   setup() {
     return {
-      State_App: _State_App
+      State_App: _State_App,
+      Cpt_url
     };
   },
   data() {
@@ -121,6 +129,7 @@ const DialogAddArticle = defineComponent({
   },
   methods: {
     async onOk() {
+      var _a;
       const validateResults = await validateForm(this.dataXItem);
       if (AllWasWell(validateResults)) {
         const {
@@ -138,10 +147,12 @@ const DialogAddArticle = defineComponent({
             action: "upsertOne",
             data: params
           });
-          if (data) {
+          if ((_a = data == null ? void 0 : data.msg) == null ? void 0 : _a._id) {
             UI.message.success("\u6DFB\u52A0\u63A5\u53E3\u6210\u529F");
             Methods_Wiki.updateWikiMenuList();
-            Methods_Wiki.setCurrentWiki(data.msg._id);
+            this.Cpt_url.go("/wiki", {
+              wiki_id: data.msg._id
+            });
             this.propDialogOptions.closeDialog();
           }
         } catch (error) {
@@ -245,10 +256,6 @@ const WikiLeftSider = defineComponent({
       const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 20;
       this.setSiderHeight(siderHeight);
     });
-    const _id = this.Cpt_url.query.wiki_id;
-    if (_id) {
-      Methods_Wiki.setCurrentWiki(_id);
-    }
   },
   beforeUnmount() {
     this.fnUnobserveDomResize(this.$refs.wrapper);
@@ -322,7 +329,6 @@ const WikiLeftSider = defineComponent({
             vm.Cpt_url.go("/wiki", {
               wiki_id: item.data._id
             });
-            Methods_Wiki.setCurrentWiki(item.data._id);
             vm.$emit("change");
           };
           const canDelete = !(item == null ? void 0 : item.children) || ((_a = item == null ? void 0 : item.children) == null ? void 0 : _a.length) === 0;
@@ -411,6 +417,7 @@ const WikiLeftSider = defineComponent({
       this.siderHeight = siderHeight;
     }, 20),
     deleteArticle(_id) {
+      const vm = this;
       UI.dialog.confirm({
         title: "\u786E\u5B9A\u5220\u9664\u6B64\u6587\u6863\u5417\uFF1F",
         content: `\u6587\u6863\u5220\u9664\u540E\u65E0\u6CD5\u6062\u590D`,
@@ -420,7 +427,9 @@ const WikiLeftSider = defineComponent({
             await API.wiki.delete(_id);
             UI.message.success("\u5220\u9664\u6587\u6863\u6210\u529F");
             await Methods_Wiki.updateWikiMenuList();
-            Methods_Wiki.setCurrentWiki((_a = xU.first(State_Wiki.treeData)) == null ? void 0 : _a._id);
+            vm.Cpt_url.go("/wiki", {
+              wiki_id: (_a = xU.first(State_Wiki.treeData)) == null ? void 0 : _a._id
+            });
           } catch (error) {
             UI.message.error(error.message);
             return Promise.reject();
@@ -480,7 +489,7 @@ const ViewWiki = defineComponent({
   },
   methods: {
     async save() {
-      const params = xU.merge({}, this.State_Wiki.currentWiki, {
+      const params = xU.merge({}, State_Wiki.currentWiki, {
         markdown: this.markdown
       }, {
         title: this.title
@@ -498,11 +507,11 @@ const ViewWiki = defineComponent({
     wikiContent: {
       get() {
         return {
-          md: this.State_Wiki.currentWiki.markdown || ""
+          md: State_Wiki.currentWiki.markdown || ""
         };
       },
       set(modelValue, oldModelValue) {
-        this.State_Wiki.currentWiki.markdown = modelValue.md;
+        State_Wiki.currentWiki.markdown = modelValue.md;
       }
     },
     vDomTitle() {
@@ -510,11 +519,11 @@ const ViewWiki = defineComponent({
         return createVNode("span", {
           "class": "ml10",
           "style": "font-weight:700;font-size:18px;"
-        }, [this.State_Wiki.currentWiki.title]);
+        }, [State_Wiki.currentWiki.title]);
       } else {
         return createVNode(Fragment, null, [createVNode(resolveComponent("xItem"), {
           "configs": this.titleConfigs,
-          "modelValue": this.State_Wiki.currentWiki.title,
+          "modelValue": State_Wiki.currentWiki.title,
           "onUpdate:modelValue": (val) => this.title = val
         }, null)]);
       }

@@ -2693,6 +2693,7 @@ div[id^="xDialog_"] {
   right: 0;
   left: 0;
   background: url(./loading-2.gif) center no-repeat;
+  background: url(./loading.svg) center no-repeat;
   z-index: 1;
 }
 
