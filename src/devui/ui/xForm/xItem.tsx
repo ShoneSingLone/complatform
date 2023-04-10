@@ -14,17 +14,17 @@ const domClass = {
 const devHelper = {};
 
 const WILL_DELETE = [
-								"onValidateForm",
-								"_$updateUI",
-								"once",
-								"itemTips",
-								"rules",
-								"labelVNodeRender",
-								"slots",
-								"validate",
-								/* value 用updateValue处理，该值会触发render */
-								"value"
-							];
+	"onValidateForm",
+	"_$updateUI",
+	"once",
+	"itemTips",
+	"rules",
+	"labelVNodeRender",
+	"slots",
+	"validate",
+	/* value 用updateValue处理，该值会触发render */
+	"value"
+];
 
 /* itemWrapperClass */
 export const xItem = defineComponent({
@@ -374,9 +374,7 @@ export const xItem = defineComponent({
 				const pickProps = (originConfigs: any) => {
 					xU.each(originConfigs, (item, prop) => {
 						/* 用于xForm 控件，以下配置信息跟UI库控件相关，用不上，遂删除 */
-						if (
-							WILL_DELETE.includes(prop)
-						) {
+						if (WILL_DELETE.includes(prop)) {
 							return;
 						}
 						if (["placeholder"].includes(prop) && xU.isFunction(item)) {
@@ -515,6 +513,10 @@ export const xItem = defineComponent({
 				{/* 控件 */}
 				<div class="ant-form-item-control" data-type={itemTypeName}>
 					<CurrentXItem
+						id={`CurrentXItem_${FormItemId}`}
+						data-current-item-label={properties.label}
+						data-current-item-prop={properties.prop}
+						data-current-item-type={itemTypeName}
 						propsWillDeleteFromConfigs={propsWillDeleteFromConfigs}
 						properties={{
 							...properties,

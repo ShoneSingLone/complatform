@@ -5,14 +5,14 @@ import { Checkbox } from "./Checkbox";
 import Select from "./Select";
 import RadioGroup from "./RadioGroup";
 import CheckboxGroup from "./CheckboxGroup";
-import Switch from "./Switch";
+import { xSwitch } from "./xSwitch";
 import { InputProps, TextAreaProps } from "ant-design-vue";
 
 const itemRenders = {
 	Input,
 	Checkbox,
 	Select,
-	Switch,
+	Switch: xSwitch,
 	DatePicker,
 	RangePicker,
 	RadioGroup,
