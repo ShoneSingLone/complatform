@@ -2,6 +2,7 @@ import { reactive, watch } from "vue";
 import { xU, State_UI, setDocumentTitle } from "@ventose/ui";
 import { API } from "@/api/index";
 import { Cpt_url } from "@/router/router";
+import { sortTreeByOrder } from "@/utils/common";
 
 const defautlValue = () => ({
 	treeData: [],
@@ -36,6 +37,7 @@ export const Methods_Wiki = {
 			}
 		}
 		State_Wiki.expandedKeys = [...expandedKeys];
+		State_Wiki.isLoading = false;
 		/*  */
 	}, 1000),
 	/**
@@ -63,9 +65,10 @@ export const Methods_Wiki = {
 			}
 		}
 	},
-	async updateWikiMenuList() {
-		const { data } = await API.wiki.menu();
-		State_Wiki.treeData = buildTree(data.list);
+	async updateWikiMenuList(payload) {
+		const { data } = await API.wiki.menu(payload);
+		const { list, orderArray } = data;
+		State_Wiki.treeData = buildTree(list, orderArray);
 	}
 };
 
@@ -85,7 +88,8 @@ watch(
 	{ immediate: true }
 );
 
-function buildTree(dataArray) {
+function buildTree(dataArray, orderArray) {
+	console.time("buildTree");
 	/* findChildren */
 	State_Wiki.allWiki = xU.reduce(
 		dataArray,
@@ -98,7 +102,6 @@ function buildTree(dataArray) {
 
 	xU.each(State_Wiki.allWiki, function (item) {
 		if (!item) return;
-
 		const parent = State_Wiki.allWiki[item.p_id];
 		if (parent) {
 			if (!xU.isArray(parent.children)) {
@@ -107,6 +110,11 @@ function buildTree(dataArray) {
 			parent.children.push(item);
 		}
 	});
-	const tree = xU.filter(State_Wiki.allWiki, item => item.p_id === 0);
+
+	let tree = xU.filter(State_Wiki.allWiki, item => item.p_id === 0);
+	if (xU.isArrayFill(orderArray)) {
+		tree = sortTreeByOrder(tree, orderArray);
+	}
+	console.timeEnd("buildTree");
 	return tree;
 }

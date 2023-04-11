@@ -51,7 +51,7 @@ export const TuiEditor = defineAsyncComponent(
 						const vm = this;
 						vm.setLoadingFalse = xU.debounce(function () {
 							vm.isLoading = false;
-						}, 300);
+						}, 1000);
 					},
 					mounted() {
 						this.init();

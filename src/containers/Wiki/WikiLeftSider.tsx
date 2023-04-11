@@ -5,7 +5,7 @@ import { ARTICLE, FOLDER } from "@/utils/variable";
 import { DialogAddArticle } from "./DialogAddArticle";
 import { Cpt_url } from "@/router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
-import { _$arrayChangeIndex } from "@/utils/common";
+import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { State_App } from "@/state/State_App";
 import { Methods_Wiki, State_Wiki } from "./State_Wiki";
 
@@ -30,7 +30,7 @@ export const WikiLeftSider = defineComponent({
 	},
 	watch: {
 		filterText(text) {
-			this.State_Wiki.isLoading = true;
+			State_Wiki.isLoading = true;
 			this.setFilterText(text);
 		}
 	},
@@ -79,7 +79,7 @@ export const WikiLeftSider = defineComponent({
 		btnRefresh() {
 			return {
 				preset: "refresh",
-				onClick: Methods_Wiki.updateWikiMenuList
+				onClick: () => Methods_Wiki.updateWikiMenuList({ belong_type: "all" })
 			};
 		},
 		vDomTree() {
@@ -98,7 +98,7 @@ export const WikiLeftSider = defineComponent({
 						height={vm.siderHeight}
 						treeData={vm.State_Wiki.treeData}
 						draggable
-						onDrop={vm.handleDropInterface}
+						onDrop={vm.handleDropArticle}
 						fieldNames={vm.configs.fieldNames}>
 						{{
 							title(item) {
@@ -126,6 +126,7 @@ export const WikiLeftSider = defineComponent({
 								};
 
 								const handleClick = () => {
+									State_Wiki.isLoading = true;
 									vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
 									vm.$emit("change");
 								};
@@ -164,9 +165,8 @@ export const WikiLeftSider = defineComponent({
 		}
 	},
 	methods: {
-		async handleDropInterface(e: AntTreeNodeDropEvent) {
-			debugger;
-			this.State_Wiki.isLoading = true;
+		async handleDropArticle(e: AntTreeNodeDropEvent) {
+			State_Wiki.isLoading = true;
 			/*
 			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。
 			 * dropPosition:dropItemPos=index
@@ -182,35 +182,49 @@ export const WikiLeftSider = defineComponent({
 				dropPosition
 			};
 			try {
-				await this.moveItemToFolder(params);
+				await this.moveItemAndResetOrder(params);
 			} catch (error) {
 				UI.message.error(error.message);
 			} finally {
-				this.State_Wiki.isLoading = false;
+				State_Wiki.isLoading = false;
 			}
 		},
 		/* 同类 testcase */
-		async moveItemToFolder({ dragItem, dropItem, dropToGap, dropPosition }) {
+		async moveItemAndResetOrder({
+			dragItem,
+			dropItem,
+			dropToGap,
+			dropPosition
+		}) {
 			dragItem = { ...dragItem };
 			dropItem = { ...dropItem };
+			const menuOrderArray = getTreeOrder(State_Wiki.treeData);
+			const dragIndex = menuOrderArray.indexOf(dragItem._id);
+			const dropIndex = menuOrderArray.indexOf(dropItem._id);
 
 			if (dropToGap) {
 				dragItem.p_id = dropItem.p_id;
+				menuOrderArray.splice(dragIndex, 1);
+				menuOrderArray.splice(dropIndex, 0, dragItem._id);
 			} else {
 				dragItem.p_id = dropItem._id;
 			}
 
 			try {
 				await API.wiki.action({ action: "upsertOne", data: dragItem });
-				await Methods_Wiki.updateWikiMenuList();
+				await API.wiki.resetMenuOrder({
+					order: menuOrderArray,
+					belong_type: "all"
+				});
+				await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
 				UI.message.success($t("更新成功").label);
 			} catch (error) {
 				UI.message.error(error.message);
 			}
 		},
 		setFilterText: xU.debounce(function (filterText) {
-			this.State_Wiki.filterText = filterText;
-			this.State_Wiki.isLoading = false;
+			State_Wiki.filterText = filterText;
+			State_Wiki.isLoading = false;
 		}, 600),
 		/* vDomList 需要实际高度 */
 		setSiderHeight: xU.debounce(function (siderHeight) {
@@ -225,7 +239,7 @@ export const WikiLeftSider = defineComponent({
 					try {
 						await API.wiki.delete(_id);
 						UI.message.success("删除文档成功");
-						await Methods_Wiki.updateWikiMenuList();
+						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
 						vm.Cpt_url.go("/wiki", {
 							wiki_id: xU.first(State_Wiki.treeData)?._id
 						});
@@ -240,6 +254,8 @@ export const WikiLeftSider = defineComponent({
 			UI.dialog.component({
 				title: this.$t("添加文档").label,
 				parentDoc,
+				/* 所有人可见 */
+				belong_type: "all",
 				component: DialogAddArticle
 			});
 		}

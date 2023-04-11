@@ -166,3 +166,31 @@ export const _$arrayChangeIndex = (arr, dragId, dropId) => {
 		return [];
 	}
 };
+
+export const getTreeOrder = (treeData, orderArray = []) => {
+	treeData = xU.cloneDeep(treeData);
+	let item;
+	while ((item = treeData.shift())) {
+		orderArray.push(item._id);
+		if (xU.isArrayFill(item.children)) {
+			treeData.unshift(...item.children);
+		}
+	}
+	return orderArray;
+};
+export function sortTreeByOrder(treeData, orderArray = []) {
+	treeData = xU.cloneDeep(treeData);
+
+	treeData.sort((nowItem, nextItem) => {
+		const nowIndex = orderArray.indexOf(nowItem._id);
+		const nextIndex = orderArray.indexOf(nextItem._id);
+		return nowIndex - nextIndex;
+	});
+
+	return xU.map(treeData, item => {
+		if (xU.isArrayFill(item.children)) {
+			item.children = sortTreeByOrder(item.children, orderArray);
+		}
+		return item;
+	});
+}

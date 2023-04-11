@@ -14,9 +14,16 @@ export const wiki = {
 			_id
 		});
 	},
-	menu() {
+	menu(payload) {
 		return this.action({
-			action: "menu"
+			action: "menu",
+			payload
+		});
+	},
+	resetMenuOrder(payload) {
+		return this.action({
+			action: "resetMenuOrder",
+			payload
 		});
 	}
 };

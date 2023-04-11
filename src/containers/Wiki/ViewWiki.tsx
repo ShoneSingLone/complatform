@@ -7,13 +7,8 @@ import { API } from "@/api/index";
 import { xU, $t, UI, defItem } from "@ventose/ui";
 
 export const ViewWiki = defineComponent({
-	setup() {
-		return {
-			State_Wiki
-		};
-	},
 	mounted() {
-		Methods_Wiki.updateWikiMenuList();
+		Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
 	},
 	data(vm) {
 		return {
@@ -47,7 +42,7 @@ export const ViewWiki = defineComponent({
 				action: "upsertOne",
 				data: params
 			});
-			Methods_Wiki.updateWikiMenuList();
+			Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
 			Methods_Wiki.setCurrentWiki(params._id, params);
 			UI.message.success($t("保存成功").label);
 		}
@@ -85,7 +80,10 @@ export const ViewWiki = defineComponent({
 	},
 	render({ btnSave, vDomTitle }) {
 		return (
-			<section id="ViewWiki" class="flex flex1">
+			<section
+				id="ViewWiki"
+				class="flex flex1"
+				v-loading={State_Wiki.isLoading}>
 				<WikiLeftSider onChange={() => (this.isReadonly.value = true)} />
 				<main class="flex flex1 padding10 vertical paddingB20">
 					<div class="flex mb10 middle" style="height:48px;">
