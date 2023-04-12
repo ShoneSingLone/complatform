@@ -61240,7 +61240,7 @@ var switchProps = function switchProps2() {
     onFocus: Function
   };
 };
-var Switch$1 = defineComponent({
+var Switch = defineComponent({
   compatConfig: {
     MODE: 3
   },
@@ -61350,7 +61350,7 @@ var Switch$1 = defineComponent({
     };
   }
 });
-const index$5 = withInstall(Switch$1);
+const index$5 = withInstall(Switch);
 var TableContextKey = Symbol("TableContextProps");
 var useProvideTable = function useProvideTable2(props3) {
   provide(TableContextKey, props3);
@@ -88680,27 +88680,51 @@ const CheckboxGroup = ({
 }) => {
   return createVNode(resolveComponent("aCheckboxGroup"), mergeProps(properties, listeners), slots);
 };
-const Switch = ({
-  properties,
-  slots,
-  listeners,
-  propsWillDeleteFromConfigs
-}) => {
-  const _property = xU.merge({}, properties, {
-    checked: properties.value,
-    onClick() {
-      listeners["onUpdate:value"](!_property.value);
+const xSwitch = defineComponent({
+  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+  mounted() {
+    xU("xItem ComponentSample");
+  },
+  data(vm) {
+    return {
+      _modelValue: ""
+    };
+  },
+  methods: {},
+  watch: {
+    "properties.value"(value) {
+      if (value !== void 0) {
+        if (value !== this._modelValue) {
+          this._modelValue = value;
+        }
+      }
+    },
+    _modelValue(modelValue) {
+      this.listeners["onUpdate:value"](modelValue);
     }
-  });
-  return createVNode("div", {
-    "class": "x-item_switch"
-  }, [createVNode(resolveComponent("aSwitch"), xU.omit(_property, ["value"]), null)]);
-};
+  },
+  computed: {},
+  render(vm) {
+    const {
+      properties,
+      listeners,
+      propsWillDeleteFromConfigs
+    } = vm;
+    return createVNode("div", {
+      "class": "x-item_switch"
+    }, [createVNode(resolveComponent("aSwitch"), mergeProps(xU.omit(listeners, ["onUpdate:value"]), xU.omit(properties, ["value", ...propsWillDeleteFromConfigs]), {
+      "checked": properties.value,
+      "onClick": () => {
+        listeners["onUpdate:value"](!properties.value);
+      }
+    }), null)]);
+  }
+});
 const itemRenders = {
   Input,
   Checkbox,
   Select,
-  Switch,
+  Switch: xSwitch,
   DatePicker,
   RangePicker,
   RadioGroup,
@@ -94560,6 +94584,10 @@ const xItem$1 = defineComponent({
       "class": "ant-form-item-control",
       "data-type": itemTypeName
     }, [createVNode(CurrentXItem, {
+      "id": `CurrentXItem_${FormItemId}`,
+      "data-current-item-label": properties.label,
+      "data-current-item-prop": properties.prop,
+      "data-current-item-type": itemTypeName,
       "propsWillDeleteFromConfigs": propsWillDeleteFromConfigs,
       "properties": {
         ...properties,
@@ -97866,9 +97894,16 @@ const wiki = {
       _id
     });
   },
-  menu() {
+  menu(payload) {
     return this.action({
-      action: "menu"
+      action: "menu",
+      payload
+    });
+  },
+  resetMenuOrder(payload) {
+    return this.action({
+      action: "resetMenuOrder",
+      payload
     });
   }
 };
@@ -100514,7 +100549,6 @@ const optionsXIcon = [
   "allCategory",
   "arrow_left",
   "arrow_right",
-  "article",
   "back_group",
   "cached",
   "CaretDownOutlined",
@@ -100538,6 +100572,7 @@ const optionsXIcon = [
   "gohome",
   "home",
   "iconFilter",
+  "icon_article",
   "lockStrok",
   "logout",
   "mail",
@@ -101344,7 +101379,7 @@ const _sfc_main$2 = {
     }
   }
 };
-const CopyContent_vue_vue_type_style_index_0_scoped_1b3c3d24_lang = "";
+const CopyContent_vue_vue_type_style_index_0_scoped_c9387155_lang = "";
 const _hoisted_1 = {
   class: "flex middle copy-content-wrapper",
   ref: "contents"
@@ -101363,7 +101398,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 512);
 }
-const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__scopeId", "data-v-1b3c3d24"]]);
+const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__scopeId", "data-v-c9387155"]]);
 const asyncGetMonaco = async () => {
   if (window.monaco) {
     return window.monaco;
@@ -109637,6 +109672,31 @@ const _$arrayChangeIndex = (arr, dragId, dropId) => {
     return [];
   }
 };
+const getTreeOrder = (treeData, orderArray = []) => {
+  treeData = xU.cloneDeep(treeData);
+  let item;
+  while (item = treeData.shift()) {
+    orderArray.push(item._id);
+    if (xU.isArrayFill(item.children)) {
+      treeData.unshift(...item.children);
+    }
+  }
+  return orderArray;
+};
+function sortTreeByOrder(treeData, orderArray = []) {
+  treeData = xU.cloneDeep(treeData);
+  treeData.sort((nowItem, nextItem) => {
+    const nowIndex = orderArray.indexOf(nowItem._id);
+    const nextIndex = orderArray.indexOf(nextItem._id);
+    return nowIndex - nextIndex;
+  });
+  return xU.map(treeData, (item) => {
+    if (xU.isArrayFill(item.children)) {
+      item.children = sortTreeByOrder(item.children, orderArray);
+    }
+    return item;
+  });
+}
 function _isSlot$4(s2) {
   return typeof s2 === "function" || Object.prototype.toString.call(s2) === "[object Object]" && !isVNode(s2);
 }
@@ -114023,60 +114083,62 @@ main();
 export {
   $t$9 as $,
   AllWasWell as A,
-  diff as B,
+  compositionAPI as B,
   Cpt_url as C,
-  markRaw as D,
+  toRaw as D,
   EVENT_TYPE as E,
   FormRules as F,
-  setValueTo as G,
-  defXVirTableConfigs as H,
-  ITEM_OPTIONS as I,
-  defCol as J,
-  ITEM_OPTIONS_VDOM as K,
-  h$1 as L,
+  diff as G,
+  markRaw as H,
+  setValueTo as I,
+  ITEM_OPTIONS as J,
+  defXVirTableConfigs as K,
+  defCol as L,
   Methods_App as M,
-  inject as N,
-  components as O,
-  setDataGridInfo as P,
-  lib as Q,
-  defDataGridOption as R,
+  ITEM_OPTIONS_VDOM as N,
+  h$1 as O,
+  inject as P,
+  components as Q,
+  setDataGridInfo as R,
   State_UI as S,
-  MonacoEditor as T,
+  lib as T,
   UI as U,
-  HTTP_REQUEST_HEADER as V,
-  compileVNode as W,
-  QUERY as X,
-  GET as Y,
-  HTTP_METHOD as Z,
+  defDataGridOption as V,
+  MonacoEditor as W,
+  HTTP_REQUEST_HEADER as X,
+  compileVNode as Y,
+  QUERY as Z,
   _export_sfc as _,
   defItem as a,
-  BODY as a0,
-  defineAsyncComponent as a1,
-  MkitTheme as a2,
-  PreprocessHTML as a3,
-  leftArrow as a4,
-  rightArrow as a5,
-  resetStateInterface as a6,
-  ProjectChildren as a7,
-  RouterView as a8,
-  Methods_ProjectInterface as a9,
-  State_ProjectInterface as aa,
-  ALL as ab,
-  DefaultInterfaceMenu as ac,
-  _$arrayChangeIndex as ad,
-  useInterfaceTableConfigs as ae,
-  VNodeCollection as af,
-  _$handlePath as ag,
-  copyToClipboard as ah,
-  makeAhref as ai,
-  InfoCard as aj,
-  xItem_ProjectGroupId as ak,
-  xItem_ProjectName as al,
-  xItem_ProjectIcon as am,
-  xItem_ProjectColor as an,
-  xItem_ProjectBasePath as ao,
-  xItem_ProjectDesc as ap,
-  xItem_ProjectType as aq,
+  GET as a0,
+  HTTP_METHOD as a1,
+  BODY as a2,
+  defineAsyncComponent as a3,
+  MkitTheme as a4,
+  PreprocessHTML as a5,
+  leftArrow as a6,
+  rightArrow as a7,
+  resetStateInterface as a8,
+  ProjectChildren as a9,
+  RouterView as aa,
+  Methods_ProjectInterface as ab,
+  State_ProjectInterface as ac,
+  ALL as ad,
+  DefaultInterfaceMenu as ae,
+  _$arrayChangeIndex as af,
+  useInterfaceTableConfigs as ag,
+  VNodeCollection as ah,
+  _$handlePath as ai,
+  copyToClipboard as aj,
+  makeAhref as ak,
+  InfoCard as al,
+  xItem_ProjectGroupId as am,
+  xItem_ProjectName as an,
+  xItem_ProjectIcon as ao,
+  xItem_ProjectColor as ap,
+  xItem_ProjectBasePath as aq,
+  xItem_ProjectDesc as ar,
+  xItem_ProjectType as as,
   API as b,
   createElementBlock as c,
   defineComponent as d,
@@ -114086,20 +114148,20 @@ export {
   createTextVNode as h,
   reactive as i,
   watch as j,
-  ARTICLE as k,
+  setDocumentTitle as k,
   lStorage as l,
-  Fragment as m,
-  isVNode as n,
+  ARTICLE as m,
+  Fragment as n,
   openBlock as o,
   pickValueFrom as p,
-  $$1 as q,
+  isVNode as q,
   resolveComponent as r,
-  setDocumentTitle as s,
-  withDirectives as t,
-  resolveDirective as u,
+  sortTreeByOrder as s,
+  $$1 as t,
+  getTreeOrder as u,
   validateForm as v,
   withKeys as w,
   xU as x,
-  compositionAPI as y,
-  toRaw as z
+  withDirectives as y,
+  resolveDirective as z
 };

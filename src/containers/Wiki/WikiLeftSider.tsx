@@ -129,6 +129,10 @@ export const WikiLeftSider = defineComponent({
 									State_Wiki.isLoading = true;
 									vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
 									vm.$emit("change");
+									setTimeout(() => {
+										/* 内网环境，数据3秒都回不来，就有点呵呵了 */
+										State_Wiki.isLoading = false;
+									}, 1000 * 3);
 								};
 
 								const canDelete =

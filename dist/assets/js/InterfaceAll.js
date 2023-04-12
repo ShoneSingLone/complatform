@@ -1,4 +1,4 @@
-import { d as defineComponent, ae as useInterfaceTableConfigs, aa as State_ProjectInterface, $ as $t, e as createVNode, r as resolveComponent } from "./index.js";
+import { d as defineComponent, ag as useInterfaceTableConfigs, ac as State_ProjectInterface, $ as $t, e as createVNode, r as resolveComponent } from "./index.js";
 import { o as openDialogInterfaceStatusModify, a as openDialogInterfaceProxyModify } from "./DialogModifyInterface.Helper.js";
 import "./TuiEditor.js";
 const InterfaceAll = defineComponent({

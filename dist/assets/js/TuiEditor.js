@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, z as toRaw, B as diff, x as xU, F as FormRules, e as createVNode, r as resolveComponent, t as withDirectives, u as resolveDirective, m as Fragment, a as defItem, D as markRaw, U as UI, p as pickValueFrom, G as setValueTo, v as validateForm, A as AllWasWell, b as API, M as Methods_App, I as ITEM_OPTIONS, H as defXVirTableConfigs, J as defCol, K as ITEM_OPTIONS_VDOM, L as h, N as inject, O as components, $ as $t, q as $, P as setDataGridInfo, Q as lib, R as defDataGridOption, T as MonacoEditor, y as compositionAPI, h as createTextVNode, V as HTTP_REQUEST_HEADER, W as compileVNode, X as QUERY, Y as GET, Z as HTTP_METHOD, a0 as BODY, S as State_UI, a1 as defineAsyncComponent, a2 as MkitTheme, a3 as PreprocessHTML, a4 as leftArrow, a5 as rightArrow } from "./index.js";
+import { d as defineComponent, g as _State_App, D as toRaw, G as diff, x as xU, F as FormRules, e as createVNode, r as resolveComponent, y as withDirectives, z as resolveDirective, n as Fragment, a as defItem, H as markRaw, U as UI, p as pickValueFrom, I as setValueTo, v as validateForm, A as AllWasWell, b as API, M as Methods_App, J as ITEM_OPTIONS, K as defXVirTableConfigs, L as defCol, N as ITEM_OPTIONS_VDOM, O as h, P as inject, Q as components, $ as $t, t as $, R as setDataGridInfo, T as lib, V as defDataGridOption, W as MonacoEditor, B as compositionAPI, h as createTextVNode, X as HTTP_REQUEST_HEADER, Y as compileVNode, Z as QUERY, a0 as GET, a1 as HTTP_METHOD, a2 as BODY, S as State_UI, a3 as defineAsyncComponent, a4 as MkitTheme, a5 as PreprocessHTML, a6 as leftArrow, a7 as rightArrow } from "./index.js";
 function makeKeyValueObj(i) {
   return {
     key: i.name,
@@ -3293,7 +3293,7 @@ const TuiEditor = defineAsyncComponent(() => new Promise(async (resolve) => {
       const vm = this;
       vm.setLoadingFalse = xU.debounce(function() {
         vm.isLoading = false;
-      }, 300);
+      }, 1e3);
     },
     mounted() {
       this.init();

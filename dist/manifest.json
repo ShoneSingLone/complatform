@@ -1,31 +1,31 @@
 {
-  "src/devui/ui/xSingle/layer/imgs/loading.svg": {
-    "file": "assets/loading.svg",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading.svg"
-  },
-  "src/devui/ui/xSingle/layer/imgs/icon.png": {
-    "file": "assets/icon.png",
-    "src": "src/devui/ui/xSingle/layer/imgs/icon.png"
-  },
-  "src/devui/assets/svg/input.svg": {
-    "file": "assets/input.svg",
-    "src": "src/devui/assets/svg/input.svg"
-  },
-  "src/devui/ui/xSingle/layer/imgs/loading-0.gif": {
-    "file": "assets/loading-0.gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-0.gif"
+  "src/devui/ui/xSingle/layer/imgs/loading-1.gif": {
+    "file": "assets/loading-1.gif",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-1.gif"
   },
   "src/devui/ui/xSingle/layer/imgs/loading-2.gif": {
     "file": "assets/loading-2.gif",
     "src": "src/devui/ui/xSingle/layer/imgs/loading-2.gif"
   },
-  "src/devui/ui/xSingle/layer/imgs/loading-1.gif": {
-    "file": "assets/loading-1.gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-1.gif"
-  },
   "src/devui/ui/xSingle/layer/imgs/icon-ext.png": {
     "file": "assets/icon-ext.png",
     "src": "src/devui/ui/xSingle/layer/imgs/icon-ext.png"
+  },
+  "src/devui/ui/xSingle/layer/imgs/icon.png": {
+    "file": "assets/icon.png",
+    "src": "src/devui/ui/xSingle/layer/imgs/icon.png"
+  },
+  "src/devui/ui/xSingle/layer/imgs/loading-0.gif": {
+    "file": "assets/loading-0.gif",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-0.gif"
+  },
+  "src/devui/assets/svg/input.svg": {
+    "file": "assets/input.svg",
+    "src": "src/devui/assets/svg/input.svg"
+  },
+  "src/devui/ui/xSingle/layer/imgs/loading.svg": {
+    "file": "assets/loading.svg",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading.svg"
   },
   "index.html": {
     "file": "assets/js/index.js",
