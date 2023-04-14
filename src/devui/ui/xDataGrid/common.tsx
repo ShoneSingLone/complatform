@@ -10,8 +10,12 @@ export const static_word = {
 };
 export type t_col = {
 	prop: string;
-	label: string;
+	label: any;
+	width?: string;
+	minWidth?: string;
 	children?: t_col[];
+	renderHeader?: Function;
+	renderCell?: Function;
 };
 
 export type t_dataGridOptions = {

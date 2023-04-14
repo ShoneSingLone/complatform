@@ -12,8 +12,7 @@ import {
 
 export const InterfaceAll = defineComponent({
 	setup() {
-		const { filterParams, configs_interfaceTable, fnUpdateListForShow } =
-			useInterfaceTableConfigs(true);
+		const { filterParams, configs_interfaceTable, fnUpdateListForShow } = useInterfaceTableConfigs(true);
 		return {
 			State_Project: State_ProjectInterface,
 			filterParams,
@@ -80,8 +79,7 @@ export const InterfaceAll = defineComponent({
 				</div>
 				<div class="elevation-1 padding20 flex1" style={{ height: "100px" }}>
 					<xVirTable
-						configs={this.configs_interfaceTable}
-						class="flex1 width100 "
+						configs={this.configs_interfaceTable} class="flex1 width100 "
 					/>
 				</div>
 			</xView>

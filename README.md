@@ -1,28 +1,33 @@
 # 参考
-- [ant-design-vue](https://next.antdv.com/components/overview-cn/)
+- 使用的UI库 [ant-design-vue](https://next.antdv.com/components/overview-cn/)
+- [前端开发记录](./README.dev.md)
+- [BUG记录](./README.bug.md)
+- [BUG记录](./README.bug.md)
 
+## 主要功能
 
-raw$ 开头的是直接加载this上，没有在data中声明的
-brew services start mongodb-community@6.0
-brew services stop mongodb-community@6.0
-mongod --config /usr/local/etc/mongod.conf
+与yapi保持一致
 
+## wiki 文档
 
-cmd /c mklink /d C:\Users\shone\Documents\GitHub\complatform\src\ui D:\GitHub\ui-vue3-antdv\src\ui
+用于记录
 
-Group
-GroupList
-ProjectList
-MemberList
+### 权限
 
+- all：登录后所有人可见
+- group
+- project
+- private
 
-usefnObserveDomResize
-
-
-xItem 中UI未直接使用configs，所以configs的属性变动不会触发UI的刷新，使用_$rerender,强制触发刷新
-_$updateUI
-
-
-wiki 文档
+### dev
 
 - [x] 文档修改日志
+
+## i18n 管理
+
+国际化的josn文件管理
+
+- [相似查询](https://www.cnblogs.com/wzndkj/p/9428194.html)
+本地scan i18n得到json
+- json=>i18n 接口获取对应的多国语言文件的josn
+- 写入本地文件

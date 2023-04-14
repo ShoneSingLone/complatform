@@ -36,6 +36,14 @@ export const routes = [
 		}
 	},
 	{
+		path: `/i18n`,
+		componentName: "ViewI18n",
+		component: () => import("../containers/I18n/ViewI18n.js"),
+		meta: {
+			title: $t("文档").label
+		}
+	},
+	{
 		path: `/project`,
 		componentName: "ViewProject",
 		component: () => import("../containers/Project/ViewProject.js"),
