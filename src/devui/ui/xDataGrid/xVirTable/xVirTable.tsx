@@ -3,7 +3,7 @@ import { defineComponent, provide } from "vue";
 import { xU } from "../../ventoseUtils";
 import $ from "jquery";
 import { xVirTableTh } from "./xVirTableTh";
-import { xVirTableBody } from "./xVirTableBody";
+import { xVirTableBody, t_rowPayload } from "./xVirTableBody";
 
 type t_selectedConfigs = {
 	type: keyof typeof defXVirTableConfigs.type;
@@ -13,11 +13,13 @@ type t_selectedConfigs = {
 	isSelect?: Function;
 };
 type t_options = {
+	queryTableList?: Fuction;
 	selectedConfigs?: t_selectedConfigs;
 	selected?: [];
 	rowHeight: number;
 	dataSource: any[];
 	columns: object;
+	onClickRow?: (payload: t_rowPayload) => void;
 };
 export function defXVirTableConfigs(options: t_options) {
 	const required = ["rowHeight", "columns"];

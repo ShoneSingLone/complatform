@@ -6,6 +6,7 @@ import { defineComponent, VNode } from "vue";
 import { UI, xU } from "@ventose/ui";
 import { Methods_App, State_App } from "./../../state/State_App";
 import { Cpt_url } from "../../router/router";
+import { API } from "@/api";
 
 export const AppHeader = defineComponent({
 	props: [
@@ -93,10 +94,14 @@ export const AppHeader = defineComponent({
 			const avatarUrl = imageUrl ? imageUrl : `/api/user/avatar?uid=${uid}`;
 			return (
 				<div class="user-toolbar flex">
-					<span onClick={this.goToI18nManger} class="flex middle pointer ml10 header-menu-icon_background">
+					<span
+						onClick={this.goToI18nManger}
+						class="flex middle pointer ml10 header-menu-icon_background">
 						<xIcon icon="icon_i18n" style={this.styleLogo} />
 					</span>
-					<span onClick={this.goToWIKI} class="flex middle pointer ml10 header-menu-icon_background">
+					<span
+						onClick={this.goToWIKI}
+						class="flex middle pointer ml10 header-menu-icon_background">
 						<xIcon icon="wikidoc" style={this.styleLogo} />
 					</span>
 					<div class="toolbar-li item-search">
@@ -187,7 +192,7 @@ export const AppHeader = defineComponent({
 	render() {
 		return (
 			<aLayoutHeader class="header-box m-header elevation-4">
-				<div class="content g-row flex middle">
+				<div class="content flex middle">
 					<span onClick={this.goToGroup} class="flex middle pointer">
 						<xIcon icon={this.icon} style={this.styleLogo} />
 					</span>

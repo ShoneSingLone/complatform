@@ -19,7 +19,7 @@ export default defineComponent({
 			return {
 				preset: "query",
 				onClick: async () => {
-					if (this.configs.queryTableList) {
+					if (this.configs?.queryTableList) {
 						/* reset 当前页为1 */
 						setPagination(this.configs, { page: 1 });
 						await this.configs.queryTableList({ pagination: { page: 1 } });
@@ -68,7 +68,7 @@ export default defineComponent({
 		Cpt_isShowRefresh:{{Cpt_isShowRefresh}}
 		Cpt_isShowFilter:{{Cpt_isShowFilter}}
 		--> */
-			return this.configs && this.configs.pagination;
+			return this.configs;
 		}
 	}
 });

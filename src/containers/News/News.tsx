@@ -58,7 +58,7 @@ class News extends Component {
 						}
 					]}
 				/>
-				<div class="g-row">
+				<div class="x-dialog-boddy-wrapper">
 					<section class="news-box m-panel">
 						<div class="logHead">
 							<Breadcrumb />

@@ -10,7 +10,7 @@ export const VNodeCollection = {
 					<aPopover trigger="hover" placement="top">
 						{{
 							content: () => popContent,
-							default: () => <xIcon icon="Insidetips" class="pointer" />
+							default: () => <xIcon icon="Insidetips" class="pointer ml4" />
 						}}
 					</aPopover>
 				</label>

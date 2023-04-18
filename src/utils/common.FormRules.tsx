@@ -1,4 +1,4 @@
-import { EVENT_TYPE, FormRules, State_UI, xU } from "@ventose/ui";
+import { $t, EVENT_TYPE, FormRules, State_UI, xU } from "@ventose/ui";
 import { NAME_LIMIT } from "./variable";
 
 FormRules.nameLength = ({ label, max, min }) => {
@@ -29,6 +29,29 @@ FormRules.nameLength = ({ label, max, min }) => {
 			}
 
 			return FormRules.SUCCESS;
+		}
+	});
+};
+
+FormRules.stringIsArrayJson = () => {
+	return FormRules.custom({
+		msg: "",
+		name: "",
+		trigger: "",
+		/* 可以根据校验修改提示信息 */
+		validator(value, { configs, rule }) {
+			try {
+				const valueArray = JSON.parse(value);
+				if (xU.isArray(valueArray)) {
+					rule.msg = "";
+					return FormRules.SUCCESS;
+				}
+			} catch (error) {}
+
+			rule.msg = $t(
+				`以数组的形式["语言","language"]，按顺序填写对应国际化信息。`
+			).label;
+			return FormRules.FAIL;
 		}
 	});
 };

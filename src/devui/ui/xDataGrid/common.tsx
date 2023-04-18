@@ -113,7 +113,7 @@ export function setPagination(StateTable, pagination: t_pagination) {
 		if (!realProp) {
 			realProp = prop;
 		}
-		StateTable.pagination[realProp] = value;
+		StateTable?.pagination && (StateTable.pagination[realProp] = value);
 	});
 }
 

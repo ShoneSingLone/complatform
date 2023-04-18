@@ -5,7 +5,14 @@ export const wiki = {
 		return ajax({
 			method: "post",
 			url: "/api/wiki/action",
+			params: { wiki_action: data.action },
 			data
+		});
+	},
+	upsertOne(params) {
+		return this.action({
+			action: "upsertOne",
+			data: params
 		});
 	},
 	delete(_id) {

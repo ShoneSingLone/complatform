@@ -5,21 +5,15 @@ import {
 	UI,
 	defItem,
 	xU,
-	setValueTo,
-	$t
+	$t,
+	VNodeCollection
 } from "@ventose/ui";
-import { defineComponent, markRaw } from "vue";
+import { defineComponent } from "vue";
 import { API } from "@/api";
 import { State_App } from "@/state/State_App";
-import {
-	Methods_ProjectInterface,
-	State_ProjectInterface
-} from "@/containers/Project/Interface/State_ProjectInterface";
 import { FormRules } from "@/utils/common.FormRules";
-import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
 import { stateI18n } from "./State_i18n";
-import { ARTICLE } from "@/utils/variable";
 
 export const DialogUpsertI18nRecord = defineComponent({
 	props: {
@@ -36,27 +30,69 @@ export const DialogUpsertI18nRecord = defineComponent({
 	},
 	data() {
 		const vm = this;
+		const idTipsMarkdown = `\`\`\`js
+//${$t(`作为Key值`).label}
+$t("此处为Key").label
+\`\`\``;
 		return {
 			dataXItem: {
 				...defItem({
 					value: "",
-					prop: "title",
-					label: $t("文档名称").label,
-					placeholder: $t("文档名称").label,
+					prop: "key",
+					label: $t("ID").label,
+					labelVNodeRender: VNodeCollection.labelTips(
+						<Mkit md={idTipsMarkdown} />
+					),
 					rules: [FormRules.required()]
+				}),
+				...defItem({
+					value: "",
+					prop: "desc",
+					label: $t("描述").label,
+					isTextarea: true,
+					rules: [FormRules.required()]
+				}),
+				...defItem({
+					value: "",
+					prop: "valueArray",
+					label: $t("国际化信息").label,
+					labelVNodeRender: VNodeCollection.labelTips(
+						$t(`以数组的形式["语言","language"]`).label
+					),
+					rules: [FormRules.required(), FormRules.stringIsArrayJson()],
+					itemType: defineComponent({
+						props: [
+							"properties",
+							"slots",
+							"listeners",
+							"propsWillDeleteFromConfigs"
+						],
+						computed: {
+							_valueArray: {
+								get() {
+									return this.properties.value || ``;
+								},
+								set(modelValue) {
+									this.listeners["onUpdate:value"](modelValue);
+								}
+							}
+						},
+						render() {
+							return (
+								<div style={"height:300px"}>
+									<MonacoEditor
+										v-model:code={this._valueArray}
+										language="json"
+									/>
+								</div>
+							);
+						}
+					})
 				})
 			}
 		};
 	},
-	computed: {
-		pid() {
-			const _id = this.propDialogOptions.parentDoc?._id;
-			return _id || 0;
-		},
-		belong_type() {
-			return this.propDialogOptions.belong_type || "all";
-		}
-	},
+	computed: {},
 	mounted() {
 		this.propDialogOptions.vm = this;
 	},
@@ -64,23 +100,13 @@ export const DialogUpsertI18nRecord = defineComponent({
 		async onOk() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
-				const { title } = pickValueFrom(this.dataXItem);
-				const params = {
-					title,
-					type: ARTICLE,
-					p_id: this.pid,
-					belong_type: this.belong_type
-				};
 				try {
-					const { data } = await API.wiki.action({
-						action: "upsertOne",
-						data: params
-					});
-
+					const { data } = await API.god.upsertOneI18nRecord(
+						pickValueFrom(this.dataXItem)
+					);
 					if (data?.msg?._id) {
-						UI.message.success("添加接口成功");
-						stateI18n._$updateList({ belong_type: "all" });
-						this.Cpt_url.go("/wiki", { wiki_id: data.msg._id });
+						UI.message.success("添加记录成功");
+						stateI18n._$updateList({});
 						this.propDialogOptions.closeDialog();
 					}
 				} catch (error) {
@@ -92,14 +118,8 @@ export const DialogUpsertI18nRecord = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="g-row flex1 height100">
+				<div class="x-dialog-boddy-wrapper flex1 height100">
 					<xGap t="10" />
-					<aAlert
-						message={this.$t("保存标题后再编辑文档内容").label}
-						type="info"
-						closable
-						className="width100"
-					/>
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>

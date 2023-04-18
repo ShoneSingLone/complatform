@@ -4,6 +4,11 @@ import { xU } from "../../ventoseUtils";
 import { usefnObserveDomResize } from "../../compositionAPI/useDomResize";
 import { xVirTableTd } from "./xVirTableTd";
 
+export type t_rowPayload = {
+	rowIndex: number;
+	rowData: object;
+};
+
 export const xVirTableBody = defineComponent({
 	props: ["columnOrder", "columns", "rowHeight", "selectedConfigs", "selected"],
 	emits: ["selectedChange", "update:scrollHeight"],
@@ -159,20 +164,28 @@ export const xVirTableBody = defineComponent({
 			);
 			xU.each(props, prop => delete this.rowCache[prop]);
 		},
+		onClickRow(payload: t_rowPayload) {
+			if (this?.configs?.onClickRow) {
+				this.configs.onClickRow(payload);
+			}
+		},
 		genTr(rows) {
 			const vDomBlock = (() => {
 				if (!this.uniqBy) {
 					return xU.map(rows, (data: object, rowIndex: number) => {
 						const { __virRowIndex } = data;
+
+						const payload = {
+							rowIndex: __virRowIndex,
+							rowData: data
+						};
 						return (
 							<div
 								role="tr"
 								class="xVirTable-row flex horizon"
-								data-row-key={__virRowIndex}>
-								{this.genSelectedVDom({
-									rowIndex: __virRowIndex,
-									rowData: data
-								})}
+								data-row-key={__virRowIndex}
+								onClick={() => this.onClickRow(payload)}>
+								{this.genSelectedVDom(payload)}
 								{xU.map(this.columnOrder, (prop: string, index: number) => {
 									return (
 										<xVirTableTd

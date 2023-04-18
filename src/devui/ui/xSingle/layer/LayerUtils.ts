@@ -184,7 +184,8 @@ const LayerUtils = {
 		return this;
 	},
 	open(options: i_layerOptions) {
-		const { _layerKey } = new ClassLayer(options);
+		const layerInstance = new ClassLayer(options);
+		const { _layerKey } = layerInstance;
 		return _layerKey;
 	},
 	/* 各种快捷引用 */
@@ -1226,12 +1227,13 @@ class ClassLayer {
 		const { $eleLayer, config } = layerInstance;
 
 		if (config.success) {
+			const args = [$eleLayer, layerInstance._layerKey, layerInstance];
 			if (config.type == LayerUtils.IFRAME) {
 				$eleLayer.find("iframe").on("load", function () {
-					config.success.call(this, $eleLayer, layerInstance._layerKey);
+					config.success.apply(config, args);
 				});
 			} else {
-				config.success($eleLayer, layerInstance._layerKey);
+				config.success.apply(config, args);
 			}
 		}
 

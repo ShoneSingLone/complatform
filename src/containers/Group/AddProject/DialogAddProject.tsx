@@ -256,8 +256,8 @@ export const DialogAddProject = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="g-row flex1 height100">
-					<div class="g-row m-container">
+				<div class="x-dialog-boddy-wrapper flex1 height100">
+					<div class="x-dialog-boddy-wrapper m-container">
 						<xForm
 							class="flex vertical"
 							labelStyle={{ "min-width": "120px", width: "unset" }}>

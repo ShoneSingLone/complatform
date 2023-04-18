@@ -1,29 +1,33 @@
 import { ajax } from "@/api/ajax";
 
 export const god = {
-	say(data) {
+	upsertOneI18nRecord(payload) {
+		return this.say("upsertOneI18nRecord", payload);
+	},
+	i18nRecords(condition = {}) {
+		return this.say("i18nRecords", condition);
+	},
+	i18nRecordById(_id) {
+		if (!_id) {
+			return;
+		}
+		return this.say("i18nRecordById", { _id });
+	},
+	importI18nJSON(formData) {
 		return ajax({
 			method: "post",
-			url: "/api/god/say",
+			url: `/api/god/say`,
+			headers: { "Content-Type": "multipart/form-data" },
+			params: { incantations: "importI18nJSON" },
+			data: formData
+		});
+	},
+	say(incantations, data) {
+		return ajax({
+			method: "post",
+			url: `/api/god/say`,
+			params: { incantations },
 			data
-		});
-	},
-	delete(_id) {
-		return this.say({
-			action: "delete",
-			_id
-		});
-	},
-	menu(payload) {
-		return this.say({
-			action: "menu",
-			payload
-		});
-	},
-	resetMenuOrder(payload) {
-		return this.say({
-			action: "resetMenuOrder",
-			payload
 		});
 	}
 };

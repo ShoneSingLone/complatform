@@ -62,7 +62,7 @@ export const WikiLeftSider = defineComponent({
 	async mounted() {
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
 			/* mt mb 共计20 */
-			const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 20;
+			const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 52;
 			this.setSiderHeight(siderHeight);
 		});
 	},
@@ -233,7 +233,7 @@ export const WikiLeftSider = defineComponent({
 		/* vDomList 需要实际高度 */
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
-		}, 20),
+		}, 300),
 		deleteArticle(_id) {
 			const vm = this;
 			UI.dialog.confirm({

@@ -62,7 +62,7 @@ export const I18nLeftSider = defineComponent({
 	async mounted() {
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
 			/* mt mb 共计20 */
-			const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 20;
+			const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 52;
 			this.setSiderHeight(siderHeight);
 		});
 	},
@@ -96,7 +96,7 @@ export const I18nLeftSider = defineComponent({
 					<aTree
 						v-model:expandedKeys={stateI18n.expandedKeys}
 						height={vm.siderHeight}
-						treeData={stateI18n.treeData}
+						treeData={stateI18n.i18nRecordArray}
 						draggable
 						onDrop={vm.handleDropArticle}
 						fieldNames={vm.configs.fieldNames}>
@@ -105,7 +105,7 @@ export const I18nLeftSider = defineComponent({
 								const { title, _id, type } = item;
 								const classContentString = (() => {
 									let _classString = "flex middle x-sider-tree_menu";
-									if (String(_id) == String(stateI18n.currentWiki._id)) {
+									if (String(_id) == String(stateI18n.currentI18n._id)) {
 										return _classString + " x-sider-tree_menu_active";
 									}
 									return _classString;
@@ -127,7 +127,7 @@ export const I18nLeftSider = defineComponent({
 
 								const handleClick = () => {
 									stateI18n.isLoading = true;
-									vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
+									vm.Cpt_url.go("/i18n", { wiki_id: item.data._id });
 									vm.$emit("change");
 									setTimeout(() => {
 										/* 内网环境，数据3秒都回不来，就有点呵呵了 */
@@ -143,7 +143,7 @@ export const I18nLeftSider = defineComponent({
 										<xGap l="10" />
 										<xIcon icon="icon_article" />
 										<span class="x-sider-tree_menu_title">
-											<div class="flex middle">{title}</div>
+											<div class="flex middle">{item.id}</div>
 										</span>
 										<div class="flex middle x-sider-tree_menu_opration">
 											{genIcon({
@@ -202,7 +202,7 @@ export const I18nLeftSider = defineComponent({
 		}) {
 			dragItem = { ...dragItem };
 			dropItem = { ...dropItem };
-			const menuOrderArray = getTreeOrder(stateI18n.treeData);
+			const menuOrderArray = getTreeOrder(stateI18n.i18nRecordArray);
 			const dragIndex = menuOrderArray.indexOf(dragItem._id);
 			const dropIndex = menuOrderArray.indexOf(dropItem._id);
 
@@ -244,8 +244,8 @@ export const I18nLeftSider = defineComponent({
 						await API.wiki.delete(_id);
 						UI.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						vm.Cpt_url.go("/wiki", {
-							wiki_id: xU.first(stateI18n.treeData)?._id
+						vm.Cpt_url.go("/i18n", {
+							wiki_id: xU.first(stateI18n.i18nRecordArray)?._id
 						});
 					} catch (error) {
 						UI.message.error(error.message);
