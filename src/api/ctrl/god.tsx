@@ -4,6 +4,9 @@ export const god = {
 	upsertOneI18nRecord(payload) {
 		return this.say("upsertOneI18nRecord", payload);
 	},
+	upsertI18nRecordMany(payload) {
+		return this.say("upsertI18nRecordMany", payload);
+	},
 	i18nRecords(condition = {}) {
 		return this.say("i18nRecords", condition);
 	},

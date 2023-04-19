@@ -47,11 +47,12 @@ export const DialogImportI18nJSON = defineComponent({
 				formData.append("file", file);
 				const { data } = await API.god.importI18nJSON(formData);
 				const { different } = data;
-				await stateI18n._$updateList();
-				UI.message.success(`成功添加条记录`);
-				if (xU.isArray(different)) {
+
+				UI.message.success(`成功添加记录`);
+				if (xU.isArrayFill(different)) {
 					this.showCoverExistedConfirm(data);
 				} else {
+					await stateI18n._$updateList();
 					this.propDialogOptions.closeDialog();
 				}
 			} catch (error) {
@@ -122,8 +123,20 @@ export const DialogImportI18nJSON = defineComponent({
 			this.$nextTick(() => this.propDialogOptions._layerInstance.offset());
 		},
 		async onCoverExisted() {
-			const selected = this.raw$configsTableExistedRecords.getSelectedRow();
-			debugger;
+			try {
+				const selected = this.raw$configsTableExistedRecords.getSelectedRow();
+				const params = xU.map(selected, ({ diffRes, existedRecord }) => {
+					return {
+						...existedRecord,
+						valueArray: diffRes.valueArray[0]
+					};
+				});
+				await API.god.upsertI18nRecordMany(params);
+				await stateI18n._$updateList();
+				this.propDialogOptions.closeDialog();
+			} catch (error) {
+				xU(error);
+			}
 		}
 	},
 	render({ isShowCoverView, raw$tips }) {
