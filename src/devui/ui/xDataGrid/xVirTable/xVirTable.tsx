@@ -76,6 +76,12 @@ export const xVirTable = defineComponent({
 		this.initStyle();
 		this.calculationWrapperChildeWidth();
 	},
+	provide() {
+		const vm = this;
+		return {
+			xVirTable: vm
+		};
+	},
 	data() {
 		this.resetOperationWidthDebounce = xU.debounce(
 			this.resetOperationWidth,
@@ -267,12 +273,22 @@ export const xVirTable = defineComponent({
 	},
 	methods: {
 		resetColumnWidth(superfluous) {
-			const width = Math.floor(superfluous / this.columnOrder.length)-0.5;
+			const columnExcludeOperation = xU.filter(
+				this.columnOrder,
+				prop => prop !== STATIC_WORD.OPERATION
+			);
+
+			const width =
+				Math.floor(superfluous / columnExcludeOperation.length) - 0.5;
 			const selectorThead = `#${this.xVirTableId} >div[role=table] >div[role=thead] >div[role=tr] >div[role=th][data-index]`;
 			const $selectorThead = $(selectorThead);
 			xU.each($selectorThead, dom => {
 				const prop = dom.dataset.prop;
-				this.configs.columns[prop].width = `${dom.offsetWidth + width}px`;
+				if (prop === STATIC_WORD.OPERATION) {
+					return;
+				}
+				const columnWidth = dom.offsetWidth + width;
+				this.configs.columns[prop].width = `${columnWidth}px`;
 			});
 		},
 		onBodyScroll(left) {
@@ -297,8 +313,8 @@ export const xVirTable = defineComponent({
 				);
 
 				const width = xU.max(bodyWidth);
-
-				const superfluous = $(selectorTable).outerWidth() - width;
+				const $wrapper = $(selectorTable);
+				const superfluous = $wrapper.outerWidth() - 6 - width;
 				if (superfluous > 0) {
 					this.resetColumnWidth(superfluous);
 					return;

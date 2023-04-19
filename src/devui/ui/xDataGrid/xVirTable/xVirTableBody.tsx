@@ -12,6 +12,7 @@ export type t_rowPayload = {
 export const xVirTableBody = defineComponent({
 	props: ["columnOrder", "columns", "rowHeight", "selectedConfigs", "selected"],
 	emits: ["selectedChange", "update:scrollHeight", "scroll"],
+	inject: ["xVirTable"],
 	components: {
 		xVirTableTd
 	},
@@ -27,6 +28,16 @@ export const xVirTableBody = defineComponent({
 		};
 	},
 	data(vm) {
+		this.debounceSetPerBlockHeight = xU.debounce(function (
+			viewportHeight: number
+		) {
+			this.viewportHeight = viewportHeight;
+			this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
+			this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
+			this.setHeight();
+		},
+		64);
+
 		return {
 			isLoading: false,
 			perBlockHeight: 1,
@@ -41,22 +52,10 @@ export const xVirTableBody = defineComponent({
 			virs3: []
 		};
 	},
-	created() {
-		(() => {
-			this.debounceSetPerBlockHeight = xU.debounce(function (
-				viewportHeight: number
-			) {
-				this.viewportHeight = viewportHeight;
-				this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
-				this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
-				this.setHeight();
-			},
-			64);
-		})();
-	},
 	mounted() {
 		/* 监听body高度变化 */
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
+			this.xVirTable.calculationWrapperChildeWidth();
 			this.debounceSetPerBlockHeight(this.$refs.wrapper.offsetHeight);
 		});
 		this.$watch(
@@ -360,6 +359,13 @@ export const xVirTableBody = defineComponent({
 			}
 			/* @ts-ignore */
 			this.styleWrapperAll.height = `${height}px`;
+			this.$nextTick(() => {
+				if (this.$refs.wrapper.scrollTop > 1) {
+					this.$refs.wrapper.scrollTop--;
+				} else {
+					this.$refs.wrapper.scrollTop++;
+				}
+			});
 		}
 	},
 	watch: {

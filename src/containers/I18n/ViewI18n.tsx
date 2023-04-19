@@ -40,116 +40,33 @@ export const ViewI18n = defineComponent({
 					type: "many",
 					prop: "_id"
 				},
-				onClickRow({ rowData }) {
-					Cpt_url.value.go("/i18n", { i18n_id: rowData._id });
-				},
 				columns: {
 					...defCol({
 						label: "key",
-						// width: "800px",
 						prop: "key"
 					}),
 					...defCol({
 						label: $t("描述").label,
-						width: "800px",
 						prop: "tag"
 					}),
 					...defCol({
 						label: $t("校正").label,
-						width: "800px",
+						width: "80px",
 						prop: "isRectified"
 					}),
 					...defColActions({
 						renderCell(args) {
 							return defColActionsBtnlist({
-								fold: 2,
+								fold: 7,
 								btns: [
 									{
-										text: $t("bbbbb").label,
+										text: $t("修改").label,
 										onClick: async () => {
-											await xU.sleep(1000);
+											Cpt_url.value.go("/i18n", { i18n_id: args.record._id });
 										}
 									},
 									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("bbbbb").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("ccccc").label,
-										onClick: async () => {
-											await xU.sleep(1000);
-										}
-									},
-									{
-										text: $t("ddddd").label,
+										text: $t("删除").label,
 										onClick: async () => {
 											await xU.sleep(1000);
 										}
