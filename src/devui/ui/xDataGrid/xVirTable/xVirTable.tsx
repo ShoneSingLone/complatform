@@ -228,19 +228,17 @@ export const xVirTable = defineComponent({
 				`#${this.xVirTableId} div[role=table]{overflow:hidden;}`,
 				`#${this.xVirTableId} div[role=tr] >div{flex:1; }`,
 				/* header */
-				`#${this.xVirTableId} div[role=tr] >div[role=th]{ width:300px;text-align:center;white-space: nowrap; }`,
+				`#${this.xVirTableId} div[role=tr] >div[role=th]{ width:300px;min-width:300px;max-width:300px;text-align:center;white-space: nowrap; }`,
 				/* CheckBox */
-				`#${this.xVirTableId} div[role=tr] >div[role=th][data-prop=xVirSelected],#${this.xVirTableId} div[role=tr] >div[role=td][data-prop=xVirSelected]{ width:32px;min-width:32px;overflow:hidden;text-align:center; }`,
+				`#${this.xVirTableId} div[role=tr] >div[role=th][data-prop=xVirSelected],#${this.xVirTableId} div[role=tr] >div[role=td][data-prop=xVirSelected]{ width:32px;max-width:32px;min-width:32px;overflow:hidden;text-align:center; }`,
 				/*  */
-				`#${this.xVirTableId} div[role=tr] >div[role=td]{ width:300px;overflow:hidden;height:${this.rowHeight}px;display: flex; justify-content: start; align-items: center;}`
+				`#${this.xVirTableId} div[role=tr] >div[role=td]{ width:300px;min-width:300px;max-width:300px;overflow:hidden;height:${this.rowHeight}px;display: flex; justify-content: start; align-items: center;}`
 			].concat(this.columnWidthArray, this.customClass);
 
 			if (this.styleWidthXVirTable) {
 				allStyleArray.unshift(
 					`#${this.xVirTableId} div[role=table] div[role=thead] {width:${this.styleWidthXVirTable}; }`
-					// `#${ this.xVirTableId } div[role = body] { width: ${ this.styleWidthXVirTable }; overflow-x: hidden;}`
 				);
-
 				if (this.configs.dataSource.length === 0) {
 					allStyleArray.unshift(
 						`#${this.xVirTableId} .xVirTable-body-wrapper.flex1.width100 >div {width:${this.styleWidthXVirTable}; }`
@@ -268,14 +266,23 @@ export const xVirTable = defineComponent({
 		}
 	},
 	methods: {
+		resetColumnWidth(superfluous) {
+			const width = Math.floor(superfluous / this.columnOrder.length)-0.5;
+			const selectorThead = `#${this.xVirTableId} >div[role=table] >div[role=thead] >div[role=tr] >div[role=th][data-index]`;
+			const $selectorThead = $(selectorThead);
+			xU.each($selectorThead, dom => {
+				const prop = dom.dataset.prop;
+				this.configs.columns[prop].width = `${dom.offsetWidth + width}px`;
+			});
+		},
 		onBodyScroll(left) {
-			console.log(left);
 			this.$refs.thead.scrollLeft = left;
 		},
 		calculationWrapperChildeWidth() {
 			setTimeout(() => {
 				const selectorThead = `#${this.xVirTableId} >div[role=table] >div[role=thead] >div[role=tr] >div[role=th]`;
 				const selectorBody = `#${this.xVirTableId} .xVirTable-body-item`;
+				const selectorTable = `#${this.xVirTableId}`;
 
 				const bodyWidth = xU.map($(selectorBody), dom => dom.offsetWidth);
 				bodyWidth.push(
@@ -290,6 +297,12 @@ export const xVirTable = defineComponent({
 				);
 
 				const width = xU.max(bodyWidth);
+
+				const superfluous = $(selectorTable).outerWidth() - width;
+				if (superfluous > 0) {
+					this.resetColumnWidth(superfluous);
+					return;
+				}
 
 				if (width) {
 					this.styleWidthXVirTable = `${width}px`;
