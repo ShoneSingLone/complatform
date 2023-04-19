@@ -77,7 +77,10 @@ export const DialogImportI18nJSON = defineComponent({
 			);
 			this.raw$configsTableExistedRecords = defXVirTableConfigs({
 				rowHeight: 100,
-				dataSource: different,
+				dataSource: xU.map(different, i => ({
+					...i,
+					_id: i.existedRecord._id
+				})),
 				selectedConfigs: {
 					type: "many",
 					prop: "_id"
@@ -118,7 +121,10 @@ export const DialogImportI18nJSON = defineComponent({
 			this.isShowCoverView = true;
 			this.$nextTick(() => this.propDialogOptions._layerInstance.offset());
 		},
-		async onCoverExisted() {}
+		async onCoverExisted() {
+			const selected = this.raw$configsTableExistedRecords.getSelectedRow();
+			debugger;
+		}
 	},
 	render({ isShowCoverView, raw$tips }) {
 		if (isShowCoverView) {

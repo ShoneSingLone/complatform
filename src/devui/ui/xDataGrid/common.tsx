@@ -5,8 +5,9 @@ import { ColumnProps } from "ant-design-vue/es/table";
 import { State_UI } from "../State_UI";
 
 /*ui 内部使用*/
-export const static_word = {
-	operation: "operation"
+export const STATIC_WORD = {
+	OPERATION: "OPERATION",
+	NEXT_TICK_TIME: 64
 };
 export type t_col = {
 	prop: string;
@@ -156,18 +157,17 @@ export function defColActions(options: {
 		value: any;
 	}) => JSX.Element;
 }) {
-	return {
-		[static_word.operation]: xU.merge(
+	return defCol(
+		xU.merge(
 			{
-				title: State_UI.$t("操作").label,
-				key: static_word.operation,
-				prop: static_word.operation,
+				label: State_UI.$t("操作").label,
+				prop: STATIC_WORD.OPERATION,
 				fixed: "right",
-				minWidth: 100
+				width: "100px"
 			},
 			options
 		)
-	};
+	);
 }
 
 export function defColActionsBtnlist(options: {

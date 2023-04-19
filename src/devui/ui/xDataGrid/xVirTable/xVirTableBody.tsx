@@ -11,7 +11,7 @@ export type t_rowPayload = {
 
 export const xVirTableBody = defineComponent({
 	props: ["columnOrder", "columns", "rowHeight", "selectedConfigs", "selected"],
-	emits: ["selectedChange", "update:scrollHeight"],
+	emits: ["selectedChange", "update:scrollHeight", "scroll"],
 	components: {
 		xVirTableTd
 	},
@@ -342,12 +342,17 @@ export const xVirTableBody = defineComponent({
 			if (event) {
 				/* @ts-ignore */
 				const top: number = event.target.scrollTop;
+				const left: number = event.target.scrollLeft;
+				/* 与header同步srollLeft */
+				this.$emit("scroll", left);
 				this.blockInViewCount = Math.floor(top / this.perBlockHeight);
 			}
 		},
 		setHeight() {
 			const height = this.configs.dataSource.length * this.rowHeight;
-			if (this.viewportHeight && height < this.viewportHeight) {
+			if (!height) {
+				delete this.styleWrapperAll.width;
+			} else if (this.viewportHeight && height < this.viewportHeight) {
 				/* @ts-ignore */
 				this.styleWrapperAll.width = `calc(100% - 6px)`;
 			} else {
@@ -383,7 +388,7 @@ export const xVirTableBody = defineComponent({
 		const vDomTableBody = (
 			<div
 				role="body"
-				class="xVirTable-body-wrapper flex1"
+				class="xVirTable-body-wrapper flex1 width100"
 				ref="wrapper"
 				onScroll={this.updateTop}>
 				<div style={this.styleWrapperAll}>

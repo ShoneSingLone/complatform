@@ -8,10 +8,14 @@ import {
 	$t,
 	setDataGridInfo,
 	xU,
-	UI
+	UI,
+	defColActions,
+	defColActionsBtnlist
 } from "@ventose/ui";
 import { Cpt_url } from "@/router/router";
 import { DialogImportI18nJSON } from "./DialogImportI18nJSON";
+import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
+import * as _ from "lodash";
 
 export const ViewI18n = defineComponent({
 	setup() {
@@ -42,15 +46,117 @@ export const ViewI18n = defineComponent({
 				columns: {
 					...defCol({
 						label: "key",
+						// width: "800px",
 						prop: "key"
 					}),
 					...defCol({
 						label: $t("描述").label,
+						width: "800px",
 						prop: "tag"
 					}),
 					...defCol({
-						label: $t("是否已校正").label,
+						label: $t("校正").label,
+						width: "800px",
 						prop: "isRectified"
+					}),
+					...defColActions({
+						renderCell(args) {
+							return defColActionsBtnlist({
+								fold: 2,
+								btns: [
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("bbbbb").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("ccccc").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									},
+									{
+										text: $t("ddddd").label,
+										onClick: async () => {
+											await xU.sleep(1000);
+										}
+									}
+								]
+							});
+						}
 					})
 				}
 			})
