@@ -62,6 +62,7 @@ import { usefnObserveDomResize } from "./compositionAPI/useDomResize";
 import { useScopeStyle } from "./compositionAPI/useScopeStyle";
 import { xInfoCard } from "./xView/xInfoCard";
 import { xLinkCopy } from "./xButton/xLinkCopy";
+import { xInfoDiffCard } from "./xInfoDiffCard/xInfoDiffCard";
 
 /* @ts-ignore */
 window.dayjs = dayjs;
@@ -95,7 +96,8 @@ const componentMyUI = {
 	xVirTable,
 	xLogObject,
 	xInfoCard,
-	xLinkCopy
+	xLinkCopy,
+	xInfoDiffCard
 };
 
 export const components = {
