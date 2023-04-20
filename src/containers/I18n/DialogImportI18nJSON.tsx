@@ -77,7 +77,7 @@ export const DialogImportI18nJSON = defineComponent({
 				</>
 			);
 			this.raw$configsTableExistedRecords = defXVirTableConfigs({
-				rowHeight: 100,
+				rowHeight: 120,
 				dataSource: xU.map(different, i => ({
 					...i,
 					_id: i.existedRecord._id
@@ -96,6 +96,7 @@ export const DialogImportI18nJSON = defineComponent({
 					}),
 					...defCol({
 						label: $t("描述").label,
+						width: "80px",
 						prop: "desc",
 						renderCell({ record }) {
 							return record.existedRecord.desc;
@@ -105,15 +106,34 @@ export const DialogImportI18nJSON = defineComponent({
 						label: $t("diff").label,
 						prop: "different",
 						renderCell({ record }) {
+							let valueArray, desc;
 							if (record?.diffRes?.valueArray) {
-								const valueArray = record.diffRes.valueArray.map(JSON.parse);
-								return (
-									<div class="overflow-auto height100">
-										<div>{JSON.stringify(valueArray[0])}</div>
-										<div>{JSON.stringify(valueArray[1])}</div>
-									</div>
+								valueArray = record.diffRes.valueArray.map(JSON.parse);
+								valueArray = (
+									<xInfoDiffCard
+										title={"valueArray"}
+										old={JSON.stringify(valueArray[1], null, 2)}
+										new={JSON.stringify(valueArray[0], null, 2)}
+									/>
 								);
 							}
+							if (record?.diffRes?.desc) {
+								desc = record?.diffRes?.desc;
+								desc = (
+									<xInfoDiffCard
+										title={$t("描述").label}
+										old={desc[1]}
+										new={desc[0]}
+									/>
+								);
+							}
+
+							return (
+								<div class="height100 overflow-auto width100">
+									{valueArray}
+									{desc}
+								</div>
+							);
 						}
 					})
 				}
@@ -128,10 +148,14 @@ export const DialogImportI18nJSON = defineComponent({
 				const params = xU.map(selected, ({ diffRes, existedRecord }) => {
 					return {
 						...existedRecord,
-						valueArray: diffRes.valueArray[0]
+						valueArray: diffRes.valueArray
+							? diffRes.valueArray[0]
+							: existedRecord.valueArray,
+						desc: diffRes.desc ? diffRes.desc[0] : existedRecord.desc
 					};
 				});
 				await API.god.upsertI18nRecordMany(params);
+				UI.message.success(`修改记录成功`);
 				await stateI18n._$updateList();
 				this.propDialogOptions.closeDialog();
 			} catch (error) {
@@ -143,7 +167,9 @@ export const DialogImportI18nJSON = defineComponent({
 		if (isShowCoverView) {
 			return (
 				<>
-					<div class="x-dialog-boddy-wrapper margin20" style="height:40vh">
+					<div
+						class="x-dialog-boddy-wrapper margin20 flex vertical"
+						style="height:40vh">
 						<aAlert message={raw$tips} />
 						<xGap t="10" />
 						<xVirTable

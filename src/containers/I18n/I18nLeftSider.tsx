@@ -254,12 +254,10 @@ export const I18nLeftSider = defineComponent({
 				}
 			});
 		},
-		openDialogUpsertI18nRecord(parentDoc) {
+		openDialogUpsertI18nRecord(record) {
 			UI.dialog.component({
 				title: this.$t("添加记录").label,
-				parentDoc,
-				/* 所有人可见 */
-				belong_type: "all",
+				record,
 				component: DialogUpsertI18nRecord
 			});
 		}

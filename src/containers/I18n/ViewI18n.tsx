@@ -16,6 +16,8 @@ import { Cpt_url } from "@/router/router";
 import { DialogImportI18nJSON } from "./DialogImportI18nJSON";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import * as _ from "lodash";
+import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
+import { ITEM_OPTIONS } from "@/utils/common";
 
 export const ViewI18n = defineComponent({
 	setup() {
@@ -47,22 +49,33 @@ export const ViewI18n = defineComponent({
 					}),
 					...defCol({
 						label: $t("描述").label,
-						prop: "tag"
+						prop: "desc"
 					}),
 					...defCol({
 						label: $t("校正").label,
 						width: "80px",
-						prop: "isRectified"
+						prop: "isRectified",
+						renderCell({ record }) {
+							return xU.valueToLabel(
+								record.isRectified,
+								ITEM_OPTIONS.trueOrFalse
+							);
+						}
 					}),
 					...defColActions({
-						renderCell(args) {
+						renderCell({ record }) {
 							return defColActionsBtnlist({
 								fold: 7,
 								btns: [
 									{
 										text: $t("修改").label,
 										onClick: async () => {
-											Cpt_url.value.go("/i18n", { i18n_id: args.record._id });
+											await stateI18n._$updateCurrent(record._id);
+											UI.dialog.component({
+												title: this.$t("修改记录").label,
+												record: xU.cloneDeep(stateI18n.currentI18n),
+												component: DialogUpsertI18nRecord
+											});
 										}
 									},
 									{
@@ -104,9 +117,6 @@ export const ViewI18n = defineComponent({
 		}
 	},
 	watch: {
-		"Cpt_url.query.i18n_id"(i18nId) {
-			stateI18n._$updateCurrent(i18nId);
-		},
 		"stateI18n.i18nRecordArray"(i18nRecordArray) {
 			setDataGridInfo(this.configsI18nTable, { data: i18nRecordArray });
 		}

@@ -6,7 +6,8 @@ import {
 	defItem,
 	xU,
 	$t,
-	VNodeCollection
+	VNodeCollection,
+	setValueTo
 } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
@@ -14,6 +15,7 @@ import { State_App } from "@/state/State_App";
 import { FormRules } from "@/utils/common.FormRules";
 import { Cpt_url } from "@/router/router";
 import { stateI18n } from "./State_i18n";
+import { ITEM_OPTIONS } from "@/utils/common.options";
 
 export const DialogUpsertI18nRecord = defineComponent({
 	props: {
@@ -32,14 +34,14 @@ export const DialogUpsertI18nRecord = defineComponent({
 		const vm = this;
 		const idTipsMarkdown = `\`\`\`js
 //${$t(`作为Key值`).label}
-$t("此处为Key").label
+$t("Key值").label
 \`\`\``;
 		return {
 			dataXItem: {
 				...defItem({
 					value: "",
 					prop: "key",
-					label: $t("ID").label,
+					label: $t("key").label,
 					labelVNodeRender: VNodeCollection.labelTips(
 						<Mkit md={idTipsMarkdown} />
 					),
@@ -50,6 +52,14 @@ $t("此处为Key").label
 					prop: "desc",
 					label: $t("描述").label,
 					isTextarea: true,
+					rules: [FormRules.required()]
+				}),
+				...defItem({
+					value: false,
+					prop: "isRectified",
+					label: $t("是否已校正").label,
+					itemType: "Switch",
+					options: ITEM_OPTIONS.trueOrFalse,
 					rules: [FormRules.required()]
 				}),
 				...defItem({
@@ -92,23 +102,30 @@ $t("此处为Key").label
 			}
 		};
 	},
-	computed: {},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.initForm();
 	},
 	methods: {
+		initForm() {
+			if (this.propDialogOptions?.record?.valueArray) {
+				setValueTo(this.dataXItem, this.propDialogOptions?.record);
+			}
+		},
 		async onOk() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
 				try {
-					const { data } = await API.god.upsertOneI18nRecord(
-						pickValueFrom(this.dataXItem)
-					);
+					const { data } = await API.god.upsertOneI18nRecord({
+						...this.propDialogOptions?.record,
+						...pickValueFrom(this.dataXItem)
+					});
 					if (data?.msg?._id) {
 						UI.message.success("添加记录成功");
-						stateI18n._$updateList({});
-						this.propDialogOptions.closeDialog();
+					} else {
+						UI.message.success("修改记录成功");
 					}
+					stateI18n._$updateList({});
+					this.propDialogOptions.closeDialog();
 				} catch (error) {
 					UI.message.error("添加失败");
 				}
