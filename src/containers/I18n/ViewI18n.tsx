@@ -124,7 +124,9 @@ export const ViewI18n = defineComponent({
 	},
 	watch: {
 		"stateI18n.i18nRecordArray"(i18nRecordArray) {
-			setDataGridInfo(this.configsI18nTable, { data: i18nRecordArray });
+			setTimeout(() => {
+				setDataGridInfo(this.configsI18nTable, { data: i18nRecordArray });
+			}, 1000 * 2);
 		}
 	},
 	render() {
