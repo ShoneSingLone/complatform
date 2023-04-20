@@ -68,6 +68,12 @@ export const ViewI18n = defineComponent({
 								fold: 7,
 								btns: [
 									{
+										text: $t("查看valueArray").label,
+										onClick: async () => {
+											await stateI18n._$updateCurrent(record._id);
+										}
+									},
+									{
 										text: $t("修改").label,
 										onClick: async () => {
 											await stateI18n._$updateCurrent(record._id);
