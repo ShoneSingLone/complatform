@@ -1,4 +1,5 @@
 import { ajax } from "@/api/ajax";
+import { xU } from "@ventose/ui";
 
 export const god = {
 	upsertOneI18nRecord(payload) {
@@ -8,7 +9,12 @@ export const god = {
 		return this.say("upsertI18nRecordMany", payload);
 	},
 	i18nRecords(condition = {}) {
-		return this.say("i18nRecords", condition);
+		return this.say("i18nRecords", { condition });
+	},
+	deleteI18nRecords(records = []) {
+		return this.say("deleteI18nRecords", {
+			ids: xU.map(records, record => record._id)
+		});
 	},
 	i18nRecordById(_id) {
 		if (!_id) {

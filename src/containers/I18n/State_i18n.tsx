@@ -1,9 +1,6 @@
-import { markRaw, onMounted, onUnmounted, reactive, watch } from "vue";
-import { xU, State_UI, setDocumentTitle, newReactiveState } from "@ventose/ui";
+import { markRaw, onMounted, onUnmounted } from "vue";
+import { xU, newReactiveState } from "@ventose/ui";
 import { API } from "@/api/index";
-import { Cpt_url } from "@/router/router";
-import { sortTreeByOrder } from "@/utils/common";
-import { buildTree } from "../Wiki/State_Wiki";
 
 const methods = markRaw({
 	setExpandedKeys: xU.debounce(async _id => {
@@ -48,25 +45,27 @@ const methods = markRaw({
 	}
 });
 
-export const stateI18n = reactive(
-	newReactiveState({
-		isLoading: false,
-		i18nRecordArray: [],
-		allRecords: {},
-		currentI18n: {},
-		/* 左侧 树 展开 */
-		expandedKeys: [],
-		async _$updateList(payload = {}) {
-			const { data } = await API.god.i18nRecords();
-			stateI18n.i18nRecordArray = data;
-		},
-		/* 详情 */
-		async _$updateCurrent(_id: number) {
-			const { data } = await API.god.i18nRecordById(_id);
-			stateI18n.currentI18n = data;
-		}
-	})
-);
+export const stateI18n = newReactiveState({
+	isLoading: false,
+	i18nRecordArray: [],
+	allRecords: {},
+	currentI18n: {},
+	/* 左侧 树 展开 */
+	expandedKeys: [],
+	async _$updateList(payload = {}) {
+		const { data } = await API.god.i18nRecords();
+		stateI18n.i18nRecordArray = data;
+	},
+	/* 详情 */
+	async _$updateCurrent(_id: number) {
+		const { data } = await API.god.i18nRecordById(_id);
+		stateI18n.currentI18n = data;
+	},
+	/* 详情 */
+	async _$deleteI18nRecords(records: any[]) {
+		await API.god.deleteI18nRecords(records);
+	}
+});
 
 export const useStateI18n = () => {
 	onMounted(() => stateI18n._$resetSelf());

@@ -1,4 +1,4 @@
-import { markRaw } from "vue";
+import { markRaw, reactive } from "vue";
 import Lodash from "lodash";
 
 type t_ReactiveState = {
@@ -79,7 +79,6 @@ export function newReactiveState<T>(stateAndMethods: T): T & t_ReactiveState {
 		innerVariablesAndMethods,
 		(value, prop) => (stateAndMethods[prop] = value)
 	);
-
 	/* @ts-ignore */
-	return stateAndMethods;
+	return reactive(stateAndMethods);
 }

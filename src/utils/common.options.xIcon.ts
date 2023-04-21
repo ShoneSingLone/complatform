@@ -28,6 +28,8 @@ export default [
   "home",
   "iconFilter",
   "icon_article",
+  "icon_i18n",
+  "icon_inbox",
   "lockStrok",
   "logout",
   "mail",

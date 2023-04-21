@@ -18,6 +18,8 @@ import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import * as _ from "lodash";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
 import { ITEM_OPTIONS } from "@/utils/common";
+import { API } from "@/api";
+import { State_App } from "@/state/State_App";
 
 export const ViewI18n = defineComponent({
 	setup() {
@@ -86,8 +88,9 @@ export const ViewI18n = defineComponent({
 									},
 									{
 										text: $t("删除").label,
+										isShow: State_App.user.role === "admin",
 										onClick: async () => {
-											await xU.sleep(1000);
+											vm.deleteI18nRecords([record]);
 										}
 									}
 								]
@@ -98,7 +101,50 @@ export const ViewI18n = defineComponent({
 			})
 		};
 	},
-	methods: {},
+	methods: {
+		async exportRecordAsJson(records) {
+			function download(url, name) {
+				const aTag = document.createElement("a");
+				aTag.href = url;
+				aTag.download = name;
+				aTag.click();
+			}
+			const { data } = await API.god.i18nRecords({
+				ids: xU.map(records, i => i._id)
+			});
+			const content = JSON.stringify(
+				xU.reduce(
+					data,
+					(target, d) => {
+						target[d.key] = JSON.parse(d.valueArray);
+						return target;
+					},
+					{}
+				),
+				null,
+				2
+			);
+			const url = `data:,${content}`;
+			download(url, "i18nRecords.json");
+			// 最终下载名为a.json的文件
+		},
+		deleteI18nRecords(records) {
+			UI.confirm({
+				title: "确定删除这些吗？",
+				content: `记录删除后无法恢复`,
+				async onOk() {
+					try {
+						await stateI18n._$deleteI18nRecords(records);
+						UI.message.success("删除记录成功");
+						stateI18n._$updateList({});
+					} catch (error) {
+						UI.message.error(error.message);
+						return Promise.reject();
+					}
+				}
+			});
+		}
+	},
 	computed: {
 		btnImport() {
 			return {
@@ -108,6 +154,31 @@ export const ViewI18n = defineComponent({
 						title: $t("导入国际化JSON文件").label,
 						component: DialogImportI18nJSON
 					});
+				}
+			};
+		},
+		btnDelete() {
+			const vm = this;
+			return {
+				text: $t("删除").label,
+				isShow: State_App.user.role === "admin",
+				disabled() {
+					return !xU.isArrayFill(vm.configsI18nTable.selected);
+				},
+				onClick() {
+					vm.deleteI18nRecords(vm.configsI18nTable.getSelectedRow());
+				}
+			};
+		},
+		btnDownload() {
+			const vm = this;
+			return {
+				text: $t("导出").label,
+				disabled() {
+					return !xU.isArrayFill(vm.configsI18nTable.selected);
+				},
+				onClick() {
+					vm.exportRecordAsJson(vm.configsI18nTable.getSelectedRow());
 				}
 			};
 		},
@@ -124,9 +195,7 @@ export const ViewI18n = defineComponent({
 	},
 	watch: {
 		"stateI18n.i18nRecordArray"(i18nRecordArray) {
-			setTimeout(() => {
-				setDataGridInfo(this.configsI18nTable, { data: i18nRecordArray });
-			}, 1000 * 2);
+			setDataGridInfo(this.configsI18nTable, { data: i18nRecordArray });
 		}
 	},
 	render() {
@@ -136,6 +205,10 @@ export const ViewI18n = defineComponent({
 				<main class="flex flex1 padding10 vertical paddingB20">
 					<xDataGridToolbar configs={this.configsI18nTable}>
 						<xButton configs={this.btnImport} />
+						<xGap l="4" />
+						<xButton configs={this.btnDownload} />
+						<xGap l="4" />
+						<xButton configs={this.btnDelete} />
 					</xDataGridToolbar>
 					<xVirTable configs={this.configsI18nTable} class="flex1 width100 " />
 					{stateI18n.currentI18n?.valueArray && (

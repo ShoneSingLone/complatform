@@ -86,7 +86,7 @@ export const xVirTable = defineComponent({
 	},
 	mounted() {
 		this.initStyle();
-		this.layout();
+		this.layoutDebounce();
 	},
 	provide() {
 		const vm = this;
@@ -99,10 +99,12 @@ export const xVirTable = defineComponent({
 			this.resetOperationWidth,
 			STATIC_WORD.NEXT_TICK_TIME
 		);
+		this.layoutDebounce = xU.debounce(this.layout, STATIC_WORD.NEXT_TICK_TIME);
 		this.resetColumnWidthDebounce = xU.debounce(
 			this.resetColumnWidth,
 			STATIC_WORD.NEXT_TICK_TIME
 		);
+
 		return {
 			styleWidthXVirTable: 0,
 			styleWidthOperation: "120px",
@@ -319,7 +321,7 @@ export const xVirTable = defineComponent({
 				isShrink
 			);
 
-			const selectorThead = `${selectorTable} >div[role=table] >div[role=thead] >div[role=tr] >div[role=th][data-index]`;
+			const selectorThead = `${selectorTable} >div[role=table] >div[role=thead] >div[role=tr] >div[role=th]`;
 			const $tHead = $(selectorThead);
 
 			/* 只收缩没有原始width的列 */
@@ -353,31 +355,30 @@ export const xVirTable = defineComponent({
 			if (isShrink) {
 				/* 如果superfluous能够cover，就还原 */
 				if (mayCalculateWidth.length > 0) {
-					const originContentWrapperWidth = xU.reduce(
-						$tHead,
-						(_width, dom) => {
-							const prop = dom.dataset.prop;
-							const inMayCalculateWidth = xU.some(
-								mayCalculateWidth,
-								i => i.prop === prop
-							);
-							if (inMayCalculateWidth) {
-								_width += 200;
-							} else {
-								_width += dom.offsetWidth;
-							}
-							return _width;
-						},
-						0
-					);
+					/* 这是一个经验值，没有精心计算 */
+					let originContentWrapperWidth = 10;
+
+					xU.each($tHead, dom => {
+						const prop = dom.dataset.prop;
+						const inMayCalculateWidth = xU.some(
+							mayCalculateWidth,
+							i => i.prop === prop
+						);
+						if (inMayCalculateWidth) {
+							originContentWrapperWidth += 200;
+						} else {
+							originContentWrapperWidth += dom.offsetWidth;
+						}
+					});
 
 					/* 如果shirnk之后可以保证不出现滑动条,那么就重新计算宽度，否则没有必要 */
-					if (originContentWrapperWidth <= tableWrapperWidth) {
+					if (originContentWrapperWidth < tableWrapperWidth) {
 						const width =
 							Math.floor(
 								(tableWrapperWidth - originContentWrapperWidth) /
 									mayCalculateWidth.length
 							) - 0.5;
+
 						xU.each(mayCalculateWidth, configs => {
 							const columnWidth = 200 + width;
 							configs.__calcWidth = `${columnWidth}px`;
@@ -407,7 +408,7 @@ export const xVirTable = defineComponent({
 				if (wrapperWidth < childWidth) {
 					this.styleWidthOperation = `${childWidth}px`;
 				}
-				this.layout();
+				this.layoutDebounce();
 			} catch (error) {
 				this.resetOperationWidthDebounce();
 			}
@@ -430,8 +431,8 @@ export const xVirTable = defineComponent({
 			);
 			const width = xU.max(bodyWidth);
 			if (width) {
-				this.resetColumnWidthDebounce(width);
 				this.styleWidthXVirTable = `${width}px`;
+				this.resetColumnWidthDebounce(width);
 			}
 		},
 		initStyle() {

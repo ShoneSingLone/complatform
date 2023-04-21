@@ -55,7 +55,7 @@ export const xVirTableBody = defineComponent({
 	mounted() {
 		/* 监听body高度变化 */
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
-			this.xVirTable.layout();
+			this.xVirTable.layoutDebounce();
 			this.debounceSetPerBlockHeight(this.$refs.wrapper.offsetHeight);
 		});
 		this.$watch(
