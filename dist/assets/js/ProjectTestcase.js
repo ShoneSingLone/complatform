@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, a as defItem, F as FormRules, I as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, ab as Methods_ProjectInterface, U as UI, b as API, e as createVNode, r as resolveComponent, x as xU, n as Fragment, q as isVNode, J as ITEM_OPTIONS, ac as State_ProjectInterface, H as markRaw, C as Cpt_url, i as reactive, j as watch, ad as ALL, S as State_UI, t as $, af as _$arrayChangeIndex, y as withDirectives, z as resolveDirective, B as compositionAPI } from "./index.js";
+import { d as defineComponent, g as _State_App, a as defItem, F as FormRules, I as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, ah as Methods_ProjectInterface, U as UI, b as API, e as createVNode, r as resolveComponent, x as xU, n as Fragment, q as isVNode, J as ITEM_OPTIONS, ai as State_ProjectInterface, H as markRaw, C as Cpt_url, i as reactive, j as watch, aj as ALL, S as State_UI, t as $, al as _$arrayChangeIndex, y as withDirectives, z as resolveDirective, B as compositionAPI } from "./index.js";
 function _isSlot$1(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
@@ -136,7 +136,7 @@ const DialogUpsertCategory = defineComponent({
   render() {
     let _slot;
     return createVNode(Fragment, null, [createVNode("div", {
-      "class": "g-row flex1 height100 "
+      "class": "x-dialog-boddy-wrapper flex1 height100 "
     }, [createVNode(resolveComponent("xGap"), {
       "t": "10"
     }, null), createVNode(resolveComponent("xForm"), {
@@ -287,7 +287,7 @@ const DialogAddInterface = defineComponent({
   render() {
     let _slot;
     return createVNode(Fragment, null, [createVNode("div", {
-      "class": "g-row flex1 height100"
+      "class": "x-dialog-boddy-wrapper flex1 height100"
     }, [createVNode(resolveComponent("xGap"), {
       "t": "10"
     }, null), createVNode(resolveComponent("aAlert"), {

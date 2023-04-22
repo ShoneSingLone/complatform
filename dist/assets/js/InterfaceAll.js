@@ -1,4 +1,4 @@
-import { d as defineComponent, ag as useInterfaceTableConfigs, ac as State_ProjectInterface, $ as $t, e as createVNode, r as resolveComponent } from "./index.js";
+import { d as defineComponent, am as useInterfaceTableConfigs, ai as State_ProjectInterface, $ as $t, e as createVNode, r as resolveComponent } from "./index.js";
 import { o as openDialogInterfaceStatusModify, a as openDialogInterfaceProxyModify } from "./DialogModifyInterface.Helper.js";
 import "./TuiEditor.js";
 const InterfaceAll = defineComponent({
@@ -84,7 +84,7 @@ const InterfaceAll = defineComponent({
       }, {
         default: () => [vm.$t("\u79FB\u9664Tag").label]
       })]), createVNode("div", {
-        "class": "elevation-1 padding20 flex1",
+        "class": "elevation-1 flex1",
         "style": {
           height: "100px"
         }

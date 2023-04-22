@@ -7,10 +7,6 @@
     "file": "assets/loading-0.gif",
     "src": "src/devui/ui/xSingle/layer/imgs/loading-0.gif"
   },
-  "src/devui/ui/xSingle/layer/imgs/loading-2.gif": {
-    "file": "assets/loading-2.gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-2.gif"
-  },
   "src/devui/ui/xSingle/layer/imgs/icon.png": {
     "file": "assets/icon.png",
     "src": "src/devui/ui/xSingle/layer/imgs/icon.png"
@@ -18,6 +14,10 @@
   "src/devui/ui/xSingle/layer/imgs/icon-ext.png": {
     "file": "assets/icon-ext.png",
     "src": "src/devui/ui/xSingle/layer/imgs/icon-ext.png"
+  },
+  "src/devui/ui/xSingle/layer/imgs/loading-2.gif": {
+    "file": "assets/loading-2.gif",
+    "src": "src/devui/ui/xSingle/layer/imgs/loading-2.gif"
   },
   "src/devui/assets/svg/input.svg": {
     "file": "assets/input.svg",
@@ -34,6 +34,7 @@
     "dynamicImports": [
       "src/containers/Login/LoginContainer.tsx",
       "src/containers/Wiki/ViewWiki.tsx",
+      "src/containers/I18n/ViewI18n.tsx",
       "src/containers/Project/ViewProject.tsx",
       "src/containers/Project/Interface/ProjectInterface.tsx",
       "src/containers/Project/Interface/InterfaceAll.tsx",
@@ -86,6 +87,17 @@
     ],
     "css": [
       "assets/TuiEditor.css"
+    ]
+  },
+  "src/containers/I18n/ViewI18n.tsx": {
+    "file": "assets/js/ViewI18n.js",
+    "src": "src/containers/I18n/ViewI18n.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "css": [
+      "assets/ViewI18n.css"
     ]
   },
   "src/containers/Project/ViewProject.tsx": {
@@ -177,6 +189,10 @@
   "TuiEditor.css": {
     "file": "assets/TuiEditor.css",
     "src": "TuiEditor.css"
+  },
+  "src/containers/I18n/ViewI18n.css": {
+    "file": "assets/ViewI18n.css",
+    "src": "src/containers/I18n/ViewI18n.css"
   },
   "src/containers/Project/ViewProject.css": {
     "file": "assets/ViewProject.css",

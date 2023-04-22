@@ -180,7 +180,7 @@ const DialogAddArticle = defineComponent({
   render() {
     let _slot;
     return createVNode(Fragment, null, [createVNode("div", {
-      "class": "g-row flex1 height100"
+      "class": "x-dialog-boddy-wrapper flex1 height100"
     }, [createVNode(resolveComponent("xGap"), {
       "t": "10"
     }, null), createVNode(resolveComponent("aAlert"), {
@@ -269,7 +269,7 @@ const WikiLeftSider = defineComponent({
   },
   async mounted() {
     this.fnObserveDomResize(this.$refs.wrapper, () => {
-      const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 20;
+      const siderHeight = Math.floor($(this.$refs.wrapper).height()) - 52;
       this.setSiderHeight(siderHeight);
     });
   },
@@ -448,7 +448,7 @@ const WikiLeftSider = defineComponent({
     }, 600),
     setSiderHeight: xU.debounce(function(siderHeight) {
       this.siderHeight = siderHeight;
-    }, 20),
+    }, 300),
     deleteArticle(_id) {
       const vm = this;
       UI.dialog.confirm({
