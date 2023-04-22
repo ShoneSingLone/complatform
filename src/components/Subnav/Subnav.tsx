@@ -17,7 +17,7 @@ class Subnav extends Component {
 					onClick={this.handleClick}
 					selectedKeys={[this.props.default]}
 					mode="horizontal"
-					class="g-row m-subnav-menu">
+					class="x-dialog-boddy-wrapper m-subnav-menu">
 					{this.props.data.map((item, index) => {
 						// 若导航标题为两个字，则自动在中间加个空格
 						if (item.name.length === 2) {

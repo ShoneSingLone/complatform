@@ -27,7 +27,7 @@ export type t_dialogOptions = {
 	/* dialog jQuery 实例 */
 	_dialog$ele?: JQuery;
 	/* 在component里面propDialogOptions作为参数传入*/
-	title?: string;
+	title?: any;
 	component: object;
 	area?: string[];
 	/* layer 索引，用于layer close */
@@ -174,9 +174,10 @@ export const installUIDialogComponent = (
 					btn: [
 						/*'确定', '取消'*/
 					],
-					success($eleLayer, _layerKey) {
+					success($eleLayer, _layerKey, layerInstance) {
 						handleEcsPress.on(_layerKey);
 						/* dialog jQuery 实例 */
+						dialogOptions._layerInstance = layerInstance;
 						dialogOptions._dialog$ele = $eleLayer;
 						dialogOptions._layerKey = _layerKey;
 						try {

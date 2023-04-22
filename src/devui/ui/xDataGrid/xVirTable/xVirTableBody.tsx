@@ -4,9 +4,15 @@ import { xU } from "../../ventoseUtils";
 import { usefnObserveDomResize } from "../../compositionAPI/useDomResize";
 import { xVirTableTd } from "./xVirTableTd";
 
+export type t_rowPayload = {
+	rowIndex: number;
+	rowData: object;
+};
+
 export const xVirTableBody = defineComponent({
 	props: ["columnOrder", "columns", "rowHeight", "selectedConfigs", "selected"],
-	emits: ["selectedChange", "update:scrollHeight"],
+	emits: ["selectedChange", "update:scrollHeight", "scroll"],
+	inject: ["xVirTable"],
 	components: {
 		xVirTableTd
 	},
@@ -22,6 +28,16 @@ export const xVirTableBody = defineComponent({
 		};
 	},
 	data(vm) {
+		this.debounceSetPerBlockHeight = xU.debounce(function (
+			viewportHeight: number
+		) {
+			this.viewportHeight = viewportHeight;
+			this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
+			this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
+			this.setHeight();
+		},
+		64);
+
 		return {
 			isLoading: false,
 			perBlockHeight: 1,
@@ -36,22 +52,10 @@ export const xVirTableBody = defineComponent({
 			virs3: []
 		};
 	},
-	created() {
-		(() => {
-			this.debounceSetPerBlockHeight = xU.debounce(function (
-				viewportHeight: number
-			) {
-				this.viewportHeight = viewportHeight;
-				this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
-				this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
-				this.setHeight();
-			},
-			64);
-		})();
-	},
 	mounted() {
 		/* 监听body高度变化 */
 		this.fnObserveDomResize(this.$refs.wrapper, () => {
+			this.xVirTable.layoutDebounce();
 			this.debounceSetPerBlockHeight(this.$refs.wrapper.offsetHeight);
 		});
 		this.$watch(
@@ -159,20 +163,28 @@ export const xVirTableBody = defineComponent({
 			);
 			xU.each(props, prop => delete this.rowCache[prop]);
 		},
+		onClickRow(payload: t_rowPayload) {
+			if (this?.configs?.onClickRow) {
+				this.configs.onClickRow(payload);
+			}
+		},
 		genTr(rows) {
 			const vDomBlock = (() => {
 				if (!this.uniqBy) {
 					return xU.map(rows, (data: object, rowIndex: number) => {
 						const { __virRowIndex } = data;
+
+						const payload = {
+							rowIndex: __virRowIndex,
+							rowData: data
+						};
 						return (
 							<div
 								role="tr"
 								class="xVirTable-row flex horizon"
-								data-row-key={__virRowIndex}>
-								{this.genSelectedVDom({
-									rowIndex: __virRowIndex,
-									rowData: data
-								})}
+								data-row-key={__virRowIndex}
+								onClick={() => this.onClickRow(payload)}>
+								{this.genSelectedVDom(payload)}
 								{xU.map(this.columnOrder, (prop: string, index: number) => {
 									return (
 										<xVirTableTd
@@ -329,12 +341,17 @@ export const xVirTableBody = defineComponent({
 			if (event) {
 				/* @ts-ignore */
 				const top: number = event.target.scrollTop;
+				const left: number = event.target.scrollLeft;
+				/* 与header同步srollLeft */
+				this.$emit("scroll", left);
 				this.blockInViewCount = Math.floor(top / this.perBlockHeight);
 			}
 		},
 		setHeight() {
 			const height = this.configs.dataSource.length * this.rowHeight;
-			if (this.viewportHeight && height < this.viewportHeight) {
+			if (!height) {
+				delete this.styleWrapperAll.width;
+			} else if (this.viewportHeight && height < this.viewportHeight) {
 				/* @ts-ignore */
 				this.styleWrapperAll.width = `calc(100% - 6px)`;
 			} else {
@@ -342,6 +359,13 @@ export const xVirTableBody = defineComponent({
 			}
 			/* @ts-ignore */
 			this.styleWrapperAll.height = `${height}px`;
+			this.$nextTick(() => {
+				if (this.$refs.wrapper.scrollTop > 1) {
+					this.$refs.wrapper.scrollTop--;
+				} else {
+					this.$refs.wrapper.scrollTop++;
+				}
+			});
 		}
 	},
 	watch: {
@@ -370,7 +394,7 @@ export const xVirTableBody = defineComponent({
 		const vDomTableBody = (
 			<div
 				role="body"
-				class="xVirTable-body-wrapper flex1"
+				class="xVirTable-body-wrapper flex1 width100"
 				ref="wrapper"
 				onScroll={this.updateTop}>
 				<div style={this.styleWrapperAll}>

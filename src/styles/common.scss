@@ -122,10 +122,9 @@ em {
 }
 
 // 布局容器 guitter: 16px
-.g-row {
-	min-width: 7.52rem; // Col宽度 (752+16)/24 = 32
-	margin: 0 auto;
-	padding: 0 0.24rem;
+.x-dialog-boddy-wrapper {
+	min-width: 30vw; 
+	padding:10px;
 }
 
 .m-container {

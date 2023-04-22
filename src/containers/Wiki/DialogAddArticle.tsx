@@ -92,7 +92,7 @@ export const DialogAddArticle = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="g-row flex1 height100">
+				<div class="x-dialog-boddy-wrapper flex1 height100">
 					<xGap t="10" />
 					<aAlert
 						message={this.$t("保存标题后再编辑文档内容").label}

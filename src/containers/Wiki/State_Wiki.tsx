@@ -88,7 +88,7 @@ watch(
 	{ immediate: true }
 );
 
-function buildTree(dataArray, orderArray) {
+export function buildTree(dataArray, orderArray) {
 	console.time("buildTree");
 	/* findChildren */
 	State_Wiki.allWiki = xU.reduce(

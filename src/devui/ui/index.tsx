@@ -40,23 +40,29 @@ import {
 	setPagination
 } from "./xDataGrid/common";
 import { antColKey, defItem, vModel } from "./xForm/common";
+import { UI } from "./UI";
 import {
 	AllWasWell,
 	EVENT_TYPE,
 	validateForm,
-	validateItem
-} from "./tools/validate";
-import { setCSSVariables, setDocumentTitle } from "./tools/dom";
-import { iStorage, lStorage } from "./tools/storage.js";
-import { pickValueFrom, resetValueOf, setValueTo } from "./tools/form";
-import { UI } from "./UI";
-import { VNodeCollection } from "./tools/VNodeRender";
-import { compileVNode } from "./tools/framework";
+	validateItem,
+	setCSSVariables,
+	setDocumentTitle,
+	lStorage,
+	iStorage,
+	pickValueFrom,
+	resetValueOf,
+	setValueTo,
+	VNodeCollection,
+	newReactiveState,
+	compileVNode
+} from "./tools";
 import { xLogObject } from "./xSingle/xLogObject";
 import { usefnObserveDomResize } from "./compositionAPI/useDomResize";
 import { useScopeStyle } from "./compositionAPI/useScopeStyle";
 import { xInfoCard } from "./xView/xInfoCard";
 import { xLinkCopy } from "./xButton/xLinkCopy";
+import { xInfoDiffCard } from "./xInfoDiffCard/xInfoDiffCard";
 
 /* @ts-ignore */
 window.dayjs = dayjs;
@@ -90,7 +96,8 @@ const componentMyUI = {
 	xVirTable,
 	xLogObject,
 	xInfoCard,
-	xLinkCopy
+	xLinkCopy,
+	xInfoDiffCard
 };
 
 export const components = {
@@ -98,6 +105,7 @@ export const components = {
 };
 
 export { VNodeCollection as VNodeCollection };
+export { newReactiveState as newReactiveState };
 export { UI as UI };
 export { dayjs as moment };
 export { dayjs as dayjs };
@@ -121,7 +129,6 @@ export { EVENT_TYPE as EVENT_TYPE };
 
 export { setPagination as setPagination };
 export { getPaginationPageSize as getPaginationPageSize };
-
 export { validateItem as validateItem };
 export { validateForm as validateForm };
 export { AllWasWell as AllWasWell };

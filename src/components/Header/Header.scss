@@ -3,6 +3,10 @@
 .nav-tooltip {
 	color: red;
 }
+.header-menu-icon_background{
+	background: #ffffff6b;
+	border-radius: 6px;
+}
 
 .user-menu.ant-menu.ant-menu-dark .ant-menu-item-selected {
 	background: #32363a;
@@ -16,7 +20,7 @@
 .header-box {
 	height: 0.56rem;
 	line-height: 0.56rem;
-	padding: 0;
+	padding: 0 20px;
 	.logo {
 		position: relative;
 		float: left;

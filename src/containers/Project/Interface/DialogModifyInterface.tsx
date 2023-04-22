@@ -113,8 +113,7 @@ export const DialogModifyInterface = defineComponent({
 					value: vm.State_App.currProject.basepath,
 					prop: "basepath",
 					label: vm.$t("接口基本路径").label,
-					labelVNodeRender:
-						VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
+					labelVNodeRender: VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
 					disabled: true
 				}),
 				...defItem({
@@ -569,7 +568,7 @@ export const DialogModifyInterface = defineComponent({
 	render(vm) {
 		return (
 			<>
-				<div class="dialog-modify-interface g-row flex1 flex horizon height100 width100 overflow-auto">
+				<div class="dialog-modify-interface x-dialog-boddy-wrapper flex1 flex horizon height100 width100 overflow-auto">
 					<div class="flex1">
 						<xForm labelStyle={{ "min-width": "120px", width: "unset" }}>
 							<xGap t="10" />

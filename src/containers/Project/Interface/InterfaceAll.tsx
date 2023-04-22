@@ -78,7 +78,7 @@ export const InterfaceAll = defineComponent({
 					<xButton class="mr4">{vm.$t("添加Tag").label}</xButton>
 					<xButton class="mr4">{vm.$t("移除Tag").label}</xButton>
 				</div>
-				<div class="elevation-1 padding20 flex1" style={{ height: "100px" }}>
+				<div class="elevation-1 flex1" style={{ height: "100px" }}>
 					<xVirTable
 						configs={this.configs_interfaceTable}
 						class="flex1 width100 "

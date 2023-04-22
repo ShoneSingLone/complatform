@@ -58,6 +58,7 @@ export const MonacoEditor = defineAsyncComponent(
 							});
 
 							vm.formatDocument = xU.debounce(function (readOnly) {
+								/* readOnly不能直接格式化，操作表现为无效 */
 								if (readOnly) {
 									vm.raw$editor.updateOptions({ readOnly: false });
 								}
@@ -70,7 +71,7 @@ export const MonacoEditor = defineAsyncComponent(
 								}, 500);
 							}, 600);
 
-							vm.readOnly && vm.formatDocument(vm.readOnly);
+							vm.formatDocument(vm.readOnly);
 
 							vm.raw$editor.addCommand(
 								monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,

@@ -1,27 +1,27 @@
-import { defineComponent, reactive, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI, State_UI, $t } from "@ventose/ui";
+import { defineComponent } from "vue";
+import { $, xU, UI, compositionAPI, $t } from "@ventose/ui";
 import { API } from "@/api/index";
-import { ARTICLE, FOLDER } from "@/utils/variable";
-import { DialogAddArticle } from "./DialogAddArticle";
+import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
 import { Cpt_url } from "@/router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { State_App } from "@/state/State_App";
-import { Methods_Wiki, State_Wiki } from "./State_Wiki";
+import { stateI18n } from "./State_i18n";
 
 const { usefnObserveDomResize } = compositionAPI;
 
+stateI18n._$resetSelf();
 /* root 是文件夹，或者文档都可以 */
 /* 文件夹 编辑、 添加文档、文件夹 */
 /* 文档 编辑、删除 */
 
-export const WikiLeftSider = defineComponent({
+export const I18nLeftSider = defineComponent({
 	emits: ["change"],
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Wiki,
+			State_Wiki: stateI18n,
 			State_App,
 			Cpt_url,
 			fnObserveDomResize,
@@ -30,7 +30,7 @@ export const WikiLeftSider = defineComponent({
 	},
 	watch: {
 		filterText(text) {
-			State_Wiki.isLoading = true;
+			stateI18n.isLoading = true;
 			this.setFilterText(text);
 		}
 	},
@@ -73,7 +73,7 @@ export const WikiLeftSider = defineComponent({
 		btnAddNew() {
 			return {
 				text: $t("新增").label,
-				onClick: () => this.showUpsertArticleDialog()
+				onClick: () => this.openDialogUpsertI18nRecord()
 			};
 		},
 		btnRefresh() {
@@ -94,9 +94,9 @@ export const WikiLeftSider = defineComponent({
 						<xButton configs={vm.btnRefresh} />
 					</div>
 					<aTree
-						v-model:expandedKeys={vm.State_Wiki.expandedKeys}
+						v-model:expandedKeys={stateI18n.expandedKeys}
 						height={vm.siderHeight}
-						treeData={vm.State_Wiki.treeData}
+						treeData={stateI18n.i18nRecordArray}
 						draggable
 						onDrop={vm.handleDropArticle}
 						fieldNames={vm.configs.fieldNames}>
@@ -105,7 +105,7 @@ export const WikiLeftSider = defineComponent({
 								const { title, _id, type } = item;
 								const classContentString = (() => {
 									let _classString = "flex middle x-sider-tree_menu";
-									if (String(_id) == String(vm.State_Wiki.currentWiki._id)) {
+									if (String(_id) == String(stateI18n.currentI18n._id)) {
 										return _classString + " x-sider-tree_menu_active";
 									}
 									return _classString;
@@ -126,12 +126,12 @@ export const WikiLeftSider = defineComponent({
 								};
 
 								const handleClick = () => {
-									State_Wiki.isLoading = true;
-									vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
+									stateI18n.isLoading = true;
+									vm.Cpt_url.go("/i18n", { wiki_id: item.data._id });
 									vm.$emit("change");
 									setTimeout(() => {
 										/* 内网环境，数据3秒都回不来，就有点呵呵了 */
-										State_Wiki.isLoading = false;
+										stateI18n.isLoading = false;
 									}, 1000 * 3);
 								};
 
@@ -143,14 +143,14 @@ export const WikiLeftSider = defineComponent({
 										<xGap l="10" />
 										<xIcon icon="icon_article" />
 										<span class="x-sider-tree_menu_title">
-											<div class="flex middle">{title}</div>
+											<div class="flex middle">{item.id}</div>
 										</span>
 										<div class="flex middle x-sider-tree_menu_opration">
 											{genIcon({
 												icon: "add",
 												tips: vm.$t("添加").label,
 												clickHandler: () =>
-													vm.showUpsertArticleDialog(item.data)
+													vm.openDialogUpsertI18nRecord(item.data)
 											})}
 											{canDelete &&
 												genIcon({
@@ -170,7 +170,7 @@ export const WikiLeftSider = defineComponent({
 	},
 	methods: {
 		async handleDropArticle(e: AntTreeNodeDropEvent) {
-			State_Wiki.isLoading = true;
+			stateI18n.isLoading = true;
 			/*
 			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。
 			 * dropPosition:dropItemPos=index
@@ -190,7 +190,7 @@ export const WikiLeftSider = defineComponent({
 			} catch (error) {
 				UI.message.error(error.message);
 			} finally {
-				State_Wiki.isLoading = false;
+				stateI18n.isLoading = false;
 			}
 		},
 		/* 同类 testcase */
@@ -202,7 +202,7 @@ export const WikiLeftSider = defineComponent({
 		}) {
 			dragItem = { ...dragItem };
 			dropItem = { ...dropItem };
-			const menuOrderArray = getTreeOrder(State_Wiki.treeData);
+			const menuOrderArray = getTreeOrder(stateI18n.i18nRecordArray);
 			const dragIndex = menuOrderArray.indexOf(dragItem._id);
 			const dropIndex = menuOrderArray.indexOf(dropItem._id);
 
@@ -227,13 +227,13 @@ export const WikiLeftSider = defineComponent({
 			}
 		},
 		setFilterText: xU.debounce(function (filterText) {
-			State_Wiki.filterText = filterText;
-			State_Wiki.isLoading = false;
+			stateI18n.filterText = filterText;
+			stateI18n.isLoading = false;
 		}, 600),
 		/* vDomList 需要实际高度 */
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
-		}, 300),
+		}, 20),
 		deleteArticle(_id) {
 			const vm = this;
 			UI.dialog.confirm({
@@ -244,8 +244,8 @@ export const WikiLeftSider = defineComponent({
 						await API.wiki.delete(_id);
 						UI.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						vm.Cpt_url.go("/wiki", {
-							wiki_id: xU.first(State_Wiki.treeData)?._id
+						vm.Cpt_url.go("/i18n", {
+							wiki_id: xU.first(stateI18n.i18nRecordArray)?._id
 						});
 					} catch (error) {
 						UI.message.error(error.message);
@@ -254,13 +254,11 @@ export const WikiLeftSider = defineComponent({
 				}
 			});
 		},
-		showUpsertArticleDialog(parentDoc) {
+		openDialogUpsertI18nRecord(record) {
 			UI.dialog.component({
-				title: this.$t("添加文档").label,
-				parentDoc,
-				/* 所有人可见 */
-				belong_type: "all",
-				component: DialogAddArticle
+				title: this.$t("添加记录").label,
+				record,
+				component: DialogUpsertI18nRecord
 			});
 		}
 	},

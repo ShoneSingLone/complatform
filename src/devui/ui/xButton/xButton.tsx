@@ -36,7 +36,7 @@ const BTN_PRESET_MAP = {
 };
 
 export type t_buttonOptions = {
-	text?: string;
+	text?: any;
 	onClick?: () => Promise<any>;
 };
 
