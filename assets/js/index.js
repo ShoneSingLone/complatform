@@ -12922,7 +12922,7 @@ var d = function(e2, t2) {
 function j(e2, t2) {
   return Object.defineProperty(e2.bind(t2), "__original", { value: e2 });
 }
-function _$1(e2, t2, n2) {
+function _(e2, t2, n2) {
   var r2;
   void 0 === n2 && (n2 = false);
   var i2 = true, o2 = "";
@@ -12934,7 +12934,7 @@ function _$1(e2, t2, n2) {
     if (!r2.required && void 0 === t2)
       return i2;
     b(r2.type) ? (i2 = r2.type.some(function(e3) {
-      return true === _$1(e3, t2, true);
+      return true === _(e3, t2, true);
     }), o2 = r2.type.map(function(e3) {
       return l(e3);
     }).join(" or ")) : i2 = "Array" === (o2 = l(r2)) ? b(t2) : "Object" === o2 ? s(t2) : "String" === o2 || "Number" === o2 || "Boolean" === o2 || "Function" === o2 ? function(e3) {
@@ -12963,7 +12963,7 @@ function T(e2, t2) {
   var n2 = Object.defineProperties(t2, { _vueTypes_name: { value: e2, writable: true }, isRequired: { get: function() {
     return this.required = true, this;
   } }, def: { value: function(e3) {
-    return void 0 !== e3 || this.default ? O(e3) || true === _$1(this, e3, true) ? (this.default = b(e3) ? function() {
+    return void 0 !== e3 || this.default ? O(e3) || true === _(this, e3, true) ? (this.default = b(e3) ? function() {
       return [].concat(e3);
     } : s(e3) ? function() {
       return Object.assign({}, e3);
@@ -13062,7 +13062,7 @@ function B(e2) {
     return n2.indexOf(e3) === t3;
   }), T("oneOfType", t2 ? { type: n2, validator: function(t3) {
     var n3 = [], r3 = e2.some(function(e3) {
-      var r4 = _$1(g(e3) && "oneOf" === e3._vueTypes_name ? e3.type || null : e3, t3, true);
+      var r4 = _(g(e3) && "oneOf" === e3._vueTypes_name ? e3.type || null : e3, t3, true);
       return "string" == typeof r4 && n3.push(r4), true === r4;
     });
     return r3 || y("oneOfType - provided value does not match any of the " + n3.length + " passed-in validators:\n" + P(n3.join("\n"))), r3;
@@ -13071,7 +13071,7 @@ function B(e2) {
 function I(e2) {
   return T("arrayOf", { type: Array, validator: function(t2) {
     var n2, r2 = t2.every(function(t3) {
-      return true === (n2 = _$1(e2, t3, true));
+      return true === (n2 = _(e2, t3, true));
     });
     return r2 || y("arrayOf - value validation error:\n" + P(n2)), r2;
   } });
@@ -13082,7 +13082,7 @@ function J(e2) {
 function M(e2) {
   return T("objectOf", { type: Object, validator: function(t2) {
     var n2, r2 = Object.keys(t2).every(function(r3) {
-      return true === (n2 = _$1(e2, t2[r3], true));
+      return true === (n2 = _(e2, t2[r3], true));
     });
     return r2 || y("objectOf - value validation error:\n" + P(n2)), r2;
   } });
@@ -13107,7 +13107,7 @@ function R(e2) {
     return o2.every(function(n3) {
       if (-1 === t2.indexOf(n3))
         return true === i2._vueTypes_isLoose || (y('shape - shape definition does not include a "' + n3 + '" property. Allowed keys: "' + t2.join('", "') + '".'), false);
-      var o3 = _$1(e2[n3], r3[n3], true);
+      var o3 = _(e2[n3], r3[n3], true);
       return "string" == typeof o3 && y('shape - "' + n3 + '" property validation error:\n ' + P(o3)), true === o3;
     });
   } });
@@ -13179,7 +13179,7 @@ function z(e2) {
   }($$2)).defaults = n$1({}, e2), i2;
 }
 $$2.defaults = {}, $$2.custom = L, $$2.oneOf = Y, $$2.instanceOf = J, $$2.oneOfType = B, $$2.arrayOf = I, $$2.objectOf = M, $$2.shape = R, $$2.utils = { validate: function(e2, t2) {
-  return true === _$1(t2, e2, true);
+  return true === _(t2, e2, true);
 }, toType: function(e2, t2, n2) {
   return void 0 === n2 && (n2 = false), n2 ? w(e2, t2) : T(e2, t2);
 } };
@@ -84954,7 +84954,7 @@ var lodash = { exports: {} };
     }
   }).call(commonjsGlobal);
 })(lodash, lodash.exports);
-const _ = lodash.exports;
+const Lodash = lodash.exports;
 function promisifyRequest(request2) {
   return new Promise((resolve2, reject) => {
     request2.oncomplete = request2.onsuccess = () => resolve2(request2.result);
@@ -84991,7 +84991,7 @@ function clear(customStore = defaultGetStore()) {
 }
 const lStorage = new Proxy(localStorage, {
   set(_localStorage, prop, value) {
-    if (_.isPlainObject(value)) {
+    if (Lodash.isPlainObject(value)) {
       _localStorage[prop] = JSON.stringify(value);
     } else {
       _localStorage[prop] = value;
@@ -85016,7 +85016,7 @@ if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
 }
 const iStorage = async function(key2, val) {
   const keyPrefix = window.location.hostname;
-  key2 = _.camelCase(keyPrefix + key2);
+  key2 = Lodash.camelCase(keyPrefix + key2);
   let res;
   try {
     if (isInput(val)) {
@@ -86260,7 +86260,7 @@ const isInput = (val) => {
   if (val === false) {
     return true;
   }
-  if (_.isArray(val)) {
+  if (Lodash.isArray(val)) {
     return val.length > 0;
   } else if (val) {
     return true;
@@ -86314,7 +86314,7 @@ const privateLodash = {
       return { top: 0, left: 0 };
     }
     if (match2 && match2[1]) {
-      const [a2, b2, c2, d2, e2, f2] = String(match2[1]).split(",").map((i2) => Number(_.trim(i2)));
+      const [a2, b2, c2, d2, e2, f2] = String(match2[1]).split(",").map((i2) => Number(Lodash.trim(i2)));
       return {
         left: a2 + c2 + e2,
         top: b2 + d2 + f2
@@ -86424,10 +86424,10 @@ return (${scfObjSourceCode})(argVue,argPayload);`
     }
     return false;
   },
-  isObjectFill: (obj) => _.isPlainObject(obj) && Object.keys(obj).length > 0,
+  isObjectFill: (obj) => Lodash.isPlainObject(obj) && Object.keys(obj).length > 0,
   safeFirst: (arr, fnCheck) => {
     fnCheck = fnCheck || ((value) => privateLodash.isInput(value));
-    const obj = _.first(arr);
+    const obj = Lodash.first(arr);
     return fnCheck(obj) ? obj : false;
   },
   safeToString: (val, isBeautiful = false) => {
@@ -86492,7 +86492,7 @@ return (${scfObjSourceCode})(argVue,argPayload);`
   },
   async asyncLoadStyle(cssURL, options) {
     let { isReplace, id } = options || { isReplace: false, id: "" };
-    id = id || _.camelCase(cssURL);
+    id = id || Lodash.camelCase(cssURL);
     let content;
     let $style = $$1(`#${id}`);
     if ($style.length == 0) {
@@ -86567,7 +86567,7 @@ return (${scfObjSourceCode})(argVue,argPayload);`
     });
   },
   genProp: (someString) => {
-    return `k${_.camelCase(someString)}`;
+    return `k${Lodash.camelCase(someString)}`;
   },
   dateFormat: (date4, format5 = "YYYY-MM-DD") => {
     if (typeof date4 === "number") {
@@ -86588,7 +86588,7 @@ return (${scfObjSourceCode})(argVue,argPayload);`
     return num;
   },
   valueToLabel: function(value, options) {
-    const target = _.find(options, {
+    const target = Lodash.find(options, {
       value
     });
     if (target) {
@@ -86692,7 +86692,7 @@ return (${scfObjSourceCode})(argVue,argPayload);`
       }
       return nextItem;
     };
-    if (val || _.isString(val) || _.isBoolean(val) || _.isNumber(val) && !_.isNaN(val)) {
+    if (val || Lodash.isString(val) || Lodash.isBoolean(val) || Lodash.isNumber(val) && !Lodash.isNaN(val)) {
       setVal();
     } else {
       return getVal();
@@ -86716,8 +86716,8 @@ const xU = new Proxy(
       if (privateLodash[prop]) {
         return privateLodash[prop];
       }
-      if (_[prop]) {
-        return _[prop];
+      if (Lodash[prop]) {
+        return Lodash[prop];
       }
       return fn[prop];
     },
@@ -87693,6 +87693,13 @@ const xIcon = defineComponent(markRaw({
     }
   }
 }));
+function _isSlot$8(s2) {
+  return typeof s2 === "function" || Object.prototype.toString.call(s2) === "[object Object]" && !isVNode(s2);
+}
+const STATIC_WORD = {
+  OPERATION: "OPERATION",
+  NEXT_TICK_TIME: 64
+};
 function defDataGridOption(options) {
   options.pagination = options.pagination || defPagination();
   options.isLoading = Boolean(options.isLoading);
@@ -87730,7 +87737,7 @@ function setPagination(StateTable, pagination) {
     if (!realProp) {
       realProp = prop;
     }
-    StateTable.pagination[realProp] = value;
+    (StateTable == null ? void 0 : StateTable.pagination) && (StateTable.pagination[realProp] = value);
   });
 }
 function defCol(options) {
@@ -87742,6 +87749,75 @@ function defCol(options) {
       dataIndex: options.prop
     }
   };
+}
+function defColActions(options) {
+  return defCol(xU.merge({
+    label: State_UI.$t("\u64CD\u4F5C").label,
+    prop: STATIC_WORD.OPERATION,
+    fixed: "right",
+    width: "100px"
+  }, options));
+}
+function defColActionsBtnlist(options) {
+  const {
+    fold = 3,
+    btns = []
+  } = options;
+  const [always, more] = (() => {
+    if (btns.length > fold) {
+      return [btns.slice(0, fold - 1), btns.slice(fold - 1)];
+    } else {
+      return [btns, []];
+    }
+  })();
+  return createVNode("div", {
+    "class": "flex middle"
+  }, [createVNode(resolveComponent("xGap"), {
+    "l": "4"
+  }, null), xU.map(always, (btn) => {
+    const configs = xU.merge({
+      type: "link",
+      size: "small"
+    }, btn);
+    return createVNode(Fragment, null, [createVNode(resolveComponent("xButton"), {
+      "configs": configs
+    }, null), createVNode(resolveComponent("xGap"), {
+      "l": "4"
+    }, null)]);
+  }), (() => {
+    if (more.length === 0) {
+      return null;
+    }
+    return createVNode(Fragment, null, [createVNode(resolveComponent("aDropdown"), null, {
+      default: () => {
+        return createVNode(resolveComponent("aButton"), {
+          "type": "link"
+        }, {
+          default: () => [State_UI.$t("\u66F4\u591A").label]
+        });
+      },
+      overlay: () => {
+        let _slot;
+        return createVNode(Fragment, null, [createVNode(resolveComponent("aMenu"), null, _isSlot$8(_slot = xU.map(more, (btn) => {
+          const configs = xU.merge({
+            type: "link",
+            size: "small"
+          }, btn);
+          return createVNode(resolveComponent("aMenuItem"), {
+            "key": btn.text
+          }, {
+            default: () => [createVNode(resolveComponent("xButton"), {
+              "configs": configs
+            }, null)]
+          });
+        })) ? _slot : {
+          default: () => [_slot]
+        })]);
+      }
+    }), createVNode(resolveComponent("xGap"), {
+      "l": "4"
+    }, null)]);
+  })()]);
 }
 function filterColIsShow(isShow, prop) {
   if (xU.isBoolean(isShow)) {
@@ -88095,7 +88171,8 @@ const _sfc_main$5 = defineComponent({
       return {
         preset: "query",
         onClick: async () => {
-          if (this.configs.queryTableList) {
+          var _a;
+          if ((_a = this.configs) == null ? void 0 : _a.queryTableList) {
             setPagination(this.configs, {
               page: 1
             });
@@ -88140,7 +88217,7 @@ const _sfc_main$5 = defineComponent({
       return true;
     },
     Cpt_isSetConfigs() {
-      return this.configs && this.configs.pagination;
+      return this.configs;
     }
   }
 });
@@ -94127,7 +94204,7 @@ const jsondiffpatch = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defin
   clone: clone$1
 }, Symbol.toStringTag, { value: "Module" }));
 const {
-  MutatingProps
+  MutatingProps: MutatingProps$1
 } = xU;
 const domClass = {
   tipsError: "ant-form-item-explain ant-form-item-explain-error"
@@ -94505,7 +94582,7 @@ const xItem$1 = defineComponent({
       }
     },
     setTips(type4 = "", msg = "") {
-      MutatingProps(this, "configs.itemTips", {
+      MutatingProps$1(this, "configs.itemTips", {
         type: type4,
         msg
       });
@@ -94520,7 +94597,7 @@ const xItem$1 = defineComponent({
           name: "required"
         });
         const fnCheckedCallback = ([prop, msg]) => {
-          MutatingProps(this, "configs.checking", false);
+          MutatingProps$1(this, "configs.checking", false);
           if (prop) {
             if (msg) {
               this.setTips(TIPS_TYPE.error, msg);
@@ -94539,7 +94616,7 @@ const xItem$1 = defineComponent({
           resolve: resolve2
         }) => {
           const prop = `configs.validate.triggerEventsObj.${eventType}`;
-          MutatingProps(this, prop, true);
+          MutatingProps$1(this, prop, true);
           debounceCheckXItem({
             FormItemId: this.FormItemId,
             xItemConfigs: this.configs,
@@ -94548,8 +94625,8 @@ const xItem$1 = defineComponent({
             resolve: resolve2
           });
         };
-        MutatingProps(this, "configs.validate", fnConfigsValidate);
-        MutatingProps(this, "configs.validate.triggerEventsObj", {});
+        MutatingProps$1(this, "configs.validate", fnConfigsValidate);
+        MutatingProps$1(this, "configs.validate.triggerEventsObj", {});
       } else {
         if (xU.isFunction(this.configs.validate)) {
           delete this.configs.validate;
@@ -94841,7 +94918,8 @@ const xVirTableTd = defineComponent({
 });
 const xVirTableBody = defineComponent({
   props: ["columnOrder", "columns", "rowHeight", "selectedConfigs", "selected"],
-  emits: ["selectedChange", "update:scrollHeight"],
+  emits: ["selectedChange", "update:scrollHeight", "scroll"],
+  inject: ["xVirTable"],
   components: {
     xVirTableTd
   },
@@ -94859,6 +94937,12 @@ const xVirTableBody = defineComponent({
     };
   },
   data(vm) {
+    this.debounceSetPerBlockHeight = xU.debounce(function(viewportHeight) {
+      this.viewportHeight = viewportHeight;
+      this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
+      this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
+      this.setHeight();
+    }, 64);
     return {
       isLoading: false,
       perBlockHeight: 1,
@@ -94873,18 +94957,9 @@ const xVirTableBody = defineComponent({
       virs3: []
     };
   },
-  created() {
-    (() => {
-      this.debounceSetPerBlockHeight = xU.debounce(function(viewportHeight) {
-        this.viewportHeight = viewportHeight;
-        this.perBlockRowCount = Math.ceil(viewportHeight / this.rowHeight);
-        this.perBlockHeight = this.perBlockRowCount * this.rowHeight;
-        this.setHeight();
-      }, 64);
-    })();
-  },
   mounted() {
     this.fnObserveDomResize(this.$refs.wrapper, () => {
+      this.xVirTable.layoutDebounce();
       this.debounceSetPerBlockHeight(this.$refs.wrapper.offsetHeight);
     });
     this.$watch(() => {
@@ -94977,6 +95052,12 @@ const xVirTableBody = defineComponent({
       const props3 = xU.filter(this.rowCache, (value, prop) => /^blockId/.test(prop));
       xU.each(props3, (prop) => delete this.rowCache[prop]);
     },
+    onClickRow(payload) {
+      var _a;
+      if ((_a = this == null ? void 0 : this.configs) == null ? void 0 : _a.onClickRow) {
+        this.configs.onClickRow(payload);
+      }
+    },
     genTr(rows) {
       const vDomBlock = (() => {
         if (!this.uniqBy) {
@@ -94984,14 +95065,16 @@ const xVirTableBody = defineComponent({
             const {
               __virRowIndex
             } = data9;
+            const payload = {
+              rowIndex: __virRowIndex,
+              rowData: data9
+            };
             return createVNode("div", {
               "role": "tr",
               "class": "xVirTable-row flex horizon",
-              "data-row-key": __virRowIndex
-            }, [this.genSelectedVDom({
-              rowIndex: __virRowIndex,
-              rowData: data9
-            }), xU.map(this.columnOrder, (prop, index2) => {
+              "data-row-key": __virRowIndex,
+              "onClick": () => this.onClickRow(payload)
+            }, [this.genSelectedVDom(payload), xU.map(this.columnOrder, (prop, index2) => {
               return createVNode(xVirTableTd, {
                 "column": this.columns[prop],
                 "data-index": index2,
@@ -95119,17 +95202,28 @@ const xVirTableBody = defineComponent({
     updateTop(event2) {
       if (event2) {
         const top = event2.target.scrollTop;
+        const left = event2.target.scrollLeft;
+        this.$emit("scroll", left);
         this.blockInViewCount = Math.floor(top / this.perBlockHeight);
       }
     },
     setHeight() {
       const height = this.configs.dataSource.length * this.rowHeight;
-      if (this.viewportHeight && height < this.viewportHeight) {
+      if (!height) {
+        delete this.styleWrapperAll.width;
+      } else if (this.viewportHeight && height < this.viewportHeight) {
         this.styleWrapperAll.width = `calc(100% - 6px)`;
       } else {
         delete this.styleWrapperAll.width;
       }
       this.styleWrapperAll.height = `${height}px`;
+      this.$nextTick(() => {
+        if (this.$refs.wrapper.scrollTop > 1) {
+          this.$refs.wrapper.scrollTop--;
+        } else {
+          this.$refs.wrapper.scrollTop++;
+        }
+      });
     }
   },
   watch: {
@@ -95160,7 +95254,7 @@ const xVirTableBody = defineComponent({
   render() {
     const vDomTableBody = createVNode("div", {
       "role": "body",
-      "class": "xVirTable-body-wrapper flex1",
+      "class": "xVirTable-body-wrapper flex1 width100",
       "ref": "wrapper",
       "onScroll": this.updateTop
     }, [createVNode("div", {
@@ -95178,6 +95272,10 @@ const xVirTableBody = defineComponent({
     return vDomTableBody;
   }
 });
+const {
+  MutatingProps
+} = xU;
+const mmWidth = (_width) => `width:${_width}; min-width:${_width}; max-width:${_width};`;
 function defXVirTableConfigs(options) {
   const required4 = ["rowHeight", "columns"];
   if (xU.some(required4, (prop) => {
@@ -95191,6 +95289,12 @@ function defXVirTableConfigs(options) {
   }
   if (options.selectedConfigs) {
     options.selected = options.selected || [];
+    options.getSelectedRow = markRaw(function() {
+      return xU.filter(options.dataSource, (i2) => {
+        const idValue = i2[options.selectedConfigs.prop];
+        return xU.isArrayFill(options == null ? void 0 : options.selected) && options.selected.includes(idValue);
+      });
+    });
   }
   return options;
 }
@@ -95210,9 +95314,21 @@ const xVirTable = defineComponent({
   },
   mounted() {
     this.initStyle();
+    this.layoutDebounce();
+  },
+  provide() {
+    const vm = this;
+    return {
+      xVirTable: vm
+    };
   },
   data() {
+    this.resetOperationWidthDebounce = xU.debounce(this.resetOperationWidth, STATIC_WORD.NEXT_TICK_TIME);
+    this.layoutDebounce = xU.debounce(this.layout, STATIC_WORD.NEXT_TICK_TIME);
+    this.resetColumnWidthDebounce = xU.debounce(this.resetColumnWidth, STATIC_WORD.NEXT_TICK_TIME);
     return {
+      styleWidthXVirTable: 0,
+      styleWidthOperation: "120px",
       selectedAll: false
     };
   },
@@ -95280,19 +95396,28 @@ const xVirTable = defineComponent({
       }
       return Object.keys(((_c = this.configs) == null ? void 0 : _c.columns) || {});
     },
-    columnWidthArray() {
-      const _columnWidthArray = xU.reduce(this.columnOrder, (columnStyle, prop) => {
-        const configsColumn = this.configs.columns[prop] || {};
-        const {
-          width
-        } = configsColumn;
-        if (width) {
-          columnStyle.push(`#${this.xVirTableId} div[role=tr] div[role=th][data-prop=${prop}]{ width:${width}; min-width:${width}; max-width:${width}; }`);
-          columnStyle.push(`#${this.xVirTableId} div[role=tr] div[role=td][data-prop=${prop}]{ width:${width}; min-width:${width}; max-width:${width}; }`);
-        }
-        return columnStyle;
-      }, []);
-      return _columnWidthArray;
+    columnWidthStyleArray() {
+      const _columnWidthStyleArray = xU.reduce(
+        this.columnOrder,
+        (styleEachColumn, prop) => {
+          if (prop === STATIC_WORD.OPERATION) {
+            return styleEachColumn;
+          } else {
+            const configsColumn = this.configs.columns[prop] || {};
+            const {
+              width,
+              __calcWidth
+            } = configsColumn;
+            const _width = __calcWidth || width;
+            if (_width) {
+              styleEachColumn.push(`#${this.xVirTableId} div[role=tr] >div[role=th][data-prop=${prop}],#${this.xVirTableId} div[role=tr] >div[role=td][data-prop=${prop}]{ ${mmWidth(_width)} }`);
+            }
+            return styleEachColumn;
+          }
+        },
+        [`#${this.xVirTableId} div[role=tr] >div[role=th][data-prop=${STATIC_WORD.OPERATION}]{  ${mmWidth(this.styleWidthOperation)} }`, `#${this.xVirTableId} div[role=tr] >div[role=td][data-prop=${STATIC_WORD.OPERATION}]{  ${mmWidth(this.styleWidthOperation)} }`]
+      );
+      return _columnWidthStyleArray;
     },
     vDomTheadSelect() {
       if (!this.selectedType) {
@@ -95331,10 +95456,18 @@ const xVirTable = defineComponent({
     },
     styleContent() {
       const allStyleArray = [
+        `#${this.xVirTableId} div[role=table]{overflow:hidden;}`,
         `#${this.xVirTableId} div[role=tr] >div{flex:1; }`,
-        `#${this.xVirTableId} div[role=tr] div[role=th]{ width:300px;overflow:hidden;text-align:center; }`,
-        `#${this.xVirTableId} div[role=tr] div[role=td]{ width:300px;overflow:hidden;height:${this.rowHeight}px;display: flex; justify-content: start; align-items: center;}`
-      ].concat(this.columnWidthArray, this.customClass);
+        `#${this.xVirTableId} div[role=tr] >div[role=th]{ width:200px;min-width:200px;max-width:200px;text-align:center;white-space: nowrap; }`,
+        `#${this.xVirTableId} div[role=tr] >div[role=th][data-prop=xVirSelected],#${this.xVirTableId} div[role=tr] >div[role=td][data-prop=xVirSelected]{ width:32px;max-width:32px;min-width:32px;overflow:hidden;text-align:center; }`,
+        `#${this.xVirTableId} div[role=tr] >div[role=td]{ width:200px;min-width:200px;max-width:200px;overflow:hidden;height:${this.rowHeight}px;display: flex; justify-content: start; align-items: center;}`
+      ].concat(this.columnWidthStyleArray, this.customClass);
+      if (this.styleWidthXVirTable) {
+        allStyleArray.unshift(`#${this.xVirTableId} div[role=table] div[role=thead] {width:${this.styleWidthXVirTable}; }`);
+        if (this.configs.dataSource.length === 0) {
+          allStyleArray.unshift(`#${this.xVirTableId} .xVirTable-body-wrapper.flex1.width100 >div {width:${this.styleWidthXVirTable}; }`);
+        }
+      }
       return allStyleArray.join("\n");
     }
   },
@@ -95344,11 +95477,105 @@ const xVirTable = defineComponent({
         this.selectedAll = false;
       }
     },
+    "configs.dataSource": {
+      handler() {
+        this.resetOperationWidthDebounce();
+      }
+    },
     styleContent() {
       this.updateStyle(this.styleContent);
     }
   },
   methods: {
+    resetColumnWidth(contentWrapperWidth) {
+      const selectorTable = `#${this.xVirTableId}`;
+      const $tableWrapper = $$1(selectorTable);
+      const tableWrapperWidth = $tableWrapper.outerWidth();
+      const superfluous = tableWrapperWidth - contentWrapperWidth - 6;
+      const isGrow = superfluous > 1;
+      const isShrink = superfluous < -2;
+      console.log("superfluous", superfluous, "isGrow", isGrow, "isShrink", isShrink);
+      const selectorThead = `${selectorTable} >div[role=table] >div[role=thead] >div[role=tr] >div[role=th]`;
+      const $tHead = $$1(selectorThead);
+      const mayCalculateWidth = xU.filter(this.configs.columns, (i2) => {
+        if (i2.prop === STATIC_WORD.OPERATION) {
+          return false;
+        }
+        if (i2.width) {
+          return false;
+        }
+        return true;
+      });
+      if (isGrow) {
+        const width = Math.floor(superfluous / mayCalculateWidth.length) - 0.5;
+        xU.each($tHead, (dom) => {
+          const prop = dom.dataset.prop;
+          const inMayCalculateWidth = xU.some(mayCalculateWidth, (i2) => i2.prop === prop);
+          if (inMayCalculateWidth) {
+            const columnWidth = dom.offsetWidth + width;
+            this.configs.columns[prop].__calcWidth = `${columnWidth}px`;
+          }
+        });
+      }
+      if (isShrink) {
+        if (mayCalculateWidth.length > 0) {
+          let originContentWrapperWidth = 10;
+          xU.each($tHead, (dom) => {
+            const prop = dom.dataset.prop;
+            const inMayCalculateWidth = xU.some(mayCalculateWidth, (i2) => i2.prop === prop);
+            if (inMayCalculateWidth) {
+              originContentWrapperWidth += 200;
+            } else {
+              originContentWrapperWidth += dom.offsetWidth;
+            }
+          });
+          if (originContentWrapperWidth < tableWrapperWidth) {
+            const width = Math.floor((tableWrapperWidth - originContentWrapperWidth) / mayCalculateWidth.length) - 0.5;
+            xU.each(mayCalculateWidth, (configs) => {
+              const columnWidth = 200 + width;
+              configs.__calcWidth = `${columnWidth}px`;
+            });
+          }
+        }
+      }
+    },
+    onBodyScroll(left) {
+      this.$refs.thead.scrollLeft = left;
+    },
+    resetOperationWidth() {
+      if (this.configs.dataSource.length === 0) {
+        return;
+      }
+      try {
+        const $wrapper = $$1(`#${this.xVirTableId} div[role=tr] >div[role=td][data-prop=${STATIC_WORD.OPERATION}]`);
+        const $child = $wrapper.find(">div");
+        const wrapperWidth = $wrapper.outerWidth();
+        const childWidth = $child.outerWidth();
+        if (!wrapperWidth && !childWidth) {
+          throw new Error("uninit");
+        }
+        if (wrapperWidth < childWidth) {
+          this.styleWidthOperation = `${childWidth}px`;
+        }
+        this.layoutDebounce();
+      } catch (error) {
+        this.resetOperationWidthDebounce();
+      }
+    },
+    layout() {
+      const selectorHead = `#${this.xVirTableId} >div[role=table] >div[role=thead] >div[role=tr] >div[role=th]`;
+      const selectorBody = `#${this.xVirTableId} .xVirTable-body-item`;
+      const bodyWidth = xU.map($$1(selectorBody), (dom) => dom.offsetWidth);
+      bodyWidth.push(xU.reduce($$1(selectorHead), (_width, dom) => {
+        _width += dom.offsetWidth;
+        return _width;
+      }, 0));
+      const width = xU.max(bodyWidth);
+      if (width) {
+        this.styleWidthXVirTable = `${width}px`;
+        this.resetColumnWidthDebounce(width);
+      }
+    },
     initStyle() {
       const $form = $$1(`#${this.xVirTableId}`);
       const $style = $$1("<style/>", {
@@ -95368,7 +95595,7 @@ const xVirTable = defineComponent({
       } = e2.target;
       if (checked) {
         this.selectedAll = true;
-        this.configs.selected = xU.map(this.configs.dataSource, (i2) => i2[this.selectedProp]);
+        this.configs.selected = xU.map(this.configs.dataSource, (i2) => MutatingProps(i2, this.selectedProp));
       } else {
         this.configs.selected = [];
       }
@@ -95400,10 +95627,12 @@ const xVirTable = defineComponent({
       "id": this.xVirTableId,
       "class": "xVirTable-wrapper flex vertical"
     }, [createVNode("div", {
+      "ref": "thead",
       "role": "table",
       "class": "xVirTable-header-wrapper",
-      "style": "padding-right: 6px;"
+      "style": "padding-right: 6px;width:100%"
     }, [this.vDomThead]), createVNode(xVirTableBody, {
+      "onScroll": this.onBodyScroll,
       "columnOrder": this.columnOrder,
       "columns": (_a = this.configs) == null ? void 0 : _a.columns,
       "rowHeight": this.rowHeight,
@@ -95631,7 +95860,8 @@ const LayerUtils = {
     return this;
   },
   open(options) {
-    const { _layerKey } = new ClassLayer(options);
+    const layerInstance = new ClassLayer(options);
+    const { _layerKey } = layerInstance;
     return _layerKey;
   },
   alert(content, options, yes) {
@@ -96434,12 +96664,13 @@ class ClassLayer {
     const layerInstance = this;
     const { $eleLayer, config } = layerInstance;
     if (config.success) {
+      const args = [$eleLayer, layerInstance._layerKey, layerInstance];
       if (config.type == LayerUtils.IFRAME) {
         $eleLayer.find("iframe").on("load", function() {
-          config.success.call(this, $eleLayer, layerInstance._layerKey);
+          config.success.apply(config, args);
         });
       } else {
-        config.success($eleLayer, layerInstance._layerKey);
+        config.success.apply(config, args);
       }
     }
     $eleLayer.find(`.${LAYUI_LAYER_CONTENT}`).children("a").on("click", function() {
@@ -96693,8 +96924,9 @@ const installUIDialogComponent = (UI2, {
       content: $container,
       offset: ["160px", null],
       btn: [],
-      success($eleLayer, _layerKey) {
+      success($eleLayer, _layerKey, layerInstance) {
         handleEcsPress.on(_layerKey);
+        dialogOptions._layerInstance = layerInstance;
         dialogOptions._dialog$ele = $eleLayer;
         dialogOptions._layerKey = _layerKey;
         try {
@@ -97056,48 +97288,6 @@ defItem.labelWithTips = ({
     default: () => [icon]
   })]);
 };
-const get$head = () => {
-  let $head = $$1("html head");
-  if (!xU.is$Selected($head)) {
-    $head = $$1("<head/>");
-    $head.prependTo($$1("html"));
-  }
-  return $head;
-};
-const get$title = () => {
-  let $head = get$head();
-  let $title = $head.find("title");
-  if (!xU.is$Selected($title)) {
-    $title = $$1("<title/>");
-    $title.prependTo($head);
-  }
-  return $title;
-};
-const setDocumentTitle = (title) => {
-  get$title().text(title);
-};
-const pickValueFrom = (configs) => {
-  return xU.reduce(configs, (target, config, prop) => {
-    try {
-      target[prop] = JSON.parse(JSON.stringify(config.value));
-    } catch (error) {
-    }
-    return target;
-  }, {});
-};
-const setValueTo = (configs, values) => {
-  return xU.each(values, (value, prop) => {
-    if (value === void 0) {
-      return;
-    }
-    if (configs[prop]) {
-      configs[prop].value = value;
-      if (xU.isFunction(configs[prop].onChange)) {
-        configs[prop].onChange(value);
-      }
-    }
-  }, {});
-};
 const useModel = (type4) => {
   return ({
     title = "",
@@ -97238,6 +97428,48 @@ const UI = {
   }),
   layer: LayerUtils
 };
+const get$head = () => {
+  let $head = $$1("html head");
+  if (!xU.is$Selected($head)) {
+    $head = $$1("<head/>");
+    $head.prependTo($$1("html"));
+  }
+  return $head;
+};
+const get$title = () => {
+  let $head = get$head();
+  let $title = $head.find("title");
+  if (!xU.is$Selected($title)) {
+    $title = $$1("<title/>");
+    $title.prependTo($head);
+  }
+  return $title;
+};
+const setDocumentTitle = (title) => {
+  get$title().text(title);
+};
+const pickValueFrom = (configs) => {
+  return xU.reduce(configs, (target, config, prop) => {
+    try {
+      target[prop] = JSON.parse(JSON.stringify(config.value));
+    } catch (error) {
+    }
+    return target;
+  }, {});
+};
+const setValueTo = (configs, values) => {
+  return xU.each(values, (value, prop) => {
+    if (value === void 0) {
+      return;
+    }
+    if (configs[prop]) {
+      configs[prop].value = value;
+      if (xU.isFunction(configs[prop].onChange)) {
+        configs[prop].onChange(value);
+      }
+    }
+  }, {});
+};
 const VNodeCollection = {
   labelTips: (popContent) => (configs, className) => {
     const {
@@ -97256,7 +97488,7 @@ const VNodeCollection = {
       content: () => popContent,
       default: () => createVNode(resolveComponent("xIcon"), {
         "icon": "Insidetips",
-        "class": "pointer"
+        "class": "pointer ml4"
       }, null)
     })])]);
   }
@@ -97688,6 +97920,20 @@ const xLinkCopy = defineComponent({
     }, null)]);
   }
 });
+const xInfoDiffCard$1 = "";
+const xInfoDiffCard = defineComponent({
+  name: "xInfoDiffCard",
+  props: ["old", "new", "title"],
+  render() {
+    return createVNode("div", null, [createVNode("div", null, [this.title, createTextVNode(":")]), createVNode("div", {
+      "class": "flex vertical"
+    }, [createVNode("div", {
+      "class": "xInfoDiffCard-value xInfoDiffCard-delta xInfoDiffCard-left-value"
+    }, [createVNode("pre", null, [this.old])]), createVNode("div", {
+      "class": "xInfoDiffCard-value xInfoDiffCard-right-value"
+    }, [createVNode("pre", null, [this.new])])])]);
+  }
+});
 window.dayjs = dayjs;
 window.moment = dayjs;
 window.jquery = $$1;
@@ -97714,7 +97960,8 @@ const componentMyUI = {
   xVirTable,
   xLogObject,
   xInfoCard,
-  xLinkCopy
+  xLinkCopy,
+  xInfoDiffCard
 };
 const components = {
   ...componentMyUI
@@ -97885,7 +98132,16 @@ const wiki = {
     return ajax({
       method: "post",
       url: "/api/wiki/action",
+      params: {
+        wiki_action: data9.action
+      },
       data: data9
+    });
+  },
+  upsertOne(params) {
+    return this.action({
+      action: "upsertOne",
+      data: params
     });
   },
   delete(_id) {
@@ -99902,8 +100158,58 @@ const testcase = {
     });
   }
 };
+const god = {
+  upsertOneI18nRecord(payload) {
+    return this.say("upsertOneI18nRecord", payload);
+  },
+  upsertI18nRecordMany(payload) {
+    return this.say("upsertI18nRecordMany", payload);
+  },
+  i18nRecords(condition = {}) {
+    return this.say("i18nRecords", {
+      condition
+    });
+  },
+  deleteI18nRecords(records = []) {
+    return this.say("deleteI18nRecords", {
+      ids: xU.map(records, (record) => record._id)
+    });
+  },
+  i18nRecordById(_id) {
+    if (!_id) {
+      return;
+    }
+    return this.say("i18nRecordById", {
+      _id
+    });
+  },
+  importI18nJSON(formData) {
+    return ajax({
+      method: "post",
+      url: `/api/god/say`,
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      params: {
+        incantations: "importI18nJSON"
+      },
+      data: formData
+    });
+  },
+  say(incantations, data9) {
+    return ajax({
+      method: "post",
+      url: `/api/god/say`,
+      params: {
+        incantations
+      },
+      data: data9
+    });
+  }
+};
 const API = {
   wiki,
+  god,
   user,
   group,
   news,
@@ -100573,6 +100879,8 @@ const optionsXIcon = [
   "home",
   "iconFilter",
   "icon_article",
+  "icon_i18n",
+  "icon_inbox",
   "lockStrok",
   "logout",
   "mail",
@@ -100750,6 +101058,28 @@ FormRules.nameLength = ({
         return FormRules.FAIL;
       }
       return FormRules.SUCCESS;
+    }
+  });
+};
+FormRules.stringIsArrayJson = () => {
+  return FormRules.custom({
+    msg: "",
+    name: "",
+    trigger: "",
+    validator(value, {
+      configs,
+      rule
+    }) {
+      try {
+        const valueArray = JSON.parse(value);
+        if (xU.isArray(valueArray)) {
+          rule.msg = "";
+          return FormRules.SUCCESS;
+        }
+      } catch (error) {
+      }
+      rule.msg = $t$9(`\u4EE5\u6570\u7EC4\u7684\u5F62\u5F0F["\u8BED\u8A00","language"]\uFF0C\u6309\u987A\u5E8F\u586B\u5199\u5BF9\u5E94\u56FD\u9645\u5316\u4FE1\u606F\u3002`).label;
+      return FormRules.FAIL;
     }
   });
 };
@@ -101379,7 +101709,7 @@ const _sfc_main$2 = {
     }
   }
 };
-const CopyContent_vue_vue_type_style_index_0_scoped_1b3c3d24_lang = "";
+const CopyContent_vue_vue_type_style_index_0_scoped_c9387155_lang = "";
 const _hoisted_1 = {
   class: "flex middle copy-content-wrapper",
   ref: "contents"
@@ -101398,7 +101728,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 512);
 }
-const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__scopeId", "data-v-1b3c3d24"]]);
+const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__scopeId", "data-v-c9387155"]]);
 const asyncGetMonaco = async () => {
   if (window.monaco) {
     return window.monaco;
@@ -101481,7 +101811,7 @@ const MonacoEditor = defineAsyncComponent(() => new Promise(async (resolve2) => 
             }
           }, 500);
         }, 600);
-        vm.readOnly && vm.formatDocument(vm.readOnly);
+        vm.formatDocument(vm.readOnly);
         vm.raw$editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, vm.formatDocument);
         vm.raw$editor.addCommand(monaco.KeyCode.F9, () => {
           xU.launchFullscreen(vm.$refs.container);
@@ -109924,9 +110254,9 @@ const DialogAddProject = defineComponent({
   render() {
     let _slot;
     return createVNode(Fragment, null, [createVNode("div", {
-      "class": "g-row flex1 height100"
+      "class": "x-dialog-boddy-wrapper flex1 height100"
     }, [createVNode("div", {
-      "class": "g-row m-container"
+      "class": "x-dialog-boddy-wrapper m-container"
     }, [createVNode(resolveComponent("xForm"), {
       "class": "flex vertical",
       "labelStyle": {
@@ -112523,6 +112853,13 @@ const routes = [{
     title: $t$2("\u6587\u6863").label
   }
 }, {
+  path: `/i18n`,
+  componentName: "ViewI18n",
+  component: () => __vitePreload(() => import("./ViewI18n.js"), true ? ["./ViewI18n.js","..\\ViewI18n.css"] : void 0, import.meta.url),
+  meta: {
+    title: $t$2("\u6587\u6863").label
+  }
+}, {
   path: `/project`,
   componentName: "ViewProject",
   component: () => __vitePreload(() => import("./ViewProject.js"), true ? ["./ViewProject.js","..\\ViewProject.css"] : void 0, import.meta.url),
@@ -113274,11 +113611,14 @@ const AppHeader = defineComponent({
     },
     goToWIKI() {
       this.Cpt_url.go("/wiki", {});
+    },
+    goToI18nManger() {
+      this.Cpt_url.go("/i18n", {});
     }
   },
   computed: {
     icon() {
-      if (["/group", "/wiki"].includes(this.Cpt_url.pathname)) {
+      if (["/group", "/wiki", "/i18n"].includes(this.Cpt_url.pathname)) {
         return "yapi_logo";
       }
       return "back_group";
@@ -113341,8 +113681,14 @@ const AppHeader = defineComponent({
       return createVNode("div", {
         "class": "user-toolbar flex"
       }, [createVNode("span", {
+        "onClick": this.goToI18nManger,
+        "class": "flex middle pointer ml10 header-menu-icon_background"
+      }, [createVNode(resolveComponent("xIcon"), {
+        "icon": "icon_i18n",
+        "style": this.styleLogo
+      }, null)]), createVNode("span", {
         "onClick": this.goToWIKI,
-        "class": "flex middle pointer ml10"
+        "class": "flex middle pointer ml10 header-menu-icon_background"
       }, [createVNode(resolveComponent("xIcon"), {
         "icon": "wikidoc",
         "style": this.styleLogo
@@ -113432,7 +113778,7 @@ const AppHeader = defineComponent({
       "class": "header-box m-header elevation-4"
     }, {
       default: () => [createVNode("div", {
-        "class": "content g-row flex middle"
+        "class": "content flex middle"
       }, [createVNode("span", {
         "onClick": this.goToGroup,
         "class": "flex middle pointer"
@@ -114118,27 +114464,32 @@ export {
   PreprocessHTML as a5,
   leftArrow as a6,
   rightArrow as a7,
-  resetStateInterface as a8,
-  ProjectChildren as a9,
-  RouterView as aa,
-  Methods_ProjectInterface as ab,
-  State_ProjectInterface as ac,
-  ALL as ad,
-  DefaultInterfaceMenu as ae,
-  _$arrayChangeIndex as af,
-  useInterfaceTableConfigs as ag,
-  VNodeCollection as ah,
-  _$handlePath as ai,
-  copyToClipboard as aj,
-  makeAhref as ak,
-  InfoCard as al,
-  xItem_ProjectGroupId as am,
-  xItem_ProjectName as an,
-  xItem_ProjectIcon as ao,
-  xItem_ProjectColor as ap,
-  xItem_ProjectBasePath as aq,
-  xItem_ProjectDesc as ar,
-  xItem_ProjectType as as,
+  Lodash as a8,
+  onMounted as a9,
+  onUnmounted as aa,
+  VNodeCollection as ab,
+  defColActions as ac,
+  defColActionsBtnlist as ad,
+  resetStateInterface as ae,
+  ProjectChildren as af,
+  RouterView as ag,
+  Methods_ProjectInterface as ah,
+  State_ProjectInterface as ai,
+  ALL as aj,
+  DefaultInterfaceMenu as ak,
+  _$arrayChangeIndex as al,
+  useInterfaceTableConfigs as am,
+  _$handlePath as an,
+  copyToClipboard as ao,
+  makeAhref as ap,
+  InfoCard as aq,
+  xItem_ProjectGroupId as ar,
+  xItem_ProjectName as as,
+  xItem_ProjectIcon as at,
+  xItem_ProjectColor as au,
+  xItem_ProjectBasePath as av,
+  xItem_ProjectDesc as aw,
+  xItem_ProjectType as ax,
   API as b,
   createElementBlock as c,
   defineComponent as d,

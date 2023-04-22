@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, ac as State_ProjectInterface, x as xU, e as createVNode, r as resolveComponent, n as Fragment, a as defItem, F as FormRules, ah as VNodeCollection, J as ITEM_OPTIONS, h as createTextVNode, H as markRaw, ai as _$handlePath, I as setValueTo, p as pickValueFrom, $ as $t, b as API, a1 as HTTP_METHOD, v as validateForm, A as AllWasWell, C as Cpt_url, ab as Methods_ProjectInterface, U as UI, q as isVNode, V as defDataGridOption, L as defCol, aj as copyToClipboard, t as $, ak as makeAhref, N as ITEM_OPTIONS_VDOM, al as InfoCard, W as MonacoEditor } from "./index.js";
+import { d as defineComponent, g as _State_App, ai as State_ProjectInterface, x as xU, e as createVNode, r as resolveComponent, n as Fragment, a as defItem, F as FormRules, ab as VNodeCollection, J as ITEM_OPTIONS, h as createTextVNode, H as markRaw, an as _$handlePath, I as setValueTo, p as pickValueFrom, $ as $t, b as API, a1 as HTTP_METHOD, v as validateForm, A as AllWasWell, C as Cpt_url, ah as Methods_ProjectInterface, U as UI, q as isVNode, V as defDataGridOption, L as defCol, ao as copyToClipboard, t as $, ap as makeAhref, N as ITEM_OPTIONS_VDOM, aq as InfoCard, W as MonacoEditor } from "./index.js";
 import { I as InpterfacePathParams, E as EnvSelectRender, R as RequestArgsRender, b as ResponseRender, M as MarkdownRender, T as TagSelectRender } from "./DialogModifyInterface.Helper.js";
 import { c as colParamsName, b as colRemark, d as colRequired, e as colValue, f as colExample, g as colType, h as asyncGetTuiEditor, T as TuiEditor, J as JsonSchemaMonaco } from "./TuiEditor.js";
 const DialogModifyInterface = defineComponent({
@@ -504,7 +504,7 @@ const DialogModifyInterface = defineComponent({
   },
   render(vm) {
     return createVNode(Fragment, null, [createVNode("div", {
-      "class": "dialog-modify-interface g-row flex1 flex horizon height100 width100 overflow-auto"
+      "class": "dialog-modify-interface x-dialog-boddy-wrapper flex1 flex horizon height100 width100 overflow-auto"
     }, [createVNode("div", {
       "class": "flex1"
     }, [createVNode(resolveComponent("xForm"), {
@@ -711,7 +711,7 @@ const DialogPostman = defineComponent({
   render() {
     let _slot;
     return createVNode(Fragment, null, [createVNode("div", {
-      "class": "g-row flex1 height100"
+      "class": "x-dialog-boddy-wrapper flex1 height100"
     }, [createVNode(resolveComponent("xGap"), {
       "t": "10"
     }, null), createVNode(resolveComponent("aAlert"), {

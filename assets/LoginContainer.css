@@ -89,10 +89,9 @@ em {
 .hidden {
   display: none;
 }
-.g-row {
-  min-width: 7.52rem;
-  margin: 0 auto;
-  padding: 0 0.24rem;
+.x-dialog-boddy-wrapper {
+  min-width: 30vw;
+  padding: 10px;
 }
 .m-container {
   margin: 0.24rem auto;
