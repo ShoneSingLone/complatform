@@ -129,15 +129,9 @@ const _sfc_main = defineComponent({
   data() {
     const vm = this;
     return {
-      data: {
-        userName: "",
-        email: "",
-        password: "",
-        confirm: "",
-        verifyCode: ""
-      },
       configsForm: {
         ...defItem({
+          value: "",
           prop: "userName",
           size: "large",
           placeholder: () => $t("\u7528\u6237\u540D").label,
@@ -150,6 +144,7 @@ const _sfc_main = defineComponent({
           }
         }),
         ...defItem({
+          value: "",
           prop: "email",
           size: "large",
           placeholder: () => $t("Email").label,
@@ -161,6 +156,7 @@ const _sfc_main = defineComponent({
           }
         }),
         ...defItem({
+          value: "",
           prop: "password",
           isPassword: true,
           size: "large",
@@ -177,6 +173,7 @@ const _sfc_main = defineComponent({
           }
         }),
         ...defItem({
+          value: "",
           prop: "confirm",
           isPassword: true,
           size: "large",
@@ -202,7 +199,8 @@ const _sfc_main = defineComponent({
           try {
             const validateResults = await validateForm(vm.configsForm);
             if (AllWasWell(validateResults)) {
-              const res = await API.user.regActions(vm.data);
+              const formData = pickValueFrom(vm.configsForm);
+              const res = await API.user.regActions(formData);
               UI.notification.success("\u6CE8\u518C\u6210\u529F");
               this.Cpt_url.go("/group");
             } else {
@@ -225,32 +223,24 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_xButton = resolveComponent("xButton");
   return openBlock(), createElementBlock("form", null, [
     createVNode(_component_xItem, {
-      modelValue: _ctx.data.userName,
-      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.data.userName = $event),
       configs: _ctx.configsForm.userName,
       autocomplete: "userName"
-    }, null, 8, ["modelValue", "configs"]),
+    }, null, 8, ["configs"]),
     createVNode(_component_xGap, { t: "20" }),
     createVNode(_component_xItem, {
-      modelValue: _ctx.data.email,
-      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.data.email = $event),
       configs: _ctx.configsForm.email,
       autocomplete: "email"
-    }, null, 8, ["modelValue", "configs"]),
+    }, null, 8, ["configs"]),
     createVNode(_component_xGap, { t: "20" }),
     createVNode(_component_xItem, {
-      modelValue: _ctx.data.password,
-      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => _ctx.data.password = $event),
       configs: _ctx.configsForm.password,
       autocomplete: "current-password"
-    }, null, 8, ["modelValue", "configs"]),
+    }, null, 8, ["configs"]),
     createVNode(_component_xGap, { t: "20" }),
     createVNode(_component_xItem, {
-      modelValue: _ctx.data.confirm,
-      "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => _ctx.data.confirm = $event),
       configs: _ctx.configsForm.confirm,
       autocomplete: "current-password"
-    }, null, 8, ["modelValue", "configs"]),
+    }, null, 8, ["configs"]),
     createBaseVNode("div", _hoisted_1, [
       createVNode(_component_xButton, { configs: _ctx.configsSubmit }, null, 8, ["configs"])
     ])
