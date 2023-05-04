@@ -4,8 +4,8 @@ import Srch from "./Search/Search";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import { defineComponent, VNode } from "vue";
 import { UI, xU } from "@ventose/ui";
-import { Methods_App, State_App } from "./../../state/State_App";
-import { Cpt_url } from "../../router/router";
+import { Cpt_avatarUrl, Methods_App, State_App } from "@/state/State_App";
+import { Cpt_url } from "@/router/router";
 import { API } from "@/api";
 
 export const AppHeader = defineComponent({
@@ -26,7 +26,7 @@ export const AppHeader = defineComponent({
 		"imageUrl"
 	],
 	setup() {
-		return { State_App, Cpt_url };
+		return { State_App, Cpt_url, Cpt_avatarUrl };
 	},
 	methods: {
 		goToGroup() {
@@ -49,12 +49,12 @@ export const AppHeader = defineComponent({
 			return "back_group";
 		},
 		ToolUser() {
-			let { imageUrl, uid, groupList, isLogin } = this.State_App.user;
+			const vm = this;
+			let { groupList, isLogin } = this.State_App.user;
 
 			if (!isLogin) {
 				return null;
 			}
-			imageUrl = imageUrl ? imageUrl : `/api/user/avatar?uid=${uid}`;
 
 			const items = [
 				{ content: "我的关注", path: "/follow", icon: "star" },
@@ -91,7 +91,6 @@ export const AppHeader = defineComponent({
 					</div>
 				);
 			});
-			const avatarUrl = imageUrl ? imageUrl : `/api/user/avatar?uid=${uid}`;
 			return (
 				<div class="user-toolbar flex">
 					<span
@@ -114,7 +113,7 @@ export const AppHeader = defineComponent({
 							v-slots={{
 								default: () => (
 									<a class="dropdown-link">
-										<aAvatar src={avatarUrl} />
+										<aAvatar src={vm.Cpt_avatarUrl} />
 									</a>
 								),
 								overlay: () => this.MenuUser
@@ -129,7 +128,11 @@ export const AppHeader = defineComponent({
 			return (
 				<aMenu
 					class="user-menu"
-					onClick={({ key }) => {
+					onClick={item => {
+						const { key } = item;
+						if (key === "user") {
+							Cpt_url.value.go("/user_profile");
+						}
 						if (key === "logout") {
 							Methods_App.logoutActions();
 						}
@@ -137,7 +140,7 @@ export const AppHeader = defineComponent({
 					{xU.map(
 						{
 							user: {
-								path: `/user/profile/${uid}`,
+								path: `/user_profile`,
 								name: "个人中心",
 								icon: "user",
 								adminFlag: false

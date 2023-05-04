@@ -4,6 +4,15 @@ import { t_itemConfigs } from "./itemRenders";
 
 let xItemNoPropCount = 0;
 
+export function defFormConfigs(configs: t_itemConfigs[]) {
+	const targetConfigs: Record<string, any> = {};
+	configs.forEach((configs: t_itemConfigs) => {
+		configs = defItem.item(configs);
+		targetConfigs[configs.prop] = configs;
+	});
+	return targetConfigs;
+}
+
 /*make item configs */
 export function defItem(options: t_itemConfigs) {
 	const configs = defItem.item(options);

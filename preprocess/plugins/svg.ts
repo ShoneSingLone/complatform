@@ -5,6 +5,8 @@ import fs from "fs";
 import { optimize as optimizeSvg } from "svgo";
 import PATH from "path";
 
+/* vite-plugin-svg-icons */
+
 
 
 export default function svgHelper(options = {}) {

@@ -38,8 +38,11 @@ export type t_itemConfigs =
 			/* 默认值 */
 			defaultValue?: any;
 			max?: number;
-			isTextarea?: boolean;
 			isReadonly?: boolean;
+			isPassword?: boolean;
+			isNumber?: boolean;
+			isTextarea?: boolean;
+			isSearch?: boolean;
 			prop: string;
 			onAfterValueEmit?: Function;
 	  }
