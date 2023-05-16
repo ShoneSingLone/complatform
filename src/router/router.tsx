@@ -20,6 +20,14 @@ export const routes = [
 		}
 	},
 	{
+		path: `/user_profile`,
+		componentName: "ViewUserProfile",
+		component: () => import("../containers/User/ViewUserProfile.js"),
+		meta: {
+			title: $t("用户").label
+		}
+	},
+	{
 		path: `/group`,
 		componentName: "ViewGroup",
 		component: ViewGroup,
@@ -40,7 +48,7 @@ export const routes = [
 		componentName: "ViewI18n",
 		component: () => import("../containers/I18n/ViewI18n.js"),
 		meta: {
-			title: $t("文档").label
+			title: $t("国际化").label
 		}
 	},
 	{
@@ -246,6 +254,7 @@ async function setLocationHash(href: string, url: URL) {
 		}
 		const route = xU.find(routes, { path: url.pathname });
 		const label = route.label || route?.meta?.title;
+
 		if (label) {
 			setDocumentTitle(label);
 		} else {

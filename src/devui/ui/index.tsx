@@ -39,7 +39,7 @@ import {
 	setDataGridInfo,
 	setPagination
 } from "./xDataGrid/common";
-import { antColKey, defItem, vModel } from "./xForm/common";
+import { antColKey, defItem, defFormConfigs, vModel } from "./xForm/common";
 import { UI } from "./UI";
 import {
 	AllWasWell,
@@ -135,6 +135,7 @@ export { AllWasWell as AllWasWell };
 export { setDocumentTitle as setDocumentTitle };
 export { setCSSVariables as setCSSVariables };
 export { defItem as defItem };
+export { defFormConfigs as defFormConfigs };
 export { vModel as vModel };
 export { antColKey as antColKey };
 export { pickValueFrom as pickValueFrom };

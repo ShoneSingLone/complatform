@@ -15,7 +15,13 @@ export default defineComponent({
 			default() {
 				return {};
 			}
-		}
+		},
+		formStyle: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
 	},
 	emits: [],
 	data() {
@@ -25,6 +31,14 @@ export default defineComponent({
 		/* 组件唯一标识 */
 		xFormId() {
 			return `xForm_${this._.uid}`;
+		},
+		formStyleText() {
+			return xU
+				.map(
+					xU.merge({}, this.formStyle),
+					(value, prop) => `${prop}: ${value}`
+				)
+				.join(";");
 		},
 		labelStyleText() {
 			return xU
@@ -37,6 +51,7 @@ export default defineComponent({
 		styleContent() {
 			return [
 				`#${this.xFormId} { width:100%; padding:0 16px; display: grid;grid-template-columns: repeat(${this.col},1fr);}`,
+				`#${this.xFormId} { ${this.formStyleText} }`,
 				`#${this.xFormId} div.ant-form-item-label { ${this.labelStyleText} }`
 			].join("\n");
 		}

@@ -1,4 +1,4 @@
-import { reactive, watch } from "vue";
+import { computed, reactive, watch } from "vue";
 import { lStorage, State_UI, UI, xU } from "@ventose/ui";
 import { Cpt_url } from "./../router/router";
 import { API } from "./../api";
@@ -14,19 +14,23 @@ let _State_App = {
 	isFooterFold: false,
 	urlHash: window.location.hash,
 	user: {
+		add_time: "",
+		email: "",
+		role: "",
+		study: false,
+		type: "",
+		up_time: "",
+		username: "",
+		_id: "",
 		isLogin: false,
 		canRegister: true,
 		isLDAP: false,
 		userName: null,
 		uid: null,
-		email: "",
 		loginState: LOADING_STATUS,
 		loginWrapActiveKey: "1",
-		role: "",
-		type: "",
 		breadcrumb: [],
 		studyTip: 0,
-		study: false,
 		imageUrl: ""
 	},
 	news: {
@@ -68,7 +72,7 @@ export const Methods_App = {
 		_State_App.menu = Object.assign({}, _State_App.menu, menu);
 	},
 	setUser(user) {
-		_State_App.user = Object.assign({}, _State_App.user, user);
+		_State_App.user = xU.merge({}, _State_App.user, user);
 	},
 	setNews(news) {
 		_State_App.news = Object.assign({}, _State_App.news, news);
@@ -76,28 +80,34 @@ export const Methods_App = {
 	setBreadcrumb(breadcrumb) {
 		Methods_App.setUser({ breadcrumb });
 	},
+	async refreshUserInfo() {
+		try {
+			const { data } = await API.user.getUserStatus();
+			if (data) {
+				Methods_App.setUser({
+					...data,
+					isLogin: data.errcode == 0,
+					isLDAP: data.ladp,
+					canRegister: data.canRegister,
+					role: data ? data.role : null,
+					loginState: data.errcode == 0 ? MEMBER_STATUS : GUEST_STATUS,
+					userName: data ? data.username : null,
+					uid: data ? data._id : null,
+					type: data ? data.type : null,
+					study: data ? data.study : false
+				});
+			}
+			throw new Error("refreshUserInfo error");
+		} catch (error) {
+			console.error(error);
+		}
+	},
 	async checkLoginState() {
 		if (_State_App.user.role && _State_App.user.isLogin) {
 			return true;
 		}
-		try {
-			const { data, response } = await API.user.getUserStatus();
-			Methods_App.setUser({
-				isLogin: response.data.errcode == 0,
-				isLDAP: response.data.ladp,
-				canRegister: response.data.canRegister,
-				role: data ? data.role : null,
-				loginState: response.data.errcode == 0 ? MEMBER_STATUS : GUEST_STATUS,
-				userName: data ? data.username : null,
-				uid: data ? data._id : null,
-				type: data ? data.type : null,
-				study: data ? data.study : false
-			});
-		} catch (error) {
-			console.error(error);
-		} finally {
-			return _State_App.user.isLogin;
-		}
+		await Methods_App.refreshUserInfo();
+		return _State_App.user.isLogin;
 	},
 	async fetchGroupList() {
 		const { data: groupList } = await API.group.getMyGroupList();
@@ -253,4 +263,12 @@ window.addEventListener(
 	}, 60)
 );
 
-export { _State_App as State_App };
+const Cpt_avatarUrl = computed(() => {
+	if (_State_App.user.imageUrl) {
+		return _State_App.user.imageUrl;
+	} else {
+		return `${_State_App.baseURL}/api/user/avatar?uid=${_State_App.user.uid}`;
+	}
+});
+
+export { _State_App as State_App, Cpt_avatarUrl };
