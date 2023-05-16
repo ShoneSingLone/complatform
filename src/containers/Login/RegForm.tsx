@@ -1,34 +1,3 @@
-<template>
-	<form>
-		<!-- 用户名 -->
-		<xItem
-			v-model="data.userName"
-			:configs="configsForm.userName"
-			autocomplete="userName" />
-		<xGap t="20" />
-		<xItem
-			v-model="data.email"
-			:configs="configsForm.email"
-			autocomplete="email" />
-		<xGap t="20" />
-		<!-- 密码 -->
-		<xItem
-			v-model="data.password"
-			:configs="configsForm.password"
-			autocomplete="current-password" />
-		<xGap t="20" />
-		<!-- 确认密码 -->
-		<xItem
-			v-model="data.confirm"
-			:configs="configsForm.confirm"
-			autocomplete="current-password" />
-		<div class="item-wrapper">
-			<xButton :configs="configsSubmit" />
-		</div>
-	</form>
-</template>
-
-<script lang="jsx">
 import { defineComponent } from "vue";
 import { Methods_App } from "@/state/State_App";
 import {
@@ -38,12 +7,12 @@ import {
 	State_UI,
 	AllWasWell,
 	validateForm,
-	FormRules
+	FormRules,
+	pickValueFrom,
+	$t
 } from "@ventose/ui";
 import { API } from "@/api";
 import { Cpt_url } from "@/router/router";
-
-const { $t } = State_UI;
 
 const formItemStyle = {
 	marginBottom: ".16rem"
@@ -82,15 +51,9 @@ export default defineComponent({
 	data() {
 		const vm = this;
 		return {
-			data: {
-				userName: "",
-				email: "",
-				password: "",
-				confirm: "",
-				verifyCode: ""
-			},
 			configsForm: {
 				...defItem({
+					value: "",
 					prop: "userName",
 					size: "large",
 					/* render的时候重新获取 */
@@ -106,6 +69,7 @@ export default defineComponent({
 					}
 				}),
 				...defItem({
+					value: "",
 					prop: "email",
 					size: "large",
 					/* render的时候重新获取 */
@@ -122,6 +86,7 @@ export default defineComponent({
 					}
 				}),
 				...defItem({
+					value: "",
 					prop: "password",
 					isPassword: true,
 					size: "large",
@@ -141,6 +106,7 @@ export default defineComponent({
 					}
 				}),
 				...defItem({
+					value: "",
 					prop: "confirm",
 					isPassword: true,
 					size: "large",
@@ -153,8 +119,9 @@ export default defineComponent({
 						),
 						FormRules.custom({
 							msg: () => $t("两次输入的密码不一致!").label,
-							validator: async confirm =>
-								vm.configsForm.password.value !== confirm,
+							validator: async confirm => {
+								return vm.configsForm.password.value !== confirm;
+							},
 							trigger: [EVENT_TYPE.update]
 						})
 					],
@@ -172,10 +139,12 @@ export default defineComponent({
 					try {
 						const validateResults = await validateForm(vm.configsForm);
 						if (AllWasWell(validateResults)) {
-							const res = await API.user.regActions(vm.data);
-							UI.notification.success("注册成功");
+							const res = await API.user.regActions(
+								pickValueFrom(vm.configsForm)
+							);
+							UI.notification.success($t('"注册成功"').label);
 
-							this.Cpt_url.go("/group");
+							Cpt_url.value.go("/group");
 						} else {
 							throw new Error("未通过验证");
 						}
@@ -187,8 +156,32 @@ export default defineComponent({
 			}
 		};
 	},
-	methods: {}
+	methods: {},
+	render({ configsSubmit, configsForm }) {
+		return (
+			<>
+				<form>
+					{/* <!-- 用户名 --> */}
+					<xItem configs={configsForm.userName} autocomplete="userName" />
+					<xGap t="20" />
+					<xItem configs={configsForm.email} autocomplete="email" />
+					<xGap t="20" />
+					{/* <!-- 密码 --> */}
+					<xItem
+						configs={configsForm.password}
+						autocomplete="current-password"
+					/>
+					<xGap t="20" />
+					{/* <!-- 确认密码 --> */}
+					<xItem
+						configs={configsForm.confirm}
+						autocomplete="current-password"
+					/>
+					<div class="item-wrapper">
+						<xButton configs={configsSubmit} />
+					</div>
+				</form>
+			</>
+		);
+	}
 });
-</script>
-
-<style></style>
