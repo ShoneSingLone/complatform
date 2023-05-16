@@ -1,9 +1,9 @@
-import { d as defineComponent, C as Cpt_url, M as Methods_App, a as defItem, l as lStorage, F as FormRules, E as EVENT_TYPE, v as validateForm, A as AllWasWell, p as pickValueFrom, b as API, U as UI, S as State_UI, _ as _export_sfc, r as resolveComponent, o as openBlock, c as createElementBlock, e as createVNode, w as withKeys, f as createBaseVNode, g as _State_App, h as createTextVNode } from "./index.js";
+import { d as defineComponent, C as Cpt_url, M as Methods_App, a as defItem, l as lStorage, F as FormRules, E as EVENT_TYPE, v as validateForm, A as AllWasWell, p as pickValueFrom, b as API, U as UI, S as State_UI, _ as _export_sfc, r as resolveComponent, o as openBlock, c as createElementBlock, e as createVNode, w as withKeys, f as createBaseVNode, $ as $t$1, g as Fragment, h as _State_App, i as createTextVNode } from "./index.js";
 const Login = "";
 const {
-  $t: $t$1
+  $t
 } = State_UI;
-const _sfc_main$1 = defineComponent({
+const _sfc_main = defineComponent({
   props: {
     form: {
       type: Object
@@ -29,29 +29,29 @@ const _sfc_main$1 = defineComponent({
           value: lStorage.email || "",
           prop: "email",
           size: "large",
-          placeholder: () => $t$1("Email").label,
+          placeholder: () => $t("Email").label,
           onAfterValueEmit(val) {
             lStorage.email = val;
           },
-          rules: [FormRules.required(() => $t$1("\u8BF7\u8F93\u5165Email!").label, [EVENT_TYPE.blur]), FormRules.email()]
+          rules: [FormRules.required(() => $t("\u8BF7\u8F93\u5165Email!").label, [EVENT_TYPE.blur]), FormRules.email()]
         }),
         ...defItem({
           value: lStorage.password || "",
           prop: "password",
           isPassword: true,
           size: "large",
-          placeholder: () => $t$1("\u5BC6\u7801").label,
+          placeholder: () => $t("\u5BC6\u7801").label,
           onAfterValueEmit(val) {
             lStorage.password = val;
           },
-          rules: [FormRules.required(() => $t$1("\u8BF7\u8F93\u5165\u5BC6\u7801").label, [EVENT_TYPE.blur])]
+          rules: [FormRules.required(() => $t("\u8BF7\u8F93\u5165\u5BC6\u7801").label, [EVENT_TYPE.blur])]
         })
       },
       configsSubmit: {
         size: "large",
         type: "primary",
         class: "login-button flex center login-form-button",
-        text: () => $t$1("\u767B\u5F55").label,
+        text: () => $t("\u767B\u5F55").label,
         onClick: vm.login
       }
     };
@@ -75,8 +75,8 @@ const _sfc_main$1 = defineComponent({
     }
   }
 });
-const _hoisted_1$1 = { class: "item-wrapper" };
-function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1 = { class: "item-wrapper" };
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_xItem = resolveComponent("xItem");
   const _component_xGap = resolveComponent("xGap");
   const _component_xButton = resolveComponent("xButton");
@@ -92,15 +92,12 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
       autocomplete: "current-password",
       onKeypress: withKeys(_ctx.login, ["enter"])
     }, null, 8, ["configs", "onKeypress"]),
-    createBaseVNode("div", _hoisted_1$1, [
+    createBaseVNode("div", _hoisted_1, [
       createVNode(_component_xButton, { configs: _ctx.configsSubmit }, null, 8, ["configs"])
     ])
   ]);
 }
-const LoginForm = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
-const {
-  $t
-} = State_UI;
+const LoginForm = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 const styles = {
   icon: {
     color: "rgba(0, 0, 0, 0.25)",
@@ -108,7 +105,7 @@ const styles = {
     height: "16px"
   }
 };
-const _sfc_main = defineComponent({
+const RegForm = defineComponent({
   props: {
     form: {
       type: Object
@@ -134,8 +131,8 @@ const _sfc_main = defineComponent({
           value: "",
           prop: "userName",
           size: "large",
-          placeholder: () => $t("\u7528\u6237\u540D").label,
-          rules: [FormRules.required(() => $t("\u8BF7\u8F93\u5165\u7528\u6237\u540D!").label, [EVENT_TYPE.blur])],
+          placeholder: () => $t$1("\u7528\u6237\u540D").label,
+          rules: [FormRules.required(() => $t$1("\u8BF7\u8F93\u5165\u7528\u6237\u540D!").label, [EVENT_TYPE.blur])],
           slots: {
             prefix: () => createVNode(resolveComponent("xIcon"), {
               "icon": "UserOutlined",
@@ -147,8 +144,8 @@ const _sfc_main = defineComponent({
           value: "",
           prop: "email",
           size: "large",
-          placeholder: () => $t("Email").label,
-          rules: [FormRules.required(() => $t("\u8BF7\u8F93\u5165Email!").label, [EVENT_TYPE.blur]), FormRules.email()],
+          placeholder: () => $t$1("Email").label,
+          rules: [FormRules.required(() => $t$1("\u8BF7\u8F93\u5165Email!").label, [EVENT_TYPE.blur]), FormRules.email()],
           slots: {
             prefix: () => createVNode(resolveComponent("MailOutlined"), {
               "style": styles.icon
@@ -160,8 +157,8 @@ const _sfc_main = defineComponent({
           prop: "password",
           isPassword: true,
           size: "large",
-          placeholder: () => $t("\u5BC6\u7801").label,
-          rules: [FormRules.required(() => $t("\u8BF7\u8F93\u5165\u5BC6\u7801").label, [EVENT_TYPE.update])],
+          placeholder: () => $t$1("\u5BC6\u7801").label,
+          rules: [FormRules.required(() => $t$1("\u8BF7\u8F93\u5165\u5BC6\u7801").label, [EVENT_TYPE.update])],
           onValidateFial: (thisConfigs) => {
             console.log(thisConfigs.itemTips);
           },
@@ -177,10 +174,12 @@ const _sfc_main = defineComponent({
           prop: "confirm",
           isPassword: true,
           size: "large",
-          placeholder: () => $t("\u8BF7\u518D\u6B21\u8F93\u5165\u5BC6\u7801!").label,
-          rules: [FormRules.required(() => $t("\u8BF7\u518D\u6B21\u8F93\u5165\u5BC6\u7801!").label, [EVENT_TYPE.blur]), FormRules.custom({
-            msg: () => $t("\u4E24\u6B21\u8F93\u5165\u7684\u5BC6\u7801\u4E0D\u4E00\u81F4!").label,
-            validator: async (confirm) => vm.configsForm.password.value !== confirm,
+          placeholder: () => $t$1("\u8BF7\u518D\u6B21\u8F93\u5165\u5BC6\u7801!").label,
+          rules: [FormRules.required(() => $t$1("\u8BF7\u518D\u6B21\u8F93\u5165\u5BC6\u7801!").label, [EVENT_TYPE.blur]), FormRules.custom({
+            msg: () => $t$1("\u4E24\u6B21\u8F93\u5165\u7684\u5BC6\u7801\u4E0D\u4E00\u81F4!").label,
+            validator: async (confirm) => {
+              return vm.configsForm.password.value !== confirm;
+            },
             trigger: [EVENT_TYPE.update]
           })],
           slots: {
@@ -194,15 +193,14 @@ const _sfc_main = defineComponent({
         size: "large",
         type: "primary",
         class: "login-button flex center login-form-button",
-        text: () => $t("\u6CE8\u518C").label,
+        text: () => $t$1("\u6CE8\u518C").label,
         async onClick() {
           try {
             const validateResults = await validateForm(vm.configsForm);
             if (AllWasWell(validateResults)) {
-              const formData = pickValueFrom(vm.configsForm);
-              const res = await API.user.regActions(formData);
-              UI.notification.success("\u6CE8\u518C\u6210\u529F");
-              this.Cpt_url.go("/group");
+              const res = await API.user.regActions(pickValueFrom(vm.configsForm));
+              UI.notification.success($t$1('"\u6CE8\u518C\u6210\u529F"').label);
+              Cpt_url.value.go("/group");
             } else {
               throw new Error("\u672A\u901A\u8FC7\u9A8C\u8BC1");
             }
@@ -214,39 +212,36 @@ const _sfc_main = defineComponent({
       }
     };
   },
-  methods: {}
+  methods: {},
+  render({
+    configsSubmit,
+    configsForm
+  }) {
+    return createVNode(Fragment, null, [createVNode("form", null, [createVNode(resolveComponent("xItem"), {
+      "configs": configsForm.userName,
+      "autocomplete": "userName"
+    }, null), createVNode(resolveComponent("xGap"), {
+      "t": "20"
+    }, null), createVNode(resolveComponent("xItem"), {
+      "configs": configsForm.email,
+      "autocomplete": "email"
+    }, null), createVNode(resolveComponent("xGap"), {
+      "t": "20"
+    }, null), createVNode(resolveComponent("xItem"), {
+      "configs": configsForm.password,
+      "autocomplete": "current-password"
+    }, null), createVNode(resolveComponent("xGap"), {
+      "t": "20"
+    }, null), createVNode(resolveComponent("xItem"), {
+      "configs": configsForm.confirm,
+      "autocomplete": "current-password"
+    }, null), createVNode("div", {
+      "class": "item-wrapper"
+    }, [createVNode(resolveComponent("xButton"), {
+      "configs": configsSubmit
+    }, null)])])]);
+  }
 });
-const _hoisted_1 = { class: "item-wrapper" };
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_xItem = resolveComponent("xItem");
-  const _component_xGap = resolveComponent("xGap");
-  const _component_xButton = resolveComponent("xButton");
-  return openBlock(), createElementBlock("form", null, [
-    createVNode(_component_xItem, {
-      configs: _ctx.configsForm.userName,
-      autocomplete: "userName"
-    }, null, 8, ["configs"]),
-    createVNode(_component_xGap, { t: "20" }),
-    createVNode(_component_xItem, {
-      configs: _ctx.configsForm.email,
-      autocomplete: "email"
-    }, null, 8, ["configs"]),
-    createVNode(_component_xGap, { t: "20" }),
-    createVNode(_component_xItem, {
-      configs: _ctx.configsForm.password,
-      autocomplete: "current-password"
-    }, null, 8, ["configs"]),
-    createVNode(_component_xGap, { t: "20" }),
-    createVNode(_component_xItem, {
-      configs: _ctx.configsForm.confirm,
-      autocomplete: "current-password"
-    }, null, 8, ["configs"]),
-    createBaseVNode("div", _hoisted_1, [
-      createVNode(_component_xButton, { configs: _ctx.configsSubmit }, null, 8, ["configs"])
-    ])
-  ]);
-}
-const RegForm = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 const LoginWrap = defineComponent({
   components: {
     LoginForm
