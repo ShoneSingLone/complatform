@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, C as Cpt_url, $ as $t$1, a as defItem, at as xItem_ProjectGroupId, au as xItem_ProjectName, av as xItem_ProjectIcon, aw as xItem_ProjectColor, ax as xItem_ProjectBasePath, ay as xItem_ProjectDesc, az as xItem_ProjectType, e as createVNode, r as resolveComponent, x as xU, k as Fragment, h as createTextVNode } from "./index.js";
+import { d as defineComponent, h as _State_App, C as Cpt_url, $ as $t$1, a as defItem, at as xItem_ProjectGroupId, au as xItem_ProjectName, av as xItem_ProjectIcon, aw as xItem_ProjectColor, ax as xItem_ProjectBasePath, ay as xItem_ProjectDesc, az as xItem_ProjectType, e as createVNode, r as resolveComponent, x as xU, g as Fragment, i as createTextVNode } from "./index.js";
 import { c as openUpsertTagDialog, d as openProxyEnvDialog } from "./DialogModifyInterface.Helper.js";
 import "./TuiEditor.js";
 const ProjectSettingCommon = defineComponent({

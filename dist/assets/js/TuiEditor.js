@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, J as toRaw, K as diff, x as xU, F as FormRules, e as createVNode, r as resolveComponent, G as withDirectives, H as resolveDirective, k as Fragment, a as defItem, L as markRaw, U as UI, p as pickValueFrom, s as setValueTo, v as validateForm, A as AllWasWell, b as API, M as Methods_App, N as ITEM_OPTIONS, O as defXVirTableConfigs, P as defCol, Q as ITEM_OPTIONS_VDOM, R as h, T as inject, V as components, $ as $t$1, B as $, W as setDataGridInfo, X as lib, Y as defDataGridOption, Z as MonacoEditor, I as compositionAPI, h as createTextVNode, a0 as HTTP_REQUEST_HEADER, a1 as compileVNode, a2 as QUERY, a3 as GET, a4 as HTTP_METHOD, a5 as BODY, S as State_UI, a6 as defineAsyncComponent, a7 as MkitTheme, a8 as PreprocessHTML, a9 as leftArrow, aa as rightArrow } from "./index.js";
+import { d as defineComponent, h as _State_App, J as toRaw, K as diff, x as xU, F as FormRules, e as createVNode, r as resolveComponent, G as withDirectives, H as resolveDirective, g as Fragment, a as defItem, L as markRaw, U as UI, p as pickValueFrom, s as setValueTo, v as validateForm, A as AllWasWell, b as API, M as Methods_App, N as ITEM_OPTIONS, O as defXVirTableConfigs, P as defCol, Q as ITEM_OPTIONS_VDOM, R as h, T as inject, V as components, $ as $t$1, B as $, W as setDataGridInfo, X as lib, Y as defDataGridOption, Z as MonacoEditor, I as compositionAPI, i as createTextVNode, a0 as HTTP_REQUEST_HEADER, a1 as compileVNode, a2 as QUERY, a3 as GET, a4 as HTTP_METHOD, a5 as BODY, S as State_UI, a6 as defineAsyncComponent, a7 as MkitTheme, a8 as PreprocessHTML, a9 as leftArrow, aa as rightArrow } from "./index.js";
 function makeKeyValueObj(i) {
   return {
     key: i.name,
@@ -898,7 +898,7 @@ const SubformNumber = defineComponent({
   methods: {
     parserNum(val) {
       if (this.integer) {
-        return parseInt(Number(val));
+        return parseInt(val);
       }
       return val;
     }

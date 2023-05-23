@@ -1,30 +1,3 @@
-<template>
-	<form>
-		<!-- 用户名 -->
-		<xItem
-			:configs="configsForm.userName"
-			autocomplete="userName" />
-		<xGap t="20" />
-		<xItem
-			:configs="configsForm.email"
-			autocomplete="email" />
-		<xGap t="20" />
-		<!-- 密码 -->
-		<xItem
-			:configs="configsForm.password"
-			autocomplete="current-password" />
-		<xGap t="20" />
-		<!-- 确认密码 -->
-		<xItem
-			:configs="configsForm.confirm"
-			autocomplete="current-password" />
-		<div class="item-wrapper">
-			<xButton :configs="configsSubmit" />
-		</div>
-	</form>
-</template>
-
-<script lang="jsx">
 import { defineComponent } from "vue";
 import { Methods_App } from "@/state/State_App";
 import {
@@ -34,13 +7,12 @@ import {
 	State_UI,
 	AllWasWell,
 	validateForm,
+	FormRules,
 	pickValueFrom,
-	FormRules
+	$t
 } from "@ventose/ui";
 import { API } from "@/api";
 import { Cpt_url } from "@/router/router";
-
-const { $t } = State_UI;
 
 const formItemStyle = {
 	marginBottom: ".16rem"
@@ -147,8 +119,9 @@ export default defineComponent({
 						),
 						FormRules.custom({
 							msg: () => $t("两次输入的密码不一致!").label,
-							validator: async confirm =>
-								vm.configsForm.password.value !== confirm,
+							validator: async confirm => {
+								return vm.configsForm.password.value !== confirm;
+							},
 							trigger: [EVENT_TYPE.update]
 						})
 					],
@@ -166,22 +139,49 @@ export default defineComponent({
 					try {
 						const validateResults = await validateForm(vm.configsForm);
 						if (AllWasWell(validateResults)) {
-							const formData = pickValueFrom(vm.configsForm);
-							const res = await API.user.regActions(formData);
-							UI.notification.success("注册成功");
-							this.Cpt_url.go("/group");
+							const res = await API.user.regActions(
+								pickValueFrom(vm.configsForm)
+							);
+							UI.notification.success($t('"注册成功"').label);
+
+							Cpt_url.value.go("/group");
 						} else {
 							throw new Error("未通过验证");
 						}
 					} catch (e) {
+						debugger;
 						console.error(e);
 					}
 				}
 			}
 		};
 	},
-	methods: {}
+	methods: {},
+	render({ configsSubmit, configsForm }) {
+		return (
+			<>
+				<form>
+					{/* <!-- 用户名 --> */}
+					<xItem configs={configsForm.userName} autocomplete="userName" />
+					<xGap t="20" />
+					<xItem configs={configsForm.email} autocomplete="email" />
+					<xGap t="20" />
+					{/* <!-- 密码 --> */}
+					<xItem
+						configs={configsForm.password}
+						autocomplete="current-password"
+					/>
+					<xGap t="20" />
+					{/* <!-- 确认密码 --> */}
+					<xItem
+						configs={configsForm.confirm}
+						autocomplete="current-password"
+					/>
+					<div class="item-wrapper">
+						<xButton configs={configsSubmit} />
+					</div>
+				</form>
+			</>
+		);
+	}
 });
-</script>
-
-<style></style>
