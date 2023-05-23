@@ -7,7 +7,7 @@
             "./node_modules/vue/dist/vue.d.ts",
             "./node_modules/idb-keyval/dist/index.d.ts"
         ],
-        "jsx": "react",
+        "jsx": "preserve",
         "target": "ES2022",
         "lib": [
             "ES2022"
@@ -17,7 +17,7 @@
                 "./src/*"
             ],
             "@ventose/ui": [
-                "./src/devui/ui/index.tsx"
+                "./src/devui/VentoseUI.es.ts"
             ]
         }
     },

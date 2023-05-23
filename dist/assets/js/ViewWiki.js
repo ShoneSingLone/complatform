@@ -1,4 +1,4 @@
-import { i as reactive, x as xU, b as API, j as watch, s as sortTreeByOrder, k as setDocumentTitle, C as Cpt_url, d as defineComponent, g as _State_App, a as defItem, $ as $t, F as FormRules, v as validateForm, A as AllWasWell, p as pickValueFrom, m as ARTICLE, U as UI, e as createVNode, r as resolveComponent, n as Fragment, q as isVNode, t as $, u as getTreeOrder, y as withDirectives, z as resolveDirective, B as compositionAPI } from "./index.js";
+import { q as reactive, x as xU, b as API, t as watch, u as sortTreeByOrder, y as setDocumentTitle, C as Cpt_url, d as defineComponent, g as _State_App, a as defItem, $ as $t$1, F as FormRules, v as validateForm, A as AllWasWell, p as pickValueFrom, z as ARTICLE, U as UI, e as createVNode, r as resolveComponent, k as Fragment, m as isVNode, B as $, D as getTreeOrder, G as withDirectives, H as resolveDirective, I as compositionAPI } from "./index.js";
 import { T as TuiEditor } from "./TuiEditor.js";
 const ViewWiki$1 = "";
 const defautlValue = () => ({
@@ -120,8 +120,8 @@ const DialogAddArticle = defineComponent({
         ...defItem({
           value: "",
           prop: "title",
-          label: $t("\u6587\u6863\u540D\u79F0").label,
-          placeholder: $t("\u6587\u6863\u540D\u79F0").label,
+          label: $t$1("\u6587\u6863\u540D\u79F0").label,
+          placeholder: $t$1("\u6587\u6863\u540D\u79F0").label,
           rules: [FormRules.required()]
         })
       }
@@ -279,7 +279,7 @@ const WikiLeftSider = defineComponent({
   computed: {
     btnAddNew() {
       return {
-        text: $t("\u65B0\u589E").label,
+        text: $t$1("\u65B0\u589E").label,
         onClick: () => this.showUpsertArticleDialog()
       };
     },
@@ -437,7 +437,7 @@ const WikiLeftSider = defineComponent({
         await Methods_Wiki.updateWikiMenuList({
           belong_type: "all"
         });
-        UI.message.success($t("\u66F4\u65B0\u6210\u529F").label);
+        UI.message.success($t$1("\u66F4\u65B0\u6210\u529F").label);
       } catch (error) {
         UI.message.error(error.message);
       }
@@ -504,12 +504,12 @@ const ViewWiki = defineComponent({
     return {
       title: "",
       titleConfigs: defItem.item({
-        placeholder: $t("\u6587\u6863\u540D\u79F0").label
+        placeholder: $t$1("\u6587\u6863\u540D\u79F0").label
       }),
       isReadonly: defItem.item({
         value: true,
         itemType: "Switch",
-        checkedChildren: $t("\u9884\u89C8").label
+        checkedChildren: $t$1("\u9884\u89C8").label
       }),
       btnSave: {
         preset: "save",
@@ -535,7 +535,7 @@ const ViewWiki = defineComponent({
         belong_type: "all"
       });
       Methods_Wiki.setCurrentWiki(params._id, params);
-      UI.message.success($t("\u4FDD\u5B58\u6210\u529F").label);
+      UI.message.success($t$1("\u4FDD\u5B58\u6210\u529F").label);
     }
   },
   computed: {

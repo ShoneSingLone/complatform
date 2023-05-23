@@ -58,7 +58,7 @@ export default defineComponent({
 	render() {
 		return (
 			<>
-				{this.State_App.user.isLogin && <AppHeader />}
+				<AppHeader />
 				<RouterView guards={this.routerViewGuards} />
 				<AppFooter />
 			</>

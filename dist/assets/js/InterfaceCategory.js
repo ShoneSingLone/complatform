@@ -1,4 +1,4 @@
-import { d as defineComponent, am as useInterfaceTableConfigs, ai as State_ProjectInterface, C as Cpt_url, $ as $t, e as createVNode, r as resolveComponent } from "./index.js";
+import { d as defineComponent, ao as useInterfaceTableConfigs, ak as State_ProjectInterface, C as Cpt_url, $ as $t$1, e as createVNode, r as resolveComponent } from "./index.js";
 import { o as openDialogInterfaceStatusModify, a as openDialogInterfaceProxyModify } from "./DialogModifyInterface.Helper.js";
 import "./TuiEditor.js";
 const InterfaceCategory = defineComponent({
@@ -24,7 +24,7 @@ const InterfaceCategory = defineComponent({
   data(vm) {
     return {
       btnChangeStatus: {
-        text: $t("\u53D8\u66F4\u72B6\u6001").label,
+        text: $t$1("\u53D8\u66F4\u72B6\u6001").label,
         disabled() {
           return vm.disabled;
         },
@@ -35,7 +35,7 @@ const InterfaceCategory = defineComponent({
         }
       },
       btnChangeProxy: {
-        text: $t("\u53D8\u66F4\u4EE3\u7406").label,
+        text: $t$1("\u53D8\u66F4\u4EE3\u7406").label,
         disabled() {
           return vm.disabled;
         },

@@ -86,11 +86,11 @@ export const Methods_App = {
 			if (data) {
 				Methods_App.setUser({
 					...data,
-					isLogin: data.errcode == 0,
+					isLogin: !!data._id,
 					isLDAP: data.ladp,
 					canRegister: data.canRegister,
 					role: data ? data.role : null,
-					loginState: data.errcode == 0 ? MEMBER_STATUS : GUEST_STATUS,
+					loginState: !!data._id ? MEMBER_STATUS : GUEST_STATUS,
 					userName: data ? data.username : null,
 					uid: data ? data._id : null,
 					type: data ? data.type : null,

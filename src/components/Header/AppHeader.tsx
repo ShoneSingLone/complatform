@@ -193,6 +193,9 @@ export const AppHeader = defineComponent({
 		};
 	},
 	render() {
+		if (!State_App.user.isLogin) {
+			return null;
+		}
 		return (
 			<aLayoutHeader class="header-box m-header elevation-4">
 				<div class="content flex middle">

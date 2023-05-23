@@ -29,6 +29,7 @@ export const colRequired = () =>
 	});
 export const colExample = defCol({
 	prop: "example",
+	width: "100px",
 	label: $t("示例").label
 });
 export const colType = defCol({

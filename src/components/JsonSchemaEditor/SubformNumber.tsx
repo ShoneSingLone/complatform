@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { xU } from "../../devui/ui/ventoseUtils";
+import { xU } from "@ventose/ui";
 
 export const numberNeedProps = [
 	"default",
@@ -17,7 +17,7 @@ export const SubformNumber = defineComponent({
 	methods: {
 		parserNum(val) {
 			if (this.integer) {
-				return parseInt(Number(val));
+				return parseInt(val);
 			}
 			return val;
 		}

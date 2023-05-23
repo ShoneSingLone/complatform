@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, x as xU, F as FormRules, b as API, M as Methods_App, U as UI, e as createVNode, r as resolveComponent, h as createTextVNode, n as Fragment, a as defItem, $ as $t, J as ITEM_OPTIONS, I as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, ah as Methods_ProjectInterface, q as isVNode, y as withDirectives, z as resolveDirective } from "./index.js";
+import { d as defineComponent, g as _State_App, x as xU, F as FormRules, b as API, M as Methods_App, U as UI, e as createVNode, r as resolveComponent, h as createTextVNode, k as Fragment, a as defItem, $ as $t$1, N as ITEM_OPTIONS, s as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, j as Methods_ProjectInterface, m as isVNode, G as withDirectives, H as resolveDirective } from "./index.js";
 import { o as orderAsc, R as RequestArgsPanel, T as TuiEditor, a as ResponsePanel, D as DialogUpsertProxyEnv } from "./TuiEditor.js";
 function genTag(name, desc, index) {
   return {
@@ -218,7 +218,7 @@ const DialogInterfaceStatusModify = defineComponent({
       dataXItem: {
         ...defItem({
           prop: "status",
-          label: $t("\u72B6\u6001").label,
+          label: $t$1("\u72B6\u6001").label,
           value: ITEM_OPTIONS.interfaceStatus[0].value,
           options: ITEM_OPTIONS.interfaceStatus,
           itemType: "Select"
@@ -444,14 +444,14 @@ function _isSlot(s) {
 }
 async function openProxyEnvDialog() {
   await UI.dialog.component({
-    title: $t("\u7BA1\u7406\u9879\u76EE\u63A5\u53E3\u8F6C\u53D1\u73AF\u5883").label,
+    title: $t$1("\u7BA1\u7406\u9879\u76EE\u63A5\u53E3\u8F6C\u53D1\u73AF\u5883").label,
     component: DialogUpsertProxyEnv,
     keepTop: true
   });
 }
 async function openUpsertTagDialog() {
   await UI.dialog.component({
-    title: $t("\u7BA1\u7406\u9879\u76EE\u63A5\u53E3Tags").label,
+    title: $t$1("\u7BA1\u7406\u9879\u76EE\u63A5\u53E3Tags").label,
     component: DialogUpsertTags,
     keepTop: true
   });
@@ -519,7 +519,7 @@ const EnvSelectRender = defineComponent({
       "l": "10"
     }, null), createVNode(resolveComponent("xButton"), {
       "configs": {
-        text: $t("\u8F6C\u53D1\u73AF\u5883\u8BBE\u7F6E").label,
+        text: $t$1("\u8F6C\u53D1\u73AF\u5883\u8BBE\u7F6E").label,
         onClick: openProxyEnvDialog
       },
       "class": "ml10",
@@ -658,7 +658,7 @@ async function openDialogInterfaceStatusModify({
   selected
 }) {
   await UI.dialog.component({
-    title: $t("\u53D8\u66F4\u72B6\u6001").label,
+    title: $t$1("\u53D8\u66F4\u72B6\u6001").label,
     component: DialogInterfaceStatusModify,
     selected
   });
@@ -667,7 +667,7 @@ async function openDialogInterfaceProxyModify({
   selected
 }) {
   await UI.dialog.component({
-    title: $t("\u53D8\u66F4\u4EE3\u7406").label,
+    title: $t$1("\u53D8\u66F4\u4EE3\u7406").label,
     component: DialogInterfaceProxyModify,
     selected
   });

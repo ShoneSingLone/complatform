@@ -1,4 +1,4 @@
-import { d as defineComponent, g as _State_App, C as Cpt_url, $ as $t, a as defItem, ar as xItem_ProjectGroupId, as as xItem_ProjectName, at as xItem_ProjectIcon, au as xItem_ProjectColor, av as xItem_ProjectBasePath, aw as xItem_ProjectDesc, ax as xItem_ProjectType, e as createVNode, r as resolveComponent, x as xU, n as Fragment, h as createTextVNode } from "./index.js";
+import { d as defineComponent, g as _State_App, C as Cpt_url, $ as $t$1, a as defItem, at as xItem_ProjectGroupId, au as xItem_ProjectName, av as xItem_ProjectIcon, aw as xItem_ProjectColor, ax as xItem_ProjectBasePath, ay as xItem_ProjectDesc, az as xItem_ProjectType, e as createVNode, r as resolveComponent, x as xU, k as Fragment, h as createTextVNode } from "./index.js";
 import { c as openUpsertTagDialog, d as openProxyEnvDialog } from "./DialogModifyInterface.Helper.js";
 import "./TuiEditor.js";
 const ProjectSettingCommon = defineComponent({
@@ -11,13 +11,13 @@ const ProjectSettingCommon = defineComponent({
   data(vm) {
     return {
       configsBtnOpenUpsertTagDialog: {
-        text: $t("\u7BA1\u7406\u63A5\u53E3Tags").label,
+        text: $t$1("\u7BA1\u7406\u63A5\u53E3Tags").label,
         async onClick() {
           await openUpsertTagDialog();
         }
       },
       configsBtnOpenProxyEnvDialog: {
-        text: $t("\u7BA1\u7406\u63A5\u53E3\u8F6C\u53D1\u73AF\u5883").label,
+        text: $t$1("\u7BA1\u7406\u63A5\u53E3\u8F6C\u53D1\u73AF\u5883").label,
         async onClick() {
           await openProxyEnvDialog();
         }
@@ -49,7 +49,7 @@ const ProjectSettingCommon = defineComponent({
           prop: "proxyHostPort",
           label: defItem.labelWithTips({
             label: "\u4EE3\u7406\u5730\u5740",
-            tips: $t("\u8BF7\u6C42\u9700\u8981\u4F7F\u7528VPN\uFF0C\u5219\u9700\u8981\u6709\u4E00\u53F0\u5F00\u542FVPN\u7684PC\u4F5C\u4E3A\u4EE3\u7406\u673A").label,
+            tips: $t$1("\u8BF7\u6C42\u9700\u8981\u4F7F\u7528VPN\uFF0C\u5219\u9700\u8981\u6709\u4E00\u53F0\u5F00\u542FVPN\u7684PC\u4F5C\u4E3A\u4EE3\u7406\u673A").label,
             icon: createVNode(resolveComponent("xIcon"), {
               "icon": "question"
             }, null)
@@ -60,8 +60,8 @@ const ProjectSettingCommon = defineComponent({
           itemType: "Switch",
           prop: "strice",
           label: defItem.labelWithTips({
-            label: $t("mock\u4E25\u683C\u6A21\u5F0F").label,
-            tips: $t("\u5F00\u542F\u540E mock \u8BF7\u6C42\u4F1A\u5BF9 query\uFF0Cbody form \u7684\u5FC5\u987B\u5B57\u6BB5\u548C json schema \u8FDB\u884C\u6821\u9A8C").label,
+            label: $t$1("mock\u4E25\u683C\u6A21\u5F0F").label,
+            tips: $t$1("\u5F00\u542F\u540E mock \u8BF7\u6C42\u4F1A\u5BF9 query\uFF0Cbody form \u7684\u5FC5\u987B\u5B57\u6BB5\u548C json schema \u8FDB\u884C\u6821\u9A8C").label,
             icon: createVNode(resolveComponent("xIcon"), {
               "icon": "question"
             }, null)
@@ -74,8 +74,8 @@ const ProjectSettingCommon = defineComponent({
           itemType: "Switch",
           prop: "is_json5",
           label: defItem.labelWithTips({
-            label: $t("\u5F00\u542Fjson5").label,
-            tips: $t("\u5F00\u542F\u540E\u53EF\u5728\u63A5\u53E3 body \u548C\u8FD4\u56DE\u503C\u4E2D\u5199 json \u5B57\u6BB5").label,
+            label: $t$1("\u5F00\u542Fjson5").label,
+            tips: $t$1("\u5F00\u542F\u540E\u53EF\u5728\u63A5\u53E3 body \u548C\u8FD4\u56DE\u503C\u4E2D\u5199 json \u5B57\u6BB5").label,
             icon: createVNode(resolveComponent("xIcon"), {
               "icon": "question"
             }, null)
@@ -87,7 +87,7 @@ const ProjectSettingCommon = defineComponent({
         ...defItem({
           itemType: "Switch",
           prop: "switch_notice",
-          label: $t("\u9ED8\u8BA4\u5F00\u542F\u6D88\u606F\u901A\u77E5").label,
+          label: $t$1("\u9ED8\u8BA4\u5F00\u542F\u6D88\u606F\u901A\u77E5").label,
           checkedChildren: vm.$t("\u5F00").label,
           unCheckedChildren: vm.$t("\u5173").label,
           value: !!vm.State_App.currProject.switch_notice
@@ -151,24 +151,24 @@ const ProjectSetting = defineComponent({
     }, {
       default: () => [createVNode(resolveComponent("a-tab-pane"), {
         "key": "1",
-        "tab": $t("\u9879\u76EE\u914D\u7F6E").label,
+        "tab": $t$1("\u9879\u76EE\u914D\u7F6E").label,
         "class": "flex",
         "style": "width:100%"
       }, {
         default: () => [createVNode(ProjectSettingCommon, null, null)]
       }), createVNode(resolveComponent("a-tab-pane"), {
         "key": "3",
-        "tab": $t("\u8BF7\u6C42\u914D\u7F6E").label
+        "tab": $t$1("\u8BF7\u6C42\u914D\u7F6E").label
       }, {
         default: () => [createVNode("p", null, [createTextVNode("Content of Tab Pane 3")]), createVNode("p", null, [createTextVNode("Content of Tab Pane 3")]), createVNode("p", null, [createTextVNode("Content of Tab Pane 3")])]
       }), createVNode(resolveComponent("a-tab-pane"), {
         "key": "token\u914D\u7F6E",
-        "tab": $t("token\u914D\u7F6E").label
+        "tab": $t$1("token\u914D\u7F6E").label
       }, {
         default: () => [createVNode("p", null, [createTextVNode("Content of Tab Pane 3")]), createVNode("p", null, [createTextVNode("Content of Tab Pane 3")]), createVNode("p", null, [createTextVNode("Content of Tab Pane 3")])]
       }), createVNode(resolveComponent("a-tab-pane"), {
         "key": "\u5168\u5C40mock\u811A\u672C",
-        "tab": $t("\u5168\u5C40mock\u811A\u672C").label
+        "tab": $t$1("\u5168\u5C40mock\u811A\u672C").label
       }, {
         default: () => [createVNode("p", null, [createTextVNode("Content of Tab Pane 3")]), createVNode("p", null, [createTextVNode("Content of Tab Pane 3")]), createVNode("p", null, [createTextVNode("Content of Tab Pane 3")])]
       })]

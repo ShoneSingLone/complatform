@@ -1,38 +1,11 @@
 {
-  "src/devui/ui/xSingle/layer/imgs/loading-1.gif": {
-    "file": "assets/loading-1.gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-1.gif"
-  },
-  "src/devui/ui/xSingle/layer/imgs/loading-2.gif": {
-    "file": "assets/loading-2.gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-2.gif"
-  },
-  "src/devui/ui/xSingle/layer/imgs/icon.png": {
-    "file": "assets/icon.png",
-    "src": "src/devui/ui/xSingle/layer/imgs/icon.png"
-  },
-  "src/devui/ui/xSingle/layer/imgs/icon-ext.png": {
-    "file": "assets/icon-ext.png",
-    "src": "src/devui/ui/xSingle/layer/imgs/icon-ext.png"
-  },
-  "src/devui/ui/xSingle/layer/imgs/loading-0.gif": {
-    "file": "assets/loading-0.gif",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading-0.gif"
-  },
-  "src/devui/ui/xSingle/layer/imgs/loading.svg": {
-    "file": "assets/loading.svg",
-    "src": "src/devui/ui/xSingle/layer/imgs/loading.svg"
-  },
-  "src/devui/assets/svg/input.svg": {
-    "file": "assets/input.svg",
-    "src": "src/devui/assets/svg/input.svg"
-  },
   "index.html": {
     "file": "assets/js/index.js",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
       "src/containers/Login/LoginContainer.tsx",
+      "src/containers/User/ViewUserProfile.tsx",
       "src/containers/Wiki/ViewWiki.tsx",
       "src/containers/I18n/ViewI18n.tsx",
       "src/containers/Project/ViewProject.tsx",
@@ -46,15 +19,6 @@
     ],
     "css": [
       "assets/index.css"
-    ],
-    "assets": [
-      "assets/loading-1.gif",
-      "assets/icon.png",
-      "assets/loading-0.gif",
-      "assets/loading-2.gif",
-      "assets/icon-ext.png",
-      "assets/loading.svg",
-      "assets/input.svg"
     ]
   },
   "src/containers/Login/LoginContainer.tsx": {
@@ -66,6 +30,14 @@
     ],
     "css": [
       "assets/LoginContainer.css"
+    ]
+  },
+  "src/containers/User/ViewUserProfile.tsx": {
+    "file": "assets/js/ViewUserProfile.js",
+    "src": "src/containers/User/ViewUserProfile.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
     ]
   },
   "src/containers/Wiki/ViewWiki.tsx": {

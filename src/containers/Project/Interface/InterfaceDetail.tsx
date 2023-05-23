@@ -39,16 +39,22 @@ export const InterfaceDetail = defineComponent({
 		return {
 			State_App,
 			detailInfo: false,
+			/* 路径参数 */
 			configs_table_path_params: defDataGridOption({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
 					...colParamsName(),
-					...defCol({ prop: "example", label: vm.$t("示例").label }),
+					...defCol({
+						prop: "example",
+						label: vm.$t("示例").label,
+						width: "300"
+					}),
 					...colRemark()
 				},
 				queryTableList: undefined
 			}),
+			/* header参数 */
 			configs_table_headers: defDataGridOption({
 				isHidePagination: true,
 				dataSource: [],
@@ -61,6 +67,7 @@ export const InterfaceDetail = defineComponent({
 				},
 				queryTableList: undefined
 			}),
+			/* query参数 */
 			configs_table_query: defDataGridOption({
 				isHidePagination: true,
 				dataSource: [],
@@ -72,6 +79,7 @@ export const InterfaceDetail = defineComponent({
 				},
 				queryTableList: undefined
 			}),
+			/* body 参数 */
 			configs_table_body_form: defDataGridOption({
 				isHidePagination: true,
 				dataSource: [],

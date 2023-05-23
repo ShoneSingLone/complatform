@@ -207,7 +207,6 @@ const _sfc_main = defineComponent({
               throw new Error("\u672A\u901A\u8FC7\u9A8C\u8BC1");
             }
           } catch (e) {
-            debugger;
             console.error(e);
           }
         }
