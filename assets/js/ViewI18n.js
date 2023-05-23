@@ -1,61 +1,4 @@
-import { ab as Lodash, L as markRaw, q as reactive, x as xU, b as API, ac as onMounted, ad as onUnmounted, d as defineComponent, h as _State_App, C as Cpt_url, $ as $t, a as defItem, ae as VNodeCollection, e as createVNode, r as resolveComponent, F as FormRules, N as ITEM_OPTIONS, s as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, U as UI, g as Fragment, m as isVNode, B as $, D as getTreeOrder, G as withDirectives, H as resolveDirective, I as compositionAPI, O as defXVirTableConfigs, P as defCol, af as defColActions, W as setDataGridInfo, Z as MonacoEditor, ag as defColActionsBtnlist } from "./index.js";
-function newReactiveState(stateAndMethods) {
-  const __defaultValues = {};
-  function isFunctionInState({
-    value,
-    prop
-  }) {
-    if (value) {
-      const valueType = typeof value;
-      let isFunction = valueType == "function";
-      if (isFunction) {
-        isFunction = /^_\$/.test(prop);
-        if (isFunction) {
-          return true;
-        }
-      }
-    } else {
-      return false;
-    }
-  }
-  Lodash.each(stateAndMethods, (value, prop) => {
-    if (isFunctionInState({
-      value,
-      prop
-    })) {
-      stateAndMethods[prop] = markRaw(value);
-      return;
-    }
-    try {
-      __defaultValues[prop] = Lodash.cloneDeep(value);
-    } catch (error) {
-      console.error(error);
-    }
-  });
-  const innerVariablesAndMethods = {
-    __defaultValues: markRaw(__defaultValues),
-    _$resetSelf: markRaw(function() {
-      Lodash.each(stateAndMethods.__defaultValues, (value, prop) => {
-        stateAndMethods[prop] = value;
-      });
-    }),
-    _$null: markRaw(function() {
-      Lodash.each(stateAndMethods, (value, prop) => {
-        if (isFunctionInState({
-          value,
-          prop
-        })) {
-          return;
-        }
-        if (!Object.keys(innerVariablesAndMethods).includes(prop)) {
-          delete stateAndMethods[prop];
-        }
-      });
-    })
-  };
-  Lodash.each(innerVariablesAndMethods, (value, prop) => stateAndMethods[prop] = value);
-  return reactive(stateAndMethods);
-}
+import { L as markRaw, x as xU, b as API, ab as newReactiveState, ac as onMounted, ad as onUnmounted, d as defineComponent, h as _State_App, C as Cpt_url, $ as $t$1, a as defItem, ae as VNodeCollection, e as createVNode, r as resolveComponent, F as FormRules, N as ITEM_OPTIONS, s as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, U as UI, g as Fragment, m as isVNode, B as $, D as getTreeOrder, G as withDirectives, H as resolveDirective, I as compositionAPI, O as defXVirTableConfigs, P as defCol, af as defColActions, W as setDataGridInfo, Z as MonacoEditor, ag as defColActionsBtnlist } from "./index.js";
 const ViewI18n$1 = "";
 markRaw({
   setExpandedKeys: xU.debounce(async (_id) => {
@@ -142,7 +85,7 @@ const DialogUpsertI18nRecord = defineComponent({
   },
   data() {
     const idTipsMarkdown = `\`\`\`js
-//${$t(`\u4F5C\u4E3AKey\u503C`).label}
+//${$t$1(`\u4F5C\u4E3AKey\u503C`).label}
 $t("Key\u503C").label
 \`\`\``;
     return {
@@ -150,7 +93,7 @@ $t("Key\u503C").label
         ...defItem({
           value: "",
           prop: "key",
-          label: $t("key").label,
+          label: $t$1("key").label,
           labelVNodeRender: VNodeCollection.labelTips(createVNode(resolveComponent("Mkit"), {
             "md": idTipsMarkdown
           }, null)),
@@ -159,14 +102,14 @@ $t("Key\u503C").label
         ...defItem({
           value: "",
           prop: "desc",
-          label: $t("\u63CF\u8FF0").label,
+          label: $t$1("\u63CF\u8FF0").label,
           isTextarea: true,
           rules: [FormRules.required()]
         }),
         ...defItem({
           value: false,
           prop: "isRectified",
-          label: $t("\u662F\u5426\u5DF2\u6821\u6B63").label,
+          label: $t$1("\u662F\u5426\u5DF2\u6821\u6B63").label,
           itemType: "Switch",
           options: ITEM_OPTIONS.trueOrFalse,
           rules: [FormRules.required()]
@@ -174,8 +117,8 @@ $t("Key\u503C").label
         ...defItem({
           value: "",
           prop: "valueArray",
-          label: $t("\u56FD\u9645\u5316\u4FE1\u606F").label,
-          labelVNodeRender: VNodeCollection.labelTips($t(`\u4EE5\u6570\u7EC4\u7684\u5F62\u5F0F["\u8BED\u8A00","language"]`).label),
+          label: $t$1("\u56FD\u9645\u5316\u4FE1\u606F").label,
+          labelVNodeRender: VNodeCollection.labelTips($t$1(`\u4EE5\u6570\u7EC4\u7684\u5F62\u5F0F["\u8BED\u8A00","language"]`).label),
           rules: [FormRules.required(), FormRules.stringIsArrayJson()],
           itemType: defineComponent({
             props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
@@ -335,7 +278,7 @@ const I18nLeftSider = defineComponent({
   computed: {
     btnAddNew() {
       return {
-        text: $t("\u65B0\u589E").label,
+        text: $t$1("\u65B0\u589E").label,
         onClick: () => this.openDialogUpsertI18nRecord()
       };
     },
@@ -493,7 +436,7 @@ const I18nLeftSider = defineComponent({
         await Methods_Wiki.updateWikiMenuList({
           belong_type: "all"
         });
-        UI.message.success($t("\u66F4\u65B0\u6210\u529F").label);
+        UI.message.success($t$1("\u66F4\u65B0\u6210\u529F").label);
       } catch (error) {
         UI.message.error(error.message);
       }
@@ -576,7 +519,7 @@ const DialogImportI18nJSON = defineComponent({
     },
     configsBtnUpdateExistedRecord() {
       return {
-        text: $t("\u8986\u76D6").label,
+        text: $t$1("\u8986\u76D6").label,
         disabled: () => {
           var _a;
           return !xU.isArrayFill((_a = this == null ? void 0 : this.raw$configsTableExistedRecords) == null ? void 0 : _a.selected);
@@ -642,7 +585,7 @@ const DialogImportI18nJSON = defineComponent({
             }
           }),
           ...defCol({
-            label: $t("\u63CF\u8FF0").label,
+            label: $t$1("\u63CF\u8FF0").label,
             width: "80px",
             prop: "desc",
             renderCell({
@@ -652,7 +595,7 @@ const DialogImportI18nJSON = defineComponent({
             }
           }),
           ...defCol({
-            label: $t("diff").label,
+            label: $t$1("diff").label,
             prop: "different",
             renderCell({
               record
@@ -670,7 +613,7 @@ const DialogImportI18nJSON = defineComponent({
               if ((_b = record == null ? void 0 : record.diffRes) == null ? void 0 : _b.desc) {
                 desc = (_c = record == null ? void 0 : record.diffRes) == null ? void 0 : _c.desc;
                 desc = createVNode(resolveComponent("xInfoDiffCard"), {
-                  "title": $t("\u63CF\u8FF0").label,
+                  "title": $t$1("\u63CF\u8FF0").label,
                   "old": desc[1],
                   "new": desc[0]
                 }, null);
@@ -745,7 +688,7 @@ const DialogImportI18nJSON = defineComponent({
         "icon": "icon_inbox"
       }, null)]), createVNode("p", {
         "class": "ant-upload-text"
-      }, [$t("\u5355\u51FB\u6216\u62D6\u52A8\u6587\u4EF6\u5230\u6B64\u533A\u57DF\u8FDB\u884C\u4E0A\u4F20").label])]
+      }, [$t$1("\u5355\u51FB\u6216\u62D6\u52A8\u6587\u4EF6\u5230\u6B64\u533A\u57DF\u8FDB\u884C\u4E0A\u4F20").label])]
     })]), [[resolveDirective("loading"), this.isLoading]]);
   }
 });
@@ -777,11 +720,11 @@ const ViewI18n = defineComponent({
             prop: "key"
           }),
           ...defCol({
-            label: $t("\u63CF\u8FF0").label,
+            label: $t$1("\u63CF\u8FF0").label,
             prop: "desc"
           }),
           ...defCol({
-            label: $t("\u6821\u6B63").label,
+            label: $t$1("\u6821\u6B63").label,
             width: "80px",
             prop: "isRectified",
             renderCell({
@@ -797,12 +740,12 @@ const ViewI18n = defineComponent({
               return defColActionsBtnlist({
                 fold: 7,
                 btns: [{
-                  text: $t("\u67E5\u770BvalueArray").label,
+                  text: $t$1("\u67E5\u770BvalueArray").label,
                   onClick: async () => {
                     await stateI18n._$updateCurrent(record._id);
                   }
                 }, {
-                  text: $t("\u4FEE\u6539").label,
+                  text: $t$1("\u4FEE\u6539").label,
                   onClick: async () => {
                     await stateI18n._$updateCurrent(record._id);
                     UI.dialog.component({
@@ -812,7 +755,7 @@ const ViewI18n = defineComponent({
                     });
                   }
                 }, {
-                  text: $t("\u5220\u9664").label,
+                  text: $t$1("\u5220\u9664").label,
                   isShow: _State_App.user.role === "admin",
                   onClick: async () => {
                     vm.deleteI18nRecords([record]);
@@ -865,10 +808,10 @@ const ViewI18n = defineComponent({
   computed: {
     btnImport() {
       return {
-        text: $t("\u5BFC\u5165").label,
+        text: $t$1("\u5BFC\u5165").label,
         async onClick() {
           await UI.dialog.component({
-            title: $t("\u5BFC\u5165\u56FD\u9645\u5316JSON\u6587\u4EF6").label,
+            title: $t$1("\u5BFC\u5165\u56FD\u9645\u5316JSON\u6587\u4EF6").label,
             component: DialogImportI18nJSON
           });
         }
@@ -877,7 +820,7 @@ const ViewI18n = defineComponent({
     btnDelete() {
       const vm = this;
       return {
-        text: $t("\u5220\u9664").label,
+        text: $t$1("\u5220\u9664").label,
         isShow: _State_App.user.role === "admin",
         disabled() {
           return !xU.isArrayFill(vm.configsI18nTable.selected);
@@ -890,7 +833,7 @@ const ViewI18n = defineComponent({
     btnDownload() {
       const vm = this;
       return {
-        text: $t("\u5BFC\u51FA").label,
+        text: $t$1("\u5BFC\u51FA").label,
         disabled() {
           return !xU.isArrayFill(vm.configsI18nTable.selected);
         },

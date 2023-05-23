@@ -1,4 +1,4 @@
-import { d as defineComponent, h as _State_App, j as defFormConfigs, F as FormRules, $ as $t, E as EVENT_TYPE, s as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, k as Methods_ProjectInterface, U as UI, b as API, e as createVNode, r as resolveComponent, x as xU, g as Fragment, m as isVNode, n as Cpt_avatarUrl, i as createTextVNode } from "./index.js";
+import { d as defineComponent, h as _State_App, j as defFormConfigs, F as FormRules, $ as $t$1, E as EVENT_TYPE, s as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, k as Methods_ProjectInterface, U as UI, b as API, e as createVNode, r as resolveComponent, x as xU, g as Fragment, m as isVNode, n as Cpt_avatarUrl, i as createTextVNode } from "./index.js";
 function _isSlot(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
@@ -41,8 +41,8 @@ const DialogUpdatePwd = defineComponent({
         label: "\u786E\u8BA4\u65B0\u5BC6\u7801",
         placeholder: "\u786E\u8BA4\u65B0\u5BC6\u7801",
         isPassword: true,
-        rules: [FormRules.required(() => $t("\u8BF7\u518D\u6B21\u8F93\u5165\u5BC6\u7801!").label, [EVENT_TYPE.blur]), FormRules.custom({
-          msg: () => $t("\u4E24\u6B21\u8F93\u5165\u7684\u5BC6\u7801\u4E0D\u4E00\u81F4!").label,
+        rules: [FormRules.required(() => $t$1("\u8BF7\u518D\u6B21\u8F93\u5165\u5BC6\u7801!").label, [EVENT_TYPE.blur]), FormRules.custom({
+          msg: () => $t$1("\u4E24\u6B21\u8F93\u5165\u7684\u5BC6\u7801\u4E0D\u4E00\u81F4!").label,
           validator: async (confirm) => vm.dataXItem.password.value !== confirm,
           trigger: [EVENT_TYPE.update]
         })]
@@ -184,26 +184,26 @@ const ViewUserProfile = defineComponent({
     return {
       configsForm: defFormConfigs([{
         value: "",
-        label: $t("\u7528\u6237ID").label,
+        label: $t$1("\u7528\u6237ID").label,
         prop: "uid",
         isReadonly: true
       }, {
         value: "",
-        label: $t("\u7528\u6237\u540D").label,
+        label: $t$1("\u7528\u6237\u540D").label,
         prop: "username"
       }, {
         value: "",
-        label: $t("\u90AE\u7BB1\u5730\u5740").label,
+        label: $t$1("\u90AE\u7BB1\u5730\u5740").label,
         prop: "email",
         isReadonly: true
       }, {
         value: "",
-        label: $t("\u521B\u5EFA\u65F6\u95F4").label,
+        label: $t$1("\u521B\u5EFA\u65F6\u95F4").label,
         prop: "add_time",
         isReadonly: true
       }, {
         value: "",
-        label: $t("\u66F4\u65B0\u65F6\u95F4").label,
+        label: $t$1("\u66F4\u65B0\u65F6\u95F4").label,
         prop: "up_time",
         isReadonly: true
       }])
@@ -221,7 +221,7 @@ const ViewUserProfile = defineComponent({
     },
     async updatePwd() {
       await UI.dialog.component({
-        title: $t("\u4FEE\u6539\u5BC6\u7801").label,
+        title: $t$1("\u4FEE\u6539\u5BC6\u7801").label,
         component: DialogUpdatePwd
       });
     }

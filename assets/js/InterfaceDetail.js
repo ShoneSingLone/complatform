@@ -1,4 +1,4 @@
-import { d as defineComponent, h as _State_App, ak as State_ProjectInterface, x as xU, e as createVNode, r as resolveComponent, g as Fragment, a as defItem, F as FormRules, ae as VNodeCollection, N as ITEM_OPTIONS, i as createTextVNode, L as markRaw, ap as _$handlePath, s as setValueTo, p as pickValueFrom, $ as $t, b as API, a4 as HTTP_METHOD, v as validateForm, A as AllWasWell, C as Cpt_url, k as Methods_ProjectInterface, U as UI, m as isVNode, Y as defDataGridOption, P as defCol, aq as copyToClipboard, B as $, ar as makeAhref, Q as ITEM_OPTIONS_VDOM, as as InfoCard, Z as MonacoEditor } from "./index.js";
+import { d as defineComponent, h as _State_App, ak as State_ProjectInterface, x as xU, e as createVNode, r as resolveComponent, g as Fragment, a as defItem, F as FormRules, ae as VNodeCollection, N as ITEM_OPTIONS, i as createTextVNode, L as markRaw, ap as _$handlePath, s as setValueTo, p as pickValueFrom, $ as $t$1, b as API, a4 as HTTP_METHOD, v as validateForm, A as AllWasWell, C as Cpt_url, k as Methods_ProjectInterface, U as UI, m as isVNode, Y as defDataGridOption, P as defCol, aq as copyToClipboard, B as $, ar as makeAhref, Q as ITEM_OPTIONS_VDOM, as as InfoCard, Z as MonacoEditor } from "./index.js";
 import { I as InpterfacePathParams, E as EnvSelectRender, R as RequestArgsRender, b as ResponseRender, M as MarkdownRender, T as TagSelectRender } from "./DialogModifyInterface.Helper.js";
 import { c as colParamsName, b as colRemark, d as colRequired, e as colValue, f as colExample, g as colType, h as asyncGetTuiEditor, T as TuiEditor, J as JsonSchemaMonaco } from "./TuiEditor.js";
 const DialogModifyInterface = defineComponent({
@@ -184,7 +184,7 @@ const DialogModifyInterface = defineComponent({
         }),
         ...defItem({
           prop: "status",
-          label: $t("\u72B6\u6001").label,
+          label: $t$1("\u72B6\u6001").label,
           value: ITEM_OPTIONS.interfaceStatus[0].value,
           options: ITEM_OPTIONS.interfaceStatus,
           itemType: "Select"
@@ -764,7 +764,8 @@ const InterfaceDetail = defineComponent({
           ...colParamsName(),
           ...defCol({
             prop: "example",
-            label: vm.$t("\u793A\u4F8B").label
+            label: vm.$t("\u793A\u4F8B").label,
+            width: "300"
           }),
           ...colRemark()
         },
@@ -1103,7 +1104,7 @@ async ${xU.camelCase(path)}({params,data}) {
             default: () => [vm.$t("\u8FD0\u884C").label]
           }), createVNode("span", {
             "class": "flex1"
-          }, [$t("Mock\u5730\u5740").label])]),
+          }, [$t$1("Mock\u5730\u5740").label])]),
           col: 3,
           value: createVNode("div", {
             "class": "flex middle width100"
@@ -1123,10 +1124,10 @@ async ${xU.camelCase(path)}({params,data}) {
           }, [createVNode(resolveComponent("aButton"), {
             "onClick": () => vm.copyCode()
           }, {
-            default: () => [$t("\u590D\u5236\u4EE3\u7801").label]
+            default: () => [$t$1("\u590D\u5236\u4EE3\u7801").label]
           }), createVNode("span", {
             "class": "flex1"
-          }, [$t("ajax\u4EE3\u7801").label])]),
+          }, [$t$1("ajax\u4EE3\u7801").label])]),
           col: 3,
           value: this.vDomCopyAjaxCodePanel
         }]

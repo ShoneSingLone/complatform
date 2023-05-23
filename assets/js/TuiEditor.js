@@ -1,4 +1,4 @@
-import { d as defineComponent, h as _State_App, J as toRaw, K as diff, x as xU, F as FormRules, e as createVNode, r as resolveComponent, G as withDirectives, H as resolveDirective, g as Fragment, a as defItem, L as markRaw, U as UI, p as pickValueFrom, s as setValueTo, v as validateForm, A as AllWasWell, b as API, M as Methods_App, N as ITEM_OPTIONS, O as defXVirTableConfigs, P as defCol, Q as ITEM_OPTIONS_VDOM, R as h, T as inject, V as components, $ as $t, B as $, W as setDataGridInfo, X as lib, Y as defDataGridOption, Z as MonacoEditor, I as compositionAPI, i as createTextVNode, a0 as HTTP_REQUEST_HEADER, a1 as compileVNode, a2 as QUERY, a3 as GET, a4 as HTTP_METHOD, a5 as BODY, S as State_UI, a6 as defineAsyncComponent, a7 as MkitTheme, a8 as PreprocessHTML, a9 as leftArrow, aa as rightArrow } from "./index.js";
+import { d as defineComponent, h as _State_App, J as toRaw, K as diff, x as xU, F as FormRules, e as createVNode, r as resolveComponent, G as withDirectives, H as resolveDirective, g as Fragment, a as defItem, L as markRaw, U as UI, p as pickValueFrom, s as setValueTo, v as validateForm, A as AllWasWell, b as API, M as Methods_App, N as ITEM_OPTIONS, O as defXVirTableConfigs, P as defCol, Q as ITEM_OPTIONS_VDOM, R as h, T as inject, V as components, $ as $t$1, B as $, W as setDataGridInfo, X as lib, Y as defDataGridOption, Z as MonacoEditor, I as compositionAPI, i as createTextVNode, a0 as HTTP_REQUEST_HEADER, a1 as compileVNode, a2 as QUERY, a3 as GET, a4 as HTTP_METHOD, a5 as BODY, S as State_UI, a6 as defineAsyncComponent, a7 as MkitTheme, a8 as PreprocessHTML, a9 as leftArrow, aa as rightArrow } from "./index.js";
 function makeKeyValueObj(i) {
   return {
     key: i.name,
@@ -898,7 +898,7 @@ const SubformNumber = defineComponent({
   methods: {
     parserNum(val) {
       if (this.integer) {
-        return parseInt(Number(val));
+        return parseInt(val);
       }
       return val;
     }
@@ -1998,15 +1998,15 @@ src.json = json;
 src.clickhouse = clickhouse;
 const colParamsName = () => defCol({
   prop: "name",
-  label: $t("\u53C2\u6570\u540D\u79F0").label
+  label: $t$1("\u53C2\u6570\u540D\u79F0").label
 });
 const colRemark = (options = {}) => defCol(xU.merge({
   prop: "desc",
-  label: $t("\u5907\u6CE8").label
+  label: $t$1("\u5907\u6CE8").label
 }, options));
 const colRequired = () => defCol({
   prop: "required",
-  label: $t("\u662F\u5426\u5FC5\u987B").label,
+  label: $t$1("\u662F\u5426\u5FC5\u987B").label,
   width: "100px",
   renderCell: ({
     record
@@ -2017,11 +2017,12 @@ const colRequired = () => defCol({
 });
 const colExample = defCol({
   prop: "example",
-  label: $t("\u793A\u4F8B").label
+  width: "100px",
+  label: $t$1("\u793A\u4F8B").label
 });
 const colType = defCol({
   prop: "type",
-  label: $t("\u53C2\u6570\u7C7B\u578B").label,
+  label: $t$1("\u53C2\u6570\u7C7B\u578B").label,
   width: "100px",
   renderCell: ({
     record
@@ -2043,7 +2044,7 @@ const colType = defCol({
 });
 const colValue = defCol({
   prop: "value",
-  label: $t("\u53C2\u6570\u503C").label
+  label: $t$1("\u53C2\u6570\u503C").label
 });
 const {
   usefnObserveDomResize
@@ -2337,7 +2338,7 @@ const JsonSchemaMonaco = defineComponent({
           }),
           ...defCol({
             prop: "others",
-            label: $t("\u5176\u4ED6\u4FE1\u606F").label,
+            label: $t$1("\u5176\u4ED6\u4FE1\u606F").label,
             renderCell: ({
               record
             }) => {
@@ -2346,16 +2347,16 @@ const JsonSchemaMonaco = defineComponent({
                 "style": "font-weight: 700;"
               }, [label, createTextVNode("\uFF1A")]), value]);
               if (record.enum) {
-                vDom.push(newInfo($t("\u679A\u4E3E").label, record.enum.join(",")));
+                vDom.push(newInfo($t$1("\u679A\u4E3E").label, record.enum.join(",")));
               }
               if (record.maximum) {
-                vDom.push(newInfo($t("\u6700\u5927\u503C").label, record.maximum));
+                vDom.push(newInfo($t$1("\u6700\u5927\u503C").label, record.maximum));
               }
               if (record.minimum) {
-                vDom.push(newInfo($t("\u6700\u5C0F\u503C").label, record.minimum));
+                vDom.push(newInfo($t$1("\u6700\u5C0F\u503C").label, record.minimum));
               }
               if (record.format) {
-                vDom.push(newInfo($t("format").label, record.format));
+                vDom.push(newInfo($t$1("format").label, record.format));
               }
               return createVNode("div", {
                 "class": "flex vertical"
