@@ -1,4 +1,5 @@
 import { $, State_UI, VentoseUIWithInstall, xU } from "@ventose/ui";
+import "@ventose/ui/dist_VentoseUI/VentoseUI.css";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { RouterView } from "../components/RouterView/RouterView";
@@ -7,7 +8,6 @@ import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
 import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { MarkdownIt as Mkit } from "@/components/Mkit/MarkdownIt";
-
 export { ITEM_OPTIONS } from "./common.options";
 
 dayjs.locale("zh-cn");

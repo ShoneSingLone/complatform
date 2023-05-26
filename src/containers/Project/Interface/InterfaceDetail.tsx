@@ -6,7 +6,8 @@ import {
 	defCol,
 	defDataGridOption,
 	State_UI,
-	$t
+	$t,
+	lStorage
 } from "@ventose/ui";
 import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
@@ -21,6 +22,7 @@ import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 import { JsonSchemaMonaco } from "../../../components/JsonSchemaEditor/JsonSchemaMonaco";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { State_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { socket, newWsPayload } from "@/utils/ws";
 import {
 	colParamsName,
 	colRemark,
@@ -33,11 +35,10 @@ import { DialogPostman } from "./DialogPostman";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		return { State_Project: State_ProjectInterface, Cpt_url };
+		return { State_Project: State_ProjectInterface, Cpt_url, State_App };
 	},
 	data(vm) {
 		return {
-			State_App,
 			detailInfo: false,
 			/* 路径参数 */
 			configs_table_path_params: defDataGridOption({
@@ -190,6 +191,8 @@ export const InterfaceDetail = defineComponent({
 						)
 					});
 				} catch (error) {
+					console.error(error);
+					debugger;
 				} finally {
 					this.closeWS();
 				}
@@ -220,40 +223,20 @@ export const InterfaceDetail = defineComponent({
 			return new Promise((resolve, reject) => {
 				try {
 					const wsURL = new URL(State_App.baseURL);
-					const sockei = new WebSocket(
-						`${wsProtocol}://${wsURL.host}/ws/api/interface/solve_conflict?id=${item._id}`
-					);
-					sockei.onopen = () => {
-						vm.WebSocket = sockei;
-					};
-					sockei.onmessage = e => {
-						let result = JSON.parse(e.data);
-						if (result.errno === 0) {
-							resolve({
-								curdata: result.data,
-								status: 1
-							});
-						} else {
-							resolve({
-								curdata: result.data,
-								status: 2
-							});
-						}
-					};
-					sockei.onerror = () => {
-						resolve({
-							curdata: item,
-							status: 1,
-							message: "websocket 连接失败，将导致多人编辑同一个接口冲突。"
-						});
-					};
-				} catch (e) {
-					resolve({
-						curdata: item,
-						status: 1,
-						message: "websocket 连接失败，将导致多人编辑同一个接口冲突。"
+					socket.on("solveConflict", data => {
+						debugger;
 					});
-				}
+					socket
+						.open(
+							`${wsProtocol}://${wsURL.host}/ws?x-cookies=${JSON.stringify(
+								lStorage["x-cookies"]
+							)}`
+						)
+						.then(data => {
+							debugger;
+							socket.ws.send(newWsPayload("solveConflict"));
+						});
+				} catch (e) {}
 			});
 		}
 	},

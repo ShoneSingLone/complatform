@@ -3,6 +3,7 @@
         "moduleResolution": "NodeNext",
         "typeRoots": [
             "./types",
+            "./src/devui/declaration/**/*",
             "./node_modules/@types",
             "./node_modules/vue/dist/vue.d.ts",
             "./node_modules/idb-keyval/dist/index.d.ts"
@@ -10,15 +11,13 @@
         "jsx": "preserve",
         "target": "ES2022",
         "lib": [
-            "ES2022"
+            "ES2022",
         ],
         "paths": {
             "@/*": [
                 "./src/*"
             ],
-            "@ventose/ui": [
-                "./src/devui/VentoseUI.es.ts"
-            ]
+            // "@ventose/ui": [ "./src/devui" ]
         }
     },
 }

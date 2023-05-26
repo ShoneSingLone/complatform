@@ -1,15 +1,14 @@
 import { computed, reactive, watch } from "vue";
-import { lStorage, State_UI, UI, xU } from "@ventose/ui";
+import { lStorage, State_UI, UI, xU, $t } from "@ventose/ui";
 import { Cpt_url } from "./../router/router";
 import { API } from "./../api";
-
-const { $t } = State_UI;
 
 const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
 
 let _State_App = {
+	menu: {},
 	baseURL: window.location.origin,
 	isFooterFold: false,
 	urlHash: window.location.hash,

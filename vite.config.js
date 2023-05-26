@@ -68,7 +68,7 @@ const appOptions = {
 			src: path.resolve(__dirname, "./src"),
 			"@": path.resolve(__dirname, "./src"),
 			/* 开发的时候用，不用每次修改之后都发布到npm */
-			"@ventose/ui": path.resolve(__dirname, "./src/devui/VentoseUI.es.ts"),
+			// "@ventose/ui": path.resolve(__dirname, "./src/devui"),
 			vue: "vue/dist/vue.esm-bundler.js"
 		}
 	}
