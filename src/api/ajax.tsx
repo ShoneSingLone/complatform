@@ -56,7 +56,13 @@ const xCookies = {
 	pick(config) {
 		const xCookies = lStorage["x-cookies"];
 		if (xCookies) {
-			config.headers["x-cookies"] = JSON.stringify(xCookies);
+			const xCookiesString = JSON.stringify(xCookies);
+			config.headers["x-cookies"] = xCookiesString;
+			config.params = config.params || {};
+			config.params["x-cookies"] = xCookiesString;
+		} else {
+			config.headers["x-cookies"] = "";
+			config.params["x-cookies"] = "";
 		}
 	},
 	save(response) {
