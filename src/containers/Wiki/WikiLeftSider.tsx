@@ -73,6 +73,14 @@ export const WikiLeftSider = defineComponent({
 		btnAddNew() {
 			return {
 				text: $t("新增").label,
+				isShow() {
+					const { user_id } = Cpt_url.value.query;
+					if (user_id) {
+						return String(user_id) === String(State_App.user._id);
+					}
+
+					return true;
+				},
 				onClick: () => this.showUpsertArticleDialog()
 			};
 		},

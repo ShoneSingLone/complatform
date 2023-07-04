@@ -1,6 +1,6 @@
 import { lStorage, UI, xU } from "@ventose/ui";
 import axios from "axios";
-import { State_App } from "../state/State_App";
+import { State_App } from "@/state/State_App";
 
 const ajax = axios.create({
 	/* 跨域携带cookies */
@@ -45,24 +45,26 @@ ajax.interceptors.response.use(
 		return Promise.resolve({ data: response.data.data, response });
 	},
 	async error => {
+		xU(error);
 		const { response } = error;
-		lStorage["x-cookies"] = response.headers["x-cookies"] || "";
-		logError(response?.data?.data);
+		if (response) {
+			lStorage["x-cookies"] = response?.headers["x-cookies"] || "";
+			logError(response?.data?.data);
+		}
 		return Promise.reject(error);
 	}
 );
 
 const xCookies = {
 	pick(config) {
+		config.headers = config.headers || {};
+		config.params = config.params || {};
 		const xCookies = lStorage["x-cookies"];
 		if (xCookies) {
 			const xCookiesString = JSON.stringify(xCookies);
 			config.headers["x-cookies"] = xCookiesString;
-			config.params = config.params || {};
-			config.params["x-cookies"] = xCookiesString;
 		} else {
 			config.headers["x-cookies"] = "";
-			config.params["x-cookies"] = "";
 		}
 	},
 	save(response) {

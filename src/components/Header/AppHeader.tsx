@@ -145,6 +145,14 @@ export const AppHeader = defineComponent({
 								icon: "user",
 								adminFlag: false
 							},
+							user_doc: {
+								goTo() {
+									Cpt_url.value.go("/wiki", { user_id: State_App.user._id });
+								},
+								name: "个人文档",
+								icon: "wikidoc",
+								adminFlag: false
+							},
 							solution: {
 								path: "/user/list",
 								name: "用户管理",
@@ -170,7 +178,16 @@ export const AppHeader = defineComponent({
 							);
 
 							let menuLink = (
-								<a to={item.path || ""} class="flex horizon">
+								<a
+									to={item.path || ""}
+									class="flex horizon"
+									onClick={event => {
+										if (item.goTo) {
+											event.preventDefault();
+											event.stopPropagation();
+											item.goTo();
+										}
+									}}>
 									{menuContent}
 								</a>
 							);
