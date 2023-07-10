@@ -5,20 +5,6 @@ import axios from "axios";
 import { defineComponent } from "vue";
 import { Methods_App } from "@/state/State_App";
 
-const Option = AutoComplete.Option;
-
-/* @connect(
-	state => ({
-		groupList: state.group.groupList,
-		projectList: state.project.projectList
-	}),
-	{
-		setCurrGroup,
-		changeMenuItem,
-		setCurrGroup,
-		fetchInterfaceListMenu
-	}
-) */
 // @withRouter
 export default defineComponent({
 	props: [
@@ -120,9 +106,13 @@ export default defineComponent({
 	render() {
 		const { dataSource } = this.state;
 
+
+		return null;
+
 		return (
+			
 			<div class="search-wrapper">
-				<AutoComplete
+				<ElAutoComplete
 					class="search-dropdown"
 					dataSource={dataSource}
 					style={{ width: "100%" }}
@@ -133,12 +123,12 @@ export default defineComponent({
 					//   option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
 					// }
 				>
-					<aInput
+					<ElInput
 						prefix={<xIcon icon="search" class="srch-icon" />}
 						placeholder="搜索分组/项目/接口"
 						class="search-input"
 					/>
-				</AutoComplete>
+				</ElAutoComplete>
 			</div>
 		);
 	}

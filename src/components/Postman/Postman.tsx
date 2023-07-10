@@ -80,11 +80,11 @@ const ParamsNameComponent = props => {
 	return (
 		<div>
 			{isNull ? (
-				<aInput disabled value={name} class="key" />
+				<ElInput disabled value={name} class="key" />
 			) : (
-				<aTooltip placement="topLeft" title={<aTooltipTitle />}>
-					<aInput disabled value={name} class="key" />
-				</aTooltip>
+				<ElTooltip placement="topLeft" title={<ElTooltipTitle />}>
+					<ElInput disabled value={name} class="key" />
+				</ElTooltip>
 			)}
 		</div>
 	);
@@ -655,13 +655,13 @@ ${JSON.stringify(result.header, null, 2)}
 								value="环境配置"
 								disabled
 								style={{ cursor: "pointer", color: "#2395f1" }}>
-								<aButton type="primary" onClick={this.showEnvModal}>
+								<ElButton type="primary" onClick={this.showEnvModal}>
 									环境配置
-								</aButton>
+								</ElButton>
 							</Option>
 						</Select>
 
-						<aInput
+						<ElInput
 							disabled
 							value={path}
 							onChange={this.changePath}
@@ -670,7 +670,7 @@ ${JSON.stringify(result.header, null, 2)}
 						/>
 					</aInputGroup>
 
-					<aTooltip
+					<ElTooltip
 						placement="bottom"
 						title={(() => {
 							if (hasPlugin) {
@@ -679,32 +679,32 @@ ${JSON.stringify(result.header, null, 2)}
 								return "请安装 cross-request 插件";
 							}
 						})()}>
-						<aButton
+						<ElButton
 							onClick={this.reqRealInterface}
 							type="primary"
 							style={{ marginLeft: 10 }}
 							icon={loading ? "loading" : ""}>
 							{loading ? "取消" : "发送"}
-						</aButton>
-					</aTooltip>
+						</ElButton>
+					</ElTooltip>
 
-					<aTooltip
+					<ElTooltip
 						placement="bottom"
 						title={() => {
 							return this.props.type === "inter"
 								? "保存到测试集"
 								: "更新该用例";
 						}}>
-						<aButton
+						<ElButton
 							onClick={this.props.save}
 							type="primary"
 							style={{ marginLeft: 10 }}>
 							{this.props.type === "inter" ? "保存" : "更新"}
-						</aButton>
-					</aTooltip>
+						</ElButton>
+					</ElTooltip>
 				</div>
 
-				<aCollapse defaultActiveKey={["0", "1", "2", "3"]} bordered={true}>
+				<ElCollapse defaultActiveKey={["0", "1", "2", "3"]} bordered={true}>
 					<Panel
 						header="PATH PARAMETERS"
 						key="0"
@@ -712,19 +712,19 @@ ${JSON.stringify(result.header, null, 2)}
 						{req_params.map((item, index) => {
 							return (
 								<div key={index} class="key-value-wrap">
-									{/* <aTooltip
+									{/* <ElTooltip
                     placement="topLeft"
-                    title={<aTooltipContent example={item.example} desc={item.desc} />}
+                    title={<ElTooltipContent example={item.example} desc={item.desc} />}
                   >
-                    <aInput disabled value={item.name} class="key" />
-                  </aTooltip> */}
+                    <ElInput disabled value={item.name} class="key" />
+                  </ElTooltip> */}
 									<ParamsNameComponent
 										example={item.example}
 										desc={item.desc}
 										name={item.name}
 									/>
 									<span class="eq-symbol">=</span>
-									<aInput
+									<ElInput
 										value={item.value}
 										class="value"
 										onChange={e =>
@@ -744,13 +744,13 @@ ${JSON.stringify(result.header, null, 2)}
 								</div>
 							);
 						})}
-						<aButton
+						<ElButton
 							style={{ display: "none" }}
 							type="primary"
 							icon="plus"
 							onClick={this.addPathParam}>
 							添加Path参数
-						</aButton>
+						</ElButton>
 					</Panel>
 					<Panel
 						header="QUERY PARAMETERS"
@@ -759,12 +759,12 @@ ${JSON.stringify(result.header, null, 2)}
 						{req_query.map((item, index) => {
 							return (
 								<div key={index} class="key-value-wrap">
-									{/* <aTooltip
+									{/* <ElTooltip
                     placement="topLeft"
-                    title={<aTooltipContent example={item.example} desc={item.desc} />}
+                    title={<ElTooltipContent example={item.example} desc={item.desc} />}
                   >
-                    <aInput disabled value={item.name} class="key" />
-                  </aTooltip> */}
+                    <ElInput disabled value={item.name} class="key" />
+                  </ElTooltip> */}
 									<ParamsNameComponent
 										example={item.example}
 										desc={item.desc}
@@ -788,7 +788,7 @@ ${JSON.stringify(result.header, null, 2)}
 										/>
 									)}
 									<span class="eq-symbol">=</span>
-									<aInput
+									<ElInput
 										value={item.value}
 										class="value"
 										onChange={e =>
@@ -808,13 +808,13 @@ ${JSON.stringify(result.header, null, 2)}
 								</div>
 							);
 						})}
-						<aButton
+						<ElButton
 							style={{ display: "none" }}
 							type="primary"
 							icon="plus"
 							onClick={this.addQuery}>
 							添加Query参数
-						</aButton>
+						</ElButton>
 					</Panel>
 					<Panel
 						header="HEADERS"
@@ -823,19 +823,19 @@ ${JSON.stringify(result.header, null, 2)}
 						{req_headers.map((item, index) => {
 							return (
 								<div key={index} class="key-value-wrap">
-									{/* <aTooltip
+									{/* <ElTooltip
                     placement="topLeft"
-                    title={<aTooltipContent example={item.example} desc={item.desc} />}
+                    title={<ElTooltipContent example={item.example} desc={item.desc} />}
                   >
-                    <aInput disabled value={item.name} class="key" />
-                  </aTooltip> */}
+                    <ElInput disabled value={item.name} class="key" />
+                  </ElTooltip> */}
 									<ParamsNameComponent
 										example={item.example}
 										desc={item.desc}
 										name={item.name}
 									/>
 									<span class="eq-symbol">=</span>
-									<aInput
+									<ElInput
 										value={item.value}
 										disabled={!!item.abled}
 										class="value"
@@ -858,18 +858,18 @@ ${JSON.stringify(result.header, null, 2)}
 								</div>
 							);
 						})}
-						<aButton
+						<ElButton
 							style={{ display: "none" }}
 							type="primary"
 							icon="plus"
 							onClick={this.addHeader}>
 							添加Header
-						</aButton>
+						</ElButton>
 					</Panel>
 					<Panel
 						header={
 							<div style={{ display: "flex", justifyContent: "space-between" }}>
-								<aTooltip title="F9 全屏编辑">BODY(F9)</aTooltip>
+								<ElTooltip title="F9 全屏编辑">BODY(F9)</ElTooltip>
 							</div>
 						}
 						key="3"
@@ -888,7 +888,7 @@ ${JSON.stringify(result.header, null, 2)}
 							}}>
 							{req_body_type === "json" && (
 								<div class="adv-button">
-									<aButton
+									<ElButton
 										onClick={() =>
 											this.showModal(
 												this.state.req_body_other,
@@ -897,11 +897,11 @@ ${JSON.stringify(result.header, null, 2)}
 											)
 										}>
 										高级参数设置
-									</aButton>
-									<aTooltip title="高级参数设置只在json字段值中生效">
+									</ElButton>
+									<ElTooltip title="高级参数设置只在json字段值中生效">
 										{"  "}
 										<xIcon icon="question-circle-o" />
-									</aTooltip>
+									</ElTooltip>
 								</div>
 							)}
 
@@ -920,12 +920,12 @@ ${JSON.stringify(result.header, null, 2)}
 								{req_body_form.map((item, index) => {
 									return (
 										<div key={index} class="key-value-wrap">
-											{/* <aTooltip
+											{/* <ElTooltip
                           placement="topLeft"
-                          title={<aTooltipContent example={item.example} desc={item.desc} />}
+                          title={<ElTooltipContent example={item.example} desc={item.desc} />}
                         >
-                          <aInput disabled value={item.name} class="key" />
-                        </aTooltip> */}
+                          <ElInput disabled value={item.name} class="key" />
+                        </ElTooltip> */}
 											<ParamsNameComponent
 												example={item.example}
 												desc={item.desc}
@@ -951,14 +951,14 @@ ${JSON.stringify(result.header, null, 2)}
 											{item.type === "file" ? (
 												"因Chrome最新版安全策略限制，不再支持文件上传"
 											) : (
-												// <aInput
+												// <ElInput
 												//   type="file"
 												//   id={'file_' + index}
 												//   onChange={e => this.changeBody(e.target.value, index, 'value')}
 												//   multiple
 												//   class="value"
 												// />
-												<aInput
+												<ElInput
 													value={item.value}
 													class="value"
 													onChange={e => this.changeBody(e.target.value, index)}
@@ -981,26 +981,26 @@ ${JSON.stringify(result.header, null, 2)}
 										</div>
 									);
 								})}
-								<aButton
+								<ElButton
 									style={{ display: "none" }}
 									type="primary"
 									icon="plus"
 									onClick={this.addBody}>
 									添加Form参数
-								</aButton>
+								</ElButton>
 							</div>
 						)}
 						{HTTP_METHOD[method].request_body && req_body_type === "file" && (
 							<div>
-								<aInput type="file" id="single-file" />
+								<ElInput type="file" id="single-file" />
 							</div>
 						)}
 					</Panel>
-				</aCollapse>
+				</ElCollapse>
 
 				<Tabs size="large" defaultActiveKey="res" class="response-tab">
 					<Tabs.TabPane tab="Response" key="res">
-						<aSpin spinning={this.state.loading}>
+						<ElSpin spinning={this.state.loading}>
 							<h2
 								style={{ display: this.state.resStatusCode ? "" : "none" }}
 								class={
@@ -1026,9 +1026,9 @@ ${JSON.stringify(result.header, null, 2)}
 									message={
 										<span>
 											Warning &nbsp;
-											<aTooltip title="针对定义为 json schema 的返回数据进行格式校验">
+											<ElTooltip title="针对定义为 json schema 的返回数据进行格式校验">
 												<xIcon icon="question-circle-o" />
-											</aTooltip>
+											</ElTooltip>
 										</span>
 									}
 									type="warning"
@@ -1083,15 +1083,15 @@ ${JSON.stringify(result.header, null, 2)}
 									)}
 								</div>
 							</div>
-						</aSpin>
+						</ElSpin>
 					</Tabs.TabPane>
 					{this.props.type === "case" ? (
 						<Tabs.TabPane
 							class="response-test"
 							tab={
-								<aTooltip title="测试脚本，可断言返回结果，使用方法请查看文档">
+								<ElTooltip title="测试脚本，可断言返回结果，使用方法请查看文档">
 									Test
-								</aTooltip>
+								</ElTooltip>
 							}
 							key="test">
 							<h3 style={{ margin: "5px" }}>
@@ -1104,7 +1104,7 @@ ${JSON.stringify(result.header, null, 2)}
 							<p style={{ margin: "10px" }}>
 								注：Test 脚本只有做自动化测试才执行
 							</p>
-							<aRow>
+							<ElRow>
 								<ElCol span="18">
 									<AceEditor
 										onChange={this.onOpenTest}
@@ -1132,7 +1132,7 @@ ${JSON.stringify(result.header, null, 2)}
 										})}
 									</div>
 								</ElCol>
-							</aRow>
+							</ElRow>
 						</Tabs.TabPane>
 					) : null}
 				</Tabs>

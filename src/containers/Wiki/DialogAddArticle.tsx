@@ -94,7 +94,7 @@ export const DialogAddArticle = defineComponent({
 			<>
 				<div class="x-dialog-boddy-wrapper flex1 height100">
 					<xGap t="10" />
-					<aAlert
+					<ElAlert
 						message={this.$t("保存标题后再编辑文档内容").label}
 						type="info"
 						closable

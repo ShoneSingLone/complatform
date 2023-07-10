@@ -74,7 +74,7 @@ export const BodyParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderEditor: ({ record }) => <aInput v-model:value={record.name} />
+						renderEditor: ({ record }) => <ElInput v-model:value={record.name} />
 					}),
 					...defCol({
 						label: vm.$t("类型").label,
@@ -83,7 +83,7 @@ export const BodyParamsForm = defineComponent({
 						renderCell: ({ record }) =>
 							ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type),
 						renderEditor: ({ record }) => (
-							<aSelect
+							<ElSelect
 								options={ITEM_OPTIONS.interfaceBodyFormType}
 								v-model:value={record.type}
 							/>
@@ -96,7 +96,7 @@ export const BodyParamsForm = defineComponent({
 						renderCell: ({ record }) =>
 							ITEM_OPTIONS_VDOM.required(record.required),
 						renderEditor: ({ record }) => (
-							<aSelect
+							<ElSelect
 								options={ITEM_OPTIONS.required}
 								v-model:value={record.required}
 							/>
@@ -106,13 +106,13 @@ export const BodyParamsForm = defineComponent({
 						label: vm.$t("示例").label,
 						prop: "example",
 						renderEditor: ({ record }) => (
-							<aInput v-model:value={record.example} />
+							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
-						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
+						renderEditor: ({ record }) => <ElInput v-model:value={record.desc} />
 					}),
 					...defCol({
 						label: vm.$t("操作").label,
@@ -134,10 +134,10 @@ export const BodyParamsForm = defineComponent({
 	render() {
 		return (
 			<>
-				<aButton class="width100 mb10" type="dashed" onClick={this.addRow}>
+				<ElButton class="width100 mb10" type="dashed" onClick={this.addRow}>
 					<xIcon icon="add" />
 					{/* {JSON.stringify(this.configs_table.dataSource, null, 2)} */}
-				</aButton>
+				</ElButton>
 				<div style={{ height: "300px" }}>
 					<xVirTable configs={this.configs_table} class="flex1 width100 " />
 				</div>

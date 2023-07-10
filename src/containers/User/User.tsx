@@ -28,13 +28,13 @@ class User extends Component {
 		return (
 			<div>
 				<div class="g-doc">
-					<aRow class="user-box">
+					<ElRow class="user-box">
 						<Route path={this.props.match.path + "/list"} component={List} />
 						<Route
 							path={this.props.match.path + "/profile/:uid"}
 							component={Profile}
 						/>
-					</aRow>
+					</ElRow>
 				</div>
 			</div>
 		);

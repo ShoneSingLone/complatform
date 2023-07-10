@@ -92,7 +92,7 @@ export const I18nLeftSider = defineComponent({
 						<xGap l="10" />
 						<xButton configs={vm.btnRefresh} />
 					</div>
-					<aTree
+					<ElTree
 						v-model:expandedKeys={stateI18n.expandedKeys}
 						height={vm.siderHeight}
 						treeData={stateI18n.i18nRecordArray}
@@ -162,7 +162,7 @@ export const I18nLeftSider = defineComponent({
 								);
 							}
 						}}
-					</aTree>
+					</ElTree>
 				</div>
 			);
 		}

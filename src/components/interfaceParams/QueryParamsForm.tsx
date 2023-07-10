@@ -95,7 +95,7 @@ export const QueryParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderEditor: ({ record }) => <aInput v-model:value={record.name} />
+						renderEditor: ({ record }) => <ElInput v-model:value={record.name} />
 					}),
 					...defCol({
 						label: vm.$t("必需").label,
@@ -104,7 +104,7 @@ export const QueryParamsForm = defineComponent({
 						renderCell: ({ record }) =>
 							ITEM_OPTIONS_VDOM.required(record.required),
 						renderEditor: ({ record }) => (
-							<aSelect
+							<ElSelect
 								options={ITEM_OPTIONS.required}
 								v-model:value={record.required}
 							/>
@@ -114,13 +114,13 @@ export const QueryParamsForm = defineComponent({
 						label: vm.$t("示例").label,
 						prop: "example",
 						renderEditor: ({ record }) => (
-							<aInput v-model:value={record.example} />
+							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
-						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
+						renderEditor: ({ record }) => <ElInput v-model:value={record.desc} />
 					}),
 					...defCol({
 						label: vm.$t("操作").label,
@@ -145,9 +145,9 @@ export const QueryParamsForm = defineComponent({
 		return (
 			<>
 				<div class="flex middle">
-					<aButton class="mb10" onClick={this.addRow}>
+					<ElButton class="mb10" onClick={this.addRow}>
 						添加一行
-					</aButton>
+					</ElButton>
 					<xGap f="1" />
 					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
 						批量添加

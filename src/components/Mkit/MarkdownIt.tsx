@@ -145,7 +145,7 @@ export const MarkdownIt = defineComponent({
 					title="右键点击可以修改<code/>元素高亮样式"></div>
 				{/*  */}
 				<div class="display-none">
-					<a-image
+					<ElImage
 						src={imgSrc}
 						preview={{
 							visible,

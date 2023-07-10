@@ -47,14 +47,14 @@ class MockList extends Component {
 				/>
 				{list.map((item, index) => {
 					return (
-						<aRow
+						<ElRow
 							key={index}
 							type="flex"
 							align="middle"
 							class={"row " + (item.mock === clickValue ? "checked" : "")}
 							onClick={() => click(item.mock)}>
 							<span>{item.mock}</span>
-						</aRow>
+						</ElRow>
 					);
 				})}
 			</div>

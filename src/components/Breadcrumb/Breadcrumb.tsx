@@ -24,9 +24,9 @@ export const BreadcrumbNavigation = defineComponent({
 						return null;
 					}
 					return (
-						<aBreadcrumbItem key={index}>
+						<ElBreadcrumbItem key={index}>
 							{item.group_name || item.name}
-						</aBreadcrumbItem>
+						</ElBreadcrumbItem>
 					);
 				}
 			);
@@ -35,7 +35,7 @@ export const BreadcrumbNavigation = defineComponent({
 	render() {
 		return (
 			<div class="breadcrumb-container">
-				<aBreadcrumb>{this.breadcrumbItems}</aBreadcrumb>
+				<ElBreadcrumb>{this.breadcrumbItems}</ElBreadcrumb>
 			</div>
 		);
 	}

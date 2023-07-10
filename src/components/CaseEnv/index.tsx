@@ -26,7 +26,7 @@ export default class CaseEnv extends React.Component {
 
 	render() {
 		return (
-			<aCollapse
+			<ElCollapse
 				style={{
 					margin: 0,
 					marginBottom: "16px"
@@ -39,10 +39,10 @@ export default class CaseEnv extends React.Component {
 						<span>
 							{" "}
 							选择测试用例环境
-							<aTooltip title="默认使用测试用例选择的环境">
+							<ElTooltip title="默认使用测试用例选择的环境">
 								{" "}
 								<xIcon icon="question-circle-o" />{" "}
-							</aTooltip>
+							</ElTooltip>
 						</span>
 					}
 					key="1">
@@ -51,16 +51,16 @@ export default class CaseEnv extends React.Component {
 							<div>
 								{this.props.envList.map(item => {
 									return (
-										<aRow
+										<ElRow
 											key={item._id}
 											type="flex"
 											justify="space-around"
 											align="middle"
 											class="env-item">
 											<ElCol span={6} class="label">
-												<aTooltip title={item.name}>
+												<ElTooltip title={item.name}>
 													<span class="label-name">{item.name}</span>
-												</aTooltip>
+												</ElTooltip>
 											</ElCol>
 											<ElCol span={18}>
 												<Select
@@ -85,14 +85,14 @@ export default class CaseEnv extends React.Component {
 													})}
 												</Select>
 											</ElCol>
-										</aRow>
+										</ElRow>
 									);
 								})}
 							</div>
 						)}
 					</div>
 				</Panel>
-			</aCollapse>
+			</ElCollapse>
 		);
 	}
 }

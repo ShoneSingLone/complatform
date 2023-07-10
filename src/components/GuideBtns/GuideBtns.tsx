@@ -20,12 +20,12 @@ export default defineComponent({
 	render() {
 		return (
 			<div class="btn-container">
-				<aButton class="btn" type="primary" onClick={this.nextStep}>
+				<ElButton class="btn" type="primary" onClick={this.nextStep}>
 					{this.isLast ? "完 成" : "下一步"}
-				</aButton>
-				<aButton class="btn" type="dashed" onClick={this.exitGuide}>
+				</ElButton>
+				<ElButton class="btn" type="dashed" onClick={this.exitGuide}>
 					退出指引
-				</aButton>
+				</ElButton>
 			</div>
 		);
 	}

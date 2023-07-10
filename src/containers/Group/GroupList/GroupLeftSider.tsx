@@ -197,14 +197,14 @@ export const GroupLeftSider = defineComponent({
 		vDomSearchInput() {
 			return (
 				<div class="group-operate flex center middle">
-					<aTooltip title="添加分组">
+					<ElTooltip title="添加分组">
 						<xIcon
 							class="btn editSet pointer"
 							icon="addGroup"
 							onClick={() => this.fnShowUpsertGroupDialog()}
 							style="width:32px;height:32px;transform:translate(-12px,-4px)"
 						/>
-					</aTooltip>
+					</ElTooltip>
 					<div class="search">
 						{/* 搜索框 */}
 						{this.configsSearch.value}

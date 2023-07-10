@@ -81,9 +81,9 @@ export default defineComponent({
 		followIcon() {
 			return (
 				<span class="pointer" onClick={this.followIconClickHandler}>
-					<aTooltip placement="rightTop" title={this.followIconTitle}>
+					<ElTooltip placement="rightTop" title={this.followIconTitle}>
 						<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
-					</aTooltip>
+					</ElTooltip>
 				</span>
 			);
 		},
@@ -91,9 +91,9 @@ export default defineComponent({
 			if (this.isShow) {
 				return (
 					<span class="pointer icon-copy" onClick={this.showCopyProjectDialog}>
-						<aTooltip placement="rightTop" title="复制项目">
+						<ElTooltip placement="rightTop" title="复制项目">
 							<xIcon icon="copy" style={{ color: "#232426" }} />
-						</aTooltip>
+						</ElTooltip>
 					</span>
 				);
 			}

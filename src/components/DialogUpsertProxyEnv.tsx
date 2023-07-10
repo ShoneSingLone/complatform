@@ -218,7 +218,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						})();
 
 						return (
-							<aButton
+							<ElButton
 								type="text"
 								onClick={() => this.switchEvn(i)}
 								class={className}>
@@ -235,7 +235,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 										onClick={fnDelete}
 									/>
 								</div>
-							</aButton>
+							</ElButton>
 						);
 					})}
 				</div>
@@ -246,7 +246,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			const vDomContent = (() => {
 				if (this.isLoading) {
 					return (
-						<aSpin
+						<ElSpin
 							spinning={true}
 							class="ant-spin ant-spin-spinning flex middle center height100 width100"
 						/>

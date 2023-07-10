@@ -1,26 +1,7 @@
 //@ts-nocheck
 import "./index.less";
 import "./ui.scss";
-import ElementPlus, {
-	ElCollapse,
-	ElSelect,
-	ElAutoComplete,
-	ElAlert,
-	ElInput,
-	ElTree,
-	ElModal,
-	ElElButton,
-	Elmessage,
-	ElCheckbox,
-	ElSwitch,
-	ElTabs,
-	ElTable,
-	ElForm,
-	ElIcon,
-	ElPopconfirm,
-	ElUpload,
-	ElRow
-} from "element-plus";
+import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import dayjs from "dayjs";
 import $ from "jquery";
@@ -184,7 +165,7 @@ export const VentoseUIWithInstall = {
 		app.use(ElementPlus);
 	}
 };
-
+/* 
 export { ElCollapse as Collapse };
 export { ElSelect as Select };
 export { ElAutoComplete as AutoComplete };
@@ -203,3 +184,41 @@ export { ElIcon as Icon };
 export { ElPopconfirm as Popconfirm };
 export { ElUpload as Upload };
 export { ElRow as Row };
+
+
+<aCollapse
+<aTooltip
+<ElRow
+<ElButton
+<ElSpin
+<aIcon
+<ElDropdown
+<ElAvatar
+<aMenu
+<aMenuItem
+<ElInput
+<ElSelect
+<ElAlert
+<aAutoComplete
+<ElTag
+<ElTree
+<ElCheckbox
+<aModal
+<aSearch
+<aTooltipTitle
+<aModalPostman
+<aInputGroup
+<aTooltipContent
+<aCollapsePanel
+<aTimelineItem
+<aTimeline
+<aSelectOption
+<aResult
+<aside
+<aUploadDragger
+<aTextarea
+<any
+<aPagination
+
+
+ */

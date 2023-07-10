@@ -109,15 +109,11 @@ export const AppHeader = defineComponent({
 					</div>
 					{items}
 					<div class="toolbar-li">
-						<aDropdown
-							trigger={["click"]}
+						<ElDropdown
+							trigger="click"
 							v-slots={{
-								default: () => (
-									<a class="dropdown-link">
-										<aAvatar src={vm.Cpt_avatarUrl} />
-									</a>
-								),
-								overlay: () => this.MenuUser
+								default: () => <ElAvatar src={vm.Cpt_avatarUrl} />,
+								dropdown: () => this.MenuUser
 							}}
 						/>
 					</div>
@@ -127,17 +123,7 @@ export const AppHeader = defineComponent({
 		MenuUser() {
 			const { uid, role } = this.State_App.user;
 			return (
-				<aMenu
-					class="user-menu"
-					onClick={item => {
-						const { key } = item;
-						if (key === "user") {
-							Cpt_url.value.go("/user_profile");
-						}
-						if (key === "logout") {
-							Methods_App.logoutActions();
-						}
-					}}>
+				<ElDropdownMenu class="user-menu">
 					{xU.map(
 						{
 							user: {
@@ -161,7 +147,10 @@ export const AppHeader = defineComponent({
 							},
 							logout: {
 								name: "退出",
-								icon: "logout"
+								icon: "logout",
+								onClick() {
+									Methods_App.logoutActions();
+								}
 							}
 						},
 						(item, key) => {
@@ -172,28 +161,26 @@ export const AppHeader = defineComponent({
 							}
 
 							const menuContent = (
-								<>
+								<span class="flex middle ">
 									<xIcon icon={item.icon} />
 									<span class="ml4">{item.name}</span>
-								</>
+								</span>
 							);
 
 							let menuLink = (
 								<a
 									href={item.path || ""}
 									class="flex horizon"
-									target={item.target || ""}>
+									target={item.target || ""}
+									onClick={item?.onClick}>
 									{menuContent}
 								</a>
 							);
 
-							if (key === "logout") {
-							}
-
-							return <aMenuItem key={key}>{menuLink}</aMenuItem>;
+							return <ElDropdownItem key={key}>{menuLink}</ElDropdownItem>;
 						}
 					)}
-				</aMenu>
+				</ElDropdownMenu>
 			);
 		}
 	},

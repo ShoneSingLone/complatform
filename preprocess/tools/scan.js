@@ -6,14 +6,18 @@ const pathD = _n.getPathD(__dirname);
 
 const sourceCodeDir = pathD(`../../src`);
 const needToTrans = {};
+const tagSet = new Set();
 async function scanFile(fileurl) {
     if (String(fileurl).indexOf("codedemo") > -1) {
         return;
     }
     const content = await fs.promises.readFile(fileurl, "utf-8");
-    const allMatched = String(content).match(/import \{(.*)\} from "ant-design-vue";/g);
+    const allMatched = String(content).match(/<(a\w+)/g);
+    // const allMatched = String(content).match(/import \{(.*)\} from "ant-design-vue";/g);
     if (allMatched) {
-        await fs.promises.writeFile(fileurl, String(content).replace(allMatched[0], ""));
+        allMatched.forEach(tag => tagSet.add(tag));
+        // await fs.promises.writeFile(fileurl, String(content).replace(allMatched[0], ""));
+        // console.log(allMatched);
     }
     // _n.each(allMatched, matched => { });
 }
@@ -26,5 +30,8 @@ async function scanFile(fileurl) {
         if ([`.tsx`, ".vue"].includes(path.extname(file))) {
             await scanFile(file);
         }
+    }
+    for (const item of tagSet) {
+        console.log(item);
     }
 })();

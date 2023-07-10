@@ -65,7 +65,7 @@ class News extends Component {
 							<div class="Mockurl">
 								<span>Mock地址：</span>
 								<p>{this.state.mockURL}</p>
-								<aButton type="primary">下载Mock数据</aButton>
+								<ElButton type="primary">下载Mock数据</ElButton>
 							</div>
 						</div>
 						<NewsTimeline />

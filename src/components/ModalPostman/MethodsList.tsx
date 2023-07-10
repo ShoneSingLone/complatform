@@ -85,7 +85,7 @@ class MethodsList extends Component {
 		let paramsIndex = props.paramsIndex;
 		let params = props.params;
 		return (
-			<aInput
+			<ElInput
 				size="small"
 				placeholder="请输入参数"
 				value={params[0]}
@@ -103,7 +103,7 @@ class MethodsList extends Component {
 
 		return (
 			<div>
-				<aInput
+				<ElInput
 					size="small"
 					placeholder="start"
 					value={params[0]}
@@ -111,7 +111,7 @@ class MethodsList extends Component {
 						this.handleParamsChange(e.target.value, clickIndex, paramsIndex, 0)
 					}
 				/>
-				<aInput
+				<ElInput
 					size="small"
 					placeholder="length"
 					value={params[1]}
@@ -185,7 +185,7 @@ class MethodsList extends Component {
 				<h3 class="methods-title title">方法</h3>
 				{showList.map((item, index) => {
 					return (
-						<aRow
+						<ElRow
 							key={index}
 							type="flex"
 							align="middle"
@@ -193,9 +193,9 @@ class MethodsList extends Component {
 								"row methods-row " + (item.name === clickValue ? "checked" : "")
 							}
 							onClick={() => click(item.name, showList[index].params)}>
-							<aTooltip title={item.desc}>
+							<ElTooltip title={item.desc}>
 								<span>{item.name}</span>
-							</aTooltip>
+							</ElTooltip>
 							<span class="input-component">
 								{item.type &&
 									this.handleComponent(
@@ -205,7 +205,7 @@ class MethodsList extends Component {
 										item.name === clickValue ? params : []
 									)}
 							</span>
-						</aRow>
+						</ElRow>
 					);
 				})}
 				{moreFlag && (

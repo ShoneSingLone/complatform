@@ -75,7 +75,7 @@ class Reg extends Component {
 					{getFieldDecorator("userName", {
 						rules: [{ required: true, message: "请输入用户名!" }]
 					})(
-						<aInput
+						<ElInput
 							style={changeHeight}
 							prefix={<xIcon icon="user" style={{ fontSize: 13 }} />}
 							placeholder="Username"
@@ -94,7 +94,7 @@ class Reg extends Component {
 							}
 						]
 					})(
-						<aInput
+						<ElInput
 							style={changeHeight}
 							prefix={<xIcon icon="mail" style={{ fontSize: 13 }} />}
 							placeholder="Email"
@@ -115,7 +115,7 @@ class Reg extends Component {
 							}
 						]
 					})(
-						<aInput
+						<ElInput
 							style={changeHeight}
 							prefix={<xIcon icon="lock" style={{ fontSize: 13 }} />}
 							type="password"
@@ -137,7 +137,7 @@ class Reg extends Component {
 							}
 						]
 					})(
-						<aInput
+						<ElInput
 							style={changeHeight}
 							prefix={<xIcon icon="lock" style={{ fontSize: 13 }} />}
 							type="password"
@@ -148,13 +148,13 @@ class Reg extends Component {
 
 				{/* 注册按钮 */}
 				<FormItem style={formItemStyle}>
-					<aButton
+					<ElButton
 						style={changeHeight}
 						type="primary"
 						htmlType="submit"
 						class="login-form-button">
 						注册
-					</aButton>
+					</ElButton>
 				</FormItem>
 			</Form>
 		);

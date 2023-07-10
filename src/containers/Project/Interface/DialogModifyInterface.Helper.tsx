@@ -42,11 +42,11 @@ export const InpterfacePathParams = defineComponent({
 		return xU.map(vm.properties.value, (data, index) => {
 			return (
 				<div class="flex middel mt10 width100">
-					<aTag class="mr10 flex middle" style="min-width:100px">
+					<ElTag class="mr10 flex middle" style="min-width:100px">
 						{data.name}
-					</aTag>
+					</ElTag>
 					<span class="mr10 flex1">
-						<aInput
+						<ElInput
 							value={data.example}
 							onUpdate:value={val => {
 								this.fnUpdate("example", val, index);
@@ -54,7 +54,7 @@ export const InpterfacePathParams = defineComponent({
 						/>
 					</span>
 					<span class="flex1">
-						<aInput
+						<ElInput
 							value={data.desc}
 							onUpdate:value={val => {
 								this.fnUpdate("desc", val, index);
@@ -84,12 +84,12 @@ export const EnvSelectRender = defineComponent({
 		});
 		return (
 			<div class="flex overflow-auto">
-				<aSelect
+				<ElSelect
 					placeholder="请选择转发环境"
 					onChange={fnUpdate}
 					value={vm.properties.value}>
 					{vDomOptions}
-				</aSelect>
+				</ElSelect>
 				<xGap l="10" />
 				<xButton
 					configs={{
@@ -137,12 +137,12 @@ export const TagSelectRender = defineComponent({
 	render(vm) {
 		return (
 			<div class="flex overflow-auto">
-				<aSelect
+				<ElSelect
 					placeholder="请选择 tag"
 					mode="multiple"
 					v-model:value={vm.selected}>
 					{this.vDomOptions}
-				</aSelect>
+				</ElSelect>
 				<xGap l="10" />
 				<xButton
 					configs={{

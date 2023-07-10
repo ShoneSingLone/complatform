@@ -92,7 +92,7 @@ export default defineComponent({
 	render() {
 		let { fetching } = this.state;
 		return (
-			<aSelect
+			<ElSelect
 				mode="multiple"
 				style={{ width: "100%" }}
 				placeholder="请输入用户名"
@@ -101,7 +101,7 @@ export default defineComponent({
 				notFoundContent={
 					fetching ? (
 						<>
-							<aSpin />
+							<ElSpin />
 							<span style="color:gray;margin-left:4px;"> 正在获取用户列表</span>
 						</>
 					) : null
@@ -109,7 +109,7 @@ export default defineComponent({
 				onSearch={this.onSearch}
 				onChange={this.handleChange}>
 				{this.children}
-			</aSelect>
+			</ElSelect>
 		);
 	}
 });

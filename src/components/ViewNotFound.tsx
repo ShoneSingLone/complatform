@@ -26,9 +26,9 @@ export const ViewNotFound = defineComponent({
 			<aResult status="404" title="404" subTitle={this.pathname} class="flex1">
 				{{
 					extra: () => (
-						<aButton type="primary" onClick={this.goHome}>
+						<ElButton type="primary" onClick={this.goHome}>
 							{this.$t("BackHome").label}
-						</aButton>
+						</ElButton>
 					)
 				}}
 			</aResult>

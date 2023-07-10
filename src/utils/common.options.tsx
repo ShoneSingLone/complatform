@@ -65,7 +65,7 @@ export const ITEM_OPTIONS_VDOM = {
 			return null;
 		}
 		/*@ts-ignore*/
-		return <aTag>{i?.label}</aTag>;
+		return <ElTag>{i?.label}</ElTag>;
 	},
 	required(cell) {
 		if (!xU.isInput(cell)) return null;
@@ -73,7 +73,7 @@ export const ITEM_OPTIONS_VDOM = {
 			value: String(cell).toLocaleUpperCase()
 		});
 		/*@ts-ignore*/
-		return <aTag color={i.color}>{i.label}</aTag>;
+		return <ElTag color={i.color}>{i.label}</ElTag>;
 	},
 	httpMethod(cell) {
 		if (!xU.isInput(cell)) return null;
@@ -81,7 +81,7 @@ export const ITEM_OPTIONS_VDOM = {
 			value: String(cell).toLocaleUpperCase()
 		});
 		/*@ts-ignore*/
-		return <aTag color={i.color}>{i.label}</aTag>;
+		return <ElTag color={i.color}>{i.label}</ElTag>;
 	},
 	status: status => {
 		if (!xU.isInput(status)) return null;
@@ -98,7 +98,7 @@ export const ITEM_OPTIONS_VDOM = {
 		}
 		return xU.map(tags, i => (
 			/*@ts-ignore*/
-			<aTag color="blue">{i}</aTag>
+			<ElTag color="blue">{i}</ElTag>
 		));
 	}
 };

@@ -1,12 +1,14 @@
 import { defineComponent, reactive, ref, watch } from "vue";
 import { $, xU, UI, compositionAPI, State_UI, $t } from "@ventose/ui";
 import { API } from "@/api/index";
-import { ARTICLE, FOLDER } from "@/utils/variable";
 import { DialogAddArticle } from "./DialogAddArticle";
 import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { State_App } from "@/state/State_App";
 import { Methods_Wiki, State_Wiki } from "./State_Wiki";
+import type Node from "element-plus/es/components/tree/src/model/node";
+import type { DragEvents } from "element-plus/es/components/tree/src/model/useDragNode";
+import type { NodeDropType } from "element-plus/es/components/tree/src/tree.type";
 
 const { usefnObserveDomResize } = compositionAPI;
 
@@ -97,102 +99,104 @@ export const WikiLeftSider = defineComponent({
 					class="elevation-2 height100 padding10"
 					style="border-radius: 8px;">
 					<div class="flex mb10">
-						<aInput />
+						<ElInput />
 						<xGap l="10" />
 						<xButton configs={vm.btnAddNew} />
 						<xGap l="10" />
 						<xButton configs={vm.btnRefresh} />
 					</div>
-					<aTree
+					<ElTree
 						v-model:expandedKeys={vm.State_Wiki.expandedKeys}
 						height={vm.siderHeight}
-						treeData={vm.State_Wiki.treeData}
+						data={vm.State_Wiki.treeData}
+						onNodeDragEnd={vm.handleDropArticle}
 						draggable
-						onDrop={vm.handleDropArticle}
-						fieldNames={vm.configs.fieldNames}>
+						node-key="_id"
+						default-expand-all>
 						{{
-							title(item) {
-								const { title, _id, type } = item;
-								const classContentString = (() => {
-									let _classString = "flex middle x-sider-tree_menu";
-									if (String(_id) == String(vm.State_Wiki.currentWiki._id)) {
-										return _classString + " x-sider-tree_menu_active";
-									}
-									return _classString;
-								})();
+							default(item) {
+								try {
+									const { data } = item;
+									const { title, _id, type } = data;
+									const classContentString = (() => {
+										let _classString = "flex middle x-sider-tree_menu";
+										if (String(_id) == String(vm.State_Wiki.currentWiki._id)) {
+											return _classString + " x-sider-tree_menu_active";
+										}
+										return _classString;
+									})();
 
-								const genIcon = ({ icon, tips, clickHandler }) => {
+									const genIcon = ({ icon, tips, clickHandler }) => {
+										return (
+											<>
+												<xIcon
+													icon={icon}
+													class="x-sider-tree_menu_icon"
+													v-uiPopover={{ content: tips, delay: 1000 }}
+													onClick={clickHandler}
+												/>
+												<xGap l="8" />
+											</>
+										);
+									};
+
+									const handleClick = () => {
+										State_Wiki.isLoading = true;
+										vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
+										vm.$emit("change");
+										setTimeout(() => {
+											/* 内网环境，数据3秒都回不来，就有点呵呵了 */
+											State_Wiki.isLoading = false;
+										}, 1000 * 3);
+									};
+
+									const canDelete =
+										!item?.children || item?.children?.length === 0;
+
 									return (
-										<>
-											<xIcon
-												icon={icon}
-												class="x-sider-tree_menu_icon"
-												v-uiPopover={{ content: tips, delay: 1000 }}
-												onClick={clickHandler}
-											/>
-											<xGap l="8" />
-										</>
-									);
-								};
-
-								const handleClick = () => {
-									State_Wiki.isLoading = true;
-									vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
-									vm.$emit("change");
-									setTimeout(() => {
-										/* 内网环境，数据3秒都回不来，就有点呵呵了 */
-										State_Wiki.isLoading = false;
-									}, 1000 * 3);
-								};
-
-								const canDelete =
-									!item?.children || item?.children?.length === 0;
-
-								return (
-									<div class={classContentString} onClick={handleClick}>
-										<xGap l="10" />
-										<xIcon icon="icon_article" />
-										<span class="x-sider-tree_menu_title">
-											<div class="flex middle">{title}</div>
-										</span>
-										<div class="flex middle x-sider-tree_menu_opration">
-											{genIcon({
-												icon: "add",
-												tips: vm.$t("添加").label,
-												clickHandler: () =>
-													vm.showUpsertArticleDialog(item.data)
-											})}
-											{canDelete &&
-												genIcon({
-													icon: "delete",
-													tips: vm.$t("删除").label,
-													clickHandler: () => vm.deleteArticle(_id)
+										<div class={classContentString} onClick={handleClick}>
+											<xGap l="10" />
+											<xIcon icon="icon_article" />
+											<span class="x-sider-tree_menu_title">
+												<div class="flex middle">{title}</div>
+											</span>
+											<div class="flex middle x-sider-tree_menu_opration">
+												{genIcon({
+													icon: "add",
+													tips: vm.$t("添加").label,
+													clickHandler: () =>
+														vm.showUpsertArticleDialog(item.data)
 												})}
+												{canDelete &&
+													genIcon({
+														icon: "delete",
+														tips: vm.$t("删除").label,
+														clickHandler: () => vm.deleteArticle(_id)
+													})}
+											</div>
 										</div>
-									</div>
-								);
+									);
+								} catch (error) {
+									return null;
+								}
 							}
 						}}
-					</aTree>
+					</ElTree>
 				</div>
 			);
 		}
 	},
 	methods: {
+		async handleDropArticle(
+			draggingNode: Node,
+			dropNode: Node,
+			dropType: NodeDropType
+		) {
 			State_Wiki.isLoading = true;
-			/*
-			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。
-			 * dropPosition:dropItemPos=index
-			 * * * 拖拽到节点之上： index-1
-			 * * * 拖拽到节点上： 	index
-			 * * * 拖拽到节点之下： index+1
-			 */
-			const { dragNode: dragItem, node: dropItem, dropPosition, dropToGap } = e;
 			const params = {
-				dragItem: dragItem.dataRef,
-				dropItem: dropItem.dataRef,
-				dropToGap,
-				dropPosition
+				dragItem: draggingNode.data,
+				dropItem: dropNode.data,
+				dropType
 			};
 			try {
 				await this.moveItemAndResetOrder(params);
@@ -203,24 +207,34 @@ export const WikiLeftSider = defineComponent({
 			}
 		},
 		/* 同类 testcase */
-		async moveItemAndResetOrder({
-			dragItem,
-			dropItem,
-			dropToGap,
-			dropPosition
-		}) {
+		async moveItemAndResetOrder({ dragItem, dropItem, dropType }) {
 			dragItem = { ...dragItem };
 			dropItem = { ...dropItem };
+			if (dragItem._id == dropItem._id) {
+				return;
+			}
 			const menuOrderArray = getTreeOrder(State_Wiki.treeData);
 			const dragIndex = menuOrderArray.indexOf(dragItem._id);
-			const dropIndex = menuOrderArray.indexOf(dropItem._id);
+			if (dropType === "inner") {
+				dragItem.p_id = dropItem._id;
+			}
 
-			if (dropToGap) {
+			if (dropType === "after") {
 				dragItem.p_id = dropItem.p_id;
 				menuOrderArray.splice(dragIndex, 1);
-				menuOrderArray.splice(dropIndex, 0, dragItem._id);
-			} else {
-				dragItem.p_id = dropItem._id;
+				const dropIndex = menuOrderArray.indexOf(dropItem._id);
+				menuOrderArray.splice(dropIndex + 1, 0, dragItem._id);
+			}
+
+			if (dropType === "before") {
+				dragItem.p_id = dropItem.p_id;
+				menuOrderArray.splice(dragIndex, 1);
+				let dropIndex = menuOrderArray.indexOf(dropItem._id);
+				if (dropIndex === 0) {
+					menuOrderArray.unshift(dragItem._id);
+				} else {
+					menuOrderArray.splice(dropIndex - 1, 0, dragItem._id);
+				}
 			}
 
 			try {

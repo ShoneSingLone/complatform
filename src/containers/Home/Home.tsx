@@ -17,20 +17,20 @@ const TipBtns = () => {
 	return (
 		<div class="tip-btns">
 			<div class="btn-group">
-				<aButton
+				<ElButton
 					type="primary"
 					class="btn-home btn-login"
 					onClick={() => Cpt_url.value.go("/login")}>
 					登录 / 注册
-				</aButton>
-				<aButton class="btn-home btn-home-normal">
+				</ElButton>
+				<ElButton class="btn-home btn-home-normal">
 					<a
 						target="_blank"
 						rel="noopener noreferrer"
 						href="https://hellosean1025.github.io/yapi">
 						使用文档
 					</a>
-				</aButton>
+				</ElButton>
 			</div>
 		</div>
 	);
@@ -48,7 +48,7 @@ const HomeGuest = params => {
 			</div>
 			<div class="main-one">
 				<div class="container">
-					<aRow>
+					<ElRow>
 						<ElCol span={24}>
 							<div class="home-header">
 								<a href="#" class="item">
@@ -63,8 +63,8 @@ const HomeGuest = params => {
 								</a>
 							</div>
 						</ElCol>
-					</aRow>
-					<aRow>
+					</ElRow>
+					<ElRow>
 						<ElCol lg={9} xs={24}>
 							<div class="home-des">
 								<div class="logo">
@@ -79,12 +79,12 @@ const HomeGuest = params => {
 									</span>
 								</div>
 								<div class="btn-group">
-									<aButton
+									<ElButton
 										type="primary"
 										class="btn-home btn-login"
 										onClick={() => Cpt_url.value.go("/login")}>
 										登录 / 注册
-									</aButton>
+									</ElButton>
 									{/* {ThirdLogin ? <ThirdLogin /> : null} */}
 								</div>
 							</div>
@@ -92,7 +92,7 @@ const HomeGuest = params => {
 						<ElCol lg={15} xs={0} class="col-img">
 							<div class="img-container"></div>
 						</ElCol>
-					</aRow>
+					</ElRow>
 				</div>
 			</div>
 			<div class="feat-part section-feature">
@@ -101,7 +101,7 @@ const HomeGuest = params => {
 					<span class="desc">
 						YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。
 					</span>
-					<aRow key="feat-motion-row">
+					<ElRow key="feat-motion-row">
 						<ElCol span={8} class="section-item" key="feat-wrapper-1">
 							<xIcon icon="appstore-o" class="img" />
 							<h4 class="title">项目管理</h4>
@@ -121,7 +121,7 @@ const HomeGuest = params => {
 							<h4 class="title">MockServer</h4>
 							<span class="desc">基于Mockjs，使用简单功能强大</span>
 						</ElCol>
-					</aRow>
+					</ElRow>
 				</div>
 			</div>
 			<div class="feat-part m-mock m-skew home-section">
@@ -133,7 +133,7 @@ const HomeGuest = params => {
 				<div class="container skew-container">
 					<h3 class="title">功能强大的 Mock 服务</h3>
 					<span class="desc">你想要的 Mock 服务都在这里</span>
-					<aRow class="row-card">
+					<ElRow class="row-card">
 						<ElCol lg={12} xs={24} class="section-card">
 							<ElCard title="Mock 规则">
 								<p class="mock-desc">
@@ -314,12 +314,12 @@ const HomeGuest = params => {
 								</div>
 							</ElCard>
 						</ElCol>
-					</aRow>
+					</ElRow>
 				</div>
 			</div>
 			<div class="home-section section-manage">
 				<div class="container">
-					<aRow class="row-card" style={{ marginBottom: ".48rem" }}>
+					<ElRow class="row-card" style={{ marginBottom: ".48rem" }}>
 						<ElCol lg={7} xs={10} class="section-card">
 							<ElCard>
 								<div class="section-block block-first">
@@ -352,7 +352,7 @@ const HomeGuest = params => {
 								将扁平化管理模式的思想引入到产品的权限管理中，超级管理员拥有最高的权限，并将权限分配给若干组长，超级管理员只需管理组长即可，实际上管理YAPI各大分组与项目的是“组长”。组长对分组或项目负责，一般由BU负责人/项目负责人担任。
 							</p>
 						</ElCol>
-					</aRow>
+					</ElRow>
 				</div>
 			</div>
 		</div>

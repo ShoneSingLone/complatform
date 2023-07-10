@@ -89,7 +89,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 				<div
 					class="elevation-2 height100 padding10"
 					style="border-radius: 8px;">
-					<aTree
+					<ElTree
 						v-model:expandedKeys={vm.State_Project.expandedKeys}
 						height={vm.siderHeight}
 						treeData={vm.treeData}
@@ -226,7 +226,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								);
 							}
 						}}
-					</aTree>
+					</ElTree>
 				</div>
 			);
 		}

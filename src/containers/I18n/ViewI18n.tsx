@@ -104,10 +104,10 @@ export const ViewI18n = defineComponent({
 	methods: {
 		async exportRecordAsJson(records) {
 			function download(url, name) {
-				const aTag = document.createElement("a");
-				aTag.href = url;
-				aTag.download = name;
-				aTag.click();
+				const ElTag = document.createElement("a");
+				ElTag.href = url;
+				ElTag.download = name;
+				ElTag.click();
 			}
 			const { data } = await API.god.i18nRecords({
 				ids: xU.map(records, i => i._id)

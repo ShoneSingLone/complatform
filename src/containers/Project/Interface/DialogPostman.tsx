@@ -128,7 +128,7 @@ export const DialogPostman = defineComponent({
 			<>
 				<div class="x-dialog-boddy-wrapper flex1 height100">
 					<xGap t="10" />
-					<aAlert
+					<ElAlert
 						message={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
 						type="info"
 						closable

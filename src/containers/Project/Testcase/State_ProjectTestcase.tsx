@@ -173,7 +173,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										<span class="flex1">
 											<span>{label}</span>
 											{xU.isArrayFill(filterParams.catid) ? (
-												<aTag class="ml10">{filterParams.catid.length}</aTag>
+												<ElTag class="ml10">{filterParams.catid.length}</ElTag>
 											) : null}
 										</span>
 										<ElPopover placement="bottomRight" trigger="click">
@@ -184,7 +184,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 												content() {
 													return (
 														<div style="padding: 8px">
-															<aSelect
+															<ElSelect
 																allowClear
 																mode="multiple"
 																style="min-width: 400px"
@@ -202,7 +202,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 																		);
 																	}
 																)}
-															</aSelect>
+															</ElSelect>
 														</div>
 													);
 												}
@@ -234,9 +234,9 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<span class="flex1">
 									<span>{label}</span>
 									{xU.isInput(filterParams.title) ? (
-										<aTag color="cyan" class="ml10">
+										<ElTag color="cyan" class="ml10">
 											{filterParams.title}
-										</aTag>
+										</ElTag>
 									) : null}
 								</span>
 								<ElPopover placement="bottomRight" trigger="click">
@@ -299,9 +299,9 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<span class="flex1">
 									<span>{label}</span>
 									{xU.isInput(filterParams.path) ? (
-										<aTag color="cyan" class="ml10">
+										<ElTag color="cyan" class="ml10">
 											{filterParams.path}
-										</aTag>
+										</ElTag>
 									) : null}
 								</span>
 								<ElPopover placement="bottomRight" trigger="click">
@@ -358,7 +358,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										content() {
 											return (
 												<div style="padding: 8px">
-													<aSelect
+													<ElSelect
 														allowClear
 														style="min-width: 100px"
 														v-model:value={filterParams.status}
@@ -372,7 +372,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 																</aSelectOption>
 															);
 														})}
-													</aSelect>
+													</ElSelect>
 												</div>
 											);
 										}
@@ -399,7 +399,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<span class="flex1">
 									<span>{label}</span>
 									{xU.isArrayFill(filterParams.witchEnv) ? (
-										<aTag class="ml10">{filterParams.witchEnv.length}</aTag>
+										<ElTag class="ml10">{filterParams.witchEnv.length}</ElTag>
 									) : null}
 								</span>
 								<ElPopover placement="bottomRight" trigger="click">
@@ -410,7 +410,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										content() {
 											return (
 												<div style="padding: 8px">
-													<aSelect
+													<ElSelect
 														allowClear
 														mode="multiple"
 														style="width: 400px"
@@ -426,7 +426,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 																</aSelectOption>
 															);
 														})}
-													</aSelect>
+													</ElSelect>
 												</div>
 											);
 										}
@@ -445,7 +445,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								const envArray = State_App.currProject.env;
 								let env = xU.find(envArray, { _id: witchEnv });
 								if (env) {
-									return <aTag color="cyan">{env.name}</aTag>;
+									return <ElTag color="cyan">{env.name}</ElTag>;
 								}
 							} else {
 								return "--";
@@ -463,7 +463,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<span class="flex1">
 									<span>{label}</span>
 									{xU.isArrayFill(filterParams.tag) ? (
-										<aTag class="ml10">{filterParams.tag.length}</aTag>
+										<ElTag class="ml10">{filterParams.tag.length}</ElTag>
 									) : null}
 								</span>
 								<ElPopover placement="bottomRight" trigger="click">
@@ -474,7 +474,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										content() {
 											return (
 												<div style="padding: 8px">
-													<aSelect
+													<ElSelect
 														allowClear
 														mode="multiple"
 														style="width: 400px"
@@ -485,7 +485,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 																<aSelectOption value={i}>{i}</aSelectOption>
 															);
 														})}
-													</aSelect>
+													</ElSelect>
 												</div>
 											);
 										}

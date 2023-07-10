@@ -84,7 +84,7 @@ export const ViewUserProfile = defineComponent({
 			<ElCard>
 				<h1>个人设置</h1>
 				<xForm formStyle={styleForm} labelStyle={styleFormLabel}>
-					<aAvatar size={64} src={Cpt_avatarUrl} />
+					<ElAvatar size={64} src={Cpt_avatarUrl} />
 					<xGap t="10" />
 					<xItem configs={configsForm.uid} />
 					<xGap t="10" />
@@ -96,7 +96,7 @@ export const ViewUserProfile = defineComponent({
 					<xGap t="10" />
 					<xItem configs={configsForm.username} />
 					<xGap t="10" />
-					<aButton onClick={updatePwd}>修改密码</aButton>
+					<ElButton onClick={updatePwd}>修改密码</ElButton>
 					<xGap t="10" />
 				</xForm>
 			</ElCard>

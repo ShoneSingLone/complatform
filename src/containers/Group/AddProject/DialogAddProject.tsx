@@ -26,23 +26,23 @@ export const xItem_ProjectType = (options: any = {}) => {
 		options: [
 			{
 				label: (
-					<aTooltip title="只有组长和项目开发者可以索引并查看项目信息">
+					<ElTooltip title="只有组长和项目开发者可以索引并查看项目信息">
 						<span class="flex middle">
 							<xIcon icon="lockStrok" />
 							<span>私有</span>
 						</span>
-					</aTooltip>
+					</ElTooltip>
 				),
 				value: "private"
 			},
 			{
 				label: (
-					<aTooltip title="任何人都可以索引并查看项目信息">
+					<ElTooltip title="任何人都可以索引并查看项目信息">
 						<span class="flex middle">
 							<xIcon icon="unlock" />
 							<span>公开</span>
 						</span>
-					</aTooltip>
+					</ElTooltip>
 				),
 				value: "public"
 			}

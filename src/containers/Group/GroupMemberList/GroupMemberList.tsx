@@ -87,12 +87,12 @@ export const GroupMemberList = defineComponent({
 						if (isAuth) {
 							return (
 								<div class="btn-container">
-									<aButton
+									<ElButton
 										className="btn"
 										type="primary"
 										onClick={vm.showAddMemberDialog}>
 										添加成员
-									</aButton>
+									</ElButton>
 								</div>
 							);
 						} else {
@@ -121,7 +121,7 @@ export const GroupMemberList = defineComponent({
 
 							return (
 								<div class="flex">
-									<aSelect
+									<ElSelect
 										value={record.role}
 										onChange={role => {
 											vm.changeUserRole({ member_uid: record.uid, role });
@@ -130,7 +130,7 @@ export const GroupMemberList = defineComponent({
 											{ label: "组长", value: "owner" },
 											{ label: "开发者", value: "dev" },
 											{ label: "访客", value: "guest" }
-										]}></aSelect>
+										]}></ElSelect>
 									<xButton configs={configs.deleteBtn} />
 								</div>
 							);

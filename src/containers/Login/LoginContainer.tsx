@@ -21,7 +21,7 @@ export const LoginContainer = defineComponent({
 				</div>
 				<div class="main-one login-container">
 					<div class="container">
-						<aRow type="flex" justify="center">
+						<ElRow type="flex" justify="center">
 							<ElCol xs={20} sm={16} md={12} lg={8} class="container-login">
 								<ElCard class="card-login">
 									<h2 class="login-title">YAPI</h2>
@@ -31,7 +31,7 @@ export const LoginContainer = defineComponent({
 									<LoginWrap />
 								</ElCard>
 							</ElCol>
-						</aRow>
+						</ElRow>
 					</div>
 				</div>
 			</div>

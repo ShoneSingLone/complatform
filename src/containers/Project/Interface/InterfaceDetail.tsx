@@ -263,7 +263,7 @@ export const InterfaceDetail = defineComponent({
 				if (env) {
 					return (
 						<div>
-							<aTag color="cyan">{env.name}</aTag>
+							<ElTag color="cyan">{env.name}</ElTag>
 							<span>{env.domain}</span>
 						</div>
 					);
@@ -340,7 +340,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							label: "维护人",
 							value: (
 								<>
-									<aAvatar
+									<ElAvatar
 										src={"/api/user/avatar?uid=" + uid}
 										class="mr8"
 										style="height:24px;width:24px;"
@@ -397,9 +397,9 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: (
 								<div class="flex middle">
-									<aButton type="primary" onClick={vm.runPostman}>
+									<ElButton type="primary" onClick={vm.runPostman}>
 										{vm.$t("运行").label}
-									</aButton>
+									</ElButton>
 									<span class="flex1">{$t("Mock地址").label}</span>
 								</div>
 							),
@@ -425,9 +425,9 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: (
 								<div class="flex middle">
-									<aButton onClick={() => vm.copyCode()}>
+									<ElButton onClick={() => vm.copyCode()}>
 										{$t("复制代码").label}
-									</aButton>
+									</ElButton>
 									<span class="flex1">{$t("ajax代码").label}</span>
 								</div>
 							),
@@ -458,7 +458,7 @@ async ${xU.camelCase(path)}({params,data}) {
 	},
 	render(vm) {
 		if (!vm.detailInfo || !vm.State_App.currProject) {
-			return <aSpin spinning={true} class="flex middle center flex1"></aSpin>;
+			return <ElSpin spinning={true} class="flex middle center flex1"></ElSpin>;
 		}
 		xU(vm.State_App.currGroup, vm.State_App.currProject, vm.detailInfo);
 		return (

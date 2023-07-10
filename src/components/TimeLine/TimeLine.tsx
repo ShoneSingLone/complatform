@@ -113,14 +113,14 @@ export const TimeLine = defineComponent({
 						path={item.path}
 						key={item._id}>
 						{item.title}{" "}
-						<aTag
+						<ElTag
 							style={{
 								color: methodColor ? methodColor.color : "#cfefdf",
 								backgroundColor: methodColor ? methodColor.bac : "#00a854",
 								border: "unset"
 							}}>
 							{item.method}
-						</aTag>
+						</ElTag>
 					</Option>
 				);
 			});
@@ -136,7 +136,7 @@ export const TimeLine = defineComponent({
 		vDomSectionProject() {
 			if (this.type === "project") {
 				return (
-					<aRow class="news-search">
+					<ElRow class="news-search">
 						<ElCol span="3">{$t("选择查询的 Api").label}：</ElCol>
 						<ElCol span="10">
 							<aAutoComplete
@@ -163,7 +163,7 @@ export const TimeLine = defineComponent({
 								<OptGroup label="api">{this.vDomProjectChildren}</OptGroup>
 							</aAutoComplete>
 						</ElCol>
-					</aRow>
+					</ElRow>
 				);
 			}
 
@@ -178,7 +178,7 @@ export const TimeLine = defineComponent({
 					return (
 						<aTimelineItem
 							dot={
-								<aAvatar
+								<ElAvatar
 									class="pointer"
 									src={`/api/user/avatar?uid=${newsItem.uid}`}
 									onClick={() =>
@@ -197,10 +197,10 @@ export const TimeLine = defineComponent({
 							<span class="logcontent" v-html={newsItem.content} />
 							<div style={{ padding: "10px 0 0 10px" }}>
 								{interfaceDiff && (
-									<aButton
+									<ElButton
 										onClick={() => this.showDiffLogDialog(newsItem.data)}>
 										改动详情
-									</aButton>
+									</ElButton>
 								)}
 							</div>
 						</aTimelineItem>

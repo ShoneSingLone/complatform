@@ -401,7 +401,7 @@ class Profile extends Component {
 						<h3>{userinfo.username} 资料设置</h3>
 					)}
 
-					<aRow class="avatarCon" type="flex" justify="start">
+					<ElRow class="avatarCon" type="flex" justify="start">
 						<ElCol span={24}>
 							{userinfo.uid === this.props.curUid ? (
 								<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>
@@ -411,23 +411,23 @@ class Profile extends Component {
 								</div>
 							)}
 						</ElCol>
-					</aRow>
-					<aRow class="user-item" type="flex" justify="start">
+					</ElRow>
+					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
 						<ElCol span={4}>用户id</ElCol>
 						<ElCol span={12}>{userinfo.uid}</ElCol>
-					</aRow>
-					<aRow class="user-item" type="flex" justify="start">
+					</ElRow>
+					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
 						<ElCol span={4}>用户名</ElCol>
 						<ElCol span={12}>{userNameEditHtml}</ElCol>
-					</aRow>
-					<aRow class="user-item" type="flex" justify="start">
+					</ElRow>
+					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
 						<ElCol span={4}>Email</ElCol>
 						<ElCol span={12}>{emailEditHtml}</ElCol>
-					</aRow>
-					<aRow
+					</ElRow>
+					<ElRow
 						class="user-item"
 						style={{ display: this.props.curRole === "admin" ? "" : "none" }}
 						type="flex"
@@ -435,8 +435,8 @@ class Profile extends Component {
 						<div class="maoboli" />
 						<ElCol span={4}>角色</ElCol>
 						<ElCol span={12}>{roleEditHtml}</ElCol>
-					</aRow>
-					<aRow
+					</ElRow>
+					<ElRow
 						class="user-item"
 						style={{ display: this.props.curRole === "admin" ? "" : "none" }}
 						type="flex"
@@ -446,24 +446,24 @@ class Profile extends Component {
 						<ElCol span={12}>
 							{userinfo.type === "site" ? "站点登陆" : "第三方登陆"}
 						</ElCol>
-					</aRow>
-					<aRow class="user-item" type="flex" justify="start">
+					</ElRow>
+					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
 						<ElCol span={4}>创建账号时间</ElCol>
 						<ElCol span={12}>{formatTime(userinfo.add_time)}</ElCol>
-					</aRow>
-					<aRow class="user-item" type="flex" justify="start">
+					</ElRow>
+					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
 						<ElCol span={4}>更新账号时间</ElCol>
 						<ElCol span={12}>{formatTime(userinfo.up_time)}</ElCol>
-					</aRow>
+					</ElRow>
 
 					{userType ? (
-						<aRow class="user-item" type="flex" justify="start">
+						<ElRow class="user-item" type="flex" justify="start">
 							<div class="maoboli" />
 							<ElCol span={4}>密码</ElCol>
 							<ElCol span={12}>{secureEditHtml}</ElCol>
-						</aRow>
+						</ElRow>
 					) : (
 						""
 					)}
@@ -518,7 +518,7 @@ class AvatarUpload extends Component {
 		// console.log(this.props.uid);
 		return (
 			<div class="avatar-box">
-				<aTooltip
+				<ElTooltip
 					placement="right"
 					title={
 						<div>点击头像更换 (只支持jpg、png格式且大小不超过200kb的图片)</div>
@@ -537,7 +537,7 @@ class AvatarUpload extends Component {
 							</div>
 						</Upload>
 					</div>
-				</aTooltip>
+				</ElTooltip>
 				<span class="avatarChange" />
 			</div>
 		);

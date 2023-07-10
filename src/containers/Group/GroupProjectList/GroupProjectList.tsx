@@ -36,17 +36,17 @@ export const GroupProjectList = defineComponent({
 		vDomAddProjectButton() {
 			if (this.isAuthAddProject) {
 				return (
-					<aButton type="primary" onClick={this.showAddProjectDialog}>
+					<ElButton type="primary" onClick={this.showAddProjectDialog}>
 						添加项目
-					</aButton>
+					</ElButton>
 				);
 			} else {
 				return (
-					<aTooltip title="您没有权限,请联系该分组组长或管理员">
-						<aButton type="primary" disabled>
+					<ElTooltip title="您没有权限,请联系该分组组长或管理员">
+						<ElButton type="primary" disabled>
 							添加项目
-						</aButton>
-					</aTooltip>
+						</ElButton>
+					</ElTooltip>
 				);
 			}
 		},
@@ -175,7 +175,7 @@ export const GroupProjectList = defineComponent({
 				v-loading={this.isLoading}
 				style={{ paddingTop: "24px" }}
 				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
-				<aRow class="project-list-header">
+				<ElRow class="project-list-header">
 					<ElCol span={16} style={{ textAlign: "left" }}>
 						<span>共</span>
 						<span> {this.State_App.projectList.length} </span>
@@ -184,7 +184,7 @@ export const GroupProjectList = defineComponent({
 					<ElCol span={8} class="flex end flex1">
 						{this.vDomAddProjectButton}
 					</ElCol>
-				</aRow>
+				</ElRow>
 				{this.vDomSpaceProject}
 			</div>
 		);

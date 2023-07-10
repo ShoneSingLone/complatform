@@ -140,7 +140,7 @@ export const AppFooter = defineComponent({
 					class="footer-wrapper"
 					style={this.wrapperStyle}
 					id="ViewAppFooter">
-					<aRow class="footer-container" style={this.contentStyle}>
+					<ElRow class="footer-container" style={this.contentStyle}>
 						{this.footList.map((item, i) => {
 							return (
 								<FootItem
@@ -151,7 +151,7 @@ export const AppFooter = defineComponent({
 								/>
 							);
 						})}
-					</aRow>
+					</ElRow>
 				</div>
 			</>
 		);

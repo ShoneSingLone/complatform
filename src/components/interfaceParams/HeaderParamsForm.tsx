@@ -106,20 +106,20 @@ export const HeaderParamsForm = defineComponent({
 						label: vm.$t("参数值").label,
 						prop: "value",
 						renderEditor: ({ record }) => (
-							<aInput v-model:value={record.value} />
+							<ElInput v-model:value={record.value} />
 						)
 					}),
 					...defCol({
 						label: vm.$t("示例").label,
 						prop: "example",
 						renderEditor: ({ record }) => (
-							<aInput v-model:value={record.example} />
+							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
-						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
+						renderEditor: ({ record }) => <ElInput v-model:value={record.desc} />
 					}),
 					...defCol({
 						label: vm.$t("操作").label,
@@ -142,9 +142,9 @@ export const HeaderParamsForm = defineComponent({
 		return (
 			<>
 				<div class="flex middle">
-					<aButton class="mb10" onClick={this.addRow}>
+					<ElButton class="mb10" onClick={this.addRow}>
 						添加一行
-					</aButton>
+					</ElButton>
 					<xGap f="1" />
 					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
 						批量添加

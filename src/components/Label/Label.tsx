@@ -37,18 +37,18 @@ export default class Label extends Component {
 							<div>
 								<p>
 									{this.props.desc} &nbsp;&nbsp;
-									<aTooltip title="编辑简介">
+									<ElTooltip title="编辑简介">
 										<aIcon
 											onClick={this.toggle}
 											class="interface-delete-icon"
 											type="edit"
 										/>
-									</aTooltip>
+									</ElTooltip>
 								</p>
 							</div>
 						) : (
 							<div class="label-input-wrapper">
-								<aInput
+								<ElInput
 									onChange={this.handleChange}
 									defaultValue={this.props.desc}
 									size="small"

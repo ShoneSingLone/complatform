@@ -187,7 +187,7 @@ class UpDateModal extends Component {
 		const formItems = envs.map((k, index) => {
 			const secondIndex = "next" + index; // 为保证key的唯一性
 			return (
-				<aRow
+				<ElRow
 					key={index}
 					type="flex"
 					justify="space-between"
@@ -222,7 +222,7 @@ class UpDateModal extends Component {
 									}
 								]
 							})(
-								<aInput
+								<ElInput
 									placeholder="请输入环境名称"
 									style={{ width: "90%", marginRight: 8 }}
 								/>
@@ -261,7 +261,7 @@ class UpDateModal extends Component {
 									}
 								]
 							})(
-								<aInput
+								<ElInput
 									placeholder="请输入环境域名"
 									style={{ width: "90%", marginRight: 8 }}
 									addonBefore={getFieldDecorator(`envs-protocol-${index}`, {
@@ -296,7 +296,7 @@ class UpDateModal extends Component {
 							/>
 						) : null}
 					</ElCol>
-				</aRow>
+				</ElRow>
 			);
 		});
 		return (
@@ -315,7 +315,7 @@ class UpDateModal extends Component {
 									message: "请输入项目名称!"
 								}
 							]
-						})(<aInput />)}
+						})(<ElInput />)}
 					</FormItem>
 
 					<FormItem
@@ -323,9 +323,9 @@ class UpDateModal extends Component {
 						label={
 							<span>
 								线上域名&nbsp;
-								<aTooltip title="将根据配置的线上域名访问mock数据">
+								<ElTooltip title="将根据配置的线上域名访问mock数据">
 									<xIcon icon="question-circle-o" />
-								</aTooltip>
+								</ElTooltip>
 							</span>
 						}>
 						{getFieldDecorator("prd_host", {
@@ -337,7 +337,7 @@ class UpDateModal extends Component {
 								}
 							]
 						})(
-							<aInput
+							<ElInput
 								addonBefore={
 									<Select
 										defaultValue={initFormValues.prd_protocol}
@@ -355,9 +355,9 @@ class UpDateModal extends Component {
 						label={
 							<span>
 								基本路径&nbsp;
-								<aTooltip title="基本路径为空表示根路径">
+								<ElTooltip title="基本路径为空表示根路径">
 									<xIcon icon="question-circle-o" />
-								</aTooltip>
+								</ElTooltip>
 							</span>
 						}>
 						{getFieldDecorator("basepath", {
@@ -368,7 +368,7 @@ class UpDateModal extends Component {
 									message: "请输入项目基本路径! "
 								}
 							]
-						})(<aInput />)}
+						})(<ElInput />)}
 					</FormItem>
 
 					<FormItem {...formItemLayout} label="描述">
@@ -385,9 +385,9 @@ class UpDateModal extends Component {
 
 					{formItems}
 					<FormItem {...formItemLayoutWithOutLabel}>
-						<aButton type="dashed" onClick={this.add} style={{ width: "60%" }}>
+						<ElButton type="dashed" onClick={this.add} style={{ width: "60%" }}>
 							<xIcon icon="plus" /> 添加环境配置
-						</aButton>
+						</ElButton>
 					</FormItem>
 				</Form>
 			</aModal>

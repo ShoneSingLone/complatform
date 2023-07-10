@@ -61,7 +61,7 @@ export const SubformNumber = defineComponent({
 					{/* 勾选之后才会显示enum备注 */}
 					{{
 						afterControll: () => (
-							<aCheckbox
+							<ElCheckbox
 								class="ml10"
 								checked={!!vm.data.isUseEnum}
 								onUpdate:checked={val => {

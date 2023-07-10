@@ -191,9 +191,9 @@ export const BodyParamsForm = defineComponent({
 				<div style={{ height: "300px" }}>
 					<xVirTable configs={this.configs_table} class="flex1 width100 " />
 				</div>
-				<aButton class="width100" type="dashed" onClick={this.addRow}>
+				<ElButton class="width100" type="dashed" onClick={this.addRow}>
 					<xIcon icon="add" />
-				</aButton>
+				</ElButton>
 			</>
 		);
 	}

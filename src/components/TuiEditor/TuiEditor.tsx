@@ -261,7 +261,7 @@ export const TuiEditor = defineAsyncComponent(
 										style="height:300px;width:100%;z-index:1;padding:20px;"></div>
 								)}
 								<div class="display-none">
-									<a-image
+									<ElImage
 										src={vm.imgSrc}
 										preview={{
 											visible: vm.visible,

@@ -1,6 +1,6 @@
 <template>
 	<ElCard class="flex1">
-		<aAlert :message="alertMessage" type="info" />
+		<ElAlert :message="alertMessage" type="info" />
 		<xForm
 			class="flex vertical"
 			:label-style="{ 'min-width': '120px', width: 'unset' }">

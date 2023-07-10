@@ -41,7 +41,7 @@ export const DialogShowApiModify = defineComponent({
 		return (
 			<div class="flex vertical flex1" id="ViewApiModify">
 				<div class="padding20">
-					<aAlert
+					<ElAlert
 						message={this.$t("注： 绿色代表新增内容，红色代表删除内容").label}
 						type="info"
 						closable

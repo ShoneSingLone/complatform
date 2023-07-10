@@ -240,18 +240,18 @@ class ModalPostman extends Component {
 				width={1024}
 				maskClosable={false}
 				okText="插入">
-				<aRow class="modal-postman-form" type="flex">
+				<ElRow class="modal-postman-form" type="flex">
 					{methodsParamsList.map((item, index) => {
 						return item.type === "dataSource" ? (
 							<ElCol span={8} class="modal-postman-col" key={index}>
-								<aCollapse
+								<ElCollapse
 									class="modal-postman-collapse"
 									activeKey={this.state.activeKey}
 									onChange={this.handleCollapse}
 									bordered={false}
 									accordion>
 									<Panel header={<h3 class="mock-title">常量</h3>} key="1">
-										<aInput
+										<ElInput
 											placeholder="基础参数值"
 											value={constantInput}
 											onChange={e =>
@@ -270,11 +270,11 @@ class ModalPostman extends Component {
 											header={
 												<h3 class="mock-title">
 													变量&nbsp;
-													<aTooltip
+													<ElTooltip
 														placement="top"
 														title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~">
 														<xIcon icon="question-circle-o" />
-													</aTooltip>
+													</ElTooltip>
 												</h3>
 											}
 											key="3">
@@ -285,7 +285,7 @@ class ModalPostman extends Component {
 											/>
 										</Panel>
 									)}
-								</aCollapse>
+								</ElCollapse>
 							</ElCol>
 						) : (
 							<ElCol span={8} class="modal-postman-col" key={index}>
@@ -297,16 +297,16 @@ class ModalPostman extends Component {
 							</ElCol>
 						);
 					})}
-				</aRow>
-				<aRow class="modal-postman-expression">
+				</ElRow>
+				<ElRow class="modal-postman-expression">
 					<ElCol span={6}>
 						<h3 class="title">表达式</h3>
 					</ElCol>
 					<ElCol span={18}>
 						<span class="expression-item">{outputParams()}</span>
 					</ElCol>
-				</aRow>
-				<aRow class="modal-postman-preview">
+				</ElRow>
+				<ElRow class="modal-postman-preview">
 					<ElCol span={6}>
 						<h3 class="title">预览</h3>
 					</ElCol>
@@ -316,7 +316,7 @@ class ModalPostman extends Component {
 								(outputParams() && this.handleError())}
 						</h3>
 					</ElCol>
-				</aRow>
+				</ElRow>
 			</aModal>
 		);
 	}
