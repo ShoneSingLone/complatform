@@ -75,7 +75,7 @@ export const DialogEditGroup = defineComponent({
 							message={$t("删除分组").label}
 							description={
 								<div>
-									<div className="card-danger-content">
+									<div class="card-danger-content">
 										<p>分组一旦删除，将无法恢复数据，请慎重操作！</p>
 										<p>只有超级管理员有权限删除分组。</p>
 									</div>

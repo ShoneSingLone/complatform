@@ -16,10 +16,10 @@
 	margin-top: 20px;
 	padding-right: 44px;
 
-	> .ant-timeline-item {
+	> .el-timeline-item {
 		display: flex;
 
-		> .ant-timeline-item-content {
+		> .el-timeline-item-content {
 			flex: 1;
 		}
 	}
@@ -48,16 +48,16 @@
 			margin-top: 10px;
 		}
 
-		.ant-timeline-item {
+		.el-timeline-item {
 			min-height: 60px;
 
-			.ant-timeline-item-head-custom {
+			.el-timeline-item-head-custom {
 				padding: 0;
 				width: 0;
 				left: -14px;
 			}
 
-			.ant-timeline-item-head {
+			.el-timeline-item-head {
 				// width: 40px;
 				// height: 40px;
 				// left: -13px;
@@ -70,11 +70,11 @@
 				}
 			}
 
-			.ant-timeline-item-tail {
+			.el-timeline-item-tail {
 				// top: 30px;
 			}
 
-			.ant-avatar {
+			.el-avatar {
 				border: 2px solid #e1e3e4;
 				box-sizing: content-box;
 				border-radius: 50%;
@@ -83,7 +83,7 @@
 			}
 		}
 
-		.ant-avatar {
+		.el-avatar {
 			// border:2px solid gray;
 		}
 
@@ -125,7 +125,7 @@
 			color: #4eaef3;
 		}
 
-		.ant-timeline-item {
+		.el-timeline-item {
 			&:after {
 				content: "";
 				width: 0px;
@@ -134,7 +134,7 @@
 				clear: both;
 			}
 
-			.ant-timeline-item-content {
+			.el-timeline-item-content {
 				background-color: #fafafa;
 				float: left;
 				width: auto;
@@ -167,10 +167,10 @@
 			}
 		}
 
-		.ant-timeline-item-pending {
+		.el-timeline-item-pending {
 			padding: 0px;
 
-			.ant-timeline-item-content {
+			.el-timeline-item-content {
 				padding: 0px;
 				width: auto;
 				margin-top: 16px;

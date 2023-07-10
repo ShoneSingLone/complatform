@@ -194,8 +194,8 @@ export { ElRow as Row };
 <aIcon
 <ElDropdown
 <ElAvatar
-<aMenu
-<aMenuItem
+<ElMenu
+<ElMenuItem
 <ElInput
 <ElSelect
 <ElAlert

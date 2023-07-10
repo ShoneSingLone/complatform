@@ -19,19 +19,14 @@ export const LoginContainer = defineComponent({
 					<div class="m-bg-mask m-bg-mask2" />
 					<div class="m-bg-mask m-bg-mask3" />
 				</div>
-				<div class="main-one login-container">
-					<div class="container">
-						<ElRow type="flex" justify="center">
-							<ElCol xs={20} sm={16} md={12} lg={8} class="container-login">
-								<ElCard class="card-login">
-									<h2 class="login-title">YAPI</h2>
-									<div class="login-logo elevation-12">
-										<xIcon icon="yapi_logo" style={this.styleLogo} />
-									</div>
-									<LoginWrap />
-								</ElCard>
-							</ElCol>
-						</ElRow>
+				<div class="login-register-container">
+					<div class="flex vertical center middle">
+						<div class="middle flex center">
+							<div class="login-logo">
+								<xIcon icon="yapi_logo" class="yapi_logo" />
+							</div>
+						</div>
+						<LoginWrap />
 					</div>
 				</div>
 			</div>

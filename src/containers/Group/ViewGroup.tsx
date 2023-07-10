@@ -86,7 +86,7 @@ export const ViewGroup = defineComponent({
 			if (this.State_App.currGroup.type === "public") {
 				return (
 					/* "成员列表" */
-					<ElTabPane tab={TAB_KEY_MEMBER_LIST} key={TAB_KEY_MEMBER_LIST}>
+					<ElTabPane name={TAB_KEY_MEMBER_LIST} label={TAB_KEY_MEMBER_LIST}>
 						<GroupMemberList />
 					</ElTabPane>
 				);
@@ -105,7 +105,7 @@ export const ViewGroup = defineComponent({
 			if (isGroupRoleAuth || isUserRoleAuth) {
 				return (
 					/* 分组动态 */
-					<ElTabPane tab={TAB_KEY_GROUP_LOG} key={TAB_KEY_GROUP_LOG}>
+					<ElTabPane name={TAB_KEY_GROUP_LOG} label={TAB_KEY_GROUP_LOG}>
 						<GroupLog />
 					</ElTabPane>
 				);
@@ -202,27 +202,23 @@ export const ViewGroup = defineComponent({
 				<aside id="ViewGroup_sider" class={this.classPanel}>
 					<GroupLeftSider />
 				</aside>
-				<section>
+				<section class="flex1">
 					<div
 						data-app-position="Group-layout-content"
 						style={this.styleContent}>
 						<ElTabs
 							id="Group-layout-content-tabs"
-							v-model:activeKey={this.tabActiveKey}
-							type="card"
-							centered
+							v-model={this.tabActiveKey}
+							type="border-card"
 							class="m-tab tabs-large height100">
 							{{
-								leftExtra: () => {
-									return this.vDomEditGroupInfo;
-								},
 								default: () => {
 									return (
 										<>
 											{/* 项目列表 */}
 											<ElTabPane
-												tab={TAB_KEY_PROJECT_LIST}
-												key={TAB_KEY_PROJECT_LIST}>
+												label={TAB_KEY_PROJECT_LIST}
+												name={TAB_KEY_PROJECT_LIST}>
 												<GroupProjectList />
 											</ElTabPane>
 											{this.vDomTabMember}

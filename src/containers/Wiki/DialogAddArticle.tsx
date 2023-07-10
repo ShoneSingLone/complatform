@@ -98,7 +98,7 @@ export const DialogAddArticle = defineComponent({
 						message={this.$t("保存标题后再编辑文档内容").label}
 						type="info"
 						closable
-						className="width100"
+						class="width100"
 					/>
 					<xForm
 						class="flex vertical"

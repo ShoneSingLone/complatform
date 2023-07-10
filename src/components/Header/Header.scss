@@ -3,22 +3,25 @@
 .nav-tooltip {
 	color: red;
 }
+
 .header-menu-icon_background {
 	background: #ffffff6b;
 	border-radius: 6px;
 }
 
-.user-menu.ant-menu.ant-menu-dark .ant-menu-item-selected {
+.user-menu.el-menu.el-menu-dark .el-menu-item-selected {
 	background: #32363a;
 	color: rgba(255, 255, 255, 0.67);
 }
-.user-menu.ant-menu-dark .ant-menu-item-selected > a {
+
+.user-menu.el-menu-dark .el-menu-item-selected > a {
 	color: rgba(255, 255, 255, 0.67);
 }
 
 /* .header-box.css */
 .header-box {
 	padding: 10px 20px;
+
 	.logo {
 		position: relative;
 		float: left;
@@ -29,19 +32,23 @@
 		border-left: 1px solid #55616d;
 		background-color: inherit;
 		transition: all 0.2s;
+
 		&:hover {
 			background-color: #2395f1;
 		}
+
 		.href {
 			text-decoration: none;
 			display: block;
 		}
+
 		.logo-name {
-			color: $color-white;
+			color: var(--color-white);
 			font-size: 0.24rem;
 			font-weight: 300;
 			margin-left: 0.38rem;
 		}
+
 		.img {
 			position: absolute;
 			left: 0;
@@ -49,6 +56,7 @@
 			left: 50%;
 			transform: translate(-16px, -17px);
 		}
+
 		.ui-badge {
 			position: absolute;
 			right: -18px;
@@ -59,6 +67,7 @@
 			background-repeat: no-repeat;
 			background-image: none;
 		}
+
 		// &:before, &:after {
 		//   content: '';
 		//   display: block;
@@ -83,17 +92,21 @@
 		font-size: 0.15rem;
 		float: left;
 	}
+
 	.user-menu {
 		margin-top: 20px;
 	}
+
 	.user-toolbar {
 		float: right;
 		height: 0.54rem;
 		display: flex;
 		align-items: center;
+
 		.item-search {
 			width: 2rem;
 		}
+
 		.toolbar-li {
 			float: left;
 			font-size: 0.14rem;
@@ -101,16 +114,18 @@
 			color: #ccc;
 			margin-left: 0.16rem;
 			transition: color 0.2s;
+
 			& a {
 				color: #ccc;
 			}
+
 			.dropdown-link {
 				color: #ccc;
 				transition: color 0.2s;
-				// .ant-avatar-image{
+				// .el-avatar-image{
 				//   margin-bottom: -10px;
 				// }
-				// .ant-avatar > img{
+				// .el-avatar > img{
 				//   height: auto;
 				// }
 				.avatar-image {
@@ -134,14 +149,17 @@
 					display: bloack;
 				}
 			}
+
 			.anticon.active {
 				color: #2395f1;
 			}
+
 			&:hover {
 				.dropdown-link {
 					color: #2395f1;
 				}
 			}
+
 			.name {
 				margin-left: 0.08rem;
 			}

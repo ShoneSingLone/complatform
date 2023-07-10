@@ -9,6 +9,7 @@ import { Cpt_url } from "./router/router";
 import { Methods_App, State_App } from "./state/State_App";
 import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 import { $ } from "@ventose/ui";
+import { RouterView } from "./components/RouterView/RouterView";
 
 export default defineComponent({
 	components: { AppFooter, AppHeader },
@@ -56,14 +57,14 @@ export default defineComponent({
 	},
 	render() {
 		return (
-			<>
+			<ElConfigProvider size={State_App.globalSize}>
 				<AppHeader data-view-id="AppHeader" />
 				<RouterView
 					guards={this.routerViewGuards}
 					data-view-id="AppRouterView"
 				/>
 				<AppFooter data-view-id="AppFooter" />
-			</>
+			</ElConfigProvider>
 		);
 	}
 });

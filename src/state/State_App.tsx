@@ -9,6 +9,7 @@ const MEMBER_STATUS = 2;
 
 let _State_App = {
 	menu: {},
+	globalSize: "",
 	baseURL: window.location.origin,
 	isFooterFold: false,
 	urlHash: window.location.hash,

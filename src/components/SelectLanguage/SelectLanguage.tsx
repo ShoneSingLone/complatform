@@ -28,13 +28,13 @@ export const SelectLanguage = defineComponent({
 		vDomMenuItems() {
 			return xU.map(this.languageLabels, (locale, prop) => {
 				return (
-					<aMenuItem v-for="in " key={prop}>
+					<ElMenuItem index={prop} v-for="in ">
 						<span role="img" ariaLabel={locale.label}>
 							{" "}
 							{locale.icon}{" "}
 						</span>
 						<span>{locale.label}</span>
-					</aMenuItem>
+					</ElMenuItem>
 				);
 			});
 		}
@@ -47,11 +47,11 @@ export const SelectLanguage = defineComponent({
 				{{
 					overlay() {
 						return (
-							<aMenu
+							<ElMenu
 								selected-keys={vm.State_UI.language}
 								onClick={vm.changeLanguage}>
 								{vm.vDomMenuItems}
-							</aMenu>
+							</ElMenu>
 						);
 					}
 				}}

@@ -869,7 +869,7 @@ ${JSON.stringify(result.header, null, 2)}
 					<Panel
 						header={
 							<div style={{ display: "flex", justifyContent: "space-between" }}>
-								<ElTooltip title="F9 全屏编辑">BODY(F9)</ElTooltip>
+								<ElTooltip content="F9 全屏编辑">BODY(F9)</ElTooltip>
 							</div>
 						}
 						key="3"
@@ -898,7 +898,7 @@ ${JSON.stringify(result.header, null, 2)}
 										}>
 										高级参数设置
 									</ElButton>
-									<ElTooltip title="高级参数设置只在json字段值中生效">
+									<ElTooltip content="高级参数设置只在json字段值中生效">
 										{"  "}
 										<xIcon icon="question-circle-o" />
 									</ElTooltip>
@@ -1026,7 +1026,7 @@ ${JSON.stringify(result.header, null, 2)}
 									message={
 										<span>
 											Warning &nbsp;
-											<ElTooltip title="针对定义为 json schema 的返回数据进行格式校验">
+											<ElTooltip content="针对定义为 json schema 的返回数据进行格式校验">
 												<xIcon icon="question-circle-o" />
 											</ElTooltip>
 										</span>
@@ -1089,7 +1089,7 @@ ${JSON.stringify(result.header, null, 2)}
 						<Tabs.TabPane
 							class="response-test"
 							tab={
-								<ElTooltip title="测试脚本，可断言返回结果，使用方法请查看文档">
+								<ElTooltip content="测试脚本，可断言返回结果，使用方法请查看文档">
 									Test
 								</ElTooltip>
 							}

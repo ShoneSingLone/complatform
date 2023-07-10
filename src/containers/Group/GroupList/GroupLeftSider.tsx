@@ -147,6 +147,7 @@ export const GroupLeftSider = defineComponent({
 
 	async mounted() {
 		await this.initGroupList();
+		await Methods_App.setCurrGroup(this.State_App.currGroup._id);
 	},
 	methods: {
 		async initGroupList() {
@@ -157,7 +158,8 @@ export const GroupLeftSider = defineComponent({
 				console.error(error);
 			}
 		},
-		async selectGroup({ key: groupId }) {
+		async selectGroup(item) {
+			const { index: groupId } = item;
 			await Methods_App.setCurrGroup(groupId);
 			this.Cpt_url.go("/group", { group_id: groupId });
 			await Methods_App.fetchNewsData({ id: groupId, type: "group" });
@@ -197,7 +199,7 @@ export const GroupLeftSider = defineComponent({
 		vDomSearchInput() {
 			return (
 				<div class="group-operate flex center middle">
-					<ElTooltip title="添加分组">
+					<ElTooltip content="添加分组">
 						<xIcon
 							class="btn editSet pointer"
 							icon="addGroup"
@@ -207,7 +209,6 @@ export const GroupLeftSider = defineComponent({
 					</ElTooltip>
 					<div class="search">
 						{/* 搜索框 */}
-						{this.configsSearch.value}
 						<xItem configs={this.configsSearch} />
 					</div>
 				</div>
@@ -216,19 +217,20 @@ export const GroupLeftSider = defineComponent({
 		vDomGroupList() {
 			const vm = this;
 			return (
-				<aMenu
+				<ElMenu
 					class="group-list flex1"
 					mode="inline"
-					v-loading={this.groupListForShow.length === 0}
-					onClick={this.selectGroup}
-					selectedKeys={[`${this.State_App.currGroup._id}`]}>
+					v-loading={this.groupListForShow.length === 0}>
 					{xU.map(this.groupListForShow, group => {
 						let icon = "folderOpen";
 						if (group.type === "private") {
 							icon = "user";
 						}
 						return (
-							<aMenuItem key={`${group._id}`} class="group-item flex">
+							<ElMenuItem
+								index={`${group._id}`}
+								class="group-item flex"
+								onClick={this.selectGroup}>
 								<div class="flex middle">
 									<xIcon icon={icon} style="width:16px;" />
 									<span class="flex1">{group.group_name}</span>
@@ -242,10 +244,10 @@ export const GroupLeftSider = defineComponent({
 										style="width:16px;"
 									/>
 								</div>
-							</aMenuItem>
+							</ElMenuItem>
 						);
 					})}
-				</aMenu>
+				</ElMenu>
 			);
 		}
 	},

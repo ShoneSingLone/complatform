@@ -524,7 +524,7 @@ export const xItem = defineComponent({
 				{/* label */}
 				{this.labelVNode}
 				{/* 控件 */}
-				<div class="x-form-item-control" data-type={itemTypeName}>
+				<div class="x-form-item-control" data-x-item-type={itemTypeName}>
 					<CurrentXItem
 						id={`CurrentXItem_${FormItemId}`}
 						data-current-item-label={properties.label}

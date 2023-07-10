@@ -323,7 +323,7 @@ class UpDateModal extends Component {
 						label={
 							<span>
 								线上域名&nbsp;
-								<ElTooltip title="将根据配置的线上域名访问mock数据">
+								<ElTooltip content="将根据配置的线上域名访问mock数据">
 									<xIcon icon="question-circle-o" />
 								</ElTooltip>
 							</span>
@@ -355,7 +355,7 @@ class UpDateModal extends Component {
 						label={
 							<span>
 								基本路径&nbsp;
-								<ElTooltip title="基本路径为空表示根路径">
+								<ElTooltip content="基本路径为空表示根路径">
 									<xIcon icon="question-circle-o" />
 								</ElTooltip>
 							</span>

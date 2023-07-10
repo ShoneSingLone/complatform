@@ -140,7 +140,7 @@ export const TuiEditor = defineAsyncComponent(
 								this.$rawImgList = imgList;
 								setTimeout(() => {
 									this.destoryListener();
-									this.$previewer = $(".ant-image-preview-body");
+									this.$previewer = $(".el-image-preview-body");
 									this.$previewer.on(
 										"click",
 										"[class^=ant-image-preview-switch-]",
@@ -159,13 +159,11 @@ export const TuiEditor = defineAsyncComponent(
 								this.$rawImgIndex = (this.$rawImgIndex - 1 + length) % length;
 							}
 							const imgSrc = $(this.$rawImgList[this.$rawImgIndex]).attr("src");
-							$(".ant-image-preview-img").attr("src", imgSrc);
+							$(".el-image-preview-img").attr("src", imgSrc);
 						},
 						handleClick(event: { target: any }) {
 							const { target } = event;
-							const $ele = $(target).parents(
-								".ant-image[data-ant-image-index]"
-							);
+							const $ele = $(target).parents(".el-image[data-ant-image-index]");
 							if ($ele && $ele.length) {
 								this.showImg(Number($ele.attr("data-ant-image-index")));
 							}

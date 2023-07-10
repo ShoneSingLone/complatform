@@ -106,11 +106,9 @@ export default defineComponent({
 	render() {
 		const { dataSource } = this.state;
 
-
 		return null;
 
 		return (
-			
 			<div class="search-wrapper">
 				<ElAutoComplete
 					class="search-dropdown"

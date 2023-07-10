@@ -39,7 +39,7 @@ export default class CaseEnv extends React.Component {
 						<span>
 							{" "}
 							选择测试用例环境
-							<ElTooltip title="默认使用测试用例选择的环境">
+							<ElTooltip content="默认使用测试用例选择的环境">
 								{" "}
 								<xIcon icon="question-circle-o" />{" "}
 							</ElTooltip>
@@ -58,7 +58,7 @@ export default class CaseEnv extends React.Component {
 											align="middle"
 											class="env-item">
 											<ElCol span={6} class="label">
-												<ElTooltip title={item.name}>
+												<ElTooltip content={item.name}>
 													<span class="label-name">{item.name}</span>
 												</ElTooltip>
 											</ElCol>

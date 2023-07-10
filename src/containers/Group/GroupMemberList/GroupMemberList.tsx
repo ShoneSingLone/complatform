@@ -88,7 +88,7 @@ export const GroupMemberList = defineComponent({
 							return (
 								<div class="btn-container">
 									<ElButton
-										className="btn"
+										class="btn"
 										type="primary"
 										onClick={vm.showAddMemberDialog}>
 										添加成员

@@ -119,7 +119,9 @@ export const HeaderParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
-						renderEditor: ({ record }) => <ElInput v-model:value={record.desc} />
+						renderEditor: ({ record }) => (
+							<ElInput v-model:value={record.desc} />
+						)
 					}),
 					...defCol({
 						label: vm.$t("操作").label,

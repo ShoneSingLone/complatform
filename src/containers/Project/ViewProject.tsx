@@ -52,7 +52,7 @@ export const ViewProject = defineComponent({
 
 		return (
 			<div id="ViewProject">
-				<aMenu
+				<ElMenu
 					onClick={this.switchProjectSubOption}
 					selectedKeys={[this.currentViewKey]}
 					mode="horizontal"
@@ -63,12 +63,12 @@ export const ViewProject = defineComponent({
 							item.label = item.label[0] + " " + item.label[1];
 						}
 						return (
-							<aMenuItem class="item" key={item.path}>
+							<ElMenuItem class="item" key={item.path}>
 								{item.label}
-							</aMenuItem>
+							</ElMenuItem>
 						);
 					})}
-				</aMenu>
+				</ElMenu>
 				<RouterView />
 			</div>
 		);

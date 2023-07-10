@@ -225,3 +225,11 @@ export const docHref = {
 	adv_mock_script:
 		"https://hellosean1025.github.io/yapi/documents/adv_mock.html"
 };
+
+export const stylesLoginFormIcon = {
+	icon: {
+		color: "rgba(0, 0, 0, 0.25)",
+		width: "16px",
+		height: "16px"
+	}
+};

@@ -13,7 +13,7 @@ class Subnav extends Component {
 	render() {
 		return (
 			<div class="m-subnav">
-				<aMenu
+				<ElMenu
 					onClick={this.handleClick}
 					selectedKeys={[this.props.default]}
 					mode="horizontal"
@@ -24,12 +24,12 @@ class Subnav extends Component {
 							item.name = item.name[0] + " " + item.name[1];
 						}
 						return (
-							<aMenuItem class="item" key={item.name.replace(" ", "")}>
+							<ElMenuItem class="item" key={item.name.replace(" ", "")}>
 								<a to={item.path}>{this.props.data[index].name}</a>
-							</aMenuItem>
+							</ElMenuItem>
 						);
 					})}
-				</aMenu>
+				</ElMenu>
 			</div>
 		);
 	}

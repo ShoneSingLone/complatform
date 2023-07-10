@@ -717,7 +717,8 @@ class ClassLayer {
 		const fnValid = i => !!i;
 
 		const layerWrapperClassname = [
-			"flex vertical elevation-2",
+			"el-card is-always-shadow",
+			"flex vertical",
 			`layui-layer-${typeName}`,
 			LAYUI_LAYER,
 			config.skin,
@@ -757,7 +758,7 @@ class ClassLayer {
 		data-during-time="${config.during}"
 		data-content-type="${isContentTypeObject ? "object" : "string"}"
 		style="position:fixed;
-			z-index:${zIndex};
+			z-index:calc(var(--el-index-normal) + ${zIndex});
 			width:${width}; 
 			height:${height};"
 		>
@@ -850,7 +851,7 @@ class ClassLayer {
 		scrolling="${scrolling}" 
 		src="${src}"
 		allowtransparency="true"
-		onload="this.className=''" 
+		onload="this.class=''" 
 		style="height:100%;" 
 		frameborder="0">
 </iframe>`;

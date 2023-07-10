@@ -22,7 +22,7 @@
 
 	.interface-test {
 		padding: 0.24rem;
-		.ant-checkbox-wrapper {
+		.el-checkbox-wrapper {
 			display: flex;
 		}
 	}
@@ -45,7 +45,7 @@
 	.response-tab {
 		margin-top: 20px;
 		margin-bottom: 20px;
-		.ant-tabs-nav {
+		.el-tabs-nav {
 			background: #f7f7f7;
 			border-radius: 0 0 4px 4px;
 			border: 1px solid #d9d9d9;
@@ -72,7 +72,7 @@
 		}
 	}
 
-	.ant-spin-blur {
+	.el-spin-blur {
 		.res-code.success {
 			background-color: transparent;
 		}
@@ -181,7 +181,7 @@
 }
 
 .env-modal {
-	.ant-modal-body {
+	.el-modal-body {
 		padding: 0;
 	}
 }

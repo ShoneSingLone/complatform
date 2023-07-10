@@ -45,7 +45,7 @@ export const DialogShowApiModify = defineComponent({
 						message={this.$t("注： 绿色代表新增内容，红色代表删除内容").label}
 						type="info"
 						closable
-						className="width100"
+						class="width100"
 					/>
 				</div>
 				<div class="project-interface-change-content flex1 padding20">

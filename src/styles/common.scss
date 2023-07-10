@@ -108,7 +108,7 @@ em {
 }
 
 .m-tab {
-	.ant-tabs-nav-wrap {
+	.el-tabs-nav-wrap {
 		background-color: #eceef1;
 	}
 }
@@ -128,12 +128,12 @@ em {
 	padding: 0.24rem;
 }
 
-.ant-dropdown .user-menu {
+.el-dropdown .user-menu {
 	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
 }
 
 // confirm 框内边距过大
-.ant-confirm .ant-modal-body {
+.el-confirm .el-modal-body {
 	padding: 0.24rem !important;
 }
 
@@ -188,29 +188,29 @@ em {
 	}
 }
 
-.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+.el-tabs.el-tabs-card > .el-tabs-bar .el-tabs-tab {
 	border: none;
 }
 
-.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
+.el-tabs.el-tabs-card > .el-tabs-bar .el-tabs-tab-active {
 	border: none;
 }
 
-.ant-tabs.ant-tabs-card > .ant-tabs-content {
+.el-tabs.el-tabs-card > .el-tabs-content {
 	margin-top: -1px;
 }
 
-.tabs-large .ant-tabs-nav-container {
+.tabs-large .el-tabs-nav-container {
 	font-size: 16px;
 }
 
-.ant-tree li .ant-tree-node-content-wrapper {
+.el-tree li .el-tree-node-content-wrapper {
 	padding: 3px 5px;
 	height: unset;
 	// line-height: 25px;
 }
 
-.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
+.el-tree li .el-tree-node-content-wrapper.el-tree-node-selected {
 	background-color: #d5ebfc;
 }
 
@@ -222,7 +222,7 @@ em {
 .popover-index {
 	max-width: 3.2rem;
 
-	.ant-popover-title {
+	.el-popover-title {
 		height: auto;
 	}
 

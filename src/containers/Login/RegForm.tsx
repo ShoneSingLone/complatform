@@ -13,6 +13,9 @@ import {
 } from "@ventose/ui";
 import { API } from "@/api";
 import { Cpt_url } from "@/router/router";
+import { stylesLoginFormIcon } from "@/utils/variable";
+import { types } from "sass";
+import Error = types.Error;
 
 const formItemStyle = {
 	marginBottom: ".16rem"
@@ -20,14 +23,6 @@ const formItemStyle = {
 
 const changeHeight = {
 	height: ".42rem"
-};
-
-const styles = {
-	icon: {
-		color: "rgba(0, 0, 0, 0.25)",
-		width: "16px",
-		height: "16px"
-	}
 };
 
 export default defineComponent({
@@ -65,7 +60,9 @@ export default defineComponent({
 						)
 					],
 					slots: {
-						prefix: () => <xIcon icon="UserOutlined" style={styles.icon} />
+						prefix: () => (
+							<xIcon icon="UserOutlined" style={stylesLoginFormIcon.icon} />
+						)
 					}
 				}),
 				...defItem({
@@ -82,7 +79,9 @@ export default defineComponent({
 						FormRules.email()
 					],
 					slots: {
-						prefix: () => <MailOutlined style={styles.icon} />
+						prefix: () => (
+							<xIcon icon="MailOutlined" style={stylesLoginFormIcon.icon} />
+						)
 					}
 				}),
 				...defItem({
@@ -102,7 +101,9 @@ export default defineComponent({
 						console.log(thisConfigs.itemTips);
 					},
 					slots: {
-						prefix: () => <xIcon icon="LockOutlined" style={styles.icon} />
+						prefix: () => (
+							<xIcon icon="LockOutlined" style={stylesLoginFormIcon.icon} />
+						)
 					}
 				}),
 				...defItem({
@@ -126,7 +127,9 @@ export default defineComponent({
 						})
 					],
 					slots: {
-						prefix: () => <LockOutlined style={styles.icon} />
+						prefix: () => (
+							<xIcon icon="LockOutlined" style={stylesLoginFormIcon.icon} />
+						)
 					}
 				})
 			},
@@ -177,6 +180,7 @@ export default defineComponent({
 						configs={configsForm.confirm}
 						autocomplete="current-password"
 					/>
+					<xGap t="20" />
 					<div class="item-wrapper">
 						<xButton configs={configsSubmit} />
 					</div>

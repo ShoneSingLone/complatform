@@ -84,7 +84,7 @@ export const InfoCard = defineComponent({
 				)
 				.join(";");
 
-			const styleContent = `#${this.id} .ant-descriptions-item-label {${styleString}}`;
+			const styleContent = `#${this.id} .el-descriptions-item-label {${styleString}}`;
 			if (!this.$styleEle) {
 				const $form = $(`#${this.id}`);
 				const $style = $("<style/>", { id: `style_${this.id}` });

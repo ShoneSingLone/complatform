@@ -193,7 +193,7 @@ class MethodsList extends Component {
 								"row methods-row " + (item.name === clickValue ? "checked" : "")
 							}
 							onClick={() => click(item.name, showList[index].params)}>
-							<ElTooltip title={item.desc}>
+							<ElTooltip content={item.desc}>
 								<span>{item.name}</span>
 							</ElTooltip>
 							<span class="input-component">

@@ -17,7 +17,7 @@
 	}
 
 	// 覆盖 card 组件 hover 状态的默认阴影样式
-	.ant-card:not(.ant-card-no-hovering):hover {
+	.el-card:not(.el-card-no-hovering):hover {
 		box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 	}
 
@@ -60,13 +60,13 @@
 	position: relative;
 	border-radius: 16px;
 
-	&.ant-card-hoverable {
+	&.el-card-hoverable {
 		&:hover {
 			cursor: unset;
 		}
 	}
 
-	.ant-card-body {
+	.el-card-body {
 		background-color: transparent;
 		padding-top: 0.24rem + 0.16rem + 1rem;
 		box-shadow: 0 4px 6px rgba(255, 255, 255, 0.11),
@@ -123,7 +123,7 @@
 			transform: translate(-50%, 0.08rem);
 		}
 
-		.ant-card-body {
+		.el-card-body {
 			padding-top: 0.08rem + 0.08rem + 0.6rem;
 			padding-bottom: 0.08rem;
 		}
@@ -140,7 +140,7 @@
 			transform: translate(-50%, 0.16rem);
 		}
 
-		.ant-card-body {
+		.el-card-body {
 			padding-top: 0.16rem + 0.16rem + 0.8rem;
 			padding-bottom: 0.16rem;
 		}

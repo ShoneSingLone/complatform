@@ -132,7 +132,7 @@ export const DialogAddInterface = defineComponent({
 						message={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
 						type="info"
 						closable
-						className="width100"
+						class="width100"
 					/>
 					<xForm
 						class="flex vertical"

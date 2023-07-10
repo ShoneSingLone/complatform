@@ -11,6 +11,7 @@
 			:configs="configsForm.password"
 			autocomplete="current-password"
 			@keypress.enter="login" />
+		<xGap t="20" />
 		<div class="item-wrapper">
 			<xButton :configs="configsSubmit" />
 		</div>
@@ -35,6 +36,7 @@ import {
 import { API } from "@/api";
 import { Cpt_url } from "../../router/router";
 import { Methods_App } from "../../state/State_App";
+import { stylesLoginFormIcon } from "@/utils/variable";
 
 const { $t } = State_UI;
 
@@ -77,22 +79,31 @@ export default defineComponent({
 							[EVENT_TYPE.blur]
 						),
 						FormRules.email()
-					]
+					],
+					slots: {
+						prefix: () => (
+							<xIcon icon="UserOutlined" style={stylesLoginFormIcon.icon} />
+						)
+					}
 				}),
 				...defItem({
 					value: lStorage.password || "",
 					prop: "password",
-					isPassword: true,
+					type: "password",
 					size: "large",
 					/* render的时候重新获取 */
 					placeholder: () => $t("密码").label,
 					onAfterValueEmit(val) {
 						lStorage.password = val;
 					},
-
 					rules: [
 						FormRules.required(() => $t("请输入密码").label, [EVENT_TYPE.blur])
-					]
+					],
+					slots: {
+						prefix: () => (
+							<xIcon icon="LockOutlined" style={stylesLoginFormIcon.icon} />
+						)
+					}
 				})
 			},
 			configsSubmit: {

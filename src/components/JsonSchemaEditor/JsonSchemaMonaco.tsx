@@ -482,7 +482,7 @@ export const JsonSchemaMonaco = defineComponent({
 								<xGap f="1" />
 								<span v-uiPopover={vm.helpTips} class="flex middle pointer">
 									<xIcon icon="question" />
-									<span className="ml10">{vm.$t("说明").label}</span>
+									<span class="ml10">{vm.$t("说明").label}</span>
 								</span>
 							</div>
 							<ElTree

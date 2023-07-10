@@ -87,7 +87,7 @@ export const QueryParamsForm = defineComponent({
 				customClass: tableId =>
 					[
 						`#${tableId} .input-width100{width:100%;}`,
-						`#${tableId} div[role=td] .ant-tag{margin:auto;}`,
+						`#${tableId} div[role=td] .el-tag{margin:auto;}`,
 						`#${tableId} div[role=tr] div[role=th][data-prop=operations]{justify-content:center;}`,
 						`#${tableId} div[role=tr] div[role=td][data-prop=operations]{justify-content:center;color:red;}`
 					].join("\n"),
@@ -95,7 +95,9 @@ export const QueryParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("名称").label,
 						prop: "name",
-						renderEditor: ({ record }) => <ElInput v-model:value={record.name} />
+						renderEditor: ({ record }) => (
+							<ElInput v-model:value={record.name} />
+						)
 					}),
 					...defCol({
 						label: vm.$t("必需").label,
@@ -120,7 +122,9 @@ export const QueryParamsForm = defineComponent({
 					...defCol({
 						label: vm.$t("备注").label,
 						prop: "desc",
-						renderEditor: ({ record }) => <ElInput v-model:value={record.desc} />
+						renderEditor: ({ record }) => (
+							<ElInput v-model:value={record.desc} />
+						)
 					}),
 					...defCol({
 						label: vm.$t("操作").label,

@@ -8,7 +8,7 @@ export const SubformArray = defineComponent({
 		return (
 			<>
 				<xGap t="10" />
-				<div className="flex middle">
+				<div class="flex middle">
 					<xItem
 						configs={vm.configs.minItems}
 						v-model={vm.data.minItems}

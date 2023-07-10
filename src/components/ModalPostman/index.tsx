@@ -236,7 +236,7 @@ class ModalPostman extends Component {
 				visible={visible}
 				onOk={() => this.handleOk(outputParams())}
 				onCancel={this.handleCancel}
-				wrapClassName="modal-postman"
+				wrapclass="modal-postman"
 				width={1024}
 				maskClosable={false}
 				okText="插入">

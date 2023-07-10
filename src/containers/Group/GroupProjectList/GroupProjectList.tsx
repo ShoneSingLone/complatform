@@ -42,7 +42,7 @@ export const GroupProjectList = defineComponent({
 				);
 			} else {
 				return (
-					<ElTooltip title="您没有权限,请联系该分组组长或管理员">
+					<ElTooltip content="您没有权限,请联系该分组组长或管理员">
 						<ElButton type="primary" disabled>
 							添加项目
 						</ElButton>

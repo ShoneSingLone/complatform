@@ -125,52 +125,6 @@ $color-bg-lightblue: #c6e2ff;
 	background-color: #fff;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
-	.main-one {
-		height: 600px;
-		.home-des {
-			padding: 1rem 0 0;
-			color: #fff;
-			.title {
-				font-size: 0.6rem;
-			}
-			.detail {
-				font-size: 0.2rem;
-			}
-			.logo {
-				display: flex;
-				align-items: center;
-				padding: 0 0.24rem;
-			}
-			.svg {
-				animation: spin 5s linear infinite;
-			}
-			.name {
-				vertical-align: middle;
-				font-size: 0.48rem;
-				margin-left: 0.24rem;
-				font-weight: 200;
-			}
-			.detail {
-				padding: 0.24rem;
-				font-size: 0.24rem;
-				font-weight: 200;
-			}
-			.desc {
-				font-size: 0.18rem;
-			}
-		}
-		.login-form {
-			color: $color-white;
-		}
-		.main-one-left {
-			padding-right: 0.15rem;
-			margin-top: 0.2rem;
-		}
-		.main-one-right {
-			padding-left: 0.5rem;
-			padding-top: 0.3rem;
-		}
-	}
 	.user-home {
 		display: flex;
 		align-items: center;
@@ -204,12 +158,12 @@ $color-bg-lightblue: #c6e2ff;
 			background-color: $color-blue-lighter;
 		}
 		&:nth-child(even) {
-			background-color: $color-white;
+			background-color: var(--color-white);
 		}
 	}
 	.feat-part {
 		padding: 1.5rem 0;
-		background-color: $color-white;
+		background-color: var(--color-white);
 	}
 	.section-feature {
 		min-height: 6rem;
@@ -231,7 +185,7 @@ $color-bg-lightblue: #c6e2ff;
 			width: 1.2rem;
 			border-radius: 100%;
 			margin-bottom: 0.2rem;
-			color: $color-white;
+			color: var(--color-white);
 			i {
 				line-height: 1.2rem;
 				font-size: 0.6rem;
@@ -356,27 +310,27 @@ $color-bg-lightblue: #c6e2ff;
 	}
 	.section-card {
 		padding-bottom: 1rem;
-		.ant-card {
+		.el-card {
 			font-size: 0.17rem;
 			border-radius: 0.04rem;
 			box-shadow: 0 16px 35px rgba(50, 50, 93, 0.1),
 				0 5px 16px rgba(0, 0, 0, 0.07);
 			border: none;
 		}
-		.ant-card:not(.ant-card-no-hovering):hover {
+		.el-card:not(.el-card-no-hovering):hover {
 			box-shadow: 0 16px 35px rgba(50, 50, 93, 0.1),
 				0 5px 16px rgba(0, 0, 0, 0.07);
 		}
-		.ant-card-head {
+		.el-card-head {
 			background-color: $color-blue-grey-lighter;
 			border-top-left-radius: 0.04rem;
 			border-top-right-radius: 0.04rem;
 		}
-		.ant-card-head-title {
+		.el-card-head-title {
 			font-size: 0.17rem;
 			color: $color-text-dark;
 		}
-		.ant-card-body {
+		.el-card-body {
 			text-align: left;
 			padding: 0;
 		}
@@ -422,10 +376,10 @@ $color-bg-lightblue: #c6e2ff;
 		}
 	}
 	.mock-after {
-		.ant-card-head {
+		.el-card-head {
 			background-color: $color-bg-lightblue;
 		}
-		.ant-card-head-title {
+		.el-card-head-title {
 			color: #4074af;
 		}
 	}
@@ -434,10 +388,10 @@ $color-bg-lightblue: #c6e2ff;
 .section-manage {
 	.section-card {
 		padding-top: 0.24rem;
-		.ant-card {
+		.el-card {
 			border-radius: 0.04rem;
 		}
-		.ant-card-body {
+		.el-card-body {
 			padding: 0;
 		}
 	}
@@ -460,7 +414,7 @@ $color-bg-lightblue: #c6e2ff;
 		border-bottom-left-radius: 0.04rem;
 		border-bottom-right-radius: 0.04rem;
 	}
-	.ant-card-body,
+	.el-card-body,
 	h4 {
 		color: #fff;
 	}
@@ -516,6 +470,46 @@ $color-bg-lightblue: #c6e2ff;
 		padding-left: 0.24rem;
 		color: #6d7c90;
 		font-size: 0.16rem;
+	}
+}
+
+.home-des {
+	padding: 1rem 0 0;
+	color: #fff;
+
+	.title {
+		font-size: 0.6rem;
+	}
+
+	.detail {
+		font-size: 0.2rem;
+	}
+
+	.logo {
+		display: flex;
+		align-items: center;
+		padding: 0 0.24rem;
+	}
+
+	.svg {
+		animation: spin 5s linear infinite;
+	}
+
+	.name {
+		vertical-align: middle;
+		font-size: 0.48rem;
+		margin-left: 0.24rem;
+		font-weight: 200;
+	}
+
+	.detail {
+		padding: 0.24rem;
+		font-size: 0.24rem;
+		font-weight: 200;
+	}
+
+	.desc {
+		font-size: 0.18rem;
 	}
 }
 

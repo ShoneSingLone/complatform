@@ -46,7 +46,7 @@ $color-white: #fff;
 					border-radius: 0.02rem;
 					background-color: $color-blue;
 					margin-right: 0.1rem;
-					color: $color-white;
+					color: var(--color-white);
 					display: flex;
 					align-items: center;
 					justify-content: center;
