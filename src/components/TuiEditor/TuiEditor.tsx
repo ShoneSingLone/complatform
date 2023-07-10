@@ -1,7 +1,8 @@
 //@ts-nocheck
 import { $, xU } from "@ventose/ui";
 import { defineAsyncComponent, defineComponent } from "vue";
-import { asyncGetTuiEditor } from "./LoadTuiEditorLibs";
+// import { asyncGetTuiEditor } from "./LoadTuiEditorLibs";
+import { TuiEditor as TuiEditorLib } from "./tuiEditorLibs";
 
 import {
 	leftArrow,
@@ -9,12 +10,12 @@ import {
 	PreprocessHTML,
 	MkitTheme
 } from "@/components/Mkit/MkitTheme";
-import "./TuiEditor.less";
 
 export const TuiEditor = defineAsyncComponent(
 	() =>
 		new Promise(async resolve => {
-			const TuiEditor = await asyncGetTuiEditor();
+			const TuiEditor = TuiEditorLib;
+			// const TuiEditor = await asyncGetTuiEditor();
 			resolve(
 				defineComponent({
 					props: ["modelValue", "isReadonly"],
@@ -203,6 +204,7 @@ export const TuiEditor = defineAsyncComponent(
 													vm.emitModelValueDebounce();
 											},
 											addImageBlobHook: (blob, callback) => {
+												debugger;
 												vm.setLoading(true);
 												var reader = new FileReader();
 												reader.onload = function (_a) {

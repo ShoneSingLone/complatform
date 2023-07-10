@@ -68,7 +68,7 @@ const appOptions = {
 			src: path.resolve(__dirname, "./src"),
 			"@": path.resolve(__dirname, "./src"),
 			/* 开发的时候用，不用每次修改之后都发布到npm */
-			// "@ventose/ui": path.resolve(__dirname, "./src/devui"),
+			"elementUI": path.resolve(__dirname, "./src/element"),
 			vue: "vue/dist/vue.esm-bundler.js"
 		}
 	}
@@ -83,7 +83,7 @@ if (isBuildLibTui) {
 			formats: ["iife"],
 			entry: path.resolve(
 				__dirname,
-				"@/components/TuiEditor/tuiEditorLibs.ts"
+				"src/components/TuiEditor/tuiEditorLibs.ts"
 			),
 			name: "TuiEditor",
 			fileName: () => `tui.js`

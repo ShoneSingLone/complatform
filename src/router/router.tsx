@@ -174,6 +174,7 @@ export const ProjectChildren = routes.filter(route => {
 type type_url = {
 	go: (path: string, query?: object) => null;
 	refresh: (query: object) => null;
+	query: () => object;
 };
 
 export const Cpt_url: ComputedRef<type_url> = computed(() => {
@@ -232,7 +233,7 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
  * @param urlLike
  * @param query
  */
-function transToUrl(urlLike: string, query: any) {
+export function transToUrl(urlLike: string, query: any) {
 	const _url = new URL(String(urlLike).replace("#", ""), location.origin);
 	_url.search = new URLSearchParams(query).toString();
 	const { pathname, search } = _url;
@@ -240,6 +241,13 @@ function transToUrl(urlLike: string, query: any) {
 		href: `${pathname}${search}`,
 		url: _url
 	};
+}
+
+export function aHashLink(urlLike: string, query: any = {}) {
+	const { url } = transToUrl(urlLike, query);
+	const targetUrl = new URL(location.href, location.origin);
+	targetUrl.hash = url.href.replace(url.origin, "");
+	return targetUrl.href;
 }
 
 async function setLocationHash(href: string, url: URL) {
@@ -280,3 +288,7 @@ function onlyModifyQuery(_query) {
 	const { href, url } = transToUrl(location.hash, _query);
 	setLocationHash(href, url);
 }
+
+export const cpt_isPersonalWikiView = computed(() => {
+	return !!Cpt_url.value.query.user_id;
+});

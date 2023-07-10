@@ -19,4 +19,7 @@
 	--color-antd-purple: #7265e6;
 	--color-selected: #1890ff;
 	--color-selected-bg: #e6f7ff;
+	--font-familly: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+			Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji",
+			"Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
 }

@@ -5,7 +5,7 @@ import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import { defineComponent, VNode } from "vue";
 import { UI, xU } from "@ventose/ui";
 import { Cpt_avatarUrl, Methods_App, State_App } from "@/state/State_App";
-import { Cpt_url } from "@/router/router";
+import { Cpt_url, aHashLink } from "@/router/router";
 import { API } from "@/api";
 
 export const AppHeader = defineComponent({
@@ -33,9 +33,6 @@ export const AppHeader = defineComponent({
 			this.Cpt_url.go("/group", {
 				group_id: this.Cpt_url.query.group_id
 			});
-		},
-		goToWIKI() {
-			this.Cpt_url.go("/wiki", {});
 		},
 		goToI18nManger() {
 			this.Cpt_url.go("/i18n", {});
@@ -98,10 +95,14 @@ export const AppHeader = defineComponent({
 						class="flex middle pointer ml10 header-menu-icon_background">
 						<xIcon icon="icon_i18n" style={this.styleLogo} />
 					</span>
-					<span
-						onClick={this.goToWIKI}
-						class="flex middle pointer ml10 header-menu-icon_background">
-						<xIcon icon="wikidoc" style={this.styleLogo} />
+					<span class="flex middle pointer ml10 header-menu-icon_background">
+						<a
+							class="flex middle"
+							href={aHashLink("/wiki", {})}
+							style={this.styleLogo}
+							target="_black">
+							<xIcon icon="wikidoc" style={this.styleLogo} />
+						</a>
 					</span>
 					<div class="toolbar-li item-search">
 						<Srch groupList={groupList} />
@@ -140,21 +141,20 @@ export const AppHeader = defineComponent({
 					{xU.map(
 						{
 							user: {
-								path: `/user_profile`,
+								path: aHashLink(`/user_profile`),
 								name: "个人中心",
 								icon: "user",
 								adminFlag: false
 							},
 							user_doc: {
-								goTo() {
-									Cpt_url.value.go("/wiki", { user_id: State_App.user._id });
-								},
+								path: aHashLink("/wiki", { user_id: State_App.user._id }),
+								target: "_blank",
 								name: "个人文档",
 								icon: "wikidoc",
 								adminFlag: false
 							},
 							solution: {
-								path: "/user/list",
+								path: aHashLink("/user/list"),
 								name: "用户管理",
 								icon: "solution",
 								adminFlag: true
@@ -166,6 +166,7 @@ export const AppHeader = defineComponent({
 						},
 						(item, key) => {
 							const isAdmin = role === "admin";
+
 							if (item.adminFlag && !isAdmin) {
 								return null;
 							}
@@ -179,18 +180,13 @@ export const AppHeader = defineComponent({
 
 							let menuLink = (
 								<a
-									to={item.path || ""}
+									href={item.path || ""}
 									class="flex horizon"
-									onClick={event => {
-										if (item.goTo) {
-											event.preventDefault();
-											event.stopPropagation();
-											item.goTo();
-										}
-									}}>
+									target={item.target || ""}>
 									{menuContent}
 								</a>
 							);
+
 							if (key === "logout") {
 							}
 

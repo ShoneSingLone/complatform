@@ -3,7 +3,7 @@ import { $, xU, UI, compositionAPI, State_UI, $t } from "@ventose/ui";
 import { API } from "@/api/index";
 import { ARTICLE, FOLDER } from "@/utils/variable";
 import { DialogAddArticle } from "./DialogAddArticle";
-import { Cpt_url } from "@/router/router";
+import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
 import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { State_App } from "@/state/State_App";
@@ -24,6 +24,7 @@ export const WikiLeftSider = defineComponent({
 			State_Wiki,
 			State_App,
 			Cpt_url,
+			cpt_isPersonalWikiView,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
@@ -97,6 +98,8 @@ export const WikiLeftSider = defineComponent({
 					class="elevation-2 height100 padding10"
 					style="border-radius: 8px;">
 					<div class="flex mb10">
+						<aInput />
+						<xGap l="10" />
 						<xButton configs={vm.btnAddNew} />
 						<xGap l="10" />
 						<xButton configs={vm.btnRefresh} />
