@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import { Select } from "ant-design-vue";
 import { xU } from "@ventose/ui";
 
 const Option = Select.Option;

@@ -9,7 +9,6 @@ import {
 } from "@/containers/Project/Interface/State_ProjectInterface";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
-import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "@/utils/common";
 import { State_App } from "@/state/State_App";
 const { usefnObserveDomResize } = compositionAPI;
@@ -233,7 +232,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		}
 	},
 	methods: {
-		async handleDropInterface(e: AntTreeNodeDropEvent) {
+		async handleDropInterface(e) {
 			this.State_Project.isLoading = true;
 			/*
 			1.drag interface

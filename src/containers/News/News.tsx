@@ -3,7 +3,7 @@ import "./News.scss";
 import NewsTimeline from "./NewsTimeline/NewsTimeline";
 
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import { Button } from "ant-design-vue";
+
 import { getMockUrl } from "../../reducer/modules/news.js";
 import Subnav from "../../components/Subnav/Subnav.js";
 

@@ -1,4 +1,3 @@
-import { Form, Button, Input, Icon, message } from "ant-design-vue";
 import { regActions } from "../../reducer/modules/user";
 
 const FormItem = Form.Item;

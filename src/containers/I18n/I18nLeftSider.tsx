@@ -3,7 +3,6 @@ import { $, xU, UI, compositionAPI, $t } from "@ventose/ui";
 import { API } from "@/api/index";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
 import { Cpt_url } from "@/router/router";
-import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { State_App } from "@/state/State_App";
 import { stateI18n } from "./State_i18n";
@@ -169,7 +168,7 @@ export const I18nLeftSider = defineComponent({
 		}
 	},
 	methods: {
-		async handleDropArticle(e: AntTreeNodeDropEvent) {
+		async handleDropArticle(e: any) {
 			stateI18n.isLoading = true;
 			/*
 			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。

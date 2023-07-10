@@ -10,7 +10,7 @@ import {
 	components
 } from "@ventose/ui";
 import { Methods_App, State_App } from "@/state/State_App";
-import { Alert } from "ant-design-vue";
+
 import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
 

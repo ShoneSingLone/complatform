@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import { Tree } from "ant-design-vue";
-
 import { fetchVariableParamsList } from "../../reducer/modules/interfaceCol.js";
 
 const TreeNode = Tree.TreeNode;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table } from "ant-design-vue";
+
 import json5 from "json5";
 
 import { schemaTransformToTable } from "../../../common/schema-transformTo-table.js";

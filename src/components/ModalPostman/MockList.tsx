@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import { Input } from "ant-design-vue";
 import { MOCK_SOURCE } from "../../utils/variable";
 
 const Search = Input.Search;

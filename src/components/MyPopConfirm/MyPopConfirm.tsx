@@ -1,5 +1,3 @@
-import { Modal, Button } from "ant-design-vue";
-
 // 嵌入到 BrowserRouter 内部，覆盖掉默认的 window.confirm
 // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
 class MyPopConfirm extends Component {

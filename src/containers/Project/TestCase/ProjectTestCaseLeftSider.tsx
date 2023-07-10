@@ -5,7 +5,6 @@ import { API } from "@/api/index";
 import { ALL } from "@/utils/variable";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "../../../router/router";
-import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex } from "@/utils/common";
 import { State_App } from "@/state/State_App";
 import {
@@ -259,7 +258,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		}
 	},
 	methods: {
-		async handleDropInterface(e: AntTreeNodeDropEvent) {
+		async handleDropInterface(e: any) {
 			this.State_ProjectTestcase.isLoading = true;
 			/*
 			1.drag testcase

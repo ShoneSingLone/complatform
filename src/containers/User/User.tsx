@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 import List from "./List.js";
 
 import Profile from "./Profile.js";
-import { Row } from "ant-design-vue";
+
 @connect(state => {
 	return {
 		curUid: state.user.uid,
