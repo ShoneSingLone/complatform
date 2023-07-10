@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 
 import "./index.scss";
-import {Alert, Collapse} from "ant-design-vue";
 import MockList from "./MockList.js";
 import MethodsList from "./MethodsList.js";
 import VariablesSelect from "./VariablesSelect.js";
@@ -244,7 +243,7 @@ class ModalPostman extends Component {
 				<aRow class="modal-postman-form" type="flex">
 					{methodsParamsList.map((item, index) => {
 						return item.type === "dataSource" ? (
-							<aCol span={8} class="modal-postman-col" key={index}>
+							<ElCol span={8} class="modal-postman-col" key={index}>
 								<aCollapse
 									class="modal-postman-collapse"
 									activeKey={this.state.activeKey}
@@ -287,36 +286,36 @@ class ModalPostman extends Component {
 										</Panel>
 									)}
 								</aCollapse>
-							</aCol>
+							</ElCol>
 						) : (
-							<aCol span={8} class="modal-postman-col" key={index}>
+							<ElCol span={8} class="modal-postman-col" key={index}>
 								<this.MethodsListSource
 									index={index}
 									value={item.name}
 									params={item.params}
 								/>
-							</aCol>
+							</ElCol>
 						);
 					})}
 				</aRow>
 				<aRow class="modal-postman-expression">
-					<aCol span={6}>
+					<ElCol span={6}>
 						<h3 class="title">表达式</h3>
-					</aCol>
-					<aCol span={18}>
+					</ElCol>
+					<ElCol span={18}>
 						<span class="expression-item">{outputParams()}</span>
-					</aCol>
+					</ElCol>
 				</aRow>
 				<aRow class="modal-postman-preview">
-					<aCol span={6}>
+					<ElCol span={6}>
 						<h3 class="title">预览</h3>
-					</aCol>
-					<aCol span={18}>
+					</ElCol>
+					<ElCol span={18}>
 						<h3>
 							{this.handleValue(outputParams()) ||
 								(outputParams() && this.handleError())}
 						</h3>
-					</aCol>
+					</ElCol>
 				</aRow>
 			</aModal>
 		);

@@ -210,7 +210,7 @@ export const AppHeader = defineComponent({
 			return null;
 		}
 		return (
-			<aLayoutHeader class="header-box m-header elevation-4">
+			<header class="header-box m-header elevation-4">
 				<div class="content flex middle">
 					<span onClick={this.goToGroup} class="flex middle pointer">
 						<xIcon icon={this.icon} style={this.styleLogo} />
@@ -219,7 +219,7 @@ export const AppHeader = defineComponent({
 					<span class="flex1"></span>
 					{this.ToolUser}
 				</div>
-			</aLayoutHeader>
+			</header>
 		);
 	}
 });

@@ -1,5 +1,5 @@
 <template>
-	<aCard class="flex1">
+	<ElCard class="flex1">
 		<aAlert :message="alertMessage" type="info" />
 		<xForm
 			class="flex vertical"
@@ -9,7 +9,7 @@
 				<xItem :configs="item" />
 			</template>
 		</xForm>
-	</aCard>
+	</ElCard>
 	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 

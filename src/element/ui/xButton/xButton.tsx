@@ -169,7 +169,7 @@ export default defineComponent({
 			_properties.title = this.title;
 		}
 		return (
-			<elButton
+			<ElButton
 				class="x-button antdv-button"
 				loading={this.loading}
 				disabled={!!this.disabled}

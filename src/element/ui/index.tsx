@@ -1,7 +1,26 @@
 //@ts-nocheck
 import "./index.less";
 import "./ui.scss";
-import ElementPlus from "element-plus";
+import ElementPlus, {
+	ElCollapse,
+	ElSelect,
+	ElAutoComplete,
+	ElAlert,
+	ElInput,
+	ElTree,
+	ElModal,
+	ElElButton,
+	Elmessage,
+	ElCheckbox,
+	ElSwitch,
+	ElTabs,
+	ElTable,
+	ElForm,
+	ElIcon,
+	ElPopconfirm,
+	ElUpload,
+	ElRow
+} from "element-plus";
 import "element-plus/dist/index.css";
 import dayjs from "dayjs";
 import $ from "jquery";
@@ -165,3 +184,22 @@ export const VentoseUIWithInstall = {
 		app.use(ElementPlus);
 	}
 };
+
+export { ElCollapse as Collapse };
+export { ElSelect as Select };
+export { ElAutoComplete as AutoComplete };
+export { ElAlert as Alert };
+export { ElInput as Input };
+export { ElTree as Tree };
+export { ElModal as Modal };
+export { ElElButton as Button };
+export { Elmessage as message };
+export { ElCheckbox as Checkbox };
+export { ElSwitch as Switch };
+export { ElTabs as Tabs };
+export { ElTable as Table };
+export { ElForm as Form };
+export { ElIcon as Icon };
+export { ElPopconfirm as Popconfirm };
+export { ElUpload as Upload };
+export { ElRow as Row };

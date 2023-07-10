@@ -22,15 +22,15 @@ export const LoginContainer = defineComponent({
 				<div class="main-one login-container">
 					<div class="container">
 						<aRow type="flex" justify="center">
-							<aCol xs={20} sm={16} md={12} lg={8} class="container-login">
-								<aCard class="card-login">
+							<ElCol xs={20} sm={16} md={12} lg={8} class="container-login">
+								<ElCard class="card-login">
 									<h2 class="login-title">YAPI</h2>
 									<div class="login-logo elevation-12">
 										<xIcon icon="yapi_logo" style={this.styleLogo} />
 									</div>
 									<LoginWrap />
-								</aCard>
-							</aCol>
+								</ElCard>
+							</ElCol>
 						</aRow>
 					</div>
 				</div>

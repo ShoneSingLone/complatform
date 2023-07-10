@@ -1,8 +1,7 @@
 /*https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup*/
 import "./containers/Home/Home.scss";
 import "./styles/App.less";
-import "./style.scss";
-import "./style.css";
+import "./style.less";
 import { defineComponent } from "vue";
 import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
@@ -58,9 +57,12 @@ export default defineComponent({
 	render() {
 		return (
 			<>
-				<AppHeader />
-				<RouterView guards={this.routerViewGuards} />
-				<AppFooter />
+				<AppHeader data-view-id="AppHeader" />
+				<RouterView
+					guards={this.routerViewGuards}
+					data-view-id="AppRouterView"
+				/>
+				<AppFooter data-view-id="AppFooter" />
 			</>
 		);
 	}

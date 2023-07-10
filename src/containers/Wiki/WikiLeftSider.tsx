@@ -4,7 +4,6 @@ import { API } from "@/api/index";
 import { ARTICLE, FOLDER } from "@/utils/variable";
 import { DialogAddArticle } from "./DialogAddArticle";
 import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
-import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { State_App } from "@/state/State_App";
 import { Methods_Wiki, State_Wiki } from "./State_Wiki";
@@ -180,7 +179,6 @@ export const WikiLeftSider = defineComponent({
 		}
 	},
 	methods: {
-		async handleDropArticle(e: AntTreeNodeDropEvent) {
 			State_Wiki.isLoading = true;
 			/*
 			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。

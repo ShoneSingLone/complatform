@@ -72,10 +72,6 @@ export default defineComponent({
 });
 </script>
 <style>
-#app {
-	height: 100vh;
-}
-
 #components-layout-demo-top-side-2 .logo {
 	float: left;
 	width: 120px;

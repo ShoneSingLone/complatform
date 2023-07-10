@@ -176,7 +176,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 												<aTag class="ml10">{filterParams.catid.length}</aTag>
 											) : null}
 										</span>
-										<aPopover placement="bottomRight" trigger="click">
+										<ElPopover placement="bottomRight" trigger="click">
 											{{
 												default() {
 													return <xIcon icon="iconFilter" class="pointer" />;
@@ -207,7 +207,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 													);
 												}
 											}}
-										</aPopover>
+										</ElPopover>
 									</div>
 								);
 							},
@@ -239,7 +239,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										</aTag>
 									) : null}
 								</span>
-								<aPopover placement="bottomRight" trigger="click">
+								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
 											return <xIcon icon="iconFilter" class="pointer" />;
@@ -258,7 +258,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 											);
 										}
 									}}
-								</aPopover>
+								</ElPopover>
 							</div>
 						);
 					},
@@ -304,7 +304,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										</aTag>
 									) : null}
 								</span>
-								<aPopover placement="bottomRight" trigger="click">
+								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
 											return <xIcon icon="iconFilter" class="pointer" />;
@@ -323,7 +323,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 											);
 										}
 									}}
-								</aPopover>
+								</ElPopover>
 							</div>
 						);
 					},
@@ -350,7 +350,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 						return (
 							<div class="flex">
 								<span class="flex1">{textLabel}</span>
-								<aPopover placement="bottomRight" trigger="click">
+								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
 											return <xIcon icon="iconFilter" class="pointer" />;
@@ -377,7 +377,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 											);
 										}
 									}}
-								</aPopover>
+								</ElPopover>
 							</div>
 						);
 					},
@@ -402,7 +402,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										<aTag class="ml10">{filterParams.witchEnv.length}</aTag>
 									) : null}
 								</span>
-								<aPopover placement="bottomRight" trigger="click">
+								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
 											return <xIcon icon="iconFilter" class="pointer" />;
@@ -431,7 +431,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 											);
 										}
 									}}
-								</aPopover>
+								</ElPopover>
 							</div>
 						);
 					},
@@ -466,7 +466,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										<aTag class="ml10">{filterParams.tag.length}</aTag>
 									) : null}
 								</span>
-								<aPopover placement="bottomRight" trigger="click">
+								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
 											return <xIcon icon="iconFilter" class="pointer" />;
@@ -490,7 +490,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 											);
 										}
 									}}
-								</aPopover>
+								</ElPopover>
 							</div>
 						);
 					},

@@ -49,7 +49,7 @@ const HomeGuest = params => {
 			<div class="main-one">
 				<div class="container">
 					<aRow>
-						<aCol span={24}>
+						<ElCol span={24}>
 							<div class="home-header">
 								<a href="#" class="item">
 									YAPI
@@ -62,10 +62,10 @@ const HomeGuest = params => {
 									使用文档
 								</a>
 							</div>
-						</aCol>
+						</ElCol>
 					</aRow>
 					<aRow>
-						<aCol lg={9} xs={24}>
+						<ElCol lg={9} xs={24}>
 							<div class="home-des">
 								<div class="logo">
 									<LogoSVG length="72px" />
@@ -88,10 +88,10 @@ const HomeGuest = params => {
 									{/* {ThirdLogin ? <ThirdLogin /> : null} */}
 								</div>
 							</div>
-						</aCol>
-						<aCol lg={15} xs={0} class="col-img">
+						</ElCol>
+						<ElCol lg={15} xs={0} class="col-img">
 							<div class="img-container"></div>
-						</aCol>
+						</ElCol>
 					</aRow>
 				</div>
 			</div>
@@ -102,25 +102,25 @@ const HomeGuest = params => {
 						YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。
 					</span>
 					<aRow key="feat-motion-row">
-						<aCol span={8} class="section-item" key="feat-wrapper-1">
+						<ElCol span={8} class="section-item" key="feat-wrapper-1">
 							<xIcon icon="appstore-o" class="img" />
 							<h4 class="title">项目管理</h4>
 							<span class="desc">
 								提供基本的项目分组，项目管理，接口管理功能
 							</span>
-						</aCol>
-						<aCol span={8} class="section-item" key="feat-wrapper-2">
+						</ElCol>
+						<ElCol span={8} class="section-item" key="feat-wrapper-2">
 							<xIcon icon="api" class="img" />
 							<h4 class="title">接口管理</h4>
 							<span class="desc">
 								友好的接口文档，基于websocket的多人协作接口编辑功能和类postman测试工具，让多人协作成倍提升开发效率
 							</span>
-						</aCol>
-						<aCol span={8} class="section-item" key="feat-wrapper-3">
+						</ElCol>
+						<ElCol span={8} class="section-item" key="feat-wrapper-3">
 							<xIcon icon="database" class="img" />
 							<h4 class="title">MockServer</h4>
 							<span class="desc">基于Mockjs，使用简单功能强大</span>
-						</aCol>
+						</ElCol>
 					</aRow>
 				</div>
 			</div>
@@ -134,8 +134,8 @@ const HomeGuest = params => {
 					<h3 class="title">功能强大的 Mock 服务</h3>
 					<span class="desc">你想要的 Mock 服务都在这里</span>
 					<aRow class="row-card">
-						<aCol lg={12} xs={24} class="section-card">
-							<aCard title="Mock 规则">
+						<ElCol lg={12} xs={24} class="section-card">
+							<ElCard title="Mock 规则">
 								<p class="mock-desc">
 									通过学习一些简单的 Mock
 									模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写
@@ -222,10 +222,10 @@ const HomeGuest = params => {
 										</li>
 									</ol>
 								</div>
-							</aCard>
-						</aCol>
-						<aCol lg={12} xs={24} class="section-card mock-after">
-							<aCard title="生成的 Mock 数据">
+							</ElCard>
+						</ElCol>
+						<ElCol lg={12} xs={24} class="section-card mock-after">
+							<ElCard title="生成的 Mock 数据">
 								<p class="mock-desc">
 									生成的 Mock 数据可以直接用 ajax
 									请求使用，也可以通过服务器代理使用（不需要修改项目一行代码）
@@ -312,16 +312,16 @@ const HomeGuest = params => {
 										</li>
 									</ol>
 								</div>
-							</aCard>
-						</aCol>
+							</ElCard>
+						</ElCol>
 					</aRow>
 				</div>
 			</div>
 			<div class="home-section section-manage">
 				<div class="container">
 					<aRow class="row-card" style={{ marginBottom: ".48rem" }}>
-						<aCol lg={7} xs={10} class="section-card">
-							<aCard>
+						<ElCol lg={7} xs={10} class="section-card">
+							<ElCard>
 								<div class="section-block block-first">
 									<h4>超级管理员(* N)</h4>
 									<p class="item"> - 创建分组</p>
@@ -339,9 +339,9 @@ const HomeGuest = params => {
 									<p class="item"> - 不允许创建分组</p>
 									<p class="item"> - 不允许修改分组或项目信息</p>
 								</div>
-							</aCard>
-						</aCol>
-						<aCol lg={17} xs={14} class="section-card manage-word">
+							</ElCard>
+						</ElCol>
+						<ElCol lg={17} xs={14} class="section-card manage-word">
 							<xIcon icon="team" class="icon" />
 							<h3 class="title">扁平化管理模式</h3>
 							<p class="desc">
@@ -351,7 +351,7 @@ const HomeGuest = params => {
 								YAPI
 								将扁平化管理模式的思想引入到产品的权限管理中，超级管理员拥有最高的权限，并将权限分配给若干组长，超级管理员只需管理组长即可，实际上管理YAPI各大分组与项目的是“组长”。组长对分组或项目负责，一般由BU负责人/项目负责人担任。
 							</p>
-						</aCol>
+						</ElCol>
 					</aRow>
 				</div>
 			</div>

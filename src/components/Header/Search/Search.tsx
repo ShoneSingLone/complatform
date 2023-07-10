@@ -1,4 +1,3 @@
-import { AutoComplete } from "ant-design-vue";
 import "./Search.scss";
 
 import axios from "axios";

@@ -204,7 +204,7 @@ class UpDateModal extends Component {
 					type="flex"
 					justify="space-between"
 					align={index === 0 ? "middle" : "top"}>
-					<aCol span={10} offset={2}>
+					<ElCol span={10} offset={2}>
 						<FormItem
 							label={index === 0 ? <span>环境名称</span> : ""}
 							required={false}
@@ -240,8 +240,8 @@ class UpDateModal extends Component {
 								/>
 							)}
 						</FormItem>
-					</aCol>
-					<aCol span={10}>
+					</ElCol>
+					<ElCol span={10}>
 						<FormItem
 							label={index === 0 ? <span>环境域名</span> : ""}
 							required={false}
@@ -295,8 +295,8 @@ class UpDateModal extends Component {
 								/>
 							)}
 						</FormItem>
-					</aCol>
-					<aCol span={2}>
+					</ElCol>
+					<ElCol span={2}>
 						{/* 新增的项中，只有最后一项有删除按钮 */}
 						{(envs.length > 0 && k._id) || envs.length == index + 1 ? (
 							<aIcon
@@ -307,7 +307,7 @@ class UpDateModal extends Component {
 								}}
 							/>
 						) : null}
-					</aCol>
+					</ElCol>
 				</aRow>
 			);
 		});

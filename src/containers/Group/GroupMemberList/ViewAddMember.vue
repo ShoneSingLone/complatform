@@ -1,5 +1,5 @@
 <template>
-	<aCard class="flex1">
+	<ElCard class="flex1">
 		<xForm
 			class="flex vertical"
 			:label-style="{ 'min-width': '120px', width: 'unset' }">
@@ -8,7 +8,7 @@
 				<xItem :configs="item" />
 			</template>
 		</xForm>
-	</aCard>
+	</ElCard>
 	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 

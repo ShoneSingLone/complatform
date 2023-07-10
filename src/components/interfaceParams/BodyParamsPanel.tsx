@@ -43,7 +43,7 @@ export const BodyParamsPanel = defineComponent({
 	},
 	render() {
 		return (
-			<aCard>
+			<ElCard>
 				{{
 					extra: () => {
 						if (
@@ -89,7 +89,7 @@ export const BodyParamsPanel = defineComponent({
 						);
 					}
 				}}
-			</aCard>
+			</ElCard>
 		);
 	}
 });

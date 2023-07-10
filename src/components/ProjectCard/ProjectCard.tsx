@@ -143,10 +143,10 @@ export default defineComponent({
 	render() {
 		return (
 			<div class="card-container" style={"width:200px;"}>
-				<aCard hoverable class="m-card">
+				<ElCard hoverable class="m-card">
 					{this.logo}
 					{this.title}
-				</aCard>
+				</ElCard>
 				<div class="card-btns flex">
 					{this.copyIcon}
 					<xGap l="10" />

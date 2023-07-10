@@ -81,7 +81,7 @@ export const ViewUserProfile = defineComponent({
 	},
 	render({ Cpt_avatarUrl, configsForm, styleForm, styleFormLabel, updatePwd }) {
 		return (
-			<aCard>
+			<ElCard>
 				<h1>个人设置</h1>
 				<xForm formStyle={styleForm} labelStyle={styleFormLabel}>
 					<aAvatar size={64} src={Cpt_avatarUrl} />
@@ -99,7 +99,7 @@ export const ViewUserProfile = defineComponent({
 					<aButton onClick={updatePwd}>修改密码</aButton>
 					<xGap t="10" />
 				</xForm>
-			</aCard>
+			</ElCard>
 		);
 	}
 });

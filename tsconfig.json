@@ -17,8 +17,8 @@
             "@/*": [
                 "./src/*"
             ],
-            "elementUI": [
-                "./src/element"
+            "@ventose/ui": [
+                "./src/element/ui"
             ]
         }
     },

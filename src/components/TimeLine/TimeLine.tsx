@@ -137,8 +137,8 @@ export const TimeLine = defineComponent({
 			if (this.type === "project") {
 				return (
 					<aRow class="news-search">
-						<aCol span="3">{$t("选择查询的 Api").label}：</aCol>
-						<aCol span="10">
+						<ElCol span="3">{$t("选择查询的 Api").label}：</ElCol>
+						<ElCol span="10">
 							<aAutoComplete
 								onSelect={this.handleSelectApi}
 								style={{ width: "100%" }}
@@ -162,7 +162,7 @@ export const TimeLine = defineComponent({
 								</OptGroup>
 								<OptGroup label="api">{this.vDomProjectChildren}</OptGroup>
 							</aAutoComplete>
-						</aCol>
+						</ElCol>
 					</aRow>
 				);
 			}

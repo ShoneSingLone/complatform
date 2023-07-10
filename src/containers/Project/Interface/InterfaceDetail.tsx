@@ -478,52 +478,52 @@ async ${xU.camelCase(path)}({params,data}) {
 					<xGap t="20" />
 					<InfoCard title={"请求参数"}>
 						{vm.configs_table_path_params.dataSource.length > 0 && (
-							<aCard title={vm.$t("路径参数").label}>
+							<ElCard title={vm.$t("路径参数").label}>
 								<xDataGrid configs={vm.configs_table_path_params} />
-							</aCard>
+							</ElCard>
 						)}
 						{vm.configs_table_headers.dataSource.length > 0 && (
 							<>
 								<xGap t="10" />
-								<aCard title={vm.$t("Headers").label}>
+								<ElCard title={vm.$t("Headers").label}>
 									<xDataGrid configs={vm.configs_table_headers} />
-								</aCard>
+								</ElCard>
 							</>
 						)}
 						{vm.configs_table_query.dataSource.length > 0 && (
 							<>
 								<xGap t="10" />
-								<aCard title={vm.$t("Query").label}>
+								<ElCard title={vm.$t("Query").label}>
 									<xDataGrid configs={vm.configs_table_query} />
-								</aCard>
+								</ElCard>
 							</>
 						)}
 						{vm.detailInfo.req_body_type == "form" &&
 							vm.configs_table_body_form.dataSource.length > 0 && (
 								<>
 									<xGap t="10" />
-									<aCard title={vm.$t("Body").label}>
+									<ElCard title={vm.$t("Body").label}>
 										<xDataGrid configs={vm.configs_table_body_form} />
-									</aCard>
+									</ElCard>
 								</>
 							)}
 						{vm.detailInfo.req_body_type == "json" &&
 							vm.detailInfo.req_body_other && (
 								<>
 									<xGap t="10" />
-									<aCard title={vm.$t("Body").label}>
+									<ElCard title={vm.$t("Body").label}>
 										<JsonSchemaMonaco
 											v-model:schemaString={vm.detailInfo.req_body_other}
 											readOnly={true}
 										/>
-									</aCard>
+									</ElCard>
 								</>
 							)}
 						{vm.detailInfo.req_body_type == "raw" &&
 							vm.detailInfo.req_body_other && (
 								<>
 									<xGap t="10" />
-									<aCard title={vm.$t("Body").label}>
+									<ElCard title={vm.$t("Body").label}>
 										<div style="height:300px;width:90%">
 											<MonacoEditor
 												language="json"
@@ -531,7 +531,7 @@ async ${xU.camelCase(path)}({params,data}) {
 												readOnly={true}
 											/>
 										</div>
-									</aCard>
+									</ElCard>
 								</>
 							)}
 					</InfoCard>

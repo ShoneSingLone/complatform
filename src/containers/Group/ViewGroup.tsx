@@ -86,9 +86,9 @@ export const ViewGroup = defineComponent({
 			if (this.State_App.currGroup.type === "public") {
 				return (
 					/* "成员列表" */
-					<aTabPane tab={TAB_KEY_MEMBER_LIST} key={TAB_KEY_MEMBER_LIST}>
+					<ElTabPane tab={TAB_KEY_MEMBER_LIST} key={TAB_KEY_MEMBER_LIST}>
 						<GroupMemberList />
-					</aTabPane>
+					</ElTabPane>
 				);
 			} else {
 				return null;
@@ -105,15 +105,15 @@ export const ViewGroup = defineComponent({
 			if (isGroupRoleAuth || isUserRoleAuth) {
 				return (
 					/* 分组动态 */
-					<aTabPane tab={TAB_KEY_GROUP_LOG} key={TAB_KEY_GROUP_LOG}>
+					<ElTabPane tab={TAB_KEY_GROUP_LOG} key={TAB_KEY_GROUP_LOG}>
 						<GroupLog />
-					</aTabPane>
+					</ElTabPane>
 				);
 			} else {
 				return null;
 			}
 		},
-		stylePanel() {
+		classPanel() {
 			const isFooterFold = this.State_App.isFooterFold;
 			return {
 				"flex vertical": true,
@@ -136,7 +136,7 @@ export const ViewGroup = defineComponent({
 
 			if (this.State_App.currGroup.group_desc) {
 				return (
-					<aPopover trigger="hover">
+					<ElPopover trigger="hover">
 						{{
 							content: () => (
 								<p style={{ maxWidth: "600px" }}>
@@ -145,7 +145,7 @@ export const ViewGroup = defineComponent({
 							),
 							default: () => _vDomGroupName
 						}}
-					</aPopover>
+					</ElPopover>
 				);
 			} else {
 				return _vDomGroupName;
@@ -195,15 +195,18 @@ export const ViewGroup = defineComponent({
 	},
 	render() {
 		return (
-			<aLayout id="GroupView" class="padding20" v-loading={!this.groupId}>
-				<aLayoutSider id="ViewGroup_sider" class={this.stylePanel} width="300">
+			<section
+				id="GroupView"
+				class="padding20 flex horizon"
+				v-loading={!this.groupId}>
+				<aside id="ViewGroup_sider" class={this.classPanel}>
 					<GroupLeftSider />
-				</aLayoutSider>
-				<aLayout>
-					<aLayoutContent
+				</aside>
+				<section>
+					<div
 						data-app-position="Group-layout-content"
 						style={this.styleContent}>
-						<aTabs
+						<ElTabs
 							id="Group-layout-content-tabs"
 							v-model:activeKey={this.tabActiveKey}
 							type="card"
@@ -217,21 +220,21 @@ export const ViewGroup = defineComponent({
 									return (
 										<>
 											{/* 项目列表 */}
-											<aTabPane
+											<ElTabPane
 												tab={TAB_KEY_PROJECT_LIST}
 												key={TAB_KEY_PROJECT_LIST}>
 												<GroupProjectList />
-											</aTabPane>
+											</ElTabPane>
 											{this.vDomTabMember}
 											{this.vDomTabGroupLog}
 										</>
 									);
 								}
 							}}
-						</aTabs>
-					</aLayoutContent>
-				</aLayout>
-			</aLayout>
+						</ElTabs>
+					</div>
+				</section>
+			</section>
 		);
 	}
 });

@@ -2,7 +2,6 @@
 
 import React from "react";
 
-import { Collapse, Select } from "ant-design-vue";
 import "./index.scss";
 
 const Option = Select.Option;
@@ -58,12 +57,12 @@ export default class CaseEnv extends React.Component {
 											justify="space-around"
 											align="middle"
 											class="env-item">
-											<aCol span={6} class="label">
+											<ElCol span={6} class="label">
 												<aTooltip title={item.name}>
 													<span class="label-name">{item.name}</span>
 												</aTooltip>
-											</aCol>
-											<aCol span={18}>
+											</ElCol>
+											<ElCol span={18}>
 												<Select
 													style={{
 														width: "100%"
@@ -85,7 +84,7 @@ export default class CaseEnv extends React.Component {
 														);
 													})}
 												</Select>
-											</aCol>
+											</ElCol>
 										</aRow>
 									);
 								})}

@@ -23,7 +23,6 @@
   "dependencies": {
     "element-plus": "^2.3.7",
     "@toast-ui/editor": "^3.2.2",
-    "@ventose/ui": "^0.0.18",
     "ant-design-vue": "^3.2.15",
     "axios": "^0.26.1",
     "chalk": "^5.2.0",

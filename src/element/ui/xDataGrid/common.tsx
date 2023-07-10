@@ -205,7 +205,7 @@ export function defColActionsBtnlist(options: {
 							v-slots={{
 								default: () => {
 									return (
-										<elButton type="link">{State_UI.$t("更多").label}</elButton>
+										<ElButton type="link">{State_UI.$t("更多").label}</ElButton>
 									);
 								},
 								overlay: () => {

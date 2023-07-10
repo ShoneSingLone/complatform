@@ -63,11 +63,11 @@ export const DialogAddGroup = defineComponent({
 	render() {
 		return (
 			<>
-				<aCard class="flex1 overflow-auto">
+				<ElCard class="flex1 overflow-auto">
 					<xForm class="flex vertical" labelStyle={this.styleLabel}>
 						{this.vDomFormItems}
 					</xForm>
-				</aCard>
+				</ElCard>
 				<xDialogFooter
 					configs={{
 						onCancel: this.propDialogOptions.closeDialog,

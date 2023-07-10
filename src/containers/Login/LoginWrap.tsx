@@ -22,21 +22,21 @@ export default defineComponent({
 	render() {
 		/** show only login when register is disabled */
 		return (
-			<aTabs
+			<ElTabs
 				defaultActiveKey={State_App.user.loginWrapActiveKey}
 				class="login-form"
 				tabBarStyle={{ border: "none" }}>
-				<aTabPane tab="登录" key="1">
+				<ElTabPane tab="登录" key="1">
 					<LoginForm />
-				</aTabPane>
-				<aTabPane tab={"注册"} key="2">
+				</ElTabPane>
+				<ElTabPane tab={"注册"} key="2">
 					{State_App.user.canRegister ? (
 						<RegForm />
 					) : (
 						<div style={{ minHeight: 200 }}>管理员已禁止注册，请联系管理员</div>
 					)}
-				</aTabPane>
-			</aTabs>
+				</ElTabPane>
+			</ElTabs>
 		);
 	}
 });

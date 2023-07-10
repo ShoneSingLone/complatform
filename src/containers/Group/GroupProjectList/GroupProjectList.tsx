@@ -176,14 +176,14 @@ export const GroupProjectList = defineComponent({
 				style={{ paddingTop: "24px" }}
 				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
 				<aRow class="project-list-header">
-					<aCol span={16} style={{ textAlign: "left" }}>
+					<ElCol span={16} style={{ textAlign: "left" }}>
 						<span>共</span>
 						<span> {this.State_App.projectList.length} </span>
 						<span>个项目</span>
-					</aCol>
-					<aCol span={8} class="flex end flex1">
+					</ElCol>
+					<ElCol span={8} class="flex end flex1">
 						{this.vDomAddProjectButton}
-					</aCol>
+					</ElCol>
 				</aRow>
 				{this.vDomSpaceProject}
 			</div>

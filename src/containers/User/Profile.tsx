@@ -1,13 +1,4 @@
-import {
-	Row,
-	Col,
-	Input,
-	Button,
-	Select,
-	message,
-	Upload,
-	Tooltip
-} from "ant-design-vue";
+import { Button, Select, message, Upload } from "ant-design-vue";
 import axios from "axios";
 import { formatTime } from "../../common.js";
 
@@ -21,24 +12,24 @@ const EditButton = props => {
 			return null;
 		}
 		return (
-			<aButton
+			<ElButton
 				icon="edit"
 				onClick={() => {
 					onClick(name, true);
 				}}>
 				修改
-			</aButton>
+			</ElButton>
 		);
 	} else if (isAdmin) {
 		// 管理员
 		return (
-			<aButton
+			<ElButton
 				icon="edit"
 				onClick={() => {
 					onClick(name, true);
 				}}>
 				修改
-			</aButton>
+			</ElButton>
 		);
 	} else {
 		return null;
@@ -250,29 +241,29 @@ class Profile extends Component {
 		} else {
 			userNameEditHtml = (
 				<div>
-					<aInput
+					<ElInput
 						value={_userinfo.username}
 						name="username"
 						onChange={this.changeUserinfo}
 						placeholder="用户名"
 					/>
-					<aButtonGroup class="edit-buttons">
-						<aButton
+					<ElButtonGroup class="edit-buttons">
+						<ElButton
 							class="edit-button"
 							onClick={() => {
 								this.handleEdit("usernameEdit", false);
 							}}>
 							取消
-						</aButton>
-						<aButton
+						</ElButton>
+						<ElButton
 							class="edit-button"
 							onClick={() => {
 								this.updateUserinfo("username");
 							}}
 							type="primary">
 							确定
-						</aButton>
-					</aButtonGroup>
+						</ElButton>
+					</ElButtonGroup>
 				</div>
 			);
 		}
@@ -298,29 +289,29 @@ class Profile extends Component {
 		} else {
 			emailEditHtml = (
 				<div>
-					<aInput
+					<ElInput
 						placeholder="Email"
 						value={_userinfo.email}
 						name="email"
 						onChange={this.changeUserinfo}
 					/>
-					<aButtonGroup class="edit-buttons">
-						<aButton
+					<ElButtonGroup class="edit-buttons">
+						<ElButton
 							class="edit-button"
 							onClick={() => {
 								this.handleEdit("emailEdit", false);
 							}}>
 							取消
-						</aButton>
-						<aButton
+						</ElButton>
+						<ElButton
 							class="edit-button"
 							type="primary"
 							onClick={() => {
 								this.updateUserinfo("email");
 							}}>
 							确定
-						</aButton>
-					</aButtonGroup>
+						</ElButton>
+					</ElButtonGroup>
 				</div>
 			);
 		}
@@ -347,20 +338,20 @@ class Profile extends Component {
 			let btn = "";
 			if (userType) {
 				btn = (
-					<aButton
+					<ElButton
 						icon="edit"
 						onClick={() => {
 							this.handleEdit("secureEdit", true);
 						}}>
 						修改
-					</aButton>
+					</ElButton>
 				);
 			}
 			secureEditHtml = btn;
 		} else {
 			secureEditHtml = (
 				<div>
-					<aInput
+					<ElInput
 						style={{
 							display:
 								this.props.curRole === "admin" && userinfo.role != "admin"
@@ -372,33 +363,33 @@ class Profile extends Component {
 						name="old_password"
 						id="old_password"
 					/>
-					<aInput
+					<ElInput
 						placeholder="新的密码"
 						type="password"
 						name="password"
 						id="password"
 					/>
-					<aInput
+					<ElInput
 						placeholder="确认密码"
 						type="password"
 						name="verify_pass"
 						id="verify_pass"
 					/>
-					<aButtonGroup class="edit-buttons">
-						<aButton
+					<ElButtonGroup class="edit-buttons">
+						<ElButton
 							class="edit-button"
 							onClick={() => {
 								this.handleEdit("secureEdit", false);
 							}}>
 							取消
-						</aButton>
-						<aButton
+						</ElButton>
+						<ElButton
 							class="edit-button"
 							onClick={this.updatePassword}
 							type="primary">
 							确定
-						</aButton>
-					</aButtonGroup>
+						</ElButton>
+					</ElButtonGroup>
 				</div>
 			);
 		}
@@ -412,7 +403,7 @@ class Profile extends Component {
 					)}
 
 					<aRow class="avatarCon" type="flex" justify="start">
-						<aCol span={24}>
+						<ElCol span={24}>
 							{userinfo.uid === this.props.curUid ? (
 								<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>
 							) : (
@@ -420,22 +411,22 @@ class Profile extends Component {
 									<img src={`/api/user/avatar?uid=${userinfo.uid}`} />
 								</div>
 							)}
-						</aCol>
+						</ElCol>
 					</aRow>
 					<aRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<aCol span={4}>用户id</aCol>
-						<aCol span={12}>{userinfo.uid}</aCol>
+						<ElCol span={4}>用户id</ElCol>
+						<ElCol span={12}>{userinfo.uid}</ElCol>
 					</aRow>
 					<aRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<aCol span={4}>用户名</aCol>
-						<aCol span={12}>{userNameEditHtml}</aCol>
+						<ElCol span={4}>用户名</ElCol>
+						<ElCol span={12}>{userNameEditHtml}</ElCol>
 					</aRow>
 					<aRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<aCol span={4}>Email</aCol>
-						<aCol span={12}>{emailEditHtml}</aCol>
+						<ElCol span={4}>Email</ElCol>
+						<ElCol span={12}>{emailEditHtml}</ElCol>
 					</aRow>
 					<aRow
 						class="user-item"
@@ -443,8 +434,8 @@ class Profile extends Component {
 						type="flex"
 						justify="start">
 						<div class="maoboli" />
-						<aCol span={4}>角色</aCol>
-						<aCol span={12}>{roleEditHtml}</aCol>
+						<ElCol span={4}>角色</ElCol>
+						<ElCol span={12}>{roleEditHtml}</ElCol>
 					</aRow>
 					<aRow
 						class="user-item"
@@ -452,27 +443,27 @@ class Profile extends Component {
 						type="flex"
 						justify="start">
 						<div class="maoboli" />
-						<aCol span={4}>登陆方式</aCol>
-						<aCol span={12}>
+						<ElCol span={4}>登陆方式</ElCol>
+						<ElCol span={12}>
 							{userinfo.type === "site" ? "站点登陆" : "第三方登陆"}
-						</aCol>
+						</ElCol>
 					</aRow>
 					<aRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<aCol span={4}>创建账号时间</aCol>
-						<aCol span={12}>{formatTime(userinfo.add_time)}</aCol>
+						<ElCol span={4}>创建账号时间</ElCol>
+						<ElCol span={12}>{formatTime(userinfo.add_time)}</ElCol>
 					</aRow>
 					<aRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<aCol span={4}>更新账号时间</aCol>
-						<aCol span={12}>{formatTime(userinfo.up_time)}</aCol>
+						<ElCol span={4}>更新账号时间</ElCol>
+						<ElCol span={12}>{formatTime(userinfo.up_time)}</ElCol>
 					</aRow>
 
 					{userType ? (
 						<aRow class="user-item" type="flex" justify="start">
 							<div class="maoboli" />
-							<aCol span={4}>密码</aCol>
-							<aCol span={12}>{secureEditHtml}</aCol>
+							<ElCol span={4}>密码</ElCol>
+							<ElCol span={12}>{secureEditHtml}</ElCol>
 						</aRow>
 					) : (
 						""

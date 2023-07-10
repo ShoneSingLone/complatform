@@ -69,7 +69,7 @@ export const DialogEditGroup = defineComponent({
 			/* 只有超级管理员能删除分组 */
 			if (State_App.user.role === "admin") {
 				return (
-					<aCard class="mt20">
+					<ElCard class="mt20">
 						<Alert
 							type="warning"
 							message={$t("删除分组").label}
@@ -91,7 +91,7 @@ export const DialogEditGroup = defineComponent({
 							}
 							show-icon
 						/>
-					</aCard>
+					</ElCard>
 				);
 			}
 			return null;
@@ -102,7 +102,7 @@ export const DialogEditGroup = defineComponent({
 		return (
 			<>
 				<div class="padding20 flex1 overflow-auto">
-					<aCard>
+					<ElCard>
 						<xForm
 							class="flex vertical"
 							labelStyle={{
@@ -111,7 +111,7 @@ export const DialogEditGroup = defineComponent({
 							}}>
 							{this.vDomFormItems}
 						</xForm>
-					</aCard>
+					</ElCard>
 					{this.vDomDeleteGroup}
 				</div>
 				<xDialogFooter

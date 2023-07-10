@@ -212,14 +212,14 @@ export const ViewI18n = defineComponent({
 					</xDataGridToolbar>
 					<xVirTable configs={this.configsI18nTable} class="flex1 width100 " />
 					{stateI18n.currentI18n?.valueArray && (
-						<aCard>
+						<ElCard>
 							<div style={"height:300px"}>
 								<MonacoEditor
 									v-model:code={stateI18n.currentI18n.valueArray}
 									language="json"
 								/>
 							</div>
-						</aCard>
+						</ElCard>
 					)}
 				</main>
 			</section>

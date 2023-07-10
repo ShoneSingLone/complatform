@@ -8,7 +8,7 @@ const version = Date.now();
 
 const FootItem = ({ linkList, title, iconType }) => {
 	return (
-		<aCol span={6}>
+		<ElCol span={6}>
 			<h4 class="title flex horizon middle">
 				{iconType ? (
 					<xIcon
@@ -29,7 +29,7 @@ const FootItem = ({ linkList, title, iconType }) => {
 					</p>
 				);
 			})}
-		</aCol>
+		</ElCol>
 	);
 };
 
