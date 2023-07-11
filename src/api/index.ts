@@ -5,6 +5,7 @@ import { group } from "./ctrl/group";
 import { news } from "./ctrl/news";
 import { testcase } from "./ctrl/testcase";
 import { god } from "./ctrl/god";
+import { resource } from "./ctrl/resource";
 
 export const API = {
 	wiki,
@@ -13,5 +14,6 @@ export const API = {
 	group,
 	news,
 	project,
-	testcase
+	testcase,
+	resource
 };

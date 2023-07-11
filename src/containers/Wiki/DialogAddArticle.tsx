@@ -78,7 +78,7 @@ export const DialogAddArticle = defineComponent({
 					});
 
 					if (data?.msg?._id) {
-						UI.message.success("添加接口成功");
+						UI.message.success("添加文档成功");
 						Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
 						this.Cpt_url.go("/wiki", { wiki_id: data.msg._id });
 						this.propDialogOptions.closeDialog();

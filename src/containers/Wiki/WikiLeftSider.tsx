@@ -105,83 +105,86 @@ export const WikiLeftSider = defineComponent({
 						<xGap l="10" />
 						<xButton configs={vm.btnRefresh} />
 					</div>
-					<ElTree
-						v-model:expandedKeys={vm.State_Wiki.expandedKeys}
-						height={vm.siderHeight}
-						data={vm.State_Wiki.treeData}
-						onNodeDragEnd={vm.handleDropArticle}
-						draggable
-						node-key="_id"
-						default-expand-all>
-						{{
-							default(item) {
-								try {
-									const { data } = item;
-									const { title, _id, type } = data;
-									const classContentString = (() => {
-										let _classString = "flex middle x-sider-tree_menu";
-										if (String(_id) == String(vm.State_Wiki.currentWiki._id)) {
-											return _classString + " x-sider-tree_menu_active";
-										}
-										return _classString;
-									})();
+					<ElScrollbar height={vm.siderHeight}>
+						<ElTree
+							v-model:expandedKeys={vm.State_Wiki.expandedKeys}
+							data={vm.State_Wiki.treeData}
+							onNodeDragEnd={vm.handleDropArticle}
+							draggable
+							node-key="_id"
+							default-expand-all>
+							{{
+								default(item) {
+									try {
+										const { data } = item;
+										const { title, _id, type } = data;
+										const classContentString = (() => {
+											let _classString = "flex middle x-sider-tree_menu";
+											if (
+												String(_id) == String(vm.State_Wiki.currentWiki._id)
+											) {
+												return _classString + " x-sider-tree_menu_active";
+											}
+											return _classString;
+										})();
 
-									const genIcon = ({ icon, tips, clickHandler }) => {
+										const genIcon = ({ icon, tips, clickHandler }) => {
+											return (
+												<>
+													<xIcon
+														icon={icon}
+														class="x-sider-tree_menu_icon"
+														v-uiPopover={{ content: tips, delay: 1000 }}
+														onClick={clickHandler}
+													/>
+													<xGap l="8" />
+												</>
+											);
+										};
+
+										const handleClick = () => {
+											State_Wiki.isLoading = true;
+											vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
+											vm.$emit("change");
+											setTimeout(() => {
+												/* 内网环境，数据3秒都回不来，就有点呵呵了 */
+												State_Wiki.isLoading = false;
+											}, 1000 * 3);
+										};
+
+										const canDelete =
+											!item?.children || item?.children?.length === 0;
+
 										return (
-											<>
-												<xIcon
-													icon={icon}
-													class="x-sider-tree_menu_icon"
-													v-uiPopover={{ content: tips, delay: 1000 }}
-													onClick={clickHandler}
-												/>
-												<xGap l="8" />
-											</>
-										);
-									};
-
-									const handleClick = () => {
-										State_Wiki.isLoading = true;
-										vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
-										vm.$emit("change");
-										setTimeout(() => {
-											/* 内网环境，数据3秒都回不来，就有点呵呵了 */
-											State_Wiki.isLoading = false;
-										}, 1000 * 3);
-									};
-
-									const canDelete =
-										!item?.children || item?.children?.length === 0;
-
-									return (
-										<div class={classContentString} onClick={handleClick}>
-											<xGap l="10" />
-											<xIcon icon="icon_article" />
-											<span class="x-sider-tree_menu_title">
-												<div class="flex middle">{title}</div>
-											</span>
-											<div class="flex middle x-sider-tree_menu_opration">
-												{genIcon({
-													icon: "add",
-													tips: vm.$t("添加").label,
-													clickHandler: () =>
-														vm.showUpsertArticleDialog(item.data)
-												})}
-												{canDelete &&
-													genIcon({
-														icon: "delete",
-														tips: vm.$t("删除").label,
-														clickHandler: () => vm.deleteArticle(_id)
+											<div class={classContentString} onClick={handleClick}>
+												<xGap l="10" />
+												<xIcon icon="icon_article" />
+												<span class="x-sider-tree_menu_title">
+													<div class="flex middle">{title}</div>
+												</span>
+												<div class="flex middle x-sider-tree_menu_opration">
+													{genIcon({
+														icon: "add",
+														tips: vm.$t("添加").label,
+														clickHandler: () =>
+															vm.showUpsertArticleDialog(item.data)
 													})}
+													{canDelete &&
+														genIcon({
+															icon: "delete",
+															tips: vm.$t("删除").label,
+															clickHandler: () => vm.deleteArticle(_id)
+														})}
+												</div>
 											</div>
-										</div>
-									);
-								} catch (error) {
-									return null;
+										);
+									} catch (error) {
+										return null;
+									}
 								}
-							}
-						}}
-					</ElTree>
+							}}
+						</ElTree>
+					</ElScrollbar>
 				</div>
 			);
 		}
