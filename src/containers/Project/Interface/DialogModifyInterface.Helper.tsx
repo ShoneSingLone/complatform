@@ -11,7 +11,7 @@ import {
 } from "@/components";
 
 export async function openProxyEnvDialog() {
-	const { _layerKey } = await UI.dialog.component({
+	const { _IDDialog } = await UI.dialog.component({
 		title: $t("管理项目接口转发环境").label,
 		// offset: [20, 20],
 		component: DialogUpsertProxyEnv,
@@ -21,7 +21,7 @@ export async function openProxyEnvDialog() {
 }
 
 export async function openUpsertTagDialog() {
-	const { _layerKey } = await UI.dialog.component({
+	const { _IDDialog } = await UI.dialog.component({
 		title: $t("管理项目接口Tags").label,
 		// offset: [20, 20],
 		component: DialogUpsertTags,

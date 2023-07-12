@@ -23,15 +23,13 @@ export type t_dialogOptions = {
 	payload?: any;
 	isEcsCloseDialog?: boolean;
 	/* 传入的组件的实例 */
-	_contentInstance?: object;
-	/* dialog jQuery 实例 */
-	_dialog$ele?: JQuery;
+	vmDialogContent?: object;
 	/* 在component里面propDialogOptions作为参数传入*/
 	title?: any;
 	component: object;
 	area?: string[];
 	/* layer 索引，用于layer close */
-	_layerKey?: number;
+	_IDDialog?: number;
 	/*关闭方法*/
 	closeDialog?: Function;
 	/* hook: 完成组件首次加载 */
@@ -113,7 +111,7 @@ export const installUIDialogComponent = (
 			const { component: BussinessComponent, title, area } = dialogOptions;
 			const id = xU.genId("xDialog");
 			let $container = $("<div/>", { id });
-			const _dialogId = `#${id}`;
+			const _IDDialog = `#${id}`;
 			/* FIXED: */
 			if (dialogOptions.yes) {
 				dialogOptions._yes = dialogOptions.yes;
@@ -125,15 +123,15 @@ export const installUIDialogComponent = (
 				if (dialogOptions.onBeforeClose) {
 					const res = await dialogOptions.onBeforeClose({
 						dialogOptions,
-						_layerKey: "",
-						$eleLayer: ""
+						_IDDialog: "",
+						$eleDialog: ""
 					});
 					if (xU.isBoolean(res) && !res) {
 						isCloseDialog = false;
 					}
 				}
 				if (isCloseDialog) {
-					LayerUtils.close(handleEcsPress._layerKey);
+					LayerUtils.close(handleEcsPress._IDDialog);
 				}
 			};
 
@@ -142,17 +140,17 @@ export const installUIDialogComponent = (
 
 			/* 处理按Esc键关闭弹窗 */
 			let handleEcsPress = {
-				_layerKey: "",
+				_IDDialog: "",
 				handler: event => EcsPressHandler(event, dialogOptions),
-				on(_layerKey) {
-					handleEcsPress._layerKey = _layerKey;
+				on(_IDDialog) {
+					handleEcsPress._IDDialog = _IDDialog;
 					if (!dialogOptions.isEcsCloseDialog) {
 						return;
 					}
-					$(document).on(`keyup.${_dialogId}`, handleEcsPress.handler);
+					$(document).on(`keyup.${_IDDialog}`, handleEcsPress.handler);
 				},
 				off() {
-					$(document).off(`keyup.${_dialogId}`, handleEcsPress.handler);
+					$(document).off(`keyup.${_IDDialog}`, handleEcsPress.handler);
 					handleEcsPress = null;
 				}
 			};
@@ -178,12 +176,11 @@ export const installUIDialogComponent = (
 					btn: [
 						/*'确定', '取消'*/
 					],
-					success($eleLayer, _layerKey, layerInstance) {
-						handleEcsPress.on(_layerKey);
-						/* dialog jQuery 实例 */
-						dialogOptions._layerInstance = layerInstance;
-						dialogOptions._dialog$ele = $eleLayer;
-						dialogOptions._layerKey = _layerKey;
+					success(instanceDialog: t__ClassLayer) {
+						const { _IDDialog, _IDContent } = instanceDialog;
+						handleEcsPress.on(_IDDialog);
+						/* dialog 实例 */
+						dialogOptions.instanceDialog = instanceDialog;
 						try {
 							dialogVueApp = createApp(
 								defineComponent({
@@ -191,23 +188,27 @@ export const installUIDialogComponent = (
 									beforeCreate(...args) {
 										if (xU.isFunction(title)) {
 											this.$options.computed = this.$options.computed || {};
+											/* title 使用 vue render vNode，挂载之后替换到title的DOM里面 */
 											this.$options.computed.DIALOG_TITLE = function () {
 												return title();
 											};
 										}
 									},
 									created() {
-										this.dialogOptions._contentInstance = this;
+										this.dialogOptions.vmDialogContent = this;
 										if (this.dialogOptions.keepTop) {
 											setTimeout(() => {
-												$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
+												this.dialogOptions.instanceDialog.cpt$shade.css(
+													"z-index",
+													1
+												);
 											}, 6);
 										}
 										resolve(this.dialogOptions);
 									},
 									mounted() {
 										$(this.$refs.DIALOG_TITLE).appendTo(
-											this.dialogOptions._layerInstance.cpt$title
+											this.dialogOptions.instanceDialog.cpt$title
 										);
 									},
 									data() {
@@ -217,7 +218,8 @@ export const installUIDialogComponent = (
 										return (
 											<div
 												class="ventose-dialog-content"
-												data-el-id={_dialogId}>
+												data-el-id={_IDDialog}>
+												{/* title 使用 vue render vNode，挂载之后替换到title的DOM里面 */}
 												<div ref="DIALOG_TITLE">{this.DIALOG_TITLE}</div>
 												<BussinessComponent
 													propDialogOptions={this.dialogOptions}
@@ -228,7 +230,7 @@ export const installUIDialogComponent = (
 								})
 							);
 							dialogVueApp.use(appPlugins, { dependState });
-							dialogVueApp.mount(_dialogId);
+							dialogVueApp.mount(`#${_IDContent}`);
 						} catch (e) {
 							console.error(e);
 						}
@@ -248,7 +250,7 @@ export const installUIDialogComponent = (
 							dialogVueApp = null;
 						}
 						dialogOptions.payload = null;
-						dialogOptions._contentInstance = null;
+						dialogOptions.vmDialogContent = null;
 						dialogOptions = null;
 					}
 				},

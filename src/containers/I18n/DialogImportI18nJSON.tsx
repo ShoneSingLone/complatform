@@ -140,7 +140,7 @@ export const DialogImportI18nJSON = defineComponent({
 			});
 
 			this.isShowCoverView = true;
-			this.$nextTick(() => this.propDialogOptions._layerInstance.offset());
+			this.$nextTick(() => this.propDialogOptions.instanceDialog.offset());
 		},
 		async onCoverExisted() {
 			try {
