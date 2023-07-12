@@ -392,9 +392,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 	},
 	render() {
 		return (
-			<aside
-				class="x-sider_wrapper flex vertical move-transition padding10"
-				style={this.styleAside}>
+			<aside class="x-sider_wrapper" style={this.styleAside}>
 				<div class="x-sider_wrapper_tree" ref="wrapper">
 					{this.vDomTree}
 				</div>

@@ -176,8 +176,40 @@ export const TuiEditor = defineAsyncComponent(async () => {
 				try {
 					(() => {
 						vm.vmTuiEditor = new Editor({
+							customHTMLRenderer: {
+								image: (node, context) => {
+									console.log(node, context);
+									const {
+										title,
+										destination,
+										firstChild: { literal }
+									} = node;
+									const { skipChildren } = context;
+									skipChildren();
+									const src = (() => {
+										const [_, id] =
+											String(destination).match(/^_id:(\d+)/) || [];
+										if (id) {
+											return `${State_App.baseURL}/api/god/resource?id=${id}`;
+										} else {
+											return destination;
+										}
+									})();
+									return {
+										type: "openTag",
+										tagName: "img",
+										selfClose: true,
+										attributes: {
+											title,
+											alt: literal,
+											src
+										}
+									};
+								}
+							},
 							el: vm.$refs.container,
-							initialEditType: "wysiwyg",
+							// initialEditType: "wysiwyg",
+							initialEditType: "markdown",
 							previewStyle: "vertical",
 							initialValue: "",
 							height: "300px",
@@ -189,19 +221,20 @@ export const TuiEditor = defineAsyncComponent(async () => {
 								addImageBlobHook: async (blob, callback) => {
 									/* base64 字符串 */
 									/* vm.setLoading(true);
-											var reader = new FileReader();
-											reader.onload = function (_a) {
-												var target2 = _a.target;
-												vm.setLoading();
-												return callback(target2.result);
-											};
-											reader.readAsDataURL(blob); */
+                                            var reader = new FileReader();
+                                            reader.onload = function (_a) {
+                                                var target2 = _a.target;
+                                                vm.setLoading();
+                                                return callback(target2.result);
+                                            };
+                                            reader.readAsDataURL(blob); */
 									/* 上传服务器，返回id */
 									let formData = new FormData();
 									formData.append("file", blob);
 									formData.append("useFor", "wiki");
 									const { data } = await API.resource.upload(formData);
-									callback(`yapi_res://${data._id}`);
+									debugger;
+									callback(`_id:${data._id}`);
 								}
 							}
 						});

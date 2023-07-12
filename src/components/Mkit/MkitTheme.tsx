@@ -69,12 +69,58 @@ export function newImageDomString(
 export class PreprocessHTML {
 	constructor(html) {
 		this.html = html;
+		this.$html = $(this.html);
 		this.img().a().codejs();
+		this.toc();
+	}
+
+	toc() {
+		const TOC_TAG = `&lt;!-- toc --&gt;`;
+		const headers = xU.filter(this.$html, ele => {
+			console.log(ele.tagName);
+			return /^h(\d+)/i.test(ele.tagName);
+		});
+
+		if (headers.length === 0) {
+			return this;
+		}
+		if (!String(this.html).includes(TOC_TAG)) {
+			return this;
+		}
+
+		let $toc = $("<ul/>").css({ border: "1px solid #ccc" });
+		let stack = [];
+
+		for (const header of headers) {
+			let level = parseInt(header.tagName.replace("H", ""), 10);
+			// 通过两个where循环对栈进行调整,确保stack中标题级数与当前标题级数相同
+			while (stack.length < level) {
+				stack.push(0);
+			}
+			while (stack.length > level) {
+				stack.pop();
+			}
+			// 最小一级标题标号步进+1
+			stack[stack.length - 1]++;
+			// 生成标题标号( 1.1,1.2.. )
+			let index = stack.join(".");
+			// 生成标题ID
+			let id = "title" + index;
+			header.setAttribute("id", id);
+			// 为标题加上标号,如果不希望显示标号，把下面这行注释就可以了
+			header.textContent = index + " " + header.textContent;
+			$toc.append(
+				$(`<li>
+    <a>${new Array(level * 4).join("&nbsp;") + header.textContent}</a>
+</li>`)
+			);
+		}
+		this.html = this.html.replace(TOC_TAG, $toc[0].outerHTML);
+		return this;
 	}
 
 	img() {
-		const $html = $(this.html);
-		const imgArray = $html.find("img");
+		const imgArray = this.$html.find("img");
 		xU.each(imgArray, (img, index) => {
 			const { alt, src } = img;
 			this.html = this.html.replace(
@@ -86,8 +132,7 @@ export class PreprocessHTML {
 	}
 
 	a() {
-		const $html = $(this.html);
-		const aArray = $html.find("a");
+		const aArray = this.$html.find("a");
 		xU.each(aArray, (aDom, index) => {
 			const aDomOuterHTML = aDom.outerHTML;
 			const outerHTML = $(aDom).attr({
@@ -100,8 +145,7 @@ export class PreprocessHTML {
 	}
 
 	codejs() {
-		const $html = $(this.html);
-		const codeArray = $html.find("code[data-language='js']");
+		const codeArray = this.$html.find("code[data-language='js']");
 		xU.each(codeArray, (codeDom, index) => {
 			const $codeDom = $(codeDom);
 			const codeDomOuterHTML = codeDom.outerHTML;
