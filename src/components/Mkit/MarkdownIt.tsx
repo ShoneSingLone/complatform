@@ -104,10 +104,10 @@ export const MarkdownIt = defineComponent({
 
 				setTimeout(() => {
 					this.destoryListener();
-					this.$previewer = $(".el-image-preview-body");
+					this.$previewer = $(".x-tui-image-preview-body");
 					this.$previewer.on(
 						"click",
-						"[class^=ant-image-preview-switch-]",
+						"[class^=x-tui-image-preview-switch-]",
 						this.handleClickPreviewSwitch
 					);
 					this.$previewer.append(leftArrow);
@@ -123,11 +123,11 @@ export const MarkdownIt = defineComponent({
 				this.$rawImgIndex = (this.$rawImgIndex - 1 + length) % length;
 			}
 			const imgSrc = $(this.$rawImgList[this.$rawImgIndex]).attr("src");
-			$(".el-image-preview-img").attr("src", imgSrc);
+			$(".x-tui-image-preview-img").attr("src", imgSrc);
 		},
 		handleClick(event: { target: any }) {
 			const { target } = event;
-			const $ele = $(target).parents(".el-image[data-src]");
+			const $ele = $(target).parents(".x-tui-image[data-src]");
 			if ($ele && $ele.length) {
 				this.showImg($ele.attr("data-src"));
 			}

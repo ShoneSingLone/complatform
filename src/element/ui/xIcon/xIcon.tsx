@@ -12,6 +12,8 @@ import Insidetips from "../../assets/svg/tips.svg";
 import InsideEmpty from "../../assets/svg/empty.svg";
 import InsideCopy from "../../assets/svg/copy.svg";
 import insideSettingOutlined from "../../assets/svg/SettingOutlined.svg";
+import insideIconWarning from "../../assets/svg/icon_warning.svg";
+import insideIconInfo from "../../assets/svg/icon_info.svg";
 import { iStorage } from "../tools/storage";
 import "./xIcon.less";
 import { State_UI } from "..";
@@ -28,7 +30,9 @@ const insideIcons = {
 	Insidetips,
 	InsideEmpty,
 	InsideCopy,
-	insideSettingOutlined
+	insideSettingOutlined,
+	insideIconWarning,
+	insideIconInfo
 };
 
 export default defineComponent(

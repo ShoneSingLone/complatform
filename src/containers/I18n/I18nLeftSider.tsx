@@ -103,7 +103,7 @@ export const I18nLeftSider = defineComponent({
 							title(item) {
 								const { title, _id, type } = item;
 								const classContentString = (() => {
-									let _classString = "flex middle x-sider-tree_menu";
+									let _classString = "x-sider-tree_menu";
 									if (String(_id) == String(stateI18n.currentI18n._id)) {
 										return _classString + " x-sider-tree_menu_active";
 									}
@@ -144,7 +144,7 @@ export const I18nLeftSider = defineComponent({
 										<span class="x-sider-tree_menu_title">
 											<div class="flex middle">{item.id}</div>
 										</span>
-										<div class="flex middle x-sider-tree_menu_opration">
+										<div class="x-sider-tree_menu_opration">
 											{genIcon({
 												icon: "add",
 												tips: vm.$t("添加").label,
@@ -266,7 +266,7 @@ export const I18nLeftSider = defineComponent({
 			<aside
 				class="x-sider_wrapper flex vertical move-transition padding10"
 				style={this.styleAside}>
-				<div class="x-sider_wrapper_tree flex1 mt10 mb10" ref="wrapper">
+				<div class="x-sider_wrapper_tree" ref="wrapper">
 					{this.vDomTree}
 				</div>
 				<div class="resize_bar" icon="scroll" v-uiMove={this.configsResize} />

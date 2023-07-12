@@ -198,8 +198,7 @@ export { ElRow as Row };
 <ElMenuItem
 <ElInput
 <ElSelect
-<ElAlert
-<aAutoComplete
+<ElAlert<aAutoComplete
 <ElTag
 <ElTree
 <ElCheckbox

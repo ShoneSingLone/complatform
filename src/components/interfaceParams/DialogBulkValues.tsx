@@ -92,7 +92,7 @@ export const DialogBulkValues = defineComponent({
 			<>
 				<div class="flex flex1 vertical padding10">
 					<ElAlert
-						message={`型如key:value一行一个 换行即可，不要使用逗号、分号分隔`}
+						title={`型如key:value一行一个 换行即可，不要使用逗号、分号分隔`}
 					/>
 					<div style="height:340px;width:500px">
 						<MonacoEditor

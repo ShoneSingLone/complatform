@@ -129,7 +129,7 @@ export const DialogAddInterface = defineComponent({
 				<div class="x-dialog-boddy-wrapper flex1 height100">
 					<xGap t="10" />
 					<ElAlert
-						message={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
+						title={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
 						type="info"
 						closable
 						class="width100"

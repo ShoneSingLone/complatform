@@ -3,7 +3,7 @@
 import { xU } from "../../ventoseUtils";
 import $ from "jquery";
 import { KEY, LayerUtils } from "../layer/LayerUtils";
-import { createApp, defineComponent } from "vue";
+import { compile, createApp, defineComponent } from "vue";
 import { State_UI } from "../../State_UI";
 
 const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
@@ -188,15 +188,27 @@ export const installUIDialogComponent = (
 							dialogVueApp = createApp(
 								defineComponent({
 									components: { BussinessComponent },
+									beforeCreate(...args) {
+										if (xU.isFunction(title)) {
+											this.$options.computed = this.$options.computed || {};
+											this.$options.computed.DIALOG_TITLE = function () {
+												return title();
+											};
+										}
+									},
 									created() {
 										this.dialogOptions._contentInstance = this;
-
 										if (this.dialogOptions.keepTop) {
 											setTimeout(() => {
 												$(`#layui-layer-shade${_layerKey}`).css("z-index", 1);
 											}, 6);
 										}
 										resolve(this.dialogOptions);
+									},
+									mounted() {
+										$(this.$refs.DIALOG_TITLE).appendTo(
+											this.dialogOptions._layerInstance.cpt$title
+										);
 									},
 									data() {
 										return { dialogOptions };
@@ -206,6 +218,7 @@ export const installUIDialogComponent = (
 											<div
 												class="ventose-dialog-content"
 												data-el-id={_dialogId}>
+												<div ref="DIALOG_TITLE">{this.DIALOG_TITLE}</div>
 												<BussinessComponent
 													propDialogOptions={this.dialogOptions}
 												/>
@@ -241,7 +254,6 @@ export const installUIDialogComponent = (
 				},
 				xU.omit(dialogOptions, ["end", "cancel", "success", "content"])
 			);
-
 			LayerUtils.open(layerOptions);
 		});
 };

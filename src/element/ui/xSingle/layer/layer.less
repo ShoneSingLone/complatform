@@ -216,6 +216,11 @@ html #layuicss-layer {
 	border-radius: 2px 2px 0 0;
 	text-shadow: 1px 1px #e9e4ed;
 	font-family: sans-serif;
+
+	font-size: 18px;
+	font-size: var(--font-size-modal-title, 18px);
+	font-weight: 700;
+	vertical-align: middle;
 }
 
 .layui-layer-setwin {
@@ -790,4 +795,19 @@ div[id^="xDialog_"] {
 
 .move-transition {
 	transition: 0.1s linear;
+}
+
+.x-dialog-wrapper {
+	position: relative;
+	border-radius: 6px;
+	border-radius: var(--border-radius-card, 6px);
+	border: none;
+	background-color: #fff;
+	background-color: var(--fullscreen-overlay-bg, #ffffff);
+	background-clip: padding-box;
+	outline: 0;
+	box-shadow: 0 10px 24px #252b3a3d;
+	box-shadow: var(--shadow-length-fullscreen-overlay, 0 10px 24px 0)
+		var(--shadow, rgba(37, 43, 58, 0.24));
+	overflow: hidden;
 }

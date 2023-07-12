@@ -100,7 +100,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 							title(item) {
 								const { title, _id, list, menuType, categoryId } = item;
 								const classContentString = (() => {
-									let _classString = "flex middle x-sider-tree_menu";
+									let _classString = "x-sider-tree_menu";
 									if (String(_id) == String(vm.currentSelectedMenu)) {
 										return _classString + " x-sider-tree_menu_active";
 									}
@@ -153,7 +153,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											<xGap l="10" />
 											<xIcon icon="allCategory" />
 											<span class="x-sider-tree_menu_title">{title}</span>
-											<div class="flex middle x-sider-tree_menu_opration">
+											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
 													tips: vm.$t("添加分类").label,
@@ -177,7 +177,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								const vDomOpration = (() => {
 									if (menuType === "category") {
 										return (
-											<div class="flex middle x-sider-tree_menu_opration">
+											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
 													tips: vm.$t("添加接口").label,
@@ -199,7 +199,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 										);
 									} else {
 										return (
-											<div class="flex middle x-sider-tree_menu_opration">
+											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "delete",
 													tips: vm.$t("删除接口").label,
@@ -369,7 +369,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			<aside
 				class="x-sider_wrapper flex vertical move-transition padding10"
 				style={this.styleAside}>
-				<div class="x-sider_wrapper_tree flex1 mt10 mb10" ref="wrapper">
+				<div class="x-sider_wrapper_tree" ref="wrapper">
 					{this.vDomTree}
 				</div>
 				<div class="resize_bar" icon="scroll" v-uiMove={this.configsResize} />

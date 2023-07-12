@@ -10,6 +10,9 @@ import {
 } from "element-plus";
 import $ from "jquery";
 import { xU } from "./ventoseUtils";
+import { resolveComponent } from "vue";
+import { DialogConfirm } from "./xSingle/dialog/DialogConfirm";
+import { DialogDelete } from "./xSingle/dialog/DialogDelete";
 
 /* 静态方法，与APP实例无关，引用有直接可用 */
 
@@ -29,7 +32,6 @@ const useModel = type => {
 					return title;
 				}
 			})(!title);
-			debugger;
 			ElMessageBox[type](content, title, {
 				icon: (
 					<link
@@ -73,14 +75,37 @@ LayerUtils.loading = function (indexDelete) {
 	}
 };
 
+type t_confirmOptions = {
+	title?: stirng;
+	content?: stirng;
+	okText?: string;
+	cancelText?: string;
+};
 export const UI = {
-	confirm({ title, content, okText, cancelText }) {
-		ElMessageBox.confirm(content, title, {
-			confirmButtonText: okText || State_UI.$t("确定").label,
-			cancelButtonText: cancelText || State_UI.$t("取消").label
-		})
-			.then(resolve)
-			.catch(reject);
+	confirm(options: t_confirmOptions) {
+		options.title =
+			options.title ||
+			(() => (
+				<span>
+					<xIcon icon="insideIconInfo" />
+					<span class="ml10">{State_UI.$t("提示").label}</span>
+				</span>
+			));
+
+		UI.dialog.component({
+			title: options.title,
+			payload: options,
+			component: DialogConfirm
+		});
+	},
+	delete(options: t_confirmOptions) {
+		options.title = () => (
+			<span>
+				<xIcon icon="insideIconWarning" />
+				<span class="ml10">{State_UI.$t("删除").label}</span>
+			</span>
+		);
+		this.confirm(options);
 	},
 	dialog: {
 		/* installUIDialogComponent Vue3 依赖外部plugin，没有全局的 */
@@ -88,37 +113,7 @@ export const UI = {
 		success: useModel("success"),
 		info: useModel("info"),
 		error: useModel("error"),
-		warning: useModel("warning"),
-		confirm: ({ title, content, okText, cancelText }) => {
-			return new Promise(async (resolve, reject) => {
-				ElMessageBox.confirm(content, title, {
-					confirmButtonText: okText || State_UI.$t("确定").label,
-					cancelButtonText: cancelText || State_UI.$t("取消").label
-				})
-					.then(resolve)
-					.catch(reject);
-			});
-		},
-		delete({ title, content } = {}) {
-			title = title || State_UI.$t("删除").label;
-			content = content || State_UI.$t("删除确认提示").label;
-			return new Promise((resolve, reject) => {
-				ElMessageBox.confirm({
-					title,
-					icon: <ExclamationCircleOutlined style={"color:red"} />,
-					content,
-					okType: "danger",
-					okText: State_UI.$t("确定").label,
-					cancelText: State_UI.$t("取消").label,
-					onOk() {
-						resolve("ok");
-					},
-					onCancel() {
-						reject();
-					}
-				});
-			});
-		}
+		warning: useModel("warning")
 	},
 	message: ElMessage,
 	notification: new Proxy(ElNotification, {

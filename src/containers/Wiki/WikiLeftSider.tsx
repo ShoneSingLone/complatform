@@ -119,7 +119,7 @@ export const WikiLeftSider = defineComponent({
 										const { data } = item;
 										const { title, _id, type } = data;
 										const classContentString = (() => {
-											let _classString = "flex middle x-sider-tree_menu";
+											let _classString = "x-sider-tree_menu";
 											if (
 												String(_id) == String(vm.State_Wiki.currentWiki._id)
 											) {
@@ -156,13 +156,15 @@ export const WikiLeftSider = defineComponent({
 											!item?.children || item?.children?.length === 0;
 
 										return (
-											<div class={classContentString} onClick={handleClick}>
-												<xGap l="10" />
-												<xIcon icon="icon_article" />
-												<span class="x-sider-tree_menu_title">
-													<div class="flex middle">{title}</div>
-												</span>
-												<div class="flex middle x-sider-tree_menu_opration">
+											<div class={classContentString}>
+												<xGap l="10" onClick={handleClick} />
+												<xIcon icon="icon_article" onClick={handleClick} />
+												<div
+													class="x-sider-tree_menu_title"
+													onClick={handleClick}>
+													{title}
+												</div>
+												<div class="x-sider-tree_menu_opration">
 													{genIcon({
 														icon: "add",
 														tips: vm.$t("添加").label,
@@ -260,10 +262,9 @@ export const WikiLeftSider = defineComponent({
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
 		}, 300),
-		deleteArticle(_id) {
+		async deleteArticle(_id) {
 			const vm = this;
-			UI.dialog.confirm({
-				title: "确定删除此文档吗？",
+			UI.delete({
 				content: `文档删除后无法恢复`,
 				async onOk() {
 					try {
@@ -275,7 +276,6 @@ export const WikiLeftSider = defineComponent({
 						});
 					} catch (error) {
 						UI.message.error(error.message);
-						return Promise.reject();
 					}
 				}
 			});
@@ -295,7 +295,7 @@ export const WikiLeftSider = defineComponent({
 			<aside
 				class="x-sider_wrapper flex vertical move-transition padding10"
 				style={this.styleAside}>
-				<div class="x-sider_wrapper_tree flex1 mt10 mb10" ref="wrapper">
+				<div class="x-sider_wrapper_tree" ref="wrapper">
 					{this.vDomTree}
 				</div>
 				<div class="resize_bar" icon="scroll" v-uiMove={this.configsResize} />

@@ -66,7 +66,7 @@ console.log(window)
 		return (
 			<div id="DialogModifyIP">
 				<xForm class="flex vertical" labelStyle={this.styleForm}>
-					<ElAlert message={this.$t("提示信息").label} type="info" />
+					<ElAlert title={this.$t("提示信息").label} type="info" />
 					{xU.map(this.dataXItem, item => {
 						return (
 							<>
@@ -81,7 +81,7 @@ console.log(window)
 					md={`### 自定义form 宽度，label宽度，居中
 \`\`\`js
 <xForm class="flex vertical" labelStyle={this.styleForm}>
-	<ElAlert message={this.$t("提示信息").label} type="info" />
+	<ElAlert title={this.$t("提示信息").label} type="info" />
     {xU.map(this.dataXItem, (item) => {
      return (<>
       <xGap t="10" />

@@ -17,7 +17,6 @@ import { State_App } from "./../../../state/State_App";
 import { DialogModifyInterface } from "./DialogModifyInterface";
 import { makeAhref } from "@/components/RouterView/RouterView";
 import copy from "copy-to-clipboard";
-import { asyncGetTuiEditor } from "../../../components/TuiEditor/LoadTuiEditorLibs";
 import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 import { JsonSchemaMonaco } from "../../../components/JsonSchemaEditor/JsonSchemaMonaco";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
@@ -105,9 +104,6 @@ export const InterfaceDetail = defineComponent({
 				this.updateInterfaceInfo();
 			}
 		}
-	},
-	async mounted() {
-		await asyncGetTuiEditor();
 	},
 	methods: {
 		async runPostman() {

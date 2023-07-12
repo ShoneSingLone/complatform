@@ -4,6 +4,7 @@
 import $ from "jquery";
 import { xU } from "../../ventoseUtils";
 import { i_layerOptions } from "./i_layerOptions";
+import { getCurrentInstance } from "vue";
 
 export const KEY = {
 	right: 39,
@@ -606,6 +607,10 @@ class ClassLayer {
 			.handleAnimation();
 	}
 
+	get cpt$title() {
+		return this.$eleLayer.find(`.${LAYUI_LAYER_TITLE}`);
+	}
+
 	get cptDomShade() {
 		const { config, _IDShade } = this;
 		if (!config.shade) {
@@ -623,11 +628,17 @@ class ClassLayer {
 			return "";
 		}
 
-		var isTitleObject = typeof config.title === "object";
-		if (!isTitleObject) {
-			config.title = [String(config.title), ""];
-		}
-		const [title, styleString]: any = config.title || ["", ""];
+		const [title, styleString] = (() => {
+			if (xU.isString(config.title)) {
+				return [config.title, ""];
+			}
+
+			if (xU.isArray(config.title)) {
+				return config.title;
+			}
+			return ["", ""];
+		})();
+
 		return `<div class="${LAYUI_LAYER_TITLE}" style="${styleString}" data-layer-id="${_IDLayer}"> ${title} </div >`;
 	}
 
@@ -717,10 +728,10 @@ class ClassLayer {
 		const fnValid = i => !!i;
 
 		const layerWrapperClassname = [
-			"el-card is-always-shadow",
+			LAYUI_LAYER,
+			"x-dialog-wrapper",
 			"flex vertical",
 			`layui-layer-${typeName}`,
-			LAYUI_LAYER,
 			config.skin,
 			(() => {
 				if (
@@ -1365,6 +1376,7 @@ $document
 						}
 					}
 
+					console.log(X, Y);
 					$eleLayer.css({ left: X, top: Y });
 				}
 
