@@ -82,7 +82,7 @@ const ParamsNameComponent = props => {
 			{isNull ? (
 				<ElInput disabled value={name} class="key" />
 			) : (
-				<ElTooltip placement="topLeft" title={<ElTooltipTitle />}>
+				<ElTooltip content={<ElTooltipTitle />}  placement="topLeft">
 					<ElInput disabled value={name} class="key" />
 				</ElTooltip>
 			)}
@@ -672,7 +672,7 @@ ${JSON.stringify(result.header, null, 2)}
 
 					<ElTooltip
 						placement="bottom"
-						title={(() => {
+						content={(() => {
 							if (hasPlugin) {
 								return "发送请求";
 							} else {

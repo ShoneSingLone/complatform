@@ -520,7 +520,7 @@ class AvatarUpload extends Component {
 			<div class="avatar-box">
 				<ElTooltip
 					placement="right"
-					title={
+					content={
 						<div>点击头像更换 (只支持jpg、png格式且大小不超过200kb的图片)</div>
 					}>
 					<div>

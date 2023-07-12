@@ -81,7 +81,7 @@ export default defineComponent({
 		followIcon() {
 			return (
 				<span class="pointer" onClick={this.followIconClickHandler}>
-					<ElTooltip placement="rightTop" title={this.followIconTitle}>
+					<ElTooltip content={this.followIconTitle} placement="rightTop">
 						<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
 					</ElTooltip>
 				</span>
@@ -91,7 +91,7 @@ export default defineComponent({
 			if (this.isShow) {
 				return (
 					<span class="pointer icon-copy" onClick={this.showCopyProjectDialog}>
-						<ElTooltip placement="rightTop" title="复制项目">
+						<ElTooltip content="复制项目" placement="rightTop">
 							<xIcon icon="copy" style={{ color: "#232426" }} />
 						</ElTooltip>
 					</span>
@@ -143,7 +143,10 @@ export default defineComponent({
 	render() {
 		return (
 			<div class="card-container" style={"width:200px;"}>
-				<ElCard hoverable class="m-card">
+				<ElCard
+					hoverable
+					class="m-card"
+					body-style={{ width: "200px", height: "200px" }}>
 					{this.logo}
 					{this.title}
 				</ElCard>
