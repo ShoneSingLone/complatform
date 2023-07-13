@@ -23,7 +23,7 @@ export const ViewNotFound = defineComponent({
 	},
 	render() {
 		return (
-			<aResult status="404" title="404" subTitle={this.pathname} class="flex1">
+			<ElResult icon="error" title="404" subTitle={this.pathname} class="flex1">
 				{{
 					extra: () => (
 						<ElButton type="primary" onClick={this.goHome}>
@@ -31,7 +31,7 @@ export const ViewNotFound = defineComponent({
 						</ElButton>
 					)
 				}}
-			</aResult>
+			</ElResult>
 		);
 	}
 });

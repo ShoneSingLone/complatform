@@ -233,7 +233,6 @@ export const TuiEditor = defineAsyncComponent(async () => {
 									formData.append("file", blob);
 									formData.append("useFor", "wiki");
 									const { data } = await API.resource.upload(formData);
-									debugger;
 									callback(`_id:${data._id}`);
 								}
 							}

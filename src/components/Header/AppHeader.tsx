@@ -54,12 +54,12 @@ export const AppHeader = defineComponent({
 			}
 
 			const items = [
-				{ content: "我的关注", path: "/follow", icon: "star" },
-				{ content: "新建项目", path: "/follow", icon: "add" },
+				{ content: "我的关注", path: "/follow", icon: "icon_我的关注" },
+				{ content: "新建项目", path: "/follow", icon: "icon_新建项目" },
 				{
 					content: "使用文档",
 					href: "https://hellosean1025.github.io/yapi",
-					icon: "question"
+					icon: "icon_使用文档"
 				}
 			].map(i => {
 				let link: VNode | null = null;

@@ -1327,42 +1327,44 @@ table.ProseMirror-selectednode,
 .toastui-editor-contents h5,
 .toastui-editor-contents h6 {
 	line-height: 17px;
-	margin: 10px;
 }
 
 .toastui-editor-contents {
 	// outline: 1px solid red;
 	h1 {
 		font-size: 24px;
+		&::before {
+			content: "1";
+		}
 	}
 	h2 {
 		font-size: 22px;
 		&::before {
-			content: "_";
+			content: "2";
 		}
 	}
 	h3 {
 		font-size: 20px;
 		&::before {
-			content: "__";
+			content: "3";
 		}
 	}
 	h4 {
 		font-size: 18px;
 		&::before {
-			content: "___";
+			content: "4";
 		}
 	}
 	h5 {
 		font-size: 16px;
 		&::before {
-			content: "___";
+			content: "5";
 		}
 	}
 	h6 {
 		font-size: 14px;
 		&::before {
-			content: "_____";
+			content: "6";
 		}
 	}
 }
