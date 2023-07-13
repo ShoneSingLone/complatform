@@ -170,7 +170,7 @@ export const AppHeader = defineComponent({
 							let menuLink = (
 								<a
 									href={item.path || ""}
-									class="flex horizon"
+									class="header-dropdown-menu-item"
 									target={item.target || ""}
 									onClick={item?.onClick}>
 									{menuContent}
@@ -197,7 +197,7 @@ export const AppHeader = defineComponent({
 			return null;
 		}
 		return (
-			<header class="header-box m-header elevation-4">
+			<header class="app-header-wrapper">
 				<div class="content flex middle">
 					<span onClick={this.goToGroup} class="flex middle pointer">
 						<xIcon icon={this.icon} style={this.styleLogo} />

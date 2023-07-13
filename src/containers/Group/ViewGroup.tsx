@@ -113,14 +113,6 @@ export const ViewGroup = defineComponent({
 				return null;
 			}
 		},
-		classPanel() {
-			const isFooterFold = this.State_App.isFooterFold;
-			return {
-				"flex vertical": true,
-				"footer-fold elevation-4": isFooterFold,
-				"elevation-8": !isFooterFold
-			};
-		},
 		styleContent() {
 			return {
 				height: "100%",
@@ -199,7 +191,7 @@ export const ViewGroup = defineComponent({
 				id="GroupView"
 				class="padding20 flex horizon"
 				v-loading={!this.groupId}>
-				<aside id="ViewGroup_sider" class={this.classPanel}>
+				<aside id="ViewGroup_sider" class="flex vertical box-shadow">
 					<GroupLeftSider />
 				</aside>
 				<section class="flex1">

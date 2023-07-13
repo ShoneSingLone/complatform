@@ -14,20 +14,10 @@ export const ViewWiki = defineComponent({
 		const vm = this;
 		return {
 			title: "",
-			titleConfigs: defItem.item({ placeholder: $t("文档名称").label }),
-			isReadonly: true,
-			btnSave: {
-				text() {
-					return vm.isReadonly ? $t("编辑").label : $t("保存").label;
-				},
-				onClick() {
-					if (vm.isReadonly) {
-						vm.isReadonly = false;
-					} else {
-						vm.save();
-					}
-				}
-			}
+			titleConfigs: defItem.item({
+				placeholder: $t("文档名称").label
+			}),
+			isReadonly: true
 		};
 	},
 	methods: {
@@ -51,6 +41,30 @@ export const ViewWiki = defineComponent({
 		}
 	},
 	computed: {
+		btnSave() {
+			return {
+				text: this.isReadonly ? $t("编辑").label : $t("保存").label,
+				type: "primary",
+				onClick: () => {
+					if (this.isReadonly) {
+						this.isReadonly = false;
+					} else {
+						this.save();
+					}
+				}
+			};
+		},
+		btnCancel() {
+			return {
+				text: $t("取消").label,
+				isShow: () => {
+					return !this.isReadonly;
+				},
+				onClick: () => {
+					this.isReadonly = true;
+				}
+			};
+		},
 		wikiContent: {
 			get() {
 				return {
@@ -64,7 +78,7 @@ export const ViewWiki = defineComponent({
 		vDomTitle() {
 			if (this.isReadonly) {
 				return (
-					<span class="ml10" style="font-weight:700;font-size:18px;">
+					<span class="ml10 flex1" style="font-weight:700;font-size:18px;">
 						{State_Wiki.currentWiki.title}
 					</span>
 				);
@@ -72,6 +86,7 @@ export const ViewWiki = defineComponent({
 				return (
 					<>
 						<xItem
+							class="flex1 mr10"
 							configs={this.titleConfigs}
 							modelValue={State_Wiki.currentWiki.title}
 							onUpdate:modelValue={val => (this.title = val)}
@@ -91,7 +106,8 @@ export const ViewWiki = defineComponent({
 				<main class="flex flex1 padding10 vertical paddingB20">
 					<div class="flex mb10 middle" style="height:48px;">
 						{this.vDomTitle}
-						<xGap f="1" />
+						<xButton configs={this.btnCancel} />
+						<xGap r="10" />
 						<xButton configs={this.btnSave} />
 					</div>
 					{/* {this.wikiContent.md} */}

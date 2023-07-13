@@ -11,6 +11,8 @@
 }
 
 #GroupView {
+	height: 1px;
+
 	#Group-layout-content-tabs {
 		display: flex;
 		flex-flow: column nowrap;
@@ -22,14 +24,11 @@
 			}
 		}
 
-		.el-tabs-content {
+		.el-tabs__content {
 			height: 100%;
 
-			div[id^="Group-layout-content-tabs-panel"] {
+			.el-tab-pane {
 				height: 100%;
-				display: flex;
-				flex-flow: column nowrap;
-				flex: 1;
 			}
 		}
 	}
@@ -37,14 +36,9 @@
 
 #ViewGroup_sider {
 	background-color: white;
-	border-radius: 16px;
+	border-radius: var(--border-radius);
 	overflow: hidden;
-	// height: calc(100% - 6px);
-	transform: translate(-10px, -12px);
-
-	&.footer-fold {
-		transform: translate(-6px, -10px);
-	}
+	min-width: 280px;
 }
 
 .group-bar {
@@ -128,7 +122,7 @@
 			cursor: pointer;
 			border: 1px solid var(--color-white);
 			padding: 6px 12px;
-			border-radius: 4px;
+			border-radius: var(--border-radius);
 			transition: all 0.2s;
 		}
 
@@ -215,7 +209,7 @@
 		background: white;
 		font-size: 32px;
 		padding: 16px;
-		border-radius: 14px;
+		border-radius: var(--border-radius);
 		min-width: 100px;
 		overflow: hidden;
 		text-overflow: ellipsis;

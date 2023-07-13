@@ -8,8 +8,10 @@ import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { MarkdownIt as Mkit } from "@/components/Mkit/MarkdownIt";
 export { ITEM_OPTIONS } from "./common.options";
-
 dayjs.locale("zh-cn");
+// import "element-plus/theme-chalk/src/common/var.scss";
+import "../styles/element-theme.scss";
+// import "element-plus/theme-chalk/src/index.scss";
 
 /**
  * 复用配置

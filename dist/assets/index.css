@@ -1191,7 +1191,7 @@ em {
   font-size: 13px;
   color: #919191;
 }
-/* 
+/*
 @media (max-width: 768px) {
   html {
     width: min-content !important;
@@ -1582,7 +1582,7 @@ em {
 .card-container + .card-container {
   margin-right: 20px;
 }
-.card-container .m-card,
+.card-container .project-card-wrapper,
 .card-container .card-btns {
   transform: translateY(0);
   transition: all 0.2s;
@@ -1609,17 +1609,17 @@ em {
 .pointer.icon-copy:hover {
   cursor: copy;
 }
-.m-card {
+.project-card-wrapper {
   text-align: center;
   margin-bottom: 0.16rem;
   transition: all 0.4s;
   position: relative;
   border-radius: 16px;
 }
-.m-card.ant-card-hoverable:hover {
+.project-card-wrapper.ant-card-hoverable:hover {
   cursor: unset;
 }
-.m-card .ant-card-body {
+.project-card-wrapper .ant-card-body {
   background-color: transparent;
   padding-top: 1.4rem;
   box-shadow: 0 4px 6px rgba(255, 255, 255, 0.11), 0 1px 3px rgba(255, 255, 255, 0.08);
@@ -1627,57 +1627,54 @@ em {
   border-radius: 16px;
   overflow: hidden;
 }
-.m-card .ui-logo {
-  position: absolute;
+.project-card-wrapper .ui-logo {
   padding: 16px;
-  left: 50%;
-  top: 0;
-  transform: translate(-50%, 0.24rem);
+  /*transform: translate(-50%, 0.24rem);*/
   color: #fff;
   font-size: 96px;
   background-color: #2395f1;
   line-height: 1rem;
 }
-.m-card .ui-logo:hover {
+.project-card-wrapper .ui-logo:hover {
   box-shadow: 0 6px 6px -3px rgba(0, 0, 0, 0.2), 0 10px 14px 1px rgba(0, 0, 0, 0.1411764706), 0 4px 18px 3px rgba(0, 0, 0, 0.1215686275) !important;
   cursor: pointer;
 }
-.m-card .ui-title {
+.project-card-wrapper .ui-title {
   font-size: 0.19rem;
   font-weight: normal;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.m-card .m-card-body .icon {
+.project-card-wrapper .project-card-wrapper-body .icon {
   font-size: 0.8rem;
 }
-.m-card .m-card-body .name {
+.project-card-wrapper .project-card-wrapper-body .name {
   font-size: 0.18rem;
   margin-top: 0.16rem;
 }
 @media (max-width: 768px) {
-  .m-card .ui-logo {
+  .project-card-wrapper .ui-logo {
     width: 0.6rem;
     height: 0.6rem;
     line-height: 0.6rem;
     font-size: 0.3rem;
     transform: translate(-50%, 0.08rem);
   }
-  .m-card .ant-card-body {
+  .project-card-wrapper .ant-card-body {
     padding-top: 0.76rem;
     padding-bottom: 0.08rem;
   }
 }
 @media (min-width: 768px) and (max-width: 992px) {
-  .m-card .ui-logo {
+  .project-card-wrapper .ui-logo {
     width: 0.8rem;
     height: 0.8rem;
     line-height: 0.8rem;
     font-size: 0.4rem;
     transform: translate(-50%, 0.16rem);
   }
-  .m-card .ant-card-body {
+  .project-card-wrapper .ant-card-body {
     padding-top: 1.12rem;
     padding-bottom: 0.16rem;
   }
@@ -1804,7 +1801,7 @@ em {
   font-size: 13px;
   color: #919191;
 }
-/* 
+/*
 @media (max-width: 768px) {
   html {
     width: min-content !important;
@@ -2582,15 +2579,15 @@ ul.jsondiffpatch-textdiff {
   color: rgba(255, 255, 255, 0.67);
 }
 
-/* .header-box.css */
+/* .app-header-wrapper.css */
 
-.header-box {
+.app-header-wrapper {
   height: 0.56rem;
   line-height: 0.56rem;
   padding: 0 20px;
 }
 
-.header-box .logo {
+.app-header-wrapper .logo {
   position: relative;
   float: left;
   line-height: 0.56rem;
@@ -2602,23 +2599,23 @@ ul.jsondiffpatch-textdiff {
   transition: all 0.2s;
 }
 
-.header-box .logo:hover {
+.app-header-wrapper .logo:hover {
   background-color: #2395f1;
 }
 
-.header-box .logo .href {
+.app-header-wrapper .logo .href {
   text-decoration: none;
   display: block;
 }
 
-.header-box .logo .logo-name {
+.app-header-wrapper .logo .logo-name {
   color: rgba(255, 255, 255, 0.85);
   font-size: 0.24rem;
   font-weight: 300;
   margin-left: 0.38rem;
 }
 
-.header-box .logo .img {
+.app-header-wrapper .logo .img {
   position: absolute;
   left: 0;
   top: 50%;
@@ -2626,7 +2623,7 @@ ul.jsondiffpatch-textdiff {
   transform: translate(-16px, -17px);
 }
 
-.header-box .logo .ui-badge {
+.app-header-wrapper .logo .ui-badge {
   position: absolute;
   right: -18px;
   top: 6px;
@@ -2637,27 +2634,27 @@ ul.jsondiffpatch-textdiff {
   background-image: none;
 }
 
-.header-box .nav-toolbar {
+.app-header-wrapper .nav-toolbar {
   font-size: 0.15rem;
   float: left;
 }
 
-.header-box .user-menu {
+.app-header-wrapper .user-menu {
   margin-top: 20px;
 }
 
-.header-box .user-toolbar {
+.app-header-wrapper .user-toolbar {
   float: right;
   height: 0.54rem;
   display: flex;
   align-items: center;
 }
 
-.header-box .user-toolbar .item-search {
+.app-header-wrapper .user-toolbar .item-search {
   width: 2rem;
 }
 
-.header-box .user-toolbar .toolbar-li {
+.app-header-wrapper .user-toolbar .toolbar-li {
   float: left;
   font-size: 0.14rem;
   cursor: pointer;
@@ -2666,16 +2663,16 @@ ul.jsondiffpatch-textdiff {
   transition: color 0.2s;
 }
 
-.header-box .user-toolbar .toolbar-li a {
+.app-header-wrapper .user-toolbar .toolbar-li a {
   color: #ccc;
 }
 
-.header-box .user-toolbar .toolbar-li .dropdown-link {
+.app-header-wrapper .user-toolbar .toolbar-li .dropdown-link {
   color: #ccc;
   transition: color 0.2s;
 }
 
-.header-box .user-toolbar .toolbar-li .dropdown-link .avatar-image {
+.app-header-wrapper .user-toolbar .toolbar-li .dropdown-link .avatar-image {
   margin-bottom: -10px;
   display: inline-block;
   text-align: center;
@@ -2690,21 +2687,21 @@ ul.jsondiffpatch-textdiff {
   border-radius: 16px;
 }
 
-.header-box .user-toolbar .toolbar-li .dropdown-link .avatar-image > img {
+.app-header-wrapper .user-toolbar .toolbar-li .dropdown-link .avatar-image > img {
   height: auto;
   width: 100%;
   display: bloack;
 }
 
-.header-box .user-toolbar .toolbar-li .anticon.active {
+.app-header-wrapper .user-toolbar .toolbar-li .anticon.active {
   color: #2395f1;
 }
 
-.header-box .user-toolbar .toolbar-li:hover .dropdown-link {
+.app-header-wrapper .user-toolbar .toolbar-li:hover .dropdown-link {
   color: #2395f1;
 }
 
-.header-box .user-toolbar .toolbar-li .name {
+.app-header-wrapper .user-toolbar .toolbar-li .name {
   margin-left: 0.08rem;
 }.search-wrapper {
   cursor: auto;

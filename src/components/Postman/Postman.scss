@@ -5,18 +5,18 @@
 	}
 	.pretty-editor {
 		border: 1px solid #d9d9d9;
-		border-radius: 4px;
+		border-radius: var(--border-radius);
 		min-height: 200px;
 	}
 	.pretty-editor-body {
 		border: 1px solid #d9d9d9;
-		border-radius: 4px;
+		border-radius: var(--border-radius);
 		min-height: 300px;
 		min-width: 100%;
 	}
 	.pretty-editor-header {
 		border: 1px solid #d9d9d9;
-		border-radius: 4px;
+		border-radius: var(--border-radius);
 		min-height: 300px;
 	}
 
@@ -47,7 +47,7 @@
 		margin-bottom: 20px;
 		.el-tabs-nav {
 			background: #f7f7f7;
-			border-radius: 0 0 4px 4px;
+			border-radius: var(--border-radius);
 			border: 1px solid #d9d9d9;
 			width: 100%;
 		}
@@ -87,7 +87,7 @@
 		margin-right: -0.28rem;
 		transition: all 0.2s;
 		position: relative;
-		border-radius: 2px;
+		border-radius: var(--border-radius);
 	}
 	.res-code.success {
 		background-color: $color-antd-green;
@@ -140,7 +140,7 @@
 		.res-body-text {
 			height: 100%;
 			border: 1px solid #d9d9d9;
-			border-radius: 4px;
+			border-radius: var(--border-radius);
 			padding: 8px;
 		}
 	}

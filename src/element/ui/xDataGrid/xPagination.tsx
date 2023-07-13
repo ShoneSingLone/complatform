@@ -34,52 +34,32 @@ export const xPagination = defineComponent({
 		};
 	},
 	methods: {
-		onShowSizeChange: xU.debounce(function (page, size) {
+		onShowSizeChange: xU.debounce(function ({ page, size }) {
 			setPagination(this, { page, size });
 			if (this.onPaginationChange) {
 				this.onPaginationChange(this.pagination);
 			}
 		}, 30)
 	},
-	computed: {
-		i18nMessage() {
-			return {
-				总条数: "总条数 {total}",
-				条页: "{size}条/页",
-				...this.State_UI.i18nMessage
-			};
-		}
-	},
+	computed: {},
 	render() {
 		const { page, size, total } = State_UI.pagination;
 		xU(page, size, total);
-
 		if (!this.pagination[total]) {
 			return null;
 		}
-
 		return (
-			<aPagination
-				v-model:current={this.pagination[page]}
-				pageSizeOptions={this.pageSizeOptions}
+			<ElPagination
+				background
+				v-model:current-page={this.pagination[page]}
+				layout="prev, pager, next,sizes,total"
 				total={this.pagination[total]}
+				pageSizes={this.pageSizeOptions}
 				pageSize={this.pagination[size]}
 				show-size-changer
-				showTotal={total =>
-					this.$t("总条数", { total }, this.i18nMessage).label
-				}
-				onShowSizeChange={this.onShowSizeChange}
-				onChange={this.onShowSizeChange}>
-				{{
-					buildOptionText: props => {
-						return (
-							<span>
-								{this.$t("条页", { size: props.value }, this.i18nMessage).label}
-							</span>
-						);
-					}
-				}}
-			</aPagination>
+				onSizeChange={size => this.onShowSizeChange({ size })}
+				onCurrentChange={page => this.onShowSizeChange({ page })}
+			/>
 		);
 	}
 });

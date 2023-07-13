@@ -111,11 +111,21 @@ export function defPagination(num_page = 1, num_size = 10, num_total = 0) {
 export function setPagination(StateTable, pagination: t_pagination) {
 	const PAGINATION_MAP = State_UI.pagination;
 	xU.each(pagination, (value, prop) => {
-		let realProp = PAGINATION_MAP[prop];
-		if (!realProp) {
-			realProp = prop;
+		if (xU.isNumber(value) && value > -1) {
+			let realProp = PAGINATION_MAP[prop];
+			if (!realProp) {
+				realProp = prop;
+			}
+			if (StateTable?.pagination) {
+				StateTable.pagination[realProp] = value;
+
+				if (prop === "size") {
+					/* size change 之后 重置page */
+					let realPage = PAGINATION_MAP["page"];
+					StateTable.pagination[realPage] = 1;
+				}
+			}
 		}
-		StateTable?.pagination && (StateTable.pagination[realProp] = value);
 	});
 }
 

@@ -80,21 +80,21 @@ export default defineComponent({
 	computed: {
 		followIcon() {
 			return (
-				<span class="pointer" onClick={this.followIconClickHandler}>
-					<ElTooltip content={this.followIconTitle} placement="rightTop">
+				<div class="pointer icon-item-wrapper" onClick={this.followIconClickHandler}>
+					<ElTooltip content={this.followIconTitle} placement="top-start">
 						<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
 					</ElTooltip>
-				</span>
+				</div>
 			);
 		},
 		copyIcon() {
 			if (this.isShow) {
 				return (
-					<span class="pointer icon-copy" onClick={this.showCopyProjectDialog}>
-						<ElTooltip content="复制项目" placement="rightTop">
+					<div class="pointer icon-copy icon-item-wrapper" onClick={this.showCopyProjectDialog}>
+						<ElTooltip content="复制项目" placement="top-start">
 							<xIcon icon="copy" style={{ color: "#232426" }} />
 						</ElTooltip>
-					</span>
+					</div>
 				);
 			}
 			return null;
@@ -102,9 +102,9 @@ export default defineComponent({
 		iconStyle() {
 			return {
 				color: "white",
-				width: "84px",
-				height: "84px",
-				borderRadius: "16px",
+				width: "48px",
+				height: "48px",
+				borderRadius: "var(--baorder-radius,10px)",
 				backgroundColor: this.projectData.color
 			};
 		},
@@ -133,7 +133,8 @@ export default defineComponent({
 		},
 		title() {
 			return (
-				<div class="ui-title" v-uiPopover={{ onlyEllipsis: true }}>
+				<div class="ui-title">
+					{/* v-uiPopover={{ onlyEllipsis: true }} */}
 					{/* <span class="mr10">{this.projectData._id}</span> */}
 					<span>{this.projectData.name || this.projectData.projectname}</span>
 				</div>
@@ -142,17 +143,17 @@ export default defineComponent({
 	},
 	render() {
 		return (
-			<div class="card-container" style={"width:200px;"}>
-				<ElCard
-					hoverable
-					class="m-card"
-					body-style={{ width: "200px", height: "200px" }}>
-					{this.logo}
-					{this.title}
-				</ElCard>
+			<div class="card-container">
+				<div class="project-card-wrapper">
+					<div class="el-card is-always-shadow">
+						<div class="el-card__body">
+							{this.logo}
+							{this.title}
+						</div>
+					</div>
+				</div>
 				<div class="card-btns flex">
 					{this.copyIcon}
-					<xGap l="10" />
 					{this.followIcon}
 				</div>
 			</div>

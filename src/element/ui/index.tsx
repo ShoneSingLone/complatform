@@ -2,7 +2,6 @@
 import "./index.less";
 import "./ui.scss";
 import ElementPlus from "element-plus";
-import "element-plus/dist/index.css";
 import dayjs from "dayjs";
 import $ from "jquery";
 import xIcon from "./xIcon/xIcon.tsx";
@@ -63,6 +62,7 @@ import { useScopeStyle } from "./compositionAPI/useScopeStyle";
 import { xInfoCard } from "./xView/xInfoCard";
 import { xLinkCopy } from "./xButton/xLinkCopy";
 import { xInfoDiffCard } from "./xInfoDiffCard/xInfoDiffCard";
+// import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 if (State_UI.isDev) {
 	/* @ts-ignore */
@@ -162,10 +162,12 @@ export const VentoseUIWithInstall = {
 			}
 			app.component(component.name || name, component);
 		});
-		app.use(ElementPlus);
+		app.use(ElementPlus, {
+			// locale: zhCn,
+		});
 	}
 };
-/* 
+/*
 export { ElCollapse as Collapse };
 export { ElSelect as Select };
 export { ElAutoComplete as AutoComplete };
@@ -209,15 +211,15 @@ export { ElRow as Row };
 <aInputGroup
 <aTooltipContent
 <aCollapsePanel
-<aTimelineItem
-<aTimeline
+<ElTimelineItem
+<ElTimeline
 <aSelectOption
 <aResult
 <aside
 <aUploadDragger
 <aTextarea
 <any
-<aPagination
+<ElPagination
 
 
  */

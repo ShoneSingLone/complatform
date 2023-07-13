@@ -176,40 +176,41 @@ export const TimeLine = defineComponent({
 					let interfaceDiff = xU.isPlainObject(newsItem.data);
 					const addTime = xU.dateFormat(newsItem.add_time, 1);
 					return (
-						<aTimelineItem
-							dot={
-								<ElAvatar
-									class="pointer"
-									src={`/api/user/avatar?uid=${newsItem.uid}`}
-									onClick={() =>
-										Cpt_url.value.go(`/user/profile/${newsItem.uid}`)
+						<ElTimelineItem key={i} timestamp={addTime} placement="top">
+							<el-card>
+								{{
+									header() {
+										return (
+											<div class="card-header flex middle">
+												<h4 class="logtype">{LOG_TYPE[newsItem.type]}动态</h4>
+												<span class="logtime">
+													{_$timeAgo(newsItem.add_time)}
+												</span>
+												{interfaceDiff && (
+													<ElButton
+														onClick={() =>
+															this.showDiffLogDialog(newsItem.data)
+														}>
+														改动详情
+													</ElButton>
+												)}
+											</div>
+										);
+									},
+									default() {
+										return (
+											<span class="logcontent" v-html={newsItem.content} />
+										);
 									}
-								/>
-							}
-							key={i}>
-							<div class="logMesHeade">
-								<span class="logo_$timeAgo">
-									{_$timeAgo(newsItem.add_time)}
-								</span>
-								<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
-								<span class="logtime">{addTime}</span>
-							</div>
-							<span class="logcontent" v-html={newsItem.content} />
-							<div style={{ padding: "10px 0 0 10px" }}>
-								{interfaceDiff && (
-									<ElButton
-										onClick={() => this.showDiffLogDialog(newsItem.data)}>
-										改动详情
-									</ElButton>
-								)}
-							</div>
-						</aTimelineItem>
+								}}
+							</el-card>
+						</ElTimelineItem>
 					);
 				});
 				records = (
-					<aTimeline class="TimeLine_news-content">
+					<ElTimeline class="TimeLine_news-content">
 						{vDomTimeLineItem}
-					</aTimeline>
+					</ElTimeline>
 				);
 			}
 			return records;

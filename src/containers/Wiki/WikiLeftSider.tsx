@@ -112,6 +112,7 @@ export const WikiLeftSider = defineComponent({
 							onNodeDragEnd={vm.handleDropArticle}
 							draggable
 							node-key="_id"
+							expand-on-click-node={false}
 							default-expand-all>
 							{{
 								default(item) {

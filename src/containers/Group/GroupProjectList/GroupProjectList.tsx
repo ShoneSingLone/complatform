@@ -58,7 +58,7 @@ export const GroupProjectList = defineComponent({
 
 			if (xU.isArrayFill(unfollowArray)) {
 				return (
-					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
+					<div class="bottom-line">
 						<h3 class="owner-type">我的项目</h3>
 						{this.genProjectCard(unfollowArray, this.isAuthAddProject)}
 					</div>
@@ -73,7 +73,7 @@ export const GroupProjectList = defineComponent({
 			]);
 			if (xU.isArrayFill(followProject)) {
 				return (
-					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
+					<div data-id="我的关注">
 						<h3 class="owner-type">我的关注</h3>
 						{this.genProjectCard(followProject)}
 					</div>

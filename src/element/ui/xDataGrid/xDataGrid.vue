@@ -99,7 +99,6 @@ export default defineComponent({
 						columns={this.Cpt_Columns}
 						scroll={scroll}
 						pagination={false}
-						locale={this.Cpt_UI_locale.Table}
 						{...this.Cpt_AntTableProperty}
 						v-slots={slots}
 					/>

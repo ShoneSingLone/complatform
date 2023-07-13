@@ -33,3 +33,9 @@
 本地scan i18n得到json
 - json=>i18n 接口获取对应的多国语言文件的josn
 - 写入本地文件
+
+
+## UI.dialog
+
+- title 除了使用字符串还可以用使用()=>vNode ,可以使用Vue组件，示例:
+![](doc/20230713114534.png)

@@ -6,7 +6,7 @@
 
 .header-menu-icon_background {
 	background: #ffffff6b;
-	border-radius: 6px;
+	border-radius: var(--border-radius);
 }
 
 .user-menu.el-menu.el-menu-dark .el-menu-item-selected {
@@ -18,9 +18,10 @@
 	color: rgba(255, 255, 255, 0.67);
 }
 
-/* .header-box.css */
-.header-box {
+/* .app-header-wrapper.css */
+.app-header-wrapper {
 	padding: 10px 20px;
+	box-shadow: var(--el-box-shadow-light);
 
 	.logo {
 		position: relative;
@@ -140,7 +141,7 @@
 					width: 32px;
 					height: 32px;
 					line-height: 0;
-					border-radius: 16px;
+					border-radius: var(--border-radius);
 				}
 
 				.avatar-image > img {
@@ -164,5 +165,16 @@
 				margin-left: 0.08rem;
 			}
 		}
+	}
+}
+
+.header-dropdown-menu-item {
+	span {
+		color: var(--el-text-color-regular);
+		font-size: var(--el-font-size-base);
+	}
+
+	&:hover {
+		text-decoration: none;
 	}
 }
