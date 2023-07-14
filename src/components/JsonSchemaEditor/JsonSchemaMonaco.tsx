@@ -163,7 +163,7 @@ export const JsonSchemaMonaco = defineComponent({
 					<div class="left-json-tree_readonly" style="width:100%">
 						{/* 在有数据之后才能展开全部 */}
 						{this.isTreeLoading ? (
-							<ElSpin spinning={true} class="flex middle height100 width100" />
+							<div v-xloading="trur" class="flex middle height100 width100" />
 						) : (
 							<div class="flex middle height100 vertical">
 								<ElTree
@@ -452,7 +452,7 @@ export const JsonSchemaMonaco = defineComponent({
 			<div class="JsonSchemaMonaco flex x-card" ref="JsonSchemaMonaco">
 				<div class="left-json-tree">
 					{this.isTreeLoading ? (
-						<ElSpin spinning={true} class="flex middle height100 width100" />
+						<div v-xloading="trur" class="flex middle height100 width100" />
 					) : (
 						<div class="flex middle height100 vertical">
 							<div class="padding10 flex middle width100">

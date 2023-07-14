@@ -56,11 +56,17 @@ export const group = {
 		});
 	},
 	getMyGroupBy(groupId) {
+		let id;
+		try {
+			id = Nubmer(groupId);
+		} catch (error) {
+			return;
+		}
 		return ajax({
 			method: "get",
 			url: "/api/group/get",
 			params: {
-				id: Number(groupId)
+				id
 			}
 		});
 	},

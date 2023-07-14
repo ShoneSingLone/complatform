@@ -47,7 +47,9 @@ export const ViewProject = defineComponent({
 	render() {
 		/* 如果没有projectId 则重定向到group */
 		if (!this.State_App.currProject._id) {
-			return <ElSpin class="flex vertical middle center height100" />;
+			return (
+				<div v-xloading="true" class="flex vertical middle center height100" />
+			);
 		}
 
 		return (

@@ -5,6 +5,7 @@ import { State_Wiki, Methods_Wiki } from "./State_Wiki";
 import { TuiEditor } from "@/components";
 import { API } from "@/api/index";
 import { xU, $t, UI, defItem } from "@ventose/ui";
+import { cpt_isPersonalWikiView } from "@/router/router";
 
 export const ViewWiki = defineComponent({
 	mounted() {
@@ -101,7 +102,7 @@ export const ViewWiki = defineComponent({
 			<section
 				id="ViewWiki"
 				class="flex flex1"
-				v-loading={State_Wiki.isLoading}>
+				v-xloading={State_Wiki.isLoading}>
 				<WikiLeftSider onChange={() => (this.isReadonly = true)} />
 				<main class="flex flex1 padding10 vertical paddingB20">
 					<div class="flex mb10 middle" style="height:48px;">

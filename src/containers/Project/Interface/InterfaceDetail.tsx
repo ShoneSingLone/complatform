@@ -454,7 +454,7 @@ async ${xU.camelCase(path)}({params,data}) {
 	},
 	render(vm) {
 		if (!vm.detailInfo || !vm.State_App.currProject) {
-			return <ElSpin spinning={true} class="flex middle center flex1"></ElSpin>;
+			return <div v-xloading="trur" class="flex middle center flex1" />;
 		}
 		xU(vm.State_App.currGroup, vm.State_App.currProject, vm.detailInfo);
 		return (

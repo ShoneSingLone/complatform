@@ -200,7 +200,10 @@ export const ViewI18n = defineComponent({
 	},
 	render() {
 		return (
-			<section id="ViewI18n" class="flex flex1" v-loading={stateI18n.isLoading}>
+			<section
+				id="ViewI18n"
+				class="flex flex1"
+				v-xloading={stateI18n.isLoading}>
 				<I18nLeftSider />
 				<main class="flex flex1 padding10 vertical paddingB20">
 					<xDataGridToolbar configs={this.configsI18nTable}>

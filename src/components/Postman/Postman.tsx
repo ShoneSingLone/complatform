@@ -733,8 +733,7 @@ ${JSON.stringify(result.header, null, 2)}
 										placeholder="参数值"
 										id={`req_params_${index}`}
 										addonAfter={
-											<aIcon
-												type="edit"
+											<xIcon icon="edit"
 												onClick={() =>
 													this.showModal(item.value, index, "req_params")
 												}
@@ -797,8 +796,7 @@ ${JSON.stringify(result.header, null, 2)}
 										placeholder="参数值"
 										id={`req_query_${index}`}
 										addonAfter={
-											<aIcon
-												type="edit"
+											<xIcon icon="edit"
 												onClick={() =>
 													this.showModal(item.value, index, "req_query")
 												}
@@ -846,8 +844,7 @@ ${JSON.stringify(result.header, null, 2)}
 										id={`req_headers_${index}`}
 										addonAfter={
 											!item.abled && (
-												<aIcon
-													type="edit"
+												<xIcon icon="edit"
 													onClick={() =>
 														this.showModal(item.value, index, "req_headers")
 													}
@@ -965,8 +962,7 @@ ${JSON.stringify(result.header, null, 2)}
 													placeholder="参数值"
 													id={`req_body_form_${index}`}
 													addonAfter={
-														<aIcon
-															type="edit"
+														<xIcon icon="edit"
 															onClick={() =>
 																this.showModal(
 																	item.value,

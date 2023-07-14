@@ -68,7 +68,7 @@ export const ErrMsg = defineComponent({
 		}
 		return (
 			<div class="err-msg" style="margin:auto;">
-				<aIcon type={icon} class="icon" />
+				<xIcon icon={icon} class="icon" />
 				<p class="title">{title}</p>
 				<p class="desc">{desc}</p>
 				<p class="opration">{opration}</p>

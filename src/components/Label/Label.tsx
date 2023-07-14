@@ -38,10 +38,10 @@ export default class Label extends Component {
 								<p>
 									{this.props.desc} &nbsp;&nbsp;
 									<ElTooltip content="编辑简介">
-										<aIcon
+										<xIcon
 											onClick={this.toggle}
 											class="interface-delete-icon"
-											type="edit"
+											icon="edit"
 										/>
 									</ElTooltip>
 								</p>
@@ -53,18 +53,18 @@ export default class Label extends Component {
 									defaultValue={this.props.desc}
 									size="small"
 								/>
-								<aIcon
+								<xIcon
 									class="interface-delete-icon"
 									onClick={() => {
 										this.props.onChange(this.state.inputValue);
 										this.toggle();
 									}}
-									type="check"
+									icon="check"
 								/>
-								<aIcon
+								<xIcon
 									class="interface-delete-icon"
 									onClick={this.toggle}
-									type="close"
+									icon="close"
 								/>
 							</div>
 						)}

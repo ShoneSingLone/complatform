@@ -172,7 +172,7 @@ export const GroupProjectList = defineComponent({
 	render() {
 		return (
 			<div
-				v-loading={this.isLoading}
+				v-xloading={this.isLoading}
 				style={{ paddingTop: "24px" }}
 				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
 				<ElRow class="project-list-header">

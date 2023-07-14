@@ -101,8 +101,9 @@ export default defineComponent({
 				notFoundContent={
 					fetching ? (
 						<>
-							<ElSpin />
-							<span style="color:gray;margin-left:4px;"> 正在获取用户列表</span>
+							<span style="color:gray;margin-left:4px;" v-xloading="true">
+								正在获取用户列表
+							</span>
 						</>
 					) : null
 				}

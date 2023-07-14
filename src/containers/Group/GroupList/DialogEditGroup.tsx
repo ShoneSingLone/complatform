@@ -66,32 +66,35 @@ export const DialogEditGroup = defineComponent({
 			);
 		},
 		vDomDeleteGroup() {
+			const vm = this;
 			/* 只有超级管理员能删除分组 */
 			if (State_App.user.role === "admin") {
 				return (
-					<ElCard class="mt20">
-						<Alert
-							type="warning"
-							message={$t("删除分组").label}
-							description={
-								<div>
-									<div class="card-danger-content">
-										<p>分组一旦删除，将无法恢复数据，请慎重操作！</p>
-										<p>只有超级管理员有权限删除分组。</p>
+					<ElAlert type="warning" show-icon class="mt20">
+						{{
+							title() {
+								return $t("删除分组").label;
+							},
+							default() {
+								return (
+									<div class="flex vertical">
+										<div class="card-danger-content">
+											<p>分组一旦删除，将无法恢复数据，请慎重操作！</p>
+											<p>只有超级管理员有权限删除分组。</p>
+										</div>
+										<div class="flex end">
+											<xButton
+												configs={{
+													onClick: vm.showDeleteGroupConfirm,
+													preset: "delete"
+												}}
+											/>
+										</div>
 									</div>
-									<div class="flex end">
-										<xButton
-											configs={{
-												onClick: this.showDeleteGroupConfirm,
-												preset: "delete"
-											}}
-										/>
-									</div>
-								</div>
+								);
 							}
-							show-icon
-						/>
-					</ElCard>
+						}}
+					</ElAlert>
 				);
 			}
 			return null;
@@ -102,16 +105,14 @@ export const DialogEditGroup = defineComponent({
 		return (
 			<>
 				<div class="padding20 flex1 overflow-auto">
-					<ElCard>
-						<xForm
-							class="flex vertical"
-							labelStyle={{
-								"min-width": "170px",
-								width: "unset"
-							}}>
-							{this.vDomFormItems}
-						</xForm>
-					</ElCard>
+					<xForm
+						class="flex vertical mb20"
+						labelStyle={{
+							"min-width": "170px",
+							width: "unset"
+						}}>
+						{this.vDomFormItems}
+					</xForm>
 					{this.vDomDeleteGroup}
 				</div>
 				<xDialogFooter

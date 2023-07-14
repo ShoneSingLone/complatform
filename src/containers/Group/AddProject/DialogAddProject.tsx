@@ -256,21 +256,19 @@ export const DialogAddProject = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper flex1 height100">
-					<div class="x-dialog-boddy-wrapper m-container">
-						<xForm
-							class="flex vertical"
-							labelStyle={{ "min-width": "120px", width: "unset" }}>
-							{xU.map(this.dataXItem, (configs, prop) => {
-								return (
-									<>
-										<xGap t="10" />
-										<xItem configs={configs} />
-									</>
-								);
-							})}
-						</xForm>
-					</div>
+				<div class="x-dialog-boddy-wrapper">
+					<xForm
+						class="flex vertical"
+						labelStyle={{ "min-width": "120px", width: "unset" }}>
+						{xU.map(this.dataXItem, (configs, prop) => {
+							return (
+								<>
+									<xGap t="10" />
+									<xItem configs={configs} />
+								</>
+							);
+						})}
+					</xForm>
 				</div>
 				<xDialogFooter
 					configs={{

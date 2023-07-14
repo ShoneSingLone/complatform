@@ -99,7 +99,7 @@ export const Methods_App = {
 			}
 			throw new Error("refreshUserInfo error");
 		} catch (error) {
-			console.error(error);
+			xU(error);
 		}
 	},
 	async checkLoginState() {
@@ -120,27 +120,35 @@ export const Methods_App = {
 	 * @returns {Promise<void>}
 	 */
 	async setCurrGroup(group_id) {
-		if (!xU.isInput(group_id)) {
-			_State_App.currGroup = {};
-		}
+		try {
+			if (!xU.isInput(group_id)) {
+				_State_App.currGroup = {};
+			}
 
-		if (_State_App.currGroup._id === group_id) {
-			return;
+			if (_State_App.currGroup._id === group_id) {
+				return;
+			}
+			const { data: currGroup } = await API.group.getMyGroupBy(group_id);
+			_State_App.currGroup = currGroup;
+		} catch (error) {
+			xU(error);
 		}
-		const { data: currGroup } = await API.group.getMyGroupBy(group_id);
-		_State_App.currGroup = currGroup;
 	},
 	async setCurrProject(project_id, options = {}) {
-		let isEnforce = options.isEnforce || false;
+		try {
+			let isEnforce = options.isEnforce || false;
 
-		if (!xU.isInput(project_id)) {
-			_State_App.currProject = {};
+			if (!xU.isInput(project_id)) {
+				_State_App.currProject = {};
+			}
+			if (!isEnforce && _State_App.currProject._id === project_id) {
+				return;
+			}
+			let { data } = await API.project.getProjectById(Number(project_id));
+			_State_App.currProject = data;
+		} catch (error) {
+			xU(error);
 		}
-		if (!isEnforce && _State_App.currProject._id === project_id) {
-			return;
-		}
-		let { data } = await API.project.getProjectById(Number(project_id));
-		_State_App.currProject = data;
 	},
 	async fetchNewsData({ id, type, page = 1, size = 10, selectValue = "" }) {
 		try {
@@ -164,7 +172,7 @@ export const Methods_App = {
 				}
 			});
 		} catch (error) {
-			console.error(error);
+			xU(error);
 		}
 	},
 	async changeStudyTip() {
@@ -192,16 +200,20 @@ export const Methods_App = {
 				UI.notification.success($t("退出成功! ").label);
 			}
 		} catch (error) {
-			console.error(error);
+			xU(error);
 		}
 	},
 	async fetchInterfaceListMenu() {},
 	async fetchProjectList(groupId) {
-		if (!groupId) return;
-		groupId = Number(groupId);
-		const { data } = await API.project.list(groupId);
-		_State_App.projectList = data.list;
-		xU("State_App.projectList", _State_App.projectList);
+		try {
+			if (!groupId) return;
+			groupId = Number(groupId);
+			const { data } = await API.project.list(groupId);
+			_State_App.projectList = data.list;
+			xU("State_App.projectList", _State_App.projectList);
+		} catch (error) {
+			xU(error);
+		}
 	},
 	getProject() {},
 	async changeMenuItem() {},

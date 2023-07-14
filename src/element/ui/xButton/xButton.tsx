@@ -174,7 +174,7 @@ export default defineComponent({
 				loading={this.loading}
 				disabled={!!this.disabled}
 				type={this.type}
-				{..._properties}
+				{...xU.omit(_properties, ["icon"])}
 				v-slots={{
 					default: () => {
 						const vDomDefautl = this.$slots.default && this.$slots.default();

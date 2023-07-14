@@ -103,7 +103,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper flex1 height100 ">
+				<div class="x-dialog-boddy-wrapper ">
 					<xGap t="10" />
 					<xForm
 						class="flex"

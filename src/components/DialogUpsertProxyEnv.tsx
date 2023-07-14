@@ -246,8 +246,8 @@ export const DialogUpsertProxyEnv = defineComponent({
 			const vDomContent = (() => {
 				if (this.isLoading) {
 					return (
-						<ElSpin
-							spinning={true}
+						<div
+							x-xloading="true"
 							class="ant-spin ant-spin-spinning flex middle center height100 width100"
 						/>
 					);

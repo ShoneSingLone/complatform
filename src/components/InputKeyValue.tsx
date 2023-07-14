@@ -174,7 +174,7 @@ export const InputKeyValue = defineComponent({
 										/>
 										<xGap l="10" />
 										<xIcon
-											v-loading={this.isLoading}
+											v-xloading={this.isLoading}
 											icon="delete"
 											onClick={() => this.deleteItem(index)}
 											style="color:red;"
@@ -187,7 +187,7 @@ export const InputKeyValue = defineComponent({
 					)}
 				</div>
 				<xIcon
-					v-loading={vm.isLoading}
+					v-xloading={vm.isLoading}
 					icon="add"
 					style="color:#1890ff;"
 					onClick={this.addItem}

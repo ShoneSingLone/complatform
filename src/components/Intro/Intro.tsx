@@ -7,7 +7,7 @@ import QueueAnim from "rc-queue-anim";
 const IntroPart = props => (
 	<li class="switch-content">
 		<div class="icon-switch">
-			<aIcon type={props.iconType} />
+			<xIcon icon={props.iconType} />
 		</div>
 		<div class="text-switch">
 			<p>

@@ -186,9 +186,7 @@ export const DialogImportI18nJSON = defineComponent({
 			);
 		}
 		return (
-			<div
-				class="x-dialog-boddy-wrapper flex1 height100 margin20"
-				v-loading={this.isLoading}>
+			<div class="x-dialog-boddy-wrapper margin20" v-xloading={this.isLoading}>
 				<aUploadDragger
 					name="file"
 					beforeUpload={this.handleChange}

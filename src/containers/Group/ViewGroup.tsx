@@ -190,7 +190,7 @@ export const ViewGroup = defineComponent({
 			<section
 				id="GroupView"
 				class="padding20 flex horizon"
-				v-loading={!this.groupId}>
+				v-xloading={!this.groupId}>
 				<aside id="ViewGroup_sider" class="flex vertical box-shadow">
 					<GroupLeftSider />
 				</aside>

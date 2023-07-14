@@ -79,7 +79,7 @@ export const RouterView = defineComponent({
 		vDomView() {
 			const getView = () => {
 				if (!this.currentComponent) {
-					return <ElSpin spinning={true} class="flex middle" />;
+					return <div v-xloading={true} class="flex middle" />;
 				} else {
 					return h(this.currentComponent, { pathname: this.Cpt_url.pathname });
 				}

@@ -10,6 +10,15 @@ const { $t } = State_UI;
 	component: () => import(componentPath)
 }); */
 
+const wiki = (tag, desc) => ({
+	path: `/wiki_${tag}`,
+	componentName: "ViewWiki",
+	component: () => import("../containers/Wiki/ViewWiki.js"),
+	meta: {
+		title: `${$t("文档").label} ${$t(desc).label}`
+	}
+});
+
 export const routes = [
 	{
 		path: `/login`,
@@ -35,14 +44,10 @@ export const routes = [
 			title: $t("分组").label
 		}
 	},
-	{
-		path: `/wiki`,
-		componentName: "ViewWiki",
-		component: () => import("../containers/Wiki/ViewWiki.js"),
-		meta: {
-			title: $t("文档").label
-		}
-	},
+	wiki("all", "所有人可见"),
+	wiki("group", "分组可见"),
+	wiki("project", "项目可见"),
+	wiki("private", "个人"),
 	{
 		path: `/i18n`,
 		componentName: "ViewI18n",

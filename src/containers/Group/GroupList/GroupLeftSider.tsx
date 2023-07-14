@@ -220,7 +220,7 @@ export const GroupLeftSider = defineComponent({
 				<ElMenu
 					class="group-list flex1"
 					mode="inline"
-					v-loading={this.groupListForShow.length === 0}>
+					v-xloading={this.groupListForShow.length === 0}>
 					{xU.map(this.groupListForShow, group => {
 						let icon = "folderOpen";
 						if (group.type === "private") {
@@ -231,7 +231,7 @@ export const GroupLeftSider = defineComponent({
 								index={`${group._id}`}
 								class="group-item flex"
 								onClick={this.selectGroup}>
-								<div class="flex middle">
+								<div class="flex middle width100">
 									<xIcon icon={icon} style="width:16px;" />
 									<span class="flex1">{group.group_name}</span>
 									<xIcon

@@ -287,9 +287,9 @@ class UpDateModal extends Component {
 					<ElCol span={2}>
 						{/* 新增的项中，只有最后一项有删除按钮 */}
 						{(envs.length > 0 && k._id) || envs.length == index + 1 ? (
-							<aIcon
+							<xIcon
+								icon="minus-circle-o"
 								class="dynamic-delete-button"
-								type="minus-circle-o"
 								onClick={() => {
 									return this.remove(k._id ? k._id : k);
 								}}

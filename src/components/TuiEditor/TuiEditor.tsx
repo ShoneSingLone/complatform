@@ -262,7 +262,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 					{vm.readonly && (
 						<div
 							v-uiPopover={vm.configsPopoverChangeTheme}
-							v-loading={vm.isLoading}
+							v-xloading={vm.isLoading}
 							v-html={vm.html}
 							onClick={vm.handleClick}
 							ref="viewer"
@@ -281,7 +281,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 						/>
 					</div>
 					<div
-						v-loading={vm.isLoading}
+						v-xloading={vm.isLoading}
 						id={vm.id}
 						ref="container"
 						class={{ flex1: true, "display-none": vm.readonly }}

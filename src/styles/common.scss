@@ -119,8 +119,12 @@ em {
 
 // 布局容器 guitter: 16px
 .x-dialog-boddy-wrapper {
-	min-width: 30vw;
 	padding: 10px;
+	height: 1px;
+	display: flex;
+	flex-flow: column nowrap;
+	flex: 1;
+	overflow: auto;
 }
 
 .m-container {
