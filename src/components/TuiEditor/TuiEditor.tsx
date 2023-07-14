@@ -1,12 +1,7 @@
 //@ts-nocheck
 import { $, xU } from "@ventose/ui";
 import { defineAsyncComponent, defineComponent } from "vue";
-import {
-	leftArrow,
-	rightArrow,
-	PreprocessHTML,
-	MkitTheme
-} from "@/components/Mkit/MkitTheme";
+import { PreprocessHTML, MkitTheme } from "@/components/Mkit/MkitTheme";
 import { API } from "@/api";
 import { State_App } from "@/state/State_App";
 import "./TuiEditor.less";
@@ -178,19 +173,15 @@ export const TuiEditor = defineAsyncComponent(async () => {
 						vm.vmTuiEditor = new Editor({
 							customHTMLRenderer: {
 								image: (node, context) => {
-									console.log(node, context);
-									const {
-										title,
-										destination,
-										firstChild: { literal }
-									} = node;
+									const { title, destination, firstChild } = node;
+									const { literal } = firstChild || {};
 									const { skipChildren } = context;
 									skipChildren();
 									const src = (() => {
 										const [_, id] =
 											String(destination).match(/^_id:(\d+)/) || [];
 										if (id) {
-											return `${State_App.baseURL}/api/god/resource?id=${id}`;
+											return `${State_App.baseURL}/api/resource/get?id=${id}`;
 										} else {
 											return destination;
 										}

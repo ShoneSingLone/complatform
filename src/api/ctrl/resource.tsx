@@ -4,7 +4,7 @@ export const resource = {
 	upload(data) {
 		return ajax({
 			method: "post",
-			url: "/api/god/single/upload",
+			url: "/api/resource/single_upload",
 			headers: { "Content-Type": "multipart/form-data" },
 			data
 		});

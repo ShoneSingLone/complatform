@@ -19,7 +19,7 @@ type t_uiPopoverOptions = {
 };
 
 /* 开发的时候不想关闭，可以把时间值调高 */
-const TIMEOUT_DELAY = 200*100000;
+const TIMEOUT_DELAY = 200;
 /* 缓存 popover 的配置信息 */
 const tipsOptionsCollection: {
 	[prop: string]: t_uiPopoverOptions;
@@ -134,7 +134,7 @@ export function installPopoverDirective(app: any, appSettings: any) {
 
 	app.directive("uiPopover", {
 		/* @ts-ignore */
-		mounted(el: HTMLInputElement, binding: any) {
+		mounted(el: any, binding: any) {
 			init();
 
 			updateMounted(el, binding);
@@ -149,10 +149,10 @@ export function installPopoverDirective(app: any, appSettings: any) {
 					.attr(DATA_FOLLOW_ID, followId);
 			}
 		},
-		beforeUpdate(el: HTMLInputElement, binding: any) {
+		beforeUpdate(el: any, binding: any) {
 			updateMounted(el, binding);
 		},
-		unmounted(el: HTMLInputElement) {
+		unmounted(el: any) {
 			const followId: any = $(el).attr(DATA_FOLLOW_ID);
 			if (typeof tipsKeys[followId] == "string" && tipsKeys[followId]) {
 				/* @ts-ignore */
@@ -163,7 +163,7 @@ export function installPopoverDirective(app: any, appSettings: any) {
 		}
 	});
 
-	function updateMounted(el: HTMLInputElement, binding: any) {
+	function updateMounted(el: any, binding: any) {
 		const $ele = $(el);
 		const followId: any = $ele.attr(DATA_FOLLOW_ID);
 		if (binding.value) {

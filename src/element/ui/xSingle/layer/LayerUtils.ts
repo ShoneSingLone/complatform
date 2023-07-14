@@ -1194,11 +1194,9 @@ class ClassLayer {
 
 		$eleDialog.css({
 			left: followInfo.tipLeft - $win.scrollLeft(),
-			top: followInfo.tipTop - $win.scrollTop(),
-			"transform-origin": [
-				$tipsG.hasClass("layui-layer-TipsT") ? "top" : "bottem",
-				$tipsG.hasClass("layui-layer-TipsL") ? "left" : "right"
-			].join(" ")
+			top: followInfo.tipTop - $win.scrollTop()
+			/* TODO: 动画 */
+			// "transform-origin": [ $tipsG.hasClass("layui-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("layui-layer-TipsL") ? "left" : "right" ].join(" ")
 		});
 
 		if (!customColor) {
