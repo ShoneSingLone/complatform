@@ -98,7 +98,7 @@ export const AppHeader = defineComponent({
 					<span class="flex middle pointer ml10 header-menu-icon_background">
 						<a
 							class="flex middle"
-							href={aHashLink("/wiki", {})}
+							href={aHashLink("/wiki_all", {})}
 							style={this.styleLogo}
 							target="_black">
 							<xIcon icon="wikidoc" style={this.styleLogo} />
@@ -133,7 +133,7 @@ export const AppHeader = defineComponent({
 								adminFlag: false
 							},
 							user_doc: {
-								path: aHashLink("/wiki", { user_id: State_App.user._id }),
+								path: aHashLink("/wiki_private"),
 								target: "_blank",
 								name: "个人文档",
 								icon: "wikidoc",

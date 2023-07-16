@@ -30968,7 +30968,6 @@
                     return {type: 'closeTag', tagName: 'a'};
                 },
                 image: function (node, _a) {
-                    debugger;
                     var getChildrenText = _a.getChildrenText, skipChildren = _a.skipChildren;
                     var _b = node, title = _b.title, destination = _b.destination;
                     skipChildren();

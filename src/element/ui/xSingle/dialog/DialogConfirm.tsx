@@ -20,7 +20,14 @@ export const DialogConfirm = defineComponent({
 	},
 	computed: {
 		contentVNode() {
-			return this.propDialogOptions?.payload?.content;
+			if (this.propDialogOptions?.payload?.content?.render) {
+				return this.propDialogOptions?.payload?.content.render();
+			}
+
+			if (xU.isFunction(this.propDialogOptions?.payload?.content)) {
+				return this.propDialogOptions?.payload?.content();
+			}
+			return this.propDialogOptions?.payload?.content || null;
 		},
 		configsBtn() {
 			const vm = this;

@@ -9,28 +9,39 @@ export const wiki = {
 			data
 		});
 	},
-	upsertOne(params) {
-		return this.action({
-			action: "upsertOne",
-			data: params
+	upsertOne(data) {
+		return ajax({
+			method: "post",
+			url: "/api/wiki/upsertOne",
+			data
+		});
+	},
+	detail(_id) {
+		return ajax({
+			method: "get",
+			url: "/api/wiki/detail",
+			params: { _id }
 		});
 	},
 	delete(_id) {
-		return this.action({
-			action: "delete",
-			_id
+		return ajax({
+			method: "delete",
+			url: "/api/wiki/delete",
+			params: { _id }
 		});
 	},
-	menu(payload) {
-		return this.action({
-			action: "menu",
-			payload
+	menu(params) {
+		return ajax({
+			method: "get",
+			url: "/api/wiki/menu",
+			params
 		});
 	},
-	resetMenuOrder(payload) {
-		return this.action({
-			action: "resetMenuOrder",
-			payload
+	resetMenuOrder(data) {
+		return ajax({
+			method: "post",
+			url: "/api/wiki/reset_menu_order",
+			data
 		});
 	}
 };

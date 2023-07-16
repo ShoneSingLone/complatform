@@ -38,8 +38,9 @@ ajax.interceptors.response.use(
 			return Promise.resolve({ data: response.data, response });
 		}
 		if (response?.data?.errcode !== 0) {
-			UI.message.error(response?.data?.errmsg);
-			return Promise.reject(response);
+			return Promise.reject(
+				response?.data?.errmsg || response?.data || response
+			);
 		}
 
 		return Promise.resolve({ data: response.data.data, response });

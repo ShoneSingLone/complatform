@@ -58,7 +58,7 @@ export const group = {
 	getMyGroupBy(groupId) {
 		let id;
 		try {
-			id = Nubmer(groupId);
+			id = Number(groupId);
 		} catch (error) {
 			return;
 		}

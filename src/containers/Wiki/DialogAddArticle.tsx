@@ -18,7 +18,7 @@ import {
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
-import { Methods_Wiki } from "./State_Wiki";
+import { Methods_Wiki, cpt_wikiBelongType } from "./State_Wiki";
 import { ARTICLE } from "@/utils/variable";
 
 export const DialogAddArticle = defineComponent({
@@ -69,22 +69,18 @@ export const DialogAddArticle = defineComponent({
 					title,
 					type: ARTICLE,
 					p_id: this.pid,
-					belong_type: this.belong_type
+					belong_type: cpt_wikiBelongType.value
 				};
 				try {
-					const { data } = await API.wiki.action({
-						action: "upsertOne",
-						data: params
-					});
-
+					const { data } = await API.wiki.upsertOne(params);
 					if (data?.msg?._id) {
 						UI.message.success("添加文档成功");
-						Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						this.Cpt_url.go("/wiki", { wiki_id: data.msg._id });
+						Methods_Wiki.updateWikiMenuList();
+						Methods_Wiki.clickWiki({ wiki_id: data.msg._id });
 						this.propDialogOptions.closeDialog();
 					}
 				} catch (error) {
-					UI.message.error("添加失败");
+					UI.message.error(error || "添加失败");
 				}
 			}
 		}

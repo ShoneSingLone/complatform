@@ -48,29 +48,16 @@ export const DialogEditGroup = defineComponent({
 				);
 			});
 		},
-		vDomDeleteConfirmAuth() {
-			return (
-				<div>
-					<Alert
-						message={
-							$t(
-								"警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!"
-							).label
-						}
-						type="warning"
-					/>
-					<div style={{ marginTop: "16px" }}>
-						<xItem configs={this.formDelete.authText} />
-					</div>
-				</div>
-			);
-		},
 		vDomDeleteGroup() {
 			const vm = this;
 			/* 只有超级管理员能删除分组 */
 			if (State_App.user.role === "admin") {
 				return (
-					<ElAlert type="warning" show-icon class="mt20">
+					<ElAlert
+						type="warning"
+						show-icon
+						class="mt20"
+						id="admin-delete-group-alert">
 						{{
 							title() {
 								return $t("删除分组").label;
@@ -210,7 +197,21 @@ export const DialogEditGroup = defineComponent({
 			vm.formDelete.authText.value = "";
 			UI.confirm({
 				title: "确认删除 " + vm.State_App.currGroup.group_name + " 分组吗？",
-				content: vm.vDomDeleteConfirmAuth,
+				content: () => (
+					<>
+						<ElAlert
+							title={
+								$t(
+									"警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!"
+								).label
+							}
+							type="warning"
+						/>
+						<div style={{ marginTop: "16px" }}>
+							<xItem configs={this.formDelete.authText} />
+						</div>
+					</>
+				),
 				onOk() {
 					return new Promise(async (resolve, reject) => {
 						const { authText } = pickValueFrom(vm.formDelete);

@@ -238,9 +238,9 @@ export const GroupLeftSider = defineComponent({
 										v-uiPopover={{ content: vm.$t("修改分组信息").label }}
 										class="btn editSet pointer"
 										icon="edit"
-										onClick={() =>
-											vm.fnShowUpsertGroupDialog(this.State_App.currGroup)
-										}
+										onClick={() => {
+											vm.fnShowUpsertGroupDialog(this.State_App.currGroup);
+										}}
 										style="width:16px;"
 									/>
 								</div>

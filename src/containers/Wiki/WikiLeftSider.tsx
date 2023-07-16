@@ -5,7 +5,7 @@ import { DialogAddArticle } from "./DialogAddArticle";
 import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { State_App } from "@/state/State_App";
-import { Methods_Wiki, State_Wiki } from "./State_Wiki";
+import { Methods_Wiki, State_Wiki, cpt_wikiBelongType } from "./State_Wiki";
 import type Node from "element-plus/es/components/tree/src/model/node";
 import type { DragEvents } from "element-plus/es/components/tree/src/model/useDragNode";
 import type { NodeDropType } from "element-plus/es/components/tree/src/tree.type";
@@ -89,7 +89,7 @@ export const WikiLeftSider = defineComponent({
 		btnRefresh() {
 			return {
 				preset: "refresh",
-				onClick: () => Methods_Wiki.updateWikiMenuList({ belong_type: "all" })
+				onClick: () => Methods_Wiki.updateWikiMenuList()
 			};
 		},
 		vDomTree() {
@@ -145,7 +145,7 @@ export const WikiLeftSider = defineComponent({
 
 										const handleClick = () => {
 											State_Wiki.isLoading = true;
-											vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
+											Methods_Wiki.clickWiki({ wiki_id: item.data._id });
 											vm.$emit("change");
 											setTimeout(() => {
 												/* 内网环境，数据3秒都回不来，就有点呵呵了 */
@@ -221,6 +221,7 @@ export const WikiLeftSider = defineComponent({
 			}
 			const menuOrderArray = getTreeOrder(State_Wiki.treeData);
 			const dragIndex = menuOrderArray.indexOf(dragItem._id);
+			debugger;
 			if (dropType === "inner") {
 				dragItem.p_id = dropItem._id;
 			}
@@ -244,12 +245,20 @@ export const WikiLeftSider = defineComponent({
 			}
 
 			try {
-				await API.wiki.action({ action: "upsertOne", data: dragItem });
+				await API.wiki.upsertOne(dragItem);
 				await API.wiki.resetMenuOrder({
 					order: menuOrderArray,
-					belong_type: "all"
+					belong_type: cpt_wikiBelongType.value,
+					belong_id: (() => {
+						const { group_id, project_id } = Cpt_url.value.query;
+						const s_map = {
+							group: group_id,
+							project: project_id
+						};
+						return s_map[cpt_wikiBelongType.value];
+					})()
 				});
-				await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
+				await Methods_Wiki.updateWikiMenuList();
 				UI.message.success($t("更新成功").label);
 			} catch (error) {
 				UI.message.error(error.message);
@@ -271,8 +280,8 @@ export const WikiLeftSider = defineComponent({
 					try {
 						await API.wiki.delete(_id);
 						UI.message.success("删除文档成功");
-						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						vm.Cpt_url.go("/wiki", {
+						await Methods_Wiki.updateWikiMenuList();
+						Methods_Wiki.clickWiki({
 							wiki_id: xU.first(State_Wiki.treeData)?._id
 						});
 					} catch (error) {
