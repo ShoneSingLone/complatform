@@ -221,7 +221,6 @@ export const WikiLeftSider = defineComponent({
 			}
 			const menuOrderArray = getTreeOrder(State_Wiki.treeData);
 			const dragIndex = menuOrderArray.indexOf(dragItem._id);
-			debugger;
 			if (dropType === "inner") {
 				dragItem.p_id = dropItem._id;
 			}

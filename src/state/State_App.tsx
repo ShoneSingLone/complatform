@@ -130,6 +130,7 @@ export const Methods_App = {
 			}
 			const { data: currGroup } = await API.group.getMyGroupBy(group_id);
 			_State_App.currGroup = currGroup;
+			await Methods_App.fetchProjectList(currGroup._id);
 		} catch (error) {
 			xU(error);
 		}
@@ -208,7 +209,8 @@ export const Methods_App = {
 		try {
 			if (!groupId) return;
 			groupId = Number(groupId);
-			const { data } = await API.project.list(groupId);
+			const res = await API.project.list(groupId);
+			const { data } = res || {};
 			_State_App.projectList = data.list;
 			xU("State_App.projectList", _State_App.projectList);
 		} catch (error) {

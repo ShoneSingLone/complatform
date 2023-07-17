@@ -230,3 +230,14 @@
 
 	/* &:hover { .curr-group-name_title { svg { display: inline-block; } } } */
 }
+
+.group-menu-item_title{
+	width:100%;
+}
+
+.group-menu-icon{
+	&:hover{
+		transform: scale(1.2);
+		box-shadow: var(--box-shadow);
+	}
+}

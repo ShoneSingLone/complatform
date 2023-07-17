@@ -6,7 +6,7 @@ export const VNodeCollection = {
 		return (
 			<div class="x-form-item-label">
 				<label for={prop} class={className}>
-					{label}
+					<span class="mr10">{label}</span>
 					<ElPopover trigger="hover" placement="top">
 						{{
 							content: () => popContent,

@@ -14,6 +14,16 @@
 		box-sizing: border-box;
 	}
 
+	.x-form-item-required {
+		display: flex;
+		flex-flow: row nowrap;
+		&::before {
+			content: "*";
+			margin-right:4px;
+			color: var(--app-danger);
+		}
+	}
+
 	> .x-form-item-control {
 		position: relative;
 		flex: 1;

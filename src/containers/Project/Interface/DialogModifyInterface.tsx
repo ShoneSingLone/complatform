@@ -113,8 +113,7 @@ export const DialogModifyInterface = defineComponent({
 					value: vm.State_App.currProject.basepath,
 					prop: "basepath",
 					label: vm.$t("接口基本路径").label,
-					labelVNodeRender:
-						VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
+					labelVNodeRender: VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
 					disabled: true
 				}),
 				...defItem({

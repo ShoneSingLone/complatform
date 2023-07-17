@@ -5,8 +5,7 @@ import { State_Wiki, Methods_Wiki, cpt_wikiBelongType } from "./State_Wiki";
 import { TuiEditor } from "@/components";
 import { API } from "@/api/index";
 import { xU, $t, UI, defItem } from "@ventose/ui";
-import { cpt_isPersonalWikiView } from "@/router/router";
-import { Cpt_url } from "../../router/router";
+import { Cpt_url } from "@/router/router";
 
 export const ViewWiki = defineComponent({
 	mounted() {
@@ -37,7 +36,6 @@ export const ViewWiki = defineComponent({
 				{ title: this.title }
 			);
 			await API.wiki.upsertOne(params);
-			debugger;
 			Methods_Wiki.updateWikiMenuList();
 			Methods_Wiki.setCurrentWiki(params._id, params);
 			UI.message.success($t("保存成功").label);

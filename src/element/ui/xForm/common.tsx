@@ -51,7 +51,7 @@ defItem.item = (options: t_itemConfigs) => {
 defItem.labelWithTips = ({ label, tips, icon }) => {
 	return (
 		<span class="flex middle">
-			{label}
+			<span class="mr4">{label}</span>
 			<ElTooltip content={tips}>{icon}</ElTooltip>
 		</span>
 	);

@@ -78,7 +78,7 @@ export const xItem_ProjectGroupId = (options: any = {}, vm) => {
 					this.options = xU.map(groupList, i => {
 						return {
 							label: i.group_name,
-							value: String(i._id),
+							value: i._id,
 							disabled: !["dev", "owner", "admin"].includes(i.role)
 						};
 					});
@@ -122,7 +122,12 @@ export const xItem_ProjectColor = (options: any = {}) => {
 				),
 				value: background
 			};
-		})
+		}),
+		afterControll: ({ currentItemModelValue }) => (
+			<span style={{ background: currentItemModelValue, color: "transparent" }}>
+				_______________
+			</span>
+		)
 	};
 };
 export const xItem_ProjectIcon = (options: any = {}) => {
@@ -144,7 +149,10 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 				),
 				value
 			};
-		})
+		}),
+		afterControll: ({ currentItemModelValue }) => (
+			<xIcon icon={currentItemModelValue} />
+		)
 	};
 };
 export const xItem_ProjectName = (options: any = {}) => {
@@ -201,9 +209,7 @@ export const DialogAddProject = defineComponent({
 		const vm = this;
 		return {
 			dataXItem: {
-				...defItem(
-					xItem_ProjectGroupId({ value: vm.propDialogOptions.groupId }, vm)
-				),
+				...defItem( xItem_ProjectGroupId({ value: vm.propDialogOptions.groupId }, vm) ),
 				...defItem(xItem_ProjectName()),
 				...defItem(xItem_ProjectIcon()),
 				...defItem(xItem_ProjectColor()),
@@ -257,6 +263,7 @@ export const DialogAddProject = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
+					{pickValueFrom(this.dataXItem)}
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>

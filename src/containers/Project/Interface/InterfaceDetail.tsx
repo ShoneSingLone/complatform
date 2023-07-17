@@ -188,7 +188,6 @@ export const InterfaceDetail = defineComponent({
 					});
 				} catch (error) {
 					console.error(error);
-					debugger;
 				} finally {
 					this.closeWS();
 				}
@@ -220,7 +219,6 @@ export const InterfaceDetail = defineComponent({
 				try {
 					const wsURL = new URL(State_App.baseURL);
 					socket.on("solveConflict", data => {
-						debugger;
 					});
 					socket
 						.open(
@@ -229,7 +227,6 @@ export const InterfaceDetail = defineComponent({
 							)}`
 						)
 						.then(data => {
-							debugger;
 							socket.ws.send(newWsPayload("solveConflict"));
 						});
 				} catch (e) {}

@@ -152,7 +152,6 @@ export default defineComponent({
 							throw new Error("未通过验证");
 						}
 					} catch (e) {
-						debugger;
 						console.error(e);
 					}
 				}

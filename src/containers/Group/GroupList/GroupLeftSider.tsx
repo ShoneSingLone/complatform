@@ -158,8 +158,7 @@ export const GroupLeftSider = defineComponent({
 				console.error(error);
 			}
 		},
-		async selectGroup(item) {
-			const { index: groupId } = item;
+		async selectGroup(groupId) {
 			await Methods_App.setCurrGroup(groupId);
 			this.Cpt_url.go("/group", { group_id: groupId });
 			await Methods_App.fetchNewsData({ id: groupId, type: "group" });
@@ -222,24 +221,35 @@ export const GroupLeftSider = defineComponent({
 					mode="inline"
 					v-xloading={this.groupListForShow.length === 0}>
 					{xU.map(this.groupListForShow, group => {
-						let icon = "folderOpen";
+						let icon = "icon_group";
 						if (group.type === "private") {
 							icon = "user";
 						}
 						return (
-							<ElMenuItem
-								index={`${group._id}`}
-								class="group-item flex"
-								onClick={this.selectGroup}>
+							<ElMenuItem class="group-item flex">
 								<div class="flex middle width100">
-									<xIcon icon={icon} style="width:16px;" />
-									<span class="flex1">{group.group_name}</span>
+									<div
+										class="flex1 flex middle"
+										style="width:1px;"
+										onClick={() => this.selectGroup(group._id)}>
+										<xIcon icon={icon} style="width:16px;margin-right:4px" />
+										<div class="group-menu-item_title ellipsis">
+											{group.group_name}
+										</div>
+									</div>
+									{!!group.group_desc && (
+										<xIcon
+											v-uiPopover={{ content: group.group_desc }}
+											class="group-menu-icon editSet pointer ml10 mr10"
+											icon="Insidetips"
+										/>
+									)}
 									<xIcon
 										v-uiPopover={{ content: vm.$t("修改分组信息").label }}
-										class="btn editSet pointer"
+										class="group-menu-icon editSet pointer"
 										icon="edit"
 										onClick={() => {
-											vm.fnShowUpsertGroupDialog(this.State_App.currGroup);
+											vm.fnShowUpsertGroupDialog(group);
 										}}
 										style="width:16px;"
 									/>

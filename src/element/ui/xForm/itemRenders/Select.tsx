@@ -47,7 +47,7 @@ export default defineComponent({
 				return properties.renderOptions();
 			} else {
 				return xU.map(properties.options, option => {
-					return <ElOption value={option.value} label={option.label} />;
+					return <ElOption value={option.value}>{option.label}</ElOption>;
 				});
 			}
 		};

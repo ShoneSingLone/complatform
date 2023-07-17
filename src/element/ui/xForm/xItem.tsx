@@ -186,6 +186,16 @@ export const xItem = defineComponent({
 		};
 	},
 	computed: {
+		currentItemModelValue() {
+			if (this.isSetVModel) {
+				return this.modelValue;
+			} else {
+				return this.configs?.value;
+			}
+		},
+		afterControll() {
+			return this.configs?.afterControll || this.$slots.afterControll || false;
+		},
 		isSetVModel() {
 			return this.modelValue !== DID_NOT_SET_MODEL_VALUE_BY_V_MODEL;
 		},
@@ -541,7 +551,7 @@ export const xItem = defineComponent({
 					{/* 提示信息 */}
 					{this.tipsVNode}
 				</div>
-				{this.$slots.afterControll && this.$slots.afterControll()}
+				{this.afterControll && this.afterControll.call(this, this)}
 			</div>
 		);
 	}
