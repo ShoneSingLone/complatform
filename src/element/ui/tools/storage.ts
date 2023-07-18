@@ -1,5 +1,5 @@
 //@ts-ignore
-// import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
+import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
 import { Connection } from "jsstore";
 import { isInput, xU } from "../ventoseUtils";
 /*循环依赖问题，直接使用lodash*/
@@ -28,8 +28,8 @@ export const lStorage = new Proxy(localStorage, {
 	}
 });
 
-let DB;
-const connection = new Connection(new Worker("jsstore.worker.js"));
+/* let DB;
+const connection = new Connection(new Worker("jsstore.worker.js")); */
 
 /**
  *
@@ -51,28 +51,24 @@ export const iStorage = async function (key: string, val?: any) {
 		name: dbName,
 		tables: [tableKeyVal]
 	};
-	debugger;
-	const keys = async () => null;
-	const clear = async () => null;
-	const idbGet = async () => null;
-	const idbSet = async () => null;
-
+	// const keys = async () => null;
+	// const clear = async () => null;
+	// const idbGet = async () => null;
+	// const idbSet = async () => null;
+/*
 	if (!DB) {
+	 	debugger;
 		const isDbCreated = await connection.initDb(database);
-		debugger;
 		if (isDbCreated === true) {
-			debugger;
 			console.log("db created");
 			// here you can prefill database with some data
 		} else {
-			debugger;
 			console.log("db opened");
 		}
 	}
-
+ */
 	//@ts-ignore
 	if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
-		debugger;
 		await clear();
 		//@ts-ignore
 		lStorage.__APP_VERSION = window.__APP_VERSION || Date.now();
@@ -89,7 +85,6 @@ export const iStorage = async function (key: string, val?: any) {
 			/* console.log("set", key, res) */
 		} else {
 			res = await idbGet(key);
-			debugger;
 			if (!res) {
 				xU("get", key, res);
 			}
@@ -97,7 +92,6 @@ export const iStorage = async function (key: string, val?: any) {
 	} catch (error) {
 		console.error(error);
 	} finally {
-		debugger;
 		return res;
 	}
 };

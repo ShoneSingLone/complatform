@@ -9,7 +9,7 @@ import viteCompression from "vite-plugin-compression";
 
 import { PROD_SERVER_ADDRESS, PROD_SERVER_ADDRESS2, /* DEV_SERVER_ADDRESS */ } from "../privateConfigs.js";
 
-const DEV_SERVER_ADDRESS = "http://localhost:3001";
+const DEV_SERVER_ADDRESS = "http://localhost:3010";
 const IS_DEV = process.env.IS_DEV != "PRD";
 const { PRD_USE } = process.env;
 const __APP_VERSION = Date.now().toString();
