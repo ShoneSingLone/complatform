@@ -2,6 +2,7 @@ import { defineComponent } from "vue";
 import { State_App, Cpt_avatarUrl } from "@/state/State_App";
 import { $t, UI, defFormConfigs, setValueTo, xU } from "@ventose/ui";
 import { DialogUpdatePwd } from "./DialogUpdatePwd";
+import { pickValueFrom } from "./../../element/ui/tools/form";
 
 export const ViewUserProfile = defineComponent({
 	setup() {
@@ -81,7 +82,7 @@ export const ViewUserProfile = defineComponent({
 	},
 	render({ Cpt_avatarUrl, configsForm, styleForm, styleFormLabel, updatePwd }) {
 		return (
-			<ElCard>
+			<>
 				<h1>个人设置</h1>
 				<xForm formStyle={styleForm} labelStyle={styleFormLabel}>
 					<ElAvatar size={64} src={Cpt_avatarUrl} />
@@ -99,7 +100,7 @@ export const ViewUserProfile = defineComponent({
 					<ElButton onClick={updatePwd}>修改密码</ElButton>
 					<xGap t="10" />
 				</xForm>
-			</ElCard>
+			</>
 		);
 	}
 });

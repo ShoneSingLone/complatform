@@ -93,6 +93,7 @@ export const AppHeader = defineComponent({
 					<span
 						onClick={this.goToI18nManger}
 						class="flex middle pointer ml10 header-menu-icon_background">
+						{/* yapi logo */}
 						<xIcon icon="icon_i18n" style={this.styleLogo} />
 					</span>
 					<span class="flex middle pointer ml10 header-menu-icon_background">
@@ -200,6 +201,7 @@ export const AppHeader = defineComponent({
 			<header class="app-header-wrapper">
 				<div class="content flex middle">
 					<span onClick={this.goToGroup} class="flex middle pointer">
+						{/* yapi logo */}
 						<xIcon icon={this.icon} style={this.styleLogo} />
 					</span>
 					<BreadcrumbNavigation />

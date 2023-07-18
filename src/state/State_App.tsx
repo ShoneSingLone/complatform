@@ -251,7 +251,7 @@ watch(
 	xU.debounce(function () {
 		lStorage.State_App = _State_App;
 	}),
-	100
+	{ immediate: true }
 );
 
 watch(
@@ -259,7 +259,7 @@ watch(
 	xU.debounce(async group_id => {
 		await Methods_App.setCurrGroup(group_id);
 	}),
-	100
+	{ immediate: true }
 );
 
 watch(
@@ -267,7 +267,7 @@ watch(
 	xU.debounce(async project_id => {
 		await Methods_App.setCurrProject(project_id);
 	}),
-	100
+	{ immediate: true }
 );
 
 window.addEventListener(

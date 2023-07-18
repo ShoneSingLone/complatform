@@ -86,9 +86,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<div
-					class="elevation-2 height100 padding10"
-					style="border-radius: 8px;">
+				<div class="left-tree">
 					<ElTree
 						v-model:expandedKeys={vm.State_Project.expandedKeys}
 						height={vm.siderHeight}

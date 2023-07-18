@@ -19,27 +19,32 @@ export const ViewWiki = defineComponent({
 		const vm = this;
 		return {
 			title: "",
-			titleConfigs: defItem.item({
-				placeholder: $t("文档名称").label
-			}),
+			titleConfigs: defItem.item({}),
 			isReadonly: true
 		};
 	},
 	methods: {
 		async save() {
-			const params = xU.merge(
-				{},
-				State_Wiki.currentWiki,
-				{
-					markdown: this.markdown
-				},
-				{ title: this.title }
-			);
-			await API.wiki.upsertOne(params);
-			Methods_Wiki.updateWikiMenuList();
-			Methods_Wiki.setCurrentWiki(params._id, params);
-			UI.message.success($t("保存成功").label);
-			this.isReadonly = true;
+			try {
+				UI.loading(true);
+				const params = xU.merge(
+					{},
+					State_Wiki.currentWiki,
+					{
+						markdown: this.markdown
+					},
+					{ title: this.title }
+				);
+				await API.wiki.upsertOne(params);
+				Methods_Wiki.updateWikiMenuList();
+				Methods_Wiki.setCurrentWiki(params._id, params);
+				UI.message.success($t("保存成功").label);
+				this.isReadonly = true;
+			} catch (error) {
+				console.error(error);
+			} finally {
+				UI.loading();
+			}
 		}
 	},
 	computed: {
@@ -63,6 +68,7 @@ export const ViewWiki = defineComponent({
 					return !this.isReadonly;
 				},
 				onClick: () => {
+					Methods_Wiki.setCurrentWiki();
 					this.isReadonly = true;
 				}
 			};
@@ -78,24 +84,29 @@ export const ViewWiki = defineComponent({
 			}
 		},
 		vDomTitle() {
-			if (this.isReadonly) {
-				return (
-					<span class="ml10 flex1" style="font-weight:700;font-size:18px;">
+			return (
+				<>
+					<span
+						class="ml10 flex1"
+						style={{
+							"font-weight": "700",
+							"font-size": "18px",
+							display: this.isReadonly ? "inline-block" : "none"
+						}}>
 						{State_Wiki.currentWiki.title}
 					</span>
-				);
-			} else {
-				return (
-					<>
-						<xItem
-							class="flex1 mr10"
-							configs={this.titleConfigs}
-							modelValue={State_Wiki.currentWiki.title}
-							onUpdate:modelValue={val => (this.title = val)}
-						/>
-					</>
-				);
-			}
+					<xItem
+						id="wiki-editor-title"
+						class={{
+							"flex1 mr10": true,
+							"display-none": this.isReadonly
+						}}
+						configs={this.titleConfigs}
+						modelValue={State_Wiki.currentWiki.title}
+						onUpdate:modelValue={val => (this.title = val)}
+					/>
+				</>
+			);
 		}
 	},
 	render() {
@@ -104,7 +115,10 @@ export const ViewWiki = defineComponent({
 				id="ViewWiki"
 				class="flex flex1"
 				v-xloading={State_Wiki.isLoading}>
-				<WikiLeftSider onChange={() => (this.isReadonly = true)} />
+				<WikiLeftSider
+					onChange={() => (this.isReadonly = true)}
+					isShow={this.isReadonly}
+				/>
 				<main class="flex flex1 padding10 vertical paddingB20">
 					<div class="flex mb10 middle" style="height:48px;">
 						{this.vDomTitle}

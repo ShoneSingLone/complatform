@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { $, xU } from "@ventose/ui";
+import { $, xU, UI } from "@ventose/ui";
 import { defineAsyncComponent, defineComponent } from "vue";
 import { PreprocessHTML, MkitTheme } from "@/components/Mkit/MkitTheme";
 import { API } from "@/api";
@@ -12,17 +12,43 @@ export const TuiEditor = defineAsyncComponent(async () => {
 		`${State_App.baseURL}/assets/libs/toastui-editor-all.js`
 	);
 	const { Editor } = toastui;
+
+	const customHTMLRenderer = {
+		image: (node, context) => {
+			const { title, destination, firstChild } = node;
+			const { literal } = firstChild || {};
+			const { skipChildren } = context;
+			skipChildren();
+			const src = (() => {
+				const [_, id] = String(destination).match(/^_id:(\d+)/) || [];
+				if (id) {
+					return `${State_App.baseURL}/api/resource/get?id=${id}`;
+				} else {
+					return destination;
+				}
+			})();
+			return {
+				type: "openTag",
+				tagName: "img",
+				selfClose: true,
+				attributes: {
+					title,
+					alt: literal,
+					src
+				}
+			};
+		}
+	};
+
 	return defineComponent({
 		props: ["modelValue", "isReadonly"],
 		emits: ["update:modelValue"],
 		data() {
 			return {
-				html: "",
 				visible: false,
 				imgIndex: 0,
 				imgList: [],
 				imgSrc: "",
-				isLoading: true,
 				id: xU.genId("TuiEditor"),
 				raw$md: "",
 				vmTuiEditorDone: false,
@@ -47,16 +73,16 @@ export const TuiEditor = defineAsyncComponent(async () => {
 		},
 		created() {
 			const vm = this;
-			vm.setLoadingFalse = xU.debounce(function () {
-				vm.isLoading = false;
-			}, 1000);
 		},
 		mounted() {
 			this.init();
 		},
 		watch: {
-			readonly() {
-				this.setHtmlDebounce && this.setHtmlDebounce();
+			readonly: {
+				immediate: true,
+				async handler() {
+					this.setHtml && this.setHtml();
+				}
 			},
 			/* 初始化完成后再调用一次渲染 */
 			vmTuiEditorDone: {
@@ -72,15 +98,6 @@ export const TuiEditor = defineAsyncComponent(async () => {
 			}
 		},
 		methods: {
-			setLoading(isLoading) {
-				if (isLoading) {
-					this.isLoading = true;
-				} else if (this.setLoadingFalse) {
-					this.setLoadingFalse();
-				} else {
-					this.isLoading = false;
-				}
-			},
 			setMd(mdString) {
 				try {
 					if (!this.vmTuiEditor) {
@@ -93,22 +110,33 @@ export const TuiEditor = defineAsyncComponent(async () => {
 					const _mdString = this.vmTuiEditor.getMarkdown();
 					if (_mdString === mdString) {
 						throw new Error("return");
+					} else {
 					}
 					this.vmTuiEditor.setMarkdown(mdString);
-					this.setHtmlDebounce();
-				} catch (error) {}
+					this.setHtml();
+				} catch (error) {
+					if ("return" !== error?.message) {
+						console.error(error);
+					}
+				} finally {
+				}
 			},
 			setHtml() {
 				try {
 					if (!this.vmTuiEditor) {
 						return;
 					}
+					if (!this.isReadonly) {
+						return;
+					}
 					let html = this.vmTuiEditor.getHTML();
-					this.html = new PreprocessHTML(html).html;
+					html = new PreprocessHTML(html).html;
+					setTimeout(() => {
+						$(this.$refs.viewer).html(html);
+					}, 64);
 				} catch (error) {
 					console.error(error);
 				} finally {
-					this.setLoading();
 				}
 			},
 			destoryListener() {
@@ -157,47 +185,19 @@ export const TuiEditor = defineAsyncComponent(async () => {
 				if (vm.modelValue.md !== mdString) {
 					vm.$emit("update:modelValue", {
 						md: mdString,
-						html: vm.vmTuiEditor.getHTML()
+						html: ""
 					});
 				}
-				vm.setLoading();
 				$(this.raw$selector).removeClass("flash infinite").hide();
 			},
 			//初始化方法
 			async init() {
 				let vm = this;
-				vm.setLoading(true);
 				await xU.ensureValueDone(() => vm.$refs.container);
 				try {
 					(() => {
 						vm.vmTuiEditor = new Editor({
-							customHTMLRenderer: {
-								image: (node, context) => {
-									const { title, destination, firstChild } = node;
-									const { literal } = firstChild || {};
-									const { skipChildren } = context;
-									skipChildren();
-									const src = (() => {
-										const [_, id] =
-											String(destination).match(/^_id:(\d+)/) || [];
-										if (id) {
-											return `${State_App.baseURL}/api/resource/get?id=${id}`;
-										} else {
-											return destination;
-										}
-									})();
-									return {
-										type: "openTag",
-										tagName: "img",
-										selfClose: true,
-										attributes: {
-											title,
-											alt: literal,
-											src
-										}
-									};
-								}
-							},
+							customHTMLRenderer,
 							el: vm.$refs.container,
 							// initialEditType: "wysiwyg",
 							initialEditType: "markdown",
@@ -211,11 +211,9 @@ export const TuiEditor = defineAsyncComponent(async () => {
 								},
 								addImageBlobHook: async (blob, callback) => {
 									/* base64 字符串 */
-									/* vm.setLoading(true);
-                                            var reader = new FileReader();
+									/*     var reader = new FileReader();
                                             reader.onload = function (_a) {
                                                 var target2 = _a.target;
-                                                vm.setLoading();
                                                 return callback(target2.result);
                                             };
                                             reader.readAsDataURL(blob); */
@@ -223,6 +221,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 									let formData = new FormData();
 									formData.append("file", blob);
 									formData.append("useFor", "wiki");
+									/* todo process loading  */
 									const { data } = await API.resource.upload(formData);
 									callback(`_id:${data._id}`);
 								}
@@ -231,7 +230,6 @@ export const TuiEditor = defineAsyncComponent(async () => {
 						/* vmTuiEditor初始化 */
 						vm.vmTuiEditorDone = true;
 						vm.emitModelValueDebounce = xU.debounce(vm.emitModelValue, 1000);
-						vm.setHtmlDebounce = xU.debounce(vm.setHtml, 1600);
 						const className = `sync_${vm._.uid}`;
 						vm.raw$selector = `.${className}`;
 						vm.vmTuiEditor.insertToolbarItem(
@@ -247,13 +245,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 					})();
 				} catch (error) {
 					console.error(error);
-				} finally {
-					vm.setLoading();
 				}
-
-				(() => {
-					vm.setMdDebounce = xU.debounce(vm.setMd, 1000);
-				})();
 			}
 		},
 		render(vm) {
@@ -262,8 +254,6 @@ export const TuiEditor = defineAsyncComponent(async () => {
 					{vm.readonly && (
 						<div
 							v-uiPopover={vm.configsPopoverChangeTheme}
-							v-xloading={vm.isLoading}
-							v-html={vm.html}
 							onClick={vm.handleClick}
 							ref="viewer"
 							class="toastui-editor-contents flex1 border-radius elevation-1 padding20"
@@ -281,7 +271,6 @@ export const TuiEditor = defineAsyncComponent(async () => {
 						/>
 					</div>
 					<div
-						v-xloading={vm.isLoading}
 						id={vm.id}
 						ref="container"
 						class={{ flex1: true, "display-none": vm.readonly }}

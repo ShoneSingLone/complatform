@@ -84,9 +84,7 @@ export const I18nLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<div
-					class="elevation-2 height100 padding10"
-					style="border-radius: 8px;">
+				<div class="left-tree">
 					<div class="flex mb10">
 						<xButton configs={vm.btnAddNew} />
 						<xGap l="10" />

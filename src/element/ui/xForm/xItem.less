@@ -19,7 +19,7 @@
 		flex-flow: row nowrap;
 		&::before {
 			content: "*";
-			margin-right:4px;
+			margin-right: 4px;
 			color: var(--app-danger);
 		}
 	}
@@ -75,4 +75,17 @@
 
 .xItem_readonly {
 	overflow: auto;
+	div.xItem_readonly__wrapper {
+		display: inline-flex;
+		flex-grow: 1;
+		align-items: center;
+		justify-content: flex-start;
+		padding: 1px 11px;
+		background-color: var(--el-input-bg-color, var(--el-fill-color-blank));
+		background-image: none;
+		border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+		transition: var(--el-transition-box-shadow);
+		transform: translate3d(0, 0, 0);
+		box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
+	}
 }

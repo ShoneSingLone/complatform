@@ -69,23 +69,14 @@ export const xItem_ProjectGroupId = (options: any = {}, vm) => {
 		label: "所属分组",
 		placeholder: "请选择项目所属的分组",
 		itemType: "Select",
-		options: [],
-		rules: [FormRules.required("请选择项目所属的分组!")],
-		once() {
-			vm.$watch(
-				"State_App.groupList",
-				groupList => {
-					this.options = xU.map(groupList, i => {
-						return {
-							label: i.group_name,
-							value: i._id,
-							disabled: !["dev", "owner", "admin"].includes(i.role)
-						};
-					});
-				},
-				{ immediate: true }
-			);
-		}
+		options: xU.map(State_App.groupList, i => {
+			return {
+				label: i.group_name,
+				value: String(i._id),
+				disabled: !["dev", "owner", "admin"].includes(i.role)
+			};
+		}),
+		rules: [FormRules.required("请选择项目所属的分组!")]
 	};
 };
 
@@ -116,7 +107,11 @@ export const xItem_ProjectColor = (options: any = {}) => {
 		options: xU.map(PROJECT_COLOR, background => {
 			return {
 				label: (
-					<span style={{ background, color: "transparent" }}>
+					<span
+						style={{
+							background,
+							color: "transparent"
+						}}>
 						_______________
 					</span>
 				),
@@ -124,7 +119,12 @@ export const xItem_ProjectColor = (options: any = {}) => {
 			};
 		}),
 		afterControll: ({ currentItemModelValue }) => (
-			<span style={{ background: currentItemModelValue, color: "transparent" }}>
+			<span
+				style={{
+					background: currentItemModelValue,
+					color: "transparent",
+					margin: "0 20px"
+				}}>
 				_______________
 			</span>
 		)
@@ -151,7 +151,7 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 			};
 		}),
 		afterControll: ({ currentItemModelValue }) => (
-			<xIcon icon={currentItemModelValue} />
+			<xIcon icon={currentItemModelValue} style="margin:0 20px" />
 		)
 	};
 };
@@ -209,7 +209,9 @@ export const DialogAddProject = defineComponent({
 		const vm = this;
 		return {
 			dataXItem: {
-				...defItem( xItem_ProjectGroupId({ value: vm.propDialogOptions.groupId }, vm) ),
+				...defItem(
+					xItem_ProjectGroupId({ value: vm.propDialogOptions.groupId }, vm)
+				),
 				...defItem(xItem_ProjectName()),
 				...defItem(xItem_ProjectIcon()),
 				...defItem(xItem_ProjectColor()),
@@ -228,6 +230,7 @@ export const DialogAddProject = defineComponent({
 	methods: {
 		async init() {
 			Methods_App.setBreadcrumb([{ name: "新建项目" }]);
+
 			if (!State_App.currGroup._id) {
 				await Methods_App.fetchGroupList();
 			}
@@ -263,7 +266,6 @@ export const DialogAddProject = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
-					{pickValueFrom(this.dataXItem)}
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>

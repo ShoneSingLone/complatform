@@ -97,8 +97,8 @@ export const ProjectTestcaseLeftSider = defineComponent({
 			const vm = this;
 			return (
 				<div
-					class="elevation-2 height100 padding10"
-					style="border-radius: 8px;">
+					class="left-tree"
+					>
 					<ElTree
 						v-model:expandedKeys={vm.State_ProjectTestcase.expandedKeys}
 						height={vm.siderHeight}

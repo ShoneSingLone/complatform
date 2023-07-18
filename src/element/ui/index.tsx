@@ -62,6 +62,7 @@ import { useScopeStyle } from "./compositionAPI/useScopeStyle";
 import { xInfoCard } from "./xView/xInfoCard";
 import { xLinkCopy } from "./xButton/xLinkCopy";
 import { xInfoDiffCard } from "./xInfoDiffCard/xInfoDiffCard";
+import {xHighlight} from "./xRender/xHighlight";
 // import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 if (State_UI.isDev) {
@@ -101,7 +102,8 @@ const componentMyUI = {
 	xLogObject,
 	xInfoCard,
 	xLinkCopy,
-	xInfoDiffCard
+	xInfoDiffCard,
+	xHighlight
 };
 
 export const components = {

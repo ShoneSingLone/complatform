@@ -13,18 +13,24 @@ export const pickValueFrom = configs => {
 	);
 };
 export const setValueTo = (configs, values) => {
-	xU.each(values, (target, value, prop) => {
-		if (value === undefined) {
-			return;
-		}
-		if (configs[prop]) {
-			configs[prop].value = value;
-			/* onChange */
-			if (xU.isFunction(configs[prop].onChange)) {
-				configs[prop].onChange(value);
+	configs = xU.reduce(
+		values,
+		(configs, value, prop) => {
+			if (value === undefined) {
+				return;
 			}
-		}
-	});
+			if (configs[prop]) {
+				configs[prop].value = value;
+				/* onChange */
+				if (xU.isFunction(configs[prop].onChange)) {
+					configs[prop].onChange(value);
+				}
+			}
+			return configs;
+		},
+		configs
+	);
+	return configs;
 };
 
 /*重置reactive数据*/

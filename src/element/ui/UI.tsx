@@ -51,6 +51,7 @@ const useModel = type => {
 };
 
 LayerUtils.loading = function (indexDelete) {
+	indexDelete;
 	this.loading.count = this.loading.count || 1;
 	this.loading.deep = this.loading.deep || new Set();
 	$("body").trigger("click");
@@ -129,5 +130,22 @@ export const UI = {
 			});
 		}
 	}),
-	layer: LayerUtils
+	layer: LayerUtils,
+	/* TODO: LayerUtils.loading 可以有进度条， */
+	loading(isLoading = false) {
+		this.loading.count = this.loading.count || 0;
+		if (isLoading) {
+			if (!this.loading.count) {
+				$("body").addClass("x-loading");
+			}
+			this.loading.count++;
+		} else {
+			this.loading.count--;
+			setTimeout(() => {
+				if (this.loading.count === 0) {
+					$("body").removeClass("x-loading");
+				}
+			}, 64);
+		}
+	}
 };

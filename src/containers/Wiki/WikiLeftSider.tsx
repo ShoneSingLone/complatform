@@ -17,6 +17,7 @@ const { usefnObserveDomResize } = compositionAPI;
 /* 文档 编辑、删除 */
 
 export const WikiLeftSider = defineComponent({
+	props: ["isShow"],
 	emits: ["change"],
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
@@ -30,12 +31,7 @@ export const WikiLeftSider = defineComponent({
 			fnUnobserveDomResize
 		};
 	},
-	watch: {
-		filterText(text) {
-			State_Wiki.isLoading = true;
-			this.setFilterText(text);
-		}
-	},
+	watch: {},
 	data(vm) {
 		return {
 			configsResize: {
@@ -95,15 +91,21 @@ export const WikiLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<div
-					class="elevation-2 height100 padding10"
-					style="border-radius: 8px;">
-					<div class="flex mb10">
-						<ElInput />
+				<div class="left-tree">
+					<div class="flex mb10 middle">
+						<ElInput v-model={vm.filterText} />
 						<xGap l="10" />
-						<xButton configs={vm.btnAddNew} />
+						<xIcon
+							icon="add"
+							onClick={vm.btnAddNew.onClick}
+							class="icon-opreation_click"
+						/>
 						<xGap l="10" />
-						<xButton configs={vm.btnRefresh} />
+						<xIcon
+							icon="refresh"
+							onClick={vm.btnRefresh.onClick}
+							class="icon-opreation_click"
+						/>
 					</div>
 					<ElScrollbar height={vm.siderHeight}>
 						<ElTree
@@ -144,13 +146,8 @@ export const WikiLeftSider = defineComponent({
 										};
 
 										const handleClick = () => {
-											State_Wiki.isLoading = true;
 											Methods_Wiki.clickWiki({ wiki_id: item.data._id });
 											vm.$emit("change");
-											setTimeout(() => {
-												/* 内网环境，数据3秒都回不来，就有点呵呵了 */
-												State_Wiki.isLoading = false;
-											}, 1000 * 3);
 										};
 
 										const canDelete =
@@ -163,7 +160,7 @@ export const WikiLeftSider = defineComponent({
 												<div
 													class="x-sider-tree_menu_title"
 													onClick={handleClick}>
-													{title}
+													<xHighlight content={title} filter={vm.filterText} />
 												</div>
 												<div class="x-sider-tree_menu_opration">
 													{genIcon({
@@ -263,10 +260,6 @@ export const WikiLeftSider = defineComponent({
 				UI.message.error(error.message);
 			}
 		},
-		setFilterText: xU.debounce(function (filterText) {
-			State_Wiki.filterText = filterText;
-			State_Wiki.isLoading = false;
-		}, 600),
 		/* vDomList 需要实际高度 */
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
@@ -300,6 +293,9 @@ export const WikiLeftSider = defineComponent({
 		}
 	},
 	render() {
+		if (!this.isShow) {
+			return null;
+		}
 		return (
 			<aside class="x-sider_wrapper" style={this.styleAside}>
 				<div class="x-sider_wrapper_tree" ref="wrapper">

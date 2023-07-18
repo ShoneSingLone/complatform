@@ -226,7 +226,11 @@ export const GroupLeftSider = defineComponent({
 							icon = "user";
 						}
 						return (
-							<ElMenuItem class="group-item flex">
+							<ElMenuItem
+								class={{
+									"group-item flex": true,
+									active: State_App.currGroup._id === group._id
+								}}>
 								<div class="flex middle width100">
 									<div
 										class="flex1 flex middle"

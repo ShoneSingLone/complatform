@@ -5,10 +5,14 @@ export const ReadonlyItem = defineComponent({
 	render() {
 		return (
 			<div
-				class="x-input cursor-not-allowed xItem_readonly ellipsis"
+				class="cursor-not-allowed xItem_readonly ellipsis"
 				v-uiPopover={{ onlyEllipsis: true }}>
-				{this.value}
-				<span style="opacity:0">.</span>
+				<div class="el-input flex">
+					<div class="xItem_readonly__wrapper flex1">
+						{this.value}
+						{/* <span style="opacity:0">.</span> */}
+					</div>
+				</div>
 			</div>
 		);
 	}
