@@ -5,7 +5,6 @@ import { appPlugins } from "./utils/common";
 import "./main.electron";
 
 async function main() {
-	await Methods_App.fetchGroupList();
 	createApp(App).use(appPlugins, { dependState: State_App }).mount("#app");
 }
 

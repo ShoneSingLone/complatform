@@ -20,6 +20,7 @@ specifiers:
   jquery: ^3.6.4
   json5: ^2.2.3
   jsondiffpatch: ^0.4.1
+  jsstore: ^4.5.7
   less: ^4.1.3
   lodash: ^4.17.21
   nprogress: ^0.2.0
@@ -48,6 +49,7 @@ dependencies:
   jquery: 3.7.0
   json5: 2.2.3
   jsondiffpatch: 0.4.1
+  jsstore: 4.5.7
   lodash: 4.17.21
   nprogress: 0.2.0
   qs: 6.11.2
@@ -1573,6 +1575,10 @@ packages:
       universalify: 2.0.0
     optionalDependencies:
       graceful-fs: 4.2.11
+
+  /jsstore/4.5.7:
+    resolution: {integrity: sha512-07pCv/uer9EOdObzJBPwfbOaBigEX4C9E1srYFexZ+BIGjA5vyn5N2mgc3WAXfI7QTW3L5DmsUbrQfuKFfGDnA==}
+    dev: false
 
   /less/4.1.3:
     resolution: {integrity: sha512-w16Xk/Ta9Hhyei0Gpz9m7VS8F28nieJaL/VyShID7cYvP6IL5oHeL6p4TXSDJqZE/lNv0oJ2pGVjJsRkfwm5FA==}

@@ -14,6 +14,13 @@ export const user = {
 			params
 		});
 	},
+	uploadAvatar(data) {
+		return ajax({
+			method: "post",
+			url: "/api/user/upload_avatar",
+			data
+		});
+	},
 	loginActions(data) {
 		return ajax({
 			method: "post",

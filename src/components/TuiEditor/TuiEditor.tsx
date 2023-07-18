@@ -270,6 +270,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 							previewTeleported={true}
 						/>
 					</div>
+					asdfasf
 					<div
 						id={vm.id}
 						ref="container"

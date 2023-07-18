@@ -86,7 +86,7 @@ const InputKeyValue = defineComponent({
         };
       }
     },
-    checkFormDataDebounce: xU.debounce(function() {
+    checkFormDataDebounce: xU.debounce(function () {
       if (this.isFormDataOk()) {
         const keys = Object.keys(this.formData).map(Number).sort(orderAsc);
         const value = xU.reduce(keys, (_value, prop) => {
@@ -1317,13 +1317,13 @@ const SchemaEditor = defineComponent({
 });
 var src = {};
 var typeOfIs = { exports: {} };
-(function(module, exports) {
-  (function(factory) {
+(function (module, exports) {
+  (function (factory) {
     {
       module.exports = factory();
     }
-  })(function() {
-    var isBuiltIn = function() {
+  })(function () {
+    var isBuiltIn = function () {
       var built_ins = [
         Object,
         Function,
@@ -1336,7 +1336,7 @@ var typeOfIs = { exports: {} };
         Error
       ];
       var built_ins_length = built_ins.length;
-      return function(_constructor) {
+      return function (_constructor) {
         for (var i = 0; i < built_ins_length; i++) {
           if (built_ins[i] === _constructor) {
             return true;
@@ -1345,9 +1345,9 @@ var typeOfIs = { exports: {} };
         return false;
       };
     }();
-    var stringType = function() {
+    var stringType = function () {
       var _toString = {}.toString;
-      return function(obj) {
+      return function (obj) {
         var stype = _toString.call(obj).slice(8, -1);
         if (obj === null || obj === void 0) {
           return stype.toLowerCase();
@@ -1389,7 +1389,7 @@ var typeOfIs = { exports: {} };
       }
       return false;
     }
-    var exports2 = function(obj, type) {
+    var exports2 = function (obj, type) {
       if (arguments.length == 1) {
         return of(obj);
       } else {
@@ -1411,19 +1411,19 @@ var typeOfIs = { exports: {} };
 })(typeOfIs);
 var utils$1 = {};
 var DATE_REGEXP = /\d{4}-\d{2}-\d{2}/;
-utils$1.isNumber = function(value) {
+utils$1.isNumber = function (value) {
   return typeof value === "number" || Object.prototype.toString.call(value) === "[object Number]";
 };
-utils$1.isDate = function(date) {
+utils$1.isDate = function (date) {
   return new Date(date).toString() !== "Invalid Date" && !isNaN(new Date(date));
 };
-utils$1.isTimestamp = function(string) {
+utils$1.isTimestamp = function (string) {
   return string.length > 18 && !isNaN(new Date(string).getTime());
 };
-utils$1.isDateString = function(string) {
+utils$1.isDateString = function (string) {
   return string.match(DATE_REGEXP);
 };
-utils$1.arrayLastItem = function(arr) {
+utils$1.arrayLastItem = function (arr) {
   return arr[arr.length - 1];
 };
 var Type$4 = typeOfIs.exports;
@@ -1548,7 +1548,7 @@ function getPropertyType$1(value) {
   return "STRING";
 }
 function processFields(data) {
-  return Object.keys(data).map(function(key) {
+  return Object.keys(data).map(function (key) {
     var value = data[key];
     var entry = {
       name: key,
@@ -1577,22 +1577,22 @@ var types$1 = {
   "null": "TEXT"
 };
 var lang$1 = {
-  create: function(name) {
+  create: function (name) {
     return ["CREATE TABLE ", name, " ("].join("");
   },
-  close: function() {
+  close: function () {
     return ");";
   },
-  id: function(name, value) {
+  id: function (name, value) {
     return ["  ", name, "_id ", value, ","].join("");
   },
-  property: function(name, value) {
+  property: function (name, value) {
     return ["  ", name, " ", value, ","].join("");
   },
-  primary: function(id) {
+  primary: function (id) {
     return ["  PRIMARY KEY (", id, "),"].join("");
   },
-  foreign: function(key1, table, key2) {
+  foreign: function (key1, table, key2) {
     return ["  FOREIGN KEY (", key1, ") REFERENCES ", table, "(", key2, "),"].join("");
   }
 };
@@ -1882,19 +1882,19 @@ var types = {
   "null": "String"
 };
 var lang = {
-  create: function(name) {
+  create: function (name) {
     return ["CREATE TABLE ", name, " ("].join("");
   },
-  close: function(id, dateField) {
+  close: function (id, dateField) {
     if (!dateField)
       return [") ENGINE = Memory;"].join("");
     else
       return [") ENGINE = MergeTree(", dateField, ", (", id, ", ", dateField, "), 8192);"].join("");
   },
-  id: function(name, value) {
+  id: function (name, value) {
     return ["  ", name, "_id ", value, ","].join("");
   },
-  property: function(name, value) {
+  property: function (name, value) {
     return ["  ", name, " ", value, ","].join("");
   }
 };
@@ -2189,7 +2189,7 @@ const JsonSchemaMonaco = defineComponent({
     init() {
       const vm = this;
       vm.raw$Node4Diff = {};
-      vm.setSchemaStringDebounce = xU.debounce(function() {
+      vm.setSchemaStringDebounce = xU.debounce(function () {
         const node = xU.cloneDeep(vm.currentNode);
         if (node) {
           const isDifferent = diff(vm.raw$Node4Diff, node);
@@ -2202,7 +2202,7 @@ const JsonSchemaMonaco = defineComponent({
         }
       }, 600);
       vm.setSchemaStringDebounce();
-      vm.updateTreeDebounce = xU.debounce(function() {
+      vm.updateTreeDebounce = xU.debounce(function () {
         vm.jsonTree = xU.map([vm.schemaJson], (item, prop) => {
           return transJsonTree(item, prop, "");
         });
@@ -3292,7 +3292,7 @@ const TuiEditor = defineAsyncComponent(() => new Promise(async (resolve) => {
     },
     created() {
       const vm = this;
-      vm.setLoadingFalse = xU.debounce(function() {
+      vm.setLoadingFalse = xU.debounce(function () {
         vm.isLoading = false;
       }, 1e3);
     },
@@ -3442,7 +3442,7 @@ const TuiEditor = defineAsyncComponent(() => new Promise(async (resolve) => {
                 addImageBlobHook: (blob, callback) => {
                   vm.setLoading(true);
                   var reader = new FileReader();
-                  reader.onload = function(_a) {
+                  reader.onload = function (_a) {
                     var target2 = _a.target;
                     vm.setLoading();
                     return callback(target2.result);

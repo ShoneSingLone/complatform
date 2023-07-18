@@ -34,6 +34,7 @@
     "jquery": "^3.6.4",
     "json5": "^2.2.3",
     "jsondiffpatch": "^0.4.1",
+    "jsstore": "^4.5.7",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "qs": "^6.11.1",

@@ -1,5 +1,6 @@
 //@ts-ignore
-import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
+// import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
+import { Connection } from "jsstore";
 import { isInput, xU } from "../ventoseUtils";
 /*循环依赖问题，直接使用lodash*/
 import _ from "lodash";
@@ -26,13 +27,9 @@ export const lStorage = new Proxy(localStorage, {
 		}
 	}
 });
-//@ts-ignore
-if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
-	clear();
-	//@ts-ignore
-	lStorage.__APP_VERSION = window.__APP_VERSION || Date.now();
-	/* keys().then((keys) => console.log(keys)); */
-}
+
+let DB;
+const connection = new Connection(new Worker("jsstore.worker.js"));
 
 /**
  *
@@ -41,6 +38,47 @@ if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
  * @returns
  */
 export const iStorage = async function (key: string, val?: any) {
+	var dbName = "iStorage";
+	var tableKeyVal = {
+		name: "KeyVal",
+		columns: {
+			id: { primaryKey: true, autoIncrement: true },
+			itemName: { notNull: true, dataType: "string" }
+		}
+	};
+
+	var database = {
+		name: dbName,
+		tables: [tableKeyVal]
+	};
+	debugger;
+	const keys = async () => null;
+	const clear = async () => null;
+	const idbGet = async () => null;
+	const idbSet = async () => null;
+
+	if (!DB) {
+		const isDbCreated = await connection.initDb(database);
+		debugger;
+		if (isDbCreated === true) {
+			debugger;
+			console.log("db created");
+			// here you can prefill database with some data
+		} else {
+			debugger;
+			console.log("db opened");
+		}
+	}
+
+	//@ts-ignore
+	if (String(window.__APP_VERSION) !== String(lStorage.__APP_VERSION)) {
+		debugger;
+		await clear();
+		//@ts-ignore
+		lStorage.__APP_VERSION = window.__APP_VERSION || Date.now();
+		/* keys().then((keys) => console.log(keys)); */
+	}
+
 	const keyPrefix = window.location.hostname;
 	key = _.camelCase(keyPrefix + key);
 	let res;
@@ -51,6 +89,7 @@ export const iStorage = async function (key: string, val?: any) {
 			/* console.log("set", key, res) */
 		} else {
 			res = await idbGet(key);
+			debugger;
 			if (!res) {
 				xU("get", key, res);
 			}
@@ -58,8 +97,7 @@ export const iStorage = async function (key: string, val?: any) {
 	} catch (error) {
 		console.error(error);
 	} finally {
+		debugger;
 		return res;
 	}
 };
-
-iStorage.clear = clear;
