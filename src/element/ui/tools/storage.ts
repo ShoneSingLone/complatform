@@ -1,6 +1,6 @@
 //@ts-ignore
 import { keys, clear, get as idbGet, set as idbSet } from "idb-keyval";
-import { Connection } from "jsstore";
+// import { Connection } from "jsstore";
 import { isInput, xU } from "../ventoseUtils";
 /*循环依赖问题，直接使用lodash*/
 import _ from "lodash";
@@ -55,7 +55,7 @@ export const iStorage = async function (key: string, val?: any) {
 	// const clear = async () => null;
 	// const idbGet = async () => null;
 	// const idbSet = async () => null;
-/*
+	/*
 	if (!DB) {
 	 	debugger;
 		const isDbCreated = await connection.initDb(database);
