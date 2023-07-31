@@ -64,12 +64,22 @@ export const DialogAddArticle = defineComponent({
 		async onOk() {
 			const validateResults = await validateForm(this.dataXItem);
 			if (AllWasWell(validateResults)) {
+				const { project_id, group_id } = this.Cpt_url.query;
+				let belong_id;
+
+				if (cpt_wikiBelongType.value === "group") {
+					belong_id = group_id;
+				}
+				if (cpt_wikiBelongType.value === "project") {
+					belong_id = project_id;
+				}
 				const { title } = pickValueFrom(this.dataXItem);
 				const params = {
 					title,
 					type: ARTICLE,
 					p_id: this.pid,
-					belong_type: cpt_wikiBelongType.value
+					belong_type: cpt_wikiBelongType.value,
+					belong_id
 				};
 				try {
 					const { data } = await API.wiki.upsertOne(params);

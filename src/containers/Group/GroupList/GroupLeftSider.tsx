@@ -55,6 +55,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 						custom_field1_enable,
 						custom_field1_name
 					} = pickValueFrom(formItems);
+					
 					formData = {
 						...row,
 						group_name: currGroupName,

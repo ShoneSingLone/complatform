@@ -68,8 +68,7 @@ export const routes = [
 		label: $t("接口").label,
 		path: "/project/interface",
 		componentName: "ProjectInterface",
-		component: () =>
-			import("../containers/Project/Interface/ProjectInterface.js"),
+		component: () => import("../containers/Project/Interface/ProjectInterface.js"),
 		meta: {
 			title: $t("接口").label
 		}

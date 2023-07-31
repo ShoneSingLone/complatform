@@ -29,6 +29,7 @@ export default [
   "home",
   "iconFilter",
   "icon_article",
+  "icon_group",
   "icon_i18n",
   "icon_inbox",
   "icon_使用文档",

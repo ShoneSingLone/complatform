@@ -97,6 +97,7 @@ export const Methods_Wiki = {
 		if (cpt_wikiBelongType.value === "group") {
 			belong_id = group_id;
 		}
+		debugger;
 		if (cpt_wikiBelongType.value === "project") {
 			belong_id = project_id;
 		}

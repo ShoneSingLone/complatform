@@ -7,9 +7,10 @@ import { State_App } from "@/state/State_App";
 import "./TuiEditor.less";
 
 export const TuiEditor = defineAsyncComponent(async () => {
+	const { pathname, origin } = window.location;
 	const toastui = await xU.asyncGlobalJS(
 		"toastui",
-		`${State_App.baseURL}/assets/libs/toastui-editor-all.js`
+		`${origin}${pathname}assets/libs/toastui-editor-all.js`
 	);
 	const { Editor } = toastui;
 
@@ -270,7 +271,6 @@ export const TuiEditor = defineAsyncComponent(async () => {
 							previewTeleported={true}
 						/>
 					</div>
-					asdfasf
 					<div
 						id={vm.id}
 						ref="container"

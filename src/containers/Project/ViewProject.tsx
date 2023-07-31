@@ -1,9 +1,9 @@
-import { xU } from "@ventose/ui";
+import { xU, $t } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { resetStateInterface } from "./Interface/State_ProjectInterface";
 import "./ViewProject.scss";
 import { RouterView } from "@/components/RouterView/RouterView";
-import { Cpt_url, ProjectChildren } from "@/router/router";
+import { Cpt_url, ProjectChildren, aHashLink } from "@/router/router";
 import { State_App } from "@/state/State_App";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
@@ -38,9 +38,12 @@ export const ViewProject = defineComponent({
 		};
 	},
 	methods: {
-		switchProjectSubOption({ key: path }) {
-			this.Cpt_url.go(path, this.Cpt_url.query);
-			this.currentViewKey = path;
+		switchProjectSubOption(item) {
+			const { path } = item;
+			if (path) {
+				this.Cpt_url.go(path, this.Cpt_url.query);
+				this.currentViewKey = path;
+			}
 		}
 	},
 	computed: {},
@@ -54,24 +57,36 @@ export const ViewProject = defineComponent({
 
 		return (
 			<div id="ViewProject">
-				<ElMenu
-					onClick={this.switchProjectSubOption}
-					selectedKeys={[this.currentViewKey]}
-					mode="horizontal"
-					class="">
+				<div class="el-menu">
+					<a
+						class="flex middle el-sub-menu"
+						href={aHashLink("/wiki_project", {
+							group_id: this.Cpt_url.query.group_id,
+							project_id: this.Cpt_url.query.project_id
+						})}
+						style={this.styleLogo}
+						target="_black">
+						<xIcon icon="wikidoc" style={this.styleLogo} />
+						<span>{$t("项目文档").label}</span>
+					</a>
 					{xU.map(this.ProjectChildren, (item, index) => {
 						// 若导航标题为两个字，则自动在中间加个空格
 						if (item.label.length === 2) {
 							item.label = item.label[0] + " " + item.label[1];
 						}
 						return (
-							<ElMenuItem class="item" key={item.path}>
+							<div
+								class="el-sub-menu item pointer"
+								key={item.path}
+								onClick={() => this.switchProjectSubOption(item)}>
 								{item.label}
-							</ElMenuItem>
+							</div>
 						);
 					})}
-				</ElMenu>
-				<RouterView />
+				</div>
+				<div class="flex middle vertical flex1">
+					<RouterView />
+				</div>
 			</div>
 		);
 	}
