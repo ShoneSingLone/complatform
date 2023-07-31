@@ -70,10 +70,6 @@ export const ViewProject = defineComponent({
 						<span>{$t("项目文档").label}</span>
 					</a>
 					{xU.map(this.ProjectChildren, (item, index) => {
-						// 若导航标题为两个字，则自动在中间加个空格
-						if (item.label.length === 2) {
-							item.label = item.label[0] + " " + item.label[1];
-						}
 						return (
 							<div
 								class="el-sub-menu item pointer"

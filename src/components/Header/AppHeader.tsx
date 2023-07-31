@@ -30,6 +30,13 @@ export const AppHeader = defineComponent({
 	},
 	methods: {
 		goToGroup() {
+			if (this.Cpt_url.pathname === "/wiki_project") {
+				this.Cpt_url.go("/project/interface/all", {
+					group_id: this.Cpt_url.query.group_id,
+					project_id: this.Cpt_url.query.project_id
+				});
+				return;
+			}
 			this.Cpt_url.go("/group", {
 				group_id: this.Cpt_url.query.group_id
 			});
