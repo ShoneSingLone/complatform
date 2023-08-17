@@ -91,7 +91,7 @@ export const WikiLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<div class="left-tree">
+				<div class="left-tree flex vertical">
 					<div class="flex mb10 middle">
 						<ElInput v-model={vm.filterText} />
 						<xGap l="10" />
@@ -107,7 +107,7 @@ export const WikiLeftSider = defineComponent({
 							class="icon-opreation_click"
 						/>
 					</div>
-					<ElScrollbar height={vm.siderHeight}>
+					<ElScrollbar height={vm.siderHeight} class="flex1">
 						<ElTree
 							v-model:expandedKeys={vm.State_Wiki.expandedKeys}
 							data={vm.State_Wiki.treeData}
