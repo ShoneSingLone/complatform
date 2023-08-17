@@ -1,5 +1,5 @@
 import {
-	validateForm,
+	isItemInvalid,
 	AllWasWell,
 	pickValueFrom,
 	UI,
@@ -108,8 +108,7 @@ $t("Key值").label
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm();
-			if (AllWasWell(validateResults)) {
+			if (!(await isItemInvalid())) {
 				try {
 					const { data } = await API.god.upsertOneI18nRecord({
 						...this.propDialogOptions?.record,

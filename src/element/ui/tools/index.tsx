@@ -1,4 +1,4 @@
-export { AllWasWell, EVENT_TYPE, validateForm } from "../xForm/xItem";
+export { AllWasWell, EVENT_TYPE, isItemInvalid } from "../xForm/xItem";
 export { setCSSVariables, setDocumentTitle } from "./dom";
 export { iStorage, lStorage } from "./storage.js";
 export { pickValueFrom, resetValueOf, setValueTo } from "./form";

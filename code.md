@@ -9,14 +9,13 @@ import { State_App } from "@/state/State_App";
 
 ```js
 
-validateForm, AllWasWell, pickValueFrom,
+isItemInvalid, AllWasWell, pickValueFrom,
 
 rules: [FormRules.required("请输入项目基本路径!")]
 
 
 
-const validateResults = await validateForm();
-if (AllWasWell(validateResults)) {
+if (!(await isItemInvalid())) {
 	const { project_name } = pickValueFrom(instance.vm.formItems);
 	try {
 		await this.copyProject({ project_name });

@@ -1,4 +1,4 @@
-import { validateForm, AllWasWell, pickValueFrom, UI, $t } from "@ventose/ui";
+import { isItemInvalid, AllWasWell, pickValueFrom, UI, $t } from "@ventose/ui";
 import { defItem, xU, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
@@ -79,9 +79,8 @@ export const DialogInterfaceProxyModify = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm();
 			const { selected } = this.propDialogOptions;
-			if (AllWasWell(validateResults)) {
+			if (!(await isItemInvalid())) {
 				const { isProxy, witchEnv } = pickValueFrom(this.dataXItem);
 				try {
 					const res = await Promise.all(

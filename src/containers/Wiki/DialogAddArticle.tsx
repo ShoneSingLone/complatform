@@ -1,5 +1,5 @@
 import {
-	validateForm,
+	isItemInvalid,
 	AllWasWell,
 	pickValueFrom,
 	UI,
@@ -61,8 +61,7 @@ export const DialogAddArticle = defineComponent({
 	},
 	methods: {
 		async onOk() {
-			const validateResults = await validateForm();
-			if (AllWasWell(validateResults)) {
+			if (!(await isItemInvalid())) {
 				const { project_id, group_id } = this.Cpt_url.query;
 				let belong_id;
 

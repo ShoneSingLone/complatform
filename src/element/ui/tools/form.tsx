@@ -1,5 +1,10 @@
 import { xU } from "../ventoseUtils";
 
+/**
+ * 从defItem定义的配置项中获取value的值，组成key-val形式的对象
+ * @param configs =>{first:{value:"aaa"},age:{value:22}}
+ * @returns=>{first:"aaa",age:22}
+ */
 export const pickValueFrom = configs => {
 	return xU.reduce(
 		configs,

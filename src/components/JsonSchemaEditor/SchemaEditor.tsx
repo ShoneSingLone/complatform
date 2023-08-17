@@ -3,7 +3,7 @@ import {
 	components,
 	defItem,
 	pickValueFrom,
-	validateForm,
+	isItemInvalid,
 	xU
 } from "@ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
@@ -202,9 +202,8 @@ export const SchemaEditor = defineComponent({
 			const currentTypeNeedProps = baseProps.concat(SUB_PROPS_STRATEGY[type]);
 			const targetValues = xU.pick(this.currentNode, currentTypeNeedProps);
 			/* 需要记录出示的Node 的 Key ，才能在同步的时候找到原始的值 */
-			const validateResults = await validateForm();
 
-			if (AllWasWell(validateResults)) {
+			if (!(await isItemInvalid())) {
 				const oldkey = String(this.currentNode.key);
 				/* key：对象的访问路径，纯代码角度，用于定位和替换 */
 				const newKey = (() => {

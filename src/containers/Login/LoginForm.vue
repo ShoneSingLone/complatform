@@ -26,7 +26,7 @@ import {
 	UI,
 	defItem,
 	EVENT_TYPE,
-	validateForm,
+	isItemInvalid,
 	AllWasWell,
 	lStorage,
 	State_UI,
@@ -72,10 +72,7 @@ export default defineComponent({
 					onAfterEmitItemValue(val) {
 						lStorage.email = val;
 					},
-					rules: [
-						FormRules.required("", [EVENT_TYPE.blur]),
-						FormRules.email()
-					],
+					rules: [FormRules.required("", [EVENT_TYPE.blur]), FormRules.email()],
 					slots: {
 						prefix: () => (
 							<xIcon icon="UserOutlined" style={stylesLoginFormIcon.icon} />
@@ -114,8 +111,7 @@ export default defineComponent({
 		async login() {
 			const vm = this;
 			try {
-				if (!await validateForm(vm.$el)) {
-					debugger;
+				if (!(await isItemInvalid(vm.$el))) {
 					const formData = pickValueFrom(vm.configsForm);
 					const res = await API.user.loginActions(formData);
 					UI.notification.success("登录成功! ");

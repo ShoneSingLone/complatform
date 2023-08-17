@@ -1,4 +1,4 @@
-import { validateForm, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
+import { isItemInvalid, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
 import { defItem, xU, setValueTo } from "@ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
@@ -58,8 +58,7 @@ export const DialogUpsertCategory = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm();
-			if (AllWasWell(validateResults)) {
+			if (!(await isItemInvalid())) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
 				const project_id = this.State_App.currProject._id;
 				try {

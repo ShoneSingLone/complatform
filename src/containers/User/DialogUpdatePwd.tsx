@@ -2,7 +2,7 @@ import {
 	defItem,
 	xU,
 	setValueTo,
-	validateForm,
+	isItemInvalid,
 	AllWasWell,
 	pickValueFrom,
 	UI,
@@ -91,8 +91,7 @@ export const DialogUpdatePwd = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm();
-			if (AllWasWell(validateResults)) {
+			if (!(await isItemInvalid())) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
 				const project_id = this.State_App.currProject._id;
 				try {

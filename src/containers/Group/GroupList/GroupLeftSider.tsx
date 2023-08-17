@@ -3,7 +3,7 @@ import {
 	xU,
 	AllWasWell,
 	pickValueFrom,
-	validateForm,
+	isItemInvalid,
 	defItem
 } from "@ventose/ui";
 import { defineComponent } from "vue";
@@ -53,8 +53,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 		onOk: async ({ formItems, closeDialog }) => {
 			let formData = {};
 			if (isUpdate) {
-				const validateResults = await validateForm();
-				if (AllWasWell(validateResults)) {
+				if (!(await isItemInvalid())) {
 					const {
 						currGroupName,
 						currGroupDesc,
@@ -76,8 +75,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 					throw new Error("未通过验证");
 				}
 			} else {
-				const validateResults = await validateForm();
-				if (AllWasWell(validateResults)) {
+				if (!(await isItemInvalid())) {
 					const { newGroupName, newGroupDesc, owner_uids } =
 						pickValueFrom(formItems);
 					formData = {

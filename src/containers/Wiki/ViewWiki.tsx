@@ -8,6 +8,11 @@ import { xU, $t, UI, defItem } from "@ventose/ui";
 import { Cpt_url } from "@/router/router";
 
 export const ViewWiki = defineComponent({
+	setup() {
+		return {
+			State_Wiki
+		};
+	},
 	mounted() {
 		if (cpt_wikiBelongType.value) {
 			Methods_Wiki.updateWikiMenuList();
@@ -18,8 +23,7 @@ export const ViewWiki = defineComponent({
 	data() {
 		const vm = this;
 		return {
-			title: "",
-			titleConfigs: defItem({}),
+			titleConfigs: defItem({ value: State_Wiki.currentWiki.title }),
 			isReadonly: true
 		};
 	},
@@ -33,12 +37,13 @@ export const ViewWiki = defineComponent({
 					{
 						markdown: this.markdown
 					},
-					{ title: this.title }
+					{ title: this.titleConfigs.value }
 				);
 				await API.wiki.upsertOne(params);
 				Methods_Wiki.updateWikiMenuList();
 				Methods_Wiki.setCurrentWiki(params._id, params);
 				UI.message.success($t("保存成功").label);
+				this.titleConfigs.value = "";
 				this.isReadonly = true;
 			} catch (error) {
 				console.error(error);
@@ -48,13 +53,15 @@ export const ViewWiki = defineComponent({
 		}
 	},
 	computed: {
-		btnSave() {
+		btnEditOrSave() {
 			return {
 				text: this.isReadonly ? $t("编辑").label : $t("保存").label,
 				type: "primary",
+				isShow: () => !!State_Wiki.currentWiki?._id,
 				onClick: () => {
 					if (this.isReadonly) {
 						this.isReadonly = false;
+						this.titleConfigs.value = State_Wiki.currentWiki?.title;
 					} else {
 						this.save();
 					}
@@ -102,8 +109,6 @@ export const ViewWiki = defineComponent({
 							"display-none": this.isReadonly
 						}}
 						configs={this.titleConfigs}
-						modelValue={State_Wiki.currentWiki.title}
-						onUpdate:modelValue={val => (this.title = val)}
 					/>
 				</>
 			);
@@ -124,7 +129,7 @@ export const ViewWiki = defineComponent({
 						{this.vDomTitle}
 						<xButton configs={this.btnCancel} />
 						<xGap r="10" />
-						<xButton configs={this.btnSave} />
+						<xButton configs={this.btnEditOrSave} />
 					</div>
 					{/* {this.wikiContent.md} */}
 					<TuiEditor v-model={this.wikiContent} isReadonly={this.isReadonly} />

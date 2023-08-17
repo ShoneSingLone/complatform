@@ -30,7 +30,7 @@ const WILL_DELETE = [
 ];
 
 export const EVENT_TYPE = {
-	validateForm: "validateForm",
+	isItemInvalid: "isItemInvalid",
 	update: "update",
 	change: "change",
 	input: "input",
@@ -43,14 +43,16 @@ export const TIPS_TYPE = {
 	error: "error"
 };
 
-/*
- *
+/**
  * 校验表单
  * @export
- * @param {string} [selector=""] jQuery可用的选择器字符串 直接用DOM Vue组件实例
- * @returns
- * */
-export async function validateForm(selector: any) {
+ * @param {string} [selector=""] 可转换成jQuery对象
+ * @1jQuery可用的选择器字符串 
+ * @2直接用DOM 
+ * @3Vue组件实例 this.$el 带有$el 
+ * @returns 
+ */
+export async function isItemInvalid(selector?: any) {
 	let $wrapper = (function () {
 		if (selector) {
 			/* jQuery可用的选择器字符串 */
@@ -183,7 +185,7 @@ export const xItem = defineComponent({
 					triggerValidate(EVENT_TYPE.update);
 				},
 				onValidateForm: () => {
-					triggerValidate(EVENT_TYPE.validateForm);
+					triggerValidate(EVENT_TYPE.isItemInvalid);
 				},
 				onChange: () => {
 					triggerValidate(EVENT_TYPE.change);

@@ -5,7 +5,7 @@ import {
 	defItem,
 	pickValueFrom,
 	UI,
-	validateForm,
+	isItemInvalid,
 	xU,
 	State_UI
 } from "@ventose/ui";
@@ -243,8 +243,7 @@ export const DialogAddProject = defineComponent({
 			const vm = this;
 			// 确认添加项目
 			try {
-				const validateResults = await validateForm();
-				if (AllWasWell(validateResults)) {
+				if (!(await isItemInvalid())) {
 					const formData = pickValueFrom(vm.dataXItem);
 					const { data } = await API.project.addProject(formData);
 					UI.notification.success("创建成功! ");

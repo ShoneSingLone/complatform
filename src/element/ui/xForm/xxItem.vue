@@ -112,7 +112,7 @@ export default async function () {
 			cpt_isRequired() {
 				try {
 					return _.some(this.configs.rules, rule => rule.name === "required");
-				} catch (error) { }
+				} catch (error) {}
 				return false;
 			},
 			cpt_rulesByTrigger() {
@@ -142,7 +142,9 @@ export default async function () {
 				return false;
 			},
 			itemType() {
-				const itemType = Object.keys(this.configs).find(name => /^GhItem/.test(name));
+				const itemType = Object.keys(this.configs).find(name =>
+					/^GhItem/.test(name)
+				);
 				if (itemType) {
 					return itemType;
 					const item = String(itemType).match(/^GhItem(.*)/)[1];
@@ -283,7 +285,7 @@ export default async function () {
 </script>
 
 <style>
-.gh-item-wrapper+.gh-item-wrapper {
+.gh-item-wrapper + .gh-item-wrapper {
 	margin-top: 24px;
 }
 
@@ -301,7 +303,7 @@ export default async function () {
 	flex: 1;
 }
 
-.gh-item_controller>[class^="el-"] {
+.gh-item_controller > [class^="el-"] {
 	width: 100%;
 }
 

@@ -1,5 +1,5 @@
 import {
-	validateForm,
+	isItemInvalid,
 	AllWasWell,
 	pickValueFrom,
 	UI,
@@ -91,8 +91,7 @@ export const DialogPostman = defineComponent({
 	},
 	methods: {
 		async onOk() {
-			const validateResults = await validateForm();
-			if (AllWasWell(validateResults)) {
+			if (!(await isItemInvalid())) {
 				const { catid, title, path } = pickValueFrom(this.dataXItem);
 				const { projectId, closeDialog } = this.propDialogOptions;
 				try {

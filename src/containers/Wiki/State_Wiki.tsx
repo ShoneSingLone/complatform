@@ -28,6 +28,7 @@ export const Methods_Wiki = {
 	clickWiki(query) {
 		/*vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });*/
 		const { query: oldQuery, refresh } = Cpt_url.value;
+
 		refresh(xU.merge({}, oldQuery, query));
 	},
 	setExpandedKeys: xU.debounce(async _id => {
@@ -83,6 +84,8 @@ export const Methods_Wiki = {
 				if (data) {
 					State_Wiki.currentWiki = data;
 					Methods_Wiki.setExpandedKeys(_id);
+				} else {
+					State_Wiki.currentWiki = {};
 				}
 			}
 		} catch (error) {
