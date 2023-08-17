@@ -1,7 +1,8 @@
 import { diff } from "jsondiffpatch";
-import { FormRules, xU } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 import { State_App } from "@/state/State_App";
 import { defineComponent, toRaw, toRefs } from "vue";
+import { FormRules } from "@/utils/common.FormRules";
 
 export function makeKeyValueObj(i: any) {
 	return { key: i.name, value: i.value };
@@ -117,19 +118,25 @@ export const InputKeyValue = defineComponent({
 						type: "error",
 						msg: `${key} 与已有标识重复`
 					};
-					return FormRules.FAIL;
+					return;
+
+					FormRules.FAIL;
 				} else {
 					if (this.fnCheck) {
 						const isFail = this.fnCheck(this.privateItems[prop]);
 						if (isFail == FormRules.FAIL) {
-							return FormRules.FAIL;
+							return;
+
+							FormRules.FAIL;
 						}
 					}
 					this.privateItems[prop].keyConfigs.itemTips = {
 						type: "",
 						msg: ""
 					};
-					return FormRules.SUCCESS;
+					return;
+
+					FormRules.SUCCESS;
 				}
 			});
 			return !xU.some(res, i => i === FormRules.FAIL);

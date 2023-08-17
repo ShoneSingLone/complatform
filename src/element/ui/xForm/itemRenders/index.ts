@@ -44,7 +44,7 @@ export type t_itemConfigs =
 			isTextarea?: boolean;
 			isSearch?: boolean;
 			prop: string;
-			onAfterValueEmit?: Function;
+			onAfterEmitItemValue?: Function;
 	  }
 	| InputProps
 	| TextAreaProps;

@@ -40,61 +40,66 @@ export const ProjectSettingCommon = defineComponent({
 				}
 			},
 			dataXItem: {
-				...defItem(
+				projectGroupId: defItem(
 					xItem_ProjectGroupId({ value: vm.Cpt_url.query.group_id }, vm)
 				),
-				...defItem(xItem_ProjectName({ value: vm.State_App.currProject.name })),
-				...defItem(xItem_ProjectIcon({ value: vm.State_App.currProject.icon })),
-				...defItem(
+				projectName: defItem(
+					xItem_ProjectName({ value: vm.State_App.currProject.name })
+				),
+				projectIcon: defItem(
+					xItem_ProjectIcon({ value: vm.State_App.currProject.icon })
+				),
+				projectColor: defItem(
 					xItem_ProjectColor({ value: vm.State_App.currProject.color })
 				),
-				...defItem(
+				projectBasePath: defItem(
 					xItem_ProjectBasePath({ value: vm.State_App.currProject.basepath })
 				),
-				...defItem(xItem_ProjectDesc({ value: vm.State_App.currProject.desc })),
-				...defItem(
+				projectDesc: defItem(
+					xItem_ProjectDesc({ value: vm.State_App.currProject.desc })
+				),
+				projectType: defItem(
 					xItem_ProjectType({ value: vm.State_App.currProject.project_type })
 				),
-				...defItem({
+				proxyHostPort: defItem({
 					value: vm.State_App.currProject.proxyHostPort || "",
-					prop: "proxyHostPort",
-					label: defItem.labelWithTips({
-						label: "代理地址",
-						tips: $t("请求需要使用VPN，则需要有一台开启VPN的PC作为代理机")
-							.label,
-						icon: <xIcon icon="question" />
-					}),
+					label: () =>
+						defItem.labelWithTips({
+							label: "代理地址",
+							tips: $t("请求需要使用VPN，则需要有一台开启VPN的PC作为代理机")
+								.label,
+							icon: <xIcon icon="question" />
+						}),
 					placeholder: "ip:port"
 				}),
-				...defItem({
+				strice: defItem({
 					itemType: "Switch",
-					prop: "strice",
-					label: defItem.labelWithTips({
-						label: $t("mock严格模式").label,
-						tips: $t(
-							"开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验"
-						).label,
-						icon: <xIcon icon="question" />
-					}),
+					label: () =>
+						defItem.labelWithTips({
+							label: $t("mock严格模式").label,
+							tips: $t(
+								"开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验"
+							).label,
+							icon: <xIcon icon="question" />
+						}),
 					checkedChildren: vm.$t("开").label,
 					unCheckedChildren: vm.$t("关").label,
 					value: !!vm.State_App.currProject.strice
 				}),
-				...defItem({
+				is_json5: defItem({
 					itemType: "Switch",
-					prop: "is_json5",
-					label: defItem.labelWithTips({
-						label: $t("开启json5").label,
-						tips: $t("开启后可在接口 body 和返回值中写 json 字段").label,
-						icon: <xIcon icon="question" />
-					}),
+					label: () =>
+						defItem.labelWithTips({
+							label: $t("开启json5").label,
+							tips: $t("开启后可在接口 body 和返回值中写 json 字段").label,
+							icon: <xIcon icon="question" />
+						}),
 					checkedChildren: vm.$t("开").label,
 					unCheckedChildren: vm.$t("关").label,
 					value: !!vm.State_App.currProject.is_json5
 				}),
-				...defItem({
+				switch_notice: defItem({
 					itemType: "Switch",
-					prop: "switch_notice",
 					label: $t("默认开启消息通知").label,
 					checkedChildren: vm.$t("开").label,
 					unCheckedChildren: vm.$t("关").label,

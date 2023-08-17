@@ -85,11 +85,12 @@ export const xItem_ProjectBasePath = (options: any = {}) => {
 	return {
 		value,
 		prop: "basepath",
-		label: defItem.labelWithTips({
-			label: "基本路径",
-			tips: "接口基本路径，默认是/",
-			icon: <xIcon icon="question" />
-		}),
+		label: () =>
+			defItem.labelWithTips({
+				label: "基本路径",
+				tips: "接口基本路径，默认是/",
+				icon: <xIcon icon="question" />
+			}),
 		placeholder: "接口基本路径，默认是/",
 		rules: [FormRules.required("请输入项目基本路径!")]
 	};
@@ -118,10 +119,10 @@ export const xItem_ProjectColor = (options: any = {}) => {
 				value: background
 			};
 		}),
-		afterControll: ({ currentItemModelValue }) => (
+		afterControll: ({ privateValue }) => (
 			<span
 				style={{
-					background: currentItemModelValue,
+					background: privateValue,
 					color: "transparent",
 					margin: "0 20px"
 				}}>
@@ -150,8 +151,8 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 				value
 			};
 		}),
-		afterControll: ({ currentItemModelValue }) => (
-			<xIcon icon={currentItemModelValue} style="margin:0 20px" />
+		afterControll: ({ privateValue }) => (
+			<xIcon icon={privateValue} style="margin:0 20px" />
 		)
 	};
 };
@@ -209,15 +210,15 @@ export const DialogAddProject = defineComponent({
 		const vm = this;
 		return {
 			dataXItem: {
-				...defItem(
+				projectGroupId: defItem(
 					xItem_ProjectGroupId({ value: vm.propDialogOptions.groupId }, vm)
 				),
-				...defItem(xItem_ProjectName()),
-				...defItem(xItem_ProjectIcon()),
-				...defItem(xItem_ProjectColor()),
-				...defItem(xItem_ProjectBasePath()),
-				...defItem(xItem_ProjectDesc()),
-				...defItem(xItem_ProjectType())
+				projectName: defItem(xItem_ProjectName()),
+				projectIcon: defItem(xItem_ProjectIcon()),
+				projectColor: defItem(xItem_ProjectColor()),
+				projectBasePath: defItem(xItem_ProjectBasePath()),
+				projectDesc: defItem(xItem_ProjectDesc()),
+				projectType: defItem(xItem_ProjectType())
 			},
 			state: {
 				groupList: []
@@ -242,7 +243,7 @@ export const DialogAddProject = defineComponent({
 			const vm = this;
 			// 确认添加项目
 			try {
-				const validateResults = await validateForm(vm.dataXItem);
+				const validateResults = await validateForm();
 				if (AllWasWell(validateResults)) {
 					const formData = pickValueFrom(vm.dataXItem);
 					const { data } = await API.project.addProject(formData);

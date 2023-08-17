@@ -38,33 +38,29 @@ $t("Key值").label
 \`\`\``;
 		return {
 			dataXItem: {
-				...defItem({
+				key: defItem({
 					value: "",
-					prop: "key",
 					label: $t("key").label,
 					labelVNodeRender: VNodeCollection.labelTips(
 						<Mkit md={idTipsMarkdown} />
 					),
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				desc: defItem({
 					value: "",
-					prop: "desc",
 					label: $t("描述").label,
 					isTextarea: true,
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				isRectified: defItem({
 					value: false,
-					prop: "isRectified",
 					label: $t("是否已校正").label,
 					itemType: "Switch",
 					options: ITEM_OPTIONS.trueOrFalse,
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				valueArray: defItem({
 					value: "",
-					prop: "valueArray",
 					label: $t("国际化信息").label,
 					labelVNodeRender: VNodeCollection.labelTips(
 						$t(`以数组的形式["语言","language"]`).label
@@ -83,7 +79,7 @@ $t("Key值").label
 									return this.properties.value || ``;
 								},
 								set(modelValue) {
-									this.listeners["onUpdate:value"](modelValue);
+									this.listeners["onEmitItemValue"](modelValue);
 								}
 							}
 						},
@@ -112,7 +108,7 @@ $t("Key值").label
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			if (AllWasWell(validateResults)) {
 				try {
 					const { data } = await API.god.upsertOneI18nRecord({

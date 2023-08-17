@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { line } from "./configs/line";
 import { xU } from "../ventoseUtils";
-import { defineComponent } from "vue";
+import { defineComponent, markRaw } from "vue";
 
 const CONFIGS_MAP = { line };
 
@@ -38,7 +38,7 @@ export default defineComponent({
 			await xU.ensureValueDone(() => this.$el);
 			const options = this.helper.initOptions(this.$props);
 			this.options = this.helper.updateOptions(options, this.dataset);
-			this.myChart = this.$echarts.init(this.$el);
+			this.myChart = markRaw(this.$echarts.init(this.$el));
 			if (this?.helper?.afterInit) {
 				this?.helper?.afterInit({ instance: this.myChart });
 			}

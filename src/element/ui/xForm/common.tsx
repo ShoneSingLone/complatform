@@ -7,7 +7,7 @@ let xItemNoPropCount = 0;
 export function defFormConfigs(configs: t_itemConfigs[]) {
 	const targetConfigs: Record<string, any> = {};
 	configs.forEach((configs: t_itemConfigs) => {
-		configs = defItem.item(configs);
+		configs = defItem(configs);
 		targetConfigs[configs.prop] = configs;
 	});
 	return targetConfigs;
@@ -15,38 +15,44 @@ export function defFormConfigs(configs: t_itemConfigs[]) {
 
 /*make item configs */
 export function defItem(options: t_itemConfigs) {
-	const configs = defItem.item(options);
-
-	return {
-		[configs.prop]: configs
-	};
-}
-
-defItem.item = (options: t_itemConfigs) => {
-	options.itemType = options.itemType || "Input";
+	if (!xU.isObjSetAttr(options, "label")) {
+		options.label = "";
+	}
+	if (!xU.isObjSetAttr(options, "isShow")) {
+		options.isShow = true;
+	}
+	if (!xU.isObjSetAttr(options, "disabled")) {
+		options.disabled = false;
+	}
+	if (!xU.isObjSetAttr(options, "rules")) {
+		options.rules = [];
+	}
+	if (!xU.isObjSetAttr(options, "itemType")) {
+		options.itemType = "Input";
+	}
 
 	if (xU.isObject(options.itemType)) {
-		// options.itemType = markRaw(options.itemType);
+		/* 直接使用组件 */
+		/* options.itemType = markRaw(options.itemType); */
 		options.itemType.__v_isReactive = false;
 	}
 
 	const _options = xU.merge(
 		{
-			/* 默认prop */
-			prop: `xItem${xItemNoPropCount++}`,
 			/* 提示信息，可以用于提示或者定位 */
 			itemTips: { type: "", msg: "" }
 		},
 		options
 	);
 
+	/* TODO: */
 	_options._$updateUI = newConfigs => {
 		xU.each(newConfigs, (value, prop) => {
 			_options[prop] = value;
 		});
 	};
 	return _options;
-};
+}
 
 defItem.labelWithTips = ({ label, tips, icon }) => {
 	return (

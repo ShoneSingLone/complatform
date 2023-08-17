@@ -25,7 +25,6 @@ import {
 } from "./xDataGrid/xVirTable/xVirTable";
 import { xU } from "./ventoseUtils";
 import { Cpt_UI_locale, State_UI, $t } from "./State_UI";
-import { FormRules, RegexFn } from "./xForm/FormRules";
 import { installUIDialogComponent } from "./xSingle/dialog/dialog";
 import { installDirective } from "./directive";
 import {
@@ -44,7 +43,6 @@ import {
 	AllWasWell,
 	EVENT_TYPE,
 	validateForm,
-	validateItem,
 	setCSSVariables,
 	setDocumentTitle,
 	lStorage,
@@ -62,7 +60,7 @@ import { useScopeStyle } from "./compositionAPI/useScopeStyle";
 import { xInfoCard } from "./xView/xInfoCard";
 import { xLinkCopy } from "./xButton/xLinkCopy";
 import { xInfoDiffCard } from "./xInfoDiffCard/xInfoDiffCard";
-import {xHighlight} from "./xRender/xHighlight";
+import { xHighlight } from "./xRender/xHighlight";
 // import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 if (State_UI.isDev) {
@@ -135,7 +133,6 @@ export { EVENT_TYPE as EVENT_TYPE };
 
 export { setPagination as setPagination };
 export { getPaginationPageSize as getPaginationPageSize };
-export { validateItem as validateItem };
 export { validateForm as validateForm };
 export { AllWasWell as AllWasWell };
 export { setDocumentTitle as setDocumentTitle };
@@ -147,8 +144,6 @@ export { antColKey as antColKey };
 export { pickValueFrom as pickValueFrom };
 export { resetValueOf as resetValueOf };
 export { setValueTo as setValueTo };
-export { RegexFn as RegexFn };
-export { FormRules as FormRules };
 export { compileVNode as compileVNode };
 
 export const VentoseUIWithInstall = {

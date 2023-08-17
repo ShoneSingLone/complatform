@@ -1,5 +1,11 @@
 import GuideBtns from "@/components/GuideBtns/GuideBtns";
-import { xU, AllWasWell, pickValueFrom, validateForm } from "@ventose/ui";
+import {
+	xU,
+	AllWasWell,
+	pickValueFrom,
+	validateForm,
+	defItem
+} from "@ventose/ui";
 import { defineComponent } from "vue";
 import { UI, State_UI } from "@ventose/ui";
 import { API } from "@/api";
@@ -47,7 +53,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 		onOk: async ({ formItems, closeDialog }) => {
 			let formData = {};
 			if (isUpdate) {
-				const validateResults = await validateForm(formItems);
+				const validateResults = await validateForm();
 				if (AllWasWell(validateResults)) {
 					const {
 						currGroupName,
@@ -55,7 +61,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 						custom_field1_enable,
 						custom_field1_name
 					} = pickValueFrom(formItems);
-					
+
 					formData = {
 						...row,
 						group_name: currGroupName,
@@ -70,7 +76,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 					throw new Error("未通过验证");
 				}
 			} else {
-				const validateResults = await validateForm(formItems);
+				const validateResults = await validateForm();
 				if (AllWasWell(validateResults)) {
 					const { newGroupName, newGroupDesc, owner_uids } =
 						pickValueFrom(formItems);
@@ -126,13 +132,13 @@ export const GroupLeftSider = defineComponent({
 	},
 	data() {
 		return {
-			configsSearch: {
+			configsSearch: defItem({
 				isSearch: false,
 				value: "",
 				placeholder: "搜索分类",
-				onAfterValueEmit: this.searchGroup,
+				onAfterEmitItemValue: this.searchGroup,
 				allowClear: true
-			},
+			}),
 			groupListForShow: [],
 			state: {
 				addGroupModalVisible: false,

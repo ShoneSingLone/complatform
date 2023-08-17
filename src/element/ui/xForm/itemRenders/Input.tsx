@@ -12,9 +12,6 @@ import { xU } from "../../ventoseUtils";
 
 export default defineComponent({
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-	mounted() {
-		xU("xItem Input");
-	},
 	data(vm) {
 		return {
 			oldComponent: "",
@@ -43,7 +40,7 @@ export default defineComponent({
 			}
 		},
 		_modelValue(modelValue) {
-			this.listeners["onUpdate:value"](modelValue);
+			this.listeners["onEmitItemValue"](modelValue);
 		}
 	},
 	computed: {
@@ -79,6 +76,9 @@ export default defineComponent({
 				maxRows: 6
 			};
 		}
+		if (properties.isPassword) {
+			properties.showPassword = true;
+		}
 
 		return (
 			<component
@@ -88,7 +88,7 @@ export default defineComponent({
 					"isTextarea",
 					...propsWillDeleteFromConfigs
 				])}
-				{...xU.omit(listeners, ["onUpdate:value"])}
+				{...xU.omit(listeners, ["onEmitItemValue"])}
 				v-slots={slots}
 			/>
 		);

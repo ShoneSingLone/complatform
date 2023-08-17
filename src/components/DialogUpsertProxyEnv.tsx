@@ -9,7 +9,7 @@ import {
 	xU
 } from "@ventose/ui";
 import { Methods_App, State_App } from "@/state/State_App";
-import { FormRules } from "@/utils/common.FormRules";
+import { FormRules, newRule } from "@/utils/common.FormRules";
 import { API } from "@/api";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import {
@@ -39,43 +39,36 @@ export const DialogUpsertProxyEnv = defineComponent({
 			privateEnv: {},
 			currentSelected: "",
 			configsForm: {
-				...defItem({
-					label: vm.$t("环境名称").label,
-					prop: "name"
+				name: defItem({
+					label: vm.$t("环境名称").label
 				}),
-				...defItem({
+				domain: defItem({
 					label: vm.$t("环境域名").label,
-					prop: "domain",
 					slots: markRaw({
 						addonBefore: () => <xItem configs={vm.configsForm.protocol} />
 					}),
 					rules: [
-						FormRules.custom({
-							validator(value, { rule }) {
+						newRule({
+							validator(value) {
 								if (value.length === 0) {
-									rule.msg = "请输入环境域名!";
-									return FormRules.FAIL;
+									return "请输入环境域名!";
 								} else if (/\s/.test(value)) {
-									rule.msg = "环境域名不允许出现空格!";
-									return FormRules.FAIL;
+									return "环境域名不允许出现空格!";
 								} else {
-									rule.msg = "";
-									return FormRules.SUCCESS;
+									return "";
 								}
 							}
 						})
 					]
 				}),
-				...defItem({
-					prop: "protocol",
+				protocol: defItem({
 					itemType: "Select",
 					options: ITEM_OPTIONS.httpProtocol,
 					style: "width:100px;"
 				}),
-				...defItem({
+				header: defItem({
 					value: [],
 					label: "Header",
-					prop: "header",
 					itemType: KeyValuePanel,
 					fnCheck(configs) {
 						if (configs.keyConfigs.value === "Cookie") {
@@ -92,12 +85,12 @@ export const DialogUpsertProxyEnv = defineComponent({
 						const { index, key, value } = args;
 						return {
 							_id: index,
-							keyConfigs: defItem.item({
+							keyConfigs: defItem({
 								prop: "key" + index,
 								placeholder: "Header名称",
 								value: key || ""
 							}),
-							valueConfigs: defItem.item({
+							valueConfigs: defItem({
 								prop: "value" + index,
 								placeholder: "Header值",
 								value: value || ""
@@ -105,21 +98,20 @@ export const DialogUpsertProxyEnv = defineComponent({
 						};
 					}
 				}),
-				...defItem({
+				cookie: defItem({
 					value: [],
 					label: "Cookie",
-					prop: "cookie",
 					itemType: KeyValuePanel,
 					genItem(args) {
 						const { index, key, value } = args;
 						return {
 							_id: index,
-							keyConfigs: defItem.item({
+							keyConfigs: defItem({
 								prop: "key" + index,
 								placeholder: "Cookie名称",
 								value: key || ""
 							}),
-							valueConfigs: defItem.item({
+							valueConfigs: defItem({
 								prop: "value" + index,
 								placeholder: "Cookie值",
 								value: value || ""
@@ -127,21 +119,20 @@ export const DialogUpsertProxyEnv = defineComponent({
 						};
 					}
 				}),
-				...defItem({
+				global: defItem({
 					value: [],
 					label: "global",
-					prop: "global",
 					itemType: KeyValuePanel,
 					genItem(args) {
 						const { index, key, value } = args;
 						return {
 							_id: index,
-							keyConfigs: defItem.item({
+							keyConfigs: defItem({
 								prop: "key" + index,
 								placeholder: "global名称",
 								value: key || ""
 							}),
-							valueConfigs: defItem.item({
+							valueConfigs: defItem({
 								prop: "value" + index,
 								placeholder: "global值",
 								value: value || ""
@@ -340,7 +331,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			}, 64);
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.configsForm);
+			const validateResults = await validateForm();
 			if (!AllWasWell(validateResults)) {
 				return;
 			}
@@ -452,7 +443,7 @@ const KeyValuePanel = defineComponent({
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	methods: {
 		fnUpdate(val) {
-			this.listeners["onUpdate:value"](val);
+			this.listeners["onEmitItemValue"](val);
 		}
 	},
 	render(vm) {

@@ -39,7 +39,7 @@ export default defineComponent({
 	},
 	data(vm) {
 		return {
-			date: defItem.item({
+			date: defItem({
 				value: xU.dateFormat(dayjs().subtract(1, "day")),
 				prop: "period",
 				itemType: "DatePicker",
@@ -51,7 +51,7 @@ export default defineComponent({
 				/* 非必要，除非cell的渲染函数需要一些额外的configs信息 */
 				dataSourceFilter(dataSource) {
 					return xU.map(dataSource, rowRecord => {
-						rowRecord.configsName = defItem.item({
+						rowRecord.configsName = defItem({
 							value: rowRecord.name
 						});
 						return rowRecord;

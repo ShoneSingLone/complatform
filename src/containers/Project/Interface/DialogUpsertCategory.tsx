@@ -1,5 +1,6 @@
 import { validateForm, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
-import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
+import { defItem, xU, setValueTo } from "@ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { State_App } from "@/state/State_App";
@@ -21,16 +22,14 @@ export const DialogUpsertCategory = defineComponent({
 	data() {
 		return {
 			dataXItem: {
-				...defItem({
+				name: defItem({
 					value: "",
-					prop: "name",
 					label: "分类名",
 					placeholder: "分类名称",
 					rules: [FormRules.required("请输入分类名称!")]
 				}),
-				...defItem({
+				desc: defItem({
 					value: "",
-					prop: "desc",
 					label: "备注",
 					isTextarea: true,
 					showCount: true,
@@ -59,7 +58,7 @@ export const DialogUpsertCategory = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			if (AllWasWell(validateResults)) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
 				const project_id = this.State_App.currProject._id;

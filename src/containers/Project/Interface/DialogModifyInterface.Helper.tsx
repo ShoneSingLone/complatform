@@ -35,7 +35,7 @@ export const InpterfacePathParams = defineComponent({
 	methods: {
 		fnUpdate(prop, value, index) {
 			this.properties.value[index][prop] = value;
-			this.listeners["onUpdate:value"](this.properties.value);
+			this.listeners["onEmitItemValue"](this.properties.value);
 		}
 	},
 	render(vm) {
@@ -48,7 +48,7 @@ export const InpterfacePathParams = defineComponent({
 					<span class="mr10 flex1">
 						<ElInput
 							value={data.example}
-							onUpdate:value={val => {
+							onEmitItemValue={val => {
 								this.fnUpdate("example", val, index);
 							}}
 						/>
@@ -56,7 +56,7 @@ export const InpterfacePathParams = defineComponent({
 					<span class="flex1">
 						<ElInput
 							value={data.desc}
-							onUpdate:value={val => {
+							onEmitItemValue={val => {
 								this.fnUpdate("desc", val, index);
 							}}
 						/>
@@ -73,7 +73,7 @@ export const EnvSelectRender = defineComponent({
 		vm.properties.value = vm.properties.value || [];
 		const options = vm.properties.options || [];
 		const fnUpdate = val => {
-			vm.listeners["onUpdate:value"](val);
+			vm.listeners["onEmitItemValue"](val);
 		};
 		const vDomOptions = xU.map(options, item => {
 			return (
@@ -117,7 +117,7 @@ export const TagSelectRender = defineComponent({
 			},
 			set(val) {
 				if (this.properties?.value !== val) {
-					this.listeners["onUpdate:value"](val);
+					this.listeners["onEmitItemValue"](val);
 				}
 			}
 		},
@@ -164,7 +164,7 @@ export const RequestArgsRender = defineComponent({
 			<RequestArgsPanel
 				params={this.properties?.value}
 				apiMethod={this.properties?.deepWatch?.apiMethod}
-				onUpdate:params={this.listeners["onUpdate:value"]}
+				onUpdate:params={this.listeners["onEmitItemValue"]}
 			/>
 		);
 	}
@@ -178,7 +178,7 @@ export const MarkdownRender = defineComponent({
 				return this.properties?.value || { md: "", html: "" };
 			},
 			set(modelValue) {
-				this.listeners["onUpdate:value"](modelValue);
+				this.listeners["onEmitItemValue"](modelValue);
 			}
 		}
 	},
@@ -195,7 +195,7 @@ export const ResponseRender = defineComponent({
 				return this.properties?.value?.res_body || "";
 			},
 			set(res_body) {
-				this.listeners["onUpdate:value"]({
+				this.listeners["onEmitItemValue"]({
 					...this.properties.value,
 					res_body
 				});
@@ -206,7 +206,7 @@ export const ResponseRender = defineComponent({
 				return this.properties?.value?.res_body_type || "";
 			},
 			set(res_body_type) {
-				this.listeners["onUpdate:value"]({
+				this.listeners["onEmitItemValue"]({
 					...this.properties.value,
 					res_body_type
 				});

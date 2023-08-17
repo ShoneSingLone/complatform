@@ -14,7 +14,8 @@
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
+import { xU, defItem, State_UI } from "@ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { ItemUAC } from "@/components/ItemRender/ItemUAC";
 
 const { $t } = State_UI;
@@ -33,16 +34,14 @@ export default defineComponent({
 		const vm = this;
 		return {
 			formItems: {
-				...defItem({
+				member_uids: defItem({
 					value: [],
-					prop: "member_uids",
 					itemType: ItemUAC,
 					label: $t("用户名").label,
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				role: defItem({
 					value: "dev",
-					prop: "role",
 					itemType: "Select",
 					label: $t("权限").label,
 					rules: [FormRules.required()],

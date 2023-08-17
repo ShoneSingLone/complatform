@@ -9,7 +9,7 @@ export const Checkbox = defineComponent({
 				return this.properties?.value || false;
 			},
 			set(val) {
-				this.listeners["onUpdate:value"](val);
+				this.listeners["onEmitItemValue"](val);
 			}
 		}
 	},

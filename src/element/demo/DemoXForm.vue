@@ -44,12 +44,12 @@ import {
 	AllWasWell,
 	components,
 	defItem,
-	FormRules,
 	pickValueFrom,
 	UI,
 	validateForm,
 	VNodeCollection
 } from "@ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { DemoXFormWithForm } from "./DemoXFormWithForm.tsx";
 
 const { xItem } = components;
@@ -74,9 +74,8 @@ export default {
 	data() {
 		const vm = this;
 		const xForm = {
-			...defItem({
+			slotsAddonBefore: defItem({
 				value: [],
-				prop: "slotsAddonBefore",
 				itemType: "Select",
 				options: [
 					{
@@ -90,24 +89,21 @@ export default {
 				],
 				style: { width: "80px" }
 			}),
-			...defItem({
-				prop: "search",
+			search: defItem({
 				placeholder: "Input",
 				allowClear: true,
-				onAfterValueEmit(val) {
+				onAfterEmitItemValue(val) {
 					console.log("🚀:", "search configs", this, val);
 				}
 			}),
-			...defItem({
+			withLabelProperty: defItem({
 				label: "withLabelProperty",
-				prop: "withLabelProperty",
 				placeholder: "Input",
 				allowClear: true,
 				rules: [FormRules.required()]
 			}),
-			...defItem({
+			slots: defItem({
 				label: "slots",
-				prop: "slots",
 				value: "slots的value",
 				placeholder: "Input",
 				allowClear: true,
@@ -121,7 +117,7 @@ export default {
 				},
 				rules: [FormRules.required()]
 			}),
-			...defItem({
+			withLabelProperty: defItem({
 				labelVNodeRender: VNodeCollection.labelTips(
 					h(
 						"ul",
@@ -136,14 +132,12 @@ export default {
 					)
 				),
 				label: $t("label使用Tips").label,
-				prop: "withLabelProperty",
 				placeholder: "Input",
 				allowClear: true,
 				rules: [FormRules.required()]
 			}),
-			...defItem({
+			select: defItem({
 				value: [],
-				prop: "select",
 				label: $t("类型").label,
 				itemType: "Select",
 				options: [
@@ -167,7 +161,7 @@ export default {
 				text: "校验",
 				async onClick() {
 					try {
-						const validateResults = await validateForm(vm.xForm);
+						const validateResults = await validateForm();
 						if (AllWasWell(validateResults)) {
 							UI.message.success("校验成功");
 						} else {
@@ -188,11 +182,10 @@ export default {
 formData: {
 	inputValue: "v-model"
 },
-...defItem({
-	prop: "search",
+search:defItem({
 	placeholder: "Input",
 	allowClear: true,
-	onAfterValueEmit(val) {
+	onAfterEmitItemValue(val) {
 		console.log("🚀:", "search configs", this, val);
 	}
 }),
@@ -203,9 +196,8 @@ formData: {
 \`\`\`js
 <xItem :configs="xForm.select" class="flex1" />
 /* 必须有value属性 */
-...defItem({
+select:defItem({
 	value: [],
-	prop: "select",
 	label: $t("类型").label,
 	itemType: "Select",
 	options: [

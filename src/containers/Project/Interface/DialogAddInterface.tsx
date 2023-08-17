@@ -34,10 +34,9 @@ export const DialogAddInterface = defineComponent({
 	data() {
 		const vm = this;
 		return {
-			...defItem({
+			apiMethod: defItem({
 				value: "",
 				itemType: "Select",
-				prop: "apiMethod",
 				options: ITEM_OPTIONS.httpMethod,
 				rules: [FormRules.required()],
 				once() {
@@ -46,10 +45,9 @@ export const DialogAddInterface = defineComponent({
 				style: { width: "120px" }
 			}),
 			dataXItem: {
-				...defItem({
+				catid: defItem({
 					value: "",
 					itemType: "Select",
-					prop: "catid",
 					label: vm.$t("接口分类").label,
 					placeholder: "分类名称",
 					options: [],
@@ -64,9 +62,8 @@ export const DialogAddInterface = defineComponent({
 						}
 					}
 				}),
-				...defItem({
+				title: defItem({
 					value: "",
-					prop: "title",
 					label: vm.$t("接口名称").label,
 					placeholder: vm.$t("接口名称").label,
 					rules: [
@@ -74,9 +71,8 @@ export const DialogAddInterface = defineComponent({
 						FormRules.nameLength({ label: vm.$t("接口").label })
 					]
 				}),
-				...defItem({
+				path: defItem({
 					value: "/",
-					prop: "path",
 					label: vm.$t("接口路径").label,
 					placeholder: "/path",
 					rules: [FormRules.required(), FormRules.apiPath()],
@@ -95,7 +91,7 @@ export const DialogAddInterface = defineComponent({
 	},
 	methods: {
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			if (AllWasWell(validateResults)) {
 				const { catid, title, path } = pickValueFrom(this.dataXItem);
 				const { projectId, closeDialog } = this.propDialogOptions;

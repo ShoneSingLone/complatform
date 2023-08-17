@@ -153,7 +153,7 @@ export const GroupMemberList = defineComponent({
 				component: ViewAddMember,
 				area: ["480px", "260px"],
 				onOk: async ({ formItems, closeDialog }) => {
-					const validateResults = await validateForm(formItems);
+					const validateResults = await validateForm();
 					if (AllWasWell(validateResults)) {
 						const { member_uids, role } = pickValueFrom(formItems);
 						try {

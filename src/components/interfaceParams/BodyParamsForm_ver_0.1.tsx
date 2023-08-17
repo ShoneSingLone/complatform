@@ -46,52 +46,52 @@ export const BodyParamsForm = defineComponent({
 				(dataForm, rowItem, rowIndex) => {
 					dataForm[rowIndex] = {
 						id: xU.genId("bodyFormParams"),
-						name: defItem.item({
+						name: defItem({
 							rowIndex,
 							prop: "name",
 							itemWrapperClass: "input-width100",
 							value: rowItem.name,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "name", val);
 							}
 						}),
-						type: defItem.item({
+						type: defItem({
 							rowIndex,
 							prop: "type",
 							itemType: "Select",
 							itemWrapperClass: "input-width100",
 							options: ITEM_OPTIONS.interfaceBodyFormType,
 							value: rowItem.type,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "type", val);
 							}
 						}),
-						required: defItem.item({
+						required: defItem({
 							rowIndex,
 							prop: "required",
 							itemType: "Select",
 							itemWrapperClass: "input-width100",
 							options: ITEM_OPTIONS.required,
 							value: rowItem.required,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "required", val);
 							}
 						}),
-						example: defItem.item({
+						example: defItem({
 							rowIndex,
 							prop: "example",
 							itemWrapperClass: "input-width100",
 							value: rowItem.example,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "example", val);
 							}
 						}),
-						desc: defItem.item({
+						desc: defItem({
 							rowIndex,
 							prop: "desc",
 							itemWrapperClass: "input-width100",
 							value: rowItem.desc,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "desc", val);
 							}
 						})

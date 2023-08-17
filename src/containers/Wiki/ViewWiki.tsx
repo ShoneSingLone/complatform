@@ -19,7 +19,7 @@ export const ViewWiki = defineComponent({
 		const vm = this;
 		return {
 			title: "",
-			titleConfigs: defItem.item({}),
+			titleConfigs: defItem({}),
 			isReadonly: true
 		};
 	},

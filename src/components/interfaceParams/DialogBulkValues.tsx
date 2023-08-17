@@ -3,11 +3,11 @@ import {
 	xU,
 	defItem,
 	State_UI,
-	FormRules,
 	validateForm,
 	AllWasWell,
 	pickValueFrom
 } from "@ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { MonacoEditor } from "../MonacoEditor/MonacoEditor";
 
 const { $t } = State_UI;
@@ -25,9 +25,8 @@ export const DialogBulkValues = defineComponent({
 	data() {
 		return {
 			formItems: {
-				...defItem({
+				bulkdValue: defItem({
 					isTextarea: true,
-					prop: "bulkValue",
 					value: "",
 					placeholder: "key:value\nkey:value\nkey:value",
 					rules: [FormRules.required()],
@@ -64,7 +63,7 @@ export const DialogBulkValues = defineComponent({
 			return {
 				onCancel: this.propDialogOptions.closeDialog,
 				onOk: async () => {
-					const validateResults = await validateForm(this.formItems);
+					const validateResults = await validateForm();
 					if (AllWasWell(validateResults)) {
 						/* @ts-ignore */
 						const { bulkValue } = pickValueFrom(this.formItems);

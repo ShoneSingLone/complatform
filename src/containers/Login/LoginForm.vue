@@ -30,9 +30,9 @@ import {
 	AllWasWell,
 	lStorage,
 	State_UI,
-	FormRules,
 	pickValueFrom
 } from "@ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { API } from "@/api";
 import { Cpt_url } from "../../router/router";
 import { Methods_App } from "../../state/State_App";
@@ -64,20 +64,16 @@ export default defineComponent({
 		return {
 			loginType: "ldap",
 			configsForm: {
-				...defItem({
+				email: defItem({
 					value: lStorage.email || "",
-					prop: "email",
 					size: "large",
 					/* render的时候重新获取 */
 					placeholder: () => $t("Email").label,
-					onAfterValueEmit(val) {
+					onAfterEmitItemValue(val) {
 						lStorage.email = val;
 					},
 					rules: [
-						FormRules.required(
-							() => $t("请输入Email!").label,
-							[EVENT_TYPE.blur]
-						),
+						FormRules.required("", [EVENT_TYPE.blur]),
 						FormRules.email()
 					],
 					slots: {
@@ -86,18 +82,17 @@ export default defineComponent({
 						)
 					}
 				}),
-				...defItem({
+				password: defItem({
 					value: lStorage.password || "",
-					prop: "password",
-					type: "password",
+					isPassword: true,
 					size: "large",
 					/* render的时候重新获取 */
 					placeholder: () => $t("密码").label,
-					onAfterValueEmit(val) {
+					onAfterEmitItemValue(val) {
 						lStorage.password = val;
 					},
 					rules: [
-						FormRules.required(() => $t("请输入密码").label, [EVENT_TYPE.blur])
+						FormRules.required($t("请输入密码").label, [EVENT_TYPE.blur])
 					],
 					slots: {
 						prefix: () => (
@@ -119,8 +114,8 @@ export default defineComponent({
 		async login() {
 			const vm = this;
 			try {
-				const validateResults = await validateForm(vm.configsForm);
-				if (AllWasWell(validateResults)) {
+				if (!await validateForm(vm.$el)) {
+					debugger;
 					const formData = pickValueFrom(vm.configsForm);
 					const res = await API.user.loginActions(formData);
 					UI.notification.success("登录成功! ");

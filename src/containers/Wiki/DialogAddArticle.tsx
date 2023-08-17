@@ -38,9 +38,8 @@ export const DialogAddArticle = defineComponent({
 		const vm = this;
 		return {
 			dataXItem: {
-				...defItem({
+				title: defItem({
 					value: "",
-					prop: "title",
 					label: $t("文档名称").label,
 					placeholder: $t("文档名称").label,
 					rules: [FormRules.required()]
@@ -62,7 +61,7 @@ export const DialogAddArticle = defineComponent({
 	},
 	methods: {
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			if (AllWasWell(validateResults)) {
 				const { project_id, group_id } = this.Cpt_url.query;
 				let belong_id;

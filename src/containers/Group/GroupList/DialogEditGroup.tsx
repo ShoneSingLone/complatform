@@ -3,12 +3,12 @@ import {
 	xU,
 	defItem,
 	State_UI,
-	FormRules,
 	pickValueFrom,
 	VNodeCollection,
 	UI,
 	components
 } from "@ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { Methods_App, State_App } from "@/state/State_App";
 
 import { API } from "../../../api";
@@ -120,39 +120,34 @@ export const DialogEditGroup = defineComponent({
 		const vm = this;
 		return {
 			formDelete: {
-				...defItem({
+				authText: defItem({
 					value: "",
-					prop: "authText",
 					placeholder: $t("请输入分组名称确认此操作").label,
 					allowClear: true
 				})
 			},
 			formItems: {
-				...defItem({
-					prop: "currGroupName",
+				currGroupName: defItem({
 					value: "",
 					label: $t("分组名").label,
 					placeholder: $t("请输入分组名称").label,
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				currGroupDesc: defItem({
 					isTextarea: true,
-					prop: "currGroupDesc",
 					value: "",
 					label: $t("简介").label,
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				custom_field1_enable: defItem({
 					itemType: "Switch",
-					prop: "custom_field1_enable",
 					value: false,
 					label: $t("启用接口自定义字段").label,
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				}),
-				...defItem({
-					prop: "custom_field1_name",
+				custom_field1_name: defItem({
 					value: "",
 					disabled() {
 						//@ts-ignore

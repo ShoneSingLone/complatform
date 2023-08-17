@@ -1,12 +1,6 @@
 //@ts-nocheck
-import {
-	AllWasWell,
-	defItem,
-	FormRules,
-	State_UI,
-	validateForm,
-	xU
-} from "@ventose/ui";
+import { AllWasWell, defItem, State_UI, validateForm, xU } from "@ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 
 const { $t } = State_UI;
@@ -38,16 +32,14 @@ console.log(window)
 			},
 			row: row || {},
 			dataXItem: {
-				...defItem({
+				name: defItem({
 					value: name || "新增",
 					label: $t("name").label,
-					prop: "name",
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				age: defItem({
 					value: age || 0,
 					label: $t("age").label,
-					prop: "age",
 					rules: [FormRules.required()]
 				})
 			}
@@ -55,7 +47,7 @@ console.log(window)
 	},
 	methods: {
 		async verifyForm() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			return AllWasWell(validateResults);
 		},
 		getParams() {
@@ -91,16 +83,14 @@ console.log(window)
 </xForm>
 
 dataXItem: {
-    ...defItem({
+    name:defItem({
      value: name || "新增",
      label: $t("name").label,
-     prop: "name",
      rules: [FormRules.required()]
     }),
-    ...defItem({
+    age:defItem({
      value: age || 0,
      label: $t("age").label,
-     prop: "age",
      rules: [FormRules.required()]
     })
    }

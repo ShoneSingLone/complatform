@@ -11,7 +11,7 @@ export const ResponsePanel = defineComponent({
 	emits: ["update:body", "update:bodyType"],
 	data() {
 		return {
-			configsPrivateBodyType: defItem.item({
+			configsPrivateBodyType: defItem({
 				prop: "configsPrivateBodyType",
 				itemType: "RadioGroup",
 				options: xU.filter(ITEM_OPTIONS.interfaceBodyType, i =>

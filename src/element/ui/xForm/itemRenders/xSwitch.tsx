@@ -21,7 +21,7 @@ export const xSwitch = defineComponent({
 			}
 		},
 		_modelValue(modelValue) {
-			this.listeners["onUpdate:value"](modelValue);
+			this.listeners["onEmitItemValue"](modelValue);
 		}
 	},
 	computed: {},
@@ -32,7 +32,7 @@ export const xSwitch = defineComponent({
 			<div class="x-item_switch">
 				<ElSwitch
 					v-model={this._modelValue}
-					{...xU.omit(listeners, ["onUpdate:value"])}
+					{...xU.omit(listeners, ["onEmitItemValue"])}
 					{...xU.omit(properties, ["value", ...propsWillDeleteFromConfigs])}
 				/>
 			</div>

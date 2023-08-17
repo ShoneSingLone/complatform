@@ -4,7 +4,7 @@ import { lStorage } from "./tools/storage";
 import { xU } from "./ventoseUtils";
 
 /*i18n  使用 {变量名} 赋值 */
-export function $t(prop: string | number, payload = {}, i18nMessage = false) {
+export function $t(prop: string, payload = {}, i18nMessage = false) {
 	/* this指向 */
 	const result = { label: prop, prop: prop };
 	xU.templateSettings.interpolate = /{([\s\S]+?)}/g;
@@ -25,7 +25,6 @@ export function $t(prop: string | number, payload = {}, i18nMessage = false) {
 /* 可以与外部通信，可以增改 */
 
 let _State_UI = {
-	xItemCollection: {},
 	pagination: {
 		page: "page",
 		size: "size",

@@ -1,7 +1,6 @@
 import {
 	defItem,
 	xU,
-	FormRules,
 	setValueTo,
 	validateForm,
 	AllWasWell,
@@ -11,6 +10,7 @@ import {
 	$t,
 	EVENT_TYPE
 } from "@ventose/ui";
+import { FormRules, newRule } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { State_App } from "@/state/State_App";
@@ -56,14 +56,14 @@ export const DialogUpdatePwd = defineComponent({
 					placeholder: "确认新密码",
 					isPassword: true,
 					rules: [
-						FormRules.required(
-							() => $t("请再次输入密码!").label,
-							[EVENT_TYPE.blur]
-						),
-						FormRules.custom({
-							msg: () => $t("两次输入的密码不一致!").label,
-							validator: async confirm =>
-								vm.dataXItem.password.value !== confirm,
+						FormRules.required($t("请再次输入密码!").label),
+						newRule({
+							validator: async confirm => {
+								if (vm.dataXItem.password.value !== confirm) {
+									return $t("两次输入的密码不一致!").label;
+								}
+								return "";
+							},
 							trigger: [EVENT_TYPE.update]
 						})
 					]
@@ -91,7 +91,7 @@ export const DialogUpdatePwd = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			if (AllWasWell(validateResults)) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
 				const project_id = this.State_App.currProject._id;

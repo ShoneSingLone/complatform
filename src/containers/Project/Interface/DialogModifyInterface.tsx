@@ -81,10 +81,9 @@ export const DialogModifyInterface = defineComponent({
 			detailInfo: {},
 			activeKey: "1",
 			dataXItem: {
-				...defItem({
+				catid: defItem({
 					value: "",
 					itemType: "Select",
-					prop: "catid",
 					label: vm.$t("接口分类").label,
 					placeholder: "分类名称",
 					options: [],
@@ -99,9 +98,8 @@ export const DialogModifyInterface = defineComponent({
 						}
 					}
 				}),
-				...defItem({
+				title: defItem({
 					value: "",
-					prop: "title",
 					label: vm.$t("接口名称").label,
 					placeholder: vm.$t("接口名称").label,
 					rules: [
@@ -109,17 +107,16 @@ export const DialogModifyInterface = defineComponent({
 						FormRules.nameLength({ label: vm.$t("接口").label })
 					]
 				}),
-				...defItem({
+				basepath: defItem({
 					value: vm.State_App.currProject.basepath,
-					prop: "basepath",
 					label: vm.$t("接口基本路径").label,
-					labelVNodeRender: VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
+					labelVNodeRender:
+						VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
 					disabled: true
 				}),
-				...defItem({
+				apiMethod: defItem({
 					value: "",
 					itemType: "Select",
-					prop: "apiMethod",
 					options: ITEM_OPTIONS.httpMethod,
 					onChange(val) {
 						/* 控制body是否可以编辑 */
@@ -128,9 +125,8 @@ export const DialogModifyInterface = defineComponent({
 					rules: [FormRules.required()],
 					style: { width: "120px" }
 				}),
-				...defItem({
+				path: defItem({
 					value: "",
-					prop: "path",
 					label: vm.$t("接口路径").label,
 					labelVNodeRender: VNodeCollection.labelTips(
 						<ul>
@@ -154,7 +150,7 @@ export const DialogModifyInterface = defineComponent({
 							addonBefore: () => vDomApiMethodsSelector
 						});
 					},
-					onAfterValueEmit: xU.debounce(function (newPatnValue) {
+					onAfterEmitItemValue: xU.debounce(function (newPatnValue) {
 						newPatnValue = _$handlePath(newPatnValue);
 						let queue = [];
 						setValueTo(vm.dataXItem, { path: newPatnValue });
@@ -194,14 +190,12 @@ export const DialogModifyInterface = defineComponent({
 						});
 					}, 800)
 				}),
-				...defItem({
-					prop: "pathParams",
+				pathParams: defItem({
 					label: vm.$t("接口路径参数").label,
 					value: [],
 					itemType: InpterfacePathParams
 				}),
-				...defItem({
-					prop: "tag",
+				tag: defItem({
 					label: "Tag",
 					value: [],
 					options: [],
@@ -212,23 +206,20 @@ export const DialogModifyInterface = defineComponent({
 					},
 					itemType: TagSelectRender
 				}),
-				...defItem({
-					prop: "status",
+				status: defItem({
 					label: $t("状态").label,
 					value: ITEM_OPTIONS.interfaceStatus[0].value,
 					options: ITEM_OPTIONS.interfaceStatus,
 					itemType: "Select"
 				}),
-				...defItem({
-					prop: "isProxy",
+				isProxy: defItem({
 					value: false,
 					label: vm.$t("是否开启转发").label,
 					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
-				...defItem({
+				witchEnv: defItem({
 					isShow: () => vm.dataXItem.isProxy.value,
-					prop: "witchEnv",
 					label: vm.$t("转发环境").label,
 					value: "",
 					options: [],
@@ -242,30 +233,26 @@ export const DialogModifyInterface = defineComponent({
 					},
 					itemType: EnvSelectRender
 				}),
-				...defItem({
-					prop: "requestArgs",
+				requestArgs: defItem({
 					label: vm.$t("请求参数设置").label,
 					value: [],
 					activeKey: "1",
 					deepWatch: { apiMethod: "" },
 					itemType: RequestArgsRender
 				}),
-				...defItem({
-					prop: "responseArgs",
+				responseArgs: defItem({
 					label: vm.$t("响应参数设置").label,
 					value: {},
 					activeKey: "1",
 					apiMethod: "",
 					itemType: ResponseRender
 				}),
-				...defItem({
-					prop: "remark",
+				remark: defItem({
 					label: vm.$t("备注").label,
 					value: { html: "", md: "" },
 					itemType: MarkdownRender
 				}),
-				...defItem({
-					prop: "noticed",
+				noticed: defItem({
 					label: vm.$t("消息通知").label,
 					labelVNodeRender: VNodeCollection.labelTips(
 						<div>{vm.$t("开启消息通知，可在 项目设置 里修改").label}</div>
@@ -275,8 +262,7 @@ export const DialogModifyInterface = defineComponent({
 					value: true,
 					itemType: "Switch"
 				}),
-				...defItem({
-					prop: "api_opened",
+				api_opened: defItem({
 					label: vm.$t("开放接口").label,
 					labelVNodeRender: VNodeCollection.labelTips(
 						<div>{vm.$t("用户可以在 数据导出 时选择只导出公开接口").label}</div>
@@ -533,7 +519,7 @@ export const DialogModifyInterface = defineComponent({
 			return _formData;
 		},
 		async submit() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			if (AllWasWell(validateResults)) {
 				try {
 					const formData = this.getFormData();

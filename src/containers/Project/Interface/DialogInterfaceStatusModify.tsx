@@ -1,5 +1,5 @@
 import { validateForm, AllWasWell, pickValueFrom, UI, $t } from "@ventose/ui";
-import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
+import { defItem, xU, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { State_App } from "@/state/State_App";
@@ -22,8 +22,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 	data() {
 		return {
 			dataXItem: {
-				...defItem({
-					prop: "status",
+				status: defItem({
 					label: $t("状态").label,
 					value: ITEM_OPTIONS.interfaceStatus[0].value,
 					options: ITEM_OPTIONS.interfaceStatus,
@@ -52,7 +51,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			const { selected } = this.propDialogOptions;
 			if (AllWasWell(validateResults)) {
 				const { status } = pickValueFrom(this.dataXItem);

@@ -18,11 +18,11 @@ import { defineComponent } from "vue";
 import {
 	AllWasWell,
 	defItem,
-	FormRules,
 	pickValueFrom,
 	UI,
 	validateForm
 } from "@ventose/ui";
+import { FormRules, newRule } from "@/utils/common.FormRules";
 import {
 	xItem_ProjectIcon,
 	xItem_ProjectName
@@ -40,7 +40,7 @@ export default defineComponent({
 	},
 	methods: {
 		async onOk() {
-			const validateResults = await validateForm(this.formItems);
+			const validateResults = await validateForm();
 			if (AllWasWell(validateResults)) {
 				const { name, icon } = pickValueFrom(this.formItems);
 				try {
@@ -75,11 +75,11 @@ export default defineComponent({
 		return {
 			alertMessage: `该操作将会复制 ${this.propProjectName} 下的所有接口集合，但不包括测试集合中的接口`,
 			formItems: {
-				...defItem(
+				projectName: defItem(
 					xItem_ProjectName({
 						value: this.propProjectName,
 						appendRules: [
-							FormRules.custom({
+							newRule({
 								validator(value, { configs, rule }) {
 									if (value === vm.propDialogOptions.projectName) {
 										rule.msg = "不能与原项目名相同";
@@ -92,7 +92,7 @@ export default defineComponent({
 						]
 					})
 				),
-				...defItem(xItem_ProjectIcon())
+				projectIcon: defItem(xItem_ProjectIcon())
 			}
 		};
 	}

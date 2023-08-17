@@ -7,12 +7,12 @@ import { FormRules } from "@/utils/common.FormRules";
 
 function genTag(name, desc, index) {
 	return {
-		nameConfigs: defItem.item({
+		nameConfigs: defItem({
 			prop: "name" + index,
 			placeholder: "tag名称",
 			value: name
 		}),
-		descConfigs: defItem.item({
+		descConfigs: defItem({
 			prop: "desc" + index,
 			placeholder: "tag描述信息",
 			value: desc

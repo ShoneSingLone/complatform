@@ -5,8 +5,8 @@
 	flex-flow: row nowrap;
 	flex: 1;
 	height: 100px;
-	>.el-menu{
-		>.el-sub-menu{
+	> .el-menu {
+		> .el-sub-menu {
 			display: flex;
 			align-items: center;
 			height: var(--el-menu-item-height);
@@ -17,15 +17,19 @@
 			list-style: none;
 			cursor: pointer;
 			position: relative;
-			transition: border-color var(--el-transition-duration),background-color var(--el-transition-duration),color var(--el-transition-duration);
+			transition: border-color var(--el-transition-duration),
+				background-color var(--el-transition-duration),
+				color var(--el-transition-duration);
 			box-sizing: border-box;
 			white-space: nowrap;
-			padding-right: calc(var(--el-menu-base-level-padding) + var(--el-menu-icon-width));
+			padding-right: calc(
+				var(--el-menu-base-level-padding) + var(--el-menu-icon-width)
+			);
 		}
 	}
 
-	>ul.menubar{
-		width:200px;
+	> ul.menubar {
+		width: 200px;
 	}
 }
 

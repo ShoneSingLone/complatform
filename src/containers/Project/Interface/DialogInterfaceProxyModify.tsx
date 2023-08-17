@@ -1,5 +1,5 @@
 import { validateForm, AllWasWell, pickValueFrom, UI, $t } from "@ventose/ui";
-import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
+import { defItem, xU, setValueTo } from "@ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
 import { State_App } from "@/state/State_App";
@@ -33,18 +33,16 @@ export const DialogInterfaceProxyModify = defineComponent({
 	data(vm) {
 		return {
 			dataXItem: {
-				...defItem({
-					prop: "isProxy",
+				isProxy: defItem({
 					value: false,
 					label: vm.$t("是否开启转发").label,
 					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
-				...defItem({
+				witchEnv: defItem({
 					isShow() {
 						return vm.dataXItem.isProxy.value;
 					},
-					prop: "witchEnv",
 					label: vm.$t("转发环境").label,
 					value: "",
 					options: [],
@@ -81,7 +79,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
+			const validateResults = await validateForm();
 			const { selected } = this.propDialogOptions;
 			if (AllWasWell(validateResults)) {
 				const { isProxy, witchEnv } = pickValueFrom(this.dataXItem);

@@ -218,8 +218,7 @@ export const InterfaceDetail = defineComponent({
 			return new Promise((resolve, reject) => {
 				try {
 					const wsURL = new URL(State_App.baseURL);
-					socket.on("solveConflict", data => {
-					});
+					socket.on("solveConflict", data => {});
 					socket
 						.open(
 							`${wsProtocol}://${wsURL.host}/ws?x-cookies=${JSON.stringify(

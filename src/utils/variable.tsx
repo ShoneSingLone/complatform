@@ -24,8 +24,7 @@ export const DefaultInterfaceMenu = [
 
 // 默认每页展示10条数据
 export const PAGE_LIMIT = 10;
-// 限制名称的字符长度(中文算两个长度)
-export const NAME_LIMIT = 100;
+
 export const HTTP_METHOD = {
 	[GET]: { color: "green", default_tab: QUERY },
 	[HEAD]: { color: "purple", default_tab: QUERY },

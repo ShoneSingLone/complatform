@@ -15,7 +15,7 @@ rules: [FormRules.required("请输入项目基本路径!")]
 
 
 
-const validateResults = await validateForm(instance.vm.formItems);
+const validateResults = await validateForm();
 if (AllWasWell(validateResults)) {
 	const { project_name } = pickValueFrom(instance.vm.formItems);
 	try {

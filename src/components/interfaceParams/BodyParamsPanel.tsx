@@ -12,7 +12,7 @@ export const BodyParamsPanel = defineComponent({
 	emits: ["update:params"],
 	data(vm) {
 		return {
-			configsBodyType: defItem.item({
+			configsBodyType: defItem({
 				prop: "configsBodyType",
 				itemType: "RadioGroup",
 				options: ITEM_OPTIONS.interfaceBodyType

@@ -1,17 +1,20 @@
 //@ts-nocheck
 import { computed, defineComponent, isProxy, toRaw } from "vue";
 import renders from "./itemRenders";
-import { checkXItem, EVENT_TYPE, TIPS_TYPE } from "../tools/validate";
 import { xU } from "../ventoseUtils";
 import { diff } from "jsondiffpatch";
 import { State_UI } from "../State_UI";
+import $ from "jquery";
 
-const { MutatingProps } = xU;
+const DID_NOT_SET_VALUE = "either configs.value or modelValue";
+const UNUSE_V_MODEL = "UNUSE_V_MODEL";
+
 const domClass = {
 	tipsError: "x-form-item-explain x-form-item-explain-error"
 };
 
-const devHelper = {};
+/* 记录表单控件 用于 校验  */
+const X_ITEM_COLLECTION = {};
 
 const WILL_DELETE = [
 	"onValidateForm",
@@ -26,9 +29,81 @@ const WILL_DELETE = [
 	"value"
 ];
 
-const DID_NOT_SET_MODEL_VALUE_BY_V_MODEL = "DID_NOT_SET_MODEL_VALUE_BY_V_MODEL";
+export const EVENT_TYPE = {
+	validateForm: "validateForm",
+	update: "update",
+	change: "change",
+	input: "input",
+	blur: "blur",
+	focus: "focus"
+};
 
-/* itemWrapperClass */
+export const TIPS_TYPE = {
+	success: "success",
+	error: "error"
+};
+
+/*
+ *
+ * 校验表单
+ * @export
+ * @param {string} [selector=""] jQuery可用的选择器字符串 直接用DOM Vue组件实例
+ * @returns
+ * */
+export async function validateForm(selector: any) {
+	let $wrapper = (function () {
+		if (selector) {
+			/* jQuery可用的选择器字符串 */
+			if (xU.isString(selector)) {
+				return $(selector);
+			}
+			/* 直接用DOM */
+			if (selector?.innerHTML) {
+				return $(selector);
+			}
+			/* Vue组件实例 */
+			if (selector?.$el) {
+				return $(selector.$el);
+			}
+		} else {
+			/* 页面内所有xItem */
+			return $(document);
+		}
+	})();
+
+	if (!$wrapper || $wrapper.length == 0) {
+		throw new Error("selector不是可用的dom元素");
+	}
+	const $target = $wrapper.find(`[id^=xItem_]`);
+	const errorArray = [];
+
+	await Promise.all(
+		xU.map($target, async dom => {
+			const xItemId = dom.id;
+			const vm = X_ITEM_COLLECTION[xItemId];
+			const msg = await vm.validate();
+
+			if (msg) {
+				errorArray.push([msg, vm]);
+			}
+		})
+	);
+	if (errorArray.length > 0) {
+		return errorArray;
+	} else {
+		return "";
+	}
+}
+
+/**
+ * 没有错误信息则校验通过
+ * @param {*} res
+ * @returns
+ */
+export const AllWasWell = (res: any) => {
+	return xU.isArray(res) && res.length === 0;
+};
+
 export const xItem = defineComponent({
 	name: "XItem",
 	props: {
@@ -36,7 +111,7 @@ export const xItem = defineComponent({
 		modelValue: {
 			type: [Object, String, Number, Boolean],
 			default() {
-				return DID_NOT_SET_MODEL_VALUE_BY_V_MODEL;
+				return UNUSE_V_MODEL;
 			}
 		},
 		configs: {
@@ -50,43 +125,42 @@ export const xItem = defineComponent({
 	setup(props, { attrs, slots, emit, expose }) {
 		let Cpt_isShowXItem: any = true;
 		let Cpt_isDisabled: any = false;
+		let Cpt_label: any = "";
+
 		/*isShow*/
 		if (xU.isFunction(props.configs.isShow)) {
 			Cpt_isShowXItem = computed(props.configs.isShow);
-		} else if (xU.isBoolean(props.configs.isShow)) {
-			Cpt_isShowXItem = computed(() => !!props.configs.isShow);
 		} else {
-			/* isShow 可能不存在 */
-			Cpt_isShowXItem = computed(() => {
-				if (xU.isUndefined(props.configs.isShow)) {
-					props.configs.isShow = true;
-				}
-				return !!props.configs.isShow;
-			});
+			/* 使用defItem isShow 默认是true */
+			Cpt_isShowXItem = computed(() => props.configs.isShow);
 		}
 
 		/*disabled*/
 		if (xU.isFunction(props.configs.disabled)) {
 			Cpt_isDisabled = computed(props.configs.disabled);
 		} else if (xU.isBoolean(props.configs.disabled)) {
-			Cpt_isDisabled = computed(() => !!props.configs.disabled);
+			Cpt_isDisabled = computed(() => props.configs.disabled);
 		}
-		/*readonly 在configs中，各个render自行实现*/
 
+		/*label*/
+		if (xU.isFunction(props.configs.label)) {
+			Cpt_label = computed(() => props.configs.label(props.configs));
+		} else if (xU.isString(props.configs.label)) {
+			Cpt_label = computed(() => props.configs.label);
+		}
+
+		/*readonly 在configs中，各个render自行实现*/
 		return {
 			Cpt_isShowXItem,
-			Cpt_isDisabled
+			Cpt_isDisabled,
+			Cpt_label
 		};
 	},
 	data(vm) {
 		const { $props, $attrs } = vm;
 
-		const triggerValidate = xU.debounce(function (eventType: string) {
-			const { configs } = vm.$props;
-			/*validate的定义 搜索 MutatingProps_configs_validate */
-			if (configs.validate) {
-				configs.validate({ eventType: eventType, value: vm.properties.value });
-			}
+		const triggerValidate = xU.debounce((eventType: string) => {
+			vm.validate({ eventType });
 		}, 500);
 
 		const { listeners, propsWillDeleteFromConfigs } = (() => {
@@ -97,22 +171,13 @@ export const xItem = defineComponent({
 
 			/* 需要一个事件分发，拦截所有事件，再根据配置信息   */
 			const listeners = {
-				/* 主要的触发方式 */
-				"onUpdate:value": (val: any) => {
-					/* 使用configs.value的形式，一般是configs与组件是一对一的关系,configs需要是reactive的  */
-					if (xU.isObjSetAttr(configs)) {
-						if (configs.value === val) {
-							return;
-						} else {
-							configs.value = val;
-						}
-					}
-					/* 双向绑定 */
-					vm.$emit("update:modelValue", val);
+				/* modelValue的主要的触发方式 */
+				onEmitItemValue: (val: any) => {
+					vm.privateValue = val;
 					/* @ts-ignore */
-					if (xU.isFunction(listeners.onAfterValueEmit)) {
+					if (xU.isFunction(listeners.onAfterEmitItemValue)) {
 						/* @ts-ignore */
-						listeners.onAfterValueEmit(val);
+						listeners.onAfterEmitItemValue.call(vm, val);
 					}
 					/* TODO: rule检测*/
 					triggerValidate(EVENT_TYPE.update);
@@ -182,22 +247,57 @@ export const xItem = defineComponent({
 			properties: null,
 			itemSlots: {},
 			listeners,
-			propsWillDeleteFromConfigs
+			propsWillDeleteFromConfigs,
+			isChecking: false,
+			itemTips: {
+				msg: "",
+				type: ""
+			}
 		};
 	},
 	computed: {
-		currentItemModelValue() {
-			if (this.isSetVModel) {
-				return this.modelValue;
+		privateValue: {
+			get() {
+				const vm = this;
+				/* v-model的优先级更高，如果有，就优先选modelValue */
+				if (vm.isUseModelValue) {
+					return vm.modelValue;
+				} else if (xU.isObjSetAttr(vm.configs)) {
+					/* configs.value */
+					return vm.configs.value;
+				} else {
+					throw new Error(DID_NOT_SET_VALUE);
+				}
+			},
+			set(val) {
+				const diffRes = diff(this.privateValue, val);
+				if (!diffRes) {
+					xU("diff xItem value", diffRes);
+					return;
+				}
+				if (this.isUseModelValue) {
+					/* 双向绑定 */
+					this.$emit("update:modelValue", val);
+				} else if (xU.isObjSetAttr(this.configs)) {
+					/* configs.value */
+					this.configs.value = val;
+				} else {
+					throw new Error(DID_NOT_SET_VALUE);
+				}
+			}
+		},
+		afterControllVNode() {
+			if (this.afterControll) {
+				return this.afterControll.call(this, this);
 			} else {
-				return this.configs?.value;
+				return null;
 			}
 		},
 		afterControll() {
 			return this.configs?.afterControll || this.$slots.afterControll || false;
 		},
-		isSetVModel() {
-			return this.modelValue !== DID_NOT_SET_MODEL_VALUE_BY_V_MODEL;
+		isUseModelValue() {
+			return this.modelValue !== UNUSE_V_MODEL;
 		},
 		CurrentXItem() {
 			if (xU.isObject(this.configs.itemType)) {
@@ -215,28 +315,11 @@ export const xItem = defineComponent({
 			}
 			return "";
 		},
-		isChecking() {
-			return Boolean(this.configs.checking);
-		},
 		/* 组件唯一标识 */
-		FormItemId() {
+		xItem_id() {
 			return `xItem_${this._.uid}`;
 		},
 		/* 提示信息的类型及提示信息 */
-		itemTips() {
-			const _itemTips = { type: "", msg: "" };
-			if (this.configs?.itemTips?.type) {
-				return {
-					type: this.configs.itemTips.type,
-					msg: xU.isFunction(this.configs.itemTips.msg)
-						? this.configs.itemTips.msg()
-						: this.configs.itemTips.msg
-				};
-			} else {
-				this.configs.itemTips = _itemTips;
-				return _itemTips;
-			}
-		},
 		itemWrapperClass() {
 			return [
 				this.configs.itemWrapperClass,
@@ -282,28 +365,13 @@ export const xItem = defineComponent({
 				return this.configs.labelVNodeRender(this.configs, classString);
 			}
 
-			let label = (() => {
-				const _label = this.configs.label;
-				if (_label) {
-					if (xU.isFunction(_label)) {
-						return _label();
-					}
-
-					if (xU.isString(_label) || _label.__v_isVNode) {
-						return _label;
-					}
-				}
-				return false;
-			})();
-
-			if (label === false) {
+			if (!this.Cpt_label) {
 				return null;
 			}
+
 			return (
 				<div class="x-form-item-label">
-					<label for={this.configs.prop} class={classString}>
-						{label}
-					</label>
+					<label class={classString}>{this.Cpt_label}</label>
 				</div>
 			);
 		}
@@ -313,21 +381,6 @@ export const xItem = defineComponent({
 		$attrs: {
 			handler() {
 				this.setProperties();
-			}
-		},
-		"properties.value": {
-			handler(value) {
-				xU(value);
-			}
-		},
-		"configs.value": {
-			handler() {
-				this.updateValue();
-			}
-		},
-		modelValue: {
-			handler() {
-				this.updateValue();
 			}
 		},
 		rerenderCount: {
@@ -349,26 +402,22 @@ export const xItem = defineComponent({
 		"configs.rules": {
 			immediate: true,
 			handler(rules) {
-				if (rules) {
-					this.setValidateInfo(rules);
-				}
+				this.updateValidateInfo(rules);
 			}
 		},
 		"configs.slots": {
 			immediate: true,
 			handler(slots) {
 				if (slots) {
-					this.setItemSlots();
+					this.updateItemSlots();
 				}
 			}
 		}
 	},
 	created() {
 		const vm = this;
-		vm.configs.FormItemId = vm.FormItemId;
-
+		X_ITEM_COLLECTION[vm.xItem_id] = vm;
 		/*[似乎] Vue3 用的是类方法不是实例方法， (用 debounce,未跟实例绑定，不同实例调用同一个方法只会执行最后一个)*/
-
 		(() => {
 			vm.forceUpdateUI = xU.debounce(() => vm.rerenderCount++, 64);
 		})();
@@ -383,15 +432,8 @@ export const xItem = defineComponent({
 		})();
 
 		(() => {
-			vm.updateValue = xU.debounce(vm.updateValueSync, 94);
-			// vm.updateValue = vm.updateValueSync;
-			vm.updateValue();
-		})();
-
-		(() => {
 			vm.setProperties = xU.debounce(function setProperties(this: any) {
 				/* @ts-ignore */
-				xU(vm._.uid);
 				const __properties = {};
 				const pickProps = (originConfigs: any) => {
 					xU.each(originConfigs, (item, prop) => {
@@ -408,112 +450,65 @@ export const xItem = defineComponent({
 				};
 				xU.each([this.configs, this.$attrs], pickProps);
 				this.properties = __properties;
-				this.updateValue();
 			}, 32);
 			vm.setProperties();
 		})();
 	},
 	mounted() {
-		devHelper[this._.uid] = 0;
 		if (this.configs?.once) {
 			this.configs.once.call(this.configs, this);
 		}
-		State_UI.xItemCollection[this.FormItemId] = this;
 	},
 	beforeUnmount() {
-		delete devHelper[this._.uid];
-		delete State_UI.xItemCollection[this.FormItemId];
+		delete X_ITEM_COLLECTION[this.xItem_id];
 	},
 	methods: {
-		async updateValueSync() {
-			await xU.ensureValueDone(() => this.properties);
-			const vm = this;
-			/* modelValue configs.value configs.defaultValue */
-			const value = (() => {
-				/* v-model的优先级更高，如果有，就优先选modelValue */
-				if (vm.isSetVModel) {
-					return vm.modelValue;
-				} else if (xU.isObjSetAttr(vm.configs)) {
-					/* configs.value */
-					return vm.configs.value;
-				} else if (xU.isObjSetAttr(vm.configs, "defaultValue")) {
-					/* 如果设置了就以默认值 */
-					return vm.configs.defaultValue;
-				} else {
-					xU("either configs.value or modelValue");
-					return "";
+		async validate() {
+			this.isChecking = true;
+			try {
+				const vm = this;
+				if (xU.isArrayFill(vm.configs?.rules)) {
+					for await (const rule of vm.configs.rules) {
+						const msg = await rule.validator(vm.privateValue, { vm });
+						if (msg) {
+							vm.itemTips.msg = msg;
+							vm.itemTips.type = TIPS_TYPE.error;
+							break;
+						} else {
+							vm.itemTips.msg = "";
+							vm.itemTips.type = "";
+						}
+					}
 				}
-			})();
-
-			const diffRes = diff(vm.properties.value, value);
-			if (diffRes) {
-				xU("diff xItem value", diffRes);
-				vm.properties.value = value;
-				vm.listeners["onUpdate:value"](value);
+				return vm.itemTips.msg;
+			} catch (error) {
+				console.error(error);
+			} finally {
+				this.isChecking = false;
 			}
 		},
-		setTips(type = "", msg = "") {
-			MutatingProps(this, "configs.itemTips", { type, msg });
-		},
-		setItemSlots() {
+		async checkXItem() {},
+		updateItemSlots() {
 			this.itemSlots = this.configs.slots || {};
 		},
-		/* 如果有可用rules，为当前item配置校验函数 */
-		setValidateInfo(rules: any) {
+		updateValidateInfo(rules: any) {
 			/* 修改rules Array 要求全量替换 */
 			let isRequired = false;
 			if (xU.isArrayFill(rules)) {
 				/* 如果有必填项 */
 				isRequired = xU.some(rules, { name: "required" });
-				/* 检测完成之后的回调 */
-				const fnCheckedCallback = ([prop, msg]) => {
-					MutatingProps(this, "configs.checking", false);
-					if (prop) {
-						if (msg) {
-							this.setTips(TIPS_TYPE.error, msg);
-							/*校验未通过，如果有其他操作，可以提供一个onValidateFail的回调函数*/
-							if (xU.isFunction(this.configs.onValidateFail)) {
-								this.configs.onValidateFail(this.configs);
-							}
-						} else {
-							this.setTips();
-						}
-					}
-				};
-				const debounceCheckXItem = xU.debounce(checkXItem, 300);
-
-				const fnConfigsValidate = ({ eventType, value, resolve }) => {
-					/* 短时间内，多个事件触发同一校验，使用队列，只执行一次 */
-					const prop = `configs.validate.triggerEventsObj.${eventType}`;
-					MutatingProps(this, prop, true);
-					/*  */
-					debounceCheckXItem({
-						FormItemId: this.FormItemId,
-						xItemConfigs: this.configs,
-						value,
-						/* 异步回调 */
-						fnCheckedCallback,
-						resolve
-					});
-				};
-				/* 如果有检验规则，添加可执行校验方法  MutatingProps_configs_validate */
-				MutatingProps(this, "configs.validate", fnConfigsValidate);
-				/* init */
-				MutatingProps(this, "configs.validate.triggerEventsObj", {});
-			} else {
-				if (xU.isFunction(this.configs.validate)) {
-					delete this.configs.validate;
-				}
 			}
-			this.isRequired = isRequired;
+			if (this.isRequired !== isRequired) {
+				this.isRequired = isRequired;
+			}
 		}
 	},
 	render() {
+		if (xU.isUndefined(this.Cpt_isShowXItem)) {
+			throw new Error("未使用defItem定义xItem配置项");
+		}
 		if (!this.properties) {
 			return null;
-		}
-		if (xU.isUndefined(this.Cpt_isShowXItem)) {
-			debugger;
 		}
 		if (!this.Cpt_isShowXItem) {
 			return null;
@@ -524,25 +519,23 @@ export const xItem = defineComponent({
 			Cpt_isDisabled,
 			propsWillDeleteFromConfigs,
 			itemTypeName,
-			FormItemId
+			xItem_id
 		} = this;
 
-		xU(`xItem ${this._.uid} render ${++devHelper[this._.uid]} times`);
-
 		return (
-			<div id={FormItemId} class={this.itemWrapperClass}>
+			<div id={xItem_id} class={this.itemWrapperClass}>
 				{/* label */}
 				{this.labelVNode}
 				{/* 控件 */}
 				<div class="x-form-item-control" data-x-item-type={itemTypeName}>
 					<CurrentXItem
-						id={`CurrentXItem_${FormItemId}`}
 						data-current-item-label={properties.label}
 						data-current-item-prop={properties.prop}
 						data-current-item-type={itemTypeName}
 						propsWillDeleteFromConfigs={propsWillDeleteFromConfigs}
 						properties={{
 							...properties,
+							value: this.privateValue,
 							disabled: Cpt_isDisabled
 						}}
 						listeners={this.listeners}
@@ -551,7 +544,7 @@ export const xItem = defineComponent({
 					{/* 提示信息 */}
 					{this.tipsVNode}
 				</div>
-				{this.afterControll && this.afterControll.call(this, this)}
+				{this.afterControllVNode}
 			</div>
 		);
 	}

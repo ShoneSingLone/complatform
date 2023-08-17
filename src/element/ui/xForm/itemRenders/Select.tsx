@@ -22,7 +22,7 @@ export default defineComponent({
 			}
 		},
 		_modelValue(modelValue) {
-			this.listeners["onUpdate:value"](modelValue);
+			this.listeners["onEmitItemValue"](modelValue);
 		}
 	},
 	computed: {},
