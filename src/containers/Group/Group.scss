@@ -75,7 +75,7 @@
 
 			.editSet {
 				&:hover {
-					color: #2395f1;
+					color: var(--app-brand);
 				}
 			}
 
@@ -85,7 +85,7 @@
 				color: rgba(255, 255, 255, 0.85);
 
 				&:hover {
-					color: #2395f1;
+					color: var(--app-brand);
 				}
 			}
 

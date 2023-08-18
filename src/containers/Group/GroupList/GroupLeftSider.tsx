@@ -262,7 +262,7 @@ export const GroupLeftSider = defineComponent({
 										<xIcon
 											v-uiPopover={{ content: group.group_desc }}
 											class="group-menu-icon editSet pointer ml10 mr10"
-											icon="Insidetips"
+											icon="insideTips"
 										/>
 									)}
 									{vDomEditGroup}

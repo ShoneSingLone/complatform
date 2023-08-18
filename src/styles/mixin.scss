@@ -1,7 +1,7 @@
 $color-white: rgba(255, 255, 255, 0.85);
 $color-white-secondary: rgba(255, 255, 255, 0.67);
 $color-bg-gray: #ececec;
-$color-blue: #2395f1;
+$color-blue: var(--app-brand);
 $color-blue-deeper: #34495e;
 $color-grey-deep: #929aac;
 $color-black-light: #404040;

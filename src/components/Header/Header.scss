@@ -35,7 +35,7 @@
 		transition: all 0.2s;
 
 		&:hover {
-			background-color: #2395f1;
+			background-color: var(--app-brand);
 		}
 
 		.href {
@@ -152,12 +152,12 @@
 			}
 
 			.anticon.active {
-				color: #2395f1;
+				color: var(--app-brand);
 			}
 
 			&:hover {
 				.dropdown-link {
-					color: #2395f1;
+					color: var(--app-brand);
 				}
 			}
 

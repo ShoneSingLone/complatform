@@ -14,7 +14,7 @@ html {
 }
 
 ::selection {
-	background-color: #2395f1;
+	background-color: var(--app-brand);
 }
 
 /* 设置滚动条的样式 */
@@ -151,7 +151,7 @@ em {
 
 .panel-title {
 	margin-bottom: 0.16rem;
-	border-left: 3px solid #2395f1;
+	border-left: 3px solid var(--app-brand);
 	padding-left: 8px;
 
 	.title {
@@ -262,7 +262,7 @@ em {
 	color: #56b2fd;
 
 	&:hover {
-		color: #2395f1;
+		color: var(--app-brand);
 	}
 }
 

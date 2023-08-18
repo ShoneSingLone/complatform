@@ -1,6 +1,6 @@
 $imgUrl: "../../../static/image/";
 $color-grey: #e5e5e5;
-$color-blue: #2395f1;
+$color-blue: var(--app-brand);
 $color-white: #fff;
 
 .intro-container {

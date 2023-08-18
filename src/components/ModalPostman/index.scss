@@ -20,7 +20,7 @@
 		}
 		.mock-checked {
 			color: #fff;
-			background-color: #2395f1;
+			background-color: var(--app-brand);
 			width: 100%;
 		}
 		.row {
@@ -32,7 +32,7 @@
 
 		.checked {
 			color: #fff;
-			background-color: #2395f1;
+			background-color: var(--app-brand);
 		}
 	}
 	.modal-postman-expression,
@@ -65,7 +65,7 @@
 	}
 
 	.title {
-		border-left: 3px solid #2395f1;
+		border-left: 3px solid var(--app-brand);
 		padding-left: 8px;
 	}
 
@@ -102,7 +102,7 @@
 	}
 
 	.show-more {
-		color: #2395f1;
+		color: var(--app-brand);
 		padding-left: 8px;
 		cursor: pointer;
 	}
@@ -130,7 +130,7 @@
 		}
 
 		.expression-item {
-			color: #2395f1;
+			color: var(--app-brand);
 		}
 	}
 

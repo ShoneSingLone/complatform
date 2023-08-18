@@ -8,7 +8,7 @@ import InsideSaveOutlined from "../../assets/svg/SaveOutlined.svg";
 import InsideSearchOutlined from "../../assets/svg/SearchOutlined.svg";
 import InsideSyncOutlined from "../../assets/svg/SyncOutlined.svg";
 import InsideUploadOutlined from "../../assets/svg/UploadOutlined.svg";
-import Insidetips from "../../assets/svg/tips.svg";
+import insideTips from "../../assets/svg/tips.svg";
 import InsideEmpty from "../../assets/svg/empty.svg";
 import InsideCopy from "../../assets/svg/copy.svg";
 import insideSettingOutlined from "../../assets/svg/SettingOutlined.svg";
@@ -27,7 +27,7 @@ const insideIcons = {
 	InsideSearchOutlined,
 	InsideSyncOutlined,
 	InsideUploadOutlined,
-	Insidetips,
+	insideTips,
 	InsideEmpty,
 	InsideCopy,
 	insideSettingOutlined,

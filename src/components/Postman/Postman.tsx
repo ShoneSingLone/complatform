@@ -654,7 +654,7 @@ ${JSON.stringify(result.header, null, 2)}
 							<Option
 								value="环境配置"
 								disabled
-								style={{ cursor: "pointer", color: "#2395f1" }}>
+								style={{ cursor: "pointer", color: "var(--app-brand)" }}>
 								<ElButton type="primary" onClick={this.showEnvModal}>
 									环境配置
 								</ElButton>
