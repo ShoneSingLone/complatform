@@ -15,8 +15,7 @@ export default defineComponent({
 	data(vm) {
 		return {
 			oldComponent: "",
-			ComponentInstance: "",
-			_modelValue: ""
+			ComponentInstance: ""
 		};
 	},
 	methods: {
@@ -31,19 +30,15 @@ export default defineComponent({
 			this.ComponentInstance = ComponentInstance;
 		}
 	},
-	watch: {
-		"properties.value"(value) {
-			if (value !== undefined) {
-				if (value !== this._modelValue) {
-					this._modelValue = value;
-				}
+	computed: {
+		_modelValue: {
+			get() {
+				return this.properties.value;
+			},
+			set(val) {
+				this.listeners["onEmitItemValue"](val);
 			}
 		},
-		_modelValue(modelValue) {
-			this.listeners["onEmitItemValue"](modelValue);
-		}
-	},
-	computed: {
 		component({ properties }) {
 			if (!this.ComponentInstance) {
 				this.diffComponent("ElInput");

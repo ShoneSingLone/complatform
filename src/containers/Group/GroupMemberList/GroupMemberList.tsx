@@ -13,6 +13,7 @@ import {
 	isItemInvalid
 } from "@ventose/ui";
 import ViewAddMember from "./ViewAddMember.vue";
+import { ADMIN, DEV, OWNER } from "@/utils/variable";
 
 const { $t } = State_UI;
 
@@ -59,7 +60,7 @@ export const GroupMemberList = defineComponent({
 	methods: {
 		initTableColumns() {
 			const vm = this;
-			const isAuth = ["owner", "admin"].includes(vm.State_App.currGroup.role);
+			const isAuth = [OWNER, ADMIN].includes(vm.State_App.currGroup.role);
 			this.configs_table.columns = {
 				...defCol({
 					prop: "name",
@@ -127,8 +128,8 @@ export const GroupMemberList = defineComponent({
 											vm.changeUserRole({ member_uid: record.uid, role });
 										}}
 										options={[
-											{ label: "组长", value: "owner" },
-											{ label: "开发者", value: "dev" },
+											{ label: "组长", value: OWNER },
+											{ label: "开发者", value: DEV },
 											{ label: "访客", value: "guest" }
 										]}></ElSelect>
 									<xButton configs={configs.deleteBtn} />
@@ -226,10 +227,10 @@ export const GroupMemberList = defineComponent({
 		let devinfo = [];
 		let guestinfo = [];
 		for (let i = 0; i < userinfo.length; i++) {
-			if (userinfo[i].role === "owner") {
+			if (userinfo[i].role === OWNER) {
 				ownerinfo.push(userinfo[i]);
 			}
-			if (userinfo[i].role === "dev") {
+			if (userinfo[i].role === DEV) {
 				devinfo.push(userinfo[i]);
 			}
 			if (userinfo[i].role === "guest") {

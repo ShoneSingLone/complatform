@@ -34,7 +34,7 @@ export const DialogAddGroup = defineComponent({
 				}),
 				owner_uids: defItem({
 					itemType: ItemUAC,
-					value: "",
+					value: [],
 					label: $t("组长").label,
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
@@ -62,7 +62,7 @@ export const DialogAddGroup = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
-					{JSON.stringify(pickValueFrom(this.formItems))}
+					{/* {JSON.stringify(pickValueFrom(this.formItems))} */}
 					<xForm class="flex vertical" labelStyle={this.styleLabel}>
 						{this.vDomFormItems}
 					</xForm>

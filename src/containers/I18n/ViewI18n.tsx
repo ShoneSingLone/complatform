@@ -20,6 +20,7 @@ import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
 import { ITEM_OPTIONS } from "@/utils/common";
 import { API } from "@/api";
 import { State_App } from "@/state/State_App";
+import { ADMIN } from "@/utils/variable";
 
 export const ViewI18n = defineComponent({
 	setup() {
@@ -88,7 +89,7 @@ export const ViewI18n = defineComponent({
 									},
 									{
 										text: $t("删除").label,
-										isShow: State_App.user.role === "admin",
+										isShow: State_App.user.role === ADMIN,
 										onClick: async () => {
 											vm.deleteI18nRecords([record]);
 										}
@@ -161,7 +162,7 @@ export const ViewI18n = defineComponent({
 			const vm = this;
 			return {
 				text: $t("删除").label,
-				isShow: State_App.user.role === "admin",
+				isShow: State_App.user.role === ADMIN,
 				disabled() {
 					return !xU.isArrayFill(vm.configsI18nTable.selected);
 				},

@@ -11,6 +11,7 @@ import { Cpt_url } from "../../router/router";
 import { API } from "../../api";
 import { Methods_App, State_App } from "../../state/State_App";
 import { GroupMemberList } from "./GroupMemberList/GroupMemberList";
+import { ADMIN, DEV, GUEST, OWNER, PRIVATE } from "@/utils/variable";
 
 /* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 
@@ -95,10 +96,10 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		vDomTabGroupLog() {
-			const isGroupRoleAuth = ["admin", "owner"].includes(
+			const isGroupRoleAuth = [ADMIN, OWNER].includes(
 				this.State_App?.currGroup?.role
 			);
-			const isUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(
+			const isUserRoleAuth = [ADMIN, OWNER, GUEST, DEV].includes(
 				this.State_App.user.role
 			);
 
@@ -145,11 +146,11 @@ export const ViewGroup = defineComponent({
 		},
 		vDomEditIcon() {
 			/*当前用户在当前group的角色是owner*/
-			const isGroupRoleAuth = this.State_App.currGroup.role === "owner";
+			const isGroupRoleAuth = this.State_App.currGroup.role === OWNER;
 			/*超级管理员*/
-			const isUserRoleAuth = this.State_App.user.role === "admin";
+			const isUserRoleAuth = this.State_App.user.role === ADMIN;
 			/*个人空间不可修改*/
-			const isGroupPrivate = this.State_App.currGroup.type === "private";
+			const isGroupPrivate = this.State_App.currGroup.type === PRIVATE;
 
 			if (isGroupPrivate) {
 				return null;
@@ -183,6 +184,13 @@ export const ViewGroup = defineComponent({
 					</div>
 				</div>
 			);
+		},
+		vDomTabProjectList() {
+			return (
+				<ElTabPane label={TAB_KEY_PROJECT_LIST} name={TAB_KEY_PROJECT_LIST}>
+					<GroupProjectList />
+				</ElTabPane>
+			);
 		}
 	},
 	render() {
@@ -203,22 +211,9 @@ export const ViewGroup = defineComponent({
 							v-model={this.tabActiveKey}
 							type="border-card"
 							class="m-tab tabs-large height100">
-							{{
-								default: () => {
-									return (
-										<>
-											{/* 项目列表 */}
-											<ElTabPane
-												label={TAB_KEY_PROJECT_LIST}
-												name={TAB_KEY_PROJECT_LIST}>
-												<GroupProjectList />
-											</ElTabPane>
-											{this.vDomTabMember}
-											{this.vDomTabGroupLog}
-										</>
-									);
-								}
-							}}
+							{this.vDomTabProjectList}
+							{this.vDomTabMember}
+							{this.vDomTabGroupLog}
 						</ElTabs>
 					</div>
 				</section>

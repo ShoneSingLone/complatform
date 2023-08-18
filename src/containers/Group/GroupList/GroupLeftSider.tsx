@@ -13,6 +13,7 @@ import { Methods_App, State_App } from "@/state/State_App";
 import { DialogEditGroup } from "./DialogEditGroup";
 import { DialogAddGroup } from "./DialogAddGroup";
 import { Cpt_url } from "./../../../router/router";
+import { ADMIN, PRIVATE } from "@/utils/variable";
 
 const { $t } = State_UI;
 
@@ -41,7 +42,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 		row,
 		area: (() => {
 			if (isUpdate) {
-				if (State_App.user.role === "admin") {
+				if (State_App.user.role === ADMIN) {
 					return ["840px", "648px"];
 				} else {
 					return ["840px", "448px"];
@@ -227,7 +228,7 @@ export const GroupLeftSider = defineComponent({
 					v-xloading={this.groupListForShow.length === 0}>
 					{xU.map(this.groupListForShow, group => {
 						let icon = "icon_group";
-						if (group.type === "private") {
+						if (group.type === PRIVATE) {
 							icon = "user";
 						}
 						return (

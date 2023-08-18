@@ -1,7 +1,8 @@
 import axios from "axios";
 import { formatTime } from "../../common.js";
-
 import { setBreadcrumb, setImageUrl } from "../../reducer/modules/user";
+import Select from "@/element/ui/xForm/itemRenders/Select.jsx";
+import { ADMIN } from "@/utils/variable.jsx";
 
 const EditButton = props => {
 	const { isAdmin, isOwner, onClick, name, admin } = props;
@@ -230,7 +231,7 @@ class Profile extends Component {
 						<EditButton
 							userType={userType}
 							isOwner={userinfo.uid === this.props.curUid}
-							isAdmin={this.props.curRole === "admin"}
+							isAdmin={this.props.curRole === ADMIN}
 							onClick={this.handleEdit}
 							name="usernameEdit"
 						/>
@@ -276,9 +277,9 @@ class Profile extends Component {
 					{/* 站点登陆才能编辑 */}
 					{userType && (
 						<EditButton
-							admin={userinfo.role === "admin"}
+							admin={userinfo.role === ADMIN}
 							isOwner={userinfo.uid === this.props.curUid}
-							isAdmin={this.props.curRole === "admin"}
+							isAdmin={this.props.curRole === ADMIN}
 							onClick={this.handleEdit}
 							name="emailEdit"
 						/>
@@ -327,7 +328,7 @@ class Profile extends Component {
 					defaultValue={_userinfo.role}
 					onChange={this.changeRole}
 					style={{ width: 150 }}>
-					<Option value="admin">管理员</Option>
+					<Option value=ADMIN>管理员</Option>
 					<Option value="member">会员</Option>
 				</Select>
 			);
@@ -353,7 +354,7 @@ class Profile extends Component {
 					<ElInput
 						style={{
 							display:
-								this.props.curRole === "admin" && userinfo.role != "admin"
+								this.props.curRole === ADMIN && userinfo.role != ADMIN
 									? "none"
 									: ""
 						}}
@@ -429,7 +430,7 @@ class Profile extends Component {
 					</ElRow>
 					<ElRow
 						class="user-item"
-						style={{ display: this.props.curRole === "admin" ? "" : "none" }}
+						style={{ display: this.props.curRole === ADMIN ? "" : "none" }}
 						type="flex"
 						justify="start">
 						<div class="maoboli" />
@@ -438,7 +439,7 @@ class Profile extends Component {
 					</ElRow>
 					<ElRow
 						class="user-item"
-						style={{ display: this.props.curRole === "admin" ? "" : "none" }}
+						style={{ display: this.props.curRole === ADMIN ? "" : "none" }}
 						type="flex"
 						justify="start">
 						<div class="maoboli" />

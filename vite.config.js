@@ -79,7 +79,8 @@ const appOptions = {
 			"@ventose/ui": path.resolve(__dirname, "./src/element/ui"),
 			vue: "vue/dist/vue.esm-bundler.js"
 		}
-	}
+	},
+	/* 	css: { preprocessorOptions: { scss: { additionalData: `@use "element-plus/styles/element/index.scss" as *;`, }, }, },  */
 };
 
 

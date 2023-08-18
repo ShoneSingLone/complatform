@@ -1,3 +1,4 @@
+import { ADMIN } from "@/utils/variable.jsx";
 import { formatTime } from "../../common.js";
 
 import { setBreadcrumb } from "../../reducer/modules/user";
@@ -130,7 +131,7 @@ class List extends Component {
 	render() {
 		const role = this.props.State_App.user.role;
 		let data = [];
-		if (role === "admin") {
+		if (role === ADMIN) {
 			data = this.state.data;
 		}
 		let columns = [
@@ -190,7 +191,7 @@ class List extends Component {
 		];
 
 		columns = columns.filter(item => {
-			if (item.key === "action" && role !== "admin") {
+			if (item.key === "action" && role !== ADMIN) {
 				return false;
 			}
 			return true;

@@ -165,7 +165,6 @@ export const ViewUserProfile = defineComponent({
 								</ElUpload>
 							</div>
 						</div>
-
 						<xGap t="10" />
 						<xItem configs={configsForm.uid} />
 						<xGap t="10" />

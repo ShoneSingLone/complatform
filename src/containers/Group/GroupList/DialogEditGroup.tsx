@@ -13,6 +13,7 @@ import { Methods_App, State_App } from "@/state/State_App";
 
 import { API } from "../../../api";
 import { Cpt_url } from "../../../router/router";
+import { ADMIN } from "@/utils/variable";
 
 const { xItem } = components;
 
@@ -51,7 +52,7 @@ export const DialogEditGroup = defineComponent({
 		vDomDeleteGroup() {
 			const vm = this;
 			/* 只有超级管理员能删除分组 */
-			if (State_App.user.role === "admin") {
+			if (State_App.user.role === ADMIN) {
 				return (
 					<ElAlert
 						type="warning"

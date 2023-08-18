@@ -11,13 +11,13 @@ import {
 } from "@ventose/ui";
 import { API } from "../../../api";
 import optionsXIcon from "@/utils/common.options.xIcon";
-import { PROJECT_COLOR, PROJECT_ICON } from "@/utils/variable";
+import { ADMIN, DEV, OWNER, PRIVATE, PROJECT_COLOR, PROJECT_ICON } from "@/utils/variable";
 import { Methods_App, State_App } from "@/state/State_App";
 import { FormRules } from "@/utils/common.FormRules";
 import { _$handlePath, _$randomValueAndProp } from "@/utils/common";
 
 export const xItem_ProjectType = (options: any = {}) => {
-	const value = options.value || "private";
+	const value = options.value || PRIVATE;
 	return {
 		value,
 		itemType: "RadioGroup",
@@ -33,7 +33,7 @@ export const xItem_ProjectType = (options: any = {}) => {
 						</span>
 					</ElTooltip>
 				),
-				value: "private"
+				value: PRIVATE
 			},
 			{
 				label: (
@@ -73,7 +73,7 @@ export const xItem_ProjectGroupId = (options: any = {}, vm) => {
 			return {
 				label: i.group_name,
 				value: String(i._id),
-				disabled: !["dev", "owner", "admin"].includes(i.role)
+				disabled: ![DEV, OWNER, ADMIN].includes(i.role)
 			};
 		}),
 		rules: [FormRules.required("请选择项目所属的分组!")]

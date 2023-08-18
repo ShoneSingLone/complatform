@@ -7,6 +7,7 @@ import { Methods_App, State_App } from "@/state/State_App";
 import { UI, xU } from "@ventose/ui";
 import { Cpt_url } from "../../../router/router";
 import { DialogAddProject } from "../AddProject/DialogAddProject";
+import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
 
 export const GroupProjectList = defineComponent({
 	setup() {
@@ -93,7 +94,7 @@ export const GroupProjectList = defineComponent({
 			);
 		},
 		vDomSpaceProject() {
-			if (this.State_App.currGroup.type === "private") {
+			if (this.State_App.currGroup.type === PRIVATE) {
 				/*私有项目*/
 				return this.vDomOwnerSpace;
 			} else {
@@ -114,12 +115,12 @@ export const GroupProjectList = defineComponent({
 			return this.State_App.projectList;
 		},
 		isAuthAddProject() {
-			const isGroupRoleAuth = ["admin", "owner"].includes(
+			const isGroupRoleAuth = [ADMIN, OWNER].includes(
 				this.State_App?.currGroup?.role
 			);
 			const _isShow =
 				isGroupRoleAuth ||
-				["admin", "owner"].includes(this.State_App.user.role);
+				[ADMIN, OWNER].includes(this.State_App.user.role);
 			if (!_isShow) {
 				xU("isAuthAddProject", this.State_App.user.role);
 			}

@@ -3,6 +3,7 @@ import { computed, ComputedRef } from "vue";
 import { setDocumentTitle, State_UI, xU } from "@ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
 import { Methods_App, State_App } from "../state/State_App";
+import { PRIVATE } from "@/utils/variable";
 
 const { $t } = State_UI;
 /* const LazyComponent = (componentName, componentPath) => ({
@@ -47,7 +48,7 @@ export const routes = [
 	wiki("all", "文档-所有人可见"),
 	wiki("group", "文档-分组"),
 	wiki("project", "项目文档"),
-	wiki("private", "个人文档"),
+	wiki(PRIVATE, "个人文档"),
 	{
 		path: `/i18n`,
 		componentName: "ViewI18n",

@@ -1,5 +1,10 @@
 import { State_UI } from "@ventose/ui";
 
+export const GUEST = "guest";
+export const DEV = "dev";
+export const ADMIN = "admin";
+export const PRIVATE = "private";
+export const OWNER = "owner";
 export const ALL = "ALL";
 export const FOLDER = "folder";
 export const ARTICLE = "article";

@@ -10,42 +10,49 @@ import { API } from "@/api";
 export const ItemUAC = defineComponent({
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	data() {
-		return {
-			state: {
-				dataSource: [],
-				fetching: false
+		this.doSearch = xU.debounce(async params => {
+			try {
+				const { data } = await API.user.searchUser(params);
+				this.optionArray = data;
+			} catch (error) {
+				console.error(error);
+			} finally {
+				this.isFetching = false;
 			}
+		}, 600);
+		return {
+			optionArray: [],
+			isFetching: false
 		};
 	},
+	mounted() {
+		this.doSearch();
+	},
 	methods: {
-		doSearch: xU.debounce(function (params) {
-			debugger;
-			API.user
-				.searchUser(params)
-				.then(({ data }) => {
-					debugger;
-					let userList = [];
-					if (xU.isArrayFill(data)) {
-						// 取回搜索值后，设置 dataSource
-						userList = xU.map(data, v => {
-							return {
-								username: v.username,
-								id: v.uid
-							};
-						});
-					}
-					this.state.dataSource = userList;
-				})
-				.finally(() => {
-					this.state.fetching = false;
-				});
-		}, 600),
 		// 搜索回调
 		onSearch(value) {
-			if (!value) return;
 			const params = { q: value };
-			this.state.fetching = true;
+			this.isFetching = true;
 			this.doSearch(params);
+		}
+	},
+	computed: {
+		_modelValue: {
+			get() {
+				return this.properties.value;
+			},
+			set(val) {
+				this.listeners["onEmitItemValue"](val);
+			}
+		},
+		selectOptionsVNode() {
+			return xU.map(this.optionArray, ({ username, uid }) => {
+				return (
+					<ElOption key={uid} value={uid} label={username}>
+						{username}
+					</ElOption>
+				);
+			});
 		}
 	},
 	render() {
@@ -55,11 +62,11 @@ export const ItemUAC = defineComponent({
 				filterable
 				remote
 				remote-show-suffix
-				v-model={this.value}
+				v-model={this._modelValue}
 				remoteMethod={this.onSearch}
 				style={{ width: "100%" }}
 				placeholder="请输入用户名">
-				{this.children}
+				{this.selectOptionsVNode}
 			</ElSelect>
 		);
 	}

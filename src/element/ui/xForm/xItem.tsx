@@ -44,13 +44,13 @@ export const TIPS_TYPE = {
 };
 
 /**
- * 校验表单
+ * 校验表单是否！未成功通过校验
  * @export
  * @param {string} [selector=""] 可转换成jQuery对象
- * @1jQuery可用的选择器字符串 
- * @2直接用DOM 
- * @3Vue组件实例 this.$el 带有$el 
- * @returns 
+ * @1jQuery可用的选择器字符串
+ * @2直接用DOM
+ * @3Vue组件实例 this.$el 带有$el
+ * @returns false为通过校验，没有任何错误提示，否则返回错误项的数组
  */
 export async function isItemInvalid(selector?: any) {
 	let $wrapper = (function () {
@@ -81,19 +81,23 @@ export async function isItemInvalid(selector?: any) {
 
 	await Promise.all(
 		xU.map($target, async dom => {
-			const xItemId = dom.id;
-			const vm = X_ITEM_COLLECTION[xItemId];
-			const msg = await vm.validate();
-
-			if (msg) {
-				errorArray.push([msg, vm]);
+			try {
+				const xItemId = dom.id;
+				const vm = X_ITEM_COLLECTION[xItemId];
+				const msg = await vm.validate();
+				if (msg) {
+					errorArray.push([msg, vm]);
+				}
+			} catch (error) {
+				console.error(error);
 			}
 		})
 	);
-	if (errorArray.length > 0) {
+
+	if (xU.isArrayFill(errorArray)) {
 		return errorArray;
 	} else {
-		return "";
+		return false;
 	}
 }
 

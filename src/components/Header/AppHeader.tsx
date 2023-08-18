@@ -7,6 +7,7 @@ import { UI, xU } from "@ventose/ui";
 import { Cpt_avatarUrl, Methods_App, State_App } from "@/state/State_App";
 import { Cpt_url, aHashLink } from "@/router/router";
 import { API } from "@/api";
+import { ADMIN } from "@/utils/variable";
 
 export const AppHeader = defineComponent({
 	props: [
@@ -162,7 +163,7 @@ export const AppHeader = defineComponent({
 							}
 						},
 						(item, key) => {
-							const isAdmin = role === "admin";
+							const isAdmin = role === ADMIN;
 
 							if (item.adminFlag && !isAdmin) {
 								return null;
