@@ -5,7 +5,7 @@ import { State_App } from "../../state/State_App";
 export const DialogShowApiModify = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -17,7 +17,7 @@ export const DialogShowApiModify = defineComponent({
 	},
 	computed: {
 		propDiffView() {
-			return this.propDialogOptions?.diffView || [];
+			return this.propOptions?.diffView || [];
 		},
 		vDomContentItem() {
 			if (this.propDiffView.length === 0) {

@@ -31,7 +31,7 @@ import {
 export default defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -43,11 +43,11 @@ export default defineComponent({
 			if (!(await isItemInvalid())) {
 				const { name, icon } = pickValueFrom(this.formItems);
 				try {
-					await this.propDialogOptions.copyProject({
+					await this.propOptions.copyProject({
 						newProjectName: name,
 						icon
 					});
-					this.propDialogOptions.closeDialog();
+					this.propOptions.closeDialog();
 				} catch (error) {
 					console.error(error);
 					UI.message.error("复制失败");
@@ -59,12 +59,12 @@ export default defineComponent({
 	},
 	computed: {
 		propProjectName() {
-			return String(this.propDialogOptions?.projectName || "");
+			return String(this.propOptions?.projectName || "");
 		},
 		dialogDefautBtn() {
 			return {
 				textOk: this.$t("复制").label,
-				onCancel: this.propDialogOptions.closeDialog,
+				onCancel: this.propOptions.closeDialog,
 				onOk: this.onOk
 			};
 		}
@@ -80,7 +80,7 @@ export default defineComponent({
 						appendRules: [
 							newRule({
 								validator(value, { configs, rule }) {
-									if (value === vm.propDialogOptions.projectName) {
+									if (value === vm.propOptions.projectName) {
 										rule.msg = "不能与原项目名相同";
 										return FormRules.FAIL;
 									} else {

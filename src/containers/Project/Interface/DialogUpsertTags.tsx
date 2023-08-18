@@ -23,7 +23,7 @@ function genTag(name, desc, index) {
 export const DialogUpsertTags = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -139,7 +139,7 @@ export const DialogUpsertTags = defineComponent({
 					isEnforce: true
 				});
 				UI.message.success("Tag修改成功");
-				this.propDialogOptions.closeDialog();
+				this.propOptions.$close();
 			}
 		}
 	},
@@ -175,7 +175,7 @@ export const DialogUpsertTags = defineComponent({
 					<xButton
 						configs={{
 							preset: "cancel",
-							onClick: this.propDialogOptions.closeDialog
+							onClick: this.propOptions.$close
 						}}
 					/>
 					<xButton configs={{ preset: "save", onClick: this.onOk }} />

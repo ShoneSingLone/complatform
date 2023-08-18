@@ -19,7 +19,7 @@ import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_P
 export const DialogUpdatePwd = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -72,13 +72,13 @@ export const DialogUpdatePwd = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 		this.initForm();
 	},
 	computed: {
 		category() {
-			if (this.propDialogOptions.category) {
-				return this.propDialogOptions.category;
+			if (this.propOptions.category) {
+				return this.propOptions.category;
 			} else {
 				return false;
 			}
@@ -101,7 +101,7 @@ export const DialogUpdatePwd = defineComponent({
 						await this.insertNewCategory({ name, desc, project_id });
 					}
 					Methods_ProjectInterface.updateInterfaceMenuList();
-					this.propDialogOptions.closeDialog();
+					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {
 						UI.message.error(this.$t("修改_失败", { title: "分类" }).label);
@@ -158,7 +158,7 @@ export const DialogUpdatePwd = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

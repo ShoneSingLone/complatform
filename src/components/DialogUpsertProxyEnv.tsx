@@ -22,7 +22,7 @@ import { diff } from "jsondiffpatch";
 export const DialogUpsertProxyEnv = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -430,7 +430,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 					configs={{
 						textOk: this.$t("暂存").label,
 						onOk: this.onOk,
-						onCancel: this.propDialogOptions.closeDialog
+						onCancel: this.propOptions.$close
 					}}
 				/>
 			</>

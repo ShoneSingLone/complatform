@@ -10,7 +10,7 @@ import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_P
 export const DialogInterfaceProxyModify = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -60,13 +60,13 @@ export const DialogInterfaceProxyModify = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 		this.initForm();
 	},
 	computed: {
 		category() {
-			if (this.propDialogOptions.category) {
-				return this.propDialogOptions.category;
+			if (this.propOptions.category) {
+				return this.propOptions.category;
 			} else {
 				return false;
 			}
@@ -79,7 +79,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 			}
 		},
 		async onOk() {
-			const { selected } = this.propDialogOptions;
+			const { selected } = this.propOptions;
 			if (!(await isItemInvalid())) {
 				const { isProxy, witchEnv } = pickValueFrom(this.dataXItem);
 				try {
@@ -89,7 +89,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 						)
 					);
 					Methods_ProjectInterface.updateInterfaceMenuList();
-					this.propDialogOptions.closeDialog();
+					this.propOptions.$close();
 					UI.message.success(this.$t("修改_成功", { title: "代理" }).label);
 				} catch (error) {
 					UI.message.error(this.$t("修改_失败", { title: "代理" }).label);
@@ -113,7 +113,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

@@ -7,7 +7,7 @@ import { Cpt_url } from "@/router/router";
 export const DialogImportI18nJSON = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -25,7 +25,7 @@ export const DialogImportI18nJSON = defineComponent({
 		configsBtnCancel() {
 			return {
 				preset: "cancel",
-				onClick: this.propDialogOptions.closeDialog
+				onClick: this.propOptions.$close
 			};
 		},
 		configsBtnUpdateExistedRecord() {
@@ -53,7 +53,7 @@ export const DialogImportI18nJSON = defineComponent({
 					this.showCoverExistedConfirm(data);
 				} else {
 					await stateI18n._$updateList();
-					this.propDialogOptions.closeDialog();
+					this.propOptions.$close();
 				}
 			} catch (error) {
 				xU(error);
@@ -140,7 +140,7 @@ export const DialogImportI18nJSON = defineComponent({
 			});
 
 			this.isShowCoverView = true;
-			this.$nextTick(() => this.propDialogOptions.instanceDialog.offset());
+			this.$nextTick(() => this.propOptions.dialogInst.offset());
 		},
 		async onCoverExisted() {
 			try {
@@ -157,7 +157,7 @@ export const DialogImportI18nJSON = defineComponent({
 				await API.god.upsertI18nRecordMany(params);
 				UI.message.success(`修改记录成功`);
 				await stateI18n._$updateList();
-				this.propDialogOptions.closeDialog();
+				this.propOptions.$close();
 			} catch (error) {
 				xU(error);
 			}

@@ -9,7 +9,7 @@ import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_P
 export const DialogInterfaceStatusModify = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -32,13 +32,13 @@ export const DialogInterfaceStatusModify = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 		this.initForm();
 	},
 	computed: {
 		category() {
-			if (this.propDialogOptions.category) {
-				return this.propDialogOptions.category;
+			if (this.propOptions.category) {
+				return this.propOptions.category;
 			} else {
 				return false;
 			}
@@ -51,7 +51,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 			}
 		},
 		async onOk() {
-			const { selected } = this.propDialogOptions;
+			const { selected } = this.propOptions;
 			if (!(await isItemInvalid())) {
 				const { status } = pickValueFrom(this.dataXItem);
 				try {
@@ -59,7 +59,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 						xU.map(selected, id => API.project.updateInterface({ id, status }))
 					);
 					Methods_ProjectInterface.updateInterfaceMenuList();
-					this.propDialogOptions.closeDialog();
+					this.propOptions.$close();
 					UI.message.success(this.$t("修改_成功", { title: "状态" }).label);
 				} catch (error) {
 					UI.message.error(this.$t("修改_失败", { title: "状态" }).label);
@@ -88,7 +88,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

@@ -28,7 +28,7 @@ export const DialogEditGroup = defineComponent({
 	},
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -37,7 +37,7 @@ export const DialogEditGroup = defineComponent({
 	},
 	computed: {
 		row() {
-			return this.propDialogOptions?.row || {};
+			return this.propOptions?.row || {};
 		},
 		vDomFormItems() {
 			return xU.map(this.formItems, (item, prop) => {
@@ -105,11 +105,11 @@ export const DialogEditGroup = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: () => {
-							this.propDialogOptions.onOk({
+							this.propOptions.onOk({
 								formItems: this.formItems,
-								closeDialog: this.propDialogOptions.closeDialog
+								closeDialog: this.propOptions.$close
 							});
 						}
 					}}
@@ -216,7 +216,7 @@ export const DialogEditGroup = defineComponent({
 							return reject();
 						} else {
 							await vm.deleteGroup();
-							vm.propDialogOptions?.close();
+							vm.propOptions?.close();
 							return resolve("");
 						}
 					});
@@ -236,6 +236,6 @@ export const DialogEditGroup = defineComponent({
 	},
 	mounted() {
 		this.init();
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 	}
 });

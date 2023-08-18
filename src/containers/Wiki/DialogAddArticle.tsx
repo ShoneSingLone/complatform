@@ -24,7 +24,7 @@ import { ARTICLE } from "@/utils/variable";
 export const DialogAddArticle = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -49,15 +49,15 @@ export const DialogAddArticle = defineComponent({
 	},
 	computed: {
 		pid() {
-			const _id = this.propDialogOptions.parentDoc?._id;
+			const _id = this.propOptions.parentDoc?._id;
 			return _id || 0;
 		},
 		belong_type() {
-			return this.propDialogOptions.belong_type || "all";
+			return this.propOptions.belong_type || "all";
 		}
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 	},
 	methods: {
 		async onOk() {
@@ -85,7 +85,7 @@ export const DialogAddArticle = defineComponent({
 						UI.message.success("添加文档成功");
 						Methods_Wiki.updateWikiMenuList();
 						Methods_Wiki.clickWiki({ wiki_id: data.msg._id });
-						this.propDialogOptions.closeDialog();
+						this.propOptions.$close();
 					}
 				} catch (error) {
 					UI.message.error(error || "添加失败");
@@ -120,7 +120,7 @@ export const DialogAddArticle = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

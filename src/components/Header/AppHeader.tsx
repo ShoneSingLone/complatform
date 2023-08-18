@@ -65,7 +65,7 @@ export const AppHeader = defineComponent({
 				{ content: "我的关注", path: "/follow", icon: "icon_我的关注" },
 				{ content: "新建项目", path: "/follow", icon: "icon_新建项目" },
 				{
-					content: "使用文档",
+					content: "使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档使用文档",
 					href: "https://hellosean1025.github.io/yapi",
 					icon: "icon_使用文档"
 				}

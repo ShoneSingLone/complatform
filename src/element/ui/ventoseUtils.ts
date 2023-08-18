@@ -152,6 +152,16 @@ const privateLodash = {
 		VueComponents[url] = component;
 		return { ...VueComponents[url] };
 	},
+	_$toStyle(obj) {
+		return xU.reduce(
+			obj,
+			(styleString, value, key) => {
+				styleString += `${key}:${value};`;
+				return styleString;
+			},
+			""
+		);
+	},
 	_$appendStyle(id, content) {
 		id = _.camelCase(id);
 		let $style = $(`#${id}`);

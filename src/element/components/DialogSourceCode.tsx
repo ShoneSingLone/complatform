@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 export const DialogSourceCode = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -13,7 +13,7 @@ export const DialogSourceCode = defineComponent({
 	render() {
 		return (
 			<div class="padding20">
-				<mkit md={this.propDialogOptions.code} />
+				<mkit md={this.propOptions.code} />
 			</div>
 		);
 	}

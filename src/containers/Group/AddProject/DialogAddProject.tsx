@@ -11,7 +11,15 @@ import {
 } from "@ventose/ui";
 import { API } from "../../../api";
 import optionsXIcon from "@/utils/common.options.xIcon";
-import { ADMIN, DEV, OWNER, PRIVATE, PROJECT_COLOR, PROJECT_ICON } from "@/utils/variable";
+import {
+	ADMIN,
+	DEV,
+	OWNER,
+	PRIVATE,
+	PROJECT_COLOR,
+	PROJECT_ICON,
+	PUBLIC
+} from "@/utils/variable";
 import { Methods_App, State_App } from "@/state/State_App";
 import { FormRules } from "@/utils/common.FormRules";
 import { _$handlePath, _$randomValueAndProp } from "@/utils/common";
@@ -44,7 +52,7 @@ export const xItem_ProjectType = (options: any = {}) => {
 						</span>
 					</ElTooltip>
 				),
-				value: "public"
+				value: PUBLIC
 			}
 		]
 	};
@@ -196,7 +204,7 @@ const formItemLayout = {
 export const DialogAddProject = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -211,7 +219,7 @@ export const DialogAddProject = defineComponent({
 		return {
 			dataXItem: {
 				projectGroupId: defItem(
-					xItem_ProjectGroupId({ value: vm.propDialogOptions.groupId }, vm)
+					xItem_ProjectGroupId({ value: vm.propOptions.groupId }, vm)
 				),
 				projectName: defItem(xItem_ProjectName()),
 				projectIcon: defItem(xItem_ProjectIcon()),
@@ -281,12 +289,12 @@ export const DialogAddProject = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: async () => {
 							const res = await this.submit();
 							if (res) {
-								this.propDialogOptions.updateProjectList();
-								this.propDialogOptions.closeDialog();
+								this.propOptions.updateProjectList();
+								this.propOptions.$close();
 							}
 						}
 					}}

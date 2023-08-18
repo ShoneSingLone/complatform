@@ -11,19 +11,20 @@ import { Cpt_url } from "../../router/router";
 import { API } from "../../api";
 import { Methods_App, State_App } from "../../state/State_App";
 import { GroupMemberList } from "./GroupMemberList/GroupMemberList";
-import { ADMIN, DEV, GUEST, OWNER, PRIVATE } from "@/utils/variable";
+import {
+	ADMIN,
+	DEV,
+	GUEST,
+	OWNER,
+	PRIVATE,
+	PUBLIC,
+	TAB_KEY_ARRAY,
+	TAB_KEY_GROUP_LOG,
+	TAB_KEY_MEMBER_LIST,
+	TAB_KEY_PROJECT_LIST
+} from "@/utils/variable";
 
 /* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
-
-const TAB_KEY_PROJECT_LIST = "项目列表";
-const TAB_KEY_MEMBER_LIST = "成员列表";
-const TAB_KEY_GROUP_LOG = "分组动态";
-
-const TAB_KEY_ARRAY = [
-	TAB_KEY_PROJECT_LIST,
-	TAB_KEY_MEMBER_LIST,
-	TAB_KEY_GROUP_LOG
-];
 
 export const ViewGroup = defineComponent({
 	setup() {
@@ -84,7 +85,7 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		vDomTabMember() {
-			if (this.State_App.currGroup.type === "public") {
+			if (this.State_App.currGroup.type === PUBLIC) {
 				return (
 					/* "成员列表" */
 					<ElTabPane name={TAB_KEY_MEMBER_LIST} label={TAB_KEY_MEMBER_LIST}>
@@ -96,14 +97,10 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		vDomTabGroupLog() {
-			const isGroupRoleAuth = [ADMIN, OWNER].includes(
+			const isGroupRoleAuth = [ADMIN, OWNER, DEV].includes(
 				this.State_App?.currGroup?.role
 			);
-			const isUserRoleAuth = [ADMIN, OWNER, GUEST, DEV].includes(
-				this.State_App.user.role
-			);
-
-			if (isGroupRoleAuth || isUserRoleAuth) {
+			if (isGroupRoleAuth) {
 				return (
 					/* 分组动态 */
 					<ElTabPane name={TAB_KEY_GROUP_LOG} label={TAB_KEY_GROUP_LOG}>
@@ -121,69 +118,6 @@ export const ViewGroup = defineComponent({
 				overflow: "initial",
 				backgroundColor: "#fff"
 			};
-		},
-		vDomGroupName() {
-			let _vDomGroupName = (
-				<div class="name">{this.State_App.currGroup.group_name}</div>
-			);
-
-			if (this.State_App.currGroup.group_desc) {
-				return (
-					<ElPopover trigger="hover">
-						{{
-							content: () => (
-								<p style={{ maxWidth: "600px" }}>
-									{this.State_App.currGroup.group_desc}
-								</p>
-							),
-							default: () => _vDomGroupName
-						}}
-					</ElPopover>
-				);
-			} else {
-				return _vDomGroupName;
-			}
-		},
-		vDomEditIcon() {
-			/*当前用户在当前group的角色是owner*/
-			const isGroupRoleAuth = this.State_App.currGroup.role === OWNER;
-			/*超级管理员*/
-			const isUserRoleAuth = this.State_App.user.role === ADMIN;
-			/*个人空间不可修改*/
-			const isGroupPrivate = this.State_App.currGroup.type === PRIVATE;
-
-			if (isGroupPrivate) {
-				return null;
-			}
-
-			if (isGroupRoleAuth || isUserRoleAuth) {
-				return (
-					<xIcon
-						class="btn editSet pointer"
-						icon="edit"
-						onClick={() =>
-							this.fnShowUpsertGroupDialog(this.State_App.currGroup)
-						}
-						v-uiPopover={{
-							content: "修改分组信息",
-							placement: "bottom",
-							delay: 1500
-						}}
-						style="width:16px;"
-					/>
-				);
-			}
-		},
-		vDomEditGroupInfo() {
-			/* TODO: 权限校验 */
-			return (
-				<div class="curr-group-name">
-					<div class="curr-group-name_title elevation-1">
-						{this.vDomGroupName}
-						{this.vDomEditIcon}
-					</div>
-				</div>
-			);
 		},
 		vDomTabProjectList() {
 			return (

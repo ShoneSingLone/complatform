@@ -1,11 +1,26 @@
 import { State_UI } from "@ventose/ui";
 
+export const TAB_KEY_PROJECT_LIST = "项目列表";
+export const TAB_KEY_MEMBER_LIST = "成员列表";
+export const TAB_KEY_GROUP_LOG = "分组动态";
+
+export const TAB_KEY_ARRAY = [
+	TAB_KEY_PROJECT_LIST,
+	TAB_KEY_MEMBER_LIST,
+	TAB_KEY_GROUP_LOG
+];
+
+/* type */
+export const PUBLIC = "public";
+
+/* role */
 export const GUEST = "guest";
 export const DEV = "dev";
 export const ADMIN = "admin";
 export const PRIVATE = "private";
 export const OWNER = "owner";
 export const ALL = "ALL";
+/* role */
 export const FOLDER = "folder";
 export const ARTICLE = "article";
 export const GET = "GET";

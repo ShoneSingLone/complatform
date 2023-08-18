@@ -49,10 +49,10 @@ export const group = {
 			data
 		});
 	},
-	getMyGroupList() {
+	mine() {
 		return ajax({
 			method: "get",
-			url: "/api/group/list"
+			url: "/api/group/mine"
 		});
 	},
 	getMyGroupBy(groupId) {

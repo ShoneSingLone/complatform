@@ -21,7 +21,7 @@ import { Cpt_url } from "../../../router/router";
 export const DialogAddInterface = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -55,8 +55,8 @@ export const DialogAddInterface = defineComponent({
 					once() {
 						this.options = State_ProjectInterface.allCategory;
 						/* 默认在点击的分类下添加新接口 */
-						if (vm.propDialogOptions.categoryId) {
-							this.value = vm.propDialogOptions.categoryId;
+						if (vm.propOptions.categoryId) {
+							this.value = vm.propOptions.categoryId;
 						} else {
 							this.value = xU.first(this.options).value;
 						}
@@ -87,13 +87,13 @@ export const DialogAddInterface = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 	},
 	methods: {
 		async onOk() {
 			if (!(await isItemInvalid())) {
 				const { catid, title, path } = pickValueFrom(this.dataXItem);
-				const { projectId, closeDialog } = this.propDialogOptions;
+				const { projectId, closeDialog } = this.propOptions;
 				try {
 					const { data } = await API.project.addInterface({
 						project_id: projectId,
@@ -145,7 +145,7 @@ export const DialogAddInterface = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

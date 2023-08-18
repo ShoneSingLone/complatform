@@ -29,9 +29,10 @@ export type t_dialogOptions = {
 	component: object;
 	area?: string[];
 	/* layer 索引，用于layer close */
-	_IDDialog?: number;
+	_dialogID?: number;
+	fullscreen?: boolean;
 	/*关闭方法*/
-	closeDialog?: Function;
+	$close?: Function;
 	/* hook: 完成组件首次加载 */
 	onAfterOpenDialoag?: Function;
 	onBeforeClose?: Function;
@@ -111,19 +112,20 @@ export const installUIDialogComponent = (
 			const { component: BussinessComponent, title, area } = dialogOptions;
 			const id = xU.genId("xDialog");
 			let $container = $("<div/>", { id });
-			const _IDDialog = `#${id}`;
+			const _dialogID = `#${id}`;
+
 			/* FIXED: */
 			if (dialogOptions.yes) {
 				dialogOptions._yes = dialogOptions.yes;
 				delete dialogOptions.yes;
 			}
 
-			dialogOptions.closeDialog = async () => {
+			dialogOptions.$close = async () => {
 				let isCloseDialog = true;
 				if (dialogOptions.onBeforeClose) {
 					const res = await dialogOptions.onBeforeClose({
 						dialogOptions,
-						_IDDialog: "",
+						_dialogID: "",
 						$eleDialog: ""
 					});
 					if (xU.isBoolean(res) && !res) {
@@ -131,7 +133,7 @@ export const installUIDialogComponent = (
 					}
 				}
 				if (isCloseDialog) {
-					LayerUtils.close(handleEcsPress._IDDialog);
+					LayerUtils.close(handleEcsPress._dialogID);
 				}
 			};
 
@@ -140,65 +142,63 @@ export const installUIDialogComponent = (
 
 			/* 处理按Esc键关闭弹窗 */
 			let handleEcsPress = {
-				_IDDialog: "",
+				_dialogID: "",
 				handler: event => EcsPressHandler(event, dialogOptions),
-				on(_IDDialog) {
-					handleEcsPress._IDDialog = _IDDialog;
+				on(_dialogID) {
+					handleEcsPress._dialogID = _dialogID;
 					if (!dialogOptions.isEcsCloseDialog) {
 						return;
 					}
-					$(document).on(`keyup.${_IDDialog}`, handleEcsPress.handler);
+					$(document).on(`keyup.${_dialogID}`, handleEcsPress.handler);
 				},
 				off() {
-					$(document).off(`keyup.${_IDDialog}`, handleEcsPress.handler);
+					$(document).off(`keyup.${_dialogID}`, handleEcsPress.handler);
 					handleEcsPress = null;
 				}
 			};
 
-			const layerOptions = xU.merge(
+			const layerOptions: i_layerOptions = xU.merge(
 				dialogOptions,
 				{
 					/* 传入自定义样式 */
-					contentClass: "flex1",
-					offset: ["160px", null],
-					btn: [
-						/*'确定', '取消'*/
-					]
+					contentClass: "flex1"
 				},
 				dialogOptions,
 				{
-					type: LayerUtils.DIALOG,
+					type: "dialog",
 					title: [title || ""],
 					area: area || [],
 					content: $container,
-					offset: ["160px", null],
+					offset: "auto",
 					/* 无按钮 */
 					btn: [
 						/*'确定', '取消'*/
 					],
-					success(instanceDialog: t__ClassLayer) {
-						const { _IDDialog, _IDContent } = instanceDialog;
-						handleEcsPress.on(_IDDialog);
+					success(dialogInst: t__ClassLayer) {
+						const { _dialogID, _contentID } = dialogInst;
+						handleEcsPress.on(_dialogID);
 						/* dialog 实例 */
-						dialogOptions.instanceDialog = instanceDialog;
+						window.dialogInst = dialogInst;
+						dialogOptions.dialogInst = dialogInst;
 						try {
 							dialogVueApp = createApp(
 								defineComponent({
 									components: { BussinessComponent },
-									beforeCreate(...args) {
-										if (xU.isFunction(title)) {
-											this.$options.computed = this.$options.computed || {};
-											/* title 使用 vue render vNode，挂载之后替换到title的DOM里面 */
-											this.$options.computed.DIALOG_TITLE = function () {
-												return title();
-											};
-										}
+									setup() {
+										const cpt_vDomTitle = (() => {
+											if (xU.isFunction(title)) {
+												return computed(title);
+											} else {
+												return title;
+											}
+										})();
+										return { cpt_vDomTitle };
 									},
 									created() {
 										this.dialogOptions.vmDialogContent = this;
 										if (this.dialogOptions.keepTop) {
 											setTimeout(() => {
-												this.dialogOptions.instanceDialog.cpt$shade.css(
+												this.dialogOptions.dialogInst.cpt$shade.css(
 													"z-index",
 													1
 												);
@@ -207,9 +207,21 @@ export const installUIDialogComponent = (
 										resolve(this.dialogOptions);
 									},
 									mounted() {
+										const vm = this;
 										$(this.$refs.DIALOG_TITLE).appendTo(
-											this.dialogOptions.instanceDialog.cpt$title
+											this.dialogOptions.dialogInst.cpt$title
 										);
+
+										vm.dialogOptions.dialogInst.setPosition();
+										setTimeout(() => {
+											vm.dialogOptions.dialogInst.setPosition();
+											(function () {
+												vm.$resizeObserver = new ResizeObserver(entries => {
+													vm.dialogOptions.dialogInst.setPosition();
+												});
+												vm.$resizeObserver.observe(vm.$el);
+											})();
+										}, 64);
 									},
 									data() {
 										return { dialogOptions };
@@ -218,11 +230,11 @@ export const installUIDialogComponent = (
 										return (
 											<div
 												class="ventose-dialog-content"
-												data-el-id={_IDDialog}>
+												data-el-id={_dialogID}>
 												{/* title 使用 vue render vNode，挂载之后替换到title的DOM里面 */}
-												<div ref="DIALOG_TITLE">{this.DIALOG_TITLE}</div>
+												<div ref="DIALOG_TITLE">{this.cpt_vDomTitle}</div>
 												<BussinessComponent
-													propDialogOptions={this.dialogOptions}
+													propOptions={this.dialogOptions}
 												/>
 											</div>
 										);
@@ -230,7 +242,7 @@ export const installUIDialogComponent = (
 								})
 							);
 							dialogVueApp.use(appPlugins, { dependState });
-							dialogVueApp.mount(`#${_IDContent}`);
+							dialogVueApp.mount(`#${_contentID}`);
 						} catch (e) {
 							console.error(e);
 						}
@@ -238,7 +250,7 @@ export const installUIDialogComponent = (
 							dialogOptions.onAfterOpenDialoag(dialogVueApp);
 					},
 					cancel() {
-						dialogOptions.closeDialog();
+						dialogOptions.$close();
 						return false;
 					},
 					end() {
@@ -249,7 +261,10 @@ export const installUIDialogComponent = (
 							dialogVueApp.unmount();
 							dialogVueApp = null;
 						}
+						dialogOptions.dialogInst = null;
 						dialogOptions.payload = null;
+						dialogOptions.vmDialogContent.$resizeObserver.disconnect();
+						dialogOptions.vmDialogContent.$resizeObserver = null;
 						dialogOptions.vmDialogContent = null;
 						dialogOptions = null;
 					}

@@ -11,7 +11,7 @@ export const DialogConfirm = defineComponent({
 	},
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -20,35 +20,35 @@ export const DialogConfirm = defineComponent({
 	},
 	computed: {
 		contentVNode() {
-			if (this.propDialogOptions?.payload?.content?.render) {
-				return this.propDialogOptions?.payload?.content.render();
+			if (this.propOptions?.payload?.content?.render) {
+				return this.propOptions?.payload?.content.render();
 			}
 
-			if (xU.isFunction(this.propDialogOptions?.payload?.content)) {
-				return this.propDialogOptions?.payload?.content();
+			if (xU.isFunction(this.propOptions?.payload?.content)) {
+				return this.propOptions?.payload?.content();
 			}
-			return this.propDialogOptions?.payload?.content || null;
+			return this.propOptions?.payload?.content || null;
 		},
 		configsBtn() {
 			const vm = this;
 			return {
 				async onCancel() {
-					if (vm.propDialogOptions?.payload?.onCancel) {
-						const isKeepDialog = await vm.propDialogOptions.payload.onCancel();
+					if (vm.propOptions?.payload?.onCancel) {
+						const isKeepDialog = await vm.propOptions.payload.onCancel();
 						if (xU.isBoolean(isKeepDialog) && !isKeepDialog) {
 							/* 返回boolean false，就不关闭窗口 */
 							return;
 						}
 					}
-					vm.propDialogOptions.closeDialog();
+					vm.propOptions.$close();
 				},
 				async onOk() {
-					if (vm.propDialogOptions?.payload?.onOk) {
-						const isKeepDialog = await vm.propDialogOptions.payload.onOk();
+					if (vm.propOptions?.payload?.onOk) {
+						const isKeepDialog = await vm.propOptions.payload.onOk();
 						if (xU.isBoolean(isKeepDialog) && !isKeepDialog) {
 							/* 返回boolean false，就不关闭窗口 */
 						} else {
-							vm.propDialogOptions.closeDialog();
+							vm.propOptions.$close();
 						}
 					}
 				}

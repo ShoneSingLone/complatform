@@ -23,7 +23,7 @@ const { $t } = State_UI;
 export default defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -57,11 +57,11 @@ export default defineComponent({
 	computed: {
 		dialogDefautBtn() {
 			return {
-				onCancel: this.propDialogOptions.closeDialog,
+				onCancel: this.propOptions.closeDialog,
 				onOk: () => {
-					this.propDialogOptions.onOk({
+					this.propOptions.onOk({
 						formItems: this.formItems,
-						closeDialog: this.propDialogOptions.closeDialog
+						closeDialog: this.propOptions.closeDialog
 					});
 				}
 			};

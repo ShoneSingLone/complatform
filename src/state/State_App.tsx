@@ -110,7 +110,7 @@ export const Methods_App = {
 		return _State_App.user.isLogin;
 	},
 	async fetchGroupList() {
-		const { data: groupList } = await API.group.getMyGroupList();
+		const { data: groupList } = await API.group.mine();
 		_State_App.groupList = groupList;
 	},
 	/**

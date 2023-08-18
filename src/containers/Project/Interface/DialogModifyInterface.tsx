@@ -33,7 +33,7 @@ import { Cpt_url } from "@/router/router";
 export const DialogModifyInterface = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -57,14 +57,14 @@ export const DialogModifyInterface = defineComponent({
 			}
 		},
 		interfaceId() {
-			return this.propDialogOptions.oldInterface._id;
+			return this.propOptions.oldInterface._id;
 		},
 		configsDialogFooter() {
 			return {
 				cancel: {
 					preset: "cancel",
 					onClick: async () => {
-						this.propDialogOptions.closeDialog();
+						this.propOptions.$close();
 					}
 				},
 				save: {
@@ -91,8 +91,8 @@ export const DialogModifyInterface = defineComponent({
 					setOptions(allCategory) {
 						this.options = allCategory;
 						/* 默认在点击的分类下添加新接口 */
-						if (vm.propDialogOptions.categoryId) {
-							this.value = vm.propDialogOptions.categoryId;
+						if (vm.propOptions.categoryId) {
+							this.value = vm.propOptions.categoryId;
 						} else {
 							this.value = xU.first(this.options)?.value || "";
 						}
@@ -295,7 +295,7 @@ export const DialogModifyInterface = defineComponent({
 	methods: {
 		async setFormDataValues() {
 			const { data } = await API.project.fetchInterfaceDetail(
-				this.propDialogOptions.interfaceId
+				this.propOptions.interfaceId
 			);
 			this.detailInfo = this.initState(data);
 			xU.doNothing(JSON.stringify(this.detailInfo, null, 2));
@@ -533,13 +533,13 @@ export const DialogModifyInterface = defineComponent({
 							/* 设置树展开 */
 							Methods_ProjectInterface.setExpand();
 
-							if (this.propDialogOptions.updateInterfaceInfo) {
+							if (this.propOptions.updateInterfaceInfo) {
 								/* 更新详情  */
-								await this.propDialogOptions.updateInterfaceInfo();
+								await this.propOptions.updateInterfaceInfo();
 							}
 							/* @ts-ignore */
 							setTimeout(() => {
-								this.propDialogOptions.closeDialog();
+								this.propOptions.$close();
 							}, 1000);
 						})();
 						UI.message.success(this.$t("修改成功").label);

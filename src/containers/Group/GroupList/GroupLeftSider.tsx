@@ -13,7 +13,7 @@ import { Methods_App, State_App } from "@/state/State_App";
 import { DialogEditGroup } from "./DialogEditGroup";
 import { DialogAddGroup } from "./DialogAddGroup";
 import { Cpt_url } from "./../../../router/router";
-import { ADMIN, PRIVATE } from "@/utils/variable";
+import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
 
 const { $t } = State_UI;
 
@@ -39,6 +39,8 @@ export function fnShowUpsertGroupDialog(row = {}) {
 	UI.dialog.component({
 		title: isUpdate ? $t("修改分组信息").label : $t("添加分组").label,
 		component: isUpdate ? DialogEditGroup : DialogAddGroup,
+		// fullscreen: true,
+		maxmin: true,
 		row,
 		area: (() => {
 			if (isUpdate) {
@@ -170,7 +172,7 @@ export const GroupLeftSider = defineComponent({
 			await Methods_App.fetchNewsData({ id: groupId, type: "group" });
 		},
 		searchGroup: xU.debounce(function () {
-			const { groupList } = this.State_App;
+			const { groupList } = State_App;
 			const keywords = this.configsSearch.value;
 			if (keywords === "") {
 				this.groupListForShow = groupList;
@@ -187,20 +189,6 @@ export const GroupLeftSider = defineComponent({
 		}
 	},
 	computed: {
-		vDomCurrentGroupPanel() {
-			return (
-				<div class="curr-group">
-					<div class="curr-group-name">
-						<span class="curr-group-name_title name">
-							{this.State_App.currGroup.group_name}
-						</span>
-					</div>
-					<div class="curr-group-desc">
-						简介: {this.State_App.currGroup.group_desc}
-					</div>
-				</div>
-			);
-		},
 		vDomSearchInput() {
 			return (
 				<div class="group-operate flex center middle">
@@ -231,6 +219,29 @@ export const GroupLeftSider = defineComponent({
 						if (group.type === PRIVATE) {
 							icon = "user";
 						}
+
+						const vDomEditGroup = (() => {
+							/*个人空间不可修改name*/
+							/*当前用户在当前group的角色是owner*/
+							const isGroupRoleAuth = group.role === OWNER;
+							/*超级管理员*/
+							const isUserRoleAuth = this.State_App.user.role === ADMIN;
+
+							if (isGroupRoleAuth || isUserRoleAuth) {
+								return (
+									<xIcon
+										v-uiPopover={{ content: vm.$t("修改分组信息").label }}
+										class="group-menu-icon editSet pointer"
+										icon="edit"
+										onClick={() => {
+											vm.fnShowUpsertGroupDialog(group);
+										}}
+										style="width:16px;"
+									/>
+								);
+							}
+						})();
+
 						return (
 							<ElMenuItem
 								class={{
@@ -254,15 +265,7 @@ export const GroupLeftSider = defineComponent({
 											icon="Insidetips"
 										/>
 									)}
-									<xIcon
-										v-uiPopover={{ content: vm.$t("修改分组信息").label }}
-										class="group-menu-icon editSet pointer"
-										icon="edit"
-										onClick={() => {
-											vm.fnShowUpsertGroupDialog(group);
-										}}
-										style="width:16px;"
-									/>
+									{vDomEditGroup}
 								</div>
 							</ElMenuItem>
 						);

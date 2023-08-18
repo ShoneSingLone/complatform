@@ -20,7 +20,7 @@ import { ITEM_OPTIONS } from "@/utils/common.options";
 export const DialogUpsertI18nRecord = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -103,15 +103,15 @@ $t("Key值").label
 	},
 	methods: {
 		initForm() {
-			if (this.propDialogOptions?.record?.valueArray) {
-				setValueTo(this.dataXItem, this.propDialogOptions?.record);
+			if (this.propOptions?.record?.valueArray) {
+				setValueTo(this.dataXItem, this.propOptions?.record);
 			}
 		},
 		async onOk() {
 			if (!(await isItemInvalid())) {
 				try {
 					const { data } = await API.god.upsertOneI18nRecord({
-						...this.propDialogOptions?.record,
+						...this.propOptions?.record,
 						...pickValueFrom(this.dataXItem)
 					});
 					if (data?.msg?._id) {
@@ -120,7 +120,7 @@ $t("Key值").label
 						UI.message.success("修改记录成功");
 					}
 					stateI18n._$updateList({});
-					this.propDialogOptions.closeDialog();
+					this.propOptions.$close();
 				} catch (error) {
 					UI.message.error("添加失败");
 				}
@@ -148,7 +148,7 @@ $t("Key值").label
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>
