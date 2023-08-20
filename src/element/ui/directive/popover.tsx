@@ -19,7 +19,8 @@ type t_uiPopoverOptions = {
 };
 
 /* 开发的时候不想关闭，可以把时间值调高 */
-const TIMEOUT_DELAY = 200;
+const TIMEOUT_DELAY = 200*10000;
+// const TIMEOUT_DELAY = 200;
 /* 缓存 popover 的配置信息 */
 const tipsOptionsCollection: {
 	[prop: string]: t_uiPopoverOptions;
@@ -57,19 +58,8 @@ function fnShowTips({ $ele, followId, appId, event }: any) {
 	}
 	let app: any;
 
-	const placement = (() => {
-		const placement_strategy = {
-			top: 1,
-			right: 2,
-			bottom: 3,
-			left: 4
-		};
-		/* @ts-ignore */
-		return placement_strategy[options.placement || "top"];
-	})();
-
 	let layerTipsOptions: i_layerOptions = {
-		tips: [placement, "#fff"],
+		tips: [options.placement || "top", "#fff"],
 		/*hover 不允许 同时多个 tips出现*/
 		/*tipsMore: false,*/
 		/* maxWidth */

@@ -30,7 +30,7 @@ const STATUS_MIN = "min";
 const STATUS_NORNAML = "nornaml";
 const STATUS_MAX = "max";
 
-const LAYER_UP = "up";
+const LAYER_UP = "top";
 const LAYER_RIGHT = "right";
 const LAYER_BOTTOM = "bottom";
 const LAYER_LEFT = "left";
@@ -281,7 +281,7 @@ const LayerUtils = {
 					shade: false,
 					resize: false,
 					fixed: false,
-					maxWidth: 260
+					maxWidth: "260px"
 				},
 				options
 			)
@@ -588,7 +588,7 @@ class ClassLayer {
 		resize: true,
 		onResizing: false,
 		scrollbar: true,
-		maxWidth: 360,
+		maxWidth: "360px",
 		maxHeight: 0,
 		zIndex: 1,
 		move: ".layui-layer-title",
@@ -726,7 +726,6 @@ class ClassLayer {
 	get cptDomContainer() {
 		const {
 			config,
-			typeName,
 			isContentTypeObject,
 			zIndex,
 			_dialogID,
@@ -740,7 +739,7 @@ class ClassLayer {
 			LAYUI_LAYER,
 			"x-dialog-wrapper",
 			"flex vertical",
-			`layui-layer-${typeName}`,
+			`layui-layer-${config.type}`,
 			config.skin,
 			(() => {
 				if ([TYPE_IFRAME, TYPE_MSG].includes(config.type) && !config.shade) {
@@ -766,7 +765,7 @@ class ClassLayer {
 		const [width, height] = config.area || [];
 
 		return `<div id="${_layerID}" 
-	layer-wrapper="${_layerID}" type="${typeName}"
+	layer-wrapper="${_layerID}" type="${config.type}"
 	class="${layerWrapperClassname}" 
 	data-z-index="${zIndex}"
 	data-layer-key="${_dialogID}"
@@ -877,15 +876,33 @@ class ClassLayer {
 					config.content = [config.content, "body"];
 				}
 				config.follow = config.content[1];
-				const arrow = '<i class="layui-layer-TipsG"></i>';
+				const arrowDomString = '<i class="layui-layer-TipsG"></i>';
 				const styleObj = {
 					"max-width": config?.custumSettings?.maxWidth || "300px",
-					overflow: "auto"
+					"font-size": "14px",
+					overflow: "auto",
+					position: "relative"
 				};
 				const styleString = xU._$toStyle(styleObj);
 				const tipsString = config.content[0];
-				config.content = `<h1 style="${styleString}">${tipsString}<h1>
-				${arrow}`;
+				config.content = `<div style="${styleString}">
+	${tipsString}
+	<svg viewBox="0 0 100 100" class="svg-tips">
+    <path d="M 200,190 L 170,160"></path>
+    <path d="M 170,160 L 150,160"></path>
+    <path d="M 150,160 L 55,160"></path>
+    <path d="M 55,160 Q 30,160 30,135"></path>
+    <path d="M 30,135 L 30,55"></path>
+    <path d="M 30,55 Q 30,30 55,30"></path>
+    <path d="M 55,30 L 245,30"></path>
+    <path d="M 245,30 Q 270,30 270,55"></path>
+    <path d="M 270,55 L 270,135"></path>
+    <path d="M 270,135 Q 270,160 245,160"></path>
+    <path d="M 245,160 L 230,160"></path>
+    <path d="M 230,160 L 200,190"></path>
+</svg>
+<div>`;
+
 				delete config.title;
 				config.btn = [];
 				config.tips =
@@ -977,8 +994,10 @@ class ClassLayer {
 		}
 		dialogInst.$eleDialog.css({
 			visibility: "hidden",
-			top: "100vh",
-			left: "100vw"
+			top: "100px",
+			left: "100px"
+			// top: "100vh",
+			// left: "100vw"
 		});
 		$html.append(dialogInst.$eleDialog);
 
@@ -1012,7 +1031,6 @@ class ClassLayer {
 			$eleDialog = dialogInst.$eleDialog;
 		const [areaW, areaH] = [$eleDialog.outerWidth(), $eleDialog.outerHeight()];
 		const [winW, winH] = [$win.width(), $win.height()];
-		console.log(areaW, areaH, winW, winH);
 		const [top, left] = (() => {
 			let top = $eleDialog.css("top");
 			let left = $eleDialog.css("left");
@@ -1116,13 +1134,13 @@ class ClassLayer {
 		}
 
 		var $tipsG = $eleDialog.find(".layui-layer-TipsG");
-		/* 1,2,3,4 */
-		const [direction, customColor]: any = config.tips || ["1", ""];
+
+		const [direction, customColor]: any = config.tips || ["up", ""];
 
 		function makeLeftAuto() {
 			/* 如果超出边界，位置需要偏移 */
 			/* 起始位置+tips宽度 比 视口 宽 */
-			if (followInfo.left + tipsDomWidth - $win.width() > 0) {
+			if (followInfo.left + tipsDomWidth > $win.width()) {
 				/* 向左偏移为超出的宽度 */
 				followInfo.tipLeft = followInfo.left + followInfo.width - tipsDomWidth;
 				$tipsG.css({ right: 12, left: "auto" });
@@ -1131,6 +1149,7 @@ class ClassLayer {
 			}
 		}
 
+		/* - $win.scrollTop() */
 		/* 辨别tips的方位 */
 		const direction_strategy = {
 			[LAYER_UP]() {
@@ -1141,8 +1160,9 @@ class ClassLayer {
 					.removeClass("layui-layer-TipsB")
 					.addClass("layui-layer-TipsT")
 					.css("border-right-color", customColor);
-				followInfo.top - ($win.scrollTop() + tipsdomHeight + 8 * 2) < 0 &&
-					direction_strategy[2]();
+				if (followInfo.top < 0) {
+					direction_strategy[LAYER_RIGHT]();
+				}
 			},
 			[LAYER_RIGHT]() {
 				/* 右 */
@@ -1152,9 +1172,12 @@ class ClassLayer {
 					.removeClass("layui-layer-TipsL")
 					.addClass("layui-layer-TipsR")
 					.css("border-bottom-color", customColor);
-				$win.width() -
-					(followInfo.left + followInfo.width + tipsDomWidth + 8 * 2) >
-					0 || direction_strategy[3]();
+				if (
+					followInfo.left + followInfo.width + tipsDomWidth + 8 * 2 >
+					$win.width()
+				) {
+					direction_strategy[LAYER_BOTTOM]();
+				}
 			},
 			[LAYER_BOTTOM]() {
 				/* 下 */
@@ -1164,13 +1187,12 @@ class ClassLayer {
 					.removeClass("layui-layer-TipsT")
 					.addClass("layui-layer-TipsB")
 					.css("border-right-color", customColor);
-				followInfo.top -
-					$win.scrollTop() +
-					followInfo.height +
-					tipsdomHeight +
-					8 * 2 -
-					$win.height() >
-					0 && direction_strategy[4]();
+				if (
+					followInfo.top + followInfo.height + tipsdomHeight + 8 * 2 >
+					$win.height()
+				) {
+					direction_strategy[LAYER_LEFT]();
+				}
 			},
 			[LAYER_LEFT]() {
 				/* 左 */
@@ -1180,22 +1202,25 @@ class ClassLayer {
 					.removeClass("layui-layer-TipsR")
 					.addClass("layui-layer-TipsL")
 					.css("border-bottom-color", customColor);
-				tipsDomWidth + 8 * 2 - followInfo.left > 0 && direction_strategy[1]();
+				tipsDomWidth + 8 * 2 - followInfo.left > 0 &&
+					direction_strategy[LAYER_UP]();
 			}
 		};
 
-		direction_strategy[direction] && direction_strategy[direction]();
+		if (direction_strategy[direction]) {
+			direction_strategy[direction]();
+		}
 
 		/* 8*2为小三角形占据的空间 */
 		$eleDialog.attr(DATA_TIPS_FOLLOW_ID, config.follow.substring(1));
 		$eleDialog.find(`.${LAYUI_LAYER_CONTENT}`).css({
-			"background-color": customColor,
+			// "background-color": customColor,
 			"padding-right": config.closeBtn ? "30px" : ""
 		});
 
 		$eleDialog.css({
-			top: $eleFollow.offset().top,
-			left: $eleFollow.offset().left
+			top: followInfo.tipTop,
+			left: followInfo.tipLeft
 			// left: followInfo.tipLeft - $win.scrollLeft(),
 			// top: followInfo.tipTop - $win.scrollTop()
 			/* TODO: 动画 */
