@@ -97,7 +97,7 @@ const xDialogFooter = defineComponent({
 		}
 	},
 	render() {
-		return <div class="flex middle end padding20">{this.vDomContent}</div>;
+		return <div class="flex middle end paddingT20">{this.vDomContent}</div>;
 	}
 });
 

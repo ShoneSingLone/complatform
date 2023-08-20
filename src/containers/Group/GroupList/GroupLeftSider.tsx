@@ -230,7 +230,9 @@ export const GroupLeftSider = defineComponent({
 							if (isGroupRoleAuth || isUserRoleAuth) {
 								return (
 									<xIcon
-										v-uiPopover={{ content: vm.$t("修改分组信息").label }}
+										v-uiPopover={{
+											content: vm.$t("修改分组信息").label
+										}}
 										class="group-menu-icon editSet pointer"
 										icon="edit"
 										onClick={() => {
@@ -260,7 +262,9 @@ export const GroupLeftSider = defineComponent({
 									</div>
 									{!!group.group_desc && (
 										<xIcon
-											v-uiPopover={{ content: group.group_desc }}
+											v-uiPopover={{
+												content: group.group_desc
+											}}
 											class="group-menu-icon editSet pointer ml10 mr10"
 											icon="insideTips"
 										/>

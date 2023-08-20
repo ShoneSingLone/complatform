@@ -885,23 +885,7 @@ class ClassLayer {
 				};
 				const styleString = xU._$toStyle(styleObj);
 				const tipsString = config.content[0];
-				config.content = `<div style="${styleString}">
-	${tipsString}
-	<svg viewBox="0 0 100 100" class="svg-tips">
-    <path d="M 200,190 L 170,160"></path>
-    <path d="M 170,160 L 150,160"></path>
-    <path d="M 150,160 L 55,160"></path>
-    <path d="M 55,160 Q 30,160 30,135"></path>
-    <path d="M 30,135 L 30,55"></path>
-    <path d="M 30,55 Q 30,30 55,30"></path>
-    <path d="M 55,30 L 245,30"></path>
-    <path d="M 245,30 Q 270,30 270,55"></path>
-    <path d="M 270,55 L 270,135"></path>
-    <path d="M 270,135 Q 270,160 245,160"></path>
-    <path d="M 245,160 L 230,160"></path>
-    <path d="M 230,160 L 200,190"></path>
-</svg>
-<div>`;
+				config.content = `<div style="${styleString}" class="tipsContent"> ${tipsString} <div>`;
 
 				delete config.title;
 				config.btn = [];
@@ -1133,9 +1117,9 @@ class ClassLayer {
 			followInfo.left = left;
 		}
 
-		var $tipsG = $eleDialog.find(".layui-layer-TipsG");
+		var $tipsContent = $eleDialog.find(".tipsContent");
 
-		const [direction, customColor]: any = config.tips || ["up", ""];
+		const [direction, customColor]: any = config.tips || ["top", ""];
 
 		function makeLeftAuto() {
 			/* 如果超出边界，位置需要偏移 */
@@ -1143,7 +1127,6 @@ class ClassLayer {
 			if (followInfo.left + tipsDomWidth > $win.width()) {
 				/* 向左偏移为超出的宽度 */
 				followInfo.tipLeft = followInfo.left + followInfo.width - tipsDomWidth;
-				$tipsG.css({ right: 12, left: "auto" });
 			} else {
 				followInfo.tipLeft = followInfo.left;
 			}
@@ -1155,11 +1138,55 @@ class ClassLayer {
 			[LAYER_UP]() {
 				/* 上 */
 				makeLeftAuto();
+				function setTipsG() {
+					const boxW = tipsDomWidth;
+					const boxH = tipsdomHeight;
+					const canvas = $(
+						`<canvas width="${boxW}px" height="${boxH}px"/>`
+					)[0];
+					const ctx = canvas.getContext("2d");
+					const RADIUS = 4;
+					const [cW, cH] = [$tipsContent.width(), $tipsContent.height()];
+
+					const point_x = cW / 2;
+					const point_y = cH + 10;
+
+					const lt = [0, 0];
+					const rt = [cW, 0];
+					const rb = [cW, cH];
+					const lb = [0, cH];
+					const pointA = [point_x, point_y];
+					const pointB = [point_x - RADIUS, cH];
+					const pointC = [RADIUS, cH];
+					const pointD = [0, cH - RADIUS];
+					const pointE = [0, RADIUS];
+					const pointF = [RADIUS, 0];
+					const pointG = [cW - RADIUS, 0];
+					const pointH = [cW, RADIUS];
+					const pointI = [cW, cH - RADIUS];
+					const pointJ = [cW - RADIUS, cH];
+					const pointK = [point_x + RADIUS, cH];
+					// ctx.translate(cW, 2);
+					ctx.moveTo(pointA[0], pointA[1]);
+					ctx.lineTo(pointB[0], pointB[1]);
+					ctx.lineTo(pointC[0], pointC[1]);
+					ctx.quadraticCurveTo(lb[0], lb[1], pointD[0], pointD[1]);
+					ctx.lineTo(pointE[0], pointE[1]);
+					ctx.quadraticCurveTo(lt[0], lt[1], pointF[0], pointF[1]);
+					ctx.lineTo(pointG[0], pointG[1]);
+					ctx.quadraticCurveTo(rt[0], rt[1], pointH[0], pointH[1]);
+					ctx.lineTo(pointI[0], pointI[1]);
+					ctx.quadraticCurveTo(rb[0], rb[1], pointJ[0], pointJ[1]);
+					ctx.lineTo(pointK[0], pointK[1]);
+					ctx.closePath();
+					ctx.stroke();
+					$eleDialog.css(
+						"background",
+						`url(${canvas.toDataURL()})14px 4px /cover no-repeat`
+					);
+				}
+				setTipsG();
 				followInfo.tipTop = followInfo.top - tipsdomHeight - 10;
-				$tipsG
-					.removeClass("layui-layer-TipsB")
-					.addClass("layui-layer-TipsT")
-					.css("border-right-color", customColor);
 				if (followInfo.top < 0) {
 					direction_strategy[LAYER_RIGHT]();
 				}
@@ -1168,10 +1195,6 @@ class ClassLayer {
 				/* 右 */
 				followInfo.tipLeft = followInfo.left + followInfo.width + 10;
 				followInfo.tipTop = followInfo.top;
-				$tipsG
-					.removeClass("layui-layer-TipsL")
-					.addClass("layui-layer-TipsR")
-					.css("border-bottom-color", customColor);
 				if (
 					followInfo.left + followInfo.width + tipsDomWidth + 8 * 2 >
 					$win.width()
@@ -1183,10 +1206,6 @@ class ClassLayer {
 				/* 下 */
 				makeLeftAuto();
 				followInfo.tipTop = followInfo.top + followInfo.height + 10;
-				$tipsG
-					.removeClass("layui-layer-TipsT")
-					.addClass("layui-layer-TipsB")
-					.css("border-right-color", customColor);
 				if (
 					followInfo.top + followInfo.height + tipsdomHeight + 8 * 2 >
 					$win.height()
@@ -1198,10 +1217,6 @@ class ClassLayer {
 				/* 左 */
 				followInfo.tipLeft = followInfo.left - tipsDomWidth - 10;
 				followInfo.tipTop = followInfo.top;
-				$tipsG
-					.removeClass("layui-layer-TipsR")
-					.addClass("layui-layer-TipsL")
-					.css("border-bottom-color", customColor);
 				tipsDomWidth + 8 * 2 - followInfo.left > 0 &&
 					direction_strategy[LAYER_UP]();
 			}
@@ -1226,10 +1241,6 @@ class ClassLayer {
 			/* TODO: 动画 */
 			// "transform-origin": [ $tipsG.hasClass("layui-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("layui-layer-TipsL") ? "left" : "right" ].join(" ")
 		});
-
-		if (!customColor) {
-			$tipsG.remove();
-		}
 	}
 
 	onMoveOrResize() {
