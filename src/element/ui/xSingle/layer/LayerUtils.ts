@@ -1087,7 +1087,8 @@ class ClassLayer {
 	async setTips() {
 		function setTipsG({ direction }) {
 			const RADIUS = 4;
-			const { dialogW, dialogH } = info;
+			const LENGTH = 10;
+			const { dialogW, dialogH, dialogL } = info;
 			const canvasString = `<canvas width="${dialogW}" height="${dialogH}"/>`;
 			const canvas = $(canvasString)[0];
 			const ctx = canvas.getContext("2d");
@@ -1097,12 +1098,19 @@ class ClassLayer {
 			const rb = [cW, cH];
 			const lb = [0, cH];
 
+			let gap = dialogW + dialogL - $win.width();
+			if (gap > RADIUS) {
+				info.dialogL = dialogL - gap;
+			} else {
+				gap = 0;
+			}
 			/* 顺时针计算节点 */
 			/* 顺时针计算节点 */
 			const direction_strategy = {
 				[LAYER_TOP]() {
 					const point_x = cW / 2;
-					const point_y = cH + 10;
+					const point_y = cH + LENGTH;
+					const pointK = [point_x + RADIUS, cH];
 					const pointA = [point_x, point_y];
 					const pointB = [point_x - RADIUS, cH];
 					const pointC = [RADIUS, cH];
@@ -1113,7 +1121,6 @@ class ClassLayer {
 					const pointH = [cW, RADIUS];
 					const pointI = [cW, cH - RADIUS];
 					const pointJ = [cW - RADIUS, cH];
-					const pointK = [point_x + RADIUS, cH];
 					ctx.moveTo(pointA[0], pointA[1]);
 					ctx.lineTo(pointB[0], pointB[1]);
 					ctx.lineTo(pointC[0], pointC[1]);
@@ -1125,23 +1132,44 @@ class ClassLayer {
 					ctx.lineTo(pointI[0], pointI[1]);
 					ctx.quadraticCurveTo(rb[0], rb[1], pointJ[0], pointJ[1]);
 					ctx.lineTo(pointK[0], pointK[1]);
-					ctx.closePath();
 					// ctx.scale(1.1, 1.1);
-					// ctx.stroke();
 				},
 				[LAYER_RIGHT]() {
-					return {};
+					const point_x = -LENGTH;
+					const point_y = cH / 2;
+					const pointK = [0, point_y + RADIUS];
+					const pointA = [point_x, point_y];
+					const pointB = [0, point_y - RADIUS];
+					const pointC = [0, RADIUS];
+					const pointD = [RADIUS, 0];
+					const pointE = [cW - RADIUS, 0];
+					const pointF = [cW, RADIUS];
+					const pointG = [cW, cH - RADIUS];
+					const pointH = [cW - RADIUS, cH];
+					const pointI = [RADIUS, cH];
+					const pointJ = [0, cH - RADIUS];
+					ctx.moveTo(pointA[0], pointA[1]);
+					ctx.lineTo(pointB[0], pointB[1]);
+					ctx.lineTo(pointC[0], pointC[1]);
+					ctx.quadraticCurveTo(lt[0], lt[1], pointD[0], pointD[1]);
+					ctx.lineTo(pointE[0], pointE[1]);
+					ctx.quadraticCurveTo(rt[0], rt[1], pointF[0], pointF[1]);
+					ctx.lineTo(pointG[0], pointG[1]);
+					ctx.quadraticCurveTo(rb[0], rb[1], pointH[0], pointH[1]);
+					ctx.lineTo(pointI[0], pointI[1]);
+					ctx.quadraticCurveTo(lb[0], lb[1], pointJ[0], pointJ[1]);
+					ctx.lineTo(pointK[0], pointK[1]);
 				},
 				[LAYER_BOTTOM]() {
-					const point_x = cW / 2;
-					const point_y = -10;
+					const point_x = cW / 2 + gap;
+					const point_y = -LENGTH;
 					const pointA = [point_x, point_y];
 					const pointB = [point_x + RADIUS, 0];
 					const pointC = [cW - RADIUS, 0];
 					const pointD = [cW, RADIUS];
 					const pointE = [cW, cH - RADIUS];
-					const pointF = [cW - RADIUS, 0];
-					const pointG = [RADIUS, 0];
+					const pointF = [cW - RADIUS, cH];
+					const pointG = [RADIUS, cH];
 					const pointH = [0, cH - RADIUS];
 					const pointI = [0, RADIUS];
 					const pointJ = [RADIUS, 0];
@@ -1157,15 +1185,39 @@ class ClassLayer {
 					ctx.lineTo(pointI[0], pointI[1]);
 					ctx.quadraticCurveTo(lt[0], lt[1], pointJ[0], pointJ[1]);
 					ctx.lineTo(pointK[0], pointK[1]);
-					ctx.closePath();
 				},
 				[LAYER_LEFT]() {
-					return {};
+					const point_x = cW + LENGTH;
+					const point_y = cH / 2;
+					const pointK = [cW, point_y - RADIUS];
+					const pointA = [point_x, point_y];
+					const pointB = [cW, point_y + RADIUS];
+					const pointC = [cW, cH - RADIUS];
+					const pointD = [cW - RADIUS, cH];
+					const pointE = [RADIUS, cH];
+					const pointF = [0, cH - RADIUS];
+					const pointG = [0, RADIUS];
+					const pointH = [RADIUS, 0];
+					const pointI = [cW - RADIUS, 0];
+					const pointJ = [cW, RADIUS];
+					ctx.moveTo(pointA[0], pointA[1]);
+					ctx.lineTo(pointB[0], pointB[1]);
+					ctx.lineTo(pointC[0], pointC[1]);
+					ctx.quadraticCurveTo(rb[0], rb[1], pointD[0], pointD[1]);
+					ctx.lineTo(pointE[0], pointE[1]);
+					ctx.quadraticCurveTo(lb[0], lb[1], pointF[0], pointF[1]);
+					ctx.lineTo(pointG[0], pointG[1]);
+					ctx.quadraticCurveTo(lt[0], lt[1], pointH[0], pointH[1]);
+					ctx.lineTo(pointI[0], pointI[1]);
+					ctx.quadraticCurveTo(rt[0], rt[1], pointJ[0], pointJ[1]);
+					ctx.lineTo(pointK[0], pointK[1]);
 				}
 			};
 
 			ctx.translate(10, 10);
 			direction_strategy[direction]();
+			ctx.closePath();
+			// ctx.stroke();
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0;
 			ctx.shadowBlur = 8;
@@ -1213,64 +1265,56 @@ class ClassLayer {
 
 		console.log(JSON.stringify(info, null, 2));
 
-		let { top, left } = (() => {
-			let top, left;
-			function positionAuto(direction) {
-				info.strategy++;
-				const directionArray = ["top", "right", "bottom", "left"];
-				const directionIndex = xU.findIndex(
-					directionArray,
-					i => i === direction
-				);
-				if (info.strategy > 3) {
-					// xU("转了一圈都没有合适的位置", info.strategy, top, left);
-					/* 转了一圈都没有合适的位置 */
-					return true;
+		function positionAuto(direction) {}
+		/* - $win.scrollTop() */
+		/* 辨别tips的方位 */
+		const direction_strategy = {
+			[LAYER_TOP]() {
+				/* 上  */
+				info.dialogT = info.targetT - info.dialogH;
+				info.dialogL = info.targetL - (info.dialogW - info.targetW) / 2;
+
+				if (info.dialogT < 0) {
+					direction_strategy["right"]();
 				} else {
-					const condition = [top < 0, left < 0];
-					if (xU.some(condition, i => i)) {
-						// xU("尝试换方向", info.strategy, top, left);
-						const nextStrategy = directionArray[(directionIndex + 1) % 4];
-						return direction_strategy[nextStrategy]();
-					} else {
-						setTipsG({ direction });
-					}
+					setTipsG({ direction: "top" });
+				}
+			},
+			[LAYER_RIGHT]() {
+				/* 右 */
+				info.dialogL = info.targetL + info.targetW;
+				info.dialogT = info.targetT - (info.dialogH - info.targetH) / 2;
+				if (info.dialogL + info.dialogW > $win.width()) {
+					direction_strategy["bottom"]();
+				} else {
+					setTipsG({ direction: "right" });
+				}
+			},
+			[LAYER_BOTTOM]() {
+				/* 下 */
+				info.dialogT = info.targetT + info.targetH;
+				info.dialogL = info.targetL - (info.dialogW - info.targetW) / 2;
+				setTipsG({ direction: "bottom" });
+			},
+			[LAYER_LEFT]() {
+				/* 左 */
+				info.dialogL = info.targetL - info.dialogW;
+				info.dialogT = info.targetT - (info.dialogH - info.targetH) / 2;
+				if (info.dialogL < 0) {
+					direction_strategy["top"]();
+				} else {
+					setTipsG({ direction: "left" });
 				}
 			}
-			/* - $win.scrollTop() */
-			/* 辨别tips的方位 */
-			const direction_strategy = {
-				[LAYER_TOP]() {
-					/* 上  */
-					top = info.targetT - info.dialogH;
-					left = info.targetL - (info.dialogW - info.targetW) / 2;
-					positionAuto("top");
-				},
-				[LAYER_RIGHT]() {
-					/* 右 */
-					left = info.targetL + info.targetW;
-					top = info.targetT - (info.dialogH - info.targetH) / 2;
-					positionAuto("right");
-				},
-				[LAYER_BOTTOM]() {
-					/* 下 */
-					top = info.targetT + info.targetH;
-					left = info.targetL - (info.dialogW - info.targetW) / 2;
-					positionAuto("bottom");
-				},
-				[LAYER_LEFT]() {
-					/* 左 */
-					left = info.targetL - info.dialogW;
-					top = info.targetT - (info.dialogH - info.targetH) / 2;
-					positionAuto("left");
-				}
-			};
+		};
 
-			direction_strategy[direction]();
-			return { top, left };
-		})();
+		direction_strategy[direction]();
 
-		$dialog.css({ top, left });
+		$dialog.css({
+			top: info.dialogT,
+			left: info.dialogL
+		});
+
 		/* TODO: 动画 */
 		// "transform-origin": [ $tipsG.hasClass("x-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("x-layer-TipsL") ? "left" : "right" ].join(" ")
 	}

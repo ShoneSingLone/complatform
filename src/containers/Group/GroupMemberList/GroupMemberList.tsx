@@ -153,12 +153,12 @@ export const GroupMemberList = defineComponent({
 				title: State_UI.$t("添加成员").label,
 				component: ViewAddMember,
 				area: ["480px", "260px"],
-				onOk: async ({ formItems, closeDialog }) => {
+				onOk: async ({ formItems, $close }) => {
 					if (!(await isItemInvalid())) {
 						const { member_uids, role } = pickValueFrom(formItems);
 						try {
 							await this.addMember({ member_uids, role });
-							closeDialog();
+							$close();
 						} catch (error) {
 							UI.message.error("添加失败");
 						}

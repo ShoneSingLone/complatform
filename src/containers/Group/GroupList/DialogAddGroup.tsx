@@ -73,7 +73,7 @@ export const DialogAddGroup = defineComponent({
 						onOk: () => {
 							this.propOptions.onOk({
 								formItems: this.formItems,
-								closeDialog: this.propOptions.$close
+								$close: this.propOptions.$close
 							});
 						}
 					}}

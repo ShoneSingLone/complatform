@@ -93,7 +93,7 @@ export const DialogPostman = defineComponent({
 		async onOk() {
 			if (!(await isItemInvalid())) {
 				const { catid, title, path } = pickValueFrom(this.dataXItem);
-				const { projectId, closeDialog } = this.propOptions;
+				const { projectId, $close } = this.propOptions;
 				try {
 					const { data } = await API.project.addInterface({
 						project_id: projectId,
@@ -110,7 +110,7 @@ export const DialogPostman = defineComponent({
 						});
 
 						UI.message.success("添加接口成功");
-						closeDialog();
+						$close();
 					}
 				} catch (error) {
 					UI.message.error("添加失败");

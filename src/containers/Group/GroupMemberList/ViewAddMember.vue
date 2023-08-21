@@ -57,11 +57,11 @@ export default defineComponent({
 	computed: {
 		dialogDefautBtn() {
 			return {
-				onCancel: this.propOptions.closeDialog,
+				onCancel: this.propOptions.$close,
 				onOk: () => {
 					this.propOptions.onOk({
 						formItems: this.formItems,
-						closeDialog: this.propOptions.closeDialog
+						$close: this.propOptions.$close
 					});
 				}
 			};

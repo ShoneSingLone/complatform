@@ -14,7 +14,7 @@ const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 		return;
 	}
 	if (event.keyCode === KEY.esc) {
-		await dialogOptions.closeDialog();
+		await dialogOptions.$close();
 	}
 }, 100);
 

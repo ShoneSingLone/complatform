@@ -29,8 +29,8 @@ const EVENT_UI_TARGET = "X_TARGET";
 const EVENT_UI_TIPS = "X_TIPS";
 
 /* 开发的时候不想关闭，可以把时间值调高 */
-const TIMEOUT_DELAY = 200 * 10000;
-// const TIMEOUT_DELAY = 200;
+// const TIMEOUT_DELAY = 200 * 10000;
+const TIMEOUT_DELAY = 200;
 /* 缓存 popover 的配置信息 */
 const tipsOptionsCollection: {
 	[prop: string]: t_uiPopoverOptions;

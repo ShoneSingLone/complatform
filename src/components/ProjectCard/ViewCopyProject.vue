@@ -47,7 +47,7 @@ export default defineComponent({
 						newProjectName: name,
 						icon
 					});
-					this.propOptions.closeDialog();
+					this.propOptions.$close();
 				} catch (error) {
 					console.error(error);
 					UI.message.error("复制失败");
@@ -64,7 +64,7 @@ export default defineComponent({
 		dialogDefautBtn() {
 			return {
 				textOk: this.$t("复制").label,
-				onCancel: this.propOptions.closeDialog,
+				onCancel: this.propOptions.$close,
 				onOk: this.onOk
 			};
 		}

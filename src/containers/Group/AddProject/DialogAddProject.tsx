@@ -96,8 +96,12 @@ export const xItem_ProjectBasePath = (options: any = {}) => {
 		label: () =>
 			defItem.labelWithTips({
 				label: "基本路径",
-				tips: "接口基本路径，默认是/",
-				icon: <xIcon icon="question" />
+				icon: (
+					<xIcon
+						icon="question"
+						v-uiPopover={{ content: "接口基本路径，默认是/" }}
+					/>
+				)
 			}),
 		placeholder: "接口基本路径，默认是/",
 		rules: [FormRules.required("请输入项目基本路径!")]

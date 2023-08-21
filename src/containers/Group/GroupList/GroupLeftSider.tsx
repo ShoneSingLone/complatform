@@ -53,7 +53,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 				return ["580px", "460px"];
 			}
 		})(),
-		onOk: async ({ formItems, closeDialog }) => {
+		onOk: async ({ formItems, $close }) => {
 			let formData = {};
 			if (isUpdate) {
 				if (!(await isItemInvalid())) {
@@ -91,7 +91,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 				}
 			}
 			await vm.fnUpsertGroupInfo(formData);
-			closeDialog();
+			$close();
 		}
 	});
 }
@@ -232,7 +232,7 @@ export const GroupLeftSider = defineComponent({
 									<xIcon
 										v-uiPopover={{
 											content: vm.$t("修改分组信息").label,
-											placement: "bottom"
+											placement: "top"
 										}}
 										class="group-menu-icon editSet pointer"
 										icon="edit"
