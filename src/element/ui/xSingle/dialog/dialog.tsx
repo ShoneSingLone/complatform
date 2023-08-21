@@ -29,7 +29,7 @@ export type t_dialogOptions = {
 	component: object;
 	area?: string[];
 	/* layer 索引，用于layer close */
-	_dialogID?: number;
+	_layer_index?: number;
 	fullscreen?: boolean;
 	/*关闭方法*/
 	$close?: Function;
@@ -112,7 +112,7 @@ export const installUIDialogComponent = (
 			const { component: BussinessComponent, title, area } = dialogOptions;
 			const id = xU.genId("xDialog");
 			let $container = $("<div/>", { id });
-			const _dialogID = `#${id}`;
+			const _layer_index = `#${id}`;
 
 			/* FIXED: */
 			if (dialogOptions.yes) {
@@ -125,7 +125,7 @@ export const installUIDialogComponent = (
 				if (dialogOptions.onBeforeClose) {
 					const res = await dialogOptions.onBeforeClose({
 						dialogOptions,
-						_dialogID: "",
+						_layer_index: "",
 						$eleDialog: ""
 					});
 					if (xU.isBoolean(res) && !res) {
@@ -133,7 +133,7 @@ export const installUIDialogComponent = (
 					}
 				}
 				if (isCloseDialog) {
-					LayerUtils.close(handleEcsPress._dialogID);
+					LayerUtils.close(handleEcsPress._layer_index);
 				}
 			};
 
@@ -142,17 +142,17 @@ export const installUIDialogComponent = (
 
 			/* 处理按Esc键关闭弹窗 */
 			let handleEcsPress = {
-				_dialogID: "",
+				_layer_index: "",
 				handler: event => EcsPressHandler(event, dialogOptions),
-				on(_dialogID) {
-					handleEcsPress._dialogID = _dialogID;
+				on(_layer_index) {
+					handleEcsPress._layer_index = _layer_index;
 					if (!dialogOptions.isEcsCloseDialog) {
 						return;
 					}
-					$(document).on(`keyup.${_dialogID}`, handleEcsPress.handler);
+					$(document).on(`keyup.${_layer_index}`, handleEcsPress.handler);
 				},
 				off() {
-					$(document).off(`keyup.${_dialogID}`, handleEcsPress.handler);
+					$(document).off(`keyup.${_layer_index}`, handleEcsPress.handler);
 					handleEcsPress = null;
 				}
 			};
@@ -175,8 +175,8 @@ export const installUIDialogComponent = (
 						/*'确定', '取消'*/
 					],
 					success(dialogInst: t__ClassLayer) {
-						const { _dialogID, _contentID } = dialogInst;
-						handleEcsPress.on(_dialogID);
+						const { _layer_index, _contentID } = dialogInst;
+						handleEcsPress.on(_layer_index);
 						/* dialog 实例 */
 						window.dialogInst = dialogInst;
 						dialogOptions.dialogInst = dialogInst;
@@ -230,7 +230,7 @@ export const installUIDialogComponent = (
 										return (
 											<div
 												class="ventose-dialog-content"
-												data-el-id={_dialogID}>
+												data-el-id={_layer_index}>
 												{/* title 使用 vue render vNode，挂载之后替换到title的DOM里面 */}
 												<div ref="DIALOG_TITLE">{this.cpt_vDomTitle}</div>
 												<BussinessComponent

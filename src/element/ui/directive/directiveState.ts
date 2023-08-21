@@ -1,7 +1,8 @@
 export const appAddPlugin: any = {};
 export const appDependState: any = {};
 export const timer4CloseTips: any = {};
-export const visibleArea: any = {};
+export const tipsShouldInVisibleArea: any = {};
 export const payloadCollections: any = {};
 export const DATA_APP_ID = "data-app-id";
-export const DATA_FOLLOW_ID = "data-follow-id";
+export const TIPS_TARGET_ID = "data-tips-target-id";
+export const X_TIPS_TARGET = "xTipsTarget";

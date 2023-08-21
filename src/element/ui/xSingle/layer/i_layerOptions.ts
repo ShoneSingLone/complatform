@@ -38,7 +38,7 @@ export interface i_layerOptions {
 	/* skin - 样式类名;
     类型：string，默认：''
     
-    skin不仅允许你传入layer内置的样式class名，还可以传入您自定义的class名。这是一个很好的切入点，意味着你可以借助skin轻松完成不同的风格定制。目前layer内置的skin有：layui-layer-lanlayui-layer-molv，未来我们还会选择性地内置更多，但更推荐您自己来定义。以下是一个自定义风格的简单例子
+    skin不仅允许你传入layer内置的样式class名，还可以传入您自定义的class名。这是一个很好的切入点，意味着你可以借助skin轻松完成不同的风格定制。目前layer内置的skin有：x-layer-lanlayui-layer-molv，未来我们还会选择性地内置更多，但更推荐您自己来定义。以下是一个自定义风格的简单例子
      */
 	skin?: string;
 	/* area - 宽高;
@@ -194,7 +194,7 @@ export interface i_layerOptions {
      */
 	zIndex?: number;
 	/* move - 触发拖动的元素;
-    类型：string|HTMLElement/boolean，默认：'.layui-layer-title'
+    类型：string|HTMLElement/boolean，默认：'.x-layer-title'
     
     默认是触发标题区域拖拽。如果你想单独定义，指向元素的选择器或者DOM即可。如move: '.mine-move'。你还配置设定move: false来禁止拖拽
      */

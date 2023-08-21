@@ -705,7 +705,7 @@ export function genId(category: string) {
 		payloadIdCount = 1;
 		payloadDateNow = Date.now();
 	}
-	return `${category}_${payloadDateNow}_${payloadIdCount++}`;
+	return `${category}${payloadDateNow}${payloadIdCount++}`;
 }
 
 export function sleep(t: number) {

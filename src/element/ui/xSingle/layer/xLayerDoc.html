@@ -65,12 +65,12 @@
 				<p><span>类型</span>：String，<span>默认</span>：''</p>
 				<p>
 					skin不仅允许你传入layer内置的样式class名，还可以传入您自定义的class名。这是一个很好的切入点，意味着你可以借助skin轻松完成不同的风格定制。目前layer内置的skin有：<em
-						>layui-layer-lan</em
-					><em>layui-layer-molv</em
+						>x-layer-lan</em
+					><em>x-layer-molv</em
 					>，未来我们还会选择性地内置更多，但更推荐您自己来定义。以下是一个自定义风格的简单例子
 				</p>
 				<pre
-					class="layui-code layui-code-view layui-box"><div class="layui-code-title">&lt;/&gt;</div><ol class="layui-code-ol"><li>//单个使用</li><li>layer.open({</li><li>  skin: 'demo-class'</li><li>});</li><li>//全局使用。即所有弹出层都默认采用，但是单个配置skin的优先级更高</li><li>layer.config({</li><li>  skin: 'demo-class'</li><li>})</li><li>//CSS </li><li>body .demo-class .layui-layer-title{background:#c00; color:#fff; border: none;}</li><li>body .demo-class .layui-layer-btn{border-top:1px solid #E9E7E7}</li><li>body .demo-class .layui-layer-btn a{background:#333;}</li><li>body .demo-class .layui-layer-btn .layui-layer-btn1{background:#999;}</li><li>…</li><li>加上body是为了保证优先级。你可以借助Chrome调试工具，定义更多样式控制层更多的区域。</li></ol></pre>
+					class="layui-code layui-code-view layui-box"><div class="layui-code-title">&lt;/&gt;</div><ol class="layui-code-ol"><li>//单个使用</li><li>layer.open({</li><li>  skin: 'demo-class'</li><li>});</li><li>//全局使用。即所有弹出层都默认采用，但是单个配置skin的优先级更高</li><li>layer.config({</li><li>  skin: 'demo-class'</li><li>})</li><li>//CSS </li><li>body .demo-class .x-layer-title{background:#c00; color:#fff; border: none;}</li><li>body .demo-class .x-layer-btn{border-top:1px solid #E9E7E7}</li><li>body .demo-class .x-layer-btn a{background:#333;}</li><li>body .demo-class .x-layer-btn .x-layer-btn1{background:#999;}</li><li>…</li><li>加上body是为了保证优先级。你可以借助Chrome调试工具，定义更多样式控制层更多的区域。</li></ol></pre>
 				<p>
 					你也可以<a
 						class="layer-btn"
@@ -476,7 +476,7 @@
 			<dd class="site-text">
 				<p>
 					<span>类型</span
-					>：String/DOM/Boolean，<span>默认</span>：'.layui-layer-title'
+					>：String/DOM/Boolean，<span>默认</span>：'.x-layer-title'
 				</p>
 				<p>
 					默认是触发标题区域拖拽。如果你想单独定义，指向元素的选择器或者DOM即可。如<em

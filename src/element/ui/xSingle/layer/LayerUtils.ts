@@ -4,7 +4,6 @@
 import $ from "jquery";
 import { xU } from "../../ventoseUtils";
 import { i_layerOptions } from "./i_layerOptions";
-import { getCurrentInstance } from "vue";
 
 export const KEY = {
 	right: 39,
@@ -23,6 +22,7 @@ const $document = $(document);
 const INSTANCE_DIALOG_COLLECTION = {};
 
 /* 缓存常用字符 */
+export const DATA_LAYER_INDEX = "data-layer-index";
 export const DATA_TIPS_FOLLOW_ID = "data-tips-follow-id";
 export const DATA_V_UI_MOVE = "data-directive-ui-move";
 const DATA_MIN_MAX_STATUS = "data-min-max-status";
@@ -42,13 +42,13 @@ const TYPE_IFRAME = "iframe";
 const TYPE_LOADING = "loading";
 const TYPE_TIPS = "tips";
 /*  */
-const LAYUI_LAYER = "layui-layer";
-const LAYUI_LAYER_SHADE = "layui-layer-shade";
-const LAYUI_LAYER_MOVE = "layui-layer-move";
-const LAYUI_LAYER_CONTENT = "layui-layer-content";
-const LAYUI_LAYER_CLOSE = "layui-layer-close";
-const LAYUI_LAYER_IFRAME = "layui-layer-iframe";
-const LAYUI_LAYER_TITLE = "layui-layer-title";
+const NAME_LAYER = "x-layer";
+const NAME_LAYER_SHADE = "x-layer-shade";
+const NAME_LAYER_MOVE = "x-layer-move";
+const NAME_LAYER_CONTENT = "x-layer-content";
+const NAME_LAYER_CLOSE = "x-layer-close";
+const NAME_LAYER_IFRAME = "x-layer-iframe";
+const NAME_LAYER_TITLE = "x-layer-title";
 const DOMS_ANIM = [
 	"layer-anim-00",
 	"layer-anim-01",
@@ -60,7 +60,7 @@ const DOMS_ANIM = [
 ];
 
 export const $MoveMask: JQuery = $(
-	`<div class="${LAYUI_LAYER_MOVE}" id="${LAYUI_LAYER_MOVE}"></div>`
+	`<div class="${NAME_LAYER_MOVE}" id="${NAME_LAYER_MOVE}"></div>`
 );
 setTimeout(() => {
 	$html.append($MoveMask);
@@ -117,9 +117,9 @@ export const READY: {
 	reselect() {
 		$.each($("select"), function (index, value) {
 			var sthis = $(this);
-			if (!sthis.parents("." + LAYUI_LAYER)[0]) {
+			if (!sthis.parents("." + NAME_LAYER)[0]) {
 				sthis.attr("layer") == 1 &&
-					$("." + LAYUI_LAYER).length < 1 &&
+					$("." + NAME_LAYER).length < 1 &&
 					sthis.removeAttr("layer").show();
 			}
 			sthis = null;
@@ -137,7 +137,7 @@ export const READY: {
 			isLimit ? 32 : $eleDialog.position().top,
 			$eleDialog.position().left + parseFloat($eleDialog.css("margin-left"))
 		];
-		$eleDialog.find(".layui-layer-max").addClass("layui-layer-maxmin");
+		$eleDialog.find(".x-layer-max").addClass("x-layer-maxmin");
 		$eleDialog.attr({ area: area });
 	},
 	rescollbar(index) {
@@ -185,8 +185,8 @@ const LayerUtils = {
 	},
 	open(options: i_layerOptions) {
 		const dialogInst = new ClassLayer(options);
-		const { _dialogID } = dialogInst;
-		return _dialogID;
+		const { _layer_index } = dialogInst;
+		return _layer_index;
 	},
 	/* 各种快捷引用 */
 	alert(content, options, yes) {
@@ -223,7 +223,7 @@ const LayerUtils = {
 		/*最常用提示层*/
 		var isOptionsIsFunction = xU.isFunction(options),
 			rskin = READY.config.skin;
-		var skin = (rskin ? rskin + " " + rskin + "-msg" : "") || "layui-layer-msg";
+		var skin = (rskin ? rskin + " " + rskin + "-msg" : "") || "x-layer-msg";
 		var anim = DOMS_ANIM.length - 1;
 		if (isOptionsIsFunction) end = options;
 		return LayerUtils.open(
@@ -241,7 +241,7 @@ const LayerUtils = {
 				},
 				isOptionsIsFunction && !READY.config.skin
 					? {
-							skin: skin + " layui-layer-hui",
+							skin: skin + " x-layer-hui",
 							anim: anim
 					  }
 					: (function () {
@@ -250,7 +250,7 @@ const LayerUtils = {
 								options.icon === -1 ||
 								(options.icon === undefined && !READY.config.skin)
 							) {
-								options.skin = skin + " " + (options.skin || "layui-layer-hui");
+								options.skin = skin + " " + (options.skin || "x-layer-hui");
 							}
 							return options;
 					  })()
@@ -287,14 +287,14 @@ const LayerUtils = {
 			)
 		);
 	},
-	close(_dialogID: string) {
-		if (!_dialogID) {
+	close(_layer_index: string) {
+		if (!_layer_index) {
 			return Promise.reject();
 		}
 		return new Promise((resolve, reject) => {
 			try {
 				/* 关闭layer核心方法 */
-				var $eleDialog = $(`#${LAYUI_LAYER}${_dialogID}`);
+				var $eleDialog = $(`#${NAME_LAYER}${_layer_index}`);
 				var type = $eleDialog.attr("type");
 				var closeAnim = "layer-anim-close";
 				if ($eleDialog.length === 0) {
@@ -305,28 +305,26 @@ const LayerUtils = {
 						type === "dialog" &&
 						$eleDialog.attr("data-content-type") === "object"
 					) {
-						$eleDialog.children(`:not(.${LAYUI_LAYER_IFRAME})`).remove();
+						$eleDialog.children(`:not(.${NAME_LAYER_IFRAME})`).remove();
 					} else {
 						/* 低版本IE 回收 iframe */
 						if (type === TYPE_IFRAME) {
 							try {
-								var iframe = $(`#${LAYUI_LAYER_CONTENT}${_dialogID}`)[0];
+								var iframe = $(`#${NAME_LAYER_CONTENT}${_layer_index}`)[0];
 								iframe.contentWindow.document.write("");
 								iframe.contentWindow.close();
-								$eleDialog
-									.find(`.${LAYUI_LAYER_IFRAME}`)[0]
-									.removeChild(iframe);
+								$eleDialog.find(`.${NAME_LAYER_IFRAME}`)[0].removeChild(iframe);
 							} catch (e) {}
 						}
 					}
 
 					$eleDialog[0].innerHTML = "";
 					$eleDialog.remove();
-					delete INSTANCE_DIALOG_COLLECTION[_dialogID];
+					delete INSTANCE_DIALOG_COLLECTION[_layer_index];
 
 					try {
-						READY.end[_dialogID] && READY.end[_dialogID]();
-						delete READY.end[_dialogID];
+						READY.end[_layer_index] && READY.end[_layer_index]();
+						delete READY.end[_layer_index];
 					} catch (e) {
 						/* end就是beforeUnmount 的回调函数，如果有，就执行 */
 					}
@@ -335,9 +333,9 @@ const LayerUtils = {
 					$eleDialog.addClass("layer-anim " + closeAnim);
 				}
 
-				$(`#layui-layer-moves, #${LAYUI_LAYER_SHADE}${_dialogID}`).remove();
+				$(`#x-layer-moves, #${NAME_LAYER_SHADE}${_layer_index}`).remove();
 				LayerUtils.ie == 6 && READY.reselect();
-				READY.rescollbar(_dialogID);
+				READY.rescollbar(_layer_index);
 				if ($eleDialog.attr("minLeft")) {
 					READY.minIndex--;
 					READY.minLeft.push($eleDialog.attr("minLeft"));
@@ -354,8 +352,8 @@ const LayerUtils = {
 	},
 	getChildFrame(selector, index) {
 		/* 获取子iframe的DOM */
-		index = index || $(`.${LAYUI_LAYER_CONTENT}`).attr("data-layer-key");
-		return $("#" + LAYUI_LAYER + index)
+		index = index || $(`.${NAME_LAYER_CONTENT}`).attr(DATA_LAYER_INDEX);
+		return $("#" + NAME_LAYER + index)
 			.find("iframe")
 			.contents()
 			.find(selector);
@@ -363,17 +361,17 @@ const LayerUtils = {
 	getFrameIndex(name) {
 		/* 得到当前iframe层的索引，子iframe时使用 */
 		return $("#" + name)
-			.parents(`.${LAYUI_LAYER_CONTENT}`)
-			.attr("data-layer-key");
+			.parents(`.${NAME_LAYER_CONTENT}`)
+			.attr(DATA_LAYER_INDEX);
 	},
 	iframeAuto(index) {
 		/* iframe层自适应宽高 */
 		if (!index) return;
 		var heg = LayerUtils.getChildFrame("html", index).outerHeight();
-		var $eleDialog = $("#" + LAYUI_LAYER + index);
-		var titHeight = $eleDialog.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0;
+		var $eleDialog = $("#" + NAME_LAYER + index);
+		var titHeight = $eleDialog.find(`.${NAME_LAYER_TITLE}`).outerHeight() || 0;
 		var btnHeight =
-			$eleDialog.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0;
+			$eleDialog.find(`.${NAME_LAYER_CONTENT}`).outerHeight() || 0;
 		$eleDialog.css({
 			height: heg + titHeight + btnHeight
 		});
@@ -383,19 +381,19 @@ const LayerUtils = {
 	},
 	iframeSrc(index, url) {
 		/* 重置iframe url */
-		$("#" + LAYUI_LAYER + index)
+		$("#" + NAME_LAYER + index)
 			.find("iframe")
 			.attr("src", url);
 	},
 	style(index, options, limit) {
 		/* 设定层的样式 */
-		var $eleDialog = $("#" + LAYUI_LAYER + index);
-		const $contentEle = $eleDialog.find(`.${LAYUI_LAYER_CONTENT}`);
+		var $eleDialog = $("#" + NAME_LAYER + index);
+		const $contentEle = $eleDialog.find(`.${NAME_LAYER_CONTENT}`);
 		const type = $eleDialog.attr("type");
 		const titHeight =
-			$eleDialog.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0;
+			$eleDialog.find(`.${NAME_LAYER_TITLE}`).outerHeight() || 0;
 		let contentHeight =
-			$eleDialog.find(`.${LAYUI_LAYER_CONTENT}`).outerHeight() || 0;
+			$eleDialog.find(`.${NAME_LAYER_CONTENT}`).outerHeight() || 0;
 		const [windowHeight, windowWidth] = [$win.height(), $win.width()];
 
 		if (type === TYPE_LOADING || type === TYPE_TIPS) {
@@ -430,12 +428,12 @@ const LayerUtils = {
 			});
 		}
 	},
-	min(_dialogID, options) {
+	min(_layer_index, options) {
 		/* 最小化 */
 		options = options || {};
-		var $eleDialog = $("#" + LAYUI_LAYER + _dialogID),
-			shadeo = $("#" + LAYUI_LAYER_SHADE + _dialogID),
-			titHeight = $eleDialog.find(`.${LAYUI_LAYER_TITLE}`).outerHeight() || 0,
+		var $eleDialog = $("#" + NAME_LAYER + _layer_index),
+			shadeo = $("#" + NAME_LAYER_SHADE + _layer_index),
+			titHeight = $eleDialog.find(`.${NAME_LAYER_TITLE}`).outerHeight() || 0,
 			left = $eleDialog.attr("minLeft") || 181 * READY.minIndex + "px",
 			position = $eleDialog.css("position"),
 			settings = {
@@ -461,25 +459,25 @@ const LayerUtils = {
 		}
 
 		$eleDialog.attr("position", position);
-		LayerUtils.style(_dialogID, settings, true);
-		$eleDialog.find(".layui-layer-min").hide();
+		LayerUtils.style(_layer_index, settings, true);
+		$eleDialog.find(".x-layer-min").hide();
 		$eleDialog.attr("type") === "page" &&
-			$eleDialog.find(LAYUI_LAYER_CONTENT).hide();
-		READY.rescollbar(_dialogID);
+			$eleDialog.find(NAME_LAYER_CONTENT).hide();
+		READY.rescollbar(_layer_index);
 
 		$eleDialog.attr(DATA_MIN_MAX_STATUS, STATUS_MIN);
 		/* 隐藏遮罩 */
 		shadeo.hide();
 	},
-	restore(_dialogID) {
+	restore(_layer_index) {
 		/* 还原 */
-		var $eleDialog = $("#" + LAYUI_LAYER + _dialogID),
-			shadeo = $("#" + LAYUI_LAYER_SHADE + _dialogID),
+		var $eleDialog = $("#" + NAME_LAYER + _layer_index),
+			shadeo = $("#" + NAME_LAYER_SHADE + _layer_index),
 			area = $eleDialog.attr("area").split(","),
 			type = $eleDialog.attr("type");
 		/* 恢复原来尺寸 */
 		LayerUtils.style(
-			_dialogID,
+			_layer_index,
 			{
 				width: parseFloat(area[0]),
 				height: parseFloat(area[1]),
@@ -490,18 +488,18 @@ const LayerUtils = {
 			},
 			true
 		);
-		$eleDialog.find(".layui-layer-max").removeClass("layui-layer-maxmin");
-		$eleDialog.find(".layui-layer-min").show();
+		$eleDialog.find(".x-layer-max").removeClass("x-layer-maxmin");
+		$eleDialog.find(".x-layer-min").show();
 		$eleDialog.attr("type") === "page" &&
-			$eleDialog.find(LAYUI_LAYER_CONTENT).show();
-		READY.rescollbar(_dialogID);
+			$eleDialog.find(NAME_LAYER_CONTENT).show();
+		READY.rescollbar(_layer_index);
 		$eleDialog.attr(DATA_MIN_MAX_STATUS, STATUS_NORNAML);
 		/* 恢复遮罩 */
 		shadeo.show();
 	},
 	full(index) {
 		/* 全屏 */
-		var $eleDialog = $("#" + LAYUI_LAYER + index),
+		var $eleDialog = $("#" + NAME_LAYER + index),
 			timer;
 
 		READY.record($eleDialog);
@@ -518,25 +516,25 @@ const LayerUtils = {
 				height: $win.height()
 			};
 			LayerUtils.style(index, style, true);
-			$eleDialog.find(".layui-layer-min").hide();
+			$eleDialog.find(".x-layer-min").hide();
 			$eleDialog.attr(DATA_MIN_MAX_STATUS, STATUS_MAX);
 		}, 100);
 	},
 	title(name, layerKey) {
 		/* 改变title */
-		$(`#${LAYUI_LAYER}${layerKey}`).find(`.${LAYUI_LAYER_TITLE}`).html(name);
+		$(`#${NAME_LAYER}${layerKey}`).find(`.${NAME_LAYER_TITLE}`).html(name);
 	},
 	async closeAll(type: string) {
 		/* 关闭所有层 */
 		const needClose: any = [];
-		$(`.${LAYUI_LAYER}`).each(function () {
+		$(`.${NAME_LAYER}`).each(function () {
 			const $ele = $(this);
 			if (type) {
 				if ($ele.attr("type") === type) {
-					needClose.push($ele.attr("data-layer-key"));
+					needClose.push($ele.attr(DATA_LAYER_INDEX));
 				}
 			} else {
-				needClose.push($ele.attr("data-layer-key"));
+				needClose.push($ele.attr(DATA_LAYER_INDEX));
 			}
 		});
 		return await Promise.all(needClose.map(LayerUtils.close));
@@ -556,10 +554,10 @@ const LayerUtils = {
 
 class ClassLayer {
 	/* 在 constructor 和 init方法里面完成 init */
-	_dialogID = 0;
-	_layerID = LAYUI_LAYER;
-	_shadeID = LAYUI_LAYER_SHADE;
-	_contentID = LAYUI_LAYER_CONTENT;
+	_layer_index = 0;
+	_layer_name = NAME_LAYER;
+	_shadeID = NAME_LAYER_SHADE;
+	_contentID = NAME_LAYER_CONTENT;
 	zIndex = 0;
 	isMax = false;
 	isNeedTitle = false;
@@ -591,7 +589,7 @@ class ClassLayer {
 		maxWidth: "360px",
 		maxHeight: 0,
 		zIndex: 1,
-		move: ".layui-layer-title",
+		move: ".x-layer-title",
 		moveOut: false,
 		onMoveEnd: false,
 		tips: 2,
@@ -614,7 +612,7 @@ class ClassLayer {
 	}
 
 	get cpt$title() {
-		return this.$eleDialog.find(`.${LAYUI_LAYER_TITLE}`);
+		return this.$eleDialog.find(`.${NAME_LAYER_TITLE}`);
 	}
 	get cpt$shade() {
 		return this.$eleDialog.find(`#${this._shadeID}`);
@@ -625,13 +623,13 @@ class ClassLayer {
 		if (!config.shade) {
 			return "";
 		}
-		return `<div class="${LAYUI_LAYER_SHADE}" id="${_shadeID}" style="z-index:${
+		return `<div class="${NAME_LAYER_SHADE}" id="${_shadeID}" style="z-index:${
 			this.zIndex - 1
 		};"></div>`;
 	}
 
 	get cptDomTitle() {
-		const { config, _layerID } = this;
+		const { config } = this;
 
 		if (this.isContentTypeObject && !this.isNeedTitle) {
 			return "";
@@ -648,12 +646,12 @@ class ClassLayer {
 			return ["", ""];
 		})();
 
-		return `<div class="${LAYUI_LAYER_TITLE}" style="${styleString}" data-layer-id="${_layerID}"> ${title} </div >`;
+		return `<div class="${NAME_LAYER_TITLE}" style="${styleString}" ${DATA_LAYER_INDEX}="${this._layer_index}"> ${title} </div >`;
 	}
 
 	get cptDomIcon() {
 		if (this.config.type == TYPE_MSG && this.config.icon !== -1) {
-			return `<i class="layui-layer-ico layui-layer-ico${this.config.icon}></i>`;
+			return `<i class="x-layer-ico x-layer-ico${this.config.icon}></i>`;
 		}
 		return "";
 	}
@@ -666,17 +664,17 @@ class ClassLayer {
 	}
 
 	get cptDomSetDialogOperations() {
-		const { config, isMax: ismax, _layerID } = this;
+		const { config, isMax: ismax, _layer_name } = this;
 		return (
-			'<span class="layui-layer-setwin">' +
+			'<span class="x-layer-setwin">' +
 			(function () {
 				var closebtn = ismax
-					? '<a class="layui-layer-min" href="javascript:;"><cite></cite></a><a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>'
+					? '<a class="x-layer-min" href="javascript:;"><cite></cite></a><a class="x-layer-ico x-layer-max" href="javascript:;"></a>'
 					: "";
 				if (config.closeBtn) {
 					closebtn +=
-						`<a data-layer-id="${_layerID}" class="layui-layer-ico ${LAYUI_LAYER_CLOSE} ` +
-						LAYUI_LAYER_CLOSE +
+						`<a ${DATA_LAYER_INDEX}="${this._layer_index}" class="x-layer-ico ${NAME_LAYER_CLOSE} ` +
+						NAME_LAYER_CLOSE +
 						(config.title
 							? config.closeBtn
 							: config.type == TYPE_TIPS
@@ -706,13 +704,13 @@ class ClassLayer {
 				config.btn,
 				(domButtonString, label) => {
 					if (label) {
-						domButtonString += `<a class="${LAYUI_LAYER_CONTENT}">${label}</a>`;
+						domButtonString += `<a class="${NAME_LAYER_CONTENT}">${label}</a>`;
 					}
 					return domButtonString;
 				},
 				""
 			);
-			return `<div class="${LAYUI_LAYER_CONTENT} layui-layer-btn-${
+			return `<div class="${NAME_LAYER_CONTENT} x-layer-btn-${
 				config.btnAlign || ""
 			}">${domButtons}</div>`;
 		}
@@ -720,7 +718,7 @@ class ClassLayer {
 	}
 
 	get cptDomResizeBar() {
-		return this.config.resize ? '<span class="layui-layer-resize"></span>' : "";
+		return this.config.resize ? '<span class="x-layer-resize"></span>' : "";
 	}
 
 	get cptDomContainer() {
@@ -728,22 +726,22 @@ class ClassLayer {
 			config,
 			isContentTypeObject,
 			zIndex,
-			_dialogID,
-			_layerID,
+			_layer_index,
+			_layer_name,
 			_contentID
 		} = this;
 
 		const fnValid = i => !!i;
 
 		const layerWrapperClassname = [
-			LAYUI_LAYER,
+			NAME_LAYER,
 			"x-dialog-wrapper",
 			"flex vertical",
-			`layui-layer-${config.type}`,
+			`x-layer-${config.type}`,
 			config.skin,
 			(() => {
 				if ([TYPE_IFRAME, TYPE_MSG].includes(config.type) && !config.shade) {
-					return "layui-layer-border";
+					return "x-layer-border";
 				}
 				return "";
 			})()
@@ -752,23 +750,22 @@ class ClassLayer {
 			.join(" ");
 
 		const classContent = [
-			LAYUI_LAYER_CONTENT,
+			NAME_LAYER_CONTENT,
 			config.contentClass,
-			config.type == TYPE_MSG && config.icon !== -1
-				? "layui-layer-padding"
-				: "",
-			config.type == TYPE_LOADING ? `layui-layer-loading${config.icon}` : ""
+			config.type == TYPE_MSG && config.icon !== -1 ? "x-layer-padding" : "",
+			config.type == TYPE_LOADING ? `x-layer-loading${config.icon}` : ""
 		]
 			.filter(fnValid)
 			.join(" ");
 
 		const [width, height] = config.area || [];
 
-		return `<div id="${_layerID}" 
-	layer-wrapper="${_layerID}" type="${config.type}"
+		return `<div id="${_layer_name}" 
+	layer-wrapper="${_layer_name}" 
+	type="${config.type}"
 	class="${layerWrapperClassname}" 
 	data-z-index="${zIndex}"
-	data-layer-key="${_dialogID}"
+	${DATA_LAYER_INDEX}="${_layer_index}"
 	data-during-time="${config.during}"
 	data-content-type="${isContentTypeObject ? "object" : "string"}"
 	style="position:fixed;
@@ -798,10 +795,10 @@ class ClassLayer {
 
 		const { config } = dialogInst;
 		/* 随layer 的增减变动 */
-		dialogInst._dialogID = xU.genId("");
-		dialogInst._layerID = `${LAYUI_LAYER}${dialogInst._dialogID}`;
-		dialogInst._shadeID = `${LAYUI_LAYER_SHADE}${dialogInst._dialogID}`;
-		dialogInst._contentID = `${LAYUI_LAYER_CONTENT}${dialogInst._dialogID}`;
+		dialogInst._layer_index = xU.genId("");
+		dialogInst._layer_name = `${NAME_LAYER}${dialogInst._layer_index}`;
+		dialogInst._shadeID = `${NAME_LAYER_SHADE}${dialogInst._layer_index}`;
+		dialogInst._contentID = `${NAME_LAYER_CONTENT}${dialogInst._layer_index}`;
 
 		/* shade 会-1 */
 		dialogInst.zIndex = READY.zIndex + (dialogInst.config.zIndex as number);
@@ -856,7 +853,7 @@ class ClassLayer {
 
 				config.btn = [];
 				config.content = `
-<iframe class="layui-layer-load flex flex1" 
+<iframe class="x-layer-load flex flex1" 
 		scrolling="${scrolling}" 
 		src="${src}"
 		allowtransparency="true"
@@ -876,7 +873,7 @@ class ClassLayer {
 					config.content = [config.content, "body"];
 				}
 				config.follow = config.content[1];
-				const arrowDomString = '<i class="layui-layer-TipsG"></i>';
+				const arrowDomString = '<i class="x-layer-TipsG"></i>';
 				const styleObj = {
 					"max-width": config?.custumSettings?.maxWidth || "300px",
 					"font-size": "14px",
@@ -906,7 +903,7 @@ class ClassLayer {
 	async initPosition() {
 		await xU.sleep(34);
 		const dialogInst = this;
-		const { config, _dialogID } = dialogInst;
+		const { config, _layer_index } = dialogInst;
 		/* 首次弹出时，若 css 尚未加载，则等待 css 加载完毕后，重新设定尺寸 */
 		dialogInst.setPosition();
 		if (config.type === TYPE_TIPS) {
@@ -915,7 +912,7 @@ class ClassLayer {
 		dialogInst.$eleDialog.css("visibility", "visible");
 		if (config.fullscreen) {
 			setTimeout(() => {
-				LayerUtils.full(_dialogID);
+				LayerUtils.full(_layer_index);
 			}, 500);
 		}
 
@@ -931,7 +928,7 @@ class ClassLayer {
  */
 		if (typeof config.during === "number" && config.during > 0) {
 			setTimeout(function () {
-				LayerUtils.close(dialogInst._dialogID);
+				LayerUtils.close(dialogInst._layer_index);
 			}, config.during);
 		}
 		/* 最后至于最上层 */
@@ -966,7 +963,7 @@ class ClassLayer {
 		/* 容器 */
 		const dialogInst = this;
 		/* moving 的遮罩是单例 */
-		const { config, _dialogID, _shadeID } = dialogInst;
+		const { config, _layer_index, _shadeID } = dialogInst;
 		dialogInst.$eleDialog = $(dialogInst.cptDomContainer);
 		/*  */
 		if (
@@ -974,7 +971,7 @@ class ClassLayer {
 			(xU.isString(config.content) || xU.isString(config.content.jquery))
 		) {
 			const $content = $(config.content);
-			dialogInst.$eleDialog.find(`.${LAYUI_LAYER_CONTENT}`).append($content);
+			dialogInst.$eleDialog.find(`.${NAME_LAYER_CONTENT}`).append($content);
 		}
 		dialogInst.$eleDialog.css({
 			visibility: "hidden",
@@ -996,7 +993,7 @@ class ClassLayer {
 		}
 
 		if (!config.scrollbar) {
-			$html.css("overflow", "hidden").attr("layer-full", _dialogID);
+			$html.css("overflow", "hidden").attr("layer-full", _layer_index);
 		}
 
 		return dialogInst;
@@ -1141,9 +1138,7 @@ class ClassLayer {
 				function setTipsG() {
 					const boxW = tipsDomWidth;
 					const boxH = tipsdomHeight;
-					const canvas = $(
-						`<canvas width="${boxW}px" height="${boxH}px"/>`
-					)[0];
+					const canvas = $(`<canvas width="${boxW}px" height="${boxH}px"/>`)[0];
 					const ctx = canvas.getContext("2d");
 					const RADIUS = 4;
 					const [cW, cH] = [$tipsContent.width(), $tipsContent.height()];
@@ -1228,7 +1223,7 @@ class ClassLayer {
 
 		/* 8*2为小三角形占据的空间 */
 		$eleDialog.attr(DATA_TIPS_FOLLOW_ID, config.follow.substring(1));
-		$eleDialog.find(`.${LAYUI_LAYER_CONTENT}`).css({
+		$eleDialog.find(`.${NAME_LAYER_CONTENT}`).css({
 			// "background-color": customColor,
 			"padding-right": config.closeBtn ? "30px" : ""
 		});
@@ -1239,7 +1234,7 @@ class ClassLayer {
 			// left: followInfo.tipLeft - $win.scrollLeft(),
 			// top: followInfo.tipTop - $win.scrollTop()
 			/* TODO: 动画 */
-			// "transform-origin": [ $tipsG.hasClass("layui-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("layui-layer-TipsL") ? "left" : "right" ].join(" ")
+			// "transform-origin": [ $tipsG.hasClass("x-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("x-layer-TipsL") ? "left" : "right" ].join(" ")
 		});
 	}
 
@@ -1248,7 +1243,7 @@ class ClassLayer {
 		var dialogInst = this;
 		const { config, $eleDialog } = dialogInst;
 		const $eleMove = $eleDialog.find(config.move);
-		const $eleResize = $eleDialog.find(".layui-layer-resize");
+		const $eleResize = $eleDialog.find(".x-layer-resize");
 
 		/*  */
 		$eleMove.css("cursor", "move");
@@ -1287,7 +1282,7 @@ class ClassLayer {
 	insertSuccessAndAddListener() {
 		const dialogInst = this;
 		/* resize时重新resize */
-		INSTANCE_DIALOG_COLLECTION[this._dialogID] = this;
+		INSTANCE_DIALOG_COLLECTION[this._layer_index] = this;
 
 		const { $eleDialog, config } = dialogInst;
 
@@ -1306,44 +1301,44 @@ class ClassLayer {
 		function handleClickBtn() {
 			/* 按钮 */
 			$eleDialog
-				.find(`.${LAYUI_LAYER_CONTENT}`)
+				.find(`.${NAME_LAYER_CONTENT}`)
 				.children("a")
 				.on("click", function () {
 					var index = $(this).index();
 					if (index === 0) {
 						if (config.yes) {
-							config.yes(dialogInst._dialogID, $eleDialog);
+							config.yes(dialogInst._layer_index, $eleDialog);
 						} else if (config["btn1"]) {
-							config["btn1"](dialogInst._dialogID, $eleDialog);
+							config["btn1"](dialogInst._layer_index, $eleDialog);
 						} else {
-							LayerUtils.close(dialogInst._dialogID);
+							LayerUtils.close(dialogInst._layer_index);
 						}
 					} else {
 						var close =
 							config["btn" + (index + 1)] &&
-							config["btn" + (index + 1)](dialogInst._dialogID, $eleDialog);
-						close === false || LayerUtils.close(dialogInst._dialogID);
+							config["btn" + (index + 1)](dialogInst._layer_index, $eleDialog);
+						close === false || LayerUtils.close(dialogInst._layer_index);
 					}
 				});
 		}
 
 		function handleClickCloseBtn() {
 			/* 右上角关闭回调 */
-			$eleDialog.find(`.${LAYUI_LAYER_CLOSE}`).on("click", async function () {
+			$eleDialog.find(`.${NAME_LAYER_CLOSE}`).on("click", async function () {
 				/* 关闭 */
 				let isClosed = false;
 				const isNeedClose = await config.onClickClose({
-					_dialogID: dialogInst._dialogID,
+					_layer_index: dialogInst._layer_index,
 					$eleDialog,
 					dialogOptions: ""
 				});
 
 				if (isNeedClose) {
 					if (!isClosed) {
-						isClosed = await LayerUtils.close(dialogInst._dialogID);
+						isClosed = await LayerUtils.close(dialogInst._layer_index);
 					}
 					if (!isClosed) {
-						await LayerUtils.close($(this).attr("data-layer-id"));
+						await LayerUtils.close($(this).attr(DATA_LAYER_INDEX));
 					}
 				}
 			});
@@ -1352,27 +1347,27 @@ class ClassLayer {
 			/* 点遮罩关闭 */
 			if (config.shadeClose) {
 				dialogInst.$eleShade.on("click", function () {
-					LayerUtils.close(dialogInst._dialogID);
+					LayerUtils.close(dialogInst._layer_index);
 				});
 			}
 		}
 		function handleClickMin(params: type) {
 			/* 最小化 */
-			$eleDialog.find(".layui-layer-min").on("click", function () {
-				var min = config.min && config.min($eleDialog, dialogInst._dialogID);
-				min === false || LayerUtils.min(dialogInst._dialogID, config);
+			$eleDialog.find(".x-layer-min").on("click", function () {
+				var min = config.min && config.min($eleDialog, dialogInst._layer_index);
+				min === false || LayerUtils.min(dialogInst._layer_index, config);
 			});
 		}
 		function handleClickMax(params: type) {
 			/* 全屏/还原 */
-			$eleDialog.find(".layui-layer-max").on("click", function () {
-				if ($(this).hasClass("layui-layer-maxmin")) {
-					LayerUtils.restore(dialogInst._dialogID);
-					config.restore && config.restore($eleDialog, dialogInst._dialogID);
+			$eleDialog.find(".x-layer-max").on("click", function () {
+				if ($(this).hasClass("x-layer-maxmin")) {
+					LayerUtils.restore(dialogInst._layer_index);
+					config.restore && config.restore($eleDialog, dialogInst._layer_index);
 				} else {
-					LayerUtils.full(dialogInst._dialogID, config);
+					LayerUtils.full(dialogInst._layer_index, config);
 					setTimeout(function () {
-						config.full && config.full($eleDialog, dialogInst._dialogID);
+						config.full && config.full($eleDialog, dialogInst._layer_index);
 					}, 100);
 				}
 			});
@@ -1385,7 +1380,7 @@ class ClassLayer {
 		handleClickMax();
 
 		if (config.end) {
-			READY.end[dialogInst._dialogID] = config.end;
+			READY.end[dialogInst._layer_index] = config.end;
 		}
 
 		if (![TYPE_TIPS, TYPE_MSG, TYPE_LOADING].includes(config.type)) {
@@ -1406,7 +1401,7 @@ $document
 	})
 	.on(
 		"mousemove",
-		`.${LAYUI_LAYER_MOVE}`,
+		`.${NAME_LAYER_MOVE}`,
 		function (e) {
 			const { moveOrResizeInstance, moveOrResizeType, onMoving } = READY;
 			/* 拖拽移动 */

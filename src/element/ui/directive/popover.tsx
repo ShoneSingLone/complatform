@@ -2,14 +2,19 @@ import $ from "jquery";
 import { createApp } from "vue";
 import { xU } from "../ventoseUtils";
 import { i_layerOptions } from "../xSingle/layer/i_layerOptions";
-import { DATA_TIPS_FOLLOW_ID, LayerUtils } from "../xSingle/layer/LayerUtils";
+import {
+	DATA_LAYER_INDEX,
+	DATA_TIPS_FOLLOW_ID,
+	LayerUtils
+} from "../xSingle/layer/LayerUtils";
 import {
 	appAddPlugin,
 	appDependState,
 	DATA_APP_ID,
-	DATA_FOLLOW_ID,
+	TIPS_TARGET_ID,
+	X_TIPS_TARGET,
 	timer4CloseTips,
-	visibleArea
+	tipsShouldInVisibleArea
 } from "./directiveState";
 
 type t_trigger = "click" | "rightClick";
@@ -19,19 +24,20 @@ type t_uiPopoverOptions = {
 };
 
 /* 开发的时候不想关闭，可以把时间值调高 */
-// const TIMEOUT_DELAY = 200*10000;
+// const TIMEOUT_DELAY = 200 * 10000;
 const TIMEOUT_DELAY = 200;
 /* 缓存 popover 的配置信息 */
 const tipsOptionsCollection: {
 	[prop: string]: t_uiPopoverOptions;
 } = {};
+
 /**/
 const tipsKeys: {
 	[prop: string]: Number;
 } = {};
 
-function fnShowTips({ $ele, followId, appId, event }: any) {
-	const options = tipsOptionsCollection[followId] || { content: "" };
+function openTips({ $ele, xTipsTargetID, appId, event }: any) {
+	const options = tipsOptionsCollection[xTipsTargetID] || { content: "" };
 	/* onlyEllipsis,content */
 	if (!options.content) {
 		/* 是不是需要判断内容有省略号 */
@@ -77,7 +83,7 @@ function fnShowTips({ $ele, followId, appId, event }: any) {
 
 	/* TODO:目前只考虑vue组件对象 */
 	if (xU.isPlainObject(options.content)) {
-		const id = `${followId}_content`;
+		const id = `${xTipsTargetID}_content`;
 		/* 桩 */
 		tipsContent = `<div id="${id}"></div>`;
 		/* @ts-ignore */
@@ -104,12 +110,8 @@ function fnShowTips({ $ele, followId, appId, event }: any) {
 	}
 
 	setTimeout(() => {
-		if (visibleArea[followId]) {
-			tipsKeys[followId] = LayerUtils.tips(
-				tipsContent,
-				`#${followId}`,
-				layerTipsOptions
-			);
+		if (tipsShouldInVisibleArea[xTipsTargetID]) {
+			LayerUtils.tips(tipsContent, `#${xTipsTargetID}`, layerTipsOptions);
 		}
 		/* 如果delay之后还存在，再展示 */
 		/* @ts-ignore */
@@ -130,34 +132,36 @@ export function installPopoverDirective(app: any, appSettings: any) {
 			updateMounted(el, binding);
 
 			function init() {
-				const followId = xU.genId("xPopoverTarget");
+				const xTipsTargetID = xU.genId("xTipsTarget");
 				const $ele = $(el);
 				$ele
 					.addClass("x-ui-popover")
-					.attr("id", followId)
 					.attr(DATA_APP_ID, appId)
-					.attr(DATA_FOLLOW_ID, followId);
+					.attr("id", xTipsTargetID);
 			}
 		},
 		beforeUpdate(el: any, binding: any) {
 			updateMounted(el, binding);
 		},
 		unmounted(el: any) {
-			const followId: any = $(el).attr(DATA_FOLLOW_ID);
-			if (typeof tipsKeys[followId] == "string" && tipsKeys[followId]) {
+			const xTipsTargetID: any = $(el).attr("id");
+			const _layer_index = $(`[${TIPS_TARGET_ID}=${xTipsTargetID}]`).attr(
+				DATA_LAYER_INDEX
+			);
+			if (_layer_index) {
 				/* @ts-ignore */
-				LayerUtils.close(tipsKeys[followId]);
+				LayerUtils.close(_layer_index);
 			}
-			delete tipsOptionsCollection[followId];
-			delete visibleArea[followId];
+			delete tipsOptionsCollection[xTipsTargetID];
+			delete tipsShouldInVisibleArea[xTipsTargetID];
 		}
 	});
 
 	function updateMounted(el: any, binding: any) {
 		const $ele = $(el);
-		const followId: any = $ele.attr(DATA_FOLLOW_ID);
+		const xTipsTargetID: any = $ele.attr("id");
 		if (binding.value) {
-			tipsOptionsCollection[followId] = binding.value;
+			tipsOptionsCollection[xTipsTargetID] = binding.value;
 			if (binding.value?.trigger) {
 				$ele.attr("data-trigger", binding.value?.trigger);
 				const classStrategy = {
@@ -181,42 +185,46 @@ export function installPopoverDirective(app: any, appSettings: any) {
 	}
 }
 
-function inVisibleArea(followId: string) {
+function inVisibleArea(xTipsTargetID: string) {
 	/*不关闭，取消定时器*/
-	if (timer4CloseTips[followId]) {
-		clearTimeout(timer4CloseTips[followId]);
-		delete timer4CloseTips[followId];
+	if (timer4CloseTips[xTipsTargetID]) {
+		clearTimeout(timer4CloseTips[xTipsTargetID]);
+		delete timer4CloseTips[xTipsTargetID];
 	}
-	visibleArea[followId] = true;
+	/* 保持当前tips在可以范围 */
+	tipsShouldInVisibleArea[xTipsTargetID] = true;
 }
 
-function closeTips(followId: string, options = {}) {
-	delete visibleArea[followId];
-	timer4CloseTips[followId] = setTimeout(() => {
-		const layerIndex = tipsKeys[followId];
-		if (layerIndex) {
+function closeTipsByTargetId(xTipsTargetID: string, options = {}) {
+	delete tipsShouldInVisibleArea[xTipsTargetID];
+	let layerIndex = tipsIndex(xTipsTargetID);
+	if (layerIndex) {
+		timer4CloseTips[xTipsTargetID] = setTimeout(() => {
 			/* @ts-ignore */
-			LayerUtils.close(layerIndex).then(() => {
-				delete tipsKeys[followId];
-				delete timer4CloseTips[followId];
+			LayerUtils.close(layerIndex).finally(() => {
+				delete timer4CloseTips[xTipsTargetID];
 			});
-		}
-	}, TIMEOUT_DELAY);
+		}, TIMEOUT_DELAY);
+	}
 }
 
+function tipsIndex(xTipsTargetID) {
+	return $(`[${DATA_TIPS_FOLLOW_ID}=${xTipsTargetID}]`).attr(DATA_LAYER_INDEX);
+}
 /* listener */
 
 function handleClick(event: any) {
 	event.preventDefault();
 	/* @ts-ignore */
 	const $ele: any = $(this);
-	const followId = $ele.attr(DATA_FOLLOW_ID);
+	const xTipsTargetID = $ele.attr("id");
 	const appId = $ele.attr(DATA_APP_ID);
-	visibleArea[followId] = true;
-	if (tipsKeys[followId]) {
-		closeTips(followId);
+	tipsShouldInVisibleArea[xTipsTargetID] = true;
+
+	if (tipsIndex(xTipsTargetID)) {
+		closeTipsByTargetId(xTipsTargetID);
 	} else {
-		fnShowTips({ $ele, followId, appId, event });
+		openTips({ $ele, xTipsTargetID, appId, event });
 	}
 }
 
@@ -224,47 +232,56 @@ function handleClick(event: any) {
 /* 左键单击 */
 $(document).on(
 	"click.uiPopver",
-	`[${DATA_FOLLOW_ID}][data-trigger=click]`,
+	`[id^=${X_TIPS_TARGET}][data-trigger=click]`,
 	handleClick
 );
 /* 右键单击 */
 $(document).on(
 	"contextmenu.uiPopver",
-	`[${DATA_FOLLOW_ID}][data-trigger=rightClick]`,
+	`[id^=${X_TIPS_TARGET}][data-trigger=rightClick]`,
 	handleClick
 );
 
 /* 鼠标hover处理 */
-$(document).on("mouseenter.uiPopver", `[${DATA_FOLLOW_ID}]`, function (event) {
-	const $ele: any = $(this);
-	const followId = $ele.attr(DATA_FOLLOW_ID);
-	if (visibleArea[followId]) {
-		return;
-	} else {
-		const appId = $ele.attr(DATA_APP_ID);
-		inVisibleArea(followId);
-		/*如果存在，不重复添加*/
-		if (tipsKeys[followId]) {
+$(document).on(
+	"mouseenter.uiPopver",
+	`[id^=${X_TIPS_TARGET}]`,
+	function (event) {
+		console.log(event);
+		const $ele: any = $(this);
+		const xTipsTargetID = $ele.attr("id");
+		if (tipsShouldInVisibleArea[xTipsTargetID]) {
 			return;
-		}
+		} else {
+			const appId = $ele.attr(DATA_APP_ID);
+			inVisibleArea(xTipsTargetID);
+			/*如果存在，不重复添加*/
+			if (tipsKeys[xTipsTargetID]) {
+				return;
+			}
 
-		if (($ele.attr("data-trigger") as t_trigger) === "click") {
-			return;
-		}
-		if (($ele.attr("data-trigger") as t_trigger) === "rightClick") {
-			return;
-		}
+			if (($ele.attr("data-trigger") as t_trigger) === "click") {
+				return;
+			}
+			if (($ele.attr("data-trigger") as t_trigger) === "rightClick") {
+				return;
+			}
 
-		fnShowTips({ $ele, followId, appId, event });
+			openTips({ $ele, xTipsTargetID: xTipsTargetID, appId, event });
+		}
 	}
-});
+);
 
-$(document).on("mouseleave.uiPopver", `[${DATA_FOLLOW_ID}]`, function (event) {
-	const followId = $(this).attr(DATA_FOLLOW_ID);
-	/*如果鼠标又移动到TIPS范围内，则不close*/
-	/* @ts-ignore */
-	closeTips(followId);
-});
+$(document).on(
+	"mouseleave.uiPopver",
+	`[id^=${X_TIPS_TARGET}]`,
+	function (event) {
+		const xTipsTargetID = $(this).attr("id");
+		/*如果鼠标又移动到TIPS范围内，则不close*/
+		/* @ts-ignore */
+		closeTipsByTargetId(xTipsTargetID);
+	}
+);
 
 /*
  * 鼠标滑动到弹出的tips上，
@@ -274,9 +291,10 @@ $(document).on(
 	"mouseenter.uiPopverTips",
 	`[${DATA_TIPS_FOLLOW_ID}]`,
 	function (event) {
-		const followId = $(this).attr(DATA_TIPS_FOLLOW_ID);
+		/* 跟随的元素ID */
+		const xTipsTargetID = $(this).attr(DATA_TIPS_FOLLOW_ID);
 		/* @ts-ignore */
-		inVisibleArea(followId);
+		inVisibleArea(xTipsTargetID);
 	}
 );
 
@@ -284,8 +302,8 @@ $(document).on(
 	"mouseleave.uiPopverTips",
 	`[${DATA_TIPS_FOLLOW_ID}]`,
 	function (event) {
-		const followId = $(this).attr(DATA_TIPS_FOLLOW_ID);
+		const xTipsTargetID = $(this).attr(DATA_TIPS_FOLLOW_ID);
 		/*如果鼠标又移动到TIPS范围内，则不close*/
-		closeTips(followId as string);
+		closeTipsByTargetId(xTipsTargetID as string);
 	}
 );

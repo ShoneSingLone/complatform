@@ -1,5 +1,5 @@
 import { computed, reactive, watch } from "vue";
-import { lStorage, State_UI, UI, xU, $t } from "@ventose/ui";
+import { UI, xU, $t } from "@ventose/ui";
 import { Cpt_url } from "./../router/router";
 import { API } from "./../api";
 
@@ -58,9 +58,7 @@ let _State_App = {
 	}
 };
 
-_State_App = reactive(
-	xU.merge(_State_App, lStorage.State_App, { baseURL: window.__BASE_URL })
-);
+_State_App = reactive(xU.merge(_State_App, { baseURL: window.__BASE_URL }));
 _State_App.urlHash = window.location.hash;
 
 export const Methods_App = {
@@ -245,14 +243,6 @@ export const Methods_App = {
 };
 
 /* 有关全局的状态，变动 */
-
-watch(
-	_State_App,
-	xU.debounce(function () {
-		lStorage.State_App = _State_App;
-	}),
-	{ immediate: true }
-);
 
 watch(
 	() => Cpt_url.value.query.group_id,
