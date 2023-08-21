@@ -8,24 +8,20 @@ export default defineComponent({
 		xU("xItem Select");
 	},
 	data(vm) {
-		return {
-			_modelValue: ""
-		};
+		return {};
 	},
 	methods: {},
-	watch: {
-		"properties.value"(value) {
-			if (value !== undefined) {
-				if (value !== this._modelValue) {
-					this._modelValue = value;
-				}
+	watch: {},
+	computed: {
+		_modelValue: {
+			get() {
+				return this.properties.value;
+			},
+			set(val) {
+				this.listeners["onEmitItemValue"](val);
 			}
-		},
-		_modelValue(modelValue) {
-			this.listeners["onEmitItemValue"](modelValue);
 		}
 	},
-	computed: {},
 	render(vm) {
 		const { properties, listeners, propsWillDeleteFromConfigs } = vm;
 

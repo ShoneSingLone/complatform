@@ -531,6 +531,7 @@ export const xItem = defineComponent({
 		return (
 			<div id={xItem_id} class={this.itemWrapperClass}>
 				{/* label */}
+				{/* {this.privateValue} */}
 				{this.labelVNode}
 				{/* 控件 */}
 				<div class="x-form-item-control" data-x-item-type={itemTypeName}>

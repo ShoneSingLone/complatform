@@ -163,9 +163,9 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 				value
 			};
 		}),
-		afterControll: ({ privateValue }) => (
-			<xIcon icon={privateValue} style="margin:0 20px" />
-		)
+		afterControll: ({ privateValue }) => {
+			return <xIcon icon={privateValue} style="margin:0 20px" />;
+		}
 	};
 };
 export const xItem_ProjectName = (options: any = {}) => {
@@ -278,10 +278,12 @@ export const DialogAddProject = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
+					{JSON.stringify(pickValueFrom(this.dataXItem))}
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
 						{xU.map(this.dataXItem, (configs, prop) => {
+							console.log(configs);
 							return (
 								<>
 									<xGap t="10" />

@@ -1,3 +1,32 @@
+.x-layer-dialog {
+	min-width: 300px;
+	// transition: all 0.5s ease-in-out;
+
+	.x-layer-content {
+		position: relative;
+		padding: 20px;
+		line-height: 24px;
+		word-break: break-all;
+		overflow: hidden;
+		font-size: 14px;
+		overflow-x: hidden;
+		overflow-y: auto;
+
+		.x-layer-ico {
+			position: absolute;
+			top: 16px;
+			left: 15px;
+			width: 30px;
+			height: 30px;
+		}
+	}
+
+	.x-layer-padding {
+		padding: 20px 20px 20px 55px;
+		text-align: left;
+	}
+}
+
 [id^="xTipsTarget"] {
 	// background-color: #009f95;
 }
@@ -101,6 +130,7 @@ html #layuicss-layer {
 	margin: 0;
 	padding: 0;
 	background: #fff;
+	max-height: calc(100vh - 32px);
 }
 
 .x-layer-close {
@@ -407,29 +437,6 @@ html #layuicss-layer {
 	text-align: center;
 }
 
-.x-layer-dialog {
-	min-width: 300px;
-}
-
-.x-layer-dialog .x-layer-content {
-	position: relative;
-	padding: 20px;
-	line-height: 24px;
-	word-break: break-all;
-	overflow: hidden;
-	font-size: 14px;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-.x-layer-dialog .x-layer-content .x-layer-ico {
-	position: absolute;
-	top: 16px;
-	left: 15px;
-	width: 30px;
-	height: 30px;
-}
-
 .x-layer-ico1 {
 	background-position: -30px 0;
 }
@@ -479,11 +486,6 @@ html #layuicss-layer {
 .x-layer-hui .x-layer-content {
 	padding: 12px 25px;
 	text-align: center;
-}
-
-.x-layer-dialog .x-layer-padding {
-	padding: 20px 20px 20px 55px;
-	text-align: left;
 }
 
 .x-layer-page .x-layer-content {
