@@ -84,7 +84,7 @@ export default defineComponent({
 					class="pointer icon-item-wrapper"
 					onClick={this.followIconClickHandler}>
 					<ElTooltip content={this.followIconTitle} placement="top-start">
-						<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
+						<xIcon icon={this.followIconIcon} style={{ fill: "#faad14" }} />
 					</ElTooltip>
 				</div>
 			);
@@ -96,7 +96,7 @@ export default defineComponent({
 						class="pointer icon-copy icon-item-wrapper"
 						onClick={this.showCopyProjectDialog}>
 						<ElTooltip content="复制项目" placement="top-start">
-							<xIcon icon="copy" style={{ color: "#232426" }} />
+							<xIcon icon="copy" style={{ fill: "#232426" }} />
 						</ElTooltip>
 					</div>
 				);
@@ -105,7 +105,7 @@ export default defineComponent({
 		},
 		iconStyle() {
 			return {
-				color: "white",
+				fill: "white",
 				width: "48px",
 				height: "48px",
 				borderRadius: "var(--baorder-radius,10px)",

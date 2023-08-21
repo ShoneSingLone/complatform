@@ -37,16 +37,16 @@ export const GroupProjectList = defineComponent({
 		vDomAddProjectButton() {
 			if (this.isAuthAddProject) {
 				return (
-					<ElButton type="primary" onClick={this.showAddProjectDialog}>
+					<xButton type="primary" onClick={this.showAddProjectDialog}>
 						添加项目
-					</ElButton>
+					</xButton>
 				);
 			} else {
 				return (
 					<ElTooltip content="您没有权限,请联系该分组组长或管理员">
-						<ElButton type="primary" disabled>
+						<xButton type="primary" disabled>
 							添加项目
-						</ElButton>
+						</xButton>
 					</ElTooltip>
 				);
 			}
@@ -119,8 +119,7 @@ export const GroupProjectList = defineComponent({
 				this.State_App?.currGroup?.role
 			);
 			const _isShow =
-				isGroupRoleAuth ||
-				[ADMIN, OWNER].includes(this.State_App.user.role);
+				isGroupRoleAuth || [ADMIN, OWNER].includes(this.State_App.user.role);
 			if (!_isShow) {
 				xU("isAuthAddProject", this.State_App.user.role);
 			}
@@ -153,9 +152,9 @@ export const GroupProjectList = defineComponent({
 				</div>
 			);
 		},
-		showAddProjectDialog() {
+		async showAddProjectDialog() {
 			const vm = this;
-			UI.dialog.component({
+			await UI.dialog.component({
 				title: "添加项目",
 				component: DialogAddProject,
 				groupId: vm.Cpt_url.query.group_id,

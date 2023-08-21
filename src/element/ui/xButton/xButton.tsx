@@ -40,8 +40,13 @@ export type t_buttonOptions = {
 	onClick?: () => Promise<any>;
 };
 
+export const THIS_BTN_IS_LOADING = {
+	loading: false
+};
+
 export default defineComponent({
 	name: "xButton",
+	inheritAttrs: false,
 	props: {
 		payload: {
 			type: Object,
@@ -58,7 +63,6 @@ export default defineComponent({
 	},
 	beforeMount() {
 		if (!this.configs) {
-			debugger;
 			return;
 		}
 		/* 预置 */
@@ -88,12 +92,13 @@ export default defineComponent({
 		return { Cpt_isShow };
 	},
 	computed: {
-		isClickHandlerOnAttrs() {
-			return !!this.$attrs?.onClick;
-		},
-		type() {
+		cpt_type() {
 			if (["query", "save"].includes(this.configs.preset)) {
 				return "primary";
+			}
+
+			if (this.$attrs.type) {
+				return this.$attrs.type;
 			}
 			return this.configs.type;
 		},
@@ -123,6 +128,29 @@ export default defineComponent({
 			}
 			/* text 作为 string */
 			return this.configs.text || "";
+		},
+		cpt_onClick() {
+			const onClick = (() => {
+				if (xU.isFunction(this.$attrs?.onClick)) {
+					return this.$attrs?.onClick;
+				}
+				if (xU.isFunction(this?.configs?.onClick)) {
+					return this?.configs?.onClick;
+				}
+				return () => null;
+			})();
+			return async (...args) => {
+				this.loading = true;
+				THIS_BTN_IS_LOADING.loading = this.$el;
+				try {
+					await onClick.apply(this, args);
+				} catch (e) {
+					console.error(e);
+				} finally {
+					THIS_BTN_IS_LOADING.loading = false;
+					this.loading = false;
+				}
+			};
 		}
 	},
 	watch: {
@@ -130,21 +158,6 @@ export default defineComponent({
 			immediate: true,
 			handler(configs) {
 				this.loading = !!configs.loading;
-			}
-		}
-	},
-	created() {},
-	methods: {
-		async handleButtonClick() {
-			if (xU.isFunction(this?.configs?.onClick)) {
-				this.loading = true;
-				try {
-					await this?.configs?.onClick.call(this.configs, this);
-				} catch (e) {
-					console.error(e);
-				} finally {
-					this.loading = false;
-				}
 			}
 		}
 	},
@@ -160,21 +173,18 @@ export default defineComponent({
 			"onClick"
 		];
 		const _properties = xU.omit(this.configs, propsWillDeleteFromProperty);
-		/* 直接在dom上的onClick优先级更高, */
-		if (!this.isClickHandlerOnAttrs) {
-			_properties.onClick = this.handleButtonClick;
-		}
 
 		if (this.title) {
 			_properties.title = this.title;
 		}
 		return (
 			<ElButton
+				onClick={this.cpt_onClick}
 				class="x-button antdv-button"
 				loading={this.loading}
 				disabled={!!this.disabled}
-				type={this.type}
-				{...xU.omit(_properties, ["icon"])}
+				type={this.cpt_type}
+				{...xU.omit(_properties, ["icon", "onClick"])}
 				v-slots={{
 					default: () => {
 						const vDomDefautl = this.$slots.default && this.$slots.default();

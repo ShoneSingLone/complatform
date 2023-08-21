@@ -231,7 +231,8 @@ export const GroupLeftSider = defineComponent({
 								return (
 									<xIcon
 										v-uiPopover={{
-											content: vm.$t("修改分组信息").label
+											content: vm.$t("修改分组信息").label,
+											placement: "bottom"
 										}}
 										class="group-menu-icon editSet pointer"
 										icon="edit"

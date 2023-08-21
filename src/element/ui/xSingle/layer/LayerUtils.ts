@@ -30,7 +30,7 @@ const STATUS_MIN = "min";
 const STATUS_NORNAML = "nornaml";
 const STATUS_MAX = "max";
 
-const LAYER_UP = "top";
+const LAYER_TOP = "top";
 const LAYER_RIGHT = "right";
 const LAYER_BOTTOM = "bottom";
 const LAYER_LEFT = "left";
@@ -664,16 +664,16 @@ class ClassLayer {
 	}
 
 	get cptDomSetDialogOperations() {
-		const { config, isMax: ismax, _layer_name } = this;
+		const { config, isMax: ismax, _layer_index } = this;
 		return (
 			'<span class="x-layer-setwin">' +
-			(function () {
+			(() => {
 				var closebtn = ismax
 					? '<a class="x-layer-min" href="javascript:;"><cite></cite></a><a class="x-layer-ico x-layer-max" href="javascript:;"></a>'
 					: "";
 				if (config.closeBtn) {
 					closebtn +=
-						`<a ${DATA_LAYER_INDEX}="${this._layer_index}" class="x-layer-ico ${NAME_LAYER_CLOSE} ` +
+						`<a ${DATA_LAYER_INDEX}="${_layer_index}" class="x-layer-ico ${NAME_LAYER_CLOSE} ` +
 						NAME_LAYER_CLOSE +
 						(config.title
 							? config.closeBtn
@@ -872,22 +872,16 @@ class ClassLayer {
 				if (!isContentTypeObject) {
 					config.content = [config.content, "body"];
 				}
-				config.follow = config.content[1];
-				const arrowDomString = '<i class="x-layer-TipsG"></i>';
-				const styleObj = {
-					"max-width": config?.custumSettings?.maxWidth || "300px",
-					"font-size": "14px",
-					overflow: "auto",
-					position: "relative"
-				};
-				const styleString = xU._$toStyle(styleObj);
-				const tipsString = config.content[0];
-				config.content = `<div style="${styleString}" class="tipsContent"> ${tipsString} <div>`;
-
+				const [tipsString, follow] = config.content;
+				config.follow = follow;
+				config.content = `<div class="layerContent_tips"> ${tipsString} <div>`;
 				delete config.title;
+
 				config.btn = [];
-				config.tips =
-					typeof config.tips === "object" ? config.tips : [config.tips, true];
+				config.tips = xU.isArray(config.tips)
+					? config.tips
+					: [config.tips, true];
+
 				/* 如果不允许同时有多个tips，关闭之前的所有tips */
 				config.tipsMore || LayerUtils.closeAll("tips");
 			}
@@ -909,7 +903,7 @@ class ClassLayer {
 		if (config.type === TYPE_TIPS) {
 			dialogInst.setTips();
 		}
-		dialogInst.$eleDialog.css("visibility", "visible");
+
 		if (config.fullscreen) {
 			setTimeout(() => {
 				LayerUtils.full(_layer_index);
@@ -933,7 +927,7 @@ class ClassLayer {
 		}
 		/* 最后至于最上层 */
 		LayerUtils.setLayerTop(dialogInst.$eleDialog);
-
+		this.$eleDialog.css("visibility", "visible");
 		return dialogInst;
 	}
 
@@ -971,15 +965,21 @@ class ClassLayer {
 			(xU.isString(config.content) || xU.isString(config.content.jquery))
 		) {
 			const $content = $(config.content);
+
 			dialogInst.$eleDialog.find(`.${NAME_LAYER_CONTENT}`).append($content);
 		}
-		dialogInst.$eleDialog.css({
-			visibility: "hidden",
-			top: "100px",
-			left: "100px"
-			// top: "100vh",
-			// left: "100vw"
-		});
+		if (config.triggerDom) {
+			dialogInst.$eleDialog.css({
+				visibility: "hidden",
+				...config.triggerDom
+			});
+		} else {
+			dialogInst.$eleDialog.css({
+				visibility: "hidden",
+				top: "100px",
+				left: "100px"
+			});
+		}
 		$html.append(dialogInst.$eleDialog);
 
 		/* 当前实例的遮罩 */
@@ -1085,71 +1085,24 @@ class ClassLayer {
 	}
 
 	async setTips() {
-		/* Tips=================470 */
-		const dialogInst = this;
-		const { config, $eleDialog } = dialogInst;
-		const [tipsDomWidth, tipsdomHeight] = [
-			$eleDialog.outerWidth(),
-			$eleDialog.outerHeight()
-		];
+		function setTipsG({ direction }) {
+			const RADIUS = 4;
+			const { dialogW, dialogH } = info;
+			const canvasString = `<canvas width="${dialogW}" height="${dialogH}"/>`;
+			const canvas = $(canvasString)[0];
+			const ctx = canvas.getContext("2d");
+			const [cW, cH] = [$tips.width() + 20, $tips.height() + 20];
+			const lt = [0, 0];
+			const rt = [cW, 0];
+			const rb = [cW, cH];
+			const lb = [0, cH];
 
-		let $eleFollow = $(config.follow);
-
-		if ($eleFollow.length == 0) {
-			$eleFollow = $html;
-		}
-
-		var followInfo = {
-			width: $eleFollow.outerWidth(),
-			height: $eleFollow.outerHeight(),
-			top: $eleFollow.offset().top,
-			left: $eleFollow.offset().left,
-			tipTop: 0,
-			tipLeft: 0
-		};
-
-		if (config.openAtPoint) {
-			const { top, left } = config.openAtPoint;
-			followInfo.top = top;
-			followInfo.left = left;
-		}
-
-		var $tipsContent = $eleDialog.find(".tipsContent");
-
-		const [direction, customColor]: any = config.tips || ["top", ""];
-
-		function makeLeftAuto() {
-			/* 如果超出边界，位置需要偏移 */
-			/* 起始位置+tips宽度 比 视口 宽 */
-			if (followInfo.left + tipsDomWidth > $win.width()) {
-				/* 向左偏移为超出的宽度 */
-				followInfo.tipLeft = followInfo.left + followInfo.width - tipsDomWidth;
-			} else {
-				followInfo.tipLeft = followInfo.left;
-			}
-		}
-
-		/* - $win.scrollTop() */
-		/* 辨别tips的方位 */
-		const direction_strategy = {
-			[LAYER_UP]() {
-				/* 上 */
-				makeLeftAuto();
-				function setTipsG() {
-					const boxW = tipsDomWidth;
-					const boxH = tipsdomHeight;
-					const canvas = $(`<canvas width="${boxW}px" height="${boxH}px"/>`)[0];
-					const ctx = canvas.getContext("2d");
-					const RADIUS = 4;
-					const [cW, cH] = [$tipsContent.width(), $tipsContent.height()];
-
+			/* 顺时针计算节点 */
+			/* 顺时针计算节点 */
+			const direction_strategy = {
+				[LAYER_TOP]() {
 					const point_x = cW / 2;
 					const point_y = cH + 10;
-
-					const lt = [0, 0];
-					const rt = [cW, 0];
-					const rb = [cW, cH];
-					const lb = [0, cH];
 					const pointA = [point_x, point_y];
 					const pointB = [point_x - RADIUS, cH];
 					const pointC = [RADIUS, cH];
@@ -1161,7 +1114,6 @@ class ClassLayer {
 					const pointI = [cW, cH - RADIUS];
 					const pointJ = [cW - RADIUS, cH];
 					const pointK = [point_x + RADIUS, cH];
-					// ctx.translate(cW, 2);
 					ctx.moveTo(pointA[0], pointA[1]);
 					ctx.lineTo(pointB[0], pointB[1]);
 					ctx.lineTo(pointC[0], pointC[1]);
@@ -1174,68 +1126,153 @@ class ClassLayer {
 					ctx.quadraticCurveTo(rb[0], rb[1], pointJ[0], pointJ[1]);
 					ctx.lineTo(pointK[0], pointK[1]);
 					ctx.closePath();
-					ctx.stroke();
-					$eleDialog.css(
-						"background",
-						`url(${canvas.toDataURL()})14px 4px /cover no-repeat`
-					);
+					// ctx.scale(1.1, 1.1);
+					// ctx.stroke();
+				},
+				[LAYER_RIGHT]() {
+					return {};
+				},
+				[LAYER_BOTTOM]() {
+					const point_x = cW / 2;
+					const point_y = -10;
+					const pointA = [point_x, point_y];
+					const pointB = [point_x + RADIUS, 0];
+					const pointC = [cW - RADIUS, 0];
+					const pointD = [cW, RADIUS];
+					const pointE = [cW, cH - RADIUS];
+					const pointF = [cW - RADIUS, 0];
+					const pointG = [RADIUS, 0];
+					const pointH = [0, cH - RADIUS];
+					const pointI = [0, RADIUS];
+					const pointJ = [RADIUS, 0];
+					const pointK = [point_x - RADIUS, 0];
+					ctx.moveTo(pointA[0], pointA[1]);
+					ctx.lineTo(pointB[0], pointB[1]);
+					ctx.lineTo(pointC[0], pointC[1]);
+					ctx.quadraticCurveTo(rt[0], rt[1], pointD[0], pointD[1]);
+					ctx.lineTo(pointE[0], pointE[1]);
+					ctx.quadraticCurveTo(rb[0], rb[1], pointF[0], pointF[1]);
+					ctx.lineTo(pointG[0], pointG[1]);
+					ctx.quadraticCurveTo(lb[0], lb[1], pointH[0], pointH[1]);
+					ctx.lineTo(pointI[0], pointI[1]);
+					ctx.quadraticCurveTo(lt[0], lt[1], pointJ[0], pointJ[1]);
+					ctx.lineTo(pointK[0], pointK[1]);
+					ctx.closePath();
+				},
+				[LAYER_LEFT]() {
+					return {};
 				}
-				setTipsG();
-				followInfo.tipTop = followInfo.top - tipsdomHeight - 10;
-				if (followInfo.top < 0) {
-					direction_strategy[LAYER_RIGHT]();
-				}
-			},
-			[LAYER_RIGHT]() {
-				/* 右 */
-				followInfo.tipLeft = followInfo.left + followInfo.width + 10;
-				followInfo.tipTop = followInfo.top;
-				if (
-					followInfo.left + followInfo.width + tipsDomWidth + 8 * 2 >
-					$win.width()
-				) {
-					direction_strategy[LAYER_BOTTOM]();
-				}
-			},
-			[LAYER_BOTTOM]() {
-				/* 下 */
-				makeLeftAuto();
-				followInfo.tipTop = followInfo.top + followInfo.height + 10;
-				if (
-					followInfo.top + followInfo.height + tipsdomHeight + 8 * 2 >
-					$win.height()
-				) {
-					direction_strategy[LAYER_LEFT]();
-				}
-			},
-			[LAYER_LEFT]() {
-				/* 左 */
-				followInfo.tipLeft = followInfo.left - tipsDomWidth - 10;
-				followInfo.tipTop = followInfo.top;
-				tipsDomWidth + 8 * 2 - followInfo.left > 0 &&
-					direction_strategy[LAYER_UP]();
-			}
-		};
+			};
 
-		if (direction_strategy[direction]) {
+			ctx.translate(10, 10);
 			direction_strategy[direction]();
+			ctx.shadowOffsetX = 0;
+			ctx.shadowOffsetY = 0;
+			ctx.shadowBlur = 8;
+			ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+			ctx.fillStyle = "white";
+			ctx.fill();
+			const contentTipsGCss = {
+				"background-image": `url(${canvas.toDataURL()})`
+			};
+
+			$dialog.find(`.x-layer-content`).css(contentTipsGCss);
 		}
 
-		/* 8*2为小三角形占据的空间 */
-		$eleDialog.attr(DATA_TIPS_FOLLOW_ID, config.follow.substring(1));
-		$eleDialog.find(`.${NAME_LAYER_CONTENT}`).css({
-			// "background-color": customColor,
-			"padding-right": config.closeBtn ? "30px" : ""
-		});
+		/* Tips=================470 */
+		const dialogInst = this;
+		const { config, $eleDialog: $dialog } = dialogInst;
+		let $target = $(config.follow);
+		/* !!import */
+		$dialog.attr(DATA_TIPS_FOLLOW_ID, $target.attr("id"));
+		var $tips = $dialog.find(".layerContent_tips");
 
-		$eleDialog.css({
-			top: followInfo.tipTop,
-			left: followInfo.tipLeft
-			// left: followInfo.tipLeft - $win.scrollLeft(),
-			// top: followInfo.tipTop - $win.scrollTop()
-			/* TODO: 动画 */
-			// "transform-origin": [ $tipsG.hasClass("x-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("x-layer-TipsL") ? "left" : "right" ].join(" ")
-		});
+		/* 如果没有跟随的元素就默认页面 */
+		if ($target.length == 0) {
+			$target = $html;
+		}
+
+		const [direction]: any = config.tips || ["top", ""];
+
+		/* 默认中间位置 */
+		var info = {
+			strategy: 0,
+			targetW: $target.outerWidth(),
+			targetH: $target.outerHeight(),
+			targetT: $target.offset().top,
+			targetL: $target.offset().left,
+			tipsW: $tips.outerWidth(),
+			tipsH: $tips.outerHeight(),
+			tipsT: $tips.offset().top,
+			tipsL: $tips.offset().left,
+			dialogW: $dialog.outerWidth(),
+			dialogH: $dialog.outerHeight(),
+			dialogT: $dialog.offset().top,
+			dialogL: $dialog.offset().left
+		};
+
+		console.log(JSON.stringify(info, null, 2));
+
+		let { top, left } = (() => {
+			let top, left;
+			function positionAuto(direction) {
+				info.strategy++;
+				const directionArray = ["top", "right", "bottom", "left"];
+				const directionIndex = xU.findIndex(
+					directionArray,
+					i => i === direction
+				);
+				if (info.strategy > 3) {
+					// xU("转了一圈都没有合适的位置", info.strategy, top, left);
+					/* 转了一圈都没有合适的位置 */
+					return true;
+				} else {
+					const condition = [top < 0, left < 0];
+					if (xU.some(condition, i => i)) {
+						// xU("尝试换方向", info.strategy, top, left);
+						const nextStrategy = directionArray[(directionIndex + 1) % 4];
+						return direction_strategy[nextStrategy]();
+					} else {
+						setTipsG({ direction });
+					}
+				}
+			}
+			/* - $win.scrollTop() */
+			/* 辨别tips的方位 */
+			const direction_strategy = {
+				[LAYER_TOP]() {
+					/* 上  */
+					top = info.targetT - info.dialogH;
+					left = info.targetL - (info.dialogW - info.targetW) / 2;
+					positionAuto("top");
+				},
+				[LAYER_RIGHT]() {
+					/* 右 */
+					left = info.targetL + info.targetW;
+					top = info.targetT - (info.dialogH - info.targetH) / 2;
+					positionAuto("right");
+				},
+				[LAYER_BOTTOM]() {
+					/* 下 */
+					top = info.targetT + info.targetH;
+					left = info.targetL - (info.dialogW - info.targetW) / 2;
+					positionAuto("bottom");
+				},
+				[LAYER_LEFT]() {
+					/* 左 */
+					left = info.targetL - info.dialogW;
+					top = info.targetT - (info.dialogH - info.targetH) / 2;
+					positionAuto("left");
+				}
+			};
+
+			direction_strategy[direction]();
+			return { top, left };
+		})();
+
+		$dialog.css({ top, left });
+		/* TODO: 动画 */
+		// "transform-origin": [ $tipsG.hasClass("x-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("x-layer-TipsL") ? "left" : "right" ].join(" ")
 	}
 
 	onMoveOrResize() {

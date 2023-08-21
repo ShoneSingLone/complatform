@@ -23,9 +23,14 @@ type t_uiPopoverOptions = {
 	onlyEllipsis?: Boolean;
 };
 
+/* 目标元素 */
+const EVENT_UI_TARGET = "X_TARGET";
+/* 目标元素对应的tips */
+const EVENT_UI_TIPS = "X_TIPS";
+
 /* 开发的时候不想关闭，可以把时间值调高 */
-// const TIMEOUT_DELAY = 200 * 10000;
-const TIMEOUT_DELAY = 200;
+const TIMEOUT_DELAY = 200 * 10000;
+// const TIMEOUT_DELAY = 200;
 /* 缓存 popover 的配置信息 */
 const tipsOptionsCollection: {
 	[prop: string]: t_uiPopoverOptions;
@@ -57,8 +62,8 @@ function openTips({ $ele, xTipsTargetID, appId, event }: any) {
 			return;
 		}
 	}
-	let tipsContent = options.content;
-	if (!tipsContent) {
+	let layerContent_tips = options.content;
+	if (!layerContent_tips) {
 		/* 如果仍然没有内容，那就不弹窗 */
 		return;
 	}
@@ -85,7 +90,7 @@ function openTips({ $ele, xTipsTargetID, appId, event }: any) {
 	if (xU.isPlainObject(options.content)) {
 		const id = `${xTipsTargetID}_content`;
 		/* 桩 */
-		tipsContent = `<div id="${id}"></div>`;
+		layerContent_tips = `<div id="${id}"></div>`;
 		/* @ts-ignore */
 		layerTipsOptions.success = function success(indexPanel, layerIndex) {
 			/* @ts-ignore */
@@ -110,12 +115,12 @@ function openTips({ $ele, xTipsTargetID, appId, event }: any) {
 	}
 
 	setTimeout(() => {
-		if (tipsShouldInVisibleArea[xTipsTargetID]) {
-			LayerUtils.tips(tipsContent, `#${xTipsTargetID}`, layerTipsOptions);
+		if (tipsShouldInVisibleArea[xTipsTargetID] && !tipsIndex(xTipsTargetID)) {
+			LayerUtils.tips(layerContent_tips, `#${xTipsTargetID}`, layerTipsOptions);
 		}
 		/* 如果delay之后还存在，再展示 */
 		/* @ts-ignore */
-	}, options.delay || 32);
+	}, options.delay || 200);
 }
 
 /* 监听 触发popover的事件 hover click */
@@ -132,7 +137,7 @@ export function installPopoverDirective(app: any, appSettings: any) {
 			updateMounted(el, binding);
 
 			function init() {
-				const xTipsTargetID = xU.genId("xTipsTarget");
+				const xTipsTargetID = xU.genId(X_TIPS_TARGET);
 				const $ele = $(el);
 				$ele
 					.addClass("x-ui-popover")
@@ -221,9 +226,7 @@ function handleClick(event: any) {
 	const appId = $ele.attr(DATA_APP_ID);
 	tipsShouldInVisibleArea[xTipsTargetID] = true;
 
-	if (tipsIndex(xTipsTargetID)) {
-		closeTipsByTargetId(xTipsTargetID);
-	} else {
+	if (!tipsIndex(xTipsTargetID)) {
 		openTips({ $ele, xTipsTargetID, appId, event });
 	}
 }
@@ -231,35 +234,26 @@ function handleClick(event: any) {
 /* 鼠标click处理 */
 /* 左键单击 */
 $(document).on(
-	"click.uiPopver",
+	`click.${EVENT_UI_TARGET}`,
 	`[id^=${X_TIPS_TARGET}][data-trigger=click]`,
 	handleClick
 );
 /* 右键单击 */
 $(document).on(
-	"contextmenu.uiPopver",
+	`contextmenu.${EVENT_UI_TARGET}`,
 	`[id^=${X_TIPS_TARGET}][data-trigger=rightClick]`,
 	handleClick
 );
 
 /* 鼠标hover处理 */
 $(document).on(
-	"mouseenter.uiPopver",
+	`mouseenter.${EVENT_UI_TARGET}`,
 	`[id^=${X_TIPS_TARGET}]`,
 	function (event) {
-		console.log(event);
 		const $ele: any = $(this);
 		const xTipsTargetID = $ele.attr("id");
-		if (tipsShouldInVisibleArea[xTipsTargetID]) {
-			return;
-		} else {
-			const appId = $ele.attr(DATA_APP_ID);
-			inVisibleArea(xTipsTargetID);
-			/*如果存在，不重复添加*/
-			if (tipsKeys[xTipsTargetID]) {
-				return;
-			}
-
+		if (!tipsIndex(xTipsTargetID)) {
+			console.log(xTipsTargetID);
 			if (($ele.attr("data-trigger") as t_trigger) === "click") {
 				return;
 			}
@@ -267,13 +261,15 @@ $(document).on(
 				return;
 			}
 
+			inVisibleArea(xTipsTargetID);
+			const appId = $ele.attr(DATA_APP_ID);
 			openTips({ $ele, xTipsTargetID: xTipsTargetID, appId, event });
 		}
 	}
 );
 
 $(document).on(
-	"mouseleave.uiPopver",
+	`mouseleave.${EVENT_UI_TARGET}`,
 	`[id^=${X_TIPS_TARGET}]`,
 	function (event) {
 		const xTipsTargetID = $(this).attr("id");
@@ -288,7 +284,7 @@ $(document).on(
  * 不关闭附着的tips
  */
 $(document).on(
-	"mouseenter.uiPopverTips",
+	`mouseenter.${EVENT_UI_TIPS}`,
 	`[${DATA_TIPS_FOLLOW_ID}]`,
 	function (event) {
 		/* 跟随的元素ID */
@@ -299,7 +295,7 @@ $(document).on(
 );
 
 $(document).on(
-	"mouseleave.uiPopverTips",
+	`mouseleave.${EVENT_UI_TIPS}`,
 	`[${DATA_TIPS_FOLLOW_ID}]`,
 	function (event) {
 		const xTipsTargetID = $(this).attr(DATA_TIPS_FOLLOW_ID);

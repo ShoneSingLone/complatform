@@ -5,6 +5,7 @@ import $ from "jquery";
 import { KEY, LayerUtils } from "../layer/LayerUtils";
 import { compile, createApp, defineComponent } from "vue";
 import { State_UI } from "../../State_UI";
+import { THIS_BTN_IS_LOADING } from "../../xButton/xButton";
 
 const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 	const $antModal = $(".x-modal-root");
@@ -109,6 +110,9 @@ export const installUIDialogComponent = (
 	app.component("xDialogFooter", xDialogFooter);
 	UI.dialog.component = async (dialogOptions: t_dialogOptions) =>
 		new Promise(resolve => {
+			if (THIS_BTN_IS_LOADING.loading) {
+				dialogOptions.triggerDom = $(THIS_BTN_IS_LOADING.loading).offset();
+			}
 			const { component: BussinessComponent, title, area } = dialogOptions;
 			const id = xU.genId("xDialog");
 			let $container = $("<div/>", { id });
@@ -233,9 +237,7 @@ export const installUIDialogComponent = (
 												data-el-id={_layer_index}>
 												{/* title 使用 vue render vNode，挂载之后替换到title的DOM里面 */}
 												<div ref="DIALOG_TITLE">{this.cpt_vDomTitle}</div>
-												<BussinessComponent
-													propOptions={this.dialogOptions}
-												/>
+												<BussinessComponent propOptions={this.dialogOptions} />
 											</div>
 										);
 									}
