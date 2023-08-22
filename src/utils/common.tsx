@@ -8,6 +8,8 @@ import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { MarkdownIt as Mkit } from "@/components/Mkit/MarkdownIt";
 export { ITEM_OPTIONS } from "./common.options";
+import { vElementSize } from "@vueuse/components";
+
 dayjs.locale("zh-cn");
 // import "element-plus/theme-chalk/src/common/var.scss";
 // import "element-plus/theme-chalk/src/index.scss";
@@ -28,6 +30,7 @@ export const appPlugins = {
 		});
 		app.use({
 			install: (app, { watch } = {}) => {
+				app.directive("ElementSize", vElementSize);
 				app.component("Mkit", Mkit);
 				app.component("InfoCard", InfoCard);
 				app.component("InfoCardRow", InfoCardRow);

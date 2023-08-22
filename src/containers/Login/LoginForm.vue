@@ -26,7 +26,7 @@ import {
 	UI,
 	defItem,
 	EVENT_TYPE,
-	isItemInvalid,
+	itemsInvalid,
 	AllWasWell,
 	lStorage,
 	State_UI,
@@ -111,7 +111,7 @@ export default defineComponent({
 		async login() {
 			const vm = this;
 			try {
-				if (!(await isItemInvalid(vm.$el))) {
+				if (!(await itemsInvalid(vm.$el))) {
 					const formData = pickValueFrom(vm.configsForm);
 					const res = await API.user.loginActions(formData);
 					UI.notification.success("登录成功! ");

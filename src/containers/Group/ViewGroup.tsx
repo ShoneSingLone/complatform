@@ -23,6 +23,7 @@ import {
 	TAB_KEY_MEMBER_LIST,
 	TAB_KEY_PROJECT_LIST
 } from "@/utils/variable";
+import { xU } from "@/element/ui";
 
 /* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 

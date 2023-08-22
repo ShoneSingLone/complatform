@@ -5,7 +5,7 @@ import {
 	pickValueFrom,
 	setValueTo,
 	UI,
-	isItemInvalid,
+	itemsInvalid,
 	VNodeCollection,
 	xU
 } from "@ventose/ui";
@@ -519,7 +519,7 @@ export const DialogModifyInterface = defineComponent({
 			return _formData;
 		},
 		async submit() {
-			if (!(await isItemInvalid())) {
+			if (!(await itemsInvalid())) {
 				try {
 					const formData = this.getFormData();
 					const { data } = await API.project.updateInterface(formData);

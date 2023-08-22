@@ -42,7 +42,7 @@ import {UI} from "./UI";
 import {
     AllWasWell,
     EVENT_TYPE,
-    isItemInvalid,
+    itemsInvalid,
     setCSSVariables,
     setDocumentTitle,
     lStorage,
@@ -133,7 +133,7 @@ export {EVENT_TYPE as EVENT_TYPE};
 
 export {setPagination as setPagination};
 export {getPaginationPageSize as getPaginationPageSize};
-export {isItemInvalid as isItemInvalid};
+export {itemsInvalid as itemsInvalid};
 export {AllWasWell as AllWasWell};
 export {setDocumentTitle as setDocumentTitle};
 export {setCSSVariables as setCSSVariables};

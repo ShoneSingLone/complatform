@@ -2,7 +2,7 @@
 
 import { xU } from "../../ventoseUtils";
 import $ from "jquery";
-import { KEY, LayerUtils } from "../layer/LayerUtils";
+import { KEY, xLayer } from "../layer/xLayer";
 import { compile, createApp, defineComponent } from "vue";
 import { State_UI } from "../../State_UI";
 import { THIS_BTN_IS_LOADING } from "../../xButton/xButton";
@@ -137,7 +137,7 @@ export const installUIDialogComponent = (
 					}
 				}
 				if (isCloseDialog) {
-					LayerUtils.close(handleEcsPress._layer_index);
+					xLayer.close(handleEcsPress._layer_index);
 				}
 			};
 
@@ -273,6 +273,6 @@ export const installUIDialogComponent = (
 				},
 				xU.omit(dialogOptions, ["end", "cancel", "success", "content"])
 			);
-			LayerUtils.open(layerOptions);
+			xLayer.open(layerOptions);
 		});
 };

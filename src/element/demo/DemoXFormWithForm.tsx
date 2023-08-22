@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { AllWasWell, defItem, State_UI, isItemInvalid, xU } from "@ventose/ui";
+import { AllWasWell, defItem, State_UI, itemsInvalid, xU } from "@ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 
@@ -47,7 +47,7 @@ console.log(window)
 	},
 	methods: {
 		async verifyForm() {
-			return !(await isItemInvalid());
+			return !(await itemsInvalid());
 		},
 		getParams() {
 			return { ...this.row, ...this.data };

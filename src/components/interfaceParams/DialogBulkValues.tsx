@@ -3,7 +3,7 @@ import {
 	xU,
 	defItem,
 	State_UI,
-	isItemInvalid,
+	itemsInvalid,
 	AllWasWell,
 	pickValueFrom
 } from "@ventose/ui";
@@ -63,7 +63,7 @@ export const DialogBulkValues = defineComponent({
 			return {
 				onCancel: this.propOptions.$close,
 				onOk: async () => {
-					if (!(await isItemInvalid())) {
+					if (!(await itemsInvalid())) {
 						/* @ts-ignore */
 						const { bulkValue } = pickValueFrom(this.formItems);
 						const bulkValueArray = bulkValue.split("\n");

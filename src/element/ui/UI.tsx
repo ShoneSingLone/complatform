@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { t_dialogOptions } from "./xSingle/dialog/dialog";
 import { State_UI } from "./State_UI";
-import { LayerUtils } from "./xSingle/layer/LayerUtils";
+import { xLayer } from "./xSingle/layer/xLayer";
 import {
 	ElMessage,
 	ElMessageBox,
@@ -50,7 +50,7 @@ const useModel = type => {
 	};
 };
 
-LayerUtils.loading = function (indexDelete) {
+xLayer.loading = function (indexDelete) {
 	indexDelete;
 	this.loading.count = this.loading.count || 1;
 	this.loading.deep = this.loading.deep || new Set();
@@ -60,7 +60,7 @@ LayerUtils.loading = function (indexDelete) {
 			/* 如果size不是一，则不需要消失 */
 			this.loading.deep.delete(indexDelete);
 			if (this.loading.deep.size === 0) {
-				LayerUtils.close(this.loading.index);
+				xLayer.close(this.loading.index);
 			}
 		} else {
 			console.error("loading", indexDelete);
@@ -69,7 +69,7 @@ LayerUtils.loading = function (indexDelete) {
 		/* 全局单例，如果有一个，如果loading，不需要new loading */
 		let indexAdd = this.loading.count++;
 		if (this.loading.deep.size === 0) {
-			this.loading.index = LayerUtils.load(1);
+			this.loading.index = xLayer.load(1);
 		}
 		this.loading.deep.add(indexAdd);
 		return indexAdd;
@@ -130,8 +130,8 @@ export const UI = {
 			});
 		}
 	}),
-	layer: LayerUtils,
-	/* TODO: LayerUtils.loading 可以有进度条， */
+	layer: xLayer,
+	/* TODO: xLayer.loading 可以有进度条， */
 	loading(isLoading = false) {
 		this.loading.count = this.loading.count || 0;
 		if (isLoading) {

@@ -8,17 +8,18 @@
 
 与yapi保持一致
 
-## wiki 文档
+### wiki 文档
 
 用于记录
 - [ ] private 私人记录
 
-### 权限
+## 权限
 
 - all：登录后所有人可见
-- group
-- project
-- private
+- private：个人私有
+- owner：创建者
+- group：分组
+- project：项目
 
 ### dev
 

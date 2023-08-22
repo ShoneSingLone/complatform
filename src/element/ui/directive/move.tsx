@@ -1,6 +1,6 @@
 import { xU } from "../ventoseUtils";
 import $ from "jquery";
-import { $MoveMask, DATA_V_UI_MOVE, READY } from "../xSingle/layer/LayerUtils";
+import { $MoveMask, DATA_V_UI_MOVE, READY } from "../xSingle/layer/xLayer";
 import { payloadCollections } from "./directiveState";
 
 /* 监听 触发popover的事件 hover click */

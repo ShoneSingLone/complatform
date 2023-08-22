@@ -5,7 +5,7 @@ import {
 	pickValueFrom,
 	setValueTo,
 	UI,
-	isItemInvalid,
+	itemsInvalid,
 	xU
 } from "@ventose/ui";
 import { Methods_App, State_App } from "@/state/State_App";
@@ -331,7 +331,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			}, 64);
 		},
 		async onOk() {
-			if (await isItemInvalid()) {
+			if (await itemsInvalid()) {
 				return;
 			}
 

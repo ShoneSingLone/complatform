@@ -8,6 +8,9 @@ const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
 
 let _State_App = {
+	expandedKeys: {
+		group: []
+	},
 	menu: {},
 	globalSize: "",
 	baseURL: window.location.origin,
@@ -94,8 +97,9 @@ export const Methods_App = {
 					type: data ? data.type : null,
 					study: data ? data.study : false
 				});
+			} else {
+				throw new Error("refreshUserInfo error");
 			}
-			throw new Error("refreshUserInfo error");
 		} catch (error) {
 			xU(error);
 		}

@@ -2,7 +2,7 @@ import {
 	defItem,
 	xU,
 	setValueTo,
-	isItemInvalid,
+	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
 	UI,
@@ -91,7 +91,7 @@ export const DialogUpdatePwd = defineComponent({
 			}
 		},
 		async onOk() {
-			if (!(await isItemInvalid())) {
+			if (!(await itemsInvalid())) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
 				const project_id = this.State_App.currProject._id;
 				try {

@@ -5,8 +5,8 @@ import { i_layerOptions } from "../xSingle/layer/i_layerOptions";
 import {
 	DATA_LAYER_INDEX,
 	DATA_TIPS_FOLLOW_ID,
-	LayerUtils
-} from "../xSingle/layer/LayerUtils";
+	xLayer
+} from "../xSingle/layer/xLayer";
 import {
 	appAddPlugin,
 	appDependState,
@@ -116,7 +116,7 @@ function openTips({ $ele, xTipsTargetID, appId, event }: any) {
 
 	setTimeout(() => {
 		if (tipsShouldInVisibleArea[xTipsTargetID] && !tipsIndex(xTipsTargetID)) {
-			LayerUtils.tips(layerContent_tips, `#${xTipsTargetID}`, layerTipsOptions);
+			xLayer.tips(layerContent_tips, `#${xTipsTargetID}`, layerTipsOptions);
 		}
 		/* 如果delay之后还存在，再展示 */
 		/* @ts-ignore */
@@ -155,7 +155,7 @@ export function installPopoverDirective(app: any, appSettings: any) {
 			);
 			if (_layer_index) {
 				/* @ts-ignore */
-				LayerUtils.close(_layer_index);
+				xLayer.close(_layer_index);
 			}
 			delete tipsOptionsCollection[xTipsTargetID];
 			delete tipsShouldInVisibleArea[xTipsTargetID];
@@ -206,7 +206,7 @@ function closeTipsByTargetId(xTipsTargetID: string, options = {}) {
 	if (layerIndex) {
 		timer4CloseTips[xTipsTargetID] = setTimeout(() => {
 			/* @ts-ignore */
-			LayerUtils.close(layerIndex).finally(() => {
+			xLayer.close(layerIndex).finally(() => {
 				delete timer4CloseTips[xTipsTargetID];
 			});
 		}, TIMEOUT_DELAY);

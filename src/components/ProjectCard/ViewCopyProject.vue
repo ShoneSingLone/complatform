@@ -20,7 +20,7 @@ import {
 	defItem,
 	pickValueFrom,
 	UI,
-	isItemInvalid
+	itemsInvalid
 } from "@ventose/ui";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import {
@@ -40,7 +40,7 @@ export default defineComponent({
 	},
 	methods: {
 		async onOk() {
-			if (!(await isItemInvalid())) {
+			if (!(await itemsInvalid())) {
 				const { name, icon } = pickValueFrom(this.formItems);
 				try {
 					await this.propOptions.copyProject({

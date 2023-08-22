@@ -10,7 +10,7 @@ import {
 	xU,
 	AllWasWell,
 	pickValueFrom,
-	isItemInvalid
+	itemsInvalid
 } from "@ventose/ui";
 import ViewAddMember from "./ViewAddMember.vue";
 import { ADMIN, DEV, OWNER } from "@/utils/variable";
@@ -154,7 +154,7 @@ export const GroupMemberList = defineComponent({
 				component: ViewAddMember,
 				area: ["480px", "260px"],
 				onOk: async ({ formItems, $close }) => {
-					if (!(await isItemInvalid())) {
+					if (!(await itemsInvalid())) {
 						const { member_uids, role } = pickValueFrom(formItems);
 						try {
 							await this.addMember({ member_uids, role });

@@ -152,7 +152,7 @@ export const READY: {
 	}
 };
 /* 默认内置方法。 */
-const LayerUtils = {
+const xLayer = {
 	setZIndex(zIndex: number) {
 		READY.page;
 		READY.zIndex = zIndex;
@@ -175,8 +175,8 @@ const LayerUtils = {
 	path: READY.basePath,
 	config: function (options: i_layerOptions, fn) {
 		options = options || {};
-		LayerUtils.cache = READY.config = $.extend({}, READY.config, options);
-		LayerUtils.path = READY.config.path || LayerUtils.path;
+		xLayer.cache = READY.config = $.extend({}, READY.config, options);
+		xLayer.path = READY.config.path || xLayer.path;
 		typeof options.extend === "string" && (options.extend = [options.extend]);
 		if (!options.extend) {
 			return this;
@@ -192,7 +192,7 @@ const LayerUtils = {
 	alert(content, options, yes) {
 		var type = typeof options === "function";
 		if (type) yes = options;
-		return LayerUtils.open(
+		return xLayer.open(
 			$.extend(
 				{
 					content: content,
@@ -207,7 +207,7 @@ const LayerUtils = {
 			cancel = yes;
 			yes = options;
 		}
-		return LayerUtils.open(
+		return xLayer.open(
 			$.extend(
 				{
 					content: content,
@@ -226,7 +226,7 @@ const LayerUtils = {
 		var skin = (rskin ? rskin + " " + rskin + "-msg" : "") || "x-layer-msg";
 		var anim = DOMS_ANIM.length - 1;
 		if (isOptionsIsFunction) end = options;
-		return LayerUtils.open(
+		return xLayer.open(
 			$.extend(
 				{
 					content: content,
@@ -258,7 +258,7 @@ const LayerUtils = {
 		);
 	},
 	load(icon, options) {
-		return LayerUtils.open(
+		return xLayer.open(
 			$.extend(
 				{
 					type: 3,
@@ -271,7 +271,7 @@ const LayerUtils = {
 		);
 	},
 	tips(content, followSelector, options) {
-		return LayerUtils.open(
+		return xLayer.open(
 			$.extend(
 				{
 					type: TYPE_TIPS,
@@ -334,7 +334,7 @@ const LayerUtils = {
 				}
 
 				$(`#x-layer-moves, #${NAME_LAYER_SHADE}${_layer_index}`).remove();
-				LayerUtils.ie == 6 && READY.reselect();
+				xLayer.ie == 6 && READY.reselect();
 				READY.rescollbar(_layer_index);
 				if ($eleDialog.attr("minLeft")) {
 					READY.minIndex--;
@@ -367,7 +367,7 @@ const LayerUtils = {
 	iframeAuto(index) {
 		/* iframe层自适应宽高 */
 		if (!index) return;
-		var heg = LayerUtils.getChildFrame("html", index).outerHeight();
+		var heg = xLayer.getChildFrame("html", index).outerHeight();
 		var $eleDialog = $("#" + NAME_LAYER + index);
 		var titHeight = $eleDialog.find(`.${NAME_LAYER_TITLE}`).outerHeight() || 0;
 		var btnHeight =
@@ -459,7 +459,7 @@ const LayerUtils = {
 		}
 
 		$eleDialog.attr("position", position);
-		LayerUtils.style(_layer_index, settings, true);
+		xLayer.style(_layer_index, settings, true);
 		$eleDialog.find(".x-layer-min").hide();
 		$eleDialog.attr("type") === "page" &&
 			$eleDialog.find(NAME_LAYER_CONTENT).hide();
@@ -476,7 +476,7 @@ const LayerUtils = {
 			area = $eleDialog.attr("area").split(","),
 			type = $eleDialog.attr("type");
 		/* 恢复原来尺寸 */
-		LayerUtils.style(
+		xLayer.style(
 			_layer_index,
 			{
 				width: parseFloat(area[0]),
@@ -515,7 +515,7 @@ const LayerUtils = {
 				width: $win.width(),
 				height: $win.height()
 			};
-			LayerUtils.style(index, style, true);
+			xLayer.style(index, style, true);
 			$eleDialog.find(".x-layer-min").hide();
 			$eleDialog.attr(DATA_MIN_MAX_STATUS, STATUS_MAX);
 		}, 100);
@@ -537,7 +537,7 @@ const LayerUtils = {
 				needClose.push($ele.attr(DATA_LAYER_INDEX));
 			}
 		});
-		return await Promise.all(needClose.map(LayerUtils.close));
+		return await Promise.all(needClose.map(xLayer.close));
 	},
 	setLayerTop($current: JQuery) {
 		const type = $current.attr("type");
@@ -832,14 +832,14 @@ class ClassLayer {
 			config.anim = config.shift;
 		}
 
-		if (LayerUtils.ie == 6) {
+		if (xLayer.ie == 6) {
 			config.fixed = false;
 		}
 
 		const processContentStrategy = {
 			[TYPE_MSG]: () => {
 				config.btn = "btn" in config ? config.btn : READY.btn[0];
-				LayerUtils.closeAll("dialog");
+				xLayer.closeAll("dialog");
 			},
 			[TYPE_IFRAME]: () => {
 				let scrolling = "auto";
@@ -866,7 +866,7 @@ class ClassLayer {
 				delete config.title;
 				delete config.closeBtn;
 				config.icon === -1 && config.icon === 0;
-				LayerUtils.closeAll("loading");
+				xLayer.closeAll("loading");
 			},
 			[TYPE_TIPS]: () => {
 				if (!isContentTypeObject) {
@@ -883,7 +883,7 @@ class ClassLayer {
 					: [config.tips, true];
 
 				/* 如果不允许同时有多个tips，关闭之前的所有tips */
-				config.tipsMore || LayerUtils.closeAll("tips");
+				config.tipsMore || xLayer.closeAll("tips");
 			}
 		};
 
@@ -906,7 +906,7 @@ class ClassLayer {
 
 		if (config.fullscreen) {
 			setTimeout(() => {
-				LayerUtils.full(_layer_index);
+				xLayer.full(_layer_index);
 			}, 500);
 		}
 
@@ -915,18 +915,18 @@ class ClassLayer {
 		/* 		$win.on("resize", function () {
 			dialogInst.setPosition();
 			// if (/^\d+%$/.test(config.area[0]) || /^\d+%$/.test(config.area[1])) { }
-			if (config.type == LayerUtils.tips) {
+			if (config.type == xLayer.tips) {
 				dialogInst.setTips();
 			}
 		});
  */
 		if (typeof config.during === "number" && config.during > 0) {
 			setTimeout(function () {
-				LayerUtils.close(dialogInst._layer_index);
+				xLayer.close(dialogInst._layer_index);
 			}, config.during);
 		}
 		/* 最后至于最上层 */
-		LayerUtils.setLayerTop(dialogInst.$eleDialog);
+		xLayer.setLayerTop(dialogInst.$eleDialog);
 		this.$eleDialog.css("visibility", "visible");
 		return dialogInst;
 	}
@@ -1329,7 +1329,7 @@ class ClassLayer {
 		/*  */
 		$eleMove.css("cursor", "move");
 		$eleMove.on("mousedown", function (e) {
-			LayerUtils.setLayerTop($eleDialog);
+			xLayer.setLayerTop($eleDialog);
 			e.preventDefault();
 			if (config.move) {
 				// READY.$eleMoveOrResize = $(e.currentTarget).parent(`[layer-wrapper]`);
@@ -1344,7 +1344,7 @@ class ClassLayer {
 		});
 
 		$eleResize.on("mousedown", function (e) {
-			LayerUtils.setLayerTop($eleDialog);
+			xLayer.setLayerTop($eleDialog);
 			e.preventDefault();
 			READY.moveOrResizeInstance = dialogInst;
 			READY.moveOrResizeType = "resize";
@@ -1392,13 +1392,13 @@ class ClassLayer {
 						} else if (config["btn1"]) {
 							config["btn1"](dialogInst._layer_index, $eleDialog);
 						} else {
-							LayerUtils.close(dialogInst._layer_index);
+							xLayer.close(dialogInst._layer_index);
 						}
 					} else {
 						var close =
 							config["btn" + (index + 1)] &&
 							config["btn" + (index + 1)](dialogInst._layer_index, $eleDialog);
-						close === false || LayerUtils.close(dialogInst._layer_index);
+						close === false || xLayer.close(dialogInst._layer_index);
 					}
 				});
 		}
@@ -1416,10 +1416,10 @@ class ClassLayer {
 
 				if (isNeedClose) {
 					if (!isClosed) {
-						isClosed = await LayerUtils.close(dialogInst._layer_index);
+						isClosed = await xLayer.close(dialogInst._layer_index);
 					}
 					if (!isClosed) {
-						await LayerUtils.close($(this).attr(DATA_LAYER_INDEX));
+						await xLayer.close($(this).attr(DATA_LAYER_INDEX));
 					}
 				}
 			});
@@ -1428,7 +1428,7 @@ class ClassLayer {
 			/* 点遮罩关闭 */
 			if (config.shadeClose) {
 				dialogInst.$eleShade.on("click", function () {
-					LayerUtils.close(dialogInst._layer_index);
+					xLayer.close(dialogInst._layer_index);
 				});
 			}
 		}
@@ -1436,17 +1436,17 @@ class ClassLayer {
 			/* 最小化 */
 			$eleDialog.find(".x-layer-min").on("click", function () {
 				var min = config.min && config.min($eleDialog, dialogInst._layer_index);
-				min === false || LayerUtils.min(dialogInst._layer_index, config);
+				min === false || xLayer.min(dialogInst._layer_index, config);
 			});
 		}
 		function handleClickMax(params: type) {
 			/* 全屏/还原 */
 			$eleDialog.find(".x-layer-max").on("click", function () {
 				if ($(this).hasClass("x-layer-maxmin")) {
-					LayerUtils.restore(dialogInst._layer_index);
+					xLayer.restore(dialogInst._layer_index);
 					config.restore && config.restore($eleDialog, dialogInst._layer_index);
 				} else {
-					LayerUtils.full(dialogInst._layer_index, config);
+					xLayer.full(dialogInst._layer_index, config);
 					setTimeout(function () {
 						config.full && config.full($eleDialog, dialogInst._layer_index);
 					}, 100);
@@ -1471,14 +1471,14 @@ class ClassLayer {
 	}
 }
 
-var cache = LayerUtils.cache || {};
+var cache = xLayer.cache || {};
 /* eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee */
 /* 点击层zIndex在最上层 */
 $document
 	.on("click.setLayerTop", "[layer-wrapper]", event => {
 		const { currentTarget } = event;
 		const $currentTarget = $(currentTarget);
-		LayerUtils.setLayerTop($currentTarget);
+		xLayer.setLayerTop($currentTarget);
 	})
 	.on(
 		"mousemove",
@@ -1557,4 +1557,4 @@ $document
 export type t__ClassLayer = typeof ClassLayer;
 
 /* 暴露模块 */
-export { LayerUtils as LayerUtils };
+export { xLayer as xLayer };

@@ -46,7 +46,7 @@ import {
 	defItem,
 	pickValueFrom,
 	UI,
-	isItemInvalid,
+	itemsInvalid,
 	VNodeCollection
 } from "@ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
@@ -161,7 +161,7 @@ export default {
 				text: "校验",
 				async onClick() {
 					try {
-						if (!(await isItemInvalid())) {
+						if (!(await itemsInvalid())) {
 							UI.message.success("校验成功");
 						} else {
 							UI.message.error("校验失败");

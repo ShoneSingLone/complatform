@@ -1,5 +1,5 @@
 import {
-	isItemInvalid,
+	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
 	UI,
@@ -61,7 +61,7 @@ export const DialogAddArticle = defineComponent({
 	},
 	methods: {
 		async onOk() {
-			if (!(await isItemInvalid())) {
+			if (!(await itemsInvalid())) {
 				const { project_id, group_id } = this.Cpt_url.query;
 				let belong_id;
 

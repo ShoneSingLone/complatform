@@ -30,7 +30,7 @@ const WILL_DELETE = [
 ];
 
 export const EVENT_TYPE = {
-	isItemInvalid: "isItemInvalid",
+	itemsInvalid: "itemsInvalid",
 	update: "update",
 	change: "change",
 	input: "input",
@@ -52,7 +52,7 @@ export const TIPS_TYPE = {
  * @3Vue组件实例 this.$el 带有$el
  * @returns false为通过校验，没有任何错误提示，否则返回错误项的数组
  */
-export async function isItemInvalid(selector?: any) {
+export async function itemsInvalid(selector?: any) {
 	let $wrapper = (function () {
 		if (selector) {
 			/* jQuery可用的选择器字符串 */
@@ -189,7 +189,7 @@ export const xItem = defineComponent({
 					triggerValidate(EVENT_TYPE.update);
 				},
 				onValidateForm: () => {
-					triggerValidate(EVENT_TYPE.isItemInvalid);
+					triggerValidate(EVENT_TYPE.itemsInvalid);
 				},
 				onChange: () => {
 					triggerValidate(EVENT_TYPE.change);

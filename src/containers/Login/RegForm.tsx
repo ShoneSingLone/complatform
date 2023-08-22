@@ -6,7 +6,7 @@ import {
 	UI,
 	State_UI,
 	AllWasWell,
-	isItemInvalid,
+	itemsInvalid,
 	pickValueFrom,
 	$t
 } from "@ventose/ui";
@@ -129,7 +129,7 @@ export default defineComponent({
 				text: () => $t("注册").label,
 				async onClick() {
 					try {
-						if (!(await isItemInvalid(vm.$refs.form))) {
+						if (!(await itemsInvalid(vm.$refs.form))) {
 							const res = await API.user.regActions(
 								pickValueFrom(vm.configsForm)
 							);

@@ -1,5 +1,5 @@
 import {
-	isItemInvalid,
+	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
 	UI,
@@ -108,7 +108,7 @@ $t("Key值").label
 			}
 		},
 		async onOk() {
-			if (!(await isItemInvalid())) {
+			if (!(await itemsInvalid())) {
 				try {
 					const { data } = await API.god.upsertOneI18nRecord({
 						...this.propOptions?.record,

@@ -245,6 +245,9 @@ try{const SFC_FN = ${scritpSourceCode};return SFC_FN.call(null,payload);}catch(e
 	/* 睡眠 t:setTimeout during time*/
 	/* @ts-ignore */
 	sleep,
+	isSame(a, b) {
+		return String(a) === String(b);
+	},
 	isOn: (key: string) => onRE.test(key),
 	isModelListener: (key: string) => {
 		key = String(key);
