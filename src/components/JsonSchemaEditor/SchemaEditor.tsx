@@ -137,7 +137,7 @@ export const SchemaEditor = defineComponent({
 						"ipv6",
 						"uri"
 					].map(label => ({ label, value: label })),
-					allowClear: true
+					clearable: true
 				}),
 				/* number */
 				minimum: defItem({
@@ -179,7 +179,7 @@ export const SchemaEditor = defineComponent({
 				booleanDefault: defItem({
 					defaultValue: "",
 					itemType: "Select",
-					allowClear: true,
+					clearable: true,
 					label: vm.$t("默认值").label,
 					options: ITEM_OPTIONS.YesOrNo
 				})

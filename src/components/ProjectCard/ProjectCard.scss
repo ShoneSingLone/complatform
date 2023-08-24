@@ -1,5 +1,3 @@
-@import "../../styles/mixin.scss";
-
 .card-container {
 	position: relative;
 	user-select: none;
@@ -24,7 +22,7 @@
 
 	// 卡片右上角按钮
 	.card-btns {
-		background: white;
+		background: var(--color-white);
 		position: absolute;
 		top: 0;
 		right: -6px;

@@ -185,7 +185,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 													return (
 														<div style="padding: 8px">
 															<ElSelect
-																allowClear
+																clearable
 																mode="multiple"
 																style="min-width: 400px"
 																v-model:value={filterParams.catid}
@@ -251,7 +251,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 														auto-size={{ minRows: 3, maxRows: 5 }}
 														placeholder={$t("用例名称").label}
 														v-model:value={filterParams.title}
-														allowClear
+														clearable
 														style="width: 400px"
 													/>
 												</div>
@@ -316,7 +316,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 														auto-size={{ minRows: 3, maxRows: 5 }}
 														placeholder={$t("接口路径").label}
 														v-model:value={filterParams.path}
-														allowClear
+														clearable
 														style="min-width: 400px"
 													/>
 												</div>
@@ -359,7 +359,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 											return (
 												<div style="padding: 8px">
 													<ElSelect
-														allowClear
+														clearable
 														style="min-width: 100px"
 														v-model:value={filterParams.status}
 														class="select">
@@ -411,7 +411,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 											return (
 												<div style="padding: 8px">
 													<ElSelect
-														allowClear
+														clearable
 														mode="multiple"
 														style="width: 400px"
 														v-model:value={filterParams.witchEnv}
@@ -475,7 +475,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 											return (
 												<div style="padding: 8px">
 													<ElSelect
-														allowClear
+														clearable
 														mode="multiple"
 														style="width: 400px"
 														v-model:value={filterParams.tag}

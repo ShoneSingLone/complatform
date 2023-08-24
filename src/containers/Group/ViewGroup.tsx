@@ -1,4 +1,4 @@
-import "./Group.scss";
+import "./Group.less";
 import { defineComponent } from "vue";
 import {
 	GroupLeftSider,
@@ -86,45 +86,47 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		vDomTabMember() {
+			if (this.tabActiveKey !== TAB_KEY_MEMBER_LIST) {
+				return null;
+			}
 			if (this.State_App.currGroup.type === PUBLIC) {
 				return (
 					/* "成员列表" */
-					<ElTabPane name={TAB_KEY_MEMBER_LIST} label={TAB_KEY_MEMBER_LIST}>
-						<GroupMemberList />
-					</ElTabPane>
+					<GroupMemberList />
 				);
 			} else {
 				return null;
 			}
 		},
 		vDomTabGroupLog() {
+			if (this.tabActiveKey !== TAB_KEY_GROUP_LOG) {
+				return null;
+			}
 			const isGroupRoleAuth = [ADMIN, OWNER, DEV].includes(
 				this.State_App?.currGroup?.role
 			);
 			if (isGroupRoleAuth) {
 				return (
 					/* 分组动态 */
-					<ElTabPane name={TAB_KEY_GROUP_LOG} label={TAB_KEY_GROUP_LOG}>
-						<GroupLog />
-					</ElTabPane>
+					<GroupLog />
 				);
 			} else {
 				return null;
 			}
 		},
-		styleContent() {
-			return {
-				height: "100%",
-				margin: "0 24px 0 16px",
-				overflow: "initial",
-				backgroundColor: "#fff"
-			};
-		},
 		vDomTabProjectList() {
+			if (this.tabActiveKey !== TAB_KEY_PROJECT_LIST) {
+				return null;
+			}
+			return <GroupProjectList />;
+		},
+		vDomSwitchPanel() {
 			return (
-				<ElTabPane label={TAB_KEY_PROJECT_LIST} name={TAB_KEY_PROJECT_LIST}>
-					<GroupProjectList />
-				</ElTabPane>
+				<el-button-group class="ml-4">
+					<el-button type="primary">{TAB_KEY_PROJECT_LIST}</el-button>
+					<el-button type="primary">{TAB_KEY_MEMBER_LIST}</el-button>
+					<el-button type="primary">{TAB_KEY_GROUP_LOG}</el-button>
+				</el-button-group>
 			);
 		}
 	},
@@ -137,20 +139,11 @@ export const ViewGroup = defineComponent({
 				<aside id="ViewGroup_sider" class="flex vertical box-shadow">
 					<GroupLeftSider />
 				</aside>
-				<section class="flex1">
-					<div
-						data-app-position="Group-layout-content"
-						style={this.styleContent}>
-						<ElTabs
-							id="Group-layout-content-tabs"
-							v-model={this.tabActiveKey}
-							type="border-card"
-							class="m-tab tabs-large height100">
-							{this.vDomTabProjectList}
-							{this.vDomTabMember}
-							{this.vDomTabGroupLog}
-						</ElTabs>
-					</div>
+				<section class="GrouMainSection el-card is-always-shadow flex1">
+					{this.vDomSwitchPanel}
+					{this.vDomTabProjectList}
+					{this.vDomTabMember}
+					{this.vDomTabGroupLog}
 				</section>
 			</section>
 		);

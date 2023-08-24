@@ -1,5 +1,3 @@
-@import "../../styles/mixin.scss";
-
 #ViewProject {
 	display: flex;
 	flex-flow: row nowrap;
@@ -81,11 +79,11 @@
 		.delete-env-btn {
 			&.active {
 				background: #1890ff;
-				color: white;
+				color: var(--color-white);
 				&:hover {
 					.delete-env-icon {
 						display: inline-block;
-						color: white;
+						color: var(--color-white);
 					}
 				}
 			}

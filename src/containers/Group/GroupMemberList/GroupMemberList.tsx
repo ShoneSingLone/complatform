@@ -47,6 +47,7 @@ export const GroupMemberList = defineComponent({
 		};
 	},
 	async mounted() {
+		debugger;
 		this.initTableColumns();
 	},
 	watch: {

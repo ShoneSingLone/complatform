@@ -124,7 +124,7 @@ export const DialogEditGroup = defineComponent({
 				authText: defItem({
 					value: "",
 					placeholder: $t("请输入分组名称确认此操作").label,
-					allowClear: true
+					clearable: true
 				})
 			},
 			formItems: {

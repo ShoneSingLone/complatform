@@ -91,7 +91,7 @@ export default {
 			}),
 			search: defItem({
 				placeholder: "Input",
-				allowClear: true,
+				clearable: true,
 				onAfterEmitItemValue(val) {
 					console.log("🚀:", "search configs", this, val);
 				}
@@ -99,14 +99,14 @@ export default {
 			withLabelProperty: defItem({
 				label: "withLabelProperty",
 				placeholder: "Input",
-				allowClear: true,
+				clearable: true,
 				rules: [FormRules.required()]
 			}),
 			slots: defItem({
 				label: "slots",
 				value: "slots的value",
 				placeholder: "Input",
-				allowClear: true,
+				clearable: true,
 				once() {
 					const vDomSlotsSelector = h(xItem, {
 						configs: vm.xForm.slotsAddonBefore
@@ -133,7 +133,7 @@ export default {
 				),
 				label: $t("label使用Tips").label,
 				placeholder: "Input",
-				allowClear: true,
+				clearable: true,
 				rules: [FormRules.required()]
 			}),
 			select: defItem({
@@ -183,7 +183,7 @@ formData: {
 },
 search:defItem({
 	placeholder: "Input",
-	allowClear: true,
+	clearable: true,
 	onAfterEmitItemValue(val) {
 		console.log("🚀:", "search configs", this, val);
 	}

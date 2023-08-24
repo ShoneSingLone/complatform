@@ -1,8 +1,4 @@
-@import "../../styles/mixin.scss";
-
 .news-box {
-	@include row-width-limit;
-
 	display: -webkit-box;
 	-webkit-box-flex: 1;
 	margin: 0px auto 0 auto;

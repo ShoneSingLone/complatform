@@ -130,13 +130,36 @@ export const GroupLeftSider = defineComponent({
 		vm.searchGroup = xU.debounce(() => {
 			const { groupList } = State_App;
 			const keywords = vm.configsSearch.value;
+			let groupListForShow;
+
 			if (keywords === "") {
-				vm.groupListForShow = groupList;
+				const { true: notInGroup, undefined: inGroup } = xU.groupBy(
+					groupList,
+					"notInGroup"
+				);
+				const { owner, member } = xU.groupBy(inGroup, "role");
+				const { true: privateSpace, undefined: otherOwner } = xU.groupBy(
+					owner,
+					"privateSpace"
+				);
+				groupListForShow = [
+					privateSpace[0],
+					{
+						group_name: "分组成员",
+						children: [
+							{ group_name: "所有者", children: otherOwner },
+							{ group_name: "开发者", children: member }
+						]
+					},
+					{ group_name: "非分组成员", children: notInGroup }
+				];
 			} else {
-				vm.groupListForShow = xU.filter(groupList, group =>
+				groupListForShow = xU.filter(groupList, group =>
 					new RegExp(keywords, "i").test(group.group_name)
 				);
 			}
+
+			vm.groupListForShow = groupListForShow;
 		}, 300);
 
 		return {
@@ -161,7 +184,7 @@ export const GroupLeftSider = defineComponent({
 				value: "",
 				placeholder: "搜索分组",
 				onAfterEmitItemValue: this.searchGroup,
-				allowClear: true
+				clearable: true
 			}),
 			groupListForShow: [],
 			state: {
@@ -194,6 +217,9 @@ export const GroupLeftSider = defineComponent({
 			}
 		},
 		async selectGroup(groupId) {
+			if (!groupId) {
+				return;
+			}
 			await Methods_App.setCurrGroup(groupId);
 			this.Cpt_url.go("/group", { group_id: groupId });
 			await Methods_App.fetchNewsData({ id: groupId, type: "group" });
@@ -256,10 +282,9 @@ export const GroupLeftSider = defineComponent({
 		getGroupItemClass({ group }) {
 			return {
 				"x-sider-tree_menu": true,
-				"x-sider-tree_menu_active": xU.isSame(
-					State_App.currGroup._id,
-					group._id
-				)
+				"x-sider-tree_menu_active":
+					State_App.currGroup._id &&
+					xU.isSame(State_App.currGroup._id, group._id)
 			};
 		}
 	},
@@ -275,13 +300,12 @@ export const GroupLeftSider = defineComponent({
 					{/* 搜索框 */}
 					<xItem configs={this.configsSearch} class="flex1" />
 					<xGap l="10" />
-					<xIcon
+					<div
 						class="btn editSet pointer"
-						icon="add"
-						v-uiPopover={{ content: "添加分组" }}
 						onClick={() => this.fnShowUpsertGroupDialog()}
-						style="width:16px;height:16px;"
-					/>
+						v-uiPopover={{ content: "添加分组" }}>
+						<xIcon icon="add" style="width:16px;height:16px;" />
+					</div>
 				</div>
 			);
 		}
