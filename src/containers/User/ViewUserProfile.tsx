@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { stateApp, Cpt_avatarUrl } from "@/state/app";
-import { xI, UI, defFormConfigs, setValueTo, xU } from "@/ventose/ui";
+import { xI, xU, defFormConfigs, setValueTo } from "@/ventose/ui";
 import { DialogUpdatePwd } from "./DialogUpdatePwd";
 import { pickValueFrom } from "./../../element/ui/tools/form";
 import { FormRules } from "@/utils/common.FormRules";
@@ -82,7 +82,7 @@ export const ViewUserProfile = defineComponent({
 			);
 		},
 		async updatePwd() {
-			await UI.dialog.component({
+			xU.openDialog({
 				title: xI("修改密码"),
 				component: DialogUpdatePwd
 			});
@@ -91,11 +91,11 @@ export const ViewUserProfile = defineComponent({
 			const isJPG = file.type === "image/jpeg";
 			const isPNG = file.type === "image/png";
 			if (!isJPG && !isPNG) {
-				UI.message.error("图片的格式只能为 jpg、png！");
+				xU.message.error("图片的格式只能为 jpg、png！");
 			}
 			const isLt2M = file.size / 1024 / 1024 < 0.2;
 			if (!isLt2M) {
-				UI.message.error("图片必须小于 200kb!");
+				xU.message.error("图片必须小于 200kb!");
 			}
 			return (isPNG || isJPG) && isLt2M;
 		},

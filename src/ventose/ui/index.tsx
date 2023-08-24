@@ -38,7 +38,6 @@ import {
 	setPagination
 } from "./xDataGrid/common";
 import { antColKey, defItem, defFormConfigs, vModel } from "./xForm/common";
-import { UI } from "./UI";
 import {
 	AllWasWell,
 	EVENT_TYPE,
@@ -110,11 +109,9 @@ export const components = {
 
 export { VNodeCollection as VNodeCollection };
 export { newReactiveState as newReactiveState };
-export { UI as UI };
+export { xU as xU };
 export { dayjs as moment };
 export { dayjs as dayjs };
-export { xU as xU };
-export { xU as _ };
 export { $ as $ };
 export { defPagination as defPagination };
 export { defCol as defCol };
@@ -151,7 +148,7 @@ export const installVentoseUI = {
 		const options = { appUiPlugin, appState };
 		app.config.globalProperties.xI = xI;
 		installDirective(app, options);
-		installVentoseUIDialog(app, options, UI);
+		installVentoseUIDialog(app, options, xU);
 		/*使用svg */
 		xIconUseSvgInit();
 		xU.each(components, (component, name) => {

@@ -1,8 +1,8 @@
-import { itemsInvalid, AllWasWell, pickValueFrom, UI } from "@/ventose/ui";
+import { itemsInvalid, AllWasWell, pickValueFrom, xU } from "@/ventose/ui";
 import { defItem, xU, setValueTo } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
-import { API } from "../../../api";
+import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
@@ -71,9 +71,9 @@ export const DialogUpsertCategory = defineComponent({
 					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {
-						UI.message.error(this.xI("修改_失败", { title: "分类" }).label);
+						xU.message.error(this.xI("修改_失败", { title: "分类" }).label);
 					} else {
-						UI.message.error(this.xI("添加_失败", { title: "分类" }).label);
+						xU.message.error(this.xI("添加_失败", { title: "分类" }).label);
 					}
 				}
 			}
@@ -85,7 +85,7 @@ export const DialogUpsertCategory = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.xI("添加_成功", { title: "分类" }).label);
+				xU.message.success(this.xI("添加_成功", { title: "分类" }).label);
 			} else {
 				throw new Error("");
 			}
@@ -98,7 +98,7 @@ export const DialogUpsertCategory = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.xI("修改_成功", { title: "分类" }).label);
+				xU.message.success(this.xI("修改_成功", { title: "分类" }).label);
 			} else {
 				throw new Error("");
 			}

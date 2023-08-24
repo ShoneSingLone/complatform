@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { $, xU, UI, compositionAPI, xI } from "@/ventose/ui";
+import { $, xU, compositionAPI, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
 import { Cpt_url } from "@/router/router";
@@ -185,7 +185,7 @@ export const I18nLeftSider = defineComponent({
 			try {
 				await this.moveItemAndResetOrder(params);
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			} finally {
 				stateI18n.isLoading = false;
 			}
@@ -218,9 +218,9 @@ export const I18nLeftSider = defineComponent({
 					belong_type: "all"
 				});
 				await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-				UI.message.success(xI("更新成功"));
+				xU.message.success(xI("更新成功"));
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			}
 		},
 		setFilterText: xU.debounce(function (filterText) {
@@ -233,26 +233,26 @@ export const I18nLeftSider = defineComponent({
 		}, 20),
 		deleteArticle(_id) {
 			const vm = this;
-			UI.dialog.confirm({
+			xU.dialog.confirm({
 				title: "确定删除此文档吗？",
 				content: `文档删除后无法恢复`,
 				async onOk() {
 					try {
 						await API.wiki.delete(_id);
-						UI.message.success("删除文档成功");
+						xU.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
 						vm.Cpt_url.go("/xI", {
 							wiki_id: xU.first(stateI18n.i18nRecordArray)?._id
 						});
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 						return Promise.reject();
 					}
 				}
 			});
 		},
 		openDialogUpsertI18nRecord(record) {
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("添加记录"),
 				record,
 				component: DialogUpsertI18nRecord

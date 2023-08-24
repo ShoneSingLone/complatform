@@ -1,5 +1,5 @@
 import { defineComponent, reactive, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI, stateUI, xI } from "@/ventose/ui";
+import { $, xU, compositionAPI, stateUI, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { DialogAddArticle } from "./DialogAddArticle";
 import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
@@ -204,7 +204,7 @@ export const WikiLeftSider = defineComponent({
 			try {
 				await this.moveItemAndResetOrder(params);
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			} finally {
 				State_Wiki.isLoading = false;
 			}
@@ -255,9 +255,9 @@ export const WikiLeftSider = defineComponent({
 					})()
 				});
 				await Methods_Wiki.updateWikiMenuList();
-				UI.message.success(xI("更新成功"));
+				xU.message.success(xI("更新成功"));
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			}
 		},
 		/* vDomList 需要实际高度 */
@@ -266,24 +266,24 @@ export const WikiLeftSider = defineComponent({
 		}, 300),
 		async deleteArticle(_id) {
 			const vm = this;
-			UI.delete({
+			xU.delete({
 				content: `文档删除后无法恢复`,
 				async onOk() {
 					try {
 						await API.wiki.delete(_id);
-						UI.message.success("删除文档成功");
+						xU.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList();
 						Methods_Wiki.clickWiki({
 							wiki_id: xU.first(State_Wiki.treeData)?._id
 						});
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 					}
 				}
 			});
 		},
 		showUpsertArticleDialog(parentDoc) {
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("添加文档"),
 				parentDoc,
 				/* 所有人可见 */

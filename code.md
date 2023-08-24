@@ -27,7 +27,7 @@ if (!(await itemsInvalid())) {
 	throw new Error("未通过验证");
 }
 
-UI.dialog.component({
+xU.openDialog({
 	title: this.$t("添加分类").label,
 	component: DialogAddCategory,
 	onOk: async (instance) => {

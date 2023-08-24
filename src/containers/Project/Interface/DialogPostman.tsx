@@ -2,9 +2,7 @@ import {
 	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
-	UI,
-	defItem,
-	xU,
+	 xU, defItem,
 	setValueTo
 } from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
@@ -109,11 +107,11 @@ export const DialogPostman = defineComponent({
 							interface_id: data._id
 						});
 
-						UI.message.success("添加接口成功");
+						xU.message.success("添加接口成功");
 						$close();
 					}
 				} catch (error) {
-					UI.message.error("添加失败");
+					xU.message.error("添加失败");
 				}
 			}
 		}

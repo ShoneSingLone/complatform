@@ -3,7 +3,7 @@ import { Methods_App } from "@/state/app";
 import {
 	defItem,
 	EVENT_TYPE,
-	UI,
+	xU,
 	stateUI,
 	AllWasWell,
 	itemsInvalid,
@@ -128,7 +128,7 @@ export default defineComponent({
 							const res = await API.user.regActions(
 								pickValueFrom(vm.configsForm)
 							);
-							UI.notification.success(xI('"注册成功"').label);
+							xU.notification.success(xI('"注册成功"').label);
 
 							Cpt_url.value.go("/group");
 						} else {

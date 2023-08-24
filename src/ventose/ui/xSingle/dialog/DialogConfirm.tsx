@@ -1,9 +1,5 @@
 import { defineComponent } from "vue";
-import { stateUI } from "../../stateUI";
-import { Methods_App, State_App } from "../../../../state/State_App";
 import { xU } from "../../ventoseUtils";
-
-const { xI } = stateUI;
 
 export const DialogConfirm = defineComponent({
 	setup() {

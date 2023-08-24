@@ -10,8 +10,6 @@ import {
 import { FormRules } from "@/utils/common.FormRules";
 import { MonacoEditor } from "../MonacoEditor/MonacoEditor";
 
-const { xI } = stateUI;
-
 export const DialogBulkValues = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */

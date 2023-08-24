@@ -3,7 +3,7 @@ import { defineComponent, markRaw } from "vue";
 import { stateApp } from "@/state/app";
 import "./JsonSchemaMonaco.less";
 import {
-	UI,
+	xU,
 	xU,
 	$,
 	compositionAPI,
@@ -269,7 +269,7 @@ export const JsonSchemaMonaco = defineComponent({
 				this.$emit("update:schemaString", schemaString);
 			} catch (error) {
 				console.error(error);
-				UI.message.error(this.xI("数据有误"));
+				xU.message.error(this.xI("数据有误"));
 			} finally {
 				this.schemaJson = schemaJson;
 			}
@@ -328,7 +328,7 @@ export const JsonSchemaMonaco = defineComponent({
 					/* TODO: 校验node是否合法*/
 					this.setCurrentNode(node);
 				} catch (error) {
-					UI.message.error(this.xI("同步失败"));
+					xU.message.error(this.xI("同步失败"));
 				}
 			} else {
 				/* 全量 */
@@ -350,7 +350,7 @@ export const JsonSchemaMonaco = defineComponent({
 				const res = generateSchema.json(json5.parse(this.jsonSchemaString));
 				this.jsonSchemaString = JSON.stringify(res, null, 2);
 			} catch (error) {
-				UI.message.error(this.xI("JSON 转 schema 解析出错"));
+				xU.message.error(this.xI("JSON 转 schema 解析出错"));
 			}
 		},
 		async previewMock() {
@@ -366,7 +366,7 @@ export const JsonSchemaMonaco = defineComponent({
 					throw new Error();
 				}
 			} catch (error) {
-				UI.message.error(this.xI("预览 Mock 结果出错"));
+				xU.message.error(this.xI("预览 Mock 结果出错"));
 			}
 		}
 	},

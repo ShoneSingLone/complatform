@@ -1,14 +1,18 @@
-import { xU, pickValueFrom, itemsInvalid, defItem } from "@/ventose/ui";
+import {
+	xU,
+	pickValueFrom,
+	itemsInvalid,
+	defItem,
+	xI,
+	stateUI
+} from "@/ventose/ui";
 import { defineComponent } from "vue";
-import { UI, stateUI } from "@/ventose/ui";
 import { API } from "@/api";
 import { Methods_App, stateApp } from "@/state/app";
 import { DialogEditGroup } from "./DialogEditGroup";
 import { DialogAddGroup } from "./DialogAddGroup";
 import { Cpt_url } from "@/router/router";
 import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
-
-const { xI } = stateUI;
 
 export async function fnUpsertGroupInfo(formData = {}) {
 	const { id } = formData;
@@ -29,7 +33,7 @@ export async function fnUpsertGroupInfo(formData = {}) {
 export function fnShowUpsertGroupDialog(row = {}) {
 	const vm = this;
 	const isUpdate = !!row._id;
-	UI.dialog.component({
+	xU.openDialog({
 		title: isUpdate ? xI("修改分组信息").label : xI("添加分组"),
 		component: isUpdate ? DialogEditGroup : DialogAddGroup,
 		// fullscreen: true,
@@ -261,7 +265,7 @@ export const GroupLeftSider = defineComponent({
 				return (
 					<xIcon
 						v-xTips={{
-							content: vm.xI("修改分组信息"),
+							content: xI("修改分组信息"),
 							placement: "top"
 						}}
 						class="group-menu-icon editSet pointer"

@@ -1,11 +1,10 @@
 import { reactive, watch } from "vue";
-import { xU, stateUI, defCol, defXVirTableConfigs } from "@/ventose/ui";
+import { xU, stateUI, defCol, defXVirTableConfigs, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
 import { stateApp } from "@/state/app";
 
-const { xI } = stateUI;
 const defautlValue = () => ({
 	isLoading: false,
 	list: [],
@@ -329,10 +328,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 					},
 					renderCell({ cell }) {
 						return (
-							<p
-								class="ellipsis"
-								v-xTips={{ onlyEllipsis: true }}
-								key={cell}>
+							<p class="ellipsis" v-xTips={{ onlyEllipsis: true }} key={cell}>
 								{" "}
 								{cell}
 							</p>

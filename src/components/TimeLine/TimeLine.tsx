@@ -3,16 +3,14 @@ import "jsondiffpatch/dist/formatters-styles/html.css";
 import "./TimeLine.scss";
 import * as jsondiffpatch from "jsondiffpatch";
 
-import { defPagination, stateUI, UI, xU } from "@/ventose/ui";
+import { defPagination, stateUI, xU, xI } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { Methods_App } from "@/state/app";
 import { DialogShowApiModify } from "./DialogShowApiModify";
 import { LOG_TYPE, METHOD_COLOR } from "../../utils/variable";
 import { _$timeAgo } from "../../utils/common";
-import { API } from "../../api";
+import { API } from "@/api";
 import { diffMessage } from "../../utils/diff-view";
-
-const { xI } = stateUI;
 
 const formattersHtml = jsondiffpatch.formatters.html;
 
@@ -82,7 +80,7 @@ export const TimeLine = defineComponent({
 		},
 
 		showDiffLogDialog(data) {
-			UI.dialog.component({
+			xU.openDialog({
 				title: xI("Api 改动日志(Esc 关闭弹窗)"),
 				component: DialogShowApiModify,
 				maxmin: true,

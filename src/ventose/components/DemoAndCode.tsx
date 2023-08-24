@@ -5,7 +5,7 @@ import {
 	defXVirTableConfigs,
 	stateUI,
 	xU,
-	UI,
+	xU,
 	compileVNode,
 	defCol,
 	$,
@@ -64,7 +64,7 @@ export const DemoAndCode = defineComponent({
 							markRaw,
 							stateUI,
 							xU,
-							UI,
+							xU,
 							compileVNode,
 							defXVirTableConfigs,
 							defCol,
@@ -103,7 +103,7 @@ export const DemoAndCode = defineComponent({
 			this.rerun(scfObjSourceCode);
 		},
 		showSourceCodeDialog() {
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.path,
 				component: DialogSourceCode,
 				maxmin: true,

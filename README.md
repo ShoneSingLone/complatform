@@ -1,5 +1,5 @@
 # 参考
-- 使用的UI库 [ant-design-vue](https://next.antdv.com/components/overview-cn/)
+- ~~使用的UI库 [ant-design-vue](https://next.antdv.com/components/overview-cn/)~~
 - 使用的UI库 [element-plus](https://element-plus.org/zh-CN/component/button.html)
 - [前端开发记录](./README.dev.md)
 - [BUG记录](./README.bug.md)

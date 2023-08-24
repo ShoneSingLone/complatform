@@ -11,15 +11,15 @@
 
 <script lang="jsx">
 import copy from "copy-to-clipboard";
-import { $, UI } from "@/ventose/ui";
+import { $, xU } from "@/ventose/ui";
 
 export default {
 	methods: {
 		copyText() {
 			if (copy($(this.$refs.contents).text())) {
-				UI.message.success(this.xI("已经成功复制到剪切板"));
+				xU.message.success(this.xI("已经成功复制到剪切板"));
 			} else {
-				UI.message.error(this.xI("复制到剪切板失败"));
+				xU.message.error(this.xI("复制到剪切板失败"));
 			}
 		}
 	}

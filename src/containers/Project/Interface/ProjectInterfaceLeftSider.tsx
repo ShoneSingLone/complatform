@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI, xI } from "@/ventose/ui";
+import { $, xU, compositionAPI, xI } from "@/ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
 import { ALL } from "@/utils/variable";
@@ -268,7 +268,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 				}
 				Methods_ProjectInterface.updateInterfaceMenuList();
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			} finally {
 				setTimeout(() => {
 					this.State_Project.isLoading = false;
@@ -315,47 +315,47 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		}, 20),
 		deleteInterface(id) {
 			const vm = this;
-			UI.confirm({
+			xU.confirm({
 				title: vm.xI("您确认删除此接口？"),
 				content: vm.xI(`温馨提示：接口删除后，无法恢复`).label,
 				async onOk() {
 					try {
 						await API.project.deleteInterfaceById(id);
-						UI.message.success(vm.xI("删除接口成功"));
+						xU.message.success(vm.xI("删除接口成功"));
 						Methods_ProjectInterface.updateInterfaceMenuList();
 						vm.Cpt_url.go(
 							"/project/interface/all",
 							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
 						);
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 					}
 				}
 			});
 		},
 		deleteCategory(id) {
 			const vm = this;
-			UI.dialog.confirm({
+			xU.dialog.confirm({
 				title: "确定删除此接口分类吗？",
 				content: `温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复`,
 				async onOk() {
 					try {
 						await API.project.deleteCategoryById(id);
-						UI.message.success("删除分类成功");
+						xU.message.success("删除分类成功");
 						Methods_ProjectInterface.updateInterfaceMenuList();
 						vm.Cpt_url.go(
 							"/project/interface/all",
 							xU.omit(vm.Cpt_url.query, ["category_id"])
 						);
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 						return Promise.reject();
 					}
 				}
 			});
 		},
 		showUpsertCategoryDialog(category = false) {
-			UI.dialog.component({
+			xU.openDialog({
 				title: category ? this.xI("修改分类").label : this.xI("添加分类"),
 				component: DialogUpsertCategory,
 				category
@@ -364,7 +364,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		showAddInterfaceDialog(categoryId, $event: Event) {
 			$event.stopPropagation();
 			$event.preventDefault();
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("添加接口"),
 				categoryId,
 				projectId: this.stateApp.currProject._id,

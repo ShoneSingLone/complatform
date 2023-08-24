@@ -14,11 +14,9 @@
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { xU, defItem, stateUI } from "@/ventose/ui";
+import { xU, defItem, stateUI, xI } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { ItemUAC } from "@/components/ItemRender/ItemUAC";
-
-const { xI } = stateUI;
 
 export default defineComponent({
 	props: {

@@ -8,7 +8,7 @@ import {
 	xI,
 	setDataGridInfo,
 	xU,
-	UI,
+	xU,
 	defColActions,
 	defColActionsBtnlist
 } from "@/ventose/ui";
@@ -80,7 +80,7 @@ export const ViewI18n = defineComponent({
 										text: xI("修改"),
 										onClick: async () => {
 											await stateI18n._$updateCurrent(record._id);
-											UI.dialog.component({
+											xU.openDialog({
 												title: this.xI("修改记录"),
 												record: xU.cloneDeep(stateI18n.currentI18n),
 												component: DialogUpsertI18nRecord
@@ -130,16 +130,16 @@ export const ViewI18n = defineComponent({
 			// 最终下载名为a.json的文件
 		},
 		deleteI18nRecords(records) {
-			UI.confirm({
+			xU.confirm({
 				title: "确定删除这些吗？",
 				content: `记录删除后无法恢复`,
 				async onOk() {
 					try {
 						await stateI18n._$deleteI18nRecords(records);
-						UI.message.success("删除记录成功");
+						xU.message.success("删除记录成功");
 						stateI18n._$updateList({});
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 						return Promise.reject();
 					}
 				}
@@ -151,7 +151,7 @@ export const ViewI18n = defineComponent({
 			return {
 				text: xI("导入"),
 				async onClick() {
-					await UI.dialog.component({
+					xU.openDialog({
 						title: xI("导入国际化JSON文件"),
 						component: DialogImportI18nJSON
 					});

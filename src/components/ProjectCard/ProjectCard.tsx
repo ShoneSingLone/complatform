@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 import { stateApp } from "@/state/app";
 import { API } from "@/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
-import { UI, xU } from "@/ventose/ui";
+import { xU } from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";
 
 export default defineComponent({
@@ -22,7 +22,7 @@ export default defineComponent({
 	},
 	methods: {
 		showCopyProjectDialog() {
-			UI.dialog.component({
+			xU.openDialog({
 				title: `复制项目${this.projectData.name}`,
 				component: ViewCopyProject,
 				copyProject: this.copyProject,
@@ -39,7 +39,7 @@ export default defineComponent({
 				{ preName: data.name }
 			);
 			await API.project.copyProjectMsg(data);
-			UI.message.success("项目复制成功");
+			xU.message.success("项目复制成功");
 			this.callbackResult();
 		},
 		async goToProject() {

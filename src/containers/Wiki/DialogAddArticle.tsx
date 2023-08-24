@@ -2,9 +2,7 @@ import {
 	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
-	UI,
-	defItem,
-	xU,
+	 xU, defItem,
 	setValueTo,
 	xI
 } from "@/ventose/ui";
@@ -82,13 +80,13 @@ export const DialogAddArticle = defineComponent({
 				try {
 					const { data } = await API.wiki.upsertOne(params);
 					if (data?.msg?._id) {
-						UI.message.success("添加文档成功");
+						xU.message.success("添加文档成功");
 						Methods_Wiki.updateWikiMenuList();
 						Methods_Wiki.clickWiki({ wiki_id: data.msg._id });
 						this.propOptions.$close();
 					}
 				} catch (error) {
-					UI.message.error(error || "添加失败");
+					xU.message.error(error || "添加失败");
 				}
 			}
 		}

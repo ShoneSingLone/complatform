@@ -5,19 +5,17 @@ import {
 	stateUI,
 	pickValueFrom,
 	VNodeCollection,
-	UI,
-	components
+	components,
+	xI
 } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { Methods_App, stateApp } from "@/state/app";
 
-import { API } from "../../../api";
+import { API } from "@/api";
 import { Cpt_url } from "@/router/router";
 import { ADMIN } from "@/utils/variable";
 
 const { xItem } = components;
-
-const { xI } = stateUI;
 
 export const DialogEditGroup = defineComponent({
 	setup() {
@@ -191,7 +189,7 @@ export const DialogEditGroup = defineComponent({
 		showDeleteGroupConfirm() {
 			const vm = this;
 			vm.formDelete.authText.value = "";
-			UI.confirm({
+			xU.confirm({
 				title: "确认删除 " + vm.stateApp.currGroup.group_name + " 分组吗？",
 				content: () => (
 					<>
@@ -212,7 +210,7 @@ export const DialogEditGroup = defineComponent({
 					return new Promise(async (resolve, reject) => {
 						const { authText } = pickValueFrom(vm.formDelete);
 						if (authText !== vm.stateApp.currGroup.group_name) {
-							UI.message.error("分组名称有误");
+							xU.message.error("分组名称有误");
 							return reject();
 						} else {
 							await vm.deleteGroup();
@@ -228,7 +226,7 @@ export const DialogEditGroup = defineComponent({
 		async deleteGroup() {
 			const { currGroup } = this.stateApp;
 			const res = await API.group.deleteGroup({ id: currGroup._id });
-			UI.notification.success("删除成功");
+			xU.notification.success("删除成功");
 			await Methods_App.fetchGroupList();
 			const firstGroup = xU.first(this.stateApp.groupList);
 			this.Cpt_url.go("/group", { group_id: firstGroup._id });

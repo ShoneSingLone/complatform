@@ -4,7 +4,7 @@ import {
 	defItem,
 	pickValueFrom,
 	setValueTo,
-	UI,
+	xU,
 	itemsInvalid,
 	xU
 } from "@/ventose/ui";
@@ -195,7 +195,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 							if (/^new_env/.test(i._id)) {
 								return async () => {
 									try {
-										await UI.dialog.confirm({
+										await xU.dialog.confirm({
 											content: `删除环境变量${i.name}?`
 										});
 										const envIndex = xU.findIndex(this.privateEnv, {
@@ -289,7 +289,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			const keys = Object.keys(delta || {});
 			if (keys.length > 0) {
 				try {
-					await UI.dialog.confirm({
+					await xU.dialog.confirm({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
@@ -371,7 +371,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				id: this.propProjectId,
 				env: envArray
 			});
-			UI.message.success(this.xI("环境设置成功"));
+			xU.message.success(this.xI("环境设置成功"));
 			Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
 		},
 		async addEnv() {
@@ -389,7 +389,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		async deleteEnv(item) {
 			const id = item._id;
 			try {
-				await UI.dialog.confirm({ content: `删除环境变量${item.name}?` });
+				await xU.dialog.confirm({ content: `删除环境变量${item.name}?` });
 				const envIndex = xU.findIndex(this.privateEnv, {
 					_id: id
 				});
@@ -399,7 +399,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 					id: this.propProjectId,
 					env: envArray
 				});
-				UI.message.success(this.xI("环境设置成功"));
+				xU.message.success(this.xI("环境设置成功"));
 				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
 			} catch (error) {}
 		}

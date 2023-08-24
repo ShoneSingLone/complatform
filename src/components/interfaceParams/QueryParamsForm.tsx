@@ -3,7 +3,7 @@ import {
 	defCol,
 	defItem,
 	defXVirTableConfigs,
-	UI,
+	xU,
 	xU
 } from "@/ventose/ui";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
@@ -51,7 +51,7 @@ export const QueryParamsForm = defineComponent({
 	},
 	methods: {
 		openBulkValuesDialog() {
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("批量添加参数"),
 				component: DialogBulkValues,
 				formValues: xU.map(this.configs_table.dataSource, i => {

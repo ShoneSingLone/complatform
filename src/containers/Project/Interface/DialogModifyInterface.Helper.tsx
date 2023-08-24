@@ -1,5 +1,5 @@
 import { DialogUpsertTags } from "./DialogUpsertTags";
-import { $, UI, xU, xI } from "@/ventose/ui";
+import { $, xU, xI } from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { DialogInterfaceStatusModify } from "./DialogInterfaceStatusModify";
 import { DialogInterfaceProxyModify } from "./DialogInterfaceProxyModify";
@@ -11,7 +11,7 @@ import {
 } from "@/components";
 
 export async function openProxyEnvDialog() {
-	const { _layer_index } = await UI.dialog.component({
+	xU.openDialog({
 		title: xI("管理项目接口转发环境"),
 		// offset: [20, 20],
 		component: DialogUpsertProxyEnv,
@@ -21,7 +21,7 @@ export async function openProxyEnvDialog() {
 }
 
 export async function openUpsertTagDialog() {
-	const { _layer_index } = await UI.dialog.component({
+	xU.openDialog({
 		title: xI("管理项目接口Tags"),
 		// offset: [20, 20],
 		component: DialogUpsertTags,
@@ -220,16 +220,16 @@ export const ResponseRender = defineComponent({
 	}
 });
 
-export async function openDialogInterfaceStatusModify({ selected }) {
-	await UI.dialog.component({
+export function openDialogInterfaceStatusModify({ selected }) {
+	xU.openDialog({
 		title: xI("变更状态"),
 		component: DialogInterfaceStatusModify,
 		selected
 	});
 }
 
-export async function openDialogInterfaceProxyModify({ selected }) {
-	await UI.dialog.component({
+export function openDialogInterfaceProxyModify({ selected }) {
+	xU.openDialog({
 		title: xI("变更代理"),
 		component: DialogInterfaceProxyModify,
 		selected

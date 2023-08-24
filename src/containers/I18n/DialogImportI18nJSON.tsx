@@ -1,4 +1,4 @@
-import { UI, xU, xI, defCol, defXVirTableConfigs } from "@/ventose/ui";
+import { xU, xI, defCol, defXVirTableConfigs } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateI18n } from "./State_i18n";
@@ -48,7 +48,7 @@ export const DialogImportI18nJSON = defineComponent({
 				const { data } = await API.god.importI18nJSON(formData);
 				const { different } = data;
 
-				UI.message.success(`成功添加记录`);
+				xU.message.success(`成功添加记录`);
 				if (xU.isArrayFill(different)) {
 					this.showCoverExistedConfirm(data);
 				} else {
@@ -155,7 +155,7 @@ export const DialogImportI18nJSON = defineComponent({
 					};
 				});
 				await API.god.upsertI18nRecordMany(params);
-				UI.message.success(`修改记录成功`);
+				xU.message.success(`修改记录成功`);
 				await stateI18n._$updateList();
 				this.propOptions.$close();
 			} catch (error) {

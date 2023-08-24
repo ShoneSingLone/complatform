@@ -5,17 +5,14 @@ import {
 	defDataGridOption,
 	defCol,
 	stateUI,
-	UI,
-	defItem,
-	xU,
+	 xU, defItem,
 	AllWasWell,
 	pickValueFrom,
-	itemsInvalid
+	itemsInvalid,
+	xI
 } from "@/ventose/ui";
 import ViewAddMember from "./ViewAddMember.vue";
 import { ADMIN, DEV, OWNER } from "@/utils/variable";
-
-const { xI } = stateUI;
 
 function arrayAddKey(arr) {
 	return arr.map((item, index) => {
@@ -91,7 +88,7 @@ export const GroupMemberList = defineComponent({
 										class: "ml10",
 										async onClick() {
 											try {
-												await UI.dialog.delete({
+												await xU.dialog.delete({
 													title: "删除确认",
 													content: "你确定要删除吗?"
 												});
@@ -133,7 +130,7 @@ export const GroupMemberList = defineComponent({
 				methods.fetchGroupMemberList();
 			},
 			showAddMemberDialog() {
-				UI.dialog.component({
+				xU.openDialog({
 					title: xI("添加成员"),
 					component: ViewAddMember,
 					area: ["480px", "260px"],
@@ -144,7 +141,7 @@ export const GroupMemberList = defineComponent({
 								await state.addMember({ member_uids, role });
 								$close();
 							} catch (error) {
-								UI.message.error("添加失败");
+								xU.message.error("添加失败");
 							}
 						} else {
 							throw new Error("未通过验证");
@@ -170,36 +167,36 @@ export const GroupMemberList = defineComponent({
 				const { add_members, exist_members } = data;
 				const addLength = add_members.length;
 				const existLength = exist_members.length;
-				UI.message.success(`新增 ${addLength} 人， ${existLength} 人已存在`);
+				xU.message.success(`新增 ${addLength} 人， ${existLength} 人已存在`);
 				methods.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
 			},
 			// 删 - 删除分组成员
 			async delMember(member_uid) {
 				const id = stateApp.currGroup._id;
-				const index = UI.layer.loading();
+				const index = xU.layer.loading();
 				try {
 					await Methods_App.delMember({ id, member_uid });
-					UI.notification.success("修改成功");
+					xU.notification.success("修改成功");
 					methods.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
 				} catch (e) {
 					console.error(e);
 				} finally {
-					UI.layer.loading(index);
+					xU.layer.loading(index);
 				}
 			},
 
 			// 改 - 修改成员权限
 			async changeUserRole({ member_uid, role }) {
 				const id = stateApp.currGroup._id;
-				const index = UI.layer.loading();
+				const index = xU.layer.loading();
 				try {
 					await Methods_App.changeMemberRole({ id, member_uid, role });
-					UI.notification.success("修改成功");
+					xU.notification.success("修改成功");
 					methods.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
 				} catch (e) {
 					console.error(e);
 				} finally {
-					UI.layer.loading(index);
+					xU.layer.loading(index);
 				}
 			}
 		};

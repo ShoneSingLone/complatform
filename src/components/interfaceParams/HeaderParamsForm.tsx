@@ -3,7 +3,7 @@ import {
 	defCol,
 	defItem,
 	defXVirTableConfigs,
-	UI,
+	xU,
 	xU
 } from "@/ventose/ui";
 import { State_Project } from "@/containers/Project/Interface/State_Project";
@@ -50,7 +50,7 @@ export const HeaderParamsForm = defineComponent({
 	},
 	methods: {
 		openBulkValuesDialog() {
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("批量添加参数"),
 				component: DialogBulkValues,
 				formValues: xU.map(this.configs_table.dataSource, i => {

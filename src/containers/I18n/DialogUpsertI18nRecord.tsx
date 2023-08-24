@@ -2,9 +2,7 @@ import {
 	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
-	UI,
-	defItem,
-	xU,
+	 xU, defItem,
 	xI,
 	VNodeCollection,
 	setValueTo
@@ -115,14 +113,14 @@ xI("Key值")
 						...pickValueFrom(this.dataXItem)
 					});
 					if (data?.msg?._id) {
-						UI.message.success("添加记录成功");
+						xU.message.success("添加记录成功");
 					} else {
-						UI.message.success("修改记录成功");
+						xU.message.success("修改记录成功");
 					}
 					stateI18n._$updateList({});
 					this.propOptions.$close();
 				} catch (error) {
-					UI.message.error("添加失败");
+					xU.message.error("添加失败");
 				}
 			}
 		}

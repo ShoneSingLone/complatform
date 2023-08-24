@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI, stateUI } from "@/ventose/ui";
+import { $, xU, compositionAPI, stateUI } from "@/ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
 import { ALL } from "@/utils/variable";
@@ -284,7 +284,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 				}
 				Methods_ProjectTestcase.updateTestcaseMenuList();
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			} finally {
 				setTimeout(() => {
 					this.State_ProjectTestcase.isLoading = false;
@@ -331,47 +331,47 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		}, 20),
 		deleteInterface(id) {
 			const vm = this;
-			UI.confirm({
+			xU.confirm({
 				title: vm.xI("您确认删除此用例？"),
 				content: vm.xI(`温馨提示：用例删除后，无法恢复`).label,
 				async onOk() {
 					try {
 						await API.project.deleteInterfaceById(id);
-						UI.message.success(vm.xI("删除用例成功"));
+						xU.message.success(vm.xI("删除用例成功"));
 						Methods_ProjectTestcase.updateTestcaseMenuList();
 						vm.Cpt_url.go(
 							"/project/testcase/all",
 							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
 						);
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 					}
 				}
 			});
 		},
 		deleteCategory(id) {
 			const vm = this;
-			UI.dialog.confirm({
+			xU.dialog.confirm({
 				title: "确定删除此用例集合吗？",
 				content: `温馨提示：该操作会删除该集合下所有用例，用例删除后无法恢复`,
 				async onOk() {
 					try {
 						await API.project.deleteCategoryById(id);
-						UI.message.success("删除集合成功");
+						xU.message.success("删除集合成功");
 						Methods_ProjectTestcase.updateTestcaseMenuList();
 						vm.Cpt_url.go(
 							"/project/testcase/all",
 							xU.omit(vm.Cpt_url.query, ["category_id"])
 						);
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 						return Promise.reject();
 					}
 				}
 			});
 		},
 		showUpsertTestcaseCategoryDialog(category = false) {
-			UI.dialog.component({
+			xU.openDialog({
 				title: category ? this.xI("修改集合").label : this.xI("添加集合"),
 				component: DialogUpsertCategory,
 				category
@@ -380,7 +380,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		showAddTestcaseDialog(categoryId, $event: Event) {
 			$event.stopPropagation();
 			$event.preventDefault();
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("添加用例"),
 				categoryId,
 				projectId: this.stateApp.currProject._id,

@@ -1,9 +1,15 @@
 //@ts-nocheck
-import { AllWasWell, defItem, stateUI, itemsInvalid, xU } from "@ventose/ui";
+import {
+	AllWasWell,
+	defItem,
+	stateUI,
+	itemsInvalid,
+	xU,
+	xI
+} from "@ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 
-const { xI } = stateUI;
 export const DemoXFormWithForm = defineComponent({
 	props: {
 		options: {

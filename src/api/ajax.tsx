@@ -1,4 +1,4 @@
-import { lStorage, UI, xU } from "@/ventose/ui";
+import { lStorage, xU } from "@/ventose/ui";
 import axios from "axios";
 import { stateApp } from "@/state/app";
 
@@ -79,7 +79,7 @@ const xCookies = {
 
 export function logError(msg) {
 	if (!msg) return;
-	UI.notification.error(msg);
+	xU.notification.error(msg);
 	console.error(msg);
 }
 

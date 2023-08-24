@@ -899,39 +899,41 @@ class ClassLayer {
 
 	/* 调整位置并显示 */
 	async initPosition() {
-		await xU.sleep(34);
+		await xU.sleep(1000);
 		const dialogInst = this;
 		const { config, _layer_index } = dialogInst;
 		/* 首次弹出时，若 css 尚未加载，则等待 css 加载完毕后，重新设定尺寸 */
-		dialogInst.setPosition();
-		if (config.type === TYPE_TIPS) {
-			dialogInst.setTips();
-		}
 
-		if (config.fullscreen) {
-			setTimeout(() => {
-				xLayer.full(_layer_index);
-			}, 500);
-		}
-
-		/* 如果是固定定位 */
-
-		/* 		$win.on("resize", function () {
-			dialogInst.setPosition();
-			// if (/^\d+%$/.test(config.area[0]) || /^\d+%$/.test(config.area[1])) { }
-			if (config.type == xLayer.tips) {
+		dialogInst.setPosition(() => {
+			if (config.type === TYPE_TIPS) {
 				dialogInst.setTips();
 			}
+
+			if (config.fullscreen) {
+				setTimeout(() => {
+					xLayer.full(_layer_index);
+				}, 500);
+			}
+
+			/* 如果是固定定位 */
+
+			/* 		$win.on("resize", function () {
+dialogInst.setPosition();
+// if (/^\d+%$/.test(config.area[0]) || /^\d+%$/.test(config.area[1])) { }
+if (config.type == xLayer.tips) {
+dialogInst.setTips();
+}
+});
+*/
+			if (typeof config.during === "number" && config.during > 0) {
+				setTimeout(function () {
+					xLayer.close(dialogInst._layer_index);
+				}, config.during);
+			}
+			/* 最后至于最上层 */
+			xLayer.setLayerTop(dialogInst.$eleDialog);
+			this.$eleDialog.css("visibility", "visible");
 		});
- */
-		if (typeof config.during === "number" && config.during > 0) {
-			setTimeout(function () {
-				xLayer.close(dialogInst._layer_index);
-			}, config.during);
-		}
-		/* 最后至于最上层 */
-		xLayer.setLayerTop(dialogInst.$eleDialog);
-		this.$eleDialog.css("visibility", "visible");
 		return dialogInst;
 	}
 
@@ -939,6 +941,9 @@ class ClassLayer {
 		/* 为兼容jQuery3.0的css动画影响元素尺寸计算 */
 		const dialogInst = this;
 		const { config } = dialogInst;
+		if (config.type == TYPE_DIALOG) {
+			return dialogInst;
+		}
 		if (DOMS_ANIM[config.anim]) {
 			var animClass = "layer-anim " + DOMS_ANIM[config.anim];
 			dialogInst.$eleDialog
@@ -972,16 +977,18 @@ class ClassLayer {
 
 			dialogInst.$eleDialog.find(`.${NAME_LAYER_CONTENT}`).append($content);
 		}
+		const visibility = "visible";
+		// const visibility = "hidden";
 		if (config.triggerDom) {
 			dialogInst.$eleDialog.css({
-				visibility: "hidden",
+				visibility,
 				...config.triggerDom
 			});
 		} else {
 			dialogInst.$eleDialog.css({
-				visibility: "hidden",
-				top: "100px",
-				left: "100px"
+				visibility,
+				top: "0",
+				left: "0"
 			});
 		}
 		$html.append(dialogInst.$eleDialog);
@@ -1010,10 +1017,15 @@ class ClassLayer {
 	 *
 	 * @memberOf ClassLayer
 	 */
-	setPosition() {
+
+	setPosition(onAfterSetPosition) {
 		var dialogInst = this,
 			config = dialogInst.config,
 			$eleDialog = dialogInst.$eleDialog;
+
+		if (this.config.type == TYPE_DIALOG) {
+			debugger;
+		}
 		const [areaW, areaH] = [$eleDialog.outerWidth(), $eleDialog.outerHeight()];
 		const [winW, winH] = [$win.width(), $win.height()];
 		const [top, left] = (() => {
@@ -1083,7 +1095,7 @@ class ClassLayer {
 			return [calTop, calLeft];
 		})();
 		$eleDialog.css({ top, left });
-		return dialogInst;
+		onAfterSetPosition.call(dialogInst);
 	}
 
 	async setTips() {

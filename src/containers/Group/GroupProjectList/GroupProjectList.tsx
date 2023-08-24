@@ -4,7 +4,7 @@ import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 import "./ProjectList.scss";
 import { defineComponent } from "vue";
 import { Methods_App, stateApp } from "@/state/app";
-import { UI, xI, xU } from "@/ventose/ui";
+import { xU, xI } from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";
 import { DialogAddProject } from "../AddProject/DialogAddProject";
 import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
@@ -149,7 +149,7 @@ export const GroupProjectList = defineComponent({
 		},
 		async showAddProjectDialog() {
 			const vm = this;
-			await UI.dialog.component({
+			xU.openDialog({
 				title: "添加项目",
 				component: DialogAddProject,
 				groupId: vm.Cpt_url.query.group_id,

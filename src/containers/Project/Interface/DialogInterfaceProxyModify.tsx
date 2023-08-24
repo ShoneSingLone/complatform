@@ -1,7 +1,7 @@
-import { itemsInvalid, AllWasWell, pickValueFrom, UI, xI } from "@/ventose/ui";
+import { itemsInvalid, AllWasWell, pickValueFrom, xU, xI } from "@/ventose/ui";
 import { defItem, xU, setValueTo } from "@/ventose/ui";
 import { defineComponent } from "vue";
-import { API } from "../../../api";
+import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { EnvSelectRender } from "./DialogModifyInterface.Helper";
@@ -90,9 +90,9 @@ export const DialogInterfaceProxyModify = defineComponent({
 					);
 					Methods_ProjectInterface.updateInterfaceMenuList();
 					this.propOptions.$close();
-					UI.message.success(this.xI("修改_成功", { title: "代理" }).label);
+					xU.message.success(this.xI("修改_成功", { title: "代理" }).label);
 				} catch (error) {
-					UI.message.error(this.xI("修改_失败", { title: "代理" }).label);
+					xU.message.error(this.xI("修改_失败", { title: "代理" }).label);
 				}
 			}
 		}

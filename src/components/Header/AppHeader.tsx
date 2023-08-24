@@ -3,7 +3,7 @@ import "./Header.scss";
 import Srch from "./Search/Search";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import { defineComponent, VNode } from "vue";
-import { UI, xU } from "@/ventose/ui";
+import { xU } from "@/ventose/ui";
 import { Cpt_avatarUrl, Methods_App, stateApp } from "@/state/app";
 import { Cpt_url, aHashLink } from "@/router/router";
 import { API } from "@/api";

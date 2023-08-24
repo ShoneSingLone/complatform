@@ -3,7 +3,6 @@ import { xU } from "../../ventoseUtils";
 import $ from "jquery";
 import { KEY_ESC, xLayer } from "../layer/xLayer";
 import { xI } from "../../stateUI";
-import { THIS_BTN_IS_LOADING } from "../../xButton/xButton";
 
 const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 	const $antModal = $(".x-modal-root");
@@ -100,13 +99,20 @@ const xDialogFooter = defineComponent({
 	}
 });
 
-export const installVentoseUIDialog = (app, { appUiPlugin, appState }, UI) => {
+export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 	app.component("xDialogFooter", xDialogFooter);
+	let DialogOpenAt = null;
+	$(window).on("click.DialogOpenAt", function (event) {
+		console.log("click.DialogOpenAt", event.target);
+		DialogOpenAt = $(event.target).offset();
+	});
 
-	UI.dialog.component = async (dialogOptions: t_dialogOptions) =>
-		new Promise(resolve => {
-			if (THIS_BTN_IS_LOADING.loading) {
-				dialogOptions.triggerDom = $(THIS_BTN_IS_LOADING.loading).offset();
+	xU.openDialog = xU.debounce(async function dialogComponent(
+		dialogOptions: t_dialogOptions
+	) {
+		return new Promise(resolve => {
+			if (DialogOpenAt) {
+				dialogOptions.triggerDom = DialogOpenAt;
 			}
 			const { component: BussinessComponent, title, area } = dialogOptions;
 			const id = xU.genId("xDialog");
@@ -203,6 +209,8 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, UI) => {
 												);
 											}, 6);
 										}
+
+										DialogOpenAt = null;
 										resolve(this.dialogOptions);
 									},
 									mounted() {
@@ -270,4 +278,6 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, UI) => {
 			);
 			xLayer.open(layerOptions);
 		});
+	},
+	200);
 };

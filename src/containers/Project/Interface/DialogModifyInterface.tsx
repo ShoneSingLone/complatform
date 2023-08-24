@@ -4,7 +4,7 @@ import {
 	defItem,
 	pickValueFrom,
 	setValueTo,
-	UI,
+	xU,
 	itemsInvalid,
 	VNodeCollection,
 	xU
@@ -542,10 +542,10 @@ export const DialogModifyInterface = defineComponent({
 								this.propOptions.$close();
 							}, 1000);
 						})();
-						UI.message.success(this.xI("修改成功"));
+						xU.message.success(this.xI("修改成功"));
 					}
 				} catch (error) {
-					UI.message.error(this.xI("修改失败"));
+					xU.message.error(this.xI("修改失败"));
 				}
 			}
 		}

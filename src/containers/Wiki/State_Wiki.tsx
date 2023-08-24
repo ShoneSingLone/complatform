@@ -1,5 +1,5 @@
 import { computed, reactive, watch } from "vue";
-import { xU, stateUI, setDocumentTitle, UI } from "@/ventose/ui";
+import { xU, stateUI, setDocumentTitle } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { Cpt_url } from "@/router/router";
 import { sortTreeByOrder } from "@/utils/common";
@@ -55,7 +55,7 @@ export const Methods_Wiki = {
 	 */
 	async setCurrentWiki(_id?: any, item?: any) {
 		try {
-			UI.loading(true);
+			xU.loading(true);
 			if (!xU.isInput(_id)) {
 				_id = Cpt_url.value.query.wiki_id;
 				if (!_id) {
@@ -71,10 +71,10 @@ export const Methods_Wiki = {
 		} catch (e) {
 			console.error(e);
 		} finally {
-			UI.loading();
+			xU.loading();
 		}
 		try {
-			UI.loading(true);
+			xU.loading(true);
 			if (item) {
 				State_Wiki.currentWiki = item;
 				Methods_Wiki.setExpandedKeys(item._id);
@@ -91,7 +91,7 @@ export const Methods_Wiki = {
 		} catch (error) {
 			console.error(error);
 		} finally {
-			UI.loading();
+			xU.loading();
 		}
 	},
 	async updateWikiMenuList() {

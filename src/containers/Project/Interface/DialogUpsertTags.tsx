@@ -1,4 +1,4 @@
-import { defItem, UI, xU } from "@/ventose/ui";
+import { defItem, xU } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { Methods_App, stateApp } from "@/state/app";
 import { API } from "@/api";
@@ -138,7 +138,7 @@ export const DialogUpsertTags = defineComponent({
 				await Methods_App.setCurrProject(this.propProjectId, {
 					isEnforce: true
 				});
-				UI.message.success("Tag修改成功");
+				xU.message.success("Tag修改成功");
 				this.propOptions.$close();
 			}
 		}

@@ -45,7 +45,7 @@ import {
 	components,
 	defItem,
 	pickValueFrom,
-	UI,
+	xU,
 	itemsInvalid,
 	VNodeCollection
 } from "@ventose/ui";
@@ -162,12 +162,12 @@ export default {
 				async onClick() {
 					try {
 						if (!(await itemsInvalid())) {
-							UI.message.success("校验成功");
+							xU.message.success("校验成功");
 						} else {
-							UI.message.error("校验失败");
+							xU.message.error("校验失败");
 						}
 					} catch (error) {
-						UI.notification.error(error?.message || "错误");
+						xU.notification.error(error?.message || "错误");
 					}
 				}
 			},

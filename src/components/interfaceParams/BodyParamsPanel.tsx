@@ -1,4 +1,4 @@
-import { defItem, UI, xU } from "@/ventose/ui";
+import { defItem, xU } from "@/ventose/ui";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { defineComponent } from "vue";
 import { BodyParamsForm } from "./BodyParamsForm";
@@ -21,7 +21,7 @@ export const BodyParamsPanel = defineComponent({
 	},
 	methods: {
 		openBulkValuesDialog() {
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("批量添加参数"),
 				component: DialogBulkValues,
 				formValues: this.params.req_body_form,

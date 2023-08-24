@@ -1,7 +1,7 @@
 import { computed, reactive, watch } from "vue";
-import { UI, xU, xI } from "@/ventose/ui";
+import { xU, xI } from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";
-import { API } from "../api";
+import { API } from "@/api";
 
 const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
@@ -201,7 +201,7 @@ export const Methods_App = {
 			});
 			if (data === "ok") {
 				Cpt_url.value.go("/login");
-				UI.notification.success(xI("退出成功! "));
+				xU.notification.success(xI("退出成功! "));
 			}
 		} catch (error) {
 			xU(error);

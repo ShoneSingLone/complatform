@@ -131,6 +131,10 @@ html #layuicss-layer {
 	padding: 0;
 	background: #fff;
 	max-height: calc(100vh - 32px);
+	&[data-min-max-status="max"] {
+		max-height: 100vh;
+		height: 100vh;
+	}
 }
 
 .x-layer-close {

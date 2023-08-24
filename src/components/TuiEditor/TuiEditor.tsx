@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { $, xU, UI } from "@/ventose/ui";
+import { $, xU } from "@/ventose/ui";
 import { defineAsyncComponent, defineComponent } from "vue";
 import { PreprocessHTML, MkitTheme } from "@/components/Mkit/MkitTheme";
 import { API } from "@/api";

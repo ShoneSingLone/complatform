@@ -1,5 +1,9 @@
 <template>
-	<svg class="xIcon" v-bind="$attrs" :style="cpt_Style" :data-icon="$attrs.icon">
+	<svg
+		class="xIcon"
+		v-bind="$attrs"
+		:style="cpt_Style"
+		:data-icon="$attrs.icon">
 		<use :xlink:href="cpt_href"></use>
 	</svg>
 </template>

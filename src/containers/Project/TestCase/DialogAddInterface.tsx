@@ -2,13 +2,11 @@ import {
 	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
-	UI,
-	defItem,
-	xU,
+	 xU, defItem,
 	setValueTo
 } from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
-import { API } from "../../../api";
+import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import {
 	Methods_ProjectInterface,
@@ -109,11 +107,11 @@ export const DialogAddInterface = defineComponent({
 							interface_id: data._id
 						});
 
-						UI.message.success("添加接口成功");
+						xU.message.success("添加接口成功");
 						$close();
 					}
 				} catch (error) {
-					UI.message.error("添加失败");
+					xU.message.error("添加失败");
 				}
 			}
 		}

@@ -2,14 +2,14 @@ import { defineComponent } from "vue";
 import {
 	$,
 	xU,
-	UI,
+	xU,
 	defCol,
 	defDataGridOption,
 	stateUI,
 	xI,
 	lStorage
 } from "@/ventose/ui";
-import { API } from "../../../api";
+import { API } from "@/api";
 import { Cpt_url } from "@/router/router";
 import { InfoCard } from "../../../components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
@@ -108,7 +108,7 @@ export const InterfaceDetail = defineComponent({
 	methods: {
 		async runPostman() {
 			const vm = this;
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("修改接口"),
 				component: DialogPostman,
 				area: ["1024px", "624px"],
@@ -145,7 +145,7 @@ export const InterfaceDetail = defineComponent({
 		copyCode() {
 			const codeString = this.$refs.ajaxCode.innerText;
 			copy(codeString);
-			UI.message.success("已经成功复制到剪切板");
+			xU.message.success("已经成功复制到剪切板");
 		},
 		flagMsg(mock, strice) {
 			if (mock && strice) {
@@ -169,14 +169,14 @@ export const InterfaceDetail = defineComponent({
 			const $dialogModifyInterface = $(`.dialog-modify-interface`);
 
 			if ($dialogModifyInterface.length > 0) {
-				UI.message.warn(this.xI("已存在修改面板"));
+				xU.message.warn(this.xI("已存在修改面板"));
 				return;
 			}
 			const { status, curdata, message } = await this.checkConflict(item);
 
 			if (status == 2) {
 				try {
-					await UI.dialog.confirm({
+					await xU.dialog.confirm({
 						content: (
 							<div class="flex middle">
 								<a href={makeAhref(`/user/profile/${curdata.uid}`)}>
@@ -195,9 +195,9 @@ export const InterfaceDetail = defineComponent({
 			}
 
 			if (message) {
-				UI.message.warn(message);
+				xU.message.warn(message);
 			}
-			UI.dialog.component({
+			xU.openDialog({
 				title: this.xI("修改接口") + `-${item.title}`,
 				// fullscreen: true,
 				component: DialogModifyInterface,

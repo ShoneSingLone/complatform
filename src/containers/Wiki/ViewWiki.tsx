@@ -4,7 +4,7 @@ import { WikiLeftSider } from "./WikiLeftSider";
 import { State_Wiki, Methods_Wiki, cpt_wikiBelongType } from "./State_Wiki";
 import { TuiEditor } from "@/components";
 import { API } from "@/api/index";
-import { xU, xI, UI, defItem } from "@/ventose/ui";
+import { xU, xI, defItem } from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";
 
 export const ViewWiki = defineComponent({
@@ -30,7 +30,7 @@ export const ViewWiki = defineComponent({
 	methods: {
 		async save() {
 			try {
-				UI.loading(true);
+				xU.loading(true);
 				const params = xU.merge(
 					{},
 					State_Wiki.currentWiki,
@@ -42,13 +42,13 @@ export const ViewWiki = defineComponent({
 				await API.wiki.upsertOne(params);
 				Methods_Wiki.updateWikiMenuList();
 				Methods_Wiki.setCurrentWiki(params._id, params);
-				UI.message.success(xI("保存成功"));
+				xU.message.success(xI("保存成功"));
 				this.titleConfigs.value = "";
 				this.isReadonly = true;
 			} catch (error) {
 				console.error(error);
 			} finally {
-				UI.loading();
+				xU.loading();
 			}
 		}
 	},

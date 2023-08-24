@@ -19,7 +19,7 @@ import {
 	AllWasWell,
 	defItem,
 	pickValueFrom,
-	UI,
+	xU,
 	itemsInvalid
 } from "@/ventose/ui";
 import { FormRules, newRule } from "@/utils/common.FormRules";
@@ -50,7 +50,7 @@ export default defineComponent({
 					this.propOptions.$close();
 				} catch (error) {
 					console.error(error);
-					UI.message.error("复制失败");
+					xU.message.error("复制失败");
 				}
 			} else {
 				throw new Error("未通过验证");

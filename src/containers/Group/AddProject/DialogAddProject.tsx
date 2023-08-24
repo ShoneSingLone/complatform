@@ -1,15 +1,7 @@
 import "./Addproject.scss";
 import { defineComponent } from "vue";
-import {
-	AllWasWell,
-	defItem,
-	pickValueFrom,
-	UI,
-	itemsInvalid,
-	xU,
-	stateUI
-} from "@/ventose/ui";
-import { API } from "../../../api";
+import { defItem, pickValueFrom, xU, itemsInvalid, xI } from "@/ventose/ui";
+import { API } from "@/api";
 import optionsXIcon from "@/utils/common.options.xIcon";
 import {
 	ADMIN,
@@ -258,7 +250,7 @@ export const DialogAddProject = defineComponent({
 				if (!(await itemsInvalid())) {
 					const formData = pickValueFrom(vm.dataXItem);
 					const { data } = await API.project.addProject(formData);
-					UI.notification.success("创建成功! ");
+					xU.notification.success("创建成功! ");
 					return true;
 				} else {
 					throw new Error("未通过验证");

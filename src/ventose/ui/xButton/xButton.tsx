@@ -40,10 +40,6 @@ export type t_buttonOptions = {
 	onClick?: () => Promise<any>;
 };
 
-export const THIS_BTN_IS_LOADING = {
-	loading: false
-};
-
 export default defineComponent({
 	name: "xButton",
 	inheritAttrs: false,
@@ -144,13 +140,11 @@ export default defineComponent({
 			})();
 			return async (...args) => {
 				this.loading = true;
-				THIS_BTN_IS_LOADING.loading = this.$el;
 				try {
 					await onClick.apply(this, args);
 				} catch (e) {
 					console.error(e);
 				} finally {
-					THIS_BTN_IS_LOADING.loading = false;
 					this.loading = false;
 				}
 			};

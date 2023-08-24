@@ -47,7 +47,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { routes } from "../router";
-import { UI } from "@ventose/ui";
+import { xU } from "@ventose/ui";
 export default defineComponent({
 	data() {
 		return {
@@ -61,8 +61,8 @@ export default defineComponent({
 	},
 	methods: {
 		openStatsDialog() {
-			UI.layer.open({
-				type: UI.layer.IFRAME,
+			xU.layer.open({
+				type: xU.layer.IFRAME,
 				maxmin: true,
 				fullscreen: true,
 				content: ["./assets/libs/dist_VentoseUI/VentoseUI_stats.html", ""]

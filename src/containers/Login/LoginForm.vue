@@ -22,8 +22,7 @@
 import "./Login.scss";
 import { defineComponent } from "vue";
 import {
-	xU,
-	UI,
+	 xU, xI,
 	defItem,
 	EVENT_TYPE,
 	itemsInvalid,
@@ -37,8 +36,6 @@ import { API } from "@/api";
 import { Cpt_url } from "@/router/router";
 import { Methods_App } from "@/state/app";
 import { stylesLoginFormIcon } from "@/utils/variable";
-
-const { xI } = stateUI;
 
 const formItemStyle = {
 	marginBottom: ".16rem"
@@ -112,7 +109,7 @@ export default defineComponent({
 				if (!(await itemsInvalid(vm.$el))) {
 					const formData = pickValueFrom(vm.configsForm);
 					const res = await API.user.loginActions(formData);
-					UI.notification.success("登录成功! ");
+					xU.notification.success("登录成功! ");
 					Cpt_url.value.go("/group");
 				} else {
 					throw new Error("未通过验证");
