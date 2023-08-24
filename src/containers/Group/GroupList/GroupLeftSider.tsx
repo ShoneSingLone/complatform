@@ -142,10 +142,11 @@ export const GroupLeftSider = defineComponent({
 					"notInGroup"
 				);
 				const { owner, member } = xU.groupBy(inGroup, "role");
-				const { true: privateSpace, undefined: otherOwner } = xU.groupBy(
+				let { true: privateSpace, undefined: otherOwner } = xU.groupBy(
 					owner,
 					"privateSpace"
 				);
+
 				groupListForShow = [
 					{
 						...privateSpace[0],
@@ -254,6 +255,9 @@ export const GroupLeftSider = defineComponent({
 			await Methods_App.fetchNewsData({ id: groupId, type: "group" });
 		},
 		getVDomIconEdit({ group }) {
+			if (!group._id) {
+				return null;
+			}
 			const vm = this;
 			/*个人空间不可修改name*/
 			/*当前用户在当前group的角色是owner*/

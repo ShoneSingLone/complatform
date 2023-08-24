@@ -7,9 +7,7 @@ import {
 	defCol,
 	xI,
 	setDataGridInfo,
-	xU,
-	xU,
-	defColActions,
+xU,	defColActions,
 	defColActionsBtnlist
 } from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";
@@ -17,10 +15,10 @@ import { DialogImportI18nJSON } from "./DialogImportI18nJSON";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import * as _ from "lodash";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
-import { ITEM_OPTIONS } from "@/utils/common";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import { ADMIN } from "@/utils/variable";
+import { ITEM_OPTIONS } from "@/utils/common.options";
 
 export const ViewI18n = defineComponent({
 	setup() {

@@ -43,7 +43,7 @@ const TYPE_TIPS = "tips";
 const NAME_LAYER = "x-layer";
 const NAME_LAYER_SHADE = "x-layer-shade";
 const NAME_LAYER_MOVE = "x-layer-move";
-const NAME_LAYER_CONTENT = "x-layer-content";
+export const NAME_LAYER_CONTENT = "x-layer-content";
 const NAME_LAYER_CLOSE = "x-layer-close";
 const NAME_LAYER_IFRAME = "x-layer-iframe";
 const NAME_LAYER_TITLE = "x-layer-title";
@@ -290,61 +290,83 @@ const xLayer = {
 			return Promise.reject();
 		}
 		return new Promise((resolve, reject) => {
-			try {
-				/* 关闭layer核心方法 */
-				var $eleDialog = $(`#${NAME_LAYER}${_layer_index}`);
-				var type = $eleDialog.attr("type");
-				var closeAnim = "layer-anim-close";
-				if ($eleDialog.length === 0) {
-					return;
-				}
-				function removeLayerDomFromHtml() {
-					if (
-						type === "dialog" &&
-						$eleDialog.attr("data-content-type") === "object"
-					) {
-						$eleDialog.children(`:not(.${NAME_LAYER_IFRAME})`).remove();
-					} else {
-						/* 低版本IE 回收 iframe */
-						if (type === TYPE_IFRAME) {
-							try {
-								var iframe = $(`#${NAME_LAYER_CONTENT}${_layer_index}`)[0];
-								iframe.contentWindow.document.write("");
-								iframe.contentWindow.close();
-								$eleDialog.find(`.${NAME_LAYER_IFRAME}`)[0].removeChild(iframe);
-							} catch (e) {}
+			function _close() {
+				try {
+					/* 关闭layer核心方法 */
+					var $eleDialog = $(`#${NAME_LAYER}${_layer_index}`);
+					var type = $eleDialog.attr("type");
+					var closeAnim = "layer-anim-close";
+					if ($eleDialog.length === 0) {
+						return;
+					}
+					function removeLayerDomFromHtml() {
+						if (
+							type === "dialog" &&
+							$eleDialog.attr("data-content-type") === "object"
+						) {
+							$eleDialog.children(`:not(.${NAME_LAYER_IFRAME})`).remove();
+						} else {
+							/* 低版本IE 回收 iframe */
+							if (type === TYPE_IFRAME) {
+								try {
+									var iframe = $(`#${NAME_LAYER_CONTENT}${_layer_index}`)[0];
+									iframe.contentWindow.document.write("");
+									iframe.contentWindow.close();
+									$eleDialog
+										.find(`.${NAME_LAYER_IFRAME}`)[0]
+										.removeChild(iframe);
+								} catch (e) {}
+							}
+						}
+
+						$eleDialog[0].innerHTML = "";
+						$eleDialog.remove();
+						delete INSTANCE_DIALOG_COLLECTION[_layer_index];
+
+						try {
+							READY.end[_layer_index] && READY.end[_layer_index]();
+							delete READY.end[_layer_index];
+						} catch (e) {
+							/* end就是beforeUnmount 的回调函数，如果有，就执行 */
 						}
 					}
-
-					$eleDialog[0].innerHTML = "";
-					$eleDialog.remove();
-					delete INSTANCE_DIALOG_COLLECTION[_layer_index];
-
-					try {
-						READY.end[_layer_index] && READY.end[_layer_index]();
-						delete READY.end[_layer_index];
-					} catch (e) {
-						/* end就是beforeUnmount 的回调函数，如果有，就执行 */
+					if ($eleDialog.data("isOutAnim")) {
+						$eleDialog.addClass("layer-anim " + closeAnim);
 					}
-				}
-				if ($eleDialog.data("isOutAnim")) {
-					$eleDialog.addClass("layer-anim " + closeAnim);
-				}
 
-				$(`#x-layer-moves, #${NAME_LAYER_SHADE}${_layer_index}`).remove();
-				xLayer.ie == 6 && READY.reselect();
-				READY.rescollbar(_layer_index);
-				if ($eleDialog.attr("minLeft")) {
-					READY.minIndex--;
-					READY.minLeft.push($eleDialog.attr("minLeft"));
+					$(`#x-layer-moves, #${NAME_LAYER_SHADE}${_layer_index}`).remove();
+					xLayer.ie == 6 && READY.reselect();
+					READY.rescollbar(_layer_index);
+					if ($eleDialog.attr("minLeft")) {
+						READY.minIndex--;
+						READY.minLeft.push($eleDialog.attr("minLeft"));
+					}
+					setTimeout(function () {
+						removeLayerDomFromHtml();
+						resolve(true);
+					}, 200);
+				} catch (error) {
+					console.error(error);
+					reject(false);
 				}
-				setTimeout(function () {
-					removeLayerDomFromHtml();
-					resolve(true);
-				}, 200);
-			} catch (error) {
-				console.error(error);
-				reject(false);
+			}
+			const { $eleDialog, config } = INSTANCE_DIALOG_COLLECTION[_layer_index];
+			if (config.type === TYPE_DIALOG) {
+				/* 动画 */
+				const { left: sL, top: sT } = config.triggerDom;
+				$eleDialog.animate(
+					{
+						opacity: 0.1,
+						left: `${sL}px`,
+						top: `${sT}px`,
+						width: 0,
+						height: 0
+					},
+					null,
+					_close
+				);
+			} else {
+				_close();
 			}
 		});
 	},
@@ -435,6 +457,7 @@ const xLayer = {
 			left = $eleDialog.attr("minLeft") || 181 * READY.minIndex + "px",
 			position = $eleDialog.css("position"),
 			settings = {
+				opacity: 0.5,
 				width: 180,
 				height: titHeight,
 				position: "fixed",
@@ -457,7 +480,12 @@ const xLayer = {
 		}
 
 		$eleDialog.attr("position", position);
-		xLayer.style(_layer_index, settings, true);
+		const props = ["left", "top", "width", "height"];
+		xLayer.style(_layer_index, xU.omit(settings, props), true);
+		$eleDialog.animate({
+			...xU.pick(settings, props),
+			opacity: 1
+		});
 		$eleDialog.find(".x-layer-min").hide();
 		$eleDialog.attr("type") === "page" &&
 			$eleDialog.find(NAME_LAYER_CONTENT).hide();
@@ -477,15 +505,20 @@ const xLayer = {
 		xLayer.style(
 			_layer_index,
 			{
-				width: parseFloat(area[0]),
-				height: parseFloat(area[1]),
-				top: parseFloat(area[2]),
-				left: parseFloat(area[3]),
+				opacity: 0.5,
 				position: $eleDialog.attr("position"),
 				overflow: "visible"
 			},
 			true
 		);
+		const animateStyle = {
+			opacity: 1,
+			top: parseFloat(area[2]),
+			left: parseFloat(area[3]),
+			width: parseFloat(area[0]),
+			height: parseFloat(area[1])
+		};
+		$eleDialog.animate(animateStyle);
 		$eleDialog.find(".x-layer-max").removeClass("x-layer-maxmin");
 		$eleDialog.find(".x-layer-min").show();
 		$eleDialog.attr("type") === "page" &&
@@ -513,7 +546,7 @@ const xLayer = {
 				width: $win.width(),
 				height: $win.height()
 			};
-			xLayer.style(index, style, true);
+			$eleDialog.animate(style);
 			$eleDialog.find(".x-layer-min").hide();
 			$eleDialog.attr(DATA_MIN_MAX_STATUS, STATUS_MAX);
 		}, 100);
@@ -602,11 +635,11 @@ class ClassLayer {
 
 	constructor(custumSettings: i_layerOptions) {
 		this.setPosition = xU.debounce(this.setPosition, 200);
-		this.initConfig(custumSettings)
-			.insertDOM()
-			.insertSuccessAndAddListener()
-			.handleAnimation()
-			.initPosition();
+		this.firstInitConfig(custumSettings)
+			.secondInsertDOM()
+			.thirdInsertSuccessAndAddListener()
+			.fourthHandleAnimation()
+			.finallyInitPosition();
 	}
 
 	get cpt$title() {
@@ -788,7 +821,7 @@ class ClassLayer {
 </div>`;
 	}
 
-	initConfig(custumSettings: i_layerOptions) {
+	firstInitConfig(custumSettings: i_layerOptions) {
 		const dialogInst = this;
 		dialogInst.config = Object.assign(dialogInst.config, custumSettings);
 		/* icon - 图标。信息框和加载层的私有参数; 类型：number，默认：-1（信息框）/0（加载层） */
@@ -898,14 +931,20 @@ class ClassLayer {
 	}
 
 	/* 调整位置并显示 */
-	async initPosition() {
-		await xU.sleep(1000);
+	async finallyInitPosition() {
 		const dialogInst = this;
-		const { config, _layer_index } = dialogInst;
-		/* 首次弹出时，若 css 尚未加载，则等待 css 加载完毕后，重新设定尺寸 */
+		const { config, _layer_index, $eleDialog } = dialogInst;
+		if (config.type === TYPE_DIALOG) {
+			await xU.ensureValueDone(() => $eleDialog.attr("data-mounted"));
+			// vm.$resizeObserver = new ResizeObserver(entries => {
+			// 	console.log("ResizeObserver dialogOptions.dialogInst.setPosition");
+			// 	vm.dialogOptions.dialogInst.setPosition();
+			// });
+			// vm.$resizeObserver.observe(vm.$el);
+		}
 
-		dialogInst.setPosition(() => {
-			debugger;
+		/* 首次弹出时，若 css 尚未加载，则等待 css 加载完毕后，重新设定尺寸 */
+		dialogInst.setPosition(async () => {
 			if (config.type === TYPE_TIPS) {
 				dialogInst.setTips();
 			}
@@ -922,12 +961,47 @@ class ClassLayer {
 			}
 			/* 最后至于最上层 */
 			xLayer.setLayerTop(dialogInst.$eleDialog);
-			this.$eleDialog.css("visibility", "visible");
+			if (config.type === TYPE_DIALOG) {
+				await xU.ensureValueDone(() => $eleDialog.attr("data-mounted"));
+				// vm.$resizeObserver = new ResizeObserver(entries => {
+				// 	console.log("ResizeObserver dialogOptions.dialogInst.setPosition");
+				// 	vm.dialogOptions.dialogInst.setPosition();
+				// });
+				// vm.$resizeObserver.observe(vm.$el);
+
+				/* 动画 */
+				const {
+					left: eL,
+					top: eT,
+					width,
+					height
+				} = this.$eleDialog[0].getBoundingClientRect();
+				const { left: sL, top: sT } = this.config.triggerDom;
+				this.$eleDialog.css({
+					visibility: "visible",
+					opacity: 0.1,
+					left: `${sL}px`,
+					top: `${sT}px`,
+					width: 0,
+					height: 0
+				});
+				this.$eleDialog.animate({
+					opacity: 1,
+					left: `${eL}px`,
+					top: `${eT}px`,
+					width,
+					height
+				});
+			}
+
+			this.$eleDialog.css({
+				visibility: "visible"
+			});
 		});
 		return dialogInst;
 	}
 
-	handleAnimation() {
+	fourthHandleAnimation() {
 		/* 为兼容jQuery3.0的css动画影响元素尺寸计算 */
 		const dialogInst = this;
 		const { config } = dialogInst;
@@ -952,7 +1026,7 @@ class ClassLayer {
 		return dialogInst;
 	}
 
-	insertDOM() {
+	secondInsertDOM() {
 		/* 容器 */
 		const dialogInst = this;
 		/* moving 的遮罩是单例 */
@@ -964,23 +1038,16 @@ class ClassLayer {
 			(xU.isString(config.content) || xU.isString(config.content.jquery))
 		) {
 			const $content = $(config.content);
-
 			dialogInst.$eleDialog.find(`.${NAME_LAYER_CONTENT}`).append($content);
 		}
-		const visibility = "visible";
-		// const visibility = "hidden";
-		if (config.triggerDom) {
-			dialogInst.$eleDialog.css({
-				visibility,
-				...config.triggerDom
-			});
-		} else {
-			dialogInst.$eleDialog.css({
-				visibility,
-				top: "0",
-				left: "0"
-			});
-		}
+		// const visibility = "visible";
+		const visibility = "hidden";
+		dialogInst.$eleDialog.css({
+			visibility,
+			top: "0",
+			left: "0"
+		});
+
 		$html.append(dialogInst.$eleDialog);
 
 		/* 当前实例的遮罩 */
@@ -1013,9 +1080,6 @@ class ClassLayer {
 			config = dialogInst.config,
 			$eleDialog = dialogInst.$eleDialog;
 
-		if (this.config.type == TYPE_DIALOG) {
-			debugger;
-		}
 		const [areaW, areaH] = [$eleDialog.outerWidth(), $eleDialog.outerHeight()];
 		const [winW, winH] = [$win.width(), $win.height()];
 		const [top, left] = (() => {
@@ -1181,9 +1245,6 @@ class ClassLayer {
 			top: info.dialogT,
 			left: info.dialogL
 		});
-
-		/* TODO: 动画 */
-		// "transform-origin": [ $tipsG.hasClass("x-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("x-layer-TipsL") ? "left" : "right" ].join(" ")
 
 		function setTipsG({ direction }) {
 			const RADIUS = 4;
@@ -1373,7 +1434,7 @@ class ClassLayer {
 	}
 
 	/* move resize min max close */
-	insertSuccessAndAddListener() {
+	thirdInsertSuccessAndAddListener() {
 		const dialogInst = this;
 		/* resize时重新resize */
 		INSTANCE_DIALOG_COLLECTION[this._layer_index] = this;

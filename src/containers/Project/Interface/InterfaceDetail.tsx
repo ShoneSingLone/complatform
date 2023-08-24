@@ -1,9 +1,7 @@
 import { defineComponent } from "vue";
 import {
 	$,
-	xU,
-	xU,
-	defCol,
+xU,	defCol,
 	defDataGridOption,
 	stateUI,
 	xI,

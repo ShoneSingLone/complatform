@@ -1,7 +1,7 @@
 import { createApp, defineComponent } from "vue";
 import { xU } from "../../ventoseUtils";
 import $ from "jquery";
-import { KEY_ESC, xLayer } from "../layer/xLayer";
+import { KEY_ESC, NAME_LAYER_CONTENT, xLayer } from "../layer/xLayer";
 import { xI } from "../../stateUI";
 
 const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
@@ -103,7 +103,7 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 	app.component("xDialogFooter", xDialogFooter);
 	let DialogOpenAt = null;
 	$(window).on("click.DialogOpenAt", function (event) {
-		console.log("click.DialogOpenAt", event.target);
+		// console.log("click.DialogOpenAt", event.target);
 		DialogOpenAt = $(event.target).offset();
 	});
 
@@ -218,18 +218,11 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 										$(this.$refs.DIALOG_TITLE).appendTo(
 											this.dialogOptions.dialogInst.cpt$title
 										);
-
-										setTimeout(() => {
-											(function () {
-												vm.$resizeObserver = new ResizeObserver(entries => {
-													console.log(
-														"ResizeObserver dialogOptions.dialogInst.setPosition"
-													);
-													vm.dialogOptions.dialogInst.setPosition();
-												});
-												vm.$resizeObserver.observe(vm.$el);
-											})();
-										}, 1000);
+										/* xLayerDialog 在挂载之后重新计算Position */
+										this.dialogOptions.dialogInst.$eleDialog.attr(
+											"data-mounted",
+											"mounted"
+										);
 									},
 									data() {
 										return { dialogOptions };
@@ -280,5 +273,5 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 			xLayer.open(layerOptions);
 		});
 	},
-	200);
+	32);
 };

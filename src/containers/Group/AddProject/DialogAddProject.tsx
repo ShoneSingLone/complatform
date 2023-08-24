@@ -270,7 +270,7 @@ export const DialogAddProject = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
-					{JSON.stringify(pickValueFrom(this.dataXItem))}
+					{/* {JSON.stringify(pickValueFrom(this.dataXItem))} */}
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>

@@ -135,6 +135,11 @@ html #layuicss-layer {
 		max-height: 100vh;
 		height: 100vh;
 	}
+	&[data-min-max-status="min"] {
+		.x-layer-content {
+			display: none;
+		}
+	}
 }
 
 .x-layer-close {

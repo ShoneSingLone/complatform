@@ -4,7 +4,6 @@ import { stateApp } from "@/state/app";
 import "./JsonSchemaMonaco.less";
 import {
 	xU,
-	xU,
 	$,
 	compositionAPI,
 	defCol,
