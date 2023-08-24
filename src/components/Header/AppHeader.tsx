@@ -3,8 +3,8 @@ import "./Header.scss";
 import Srch from "./Search/Search";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import { defineComponent, VNode } from "vue";
-import { UI, xU } from "@ventose/ui";
-import { Cpt_avatarUrl, Methods_App, State_App } from "@/state/State_App";
+import { UI, xU } from "@/ventose/ui";
+import { Cpt_avatarUrl, Methods_App, stateApp } from "@/state/app";
 import { Cpt_url, aHashLink } from "@/router/router";
 import { API } from "@/api";
 import { ADMIN } from "@/utils/variable";
@@ -27,7 +27,7 @@ export const AppHeader = defineComponent({
 		"imageUrl"
 	],
 	setup() {
-		return { State_App, Cpt_url, Cpt_avatarUrl };
+		return { stateApp, Cpt_url, Cpt_avatarUrl };
 	},
 	methods: {
 		goToGroup() {
@@ -43,19 +43,19 @@ export const AppHeader = defineComponent({
 			});
 		},
 		goToI18nManger() {
-			this.Cpt_url.go("/i18n", {});
+			this.Cpt_url.go("/xI", {});
 		}
 	},
 	computed: {
 		icon() {
-			if (["/group", "/wiki", "/i18n"].includes(this.Cpt_url.pathname)) {
+			if (["/group", "/wiki", "/xI"].includes(this.Cpt_url.pathname)) {
 				return "yapi_logo";
 			}
 			return "back_group";
 		},
 		ToolUser() {
 			const vm = this;
-			let { groupList, isLogin } = this.State_App.user;
+			let { groupList, isLogin } = this.stateApp.user;
 
 			if (!isLogin) {
 				return null;
@@ -130,7 +130,7 @@ export const AppHeader = defineComponent({
 			);
 		},
 		MenuUser() {
-			const { uid, role } = this.State_App.user;
+			const { uid, role } = this.stateApp.user;
 			return (
 				<ElDropdownMenu class="user-menu">
 					{xU.map(
@@ -202,7 +202,7 @@ export const AppHeader = defineComponent({
 		};
 	},
 	render() {
-		if (!State_App.user.isLogin) {
+		if (!stateApp.user.isLogin) {
 			return null;
 		}
 		return (

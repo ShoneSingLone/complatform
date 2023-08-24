@@ -2,13 +2,13 @@
 import { defineComponent } from "vue";
 import $ from "jquery";
 import { MkitCsslist } from "./MkitCsslist";
-import { State_UI, xU } from "@ventose/ui";
+import { stateUI, xU } from "@/ventose/ui";
 import { hljs } from "@/assets/libs/highlight";
 
 export const setTheme = async (theme = "") => {
 	theme =
 		theme || localStorage.markdownHightlightTheme || "monokai-sublime.css";
-	const cssURL = `${State_UI.assetsPath}/highlightstyles/${theme}`;
+	const cssURL = `${stateUI.assetsPath}/highlightstyles/${theme}`;
 	localStorage.markdownHightlightTheme = theme;
 	const id = `markdonw-hightlight-style`;
 	/* 同一个style block 不同的url */

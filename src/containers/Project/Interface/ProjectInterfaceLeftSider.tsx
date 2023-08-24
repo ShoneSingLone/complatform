@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI } from "@ventose/ui";
+import { $, xU, UI, compositionAPI } from "@/ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
 import { ALL, DefaultInterfaceMenu } from "@/utils/variable";
@@ -8,9 +8,9 @@ import {
 	State_ProjectInterface
 } from "@/containers/Project/Interface/State_ProjectInterface";
 import { DialogAddInterface } from "./DialogAddInterface";
-import { Cpt_url } from "../../../router/router";
+import { Cpt_url } from "@/router/router";
 import { _$arrayChangeIndex } from "@/utils/common";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 const { usefnObserveDomResize } = compositionAPI;
 
 export const ProjectInterfaceLeftSider = defineComponent({
@@ -18,7 +18,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_App,
+			stateApp,
 			State_Project: State_ProjectInterface,
 			Cpt_url,
 			fnObserveDomResize,
@@ -154,12 +154,12 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
-													tips: vm.$t("添加分类").label,
+													tips: vm.xI("添加分类"),
 													clickHandler: () => vm.showUpsertCategoryDialog()
 												})}
 												{genIcon({
 													icon: "refresh",
-													tips: vm.$t("刷新").label,
+													tips: vm.xI("刷新"),
 													clickHandler:
 														Methods_ProjectInterface.updateInterfaceMenuList
 												})}
@@ -178,19 +178,19 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
-													tips: vm.$t("添加接口").label,
+													tips: vm.xI("添加接口"),
 													clickHandler: $event =>
 														vm.showAddInterfaceDialog(_id, $event)
 												})}
 												{genIcon({
 													icon: "edit",
-													tips: vm.$t("修改分类").label,
+													tips: vm.xI("修改分类"),
 													clickHandler: $event =>
 														vm.showUpsertCategoryDialog(item)
 												})}
 												{genIcon({
 													icon: "delete",
-													tips: vm.$t("删除分类").label,
+													tips: vm.xI("删除分类"),
 													clickHandler: $event => vm.deleteCategory(_id, $event)
 												})}
 											</div>
@@ -200,7 +200,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "delete",
-													tips: vm.$t("删除接口").label,
+													tips: vm.xI("删除接口"),
 													clickHandler: $event =>
 														vm.deleteInterface(_id, $event)
 												})}
@@ -306,12 +306,12 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		deleteInterface(id) {
 			const vm = this;
 			UI.confirm({
-				title: vm.$t("您确认删除此接口？").label,
-				content: vm.$t(`温馨提示：接口删除后，无法恢复`).label,
+				title: vm.xI("您确认删除此接口？"),
+				content: vm.xI(`温馨提示：接口删除后，无法恢复`).label,
 				async onOk() {
 					try {
 						await API.project.deleteInterfaceById(id);
-						UI.message.success(vm.$t("删除接口成功").label);
+						UI.message.success(vm.xI("删除接口成功"));
 						Methods_ProjectInterface.updateInterfaceMenuList();
 						vm.Cpt_url.go(
 							"/project/interface/all",
@@ -346,7 +346,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		},
 		showUpsertCategoryDialog(category = false) {
 			UI.dialog.component({
-				title: category ? this.$t("修改分类").label : this.$t("添加分类").label,
+				title: category ? this.xI("修改分类").label : this.xI("添加分类"),
 				component: DialogUpsertCategory,
 				category
 			});
@@ -355,9 +355,9 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			$event.stopPropagation();
 			$event.preventDefault();
 			UI.dialog.component({
-				title: this.$t("添加接口").label,
+				title: this.xI("添加接口"),
 				categoryId,
-				projectId: this.State_App.currProject._id,
+				projectId: this.stateApp.currProject._id,
 				component: DialogAddInterface
 			});
 		}

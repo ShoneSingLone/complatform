@@ -5,15 +5,15 @@ import {
 	UI,
 	defCol,
 	defDataGridOption,
-	State_UI,
-	$t,
+	stateUI,
+	xI,
 	lStorage
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { API } from "../../../api";
-import { Cpt_url } from "../../../router/router";
+import { Cpt_url } from "@/router/router";
 import { InfoCard } from "../../../components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
-import { State_App } from "./../../../state/State_App";
+import { stateApp } from "@/state/app";
 import { DialogModifyInterface } from "./DialogModifyInterface";
 import { makeAhref } from "@/components/RouterView/RouterView";
 import copy from "copy-to-clipboard";
@@ -34,7 +34,7 @@ import { DialogPostman } from "./DialogPostman";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		return { State_Project: State_ProjectInterface, Cpt_url, State_App };
+		return { State_Project: State_ProjectInterface, Cpt_url, stateApp };
 	},
 	data(vm) {
 		return {
@@ -47,7 +47,7 @@ export const InterfaceDetail = defineComponent({
 					...colParamsName(),
 					...defCol({
 						prop: "example",
-						label: vm.$t("示例").label,
+						label: vm.xI("示例"),
 						width: "300"
 					}),
 					...colRemark()
@@ -109,7 +109,7 @@ export const InterfaceDetail = defineComponent({
 		async runPostman() {
 			const vm = this;
 			UI.dialog.component({
-				title: this.$t("修改接口").label,
+				title: this.xI("修改接口"),
 				component: DialogPostman,
 				area: ["1024px", "624px"],
 				maxmin: true
@@ -169,7 +169,7 @@ export const InterfaceDetail = defineComponent({
 			const $dialogModifyInterface = $(`.dialog-modify-interface`);
 
 			if ($dialogModifyInterface.length > 0) {
-				UI.message.warn(this.$t("已存在修改面板").label);
+				UI.message.warn(this.xI("已存在修改面板"));
 				return;
 			}
 			const { status, curdata, message } = await this.checkConflict(item);
@@ -198,7 +198,7 @@ export const InterfaceDetail = defineComponent({
 				UI.message.warn(message);
 			}
 			UI.dialog.component({
-				title: this.$t("修改接口").label + `-${item.title}`,
+				title: this.xI("修改接口") + `-${item.title}`,
 				// fullscreen: true,
 				component: DialogModifyInterface,
 				area: ["1024px", "624px"],
@@ -217,7 +217,7 @@ export const InterfaceDetail = defineComponent({
 
 			return new Promise((resolve, reject) => {
 				try {
-					const wsURL = new URL(State_App.baseURL);
+					const wsURL = new URL(stateApp.baseURL);
 					socket.on("solveConflict", data => {});
 					socket
 						.open(
@@ -250,7 +250,7 @@ export const InterfaceDetail = defineComponent({
 				return "任意";
 			}
 			if (envId) {
-				const envArray = this.State_App.currProject.env;
+				const envArray = this.stateApp.currProject.env;
 				let env = xU.find(envArray, { _id: envId });
 				if (env) {
 					return (
@@ -267,7 +267,7 @@ export const InterfaceDetail = defineComponent({
 		ajaxCode() {
 			const { tag, up_time, title, uid, username, path, method } =
 				this.detailInfo;
-			const projectId = this.State_App.currProject._id;
+			const projectId = this.stateApp.currProject._id;
 			const interfaceId = this.Cpt_url.query.interface_id;
 			/* TODO:后端获取模板 */
 			return `\`\`\`js
@@ -302,8 +302,8 @@ async ${xU.camelCase(path)}({params,data}) {
 			/* @ts-ignore */
 			const { protocol, hostname, port } = location;
 			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
-				this.State_App.currProject._id
-			}${this.State_App.currProject.basepath}${this.detailInfo.path}`;
+				this.stateApp.currProject._id
+			}${this.stateApp.currProject.basepath}${this.detailInfo.path}`;
 		},
 		descriptions() {
 			const vm = this;
@@ -357,7 +357,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							value: (
 								<CopyContent class="flex middle">
 									{ITEM_OPTIONS_VDOM.httpMethod(method)}
-									{this.State_App.currProject.basepath} {path}
+									{this.stateApp.currProject.basepath} {path}
 								</CopyContent>
 							)
 						}
@@ -389,18 +389,18 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: (
 								<div class="flex middle">
-									<ElButton type="primary" onClick={vm.runPostman}>
-										{vm.$t("运行").label}
-									</ElButton>
-									<span class="flex1">{$t("Mock地址").label}</span>
+									<xButton type="primary" onClick={vm.runPostman}>
+										{vm.xI("运行")}
+									</xButton>
+									<span class="flex1">{xI("Mock地址")}</span>
 								</div>
 							),
 							col: 3,
 							value: (
 								<div class="flex middle width100">
 									{this.flagMsg(
-										this.State_App.currProject.is_mock_open,
-										this.State_App.currProject.strice
+										this.stateApp.currProject.is_mock_open,
+										this.stateApp.currProject.strice
 									)}
 									<CopyContent>
 										<span class="href">{this.vDomMockHref}</span>
@@ -417,10 +417,10 @@ async ${xU.camelCase(path)}({params,data}) {
 						{
 							label: (
 								<div class="flex middle">
-									<ElButton onClick={() => vm.copyCode()}>
-										{$t("复制代码").label}
-									</ElButton>
-									<span class="flex1">{$t("ajax代码").label}</span>
+									<xButton onClick={() => vm.copyCode()}>
+										{xI("复制代码")}
+									</xButton>
+									<span class="flex1">{xI("ajax代码")}</span>
 								</div>
 							),
 							col: 3,
@@ -430,13 +430,10 @@ async ${xU.camelCase(path)}({params,data}) {
 				}
 			];
 
-			if (
-				custom_field_value &&
-				this.State_App.currGroup?.custom_field?.enable
-			) {
+			if (custom_field_value && this.stateApp.currGroup?.custom_field?.enable) {
 				rowArray.push([
 					{
-						label: this.State_App.currGroup.custom_field.enable,
+						label: this.stateApp.currGroup.custom_field.enable,
 						col: 3,
 						value: custom_field_value
 					}
@@ -449,10 +446,10 @@ async ${xU.camelCase(path)}({params,data}) {
 		}
 	},
 	render(vm) {
-		if (!vm.detailInfo || !vm.State_App.currProject) {
+		if (!vm.detailInfo || !vm.stateApp.currProject) {
 			return <div v-xloading="trur" class="flex middle center flex1" />;
 		}
-		xU(vm.State_App.currGroup, vm.State_App.currProject, vm.detailInfo);
+		xU(vm.stateApp.currGroup, vm.stateApp.currProject, vm.detailInfo);
 		return (
 			<xView style="overflow:hidden;">
 				<div class="flex">
@@ -463,21 +460,21 @@ async ${xU.camelCase(path)}({params,data}) {
 					<InfoCard title={<span>基本信息</span>} info={vm.descriptions} />
 					<xGap t="20" />
 					{vm.detailInfo.desc && (
-						<InfoCard title={vm.$t("备注").label}>
+						<InfoCard title={vm.xI("备注")}>
 							<TuiEditor modelValue={{ html: vm.detailInfo.desc }} readonly />
 						</InfoCard>
 					)}
 					<xGap t="20" />
 					<InfoCard title={"请求参数"}>
 						{vm.configs_table_path_params.dataSource.length > 0 && (
-							<ElCard title={vm.$t("路径参数").label}>
+							<ElCard title={vm.xI("路径参数")}>
 								<xDataGrid configs={vm.configs_table_path_params} />
 							</ElCard>
 						)}
 						{vm.configs_table_headers.dataSource.length > 0 && (
 							<>
 								<xGap t="10" />
-								<ElCard title={vm.$t("Headers").label}>
+								<ElCard title={vm.xI("Headers")}>
 									<xDataGrid configs={vm.configs_table_headers} />
 								</ElCard>
 							</>
@@ -485,7 +482,7 @@ async ${xU.camelCase(path)}({params,data}) {
 						{vm.configs_table_query.dataSource.length > 0 && (
 							<>
 								<xGap t="10" />
-								<ElCard title={vm.$t("Query").label}>
+								<ElCard title={vm.xI("Query")}>
 									<xDataGrid configs={vm.configs_table_query} />
 								</ElCard>
 							</>
@@ -494,7 +491,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							vm.configs_table_body_form.dataSource.length > 0 && (
 								<>
 									<xGap t="10" />
-									<ElCard title={vm.$t("Body").label}>
+									<ElCard title={vm.xI("Body")}>
 										<xDataGrid configs={vm.configs_table_body_form} />
 									</ElCard>
 								</>
@@ -503,7 +500,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							vm.detailInfo.req_body_other && (
 								<>
 									<xGap t="10" />
-									<ElCard title={vm.$t("Body").label}>
+									<ElCard title={vm.xI("Body")}>
 										<JsonSchemaMonaco
 											v-model:schemaString={vm.detailInfo.req_body_other}
 											readOnly={true}
@@ -515,7 +512,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							vm.detailInfo.req_body_other && (
 								<>
 									<xGap t="10" />
-									<ElCard title={vm.$t("Body").label}>
+									<ElCard title={vm.xI("Body")}>
 										<div style="height:300px;width:90%">
 											<MonacoEditor
 												language="json"

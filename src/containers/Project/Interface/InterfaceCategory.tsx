@@ -4,7 +4,7 @@ import {
 	State_ProjectInterface,
 	useInterfaceTableConfigs
 } from "@/containers/Project/Interface/State_ProjectInterface";
-import { $t } from "@ventose/ui";
+import { xI } from "@/ventose/ui";
 import {
 	openDialogInterfaceStatusModify,
 	openDialogInterfaceProxyModify
@@ -31,7 +31,7 @@ export const InterfaceCategory = defineComponent({
 	data(vm) {
 		return {
 			btnChangeStatus: {
-				text: $t("变更状态").label,
+				text: xI("变更状态"),
 				disabled() {
 					return vm.disabled;
 				},
@@ -42,7 +42,7 @@ export const InterfaceCategory = defineComponent({
 				}
 			},
 			btnChangeProxy: {
-				text: $t("变更代理").label,
+				text: xI("变更代理"),
 				disabled() {
 					return vm.disabled;
 				},

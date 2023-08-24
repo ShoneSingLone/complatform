@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { Methods_App } from "@/state/State_App";
+import { Methods_App } from "@/state/app";
 
 export default defineComponent({
 	props: ["isLast"],
@@ -20,12 +20,12 @@ export default defineComponent({
 	render() {
 		return (
 			<div class="btn-container">
-				<ElButton class="btn" type="primary" onClick={this.nextStep}>
+				<xButton class="btn" type="primary" onClick={this.nextStep}>
 					{this.isLast ? "完 成" : "下一步"}
-				</ElButton>
-				<ElButton class="btn" type="dashed" onClick={this.exitGuide}>
+				</xButton>
+				<xButton class="btn" type="dashed" onClick={this.exitGuide}>
 					退出指引
-				</ElButton>
+				</xButton>
 			</div>
 		);
 	}

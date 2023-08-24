@@ -1,7 +1,7 @@
 import axios from "axios";
 import { formatTime } from "../../common.js";
 import { setBreadcrumb, setImageUrl } from "../../reducer/modules/user";
-import Select from "@/element/ui/xForm/itemRenders/Select.jsx";
+import Select from "@/ventose/ui/xForm/itemRenders/Select.jsx";
 import { ADMIN } from "@/utils/variable.jsx";
 
 const EditButton = props => {
@@ -12,24 +12,24 @@ const EditButton = props => {
 			return null;
 		}
 		return (
-			<ElButton
+			<xButton
 				icon="edit"
 				onClick={() => {
 					onClick(name, true);
 				}}>
 				修改
-			</ElButton>
+			</xButton>
 		);
 	} else if (isAdmin) {
 		// 管理员
 		return (
-			<ElButton
+			<xButton
 				icon="edit"
 				onClick={() => {
 					onClick(name, true);
 				}}>
 				修改
-			</ElButton>
+			</xButton>
 		);
 	} else {
 		return null;
@@ -247,23 +247,23 @@ class Profile extends Component {
 						onChange={this.changeUserinfo}
 						placeholder="用户名"
 					/>
-					<ElButtonGroup class="edit-buttons">
-						<ElButton
+					<xButtonGroup class="edit-buttons">
+						<xButton
 							class="edit-button"
 							onClick={() => {
 								this.handleEdit("usernameEdit", false);
 							}}>
 							取消
-						</ElButton>
-						<ElButton
+						</xButton>
+						<xButton
 							class="edit-button"
 							onClick={() => {
 								this.updateUserinfo("username");
 							}}
 							type="primary">
 							确定
-						</ElButton>
-					</ElButtonGroup>
+						</xButton>
+					</xButtonGroup>
 				</div>
 			);
 		}
@@ -295,23 +295,23 @@ class Profile extends Component {
 						name="email"
 						onChange={this.changeUserinfo}
 					/>
-					<ElButtonGroup class="edit-buttons">
-						<ElButton
+					<xButtonGroup class="edit-buttons">
+						<xButton
 							class="edit-button"
 							onClick={() => {
 								this.handleEdit("emailEdit", false);
 							}}>
 							取消
-						</ElButton>
-						<ElButton
+						</xButton>
+						<xButton
 							class="edit-button"
 							type="primary"
 							onClick={() => {
 								this.updateUserinfo("email");
 							}}>
 							确定
-						</ElButton>
-					</ElButtonGroup>
+						</xButton>
+					</xButtonGroup>
 				</div>
 			);
 		}
@@ -338,13 +338,13 @@ class Profile extends Component {
 			let btn = "";
 			if (userType) {
 				btn = (
-					<ElButton
+					<xButton
 						icon="edit"
 						onClick={() => {
 							this.handleEdit("secureEdit", true);
 						}}>
 						修改
-					</ElButton>
+					</xButton>
 				);
 			}
 			secureEditHtml = btn;
@@ -375,21 +375,21 @@ class Profile extends Component {
 						name="verify_pass"
 						id="verify_pass"
 					/>
-					<ElButtonGroup class="edit-buttons">
-						<ElButton
+					<xButtonGroup class="edit-buttons">
+						<xButton
 							class="edit-button"
 							onClick={() => {
 								this.handleEdit("secureEdit", false);
 							}}>
 							取消
-						</ElButton>
-						<ElButton
+						</xButton>
+						<xButton
 							class="edit-button"
 							onClick={this.updatePassword}
 							type="primary">
 							确定
-						</ElButton>
-					</ElButtonGroup>
+						</xButton>
+					</xButtonGroup>
 				</div>
 			);
 		}

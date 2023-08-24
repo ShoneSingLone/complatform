@@ -1,6 +1,6 @@
 import "./ErrMsg.scss";
 import { defineComponent } from "vue";
-import { Cpt_url } from "./../../router/router";
+import { Cpt_url } from "@/router/router";
 
 /**
  * 错误信息提示

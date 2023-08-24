@@ -1,8 +1,8 @@
-import { itemsInvalid, AllWasWell, pickValueFrom, UI, $t } from "@ventose/ui";
-import { defItem, xU, setValueTo } from "@ventose/ui";
+import { itemsInvalid, AllWasWell, pickValueFrom, UI, xI } from "@/ventose/ui";
+import { defItem, xU, setValueTo } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
@@ -17,13 +17,13 @@ export const DialogInterfaceStatusModify = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		return {
 			dataXItem: {
 				status: defItem({
-					label: $t("状态").label,
+					label: xI("状态"),
 					value: ITEM_OPTIONS.interfaceStatus[0].value,
 					options: ITEM_OPTIONS.interfaceStatus,
 					itemType: "Select"
@@ -60,9 +60,9 @@ export const DialogInterfaceStatusModify = defineComponent({
 					);
 					Methods_ProjectInterface.updateInterfaceMenuList();
 					this.propOptions.$close();
-					UI.message.success(this.$t("修改_成功", { title: "状态" }).label);
+					UI.message.success(this.xI("修改_成功", { title: "状态" }).label);
 				} catch (error) {
-					UI.message.error(this.$t("修改_失败", { title: "状态" }).label);
+					UI.message.error(this.xI("修改_失败", { title: "状态" }).label);
 				}
 			}
 		}

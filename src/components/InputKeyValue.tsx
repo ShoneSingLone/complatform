@@ -1,6 +1,6 @@
 import { diff } from "jsondiffpatch";
-import { xU } from "@ventose/ui";
-import { State_App } from "@/state/State_App";
+import { xU } from "@/ventose/ui";
+import { stateApp } from "@/state/app";
 import { defineComponent, toRaw, toRefs } from "vue";
 import { FormRules } from "@/utils/common.FormRules";
 
@@ -25,7 +25,7 @@ export const InputKeyValue = defineComponent({
 	],
 	emits: ["update:items"],
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		return { privateItems: {}, isLoading: true };

@@ -4,7 +4,7 @@ import {
 	State_ProjectInterface,
 	useInterfaceTableConfigs
 } from "@/containers/Project/Interface/State_ProjectInterface";
-import { $t, xU } from "@ventose/ui";
+import { xI, xU } from "@/ventose/ui";
 import {
 	openDialogInterfaceProxyModify,
 	openDialogInterfaceStatusModify
@@ -46,7 +46,7 @@ export const InterfaceAll = defineComponent({
 	data(vm) {
 		return {
 			btnChangeStatus: {
-				text: $t("变更状态").label,
+				text: xI("变更状态"),
 				disabled() {
 					return vm.disabled;
 				},
@@ -57,7 +57,7 @@ export const InterfaceAll = defineComponent({
 				}
 			},
 			btnChangeProxy: {
-				text: $t("变更代理").label,
+				text: xI("变更代理"),
 				disabled() {
 					return vm.disabled;
 				},
@@ -75,8 +75,8 @@ export const InterfaceAll = defineComponent({
 				<div class="Operation mb10">
 					<xButton class="mr4" configs={vm.btnChangeStatus} />
 					<xButton class="mr4" configs={vm.btnChangeProxy} />
-					<xButton class="mr4">{vm.$t("添加Tag").label}</xButton>
-					<xButton class="mr4">{vm.$t("移除Tag").label}</xButton>
+					<xButton class="mr4">{vm.xI("添加Tag")}</xButton>
+					<xButton class="mr4">{vm.xI("移除Tag")}</xButton>
 				</div>
 				<div class="elevation-1 flex1" style={{ height: "100px" }}>
 					<xVirTable

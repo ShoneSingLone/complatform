@@ -1,10 +1,10 @@
 import "./ProjectCard.scss";
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { API } from "@/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
-import { UI, xU } from "@ventose/ui";
-import { Cpt_url } from "../../router/router";
+import { UI, xU } from "@/ventose/ui";
+import { Cpt_url } from "@/router/router";
 
 export default defineComponent({
 	props: [
@@ -18,7 +18,7 @@ export default defineComponent({
 		"currPage"
 	],
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, Cpt_url };
 	},
 	methods: {
 		showCopyProjectDialog() {
@@ -51,7 +51,7 @@ export default defineComponent({
 		add: xU.debounce(async function () {
 			try {
 				const { projectData } = this;
-				const uid = this.State_App.user.uid;
+				const uid = this.stateApp.user.uid;
 				const param = {
 					uid,
 					projectid: projectData._id,

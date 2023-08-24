@@ -7,9 +7,9 @@ import {
 } from "./GroupList/GroupLeftSider";
 import { GroupProjectList } from "./GroupProjectList/GroupProjectList";
 import GroupLog from "./GroupLog/GroupLog";
-import { Cpt_url } from "../../router/router";
-import { API } from "../../api";
-import { Methods_App, State_App } from "../../state/State_App";
+import { Cpt_url, aHashLink } from "@/router/router";
+import { API } from "@/api";
+import { Methods_App, stateApp } from "@/state/app";
 import { GroupMemberList } from "./GroupMemberList/GroupMemberList";
 import {
 	ADMIN,
@@ -23,7 +23,8 @@ import {
 	TAB_KEY_MEMBER_LIST,
 	TAB_KEY_PROJECT_LIST
 } from "@/utils/variable";
-import { xU } from "@/element/ui";
+
+import { xI, xU } from "@/ventose/ui";
 
 /* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 
@@ -31,15 +32,13 @@ export const ViewGroup = defineComponent({
 	setup() {
 		return {
 			Cpt_url,
-			State_App,
+			stateApp,
 			fnShowUpsertGroupDialog,
 			fnUpsertGroupInfo
 		};
 	},
 	data() {
-		return {
-			state: {}
-		};
+		return {};
 	},
 	mounted() {
 		this.ifUrlNoGroupIdGetAndAddIdToUrl();
@@ -73,23 +72,23 @@ export const ViewGroup = defineComponent({
 		groupId() {
 			return this.Cpt_url.query.group_id || false;
 		},
-		tabActiveKey: {
-			set(group_tab) {
-				this.Cpt_url.query.group_tab = group_tab;
-			},
+		currTabName: {
 			get() {
 				const { group_tab } = this.Cpt_url.query;
 				if (TAB_KEY_ARRAY.includes(group_tab)) {
 					return group_tab;
 				}
 				return TAB_KEY_PROJECT_LIST;
+			},
+			set(group_tab) {
+				this.Cpt_url.query.group_tab = group_tab;
 			}
 		},
 		vDomTabMember() {
-			if (this.tabActiveKey !== TAB_KEY_MEMBER_LIST) {
+			if (this.currTabName !== TAB_KEY_MEMBER_LIST) {
 				return null;
 			}
-			if (this.State_App.currGroup.type === PUBLIC) {
+			if (this.stateApp.currGroup.type === PUBLIC) {
 				return (
 					/* "成员列表" */
 					<GroupMemberList />
@@ -99,11 +98,11 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		vDomTabGroupLog() {
-			if (this.tabActiveKey !== TAB_KEY_GROUP_LOG) {
+			if (this.currTabName !== TAB_KEY_GROUP_LOG) {
 				return null;
 			}
 			const isGroupRoleAuth = [ADMIN, OWNER, DEV].includes(
-				this.State_App?.currGroup?.role
+				this.stateApp?.currGroup?.role
 			);
 			if (isGroupRoleAuth) {
 				return (
@@ -115,18 +114,43 @@ export const ViewGroup = defineComponent({
 			}
 		},
 		vDomTabProjectList() {
-			if (this.tabActiveKey !== TAB_KEY_PROJECT_LIST) {
+			if (this.currTabName !== TAB_KEY_PROJECT_LIST) {
 				return null;
 			}
 			return <GroupProjectList />;
 		},
 		vDomSwitchPanel() {
+			let btnArray = [
+				TAB_KEY_PROJECT_LIST,
+				TAB_KEY_MEMBER_LIST,
+				TAB_KEY_GROUP_LOG
+			];
+
+			if (this.stateApp.currGroup.type === PRIVATE) {
+				btnArray = [TAB_KEY_PROJECT_LIST, TAB_KEY_GROUP_LOG];
+			}
+
 			return (
-				<el-button-group class="ml-4">
-					<el-button type="primary">{TAB_KEY_PROJECT_LIST}</el-button>
-					<el-button type="primary">{TAB_KEY_MEMBER_LIST}</el-button>
-					<el-button type="primary">{TAB_KEY_GROUP_LOG}</el-button>
-				</el-button-group>
+				<div class="flex middle start">
+					<el-button-group class="ml-4">
+						{xU.map(btnArray, name => {
+							const type = this.currTabName === name ? "primary" : "'";
+							return (
+								<xButton type={type} onClick={() => (this.currTabName = name)}>
+									{name}
+								</xButton>
+							);
+						})}
+					</el-button-group>
+					<xGap f="1" />
+					<a
+						class="flex middle"
+						href={aHashLink("/wiki_all", {})}
+						target="_black"
+						v-uiPopover={{ content: xI("分组文档") }}>
+						<xIcon icon="wikidoc" />
+					</a>
+				</div>
 			);
 		}
 	},

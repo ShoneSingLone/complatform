@@ -5,13 +5,13 @@ import {
 	UI,
 	defItem,
 	xU,
-	$t,
+	xI,
 	VNodeCollection,
 	setValueTo
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { FormRules } from "@/utils/common.FormRules";
 import { Cpt_url } from "@/router/router";
 import { stateI18n } from "./State_i18n";
@@ -28,19 +28,19 @@ export const DialogUpsertI18nRecord = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, Cpt_url };
 	},
 	data() {
 		const vm = this;
 		const idTipsMarkdown = `\`\`\`js
-//${$t(`作为Key值`).label}
-$t("Key值").label
+//${xI(`作为Key值`).label}
+xI("Key值")
 \`\`\``;
 		return {
 			dataXItem: {
 				key: defItem({
 					value: "",
-					label: $t("key").label,
+					label: xI("key"),
 					labelVNodeRender: VNodeCollection.labelTips(
 						<Mkit md={idTipsMarkdown} />
 					),
@@ -48,22 +48,22 @@ $t("Key值").label
 				}),
 				desc: defItem({
 					value: "",
-					label: $t("描述").label,
+					label: xI("描述"),
 					isTextarea: true,
 					rules: [FormRules.required()]
 				}),
 				isRectified: defItem({
 					value: false,
-					label: $t("是否已校正").label,
+					label: xI("是否已校正"),
 					itemType: "Switch",
 					options: ITEM_OPTIONS.trueOrFalse,
 					rules: [FormRules.required()]
 				}),
 				valueArray: defItem({
 					value: "",
-					label: $t("国际化信息").label,
+					label: xI("国际化信息"),
 					labelVNodeRender: VNodeCollection.labelTips(
-						$t(`以数组的形式["语言","language"]`).label
+						xI(`以数组的形式["语言","language"]`).label
 					),
 					rules: [FormRules.required(), FormRules.stringIsArrayJson()],
 					itemType: defineComponent({

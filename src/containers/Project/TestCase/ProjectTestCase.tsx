@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { ProjectTestcaseLeftSider } from "./ProjectTestcaseLeftSider";
 import {
 	State_ProjectTestcase,
@@ -14,7 +14,7 @@ export const ProjectTestcase = defineComponent({
 	},
 	setup() {
 		return {
-			State_App,
+			stateApp,
 			State_ProjectTestcase,
 			Cpt_url
 		};

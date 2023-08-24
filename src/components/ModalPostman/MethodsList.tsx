@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 
 const Option = Select.Option;
 

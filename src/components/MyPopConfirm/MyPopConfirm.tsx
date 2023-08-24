@@ -36,12 +36,12 @@ class MyPopConfirm extends Component {
 				visible={this.state.visible}
 				onCancel={this.no}
 				footer={[
-					<ElButton key="back" onClick={this.no}>
+					<xButton key="back" onClick={this.no}>
 						取 消
-					</ElButton>,
-					<ElButton key="submit" onClick={this.yes}>
+					</xButton>,
+					<xButton key="submit" onClick={this.yes}>
 						确 定
-					</ElButton>
+					</xButton>
 				]}>
 				<p>{this.props.msg}</p>
 			</aModal>

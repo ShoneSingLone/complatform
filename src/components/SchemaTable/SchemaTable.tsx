@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import json5 from "json5";
 
 import { schemaTransformToTable } from "../../../common/schema-transformTo-table.js";
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 import "./index.scss";
 
 const messageMap = {

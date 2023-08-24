@@ -1,5 +1,5 @@
 import { ajax } from "@/api/ajax";
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 import qs from "qs";
 
 export const project = {

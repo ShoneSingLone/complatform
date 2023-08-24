@@ -1,10 +1,10 @@
 import { defineComponent } from "vue";
-import { State_UI } from "@ventose/ui";
+import { stateUI } from "@/ventose/ui";
 
 export const SelectLanguage = defineComponent({
 	setup() {
 		return {
-			State_UI
+			stateUI
 		};
 	},
 	data() {
@@ -18,7 +18,7 @@ export const SelectLanguage = defineComponent({
 	methods: {
 		changeLanguage(item: any) {
 			const { key } = item || {};
-			this.State_UI.language = key;
+			this.stateUI.language = key;
 			setTimeout(() => {
 				window.location.reload();
 			}, 300);
@@ -48,7 +48,7 @@ export const SelectLanguage = defineComponent({
 					overlay() {
 						return (
 							<ElMenu
-								selected-keys={vm.State_UI.language}
+								selected-keys={vm.stateUI.language}
 								onClick={vm.changeLanguage}>
 								{vm.vDomMenuItems}
 							</ElMenu>

@@ -3,15 +3,15 @@ import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 
 import "./ProjectList.scss";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "@/state/State_App";
-import { UI, xU } from "@ventose/ui";
-import { Cpt_url } from "../../../router/router";
+import { Methods_App, stateApp } from "@/state/app";
+import { UI, xI, xU } from "@/ventose/ui";
+import { Cpt_url } from "@/router/router";
 import { DialogAddProject } from "../AddProject/DialogAddProject";
 import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
 
 export const GroupProjectList = defineComponent({
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, Cpt_url };
 	},
 	data() {
 		const vm = this;
@@ -35,21 +35,16 @@ export const GroupProjectList = defineComponent({
 	},
 	computed: {
 		vDomAddProjectButton() {
-			if (this.isAuthAddProject) {
-				return (
-					<xButton type="primary" onClick={this.showAddProjectDialog}>
-						添加项目
-					</xButton>
-				);
-			} else {
-				return (
-					<ElTooltip content="您没有权限,请联系该分组组长或管理员">
-						<xButton type="primary" disabled>
-							添加项目
-						</xButton>
-					</ElTooltip>
-				);
-			}
+			const btnConfigs = {
+				text: xI("添加项目"),
+				type: "primary",
+				disabled: this.isAuthAddProject
+					? ""
+					: `<div>${xI("您没有权限")}</div>
+					<div>${xI("请联系该分组组长或管理员")}</div>`,
+				onClick: this.showAddProjectDialog
+			};
+			return <xButton configs={btnConfigs} />;
 		},
 		vDomNoFollowPanel() {
 			const isUnfollow = project => !project.follow;
@@ -60,7 +55,7 @@ export const GroupProjectList = defineComponent({
 			if (xU.isArrayFill(unfollowArray)) {
 				return (
 					<div class="bottom-line">
-						<h3 class="owner-type">我的项目</h3>
+						<h3 class="owner-type">{xI("我的项目")}</h3>
 						{this.genProjectCard(unfollowArray, this.isAuthAddProject)}
 					</div>
 				);
@@ -75,7 +70,7 @@ export const GroupProjectList = defineComponent({
 			if (xU.isArrayFill(followProject)) {
 				return (
 					<div data-id="我的关注">
-						<h3 class="owner-type">我的关注</h3>
+						<h3 class="owner-type">{xI("我的关注")}</h3>
 						{this.genProjectCard(followProject)}
 					</div>
 				);
@@ -94,7 +89,7 @@ export const GroupProjectList = defineComponent({
 			);
 		},
 		vDomSpaceProject() {
-			if (this.State_App.currGroup.type === PRIVATE) {
+			if (this.stateApp.currGroup.type === PRIVATE) {
 				/*私有项目*/
 				return this.vDomOwnerSpace;
 			} else {
@@ -112,16 +107,16 @@ export const GroupProjectList = defineComponent({
 			}
 		},
 		projectData() {
-			return this.State_App.projectList;
+			return this.stateApp.projectList;
 		},
 		isAuthAddProject() {
 			const isGroupRoleAuth = [ADMIN, OWNER].includes(
-				this.State_App?.currGroup?.role
+				this.stateApp?.currGroup?.role
 			);
 			const _isShow =
-				isGroupRoleAuth || [ADMIN, OWNER].includes(this.State_App.user.role);
+				isGroupRoleAuth || [ADMIN, OWNER].includes(this.stateApp.user.role);
 			if (!_isShow) {
-				xU("isAuthAddProject", this.State_App.user.role);
+				xU("isAuthAddProject", this.stateApp.user.role);
 			}
 			return _isShow;
 		}
@@ -178,7 +173,7 @@ export const GroupProjectList = defineComponent({
 				<ElRow class="project-list-header">
 					<ElCol span={16} style={{ textAlign: "left" }}>
 						<span>共</span>
-						<span> {this.State_App.projectList.length} </span>
+						<span> {this.stateApp.projectList.length} </span>
 						<span>个项目</span>
 					</ElCol>
 					<ElCol span={8} class="flex end flex1">

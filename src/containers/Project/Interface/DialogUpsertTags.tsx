@@ -1,6 +1,6 @@
-import { defItem, UI, xU } from "@ventose/ui";
+import { defItem, UI, xU } from "@/ventose/ui";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "@/state/State_App";
+import { Methods_App, stateApp } from "@/state/app";
 import { API } from "@/api";
 import { orderAsc } from "@/components/InputKeyValue";
 import { FormRules } from "@/utils/common.FormRules";
@@ -31,7 +31,7 @@ export const DialogUpsertTags = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		return { privateTags: {} };
@@ -40,7 +40,7 @@ export const DialogUpsertTags = defineComponent({
 		formData() {
 			this.checkFormDataDebounce();
 		},
-		"State_App.currProject.tag": {
+		"stateApp.currProject.tag": {
 			immediate: true,
 			handler(tags) {
 				tags = xU.cloneDeep(tags);
@@ -63,8 +63,8 @@ export const DialogUpsertTags = defineComponent({
 	},
 	computed: {
 		propProjectId() {
-			if (this.State_App.currProject._id) {
-				return this.State_App.currProject._id;
+			if (this.stateApp.currProject._id) {
+				return this.stateApp.currProject._id;
 			} else {
 				alert("miss projectId");
 			}

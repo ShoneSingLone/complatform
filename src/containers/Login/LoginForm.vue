@@ -29,16 +29,16 @@ import {
 	itemsInvalid,
 	AllWasWell,
 	lStorage,
-	State_UI,
+	stateUI,
 	pickValueFrom
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { API } from "@/api";
-import { Cpt_url } from "../../router/router";
-import { Methods_App } from "../../state/State_App";
+import { Cpt_url } from "@/router/router";
+import { Methods_App } from "@/state/app";
 import { stylesLoginFormIcon } from "@/utils/variable";
 
-const { $t } = State_UI;
+const { xI } = stateUI;
 
 const formItemStyle = {
 	marginBottom: ".16rem"
@@ -68,7 +68,7 @@ export default defineComponent({
 					value: lStorage.email || "",
 					size: "large",
 					/* render的时候重新获取 */
-					placeholder: () => $t("Email").label,
+					placeholder: () => xI("Email"),
 					onAfterEmitItemValue(val) {
 						lStorage.email = val;
 					},
@@ -84,13 +84,11 @@ export default defineComponent({
 					isPassword: true,
 					size: "large",
 					/* render的时候重新获取 */
-					placeholder: () => $t("密码").label,
+					placeholder: () => xI("密码"),
 					onAfterEmitItemValue(val) {
 						lStorage.password = val;
 					},
-					rules: [
-						FormRules.required($t("请输入密码").label, [EVENT_TYPE.blur])
-					],
+					rules: [FormRules.required(xI("请输入密码"), [EVENT_TYPE.blur])],
 					slots: {
 						prefix: () => (
 							<xIcon icon="LockOutlined" style={stylesLoginFormIcon.icon} />
@@ -102,7 +100,7 @@ export default defineComponent({
 				size: "large",
 				type: "primary",
 				class: "login-button flex center login-form-button",
-				text: () => $t("登录").label,
+				text: () => xI("登录"),
 				onClick: vm.login
 			}
 		};

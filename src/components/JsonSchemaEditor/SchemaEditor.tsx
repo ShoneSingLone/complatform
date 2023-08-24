@@ -5,7 +5,7 @@ import {
 	pickValueFrom,
 	itemsInvalid,
 	xU
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent, h, inject } from "vue";
 import { ITEM_OPTIONS } from "@/utils/common.options";
@@ -42,28 +42,28 @@ export const SchemaEditor = defineComponent({
 				key: defItem({
 					/* 在编辑的时候不需要变化，但是在同步的时候需要提交【newKey，oldKey】，oldKey用于定位原属性位置 */
 					defaultValue: "",
-					label: vm.$t("对象访问路径").label,
+					label: vm.xI("对象访问路径"),
 					readonly: true
 				}),
 				title: defItem({
 					defaultValue: "",
-					label: vm.$t("字段名").label,
+					label: vm.xI("字段名"),
 					rules: [FormRules.required()]
 				}),
 				description: defItem({
 					defaultValue: "",
-					label: vm.$t("描述").label,
+					label: vm.xI("描述"),
 					isTextarea: true
 				}),
 				required: defItem({
 					defaultValue: "0",
-					label: vm.$t("是否必须").label,
+					label: vm.xI("是否必须"),
 					itemType: "RadioGroup",
 					options: ITEM_OPTIONS.required
 				}),
 				type: defItem({
 					value: "object",
-					label: vm.$t("类型").label,
+					label: vm.xI("类型"),
 					itemType: "RadioGroup",
 					options: [
 						"object",
@@ -83,50 +83,50 @@ export const SchemaEditor = defineComponent({
 				}),
 				enum: defItem({
 					defaultValue: "",
-					label: vm.$t("枚举").label,
+					label: vm.xI("枚举"),
 					isTextarea: true,
-					placeholder: vm.$t("一行一个值，不需要符号分隔").label,
+					placeholder: vm.xI("一行一个值，不需要符号分隔"),
 					disabled: true
 				}),
 				enumDesc: defItem({
 					defaultValue: "",
 					isTextarea: true,
-					label: vm.$t("枚举描述").label
+					label: vm.xI("枚举描述")
 				}),
 				/* object */
 				minProperties: defItem({
 					defaultValue: "",
-					label: vm.$t("最小元素个数").label,
+					label: vm.xI("最小元素个数"),
 					isNumber: true
 				}),
 				maxProperties: defItem({
 					defaultValue: "",
-					label: vm.$t("最大元素个数").label,
+					label: vm.xI("最大元素个数"),
 					isNumber: true
 				}),
 				/* string */
 				default: defItem({
 					defaultValue: "",
-					label: vm.$t("默认值").label
+					label: vm.xI("默认值")
 				}),
 				minLength: defItem({
 					defaultValue: "",
-					label: vm.$t("最小字符数").label,
+					label: vm.xI("最小字符数"),
 					isNumber: true
 				}),
 				maxLength: defItem({
 					defaultValue: "",
-					label: vm.$t("最大字符数").label,
+					label: vm.xI("最大字符数"),
 					isNumber: true
 				}),
 				pattern: defItem({
 					defaultValue: "",
-					placeholder: vm.$t("new RegExp(xxxxxxx)适用").label,
-					label: vm.$t("正则表达式").label
+					placeholder: vm.xI("new RegExp(xxxxxxx)适用"),
+					label: vm.xI("正则表达式")
 				}),
 				format: defItem({
 					defaultValue: "",
-					label: vm.$t("格式").label,
+					label: vm.xI("格式"),
 					itemType: "Select",
 					options: [
 						"date",
@@ -142,45 +142,45 @@ export const SchemaEditor = defineComponent({
 				/* number */
 				minimum: defItem({
 					defaultValue: "",
-					label: vm.$t("最小值").label,
+					label: vm.xI("最小值"),
 					isNumber: true
 				}),
 				maximum: defItem({
 					defaultValue: "",
-					label: vm.$t("最大值").label,
+					label: vm.xI("最大值"),
 					isNumber: true
 				}),
 				exclusiveMinimum: defItem({
 					defaultValue: false,
 					itemType: "Checkbox",
-					label: vm.$t("不包含最小值").label
+					label: vm.xI("不包含最小值")
 				}),
 				exclusiveMaximum: defItem({
 					defaultValue: false,
 					itemType: "Checkbox",
-					label: vm.$t("不包含最大值").label
+					label: vm.xI("不包含最大值")
 				}),
 				/* array */
 				minItems: defItem({
 					defaultValue: "",
-					label: vm.$t("最小元素个数").label,
+					label: vm.xI("最小元素个数"),
 					isNumber: true
 				}),
 				maxItems: defItem({
 					defaultValue: "",
-					label: vm.$t("最大元素个数").label,
+					label: vm.xI("最大元素个数"),
 					isNumber: true
 				}),
 				uniqueItems: defItem({
 					defaultValue: false,
 					itemType: "Checkbox",
-					label: vm.$t("元素不可重复").label
+					label: vm.xI("元素不可重复")
 				}),
 				booleanDefault: defItem({
 					defaultValue: "",
 					itemType: "Select",
 					clearable: true,
-					label: vm.$t("默认值").label,
+					label: vm.xI("默认值"),
 					options: ITEM_OPTIONS.YesOrNo
 				})
 			}
@@ -251,9 +251,9 @@ export const SchemaEditor = defineComponent({
 		return (
 			<div class="SchemaEditor flex vertical flex1">
 				<div class="SchemaEditor_button ">
-					<ElButton onClick={vm.syncToJsonTree} type="primary">
-						{vm.$t("同步到 JSON 树").label}
-					</ElButton>
+					<xButton onClick={vm.syncToJsonTree} type="primary">
+						{vm.xI("同步到 JSON 树")}
+					</xButton>
 				</div>
 				<xForm
 					class="flex vertical flex1 overflow-auto"

@@ -1,8 +1,8 @@
 import "./Footer.scss";
 import { defineComponent } from "vue";
-import { $ } from "@ventose/ui";
-import { Methods_App, State_App } from "../../state/State_App";
-import { Cpt_url } from "./../../router/router";
+import { $ } from "@/ventose/ui";
+import { Methods_App, stateApp } from "@/state/app";
+import { Cpt_url } from "@/router/router";
 
 const version = Date.now();
 
@@ -35,7 +35,7 @@ const FootItem = ({ linkList, title, iconType }) => {
 
 export const AppFooter = defineComponent({
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, Cpt_url };
 	},
 	data() {
 		return {
@@ -99,21 +99,21 @@ export const AppFooter = defineComponent({
 	},
 	computed: {
 		wrapperStyle() {
-			if (this.State_App.isFooterFold) {
+			if (this.stateApp.isFooterFold) {
 				return { height: "192px" };
 			} else {
 				return { height: "0" };
 			}
 		},
 		contentStyle() {
-			if (this.State_App.isFooterFold) {
+			if (this.stateApp.isFooterFold) {
 				return { display: "flex" };
 			} else {
 				return { display: "none" };
 			}
 		},
 		toggleText() {
-			if (this.State_App.isFooterFold) {
+			if (this.stateApp.isFooterFold) {
 				return "折叠";
 			} else {
 				return "展开";
@@ -124,7 +124,7 @@ export const AppFooter = defineComponent({
 				type: "primary",
 				class: {
 					"toggle-fold-btn footer-toggle": true,
-					unfold: this.State_App.isFooterFold
+					unfold: this.stateApp.isFooterFold
 				},
 				text: this.toggleText,
 				isHide: true,

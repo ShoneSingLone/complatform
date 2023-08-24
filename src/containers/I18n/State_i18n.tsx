@@ -1,5 +1,5 @@
 import { markRaw, onMounted, onUnmounted } from "vue";
-import { xU, newReactiveState } from "@ventose/ui";
+import { xU, newReactiveState } from "@/ventose/ui";
 import { API } from "@/api/index";
 
 const methods = markRaw({

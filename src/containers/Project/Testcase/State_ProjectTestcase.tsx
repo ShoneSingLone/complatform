@@ -1,11 +1,11 @@
 import { reactive, watch } from "vue";
-import { xU, State_UI, defCol, defXVirTableConfigs } from "@ventose/ui";
+import { xU, stateUI, defCol, defXVirTableConfigs } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 
-const { $t } = State_UI;
+const { xI } = stateUI;
 const defautlValue = () => ({
 	isLoading: false,
 	list: [],
@@ -249,7 +249,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 												<div style="padding: 8px">
 													<aTextarea
 														auto-size={{ minRows: 3, maxRows: 5 }}
-														placeholder={$t("用例名称").label}
+														placeholder={xI("用例名称")}
 														v-model:value={filterParams.title}
 														clearable
 														style="width: 400px"
@@ -314,7 +314,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 												<div style="padding: 8px">
 													<aTextarea
 														auto-size={{ minRows: 3, maxRows: 5 }}
-														placeholder={$t("接口路径").label}
+														placeholder={xI("接口路径")}
 														v-model:value={filterParams.path}
 														clearable
 														style="min-width: 400px"
@@ -417,9 +417,9 @@ export function useInterfaceTableConfigs(isAll = false) {
 														v-model:value={filterParams.witchEnv}
 														class="select">
 														<aSelectOption value="unset">
-															{$t("未设置").label}
+															{xI("未设置")}
 														</aSelectOption>
-														{xU.map(State_App.currProject.env, i => {
+														{xU.map(stateApp.currProject.env, i => {
 															return (
 																<aSelectOption value={i._id}>
 																	{i.name}
@@ -442,7 +442,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								return "任意";
 							}
 							if (witchEnv) {
-								const envArray = State_App.currProject.env;
+								const envArray = stateApp.currProject.env;
 								let env = xU.find(envArray, { _id: witchEnv });
 								if (env) {
 									return <ElTag color="cyan">{env.name}</ElTag>;

@@ -1,10 +1,10 @@
 import { defineComponent, reactive, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI, State_UI, $t } from "@ventose/ui";
+import { $, xU, UI, compositionAPI, stateUI, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { DialogAddArticle } from "./DialogAddArticle";
 import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { Methods_Wiki, State_Wiki, cpt_wikiBelongType } from "./State_Wiki";
 import type Node from "element-plus/es/components/tree/src/model/node";
 import type { DragEvents } from "element-plus/es/components/tree/src/model/useDragNode";
@@ -24,7 +24,7 @@ export const WikiLeftSider = defineComponent({
 			usefnObserveDomResize();
 		return {
 			State_Wiki,
-			State_App,
+			stateApp,
 			Cpt_url,
 			cpt_isPersonalWikiView,
 			fnObserveDomResize,
@@ -70,11 +70,11 @@ export const WikiLeftSider = defineComponent({
 	computed: {
 		btnAddNew() {
 			return {
-				text: $t("新增").label,
+				text: xI("新增"),
 				isShow() {
 					const { user_id } = Cpt_url.value.query;
 					if (user_id) {
-						return String(user_id) === String(State_App.user._id);
+						return String(user_id) === String(stateApp.user._id);
 					}
 
 					return true;
@@ -165,14 +165,14 @@ export const WikiLeftSider = defineComponent({
 												<div class="x-sider-tree_menu_opration">
 													{genIcon({
 														icon: "add",
-														tips: vm.$t("添加").label,
+														tips: vm.xI("添加"),
 														clickHandler: () =>
 															vm.showUpsertArticleDialog(item.data)
 													})}
 													{canDelete &&
 														genIcon({
 															icon: "delete",
-															tips: vm.$t("删除").label,
+															tips: vm.xI("删除"),
 															clickHandler: () => vm.deleteArticle(_id)
 														})}
 												</div>
@@ -255,7 +255,7 @@ export const WikiLeftSider = defineComponent({
 					})()
 				});
 				await Methods_Wiki.updateWikiMenuList();
-				UI.message.success($t("更新成功").label);
+				UI.message.success(xI("更新成功"));
 			} catch (error) {
 				UI.message.error(error.message);
 			}
@@ -284,7 +284,7 @@ export const WikiLeftSider = defineComponent({
 		},
 		showUpsertArticleDialog(parentDoc) {
 			UI.dialog.component({
-				title: this.$t("添加文档").label,
+				title: this.xI("添加文档"),
 				parentDoc,
 				/* 所有人可见 */
 				belong_type: "all",

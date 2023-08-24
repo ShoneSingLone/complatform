@@ -1,4 +1,4 @@
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 
 const APP_API_CACHE = {};
 const isPending = {};

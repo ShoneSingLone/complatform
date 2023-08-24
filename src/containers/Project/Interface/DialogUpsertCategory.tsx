@@ -1,9 +1,9 @@
-import { itemsInvalid, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
-import { defItem, xU, setValueTo } from "@ventose/ui";
+import { itemsInvalid, AllWasWell, pickValueFrom, UI } from "@/ventose/ui";
+import { defItem, xU, setValueTo } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
 export const DialogUpsertCategory = defineComponent({
@@ -17,7 +17,7 @@ export const DialogUpsertCategory = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		return {
@@ -60,7 +60,7 @@ export const DialogUpsertCategory = defineComponent({
 		async onOk() {
 			if (!(await itemsInvalid())) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
-				const project_id = this.State_App.currProject._id;
+				const project_id = this.stateApp.currProject._id;
 				try {
 					if (this.category) {
 						await this.updateOldCategory({ name, desc, project_id });
@@ -71,9 +71,9 @@ export const DialogUpsertCategory = defineComponent({
 					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {
-						UI.message.error(this.$t("修改_失败", { title: "分类" }).label);
+						UI.message.error(this.xI("修改_失败", { title: "分类" }).label);
 					} else {
-						UI.message.error(this.$t("添加_失败", { title: "分类" }).label);
+						UI.message.error(this.xI("添加_失败", { title: "分类" }).label);
 					}
 				}
 			}
@@ -85,7 +85,7 @@ export const DialogUpsertCategory = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.$t("添加_成功", { title: "分类" }).label);
+				UI.message.success(this.xI("添加_成功", { title: "分类" }).label);
 			} else {
 				throw new Error("");
 			}
@@ -98,7 +98,7 @@ export const DialogUpsertCategory = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.$t("修改_成功", { title: "分类" }).label);
+				UI.message.success(this.xI("修改_成功", { title: "分类" }).label);
 			} else {
 				throw new Error("");
 			}

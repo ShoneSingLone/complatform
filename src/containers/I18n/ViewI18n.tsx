@@ -5,13 +5,13 @@ import { stateI18n, useStateI18n } from "./State_i18n";
 import {
 	defXVirTableConfigs,
 	defCol,
-	$t,
+	xI,
 	setDataGridInfo,
 	xU,
 	UI,
 	defColActions,
 	defColActionsBtnlist
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";
 import { DialogImportI18nJSON } from "./DialogImportI18nJSON";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
@@ -19,7 +19,7 @@ import * as _ from "lodash";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
 import { ITEM_OPTIONS } from "@/utils/common";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { ADMIN } from "@/utils/variable";
 
 export const ViewI18n = defineComponent({
@@ -51,11 +51,11 @@ export const ViewI18n = defineComponent({
 						prop: "key"
 					}),
 					...defCol({
-						label: $t("描述").label,
+						label: xI("描述"),
 						prop: "desc"
 					}),
 					...defCol({
-						label: $t("校正").label,
+						label: xI("校正"),
 						width: "80px",
 						prop: "isRectified",
 						renderCell({ record }) {
@@ -71,25 +71,25 @@ export const ViewI18n = defineComponent({
 								fold: 7,
 								btns: [
 									{
-										text: $t("查看valueArray").label,
+										text: xI("查看valueArray"),
 										onClick: async () => {
 											await stateI18n._$updateCurrent(record._id);
 										}
 									},
 									{
-										text: $t("修改").label,
+										text: xI("修改"),
 										onClick: async () => {
 											await stateI18n._$updateCurrent(record._id);
 											UI.dialog.component({
-												title: this.$t("修改记录").label,
+												title: this.xI("修改记录"),
 												record: xU.cloneDeep(stateI18n.currentI18n),
 												component: DialogUpsertI18nRecord
 											});
 										}
 									},
 									{
-										text: $t("删除").label,
-										isShow: State_App.user.role === ADMIN,
+										text: xI("删除"),
+										isShow: stateApp.user.role === ADMIN,
 										onClick: async () => {
 											vm.deleteI18nRecords([record]);
 										}
@@ -149,10 +149,10 @@ export const ViewI18n = defineComponent({
 	computed: {
 		btnImport() {
 			return {
-				text: $t("导入").label,
+				text: xI("导入"),
 				async onClick() {
 					await UI.dialog.component({
-						title: $t("导入国际化JSON文件").label,
+						title: xI("导入国际化JSON文件"),
 						component: DialogImportI18nJSON
 					});
 				}
@@ -161,8 +161,8 @@ export const ViewI18n = defineComponent({
 		btnDelete() {
 			const vm = this;
 			return {
-				text: $t("删除").label,
-				isShow: State_App.user.role === ADMIN,
+				text: xI("删除"),
+				isShow: stateApp.user.role === ADMIN,
 				disabled() {
 					return !xU.isArrayFill(vm.configsI18nTable.selected);
 				},
@@ -174,7 +174,7 @@ export const ViewI18n = defineComponent({
 		btnDownload() {
 			const vm = this;
 			return {
-				text: $t("导出").label,
+				text: xI("导出"),
 				disabled() {
 					return !xU.isArrayFill(vm.configsI18nTable.selected);
 				},

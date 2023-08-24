@@ -1,6 +1,6 @@
 
 import AceEditor from "client/components/AceEditor/AceEditor";
-import {xU} from "@ventose/ui";
+import {xU} from "@/ventose/ui";
 import {deepCopyJson, isJson} from "../../common.js";
 import axios from "axios";
 import CheckCrossInstall, {initCrossRequest} from "./CheckCrossInstall.js";
@@ -655,9 +655,9 @@ ${JSON.stringify(result.header, null, 2)}
 								value="环境配置"
 								disabled
 								style={{ cursor: "pointer", color: "var(--app-brand)" }}>
-								<ElButton type="primary" onClick={this.showEnvModal}>
+								<xButton type="primary" onClick={this.showEnvModal}>
 									环境配置
-								</ElButton>
+								</xButton>
 							</Option>
 						</Select>
 
@@ -679,13 +679,13 @@ ${JSON.stringify(result.header, null, 2)}
 								return "请安装 cross-request 插件";
 							}
 						})()}>
-						<ElButton
+						<xButton
 							onClick={this.reqRealInterface}
 							type="primary"
 							style={{ marginLeft: 10 }}
 							icon={loading ? "loading" : ""}>
 							{loading ? "取消" : "发送"}
-						</ElButton>
+						</xButton>
 					</ElTooltip>
 
 					<ElTooltip
@@ -695,12 +695,12 @@ ${JSON.stringify(result.header, null, 2)}
 								? "保存到测试集"
 								: "更新该用例";
 						}}>
-						<ElButton
+						<xButton
 							onClick={this.props.save}
 							type="primary"
 							style={{ marginLeft: 10 }}>
 							{this.props.type === "inter" ? "保存" : "更新"}
-						</ElButton>
+						</xButton>
 					</ElTooltip>
 				</div>
 
@@ -743,13 +743,13 @@ ${JSON.stringify(result.header, null, 2)}
 								</div>
 							);
 						})}
-						<ElButton
+						<xButton
 							style={{ display: "none" }}
 							type="primary"
 							icon="plus"
 							onClick={this.addPathParam}>
 							添加Path参数
-						</ElButton>
+						</xButton>
 					</Panel>
 					<Panel
 						header="QUERY PARAMETERS"
@@ -806,13 +806,13 @@ ${JSON.stringify(result.header, null, 2)}
 								</div>
 							);
 						})}
-						<ElButton
+						<xButton
 							style={{ display: "none" }}
 							type="primary"
 							icon="plus"
 							onClick={this.addQuery}>
 							添加Query参数
-						</ElButton>
+						</xButton>
 					</Panel>
 					<Panel
 						header="HEADERS"
@@ -855,13 +855,13 @@ ${JSON.stringify(result.header, null, 2)}
 								</div>
 							);
 						})}
-						<ElButton
+						<xButton
 							style={{ display: "none" }}
 							type="primary"
 							icon="plus"
 							onClick={this.addHeader}>
 							添加Header
-						</ElButton>
+						</xButton>
 					</Panel>
 					<Panel
 						header={
@@ -885,7 +885,7 @@ ${JSON.stringify(result.header, null, 2)}
 							}}>
 							{req_body_type === "json" && (
 								<div class="adv-button">
-									<ElButton
+									<xButton
 										onClick={() =>
 											this.showModal(
 												this.state.req_body_other,
@@ -894,7 +894,7 @@ ${JSON.stringify(result.header, null, 2)}
 											)
 										}>
 										高级参数设置
-									</ElButton>
+									</xButton>
 									<ElTooltip content="高级参数设置只在json字段值中生效">
 										{"  "}
 										<xIcon icon="question-circle-o" />
@@ -977,13 +977,13 @@ ${JSON.stringify(result.header, null, 2)}
 										</div>
 									);
 								})}
-								<ElButton
+								<xButton
 									style={{ display: "none" }}
 									type="primary"
 									icon="plus"
 									onClick={this.addBody}>
 									添加Form参数
-								</ElButton>
+								</xButton>
 							</div>
 						)}
 						{HTTP_METHOD[method].request_body && req_body_type === "file" && (

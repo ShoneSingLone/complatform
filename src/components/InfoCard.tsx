@@ -1,4 +1,4 @@
-import { $, compositionAPI, xU } from "@ventose/ui";
+import { $, compositionAPI, xU } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import "./InfoCard.less";
 

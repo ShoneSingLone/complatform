@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
-import { Cpt_url } from "../../../router/router";
+import { stateApp } from "@/state/app";
+import { Cpt_url } from "@/router/router";
 import { ProjectInterfaceLeftSider } from "./ProjectInterfaceLeftSider";
 import {
 	State_ProjectInterface,
@@ -13,7 +13,7 @@ export const ProjectInterface = defineComponent({
 	},
 	setup() {
 		return {
-			State_App,
+			stateApp,
 			State_Project: State_ProjectInterface,
 			Cpt_url
 		};

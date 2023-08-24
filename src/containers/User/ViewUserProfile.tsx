@@ -1,10 +1,10 @@
 import { defineComponent } from "vue";
-import { State_App, Cpt_avatarUrl } from "@/state/State_App";
-import { $t, UI, defFormConfigs, setValueTo, xU } from "@ventose/ui";
+import { stateApp, Cpt_avatarUrl } from "@/state/app";
+import { xI, UI, defFormConfigs, setValueTo, xU } from "@/ventose/ui";
 import { DialogUpdatePwd } from "./DialogUpdatePwd";
 import { pickValueFrom } from "./../../element/ui/tools/form";
 import { FormRules } from "@/utils/common.FormRules";
-import { EVENT_TYPE } from "@ventose/ui";
+import { EVENT_TYPE } from "@/ventose/ui";
 import { API } from "@/api";
 
 function getBase64(img, callback) {
@@ -16,7 +16,7 @@ function getBase64(img, callback) {
 export const ViewUserProfile = defineComponent({
 	setup() {
 		return {
-			State_App,
+			stateApp,
 			Cpt_avatarUrl
 		};
 	},
@@ -25,43 +25,43 @@ export const ViewUserProfile = defineComponent({
 			configsForm: defFormConfigs([
 				{
 					value: "",
-					label: $t("用户ID").label,
+					label: xI("用户ID"),
 					prop: "uid",
 					isReadonly: true
 				},
 				{
 					value: "",
-					label: $t("用户名").label,
+					label: xI("用户名"),
 					prop: "username",
 					rules: [FormRules.required()]
 				},
 				{
 					value: "",
-					label: $t("邮箱地址").label,
+					label: xI("邮箱地址"),
 					prop: "email",
 					isReadonly: true
 				},
 				{
 					value: "",
-					label: $t("角色").label,
+					label: xI("角色"),
 					prop: "role",
 					isReadonly: true
 				},
 				{
 					value: "",
-					label: $t("登陆方式").label,
+					label: xI("登陆方式"),
 					prop: "type",
 					isReadonly: true
 				},
 				{
 					value: "",
-					label: $t("创建时间").label,
+					label: xI("创建时间"),
 					prop: "add_time",
 					isReadonly: true
 				},
 				{
 					value: "",
-					label: $t("更新时间").label,
+					label: xI("更新时间"),
 					prop: "up_time",
 					isReadonly: true
 				}
@@ -75,15 +75,15 @@ export const ViewUserProfile = defineComponent({
 		init() {
 			setValueTo(
 				this.configsForm,
-				xU.merge({}, State_App.user, {
-					up_time: xU.dateFormat(State_App.user.up_time, 1),
-					add_time: xU.dateFormat(State_App.user.add_time, 1)
+				xU.merge({}, stateApp.user, {
+					up_time: xU.dateFormat(stateApp.user.up_time, 1),
+					add_time: xU.dateFormat(stateApp.user.add_time, 1)
 				})
 			);
 		},
 		async updatePwd() {
 			await UI.dialog.component({
-				title: $t("修改密码").label,
+				title: xI("修改密码"),
 				component: DialogUpdatePwd
 			});
 		},
@@ -103,14 +103,14 @@ export const ViewUserProfile = defineComponent({
 			if (info.status === "ready") {
 				// Get this url from response in real world.
 				getBase64(info.raw, basecode => {
-					State_App.user.imageUrl = basecode;
+					stateApp.user.imageUrl = basecode;
 					this.uploadAvatar(basecode);
 				});
 			}
 		},
 		async uploadAvatar(basecode) {
 			await API.user.uploadAvatar({ basecode: basecode });
-			State_App.user.imageUrl = "";
+			stateApp.user.imageUrl = "";
 		}
 	},
 	computed: {
@@ -170,9 +170,9 @@ export const ViewUserProfile = defineComponent({
 						<xGap t="10" />
 						<div class="flex middle">
 							<xItem configs={configsForm.username} class="flex1" />
-							<ElButton onClick={updatePwd} class="ml10" type="primary">
+							<xButton onClick={updatePwd} class="ml10" type="primary">
 								修改密码
-							</ElButton>
+							</xButton>
 						</div>
 						<xGap t="10" />
 						<xItem configs={configsForm.email} />
@@ -185,7 +185,7 @@ export const ViewUserProfile = defineComponent({
 						<xGap t="10" />
 						<xItem configs={configsForm.up_time} />
 						<xGap t="10" />
-						<ElButton type="primary">更新</ElButton>
+						<xButton type="primary">更新</xButton>
 						<xGap t="10" />
 					</xForm>
 				</ElCard>

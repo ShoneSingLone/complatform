@@ -1,4 +1,4 @@
-import { defCol, defItem, defXVirTableConfigs, xU } from "@ventose/ui";
+import { defCol, defItem, defXVirTableConfigs, xU } from "@/ventose/ui";
 import { State_Project } from "@/containers/Project/Interface/State_Project";
 import { Cpt_url } from "@/router/router";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
@@ -117,7 +117,7 @@ export const BodyParamsForm = defineComponent({
 					].join("\n"),
 				columns: {
 					...defCol({
-						label: vm.$t("名称").label,
+						label: vm.xI("名称"),
 						prop: "name",
 						renderCell: ({ index }) => (
 							<xItem
@@ -127,7 +127,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("类型").label,
+						label: vm.xI("类型"),
 						prop: "type",
 						width: "100px",
 						renderCell: ({ index }) => (
@@ -138,7 +138,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("必需").label,
+						label: vm.xI("必需"),
 						prop: "required",
 						width: "110px",
 						renderCell: ({ index }) => (
@@ -149,7 +149,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("示例").label,
+						label: vm.xI("示例"),
 						prop: "example",
 						renderCell: ({ index }) => (
 							<xItem
@@ -159,7 +159,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("备注").label,
+						label: vm.xI("备注"),
 						prop: "desc",
 						renderCell: ({ index }) => (
 							<xItem
@@ -169,7 +169,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("操作").label,
+						label: vm.xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,
@@ -191,9 +191,9 @@ export const BodyParamsForm = defineComponent({
 				<div style={{ height: "300px" }}>
 					<xVirTable configs={this.configs_table} class="flex1 width100 " />
 				</div>
-				<ElButton class="width100" type="dashed" onClick={this.addRow}>
+				<xButton class="width100" type="dashed" onClick={this.addRow}>
 					<xIcon icon="add" />
-				</ElButton>
+				</xButton>
 			</>
 		);
 	}

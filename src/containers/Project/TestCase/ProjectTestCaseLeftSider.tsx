@@ -1,12 +1,12 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI, State_UI } from "@ventose/ui";
+import { $, xU, UI, compositionAPI, stateUI } from "@/ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
 import { ALL } from "@/utils/variable";
 import { DialogAddInterface } from "./DialogAddInterface";
-import { Cpt_url } from "../../../router/router";
+import { Cpt_url } from "@/router/router";
 import { _$arrayChangeIndex } from "@/utils/common";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import {
 	State_ProjectTestcase,
 	Methods_ProjectTestcase
@@ -17,7 +17,7 @@ const { usefnObserveDomResize } = compositionAPI;
 export const DefaultTestcaseMenu = [
 	{
 		_id: ALL,
-		title: State_UI.$t("全部用例").label,
+		title: stateUI.xI("全部用例"),
 		menuType: ALL,
 		list: []
 	}
@@ -28,7 +28,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_App,
+			stateApp,
 			State_ProjectTestcase,
 			Cpt_url,
 			fnObserveDomResize,
@@ -164,13 +164,13 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
-													tips: vm.$t("添加集合").label,
+													tips: vm.xI("添加集合"),
 													clickHandler: () =>
 														vm.showUpsertTestcaseCategoryDialog()
 												})}
 												{genIcon({
 													icon: "refresh",
-													tips: vm.$t("刷新").label,
+													tips: vm.xI("刷新"),
 													clickHandler:
 														Methods_ProjectTestcase.updateTestcaseMenuList
 												})}
@@ -189,19 +189,19 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
-													tips: vm.$t("添加用例").label,
+													tips: vm.xI("添加用例"),
 													clickHandler: $event =>
 														vm.showAddTestcaseDialog(_id, $event)
 												})}
 												{genIcon({
 													icon: "edit",
-													tips: vm.$t("修改集合").label,
+													tips: vm.xI("修改集合"),
 													clickHandler: $event =>
 														vm.showUpsertTestcaseCategoryDialog(item)
 												})}
 												{genIcon({
 													icon: "delete",
-													tips: vm.$t("删除集合").label,
+													tips: vm.xI("删除集合"),
 													clickHandler: $event => vm.deleteCategory(_id, $event)
 												})}
 											</div>
@@ -211,7 +211,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "delete",
-													tips: vm.$t("删除用例").label,
+													tips: vm.xI("删除用例"),
 													clickHandler: $event =>
 														vm.deleteInterface(_id, $event)
 												})}
@@ -332,12 +332,12 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		deleteInterface(id) {
 			const vm = this;
 			UI.confirm({
-				title: vm.$t("您确认删除此用例？").label,
-				content: vm.$t(`温馨提示：用例删除后，无法恢复`).label,
+				title: vm.xI("您确认删除此用例？"),
+				content: vm.xI(`温馨提示：用例删除后，无法恢复`).label,
 				async onOk() {
 					try {
 						await API.project.deleteInterfaceById(id);
-						UI.message.success(vm.$t("删除用例成功").label);
+						UI.message.success(vm.xI("删除用例成功"));
 						Methods_ProjectTestcase.updateTestcaseMenuList();
 						vm.Cpt_url.go(
 							"/project/testcase/all",
@@ -372,7 +372,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		},
 		showUpsertTestcaseCategoryDialog(category = false) {
 			UI.dialog.component({
-				title: category ? this.$t("修改集合").label : this.$t("添加集合").label,
+				title: category ? this.xI("修改集合").label : this.xI("添加集合"),
 				component: DialogUpsertCategory,
 				category
 			});
@@ -381,9 +381,9 @@ export const ProjectTestcaseLeftSider = defineComponent({
 			$event.stopPropagation();
 			$event.preventDefault();
 			UI.dialog.component({
-				title: this.$t("添加用例").label,
+				title: this.xI("添加用例"),
 				categoryId,
-				projectId: this.State_App.currProject._id,
+				projectId: this.stateApp.currProject._id,
 				component: DialogAddInterface
 			});
 		}

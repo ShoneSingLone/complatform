@@ -1,5 +1,5 @@
 import { computed, reactive, watch } from "vue";
-import { xU, State_UI, setDocumentTitle, UI } from "@ventose/ui";
+import { xU, stateUI, setDocumentTitle, UI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { Cpt_url } from "@/router/router";
 import { sortTreeByOrder } from "@/utils/common";

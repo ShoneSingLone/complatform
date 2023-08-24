@@ -1,6 +1,6 @@
-import { lStorage, UI, xU } from "@ventose/ui";
+import { lStorage, UI, xU } from "@/ventose/ui";
 import axios from "axios";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 
 const ajax = axios.create({
 	/* 跨域携带cookies */
@@ -11,8 +11,8 @@ const ajax = axios.create({
 // request interceptor
 ajax.interceptors.request.use(
 	config => {
-		config.url = `${State_App.baseURL}${config.url}`;
-		// config.url = `${State_App.baseURL}${config.url}`;
+		config.url = `${stateApp.baseURL}${config.url}`;
+		// config.url = `${stateApp.baseURL}${config.url}`;
 		xCookies.pick(config);
 		if (config.data) {
 			xU.each(["name"], prop => {
@@ -31,7 +31,7 @@ ajax.interceptors.response.use(
 	async response => {
 		xCookies.save(response);
 		if (response?.data?.errcode == 40011) {
-			State_App.user.isLogin = false;
+			stateApp.user.isLogin = false;
 			window.location.hash = "/login";
 		}
 

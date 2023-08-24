@@ -2,27 +2,27 @@ import { defineComponent } from "vue";
 import {
 	xU,
 	defItem,
-	State_UI,
+	stateUI,
 	pickValueFrom,
 	VNodeCollection,
 	UI,
 	components
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
-import { Methods_App, State_App } from "@/state/State_App";
+import { Methods_App, stateApp } from "@/state/app";
 
 import { API } from "../../../api";
-import { Cpt_url } from "../../../router/router";
+import { Cpt_url } from "@/router/router";
 import { ADMIN } from "@/utils/variable";
 
 const { xItem } = components;
 
-const { $t } = State_UI;
+const { xI } = stateUI;
 
 export const DialogEditGroup = defineComponent({
 	setup() {
 		return {
-			State_App,
+			stateApp,
 			Cpt_url
 		};
 	},
@@ -52,7 +52,7 @@ export const DialogEditGroup = defineComponent({
 		vDomDeleteGroup() {
 			const vm = this;
 			/* 只有超级管理员能删除分组 */
-			if (State_App.user.role === ADMIN) {
+			if (stateApp.user.role === ADMIN) {
 				return (
 					<ElAlert
 						type="warning"
@@ -61,7 +61,7 @@ export const DialogEditGroup = defineComponent({
 						id="admin-delete-group-alert">
 						{{
 							title() {
-								return $t("删除分组").label;
+								return xI("删除分组");
 							},
 							default() {
 								return (
@@ -123,28 +123,28 @@ export const DialogEditGroup = defineComponent({
 			formDelete: {
 				authText: defItem({
 					value: "",
-					placeholder: $t("请输入分组名称确认此操作").label,
+					placeholder: xI("请输入分组名称确认此操作"),
 					clearable: true
 				})
 			},
 			formItems: {
 				currGroupName: defItem({
 					value: "",
-					label: $t("分组名").label,
-					placeholder: $t("请输入分组名称").label,
+					label: xI("分组名"),
+					placeholder: xI("请输入分组名称"),
 					rules: [FormRules.required()]
 				}),
 				currGroupDesc: defItem({
 					isTextarea: true,
 					value: "",
-					label: $t("简介").label,
+					label: xI("简介"),
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				}),
 				custom_field1_enable: defItem({
 					itemType: "Switch",
 					value: false,
-					label: $t("启用接口自定义字段").label,
+					label: xI("启用接口自定义字段"),
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				}),
@@ -154,11 +154,11 @@ export const DialogEditGroup = defineComponent({
 						//@ts-ignore
 						return !vm.formItems.custom_field1_enable.value;
 					},
-					label: $t("接口自定义字段").label,
+					label: xI("接口自定义字段"),
 					labelVNodeRender: VNodeCollection.labelTips(
-						<div>{$t("可以在接口中添加 额外字段 数据").label}</div>
+						<div>{xI("可以在接口中添加 额外字段 数据")}</div>
 					),
-					placeholder: $t("额外字段").label,
+					placeholder: xI("额外字段"),
 					rules: [FormRules.required()],
 					once() {
 						vm.$watch(
@@ -192,12 +192,12 @@ export const DialogEditGroup = defineComponent({
 			const vm = this;
 			vm.formDelete.authText.value = "";
 			UI.confirm({
-				title: "确认删除 " + vm.State_App.currGroup.group_name + " 分组吗？",
+				title: "确认删除 " + vm.stateApp.currGroup.group_name + " 分组吗？",
 				content: () => (
 					<>
 						<ElAlert
 							title={
-								$t(
+								xI(
 									"警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!"
 								).label
 							}
@@ -211,7 +211,7 @@ export const DialogEditGroup = defineComponent({
 				onOk() {
 					return new Promise(async (resolve, reject) => {
 						const { authText } = pickValueFrom(vm.formDelete);
-						if (authText !== vm.State_App.currGroup.group_name) {
+						if (authText !== vm.stateApp.currGroup.group_name) {
 							UI.message.error("分组名称有误");
 							return reject();
 						} else {
@@ -226,11 +226,11 @@ export const DialogEditGroup = defineComponent({
 			});
 		},
 		async deleteGroup() {
-			const { currGroup } = this.State_App;
+			const { currGroup } = this.stateApp;
 			const res = await API.group.deleteGroup({ id: currGroup._id });
 			UI.notification.success("删除成功");
 			await Methods_App.fetchGroupList();
-			const firstGroup = xU.first(this.State_App.groupList);
+			const firstGroup = xU.first(this.stateApp.groupList);
 			this.Cpt_url.go("/group", { group_id: firstGroup._id });
 		}
 	},

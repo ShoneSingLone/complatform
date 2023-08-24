@@ -1,9 +1,9 @@
 import { defineComponent } from "vue";
-import { xU, defItem, State_UI, pickValueFrom } from "@ventose/ui";
+import { xU, defItem, stateUI, pickValueFrom } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { ItemUAC } from "../../../components/ItemRender/ItemUAC";
 
-const { $t } = State_UI;
+const { xI } = stateUI;
 
 export const DialogAddGroup = defineComponent({
 	props: {
@@ -21,21 +21,21 @@ export const DialogAddGroup = defineComponent({
 			formItems: {
 				newGroupName: defItem({
 					value: "",
-					label: $t("分组名").label,
-					placeholder: $t("请输入分组名称").label,
+					label: xI("分组名"),
+					placeholder: xI("请输入分组名称"),
 					rules: [FormRules.required()]
 				}),
 				newGroupDesc: defItem({
 					isTextarea: true,
 					value: "",
-					label: $t("简介").label,
+					label: xI("简介"),
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				}),
 				owner_uids: defItem({
 					itemType: ItemUAC,
 					value: [],
-					label: $t("组长").label,
+					label: xI("组长"),
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				})

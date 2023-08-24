@@ -1,5 +1,5 @@
 import { DialogUpsertTags } from "./DialogUpsertTags";
-import { $, UI, xU, $t } from "@ventose/ui";
+import { $, UI, xU, xI } from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { DialogInterfaceStatusModify } from "./DialogInterfaceStatusModify";
 import { DialogInterfaceProxyModify } from "./DialogInterfaceProxyModify";
@@ -12,7 +12,7 @@ import {
 
 export async function openProxyEnvDialog() {
 	const { _layer_index } = await UI.dialog.component({
-		title: $t("管理项目接口转发环境").label,
+		title: xI("管理项目接口转发环境"),
 		// offset: [20, 20],
 		component: DialogUpsertProxyEnv,
 		/*弹窗里面的弹窗点击之后不关闭（点不到其他位置）*/
@@ -22,7 +22,7 @@ export async function openProxyEnvDialog() {
 
 export async function openUpsertTagDialog() {
 	const { _layer_index } = await UI.dialog.component({
-		title: $t("管理项目接口Tags").label,
+		title: xI("管理项目接口Tags"),
 		// offset: [20, 20],
 		component: DialogUpsertTags,
 		/*弹窗里面的弹窗点击之后不关闭（点不到其他位置）*/
@@ -93,7 +93,7 @@ export const EnvSelectRender = defineComponent({
 				<xGap l="10" />
 				<xButton
 					configs={{
-						text: $t("转发环境设置").label,
+						text: xI("转发环境设置"),
 						onClick: openProxyEnvDialog
 					}}
 					class="ml10"
@@ -146,7 +146,7 @@ export const TagSelectRender = defineComponent({
 				<xGap l="10" />
 				<xButton
 					configs={{
-						text: vm.$t("Tag设置").label,
+						text: vm.xI("Tag设置"),
 						onClick: openUpsertTagDialog
 					}}
 					class="ml10"
@@ -222,7 +222,7 @@ export const ResponseRender = defineComponent({
 
 export async function openDialogInterfaceStatusModify({ selected }) {
 	await UI.dialog.component({
-		title: $t("变更状态").label,
+		title: xI("变更状态"),
 		component: DialogInterfaceStatusModify,
 		selected
 	});
@@ -230,7 +230,7 @@ export async function openDialogInterfaceStatusModify({ selected }) {
 
 export async function openDialogInterfaceProxyModify({ selected }) {
 	await UI.dialog.component({
-		title: $t("变更代理").label,
+		title: xI("变更代理"),
 		component: DialogInterfaceProxyModify,
 		selected
 	});

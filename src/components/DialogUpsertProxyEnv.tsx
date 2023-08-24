@@ -7,8 +7,8 @@ import {
 	UI,
 	itemsInvalid,
 	xU
-} from "@ventose/ui";
-import { Methods_App, State_App } from "@/state/State_App";
+} from "@/ventose/ui";
+import { Methods_App, stateApp } from "@/state/app";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import { API } from "@/api";
 import { ITEM_OPTIONS } from "@/utils/common.options";
@@ -30,7 +30,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		const vm = this;
@@ -40,10 +40,10 @@ export const DialogUpsertProxyEnv = defineComponent({
 			currentSelected: "",
 			configsForm: {
 				name: defItem({
-					label: vm.$t("环境名称").label
+					label: vm.xI("环境名称")
 				}),
 				domain: defItem({
-					label: vm.$t("环境域名").label,
+					label: vm.xI("环境域名"),
 					slots: markRaw({
 						addonBefore: () => <xItem configs={vm.configsForm.protocol} />
 					}),
@@ -144,7 +144,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		};
 	},
 	watch: {
-		"State_App.currProject.env": {
+		"stateApp.currProject.env": {
 			immediate: true,
 			handler(env) {
 				if (!env) {
@@ -176,8 +176,8 @@ export const DialogUpsertProxyEnv = defineComponent({
 	},
 	computed: {
 		propProjectId() {
-			if (this.State_App.currProject._id) {
-				return this.State_App.currProject._id;
+			if (this.stateApp.currProject._id) {
+				return this.stateApp.currProject._id;
 			} else {
 				alert("miss projectId");
 			}
@@ -209,7 +209,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						})();
 
 						return (
-							<ElButton
+							<xButton
 								type="text"
 								onClick={() => this.switchEvn(i)}
 								class={className}>
@@ -226,7 +226,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 										onClick={fnDelete}
 									/>
 								</div>
-							</ElButton>
+							</xButton>
 						);
 					})}
 				</div>
@@ -371,7 +371,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				id: this.propProjectId,
 				env: envArray
 			});
-			UI.message.success(this.$t("环境设置成功").label);
+			UI.message.success(this.xI("环境设置成功"));
 			Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
 		},
 		async addEnv() {
@@ -399,7 +399,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 					id: this.propProjectId,
 					env: envArray
 				});
-				UI.message.success(this.$t("环境设置成功").label);
+				UI.message.success(this.xI("环境设置成功"));
 				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
 			} catch (error) {}
 		}
@@ -428,7 +428,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						textOk: this.$t("暂存").label,
+						textOk: this.xI("暂存"),
 						onOk: this.onOk,
 						onCancel: this.propOptions.$close
 					}}

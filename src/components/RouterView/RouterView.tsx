@@ -1,6 +1,6 @@
 import { defineComponent, h, inject, markRaw, provide } from "vue";
-import { Cpt_url, routes } from "../../router/router";
-import { State_UI, xU } from "@ventose/ui";
+import { Cpt_url, routes } from "@/router/router";
+import { stateUI, xU } from "@/ventose/ui";
 import { ViewNotFound } from "../ViewNotFound";
 import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css";
@@ -10,7 +10,7 @@ NProgress.configure({
 });
 
 export const makeAhref = (url: string) => {
-	console.log(State_UI.assetsPath);
+	console.log(stateUI.assetsPath);
 
 	return `#${url}`;
 };

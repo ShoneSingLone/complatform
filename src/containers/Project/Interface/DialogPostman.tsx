@@ -6,10 +6,10 @@ import {
 	defItem,
 	xU,
 	setValueTo
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import {
 	Methods_ProjectInterface,
 	State_ProjectInterface
@@ -29,7 +29,7 @@ export const DialogPostman = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		const vm = this;
@@ -48,7 +48,7 @@ export const DialogPostman = defineComponent({
 				catid: defItem({
 					value: "",
 					itemType: "Select",
-					label: vm.$t("接口分类").label,
+					label: vm.xI("接口分类"),
 					placeholder: "分类名称",
 					options: [],
 					rules: [FormRules.required()],
@@ -64,16 +64,16 @@ export const DialogPostman = defineComponent({
 				}),
 				title: defItem({
 					value: "",
-					label: vm.$t("接口名称").label,
-					placeholder: vm.$t("接口名称").label,
+					label: vm.xI("接口名称"),
+					placeholder: vm.xI("接口名称"),
 					rules: [
 						FormRules.required(),
-						FormRules.nameLength({ label: vm.$t("接口").label })
+						FormRules.nameLength({ label: vm.xI("接口") })
 					]
 				}),
 				path: defItem({
 					value: "/",
-					label: vm.$t("接口路径").label,
+					label: vm.xI("接口路径"),
 					placeholder: "/path",
 					rules: [FormRules.required(), FormRules.apiPath()],
 					once() {
@@ -124,7 +124,7 @@ export const DialogPostman = defineComponent({
 				<div class="x-dialog-boddy-wrapper">
 					<xGap t="10" />
 					<ElAlert
-						title={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
+						title={this.xI("注： 详细的接口数据可以在编辑页面中添加")}
 						type="info"
 						closable
 						class="width100"

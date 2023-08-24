@@ -1,11 +1,11 @@
 import { ViewGroup } from "../containers/Group/ViewGroup";
 import { computed, ComputedRef } from "vue";
-import { setDocumentTitle, State_UI, xU } from "@ventose/ui";
+import { setDocumentTitle, stateUI, xU } from "@/ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
-import { Methods_App, State_App } from "../state/State_App";
+import { Methods_App, stateApp } from "@/state/app";
 import { PRIVATE } from "@/utils/variable";
 
-const { $t } = State_UI;
+const { xI } = stateUI;
 /* const LazyComponent = (componentName, componentPath) => ({
 	componentName: componentName,
 	component: () => import(componentPath)
@@ -26,7 +26,7 @@ export const routes = [
 		componentName: "LoginContainer",
 		component: () => import("../containers/Login/LoginContainer.js"),
 		meta: {
-			title: $t("用户登录").label
+			title: xI("用户登录")
 		}
 	},
 	{
@@ -34,7 +34,7 @@ export const routes = [
 		componentName: "ViewUserProfile",
 		component: () => import("../containers/User/ViewUserProfile.js"),
 		meta: {
-			title: $t("用户").label
+			title: xI("用户")
 		}
 	},
 	{
@@ -42,7 +42,7 @@ export const routes = [
 		componentName: "ViewGroup",
 		component: ViewGroup,
 		meta: {
-			title: $t("分组").label
+			title: xI("分组")
 		}
 	},
 	wiki("all", "文档-所有人可见"),
@@ -50,11 +50,11 @@ export const routes = [
 	wiki("project", "项目文档"),
 	wiki(PRIVATE, "个人文档"),
 	{
-		path: `/i18n`,
+		path: `/xI`,
 		componentName: "ViewI18n",
 		component: () => import("../containers/I18n/ViewI18n.js"),
 		meta: {
-			title: $t("国际化").label
+			title: xI("国际化")
 		}
 	},
 	{
@@ -62,100 +62,100 @@ export const routes = [
 		componentName: "ViewProject",
 		component: () => import("../containers/Project/ViewProject.js"),
 		meta: {
-			title: $t("项目").label
+			title: xI("项目")
 		}
 	},
 	{
-		label: $t("接口").label,
+		label: xI("接口"),
 		path: "/project/interface",
 		componentName: "ProjectInterface",
 		component: () =>
 			import("../containers/Project/Interface/ProjectInterface.js"),
 		meta: {
-			title: $t("接口").label
+			title: xI("接口")
 		}
 	},
 	{
-		label: $t("接口-全部").label,
+		label: xI("接口-全部"),
 		path: "/project/interface/all",
 		componentName: "InterfaceAll",
 		component: () => import("../containers/Project/Interface/InterfaceAll.js")
 	},
 	{
-		label: $t("接口-分类").label,
+		label: xI("接口-分类"),
 		path: "/project/interface/category",
 		componentName: "InterfaceCategory",
 		component: () =>
 			import("../containers/Project/Interface/InterfaceCategory.js")
 	},
 	{
-		label: $t("接口-详情").label,
+		label: xI("接口-详情"),
 		path: "/project/interface/detail",
 		componentName: "InterfaceDetail",
 		component: () =>
 			import("../containers/Project/Interface/InterfaceDetail.js")
 	},
 	{
-		label: $t("测试集").label,
+		label: xI("测试集"),
 		path: "/project/testcase",
 		componentName: "ProjectTestcase",
 		component: () =>
 			import("../containers/Project/TestCase/ProjectTestcase.js"),
 		meta: {
-			title: $t("测试集").label
+			title: xI("测试集")
 		}
 	},
 	{
-		label: $t("测试集-全部").label,
+		label: xI("测试集-全部"),
 		path: "/project/testcase/all",
 		componentName: "ProjectTestcaseAll",
 		component: () =>
 			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
 	},
 	{
-		label: $t("测试集-分类").label,
+		label: xI("测试集-分类"),
 		path: "/project/testcase/category",
 		componentName: "ProjectTestcaseAll",
 		component: () =>
 			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
 	},
 	{
-		label: $t("测试集-详情").label,
+		label: xI("测试集-详情"),
 		path: "/project/testcase/detail",
 		componentName: "ProjectTestcaseAll",
 		component: () =>
 			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
 	},
 	{
-		label: $t("动态").label,
+		label: xI("动态"),
 		path: "/project/activity",
 		component: ViewNotFound,
 		meta: {
-			title: $t("动态").label
+			title: xI("动态")
 		}
 	},
 	{
-		label: $t("数据管理").label,
+		label: xI("数据管理"),
 		path: "/project/data",
 		component: ViewNotFound,
 		meta: {
-			title: $t("数据管理").label
+			title: xI("数据管理")
 		}
 	},
 	{
-		label: $t("成员管理").label,
+		label: xI("成员管理"),
 		path: "/project/members",
 		component: ViewNotFound,
 		meta: {
-			title: $t("成员管理").label
+			title: xI("成员管理")
 		}
 	},
 	{
-		label: $t("设置").label,
+		label: xI("设置"),
 		path: "/project/setting",
 		component: () => import("../containers/Project/Setting/ProjectSetting.js"),
 		meta: {
-			title: $t("设置").label
+			title: xI("设置")
 		}
 	},
 	{
@@ -163,7 +163,7 @@ export const routes = [
 		path: "/:pathMatch(.*)*",
 		component: ViewNotFound,
 		meta: {
-			title: $t("NotFound").label
+			title: xI("NotFound")
 		}
 	}
 ];
@@ -184,7 +184,7 @@ type type_url = {
 };
 
 export const Cpt_url: ComputedRef<type_url> = computed(() => {
-	const urlHash = State_App.urlHash || "/";
+	const urlHash = stateApp.urlHash || "/";
 	const { origin } = location;
 
 	let _url = {};

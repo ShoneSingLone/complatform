@@ -1,9 +1,9 @@
 //@ts-nocheck
-import { $, xU, UI } from "@ventose/ui";
+import { $, xU, UI } from "@/ventose/ui";
 import { defineAsyncComponent, defineComponent } from "vue";
 import { PreprocessHTML, MkitTheme } from "@/components/Mkit/MkitTheme";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import "./TuiEditor.less";
 
 export const TuiEditor = defineAsyncComponent(async () => {
@@ -23,7 +23,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 			const src = (() => {
 				const [_, id] = String(destination).match(/^_id:(\d+)/) || [];
 				if (id) {
-					return `${State_App.baseURL}/api/resource/get?id=${id}`;
+					return `${stateApp.baseURL}/api/resource/get?id=${id}`;
 				} else {
 					return destination;
 				}

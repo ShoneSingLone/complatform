@@ -6,11 +6,11 @@ import {
 	defItem,
 	xU,
 	setValueTo,
-	$t
-} from "@ventose/ui";
+	xI
+} from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import {
 	Methods_ProjectInterface,
 	State_ProjectInterface
@@ -32,7 +32,7 @@ export const DialogAddArticle = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, Cpt_url };
 	},
 	data() {
 		const vm = this;
@@ -40,8 +40,8 @@ export const DialogAddArticle = defineComponent({
 			dataXItem: {
 				title: defItem({
 					value: "",
-					label: $t("文档名称").label,
-					placeholder: $t("文档名称").label,
+					label: xI("文档名称"),
+					placeholder: xI("文档名称"),
 					rules: [FormRules.required()]
 				})
 			}
@@ -99,7 +99,7 @@ export const DialogAddArticle = defineComponent({
 				<div class="x-dialog-boddy-wrapper">
 					<xGap t="10" />
 					<ElAlert
-						title={this.$t("保存标题后再编辑文档内容").label}
+						title={this.xI("保存标题后再编辑文档内容")}
 						type="info"
 						closable
 						class="width100"

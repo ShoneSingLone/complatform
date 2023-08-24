@@ -1,10 +1,10 @@
 import { defineComponent } from "vue";
-import { $, xU, UI, compositionAPI, $t } from "@ventose/ui";
+import { $, xU, UI, compositionAPI, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
 import { Cpt_url } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { stateI18n } from "./State_i18n";
 
 const { usefnObserveDomResize } = compositionAPI;
@@ -21,7 +21,7 @@ export const I18nLeftSider = defineComponent({
 			usefnObserveDomResize();
 		return {
 			State_Wiki: stateI18n,
-			State_App,
+			stateApp,
 			Cpt_url,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -71,7 +71,7 @@ export const I18nLeftSider = defineComponent({
 	computed: {
 		btnAddNew() {
 			return {
-				text: $t("新增").label,
+				text: xI("新增"),
 				onClick: () => this.openDialogUpsertI18nRecord()
 			};
 		},
@@ -124,7 +124,7 @@ export const I18nLeftSider = defineComponent({
 
 								const handleClick = () => {
 									stateI18n.isLoading = true;
-									vm.Cpt_url.go("/i18n", { wiki_id: item.data._id });
+									vm.Cpt_url.go("/xI", { wiki_id: item.data._id });
 									vm.$emit("change");
 									setTimeout(() => {
 										/* 内网环境，数据3秒都回不来，就有点呵呵了 */
@@ -145,14 +145,14 @@ export const I18nLeftSider = defineComponent({
 										<div class="x-sider-tree_menu_opration">
 											{genIcon({
 												icon: "add",
-												tips: vm.$t("添加").label,
+												tips: vm.xI("添加"),
 												clickHandler: () =>
 													vm.openDialogUpsertI18nRecord(item.data)
 											})}
 											{canDelete &&
 												genIcon({
 													icon: "delete",
-													tips: vm.$t("删除").label,
+													tips: vm.xI("删除"),
 													clickHandler: () => vm.deleteArticle(_id)
 												})}
 										</div>
@@ -218,7 +218,7 @@ export const I18nLeftSider = defineComponent({
 					belong_type: "all"
 				});
 				await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-				UI.message.success($t("更新成功").label);
+				UI.message.success(xI("更新成功"));
 			} catch (error) {
 				UI.message.error(error.message);
 			}
@@ -241,7 +241,7 @@ export const I18nLeftSider = defineComponent({
 						await API.wiki.delete(_id);
 						UI.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						vm.Cpt_url.go("/i18n", {
+						vm.Cpt_url.go("/xI", {
 							wiki_id: xU.first(stateI18n.i18nRecordArray)?._id
 						});
 					} catch (error) {
@@ -253,7 +253,7 @@ export const I18nLeftSider = defineComponent({
 		},
 		openDialogUpsertI18nRecord(record) {
 			UI.dialog.component({
-				title: this.$t("添加记录").label,
+				title: this.xI("添加记录"),
 				record,
 				component: DialogUpsertI18nRecord
 			});

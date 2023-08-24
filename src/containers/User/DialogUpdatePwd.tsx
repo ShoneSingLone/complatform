@@ -7,13 +7,13 @@ import {
 	pickValueFrom,
 	UI,
 	defFormConfigs,
-	$t,
+	xI,
 	EVENT_TYPE
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
 
 export const DialogUpdatePwd = defineComponent({
@@ -27,7 +27,7 @@ export const DialogUpdatePwd = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		const vm = this;
@@ -56,11 +56,11 @@ export const DialogUpdatePwd = defineComponent({
 					placeholder: "确认新密码",
 					isPassword: true,
 					rules: [
-						FormRules.required($t("请再次输入密码!").label),
+						FormRules.required(xI("请再次输入密码!")),
 						newRule({
 							validator: async confirm => {
 								if (vm.dataXItem.password.value !== confirm) {
-									return $t("两次输入的密码不一致!").label;
+									return xI("两次输入的密码不一致!");
 								}
 								return "";
 							},
@@ -93,7 +93,7 @@ export const DialogUpdatePwd = defineComponent({
 		async onOk() {
 			if (!(await itemsInvalid())) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
-				const project_id = this.State_App.currProject._id;
+				const project_id = this.stateApp.currProject._id;
 				try {
 					if (this.category) {
 						await this.updateOldCategory({ name, desc, project_id });
@@ -104,9 +104,9 @@ export const DialogUpdatePwd = defineComponent({
 					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {
-						UI.message.error(this.$t("修改_失败", { title: "分类" }).label);
+						UI.message.error(this.xI("修改_失败", { title: "分类" }).label);
 					} else {
-						UI.message.error(this.$t("添加_失败", { title: "分类" }).label);
+						UI.message.error(this.xI("添加_失败", { title: "分类" }).label);
 					}
 				}
 			}
@@ -118,7 +118,7 @@ export const DialogUpdatePwd = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.$t("添加_成功", { title: "分类" }).label);
+				UI.message.success(this.xI("添加_成功", { title: "分类" }).label);
 			} else {
 				throw new Error("");
 			}
@@ -131,7 +131,7 @@ export const DialogUpdatePwd = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.$t("修改_成功", { title: "分类" }).label);
+				UI.message.success(this.xI("修改_成功", { title: "分类" }).label);
 			} else {
 				throw new Error("");
 			}

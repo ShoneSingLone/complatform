@@ -385,9 +385,9 @@ class UpDateModal extends Component {
 
 					{formItems}
 					<FormItem {...formItemLayoutWithOutLabel}>
-						<ElButton type="dashed" onClick={this.add} style={{ width: "60%" }}>
+						<xButton type="dashed" onClick={this.add} style={{ width: "60%" }}>
 							<xIcon icon="plus" /> 添加环境配置
-						</ElButton>
+						</xButton>
 					</FormItem>
 				</Form>
 			</aModal>

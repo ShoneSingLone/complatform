@@ -1,8 +1,8 @@
-import { itemsInvalid, AllWasWell, pickValueFrom, UI, $t } from "@ventose/ui";
-import { defItem, xU, setValueTo } from "@ventose/ui";
+import { itemsInvalid, AllWasWell, pickValueFrom, UI, xI } from "@/ventose/ui";
+import { defItem, xU, setValueTo } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "../../../api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { EnvSelectRender } from "./DialogModifyInterface.Helper";
 import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
@@ -18,10 +18,10 @@ export const DialogInterfaceProxyModify = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	watch: {
-		"State_App.currProject": {
+		"stateApp.currProject": {
 			immediate: true,
 			deep: true,
 			handler(currProject) {
@@ -35,7 +35,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 			dataXItem: {
 				isProxy: defItem({
 					value: false,
-					label: vm.$t("是否开启转发").label,
+					label: vm.xI("是否开启转发"),
 					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
@@ -43,7 +43,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 					isShow() {
 						return vm.dataXItem.isProxy.value;
 					},
-					label: vm.$t("转发环境").label,
+					label: vm.xI("转发环境"),
 					value: "",
 					options: [],
 					setOptions(envArray) {
@@ -90,9 +90,9 @@ export const DialogInterfaceProxyModify = defineComponent({
 					);
 					Methods_ProjectInterface.updateInterfaceMenuList();
 					this.propOptions.$close();
-					UI.message.success(this.$t("修改_成功", { title: "代理" }).label);
+					UI.message.success(this.xI("修改_成功", { title: "代理" }).label);
 				} catch (error) {
-					UI.message.error(this.$t("修改_失败", { title: "代理" }).label);
+					UI.message.error(this.xI("修改_失败", { title: "代理" }).label);
 				}
 			}
 		}

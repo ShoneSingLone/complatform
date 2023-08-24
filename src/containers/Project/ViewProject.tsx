@@ -1,10 +1,10 @@
-import { xU, $t } from "@ventose/ui";
+import { xU, xI } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { resetStateInterface } from "./Interface/State_ProjectInterface";
 import "./ViewProject.scss";
 import { RouterView } from "@/components/RouterView/RouterView";
 import { Cpt_url, ProjectChildren, aHashLink } from "@/router/router";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
@@ -14,7 +14,7 @@ export const ViewProject = defineComponent({
 		/* 以project为root，共享数据随project生命周期重置 */
 		resetStateInterface();
 		return {
-			State_App,
+			stateApp,
 			Cpt_url
 		};
 	},
@@ -49,7 +49,7 @@ export const ViewProject = defineComponent({
 	computed: {},
 	render() {
 		/* 如果没有projectId 则重定向到group */
-		if (!this.State_App.currProject._id) {
+		if (!this.stateApp.currProject._id) {
 			return (
 				<div v-xloading="true" class="flex vertical middle center height100" />
 			);
@@ -67,7 +67,7 @@ export const ViewProject = defineComponent({
 						style={this.styleLogo}
 						target="_black">
 						<xIcon icon="wikidoc" style={this.styleLogo} />
-						<span>{$t("项目文档").label}</span>
+						<span>{xI("项目文档")}</span>
 					</a>
 					{xU.map(this.ProjectChildren, (item, index) => {
 						return (

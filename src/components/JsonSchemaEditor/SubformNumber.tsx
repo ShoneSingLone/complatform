@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 
 export const numberNeedProps = [
 	"default",

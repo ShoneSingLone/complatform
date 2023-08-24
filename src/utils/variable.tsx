@@ -1,4 +1,4 @@
-import { State_UI } from "@ventose/ui";
+import { stateUI } from "@/ventose/ui";
 
 export const TAB_KEY_PROJECT_LIST = "项目列表";
 export const TAB_KEY_MEMBER_LIST = "成员列表";
@@ -36,7 +36,7 @@ export const BODY = "body";
 export const DefaultInterfaceMenu = [
 	{
 		_id: ALL,
-		title: State_UI.$t("全部接口").label,
+		title: stateUI.xI("全部接口"),
 		menuType: ALL,
 		list: []
 	}

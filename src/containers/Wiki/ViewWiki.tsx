@@ -4,7 +4,7 @@ import { WikiLeftSider } from "./WikiLeftSider";
 import { State_Wiki, Methods_Wiki, cpt_wikiBelongType } from "./State_Wiki";
 import { TuiEditor } from "@/components";
 import { API } from "@/api/index";
-import { xU, $t, UI, defItem } from "@ventose/ui";
+import { xU, xI, UI, defItem } from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";
 
 export const ViewWiki = defineComponent({
@@ -42,7 +42,7 @@ export const ViewWiki = defineComponent({
 				await API.wiki.upsertOne(params);
 				Methods_Wiki.updateWikiMenuList();
 				Methods_Wiki.setCurrentWiki(params._id, params);
-				UI.message.success($t("保存成功").label);
+				UI.message.success(xI("保存成功"));
 				this.titleConfigs.value = "";
 				this.isReadonly = true;
 			} catch (error) {
@@ -55,7 +55,7 @@ export const ViewWiki = defineComponent({
 	computed: {
 		btnEditOrSave() {
 			return {
-				text: this.isReadonly ? $t("编辑").label : $t("保存").label,
+				text: this.isReadonly ? xI("编辑").label : xI("保存"),
 				type: "primary",
 				isShow: () => !!State_Wiki.currentWiki?._id,
 				onClick: () => {
@@ -70,7 +70,7 @@ export const ViewWiki = defineComponent({
 		},
 		btnCancel() {
 			return {
-				text: $t("取消").label,
+				text: xI("取消"),
 				isShow: () => {
 					return !this.isReadonly;
 				},

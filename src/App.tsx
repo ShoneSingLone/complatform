@@ -5,10 +5,10 @@ import "./style.less";
 import { defineComponent } from "vue";
 import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
-import { Cpt_url } from "./router/router";
-import { Methods_App, State_App } from "./state/State_App";
+import { Cpt_url } from "@/router/router";
+import { Methods_App, stateApp } from "@/state/app";
 import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
-import { $ } from "@ventose/ui";
+import { $ } from "@/ventose/ui";
 import { RouterView } from "./components/RouterView/RouterView";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 
@@ -17,7 +17,7 @@ export default defineComponent({
 	setup() {
 		return {
 			Cpt_url,
-			State_App
+			stateApp
 		};
 	},
 	data() {
@@ -58,7 +58,7 @@ export default defineComponent({
 	},
 	render() {
 		return (
-			<ElConfigProvider size={State_App.globalSize} locale={zhCn}>
+			<ElConfigProvider size={stateApp.globalSize} locale={zhCn}>
 				<AppHeader data-view-id="AppHeader" />
 				<RouterView
 					guards={this.routerViewGuards}

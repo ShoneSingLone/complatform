@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { Cpt_url } from "../router/router";
+import { Cpt_url } from "@/router/router";
 
 export const ViewNotFound = defineComponent({
 	props: ["pathname"],
@@ -26,9 +26,9 @@ export const ViewNotFound = defineComponent({
 			<ElResult icon="error" title="404" subTitle={this.pathname} class="flex1">
 				{{
 					extra: () => (
-						<ElButton type="primary" onClick={this.goHome}>
-							{this.$t("BackHome").label}
-						</ElButton>
+						<xButton type="primary" onClick={this.goHome}>
+							{this.xI("BackHome")}
+						</xButton>
 					)
 				}}
 			</ElResult>

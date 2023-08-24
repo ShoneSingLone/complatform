@@ -148,13 +148,13 @@ class Reg extends Component {
 
 				{/* 注册按钮 */}
 				<FormItem style={formItemStyle}>
-					<ElButton
+					<xButton
 						style={changeHeight}
 						type="primary"
 						htmlType="submit"
 						class="login-form-button">
 						注册
-					</ElButton>
+					</xButton>
 				</FormItem>
 			</Form>
 		);

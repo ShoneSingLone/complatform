@@ -1,14 +1,14 @@
-import { xU, pickValueFrom, itemsInvalid, defItem } from "@ventose/ui";
+import { xU, pickValueFrom, itemsInvalid, defItem } from "@/ventose/ui";
 import { defineComponent } from "vue";
-import { UI, State_UI } from "@ventose/ui";
+import { UI, stateUI } from "@/ventose/ui";
 import { API } from "@/api";
-import { Methods_App, State_App } from "@/state/State_App";
+import { Methods_App, stateApp } from "@/state/app";
 import { DialogEditGroup } from "./DialogEditGroup";
 import { DialogAddGroup } from "./DialogAddGroup";
-import { Cpt_url } from "./../../../router/router";
+import { Cpt_url } from "@/router/router";
 import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
 
-const { $t } = State_UI;
+const { xI } = stateUI;
 
 export async function fnUpsertGroupInfo(formData = {}) {
 	const { id } = formData;
@@ -19,9 +19,9 @@ export async function fnUpsertGroupInfo(formData = {}) {
 	}
 	/*TODO:*/
 	await Methods_App.fetchGroupList();
-	await Methods_App.setCurrGroup(State_App.currGroup._id);
+	await Methods_App.setCurrGroup(stateApp.currGroup._id);
 	await Methods_App.fetchNewsData({
-		id: State_App.currGroup._id,
+		id: stateApp.currGroup._id,
 		type: "group"
 	});
 }
@@ -30,14 +30,14 @@ export function fnShowUpsertGroupDialog(row = {}) {
 	const vm = this;
 	const isUpdate = !!row._id;
 	UI.dialog.component({
-		title: isUpdate ? $t("修改分组信息").label : $t("添加分组").label,
+		title: isUpdate ? xI("修改分组信息").label : xI("添加分组"),
 		component: isUpdate ? DialogEditGroup : DialogAddGroup,
 		// fullscreen: true,
 		maxmin: true,
 		row,
 		area: (() => {
 			if (isUpdate) {
-				if (State_App.user.role === ADMIN) {
+				if (stateApp.user.role === ADMIN) {
 					return ["840px", "648px"];
 				} else {
 					return ["840px", "448px"];
@@ -110,8 +110,8 @@ export const GroupLeftSider = defineComponent({
 		"setGroupList",
 		"match",
 		"history",
-		"State_App.user.role",
-		"State_App.user.roleInGroup",
+		"stateApp.user.role",
+		"stateApp.user.roleInGroup",
 		"studyTip",
 		"study",
 		"fetchNewsData",
@@ -120,7 +120,7 @@ export const GroupLeftSider = defineComponent({
 	setup() {
 		return {
 			Cpt_url,
-			State_App,
+			stateApp,
 			fnShowUpsertGroupDialog,
 			fnUpsertGroupInfo
 		};
@@ -128,7 +128,7 @@ export const GroupLeftSider = defineComponent({
 	data() {
 		const vm = this;
 		vm.searchGroup = xU.debounce(() => {
-			const { groupList } = State_App;
+			const { groupList } = stateApp;
 			const keywords = vm.configsSearch.value;
 			let groupListForShow;
 
@@ -143,15 +143,40 @@ export const GroupLeftSider = defineComponent({
 					"privateSpace"
 				);
 				groupListForShow = [
-					privateSpace[0],
+					{
+						...privateSpace[0],
+						icon: "icon_group_personal"
+					},
 					{
 						group_name: "分组成员",
+						icon: "icon_group_include",
 						children: [
-							{ group_name: "所有者", children: otherOwner },
-							{ group_name: "开发者", children: member }
+							{
+								group_name: "所有者",
+								icon: "icon_group_include",
+								children: xU.map(otherOwner, i => ({
+									...i,
+									icon: "icon_group_include_owner"
+								}))
+							},
+							{
+								group_name: "开发者",
+								icon: "icon_group_include",
+								children: xU.map(member, i => ({
+									...i,
+									icon: "icon_group_include_member"
+								}))
+							}
 						]
 					},
-					{ group_name: "非分组成员", children: notInGroup }
+					{
+						group_name: "非分组成员",
+						icon: "icon_group_exclude",
+						children: xU.map(notInGroup, i => ({
+							...i,
+							icon: "icon_group_exclude"
+						}))
+					}
 				];
 			} else {
 				groupListForShow = xU.filter(groupList, group =>
@@ -201,7 +226,7 @@ export const GroupLeftSider = defineComponent({
 
 	async mounted() {
 		await this.initGroupList();
-		await Methods_App.setCurrGroup(this.State_App.currGroup._id);
+		await Methods_App.setCurrGroup(this.stateApp.currGroup._id);
 	},
 	methods: {
 		setElScrollbarHeight: xU.debounce(function ({ height }) {
@@ -230,13 +255,13 @@ export const GroupLeftSider = defineComponent({
 			/*当前用户在当前group的角色是owner*/
 			const isGroupRoleAuth = group.role === OWNER;
 			/*超级管理员*/
-			const isUserRoleAuth = State_App.user.role === ADMIN;
+			const isUserRoleAuth = stateApp.user.role === ADMIN;
 
 			if (isGroupRoleAuth || isUserRoleAuth) {
 				return (
 					<xIcon
 						v-uiPopover={{
-							content: vm.$t("修改分组信息").label,
+							content: vm.xI("修改分组信息"),
 							placement: "top"
 						}}
 						class="group-menu-icon editSet pointer"
@@ -250,16 +275,11 @@ export const GroupLeftSider = defineComponent({
 			}
 		},
 		getVDomGroupName({ group }) {
-			let icon = "icon_group";
-			if (group.type === PRIVATE) {
-				icon = "user";
-			}
-
 			return (
 				<div
 					class="flex1 flex middle"
 					onClick={() => this.selectGroup(group._id)}>
-					<xIcon class="x-sider-tree_menu_icon" icon={icon} />
+					<xIcon class="x-sider-tree_menu_icon" icon={group.icon} />
 					<div class="x-sider-tree_menu_title">{group.group_name}</div>
 				</div>
 			);
@@ -283,13 +303,12 @@ export const GroupLeftSider = defineComponent({
 			return {
 				"x-sider-tree_menu": true,
 				"x-sider-tree_menu_active":
-					State_App.currGroup._id &&
-					xU.isSame(State_App.currGroup._id, group._id)
+					stateApp.currGroup._id && xU.isSame(stateApp.currGroup._id, group._id)
 			};
 		}
 	},
 	watch: {
-		"State_App.groupList"() {
+		"stateApp.groupList"() {
 			this.searchGroup();
 		}
 	},
@@ -322,7 +341,7 @@ export const GroupLeftSider = defineComponent({
 					<ElScrollbar height={this.elScrollbarHeight}>
 						<ElTree
 							v-xloading={vm.groupListForShow.length === 0}
-							v-model:expandedKeys={State_App.expandedKeys.group}
+							v-model:expandedKeys={stateApp.expandedKeys.group}
 							data={vm.groupListForShow}
 							node-key="_id"
 							expand-on-click-node={false}

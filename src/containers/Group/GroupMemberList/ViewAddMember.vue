@@ -14,11 +14,11 @@
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { xU, defItem, State_UI } from "@ventose/ui";
+import { xU, defItem, stateUI } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { ItemUAC } from "@/components/ItemRender/ItemUAC";
 
-const { $t } = State_UI;
+const { xI } = stateUI;
 
 export default defineComponent({
 	props: {
@@ -37,13 +37,13 @@ export default defineComponent({
 				member_uids: defItem({
 					value: [],
 					itemType: ItemUAC,
-					label: $t("用户名").label,
+					label: xI("用户名"),
 					rules: [FormRules.required()]
 				}),
 				role: defItem({
 					value: "dev",
 					itemType: "Select",
-					label: $t("权限").label,
+					label: xI("权限"),
 					rules: [FormRules.required()],
 					options: [
 						{ label: "组长", value: "owner" },

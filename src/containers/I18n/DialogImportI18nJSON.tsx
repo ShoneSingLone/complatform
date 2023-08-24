@@ -1,4 +1,4 @@
-import { UI, xU, $t, defCol, defXVirTableConfigs } from "@ventose/ui";
+import { UI, xU, xI, defCol, defXVirTableConfigs } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateI18n } from "./State_i18n";
@@ -30,7 +30,7 @@ export const DialogImportI18nJSON = defineComponent({
 		},
 		configsBtnUpdateExistedRecord() {
 			return {
-				text: $t("覆盖").label,
+				text: xI("覆盖"),
 				disabled: () => {
 					return !xU.isArrayFill(
 						this?.raw$configsTableExistedRecords?.selected
@@ -95,7 +95,7 @@ export const DialogImportI18nJSON = defineComponent({
 						}
 					}),
 					...defCol({
-						label: $t("描述").label,
+						label: xI("描述"),
 						width: "80px",
 						prop: "desc",
 						renderCell({ record }) {
@@ -103,7 +103,7 @@ export const DialogImportI18nJSON = defineComponent({
 						}
 					}),
 					...defCol({
-						label: $t("diff").label,
+						label: xI("diff"),
 						prop: "different",
 						renderCell({ record }) {
 							let valueArray, desc;
@@ -121,7 +121,7 @@ export const DialogImportI18nJSON = defineComponent({
 								desc = record?.diffRes?.desc;
 								desc = (
 									<xInfoDiffCard
-										title={$t("描述").label}
+										title={xI("描述")}
 										old={desc[1]}
 										new={desc[0]}
 									/>
@@ -196,7 +196,7 @@ export const DialogImportI18nJSON = defineComponent({
 					</p>
 					<p class="ant-upload-text">
 						{/* Click or drag file to this area to upload */}
-						{$t("单击或拖动文件到此区域进行上传").label}
+						{xI("单击或拖动文件到此区域进行上传")}
 					</p>
 				</aUploadDragger>
 			</div>

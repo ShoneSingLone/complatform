@@ -7,8 +7,8 @@ import {
 	UI,
 	itemsInvalid,
 	xU,
-	State_UI
-} from "@ventose/ui";
+	stateUI
+} from "@/ventose/ui";
 import { API } from "../../../api";
 import optionsXIcon from "@/utils/common.options.xIcon";
 import {
@@ -20,7 +20,7 @@ import {
 	PROJECT_ICON,
 	PUBLIC
 } from "@/utils/variable";
-import { Methods_App, State_App } from "@/state/State_App";
+import { Methods_App, stateApp } from "@/state/app";
 import { FormRules } from "@/utils/common.FormRules";
 import { _$handlePath, _$randomValueAndProp } from "@/utils/common";
 
@@ -77,7 +77,7 @@ export const xItem_ProjectGroupId = (options: any = {}, vm) => {
 		label: "所属分组",
 		placeholder: "请选择项目所属的分组",
 		itemType: "Select",
-		options: xU.map(State_App.groupList, i => {
+		options: xU.map(stateApp.groupList, i => {
 			return {
 				label: i.group_name,
 				value: String(i._id),
@@ -115,7 +115,7 @@ export const xItem_ProjectColor = (options: any = {}) => {
 		value,
 		prop: "color",
 		itemType: "Select",
-		label: State_UI.$t("icon背景颜色").label,
+		label: stateUI.xI("icon背景颜色"),
 		rules: [FormRules.required()],
 		options: xU.map(PROJECT_COLOR, background => {
 			return {
@@ -150,7 +150,7 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 		value,
 		prop: "icon",
 		itemType: "Select",
-		label: State_UI.$t("图标").label,
+		label: stateUI.xI("图标"),
 		rules: [FormRules.required()],
 		options: xU.map(optionsXIcon, value => {
 			return {
@@ -175,7 +175,7 @@ export const xItem_ProjectName = (options: any = {}) => {
 
 	const rules = [
 		FormRules.required("请输入项目名称"),
-		FormRules.nameLength({ label: State_UI.$t("项目").label })
+		FormRules.nameLength({ label: stateUI.xI("项目") })
 	];
 
 	if (xU.isArray(appendRules)) {
@@ -216,7 +216,7 @@ export const DialogAddProject = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		const vm = this;
@@ -244,10 +244,10 @@ export const DialogAddProject = defineComponent({
 		async init() {
 			Methods_App.setBreadcrumb([{ name: "新建项目" }]);
 
-			if (!State_App.currGroup._id) {
+			if (!stateApp.currGroup._id) {
 				await Methods_App.fetchGroupList();
 			}
-			if (State_App.groupList.length === 0) {
+			if (stateApp.groupList.length === 0) {
 				return null;
 			}
 		},

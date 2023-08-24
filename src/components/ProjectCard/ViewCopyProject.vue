@@ -21,7 +21,7 @@ import {
 	pickValueFrom,
 	UI,
 	itemsInvalid
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import {
 	xItem_ProjectIcon,
@@ -63,7 +63,7 @@ export default defineComponent({
 		},
 		dialogDefautBtn() {
 			return {
-				textOk: this.$t("复制").label,
+				textOk: this.xI("复制"),
 				onCancel: this.propOptions.$close,
 				onOk: this.onOk
 			};

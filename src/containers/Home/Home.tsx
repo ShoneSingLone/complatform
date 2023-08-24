@@ -1,8 +1,8 @@
 import { LogoSVG } from "@/components/LogoSVG";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "@/state/State_App";
-import { $ } from "@ventose/ui";
-import { Cpt_url } from "./../../router/router";
+import { Methods_App, stateApp } from "@/state/app";
+import { $ } from "@/ventose/ui";
+import { Cpt_url } from "@/router/router";
 
 const TipTitle = () => {
 	return (
@@ -17,20 +17,20 @@ const TipBtns = () => {
 	return (
 		<div class="tip-btns">
 			<div class="btn-group">
-				<ElButton
+				<xButton
 					type="primary"
 					class="btn-home btn-login"
 					onClick={() => Cpt_url.value.go("/login")}>
 					登录 / 注册
-				</ElButton>
-				<ElButton class="btn-home btn-home-normal">
+				</xButton>
+				<xButton class="btn-home btn-home-normal">
 					<a
 						target="_blank"
 						rel="noopener noreferrer"
 						href="https://hellosean1025.github.io/yapi">
 						使用文档
 					</a>
-				</ElButton>
+				</xButton>
 			</div>
 		</div>
 	);
@@ -79,12 +79,12 @@ const HomeGuest = params => {
 									</span>
 								</div>
 								<div class="btn-group">
-									<ElButton
+									<xButton
 										type="primary"
 										class="btn-home btn-login"
 										onClick={() => Cpt_url.value.go("/login")}>
 										登录 / 注册
-									</ElButton>
+									</xButton>
 									{/* {ThirdLogin ? <ThirdLogin /> : null} */}
 								</div>
 							</div>
@@ -369,7 +369,7 @@ export default defineComponent({
 		return {};
 	},
 	mounted() {
-		if (State_App.user.isLogin) {
+		if (stateApp.user.isLogin) {
 		}
 		$("#app").css("overflow", "auto");
 	},

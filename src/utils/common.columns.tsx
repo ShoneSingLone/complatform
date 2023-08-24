@@ -1,18 +1,18 @@
 import { ICON_STRATEGE } from "@/components/JsonSchemaEditor/SchemaEditor";
-import { State_UI, defCol, $t, xU } from "@ventose/ui";
+import { stateUI, defCol, xI, xU } from "@/ventose/ui";
 import { ITEM_OPTIONS_VDOM } from "./common.options";
 
 export const colParamsName = () =>
 	defCol({
 		prop: "name",
-		label: $t("参数名称").label
+		label: xI("参数名称")
 	});
 export const colRemark = (options = {}) =>
 	defCol(
 		xU.merge(
 			{
 				prop: "desc",
-				label: $t("备注").label
+				label: xI("备注")
 			},
 			options
 		)
@@ -20,7 +20,7 @@ export const colRemark = (options = {}) =>
 export const colRequired = () =>
 	defCol({
 		prop: "required",
-		label: $t("是否必须").label,
+		label: xI("是否必须"),
 		width: "100px",
 		renderCell: ({ record }) => {
 			const vDom = ITEM_OPTIONS_VDOM.required(record.required || "0");
@@ -30,11 +30,11 @@ export const colRequired = () =>
 export const colExample = defCol({
 	prop: "example",
 	width: "100px",
-	label: $t("示例").label
+	label: xI("示例")
 });
 export const colType = defCol({
 	prop: "type",
-	label: $t("参数类型").label,
+	label: xI("参数类型"),
 	width: "100px",
 	renderCell: ({ record }) => {
 		const { type } = record;
@@ -55,5 +55,5 @@ export const colType = defCol({
 
 export const colValue = defCol({
 	prop: "value",
-	label: $t("参数值").label
+	label: xI("参数值")
 });

@@ -5,7 +5,7 @@ import {
 	defXVirTableConfigs,
 	UI,
 	xU
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { defineComponent, markRaw, reactive, watch } from "vue";
 import { DialogBulkValues } from "./DialogBulkValues";
@@ -52,7 +52,7 @@ export const QueryParamsForm = defineComponent({
 	methods: {
 		openBulkValuesDialog() {
 			UI.dialog.component({
-				title: this.$t("批量添加参数").label,
+				title: this.xI("批量添加参数"),
 				component: DialogBulkValues,
 				formValues: xU.map(this.configs_table.dataSource, i => {
 					return {
@@ -93,14 +93,14 @@ export const QueryParamsForm = defineComponent({
 					].join("\n"),
 				columns: {
 					...defCol({
-						label: vm.$t("名称").label,
+						label: vm.xI("名称"),
 						prop: "name",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.name} />
 						)
 					}),
 					...defCol({
-						label: vm.$t("必需").label,
+						label: vm.xI("必需"),
 						prop: "required",
 						width: "110px",
 						renderCell: ({ record }) =>
@@ -113,21 +113,21 @@ export const QueryParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("示例").label,
+						label: vm.xI("示例"),
 						prop: "example",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
-						label: vm.$t("备注").label,
+						label: vm.xI("备注"),
 						prop: "desc",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.desc} />
 						)
 					}),
 					...defCol({
-						label: vm.$t("操作").label,
+						label: vm.xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,
@@ -149,9 +149,9 @@ export const QueryParamsForm = defineComponent({
 		return (
 			<>
 				<div class="flex middle">
-					<ElButton class="mb10" onClick={this.addRow}>
+					<xButton class="mb10" onClick={this.addRow}>
 						添加一行
-					</ElButton>
+					</xButton>
 					<xGap f="1" />
 					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
 						批量添加

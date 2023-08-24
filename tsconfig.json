@@ -17,9 +17,6 @@
             "@/*": [
                 "./src/*"
             ],
-            "@ventose/ui": [
-                "./src/element/ui"
-            ]
         }
     },
 }

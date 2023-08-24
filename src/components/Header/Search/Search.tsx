@@ -3,7 +3,7 @@ import "./Search.scss";
 import axios from "axios";
 
 import { defineComponent } from "vue";
-import { Methods_App } from "@/state/State_App";
+import { Methods_App } from "@/state/app";
 
 // @withRouter
 export default defineComponent({

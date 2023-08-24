@@ -1,4 +1,4 @@
-import { defItem, xU } from "@ventose/ui";
+import { defItem, xU } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { JsonSchemaMonaco } from "../components/JsonSchemaEditor/JsonSchemaMonaco";
 import { ITEM_OPTIONS } from "@/utils/common.options";

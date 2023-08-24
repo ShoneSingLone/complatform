@@ -2,7 +2,7 @@ import "./Login.scss";
 import LoginForm from "./LoginForm.vue";
 import RegForm from "./RegForm";
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { types } from "sass";
 import Boolean = types.Boolean;
 import { useElementSize } from "@vueuse/core";
@@ -21,19 +21,19 @@ export default defineComponent({
 	},
 	setup() {
 		const { height } = useElementSize();
-		return { State_App: State_App };
+		return { stateApp: stateApp };
 	},
 	render() {
 		/** show only login when register is disabled */
 		return (
 			<div class="login-register-form">
 				<h2 class="login-title">YAPI</h2>
-				<ElTabs v-model={State_App.user.loginWrapActiveKey}>
+				<ElTabs v-model={stateApp.user.loginWrapActiveKey}>
 					<ElTabPane label="登录" name="1">
 						<LoginForm />
 					</ElTabPane>
 					<ElTabPane label="注册" name="2">
-						{State_App.user.canRegister ? (
+						{stateApp.user.canRegister ? (
 							<RegForm />
 						) : (
 							<div style={{ minHeight: 200 }}>

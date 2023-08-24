@@ -1,4 +1,4 @@
-import { $, State_UI, VentoseUIWithInstall, xU } from "@ventose/ui";
+import { $, stateUI, VentoseUIWithInstall, xU } from "@/ventose/ui";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { RouterView } from "../components/RouterView/RouterView";
@@ -40,9 +40,9 @@ export const appPlugins = {
 				app.component("CopyContent", CopyContent);
 				app.component("MonacoEditor", MonacoEditor);
 				//注册i8n实例并引入语言文件
-				app.config.globalProperties.$t = State_UI.$t;
-				State_UI.setAssetsBaseById("favicon-icon");
-				$("html").attr("lang", State_UI.language);
+				app.config.globalProperties.xI = stateUI.xI;
+				stateUI.setAssetsBaseById("favicon-icon");
+				$("html").attr("lang", stateUI.language);
 				watch && watch();
 			}
 		});

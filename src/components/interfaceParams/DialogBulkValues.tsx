@@ -2,15 +2,15 @@ import { defineComponent } from "vue";
 import {
 	xU,
 	defItem,
-	State_UI,
+	stateUI,
 	itemsInvalid,
 	AllWasWell,
 	pickValueFrom
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { MonacoEditor } from "../MonacoEditor/MonacoEditor";
 
-const { $t } = State_UI;
+const { xI } = stateUI;
 
 export const DialogBulkValues = defineComponent({
 	props: {

@@ -1,4 +1,4 @@
-import { $t, EVENT_TYPE, State_UI, xU } from "@ventose/ui";
+import { xI, EVENT_TYPE, stateUI, xU } from "@/ventose/ui";
 // 限制名称的字符长度(中文算两个长度)
 export const NAME_LIMIT = 100;
 
@@ -41,7 +41,7 @@ const FormRules = {
 		return newRule({
 			name: "required",
 			async validator(value) {
-				msg = msg || $t("必填项").label;
+				msg = msg || xI("必填项");
 				/*必填的简单验证*/
 				if (value) {
 					/*不为空数组*/
@@ -71,7 +71,7 @@ const FormRules = {
 				if (RegexFn.email().test(value)) {
 					return "";
 				}
-				return $t("请输入Email").label;
+				return xI("请输入Email");
 			}
 		});
 	},
@@ -88,7 +88,7 @@ const FormRules = {
 						return "";
 					}
 				} catch (error) {}
-				return $t(`以数组的形式["语言","language"]，按顺序填写对应国际化信息。`)
+				return xI(`以数组的形式["语言","language"]，按顺序填写对应国际化信息。`)
 					.label;
 			}
 		});
@@ -125,7 +125,7 @@ const FormRules = {
 			/* 可以根据校验修改提示信息 */
 			validator(path) {
 				if (path[0] !== "/") {
-					return $t("请输入合法路径").label;
+					return xI("请输入合法路径");
 				} else {
 					return "";
 				}
