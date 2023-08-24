@@ -1,4 +1,4 @@
-import { $, stateUI, VentoseUIWithInstall, xU } from "@/ventose/ui";
+import { $, stateUI, installVentoseUI, xU } from "@/ventose/ui";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { RouterView } from "../components/RouterView/RouterView";
@@ -7,13 +7,13 @@ import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
 import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { MarkdownIt as Mkit } from "@/components/Mkit/MarkdownIt";
-export { ITEM_OPTIONS } from "./common.options";
 import { vElementSize } from "@vueuse/components";
 
 dayjs.locale("zh-cn");
 // import "element-plus/theme-chalk/src/common/var.scss";
 // import "element-plus/theme-chalk/src/index.scss";
 import "../styles/element-theme.scss";
+import { stateApp } from "@/state/app";
 
 /**
  * 复用配置
@@ -21,13 +21,14 @@ import "../styles/element-theme.scss";
  * @param {*} param1
  * @returns
  */
-export const appPlugins = {
-	install: (app, options /*{dependState, appPlugins}*/) => {
+export const appUiPlugin = {
+	install: app => {
 		/* isUsePopover 全局监听 [data-ui-popover] */
-		app.use(VentoseUIWithInstall, {
-			appPlugins,
-			dependState: options.dependState
+		app.use(installVentoseUI, {
+			appUiPlugin,
+			appState: stateApp
 		});
+
 		app.use({
 			install: (app, { watch } = {}) => {
 				app.directive("ElementSize", vElementSize);
@@ -39,8 +40,6 @@ export const appPlugins = {
 				app.component("ErrMsg", ErrMsg);
 				app.component("CopyContent", CopyContent);
 				app.component("MonacoEditor", MonacoEditor);
-				//注册i8n实例并引入语言文件
-				app.config.globalProperties.xI = stateUI.xI;
 				stateUI.setAssetsBaseById("favicon-icon");
 				$("html").attr("lang", stateUI.language);
 				watch && watch();

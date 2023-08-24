@@ -134,7 +134,7 @@ export const GroupMemberList = defineComponent({
 			},
 			showAddMemberDialog() {
 				UI.dialog.component({
-					title: stateUI.xI("添加成员"),
+					title: xI("添加成员"),
 					component: ViewAddMember,
 					area: ["480px", "260px"],
 					onOk: async ({ formItems, $close }) => {

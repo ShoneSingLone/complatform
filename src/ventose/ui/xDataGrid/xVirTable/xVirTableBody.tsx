@@ -298,13 +298,13 @@ export const xVirTableBody = defineComponent({
 			let vDomChecked;
 			if (xU.isString(isDisabled)) {
 				isDisabled = true;
-				const uiPopoverConfigs = { content: isDisabled };
+				const xTipsConfigs = { content: isDisabled };
 				vDomChecked = (
 					<ElCheckbox
 						checked={isSelected}
 						onChange={handleChange}
 						disabled={true}
-						v-uiPopover={uiPopoverConfigs}
+						v-xTips={xTipsConfigs}
 					/>
 				);
 			} else {

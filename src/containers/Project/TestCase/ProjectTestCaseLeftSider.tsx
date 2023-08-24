@@ -17,7 +17,7 @@ const { usefnObserveDomResize } = compositionAPI;
 export const DefaultTestcaseMenu = [
 	{
 		_id: ALL,
-		title: stateUI.xI("全部用例"),
+		title: xI("全部用例"),
 		menuType: ALL,
 		list: []
 	}
@@ -144,7 +144,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											<xIcon
 												icon={icon}
 												class="x-sider-tree_menu_icon"
-												v-uiPopover={{ content: tips, delay: 1000 }}
+												v-xTips={{ content: tips, delay: 1000 }}
 												onClick={clickHandler}
 											/>
 											<xGap l="8" />

@@ -127,7 +127,7 @@ export const TagSelectRender = defineComponent({
 			const vDomOptions = xU.map(options, item => {
 				return (
 					<aSelectOption value={item.name} key={item.name}>
-						<span v-uiPopover={{ content: item.desc }}>{item.name}</span>
+						<span v-xTips={{ content: item.desc }}>{item.name}</span>
 					</aSelectOption>
 				);
 			});

@@ -140,7 +140,7 @@ export const MarkdownIt = defineComponent({
 					ref="markdown"
 					onClick={handleClick}
 					class="markdown-wrapper_description mt10"
-					v-uiPopover={this.configsPopoverChangeTheme}
+					v-xTips={this.configsPopoverChangeTheme}
 					innerHTML={this.html}
 					title="右键点击可以修改<code/>元素高亮样式"></div>
 				{/*  */}

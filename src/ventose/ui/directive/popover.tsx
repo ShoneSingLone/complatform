@@ -9,7 +9,7 @@ import {
 } from "../xSingle/layer/xLayer";
 import {
 	appAddPlugin,
-	appDependState,
+	appappState,
 	DATA_APP_ID,
 	TIPS_TARGET_ID,
 	X_TIPS_TARGET,
@@ -18,7 +18,7 @@ import {
 } from "./directiveState";
 
 type t_trigger = "click" | "rightClick";
-type t_uiPopoverOptions = {
+type t_xTipsOptions = {
 	content: string;
 	onlyEllipsis?: boolean;
 };
@@ -33,7 +33,7 @@ const EVENT_UI_TIPS = "X_TIPS";
 const TIMEOUT_DELAY = 200;
 /* 缓存 popover 的配置信息 */
 const tipsOptionsCollection: {
-	[prop: string]: t_uiPopoverOptions;
+	[prop: string]: t_xTipsOptions;
 } = {};
 
 /**/
@@ -104,7 +104,7 @@ function openTips({ $ele, xTipsTargetID, appId, event }: any) {
 		layerTipsOptions.success = function success(indexPanel, layerIndex) {
 			/* @ts-ignore */
 			app = createApp(options.content);
-			app.use(appAddPlugin[appId], { dependState: appDependState[appId] });
+			app.use(appAddPlugin[appId], { appState: appappState[appId] });
 			app.mount(`#${id}`);
 			/* @ts-ignore */
 			options.afterOpenDialoag && options.afterOpenDialoag(app);
@@ -139,10 +139,10 @@ function openTips({ $ele, xTipsTargetID, appId, event }: any) {
 /* 监听 触发popover的事件 hover click */
 export function installPopoverDirective(app: any, appSettings: any) {
 	const appId = xU.genId("appId");
-	appAddPlugin[appId] = appSettings.appPlugins;
-	appDependState[appId] = appSettings.dependState;
+	appAddPlugin[appId] = appSettings.appUiPlugin;
+	appappState[appId] = appSettings.appState;
 
-	app.directive("uiPopover", {
+	app.directive("xTips", {
 		/* @ts-ignore */
 		mounted(el: any, binding: any) {
 			init();
@@ -153,7 +153,7 @@ export function installPopoverDirective(app: any, appSettings: any) {
 				const xTipsTargetID = xU.genId(X_TIPS_TARGET);
 				const $ele = $(el);
 				$ele
-					.addClass("x-ui-popover")
+					.addClass("x-tips")
 					.attr(DATA_APP_ID, appId)
 					.attr("id", xTipsTargetID);
 			}

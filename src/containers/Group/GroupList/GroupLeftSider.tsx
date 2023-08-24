@@ -153,7 +153,7 @@ export const GroupLeftSider = defineComponent({
 						children: [
 							{
 								group_name: "所有者",
-								icon: "icon_group_include",
+								icon: "icon_group_include_owner",
 								children: xU.map(otherOwner, i => ({
 									...i,
 									icon: "icon_group_include_owner"
@@ -161,7 +161,7 @@ export const GroupLeftSider = defineComponent({
 							},
 							{
 								group_name: "开发者",
-								icon: "icon_group_include",
+								icon: "icon_group_include_member",
 								children: xU.map(member, i => ({
 									...i,
 									icon: "icon_group_include_member"
@@ -260,7 +260,7 @@ export const GroupLeftSider = defineComponent({
 			if (isGroupRoleAuth || isUserRoleAuth) {
 				return (
 					<xIcon
-						v-uiPopover={{
+						v-xTips={{
 							content: vm.xI("修改分组信息"),
 							placement: "top"
 						}}
@@ -288,7 +288,7 @@ export const GroupLeftSider = defineComponent({
 			if (!!group.group_desc) {
 				return (
 					<xIcon
-						v-uiPopover={{
+						v-xTips={{
 							content: group.group_desc
 						}}
 						class="x-sider-tree_menu_icon"
@@ -322,7 +322,7 @@ export const GroupLeftSider = defineComponent({
 					<div
 						class="btn editSet pointer"
 						onClick={() => this.fnShowUpsertGroupDialog()}
-						v-uiPopover={{ content: "添加分组" }}>
+						v-xTips={{ content: "添加分组" }}>
 						<xIcon icon="add" style="width:16px;height:16px;" />
 					</div>
 				</div>

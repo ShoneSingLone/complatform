@@ -134,7 +134,7 @@ export const ViewGroup = defineComponent({
 				<div class="flex middle start">
 					<el-button-group class="ml-4">
 						{xU.map(btnArray, name => {
-							const type = this.currTabName === name ? "primary" : "'";
+							const type = this.currTabName === name ? "primary" : "";
 							return (
 								<xButton type={type} onClick={() => (this.currTabName = name)}>
 									{name}
@@ -147,7 +147,7 @@ export const ViewGroup = defineComponent({
 						class="flex middle"
 						href={aHashLink("/wiki_all", {})}
 						target="_black"
-						v-uiPopover={{ content: xI("分组文档") }}>
+						v-xTips={{ content: xI("分组文档") }}>
 						<xIcon icon="wikidoc" />
 					</a>
 				</div>

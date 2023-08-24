@@ -1,10 +1,8 @@
-//@ts-nocheck
-
+import { createApp, defineComponent } from "vue";
 import { xU } from "../../ventoseUtils";
 import $ from "jquery";
-import { KEY, xLayer } from "../layer/xLayer";
-import { compile, createApp, defineComponent } from "vue";
-import { stateUI } from "../../stateUI";
+import { KEY_ESC, xLayer } from "../layer/xLayer";
+import { xI } from "../../stateUI";
 import { THIS_BTN_IS_LOADING } from "../../xButton/xButton";
 
 const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
@@ -13,7 +11,7 @@ const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 	if ($antModal.length > 0) {
 		return;
 	}
-	if (event.keyCode === KEY.esc) {
+	if (event.keyCode === KEY_ESC) {
 		await dialogOptions.$close();
 	}
 }, 100);
@@ -55,7 +53,7 @@ const xDialogFooter = defineComponent({
 			const configs = {
 				text: xU.isInput(this.configs.textOk)
 					? this.configs.textOk
-					: stateUI.xI("确定"),
+					: xI("确定"),
 				disabled: xU.isInput(this.configs.disabledOk)
 					? this.configs.disabledOk
 					: false,
@@ -70,7 +68,7 @@ const xDialogFooter = defineComponent({
 			const configs = {
 				text: xU.isInput(this.configs.textCancel)
 					? this.configs.textCancel
-					: stateUI.xI("取消"),
+					: xI("取消"),
 				disabled: xU.isInput(this.configs.disabledCancel)
 					? this.configs.disabledCancel
 					: false,
@@ -102,12 +100,9 @@ const xDialogFooter = defineComponent({
 	}
 });
 
-export const installUIDialogComponent = (
-	UI,
-	{ appPlugins, dependState },
-	app
-) => {
+export const installVentoseUIDialog = (app, { appUiPlugin, appState }, UI) => {
 	app.component("xDialogFooter", xDialogFooter);
+
 	UI.dialog.component = async (dialogOptions: t_dialogOptions) =>
 		new Promise(resolve => {
 			if (THIS_BTN_IS_LOADING.loading) {
@@ -243,7 +238,7 @@ export const installUIDialogComponent = (
 									}
 								})
 							);
-							dialogVueApp.use(appPlugins, { dependState });
+							dialogVueApp.use(appUiPlugin, { appState });
 							dialogVueApp.mount(`#${_contentID}`);
 						} catch (e) {
 							console.error(e);

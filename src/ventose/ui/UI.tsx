@@ -22,10 +22,10 @@ const useModel = type => {
 			title = (isDefault => {
 				if (isDefault) {
 					const title_map = {
-						success: stateUI.xI("成功"),
-						info: stateUI.xI("提示"),
-						error: stateUI.xI("错误"),
-						warning: stateUI.xI("警告")
+						success: xI("成功"),
+						info: xI("提示"),
+						error: xI("错误"),
+						warning: xI("警告")
 					};
 					return title_map[type];
 				} else {
@@ -40,8 +40,8 @@ const useModel = type => {
 						href="/ExclamationCircleOutlined.svg"
 					/>
 				),
-				confirmButtonText: stateUI.xI("确定"),
-				cancelButtonText: stateUI.xI("取消"),
+				confirmButtonText: xI("确定"),
+				cancelButtonText: xI("取消"),
 				class: "test"
 			})
 				.then(resolve)
@@ -89,7 +89,7 @@ export const UI = {
 			(() => (
 				<span>
 					<xIcon icon="insideIconInfo" />
-					<span class="ml10">{stateUI.xI("提示")}</span>
+					<span class="ml10">{xI("提示")}</span>
 				</span>
 			));
 
@@ -103,13 +103,13 @@ export const UI = {
 		options.title = () => (
 			<span>
 				<xIcon icon="insideIconWarning" />
-				<span class="ml10">{stateUI.xI("删除")}</span>
+				<span class="ml10">{xI("删除")}</span>
 			</span>
 		);
 		this.confirm(options);
 	},
 	dialog: {
-		/* installUIDialogComponent Vue3 依赖外部plugin，没有全局的 */
+		/* installVentoseUIDialog Vue3 依赖外部plugin，没有全局的 */
 		component: async (options: t_dialogOptions) => null,
 		success: useModel("success"),
 		info: useModel("info"),

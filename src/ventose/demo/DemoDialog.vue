@@ -1,10 +1,10 @@
 <template>
 	<DemoAndCode
-		title="v-uiPopover的使用"
-		path="/boundless/demo/uiPopover/DemoUiPopoverNormal.sfc" />
+		title="v-xTips的使用"
+		path="/boundless/demo/xTips/DemoxTipsNormal.sfc" />
 	<DemoAndCode
 		title="UI.dialog.component 弹窗"
-		path="/boundless/demo/uiPopover/DemouiDialogComponent.sfc" />
+		path="/boundless/demo/xTips/DemouiDialogComponent.sfc" />
 </template>
 
 <script>

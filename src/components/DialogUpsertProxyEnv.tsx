@@ -217,7 +217,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 									<div
 										class="flex1 ellipsis"
 										style="text-align:left;"
-										v-uiPopover={{ onlyEllipsis: true, placement: "left" }}>
+										v-xTips={{ onlyEllipsis: true, placement: "left" }}>
 										{i.name}
 									</div>
 									<xIcon
@@ -417,7 +417,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 								icon="add"
 								onClick={this.addEnv}
 								class="flex middle color-primary pointer"
-								v-uiPopover={{ content: "添加新环境", delay: 1000 }}
+								v-xTips={{ content: "添加新环境", delay: 1000 }}
 							/>
 						</div>
 						{this.vDomLeftSide}

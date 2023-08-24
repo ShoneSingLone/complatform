@@ -171,7 +171,7 @@ export function defColActions(options: {
 	return defCol(
 		xU.merge(
 			{
-				label: stateUI.xI("操作"),
+				label: xI("操作"),
 				prop: STATIC_WORD.OPERATION,
 				fixed: "right",
 				width: "100px"
@@ -214,7 +214,7 @@ export function defColActionsBtnlist(options: {
 						<ElDropdown
 							v-slots={{
 								default: () => {
-									return <ElButton type="link">{stateUI.xI("更多")}</ElButton>;
+									return <ElButton type="link">{xI("更多")}</ElButton>;
 								},
 								overlay: () => {
 									return (

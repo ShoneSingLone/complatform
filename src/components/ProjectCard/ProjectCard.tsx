@@ -138,7 +138,7 @@ export default defineComponent({
 		title() {
 			return (
 				<div class="ui-title">
-					{/* v-uiPopover={{ onlyEllipsis: true }} */}
+					{/* v-xTips={{ onlyEllipsis: true }} */}
 					{/* <span class="mr10">{this.projectData._id}</span> */}
 					<span>{this.projectData.name || this.projectData.projectname}</span>
 				</div>

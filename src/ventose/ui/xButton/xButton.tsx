@@ -178,12 +178,13 @@ export default defineComponent({
 		const _properties = xU.omit(this.configs, propsWillDeleteFromProperty);
 		return (
 			<ElButton
-				v-uiPopover={{
+				v-xTips={{
 					content: this.title,
-					contentClass: "xButton-disabled_tips",
+					// contentClass: "xButton-disabled_tips",
 					contentStyle: {
 						"--background-color": " var(--app-info-bg, #e9edfa)",
-						"--border-color": "var(--app-info-line, #5e7ce0)"
+						"--border-color": "var(--app-info-line, #5e7ce0)",
+						color: " var(--app-text, #252b3a)"
 					}
 				}}
 				onClick={this.cpt_onClick}

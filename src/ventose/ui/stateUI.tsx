@@ -8,13 +8,13 @@ import { xU } from "./ventoseUtils";
  * @export
  * @param {string} prop
  * @param {any} [payload={}]
- * @param {(object | boolean)} [i18nMessage=false]
+ * @param {(object | boolean)} [i18nKeyVal=false]
  * @returns
  * */
 export function xI(
 	prop: string,
 	payload = {},
-	i18nMessage: object | boolean = false
+	i18nKeyVal: object | boolean = false
 ) {
 	/* TODO:响应式地更新i18n */
 	/* const vm = getCurrentInstance();
@@ -23,10 +23,10 @@ export function xI(
 	} */
 	let content = prop;
 	/* this指向 */
-	i18nMessage = i18nMessage || stateUI.i18nMessage;
-	if (i18nMessage) {
+	i18nKeyVal = i18nKeyVal || stateUI.i18nKeyVal;
+	if (i18nKeyVal) {
 		//@ts-ignore
-		const temp = i18nMessage[prop];
+		const temp = i18nKeyVal[prop];
 		if (temp) {
 			xU.templateSettings.interpolate = /{([\s\S]+?)}/g;
 			content = xU.template(temp)(payload);
@@ -47,10 +47,10 @@ let _stateUI = {
 		size: "size",
 		total: "total"
 	},
+	i18nKeyVal: {},
 	language: lStorage["language"] || "zh-CN",
 	onLanguageChange: false,
 	LANGUAGE: {},
-	i18nMessage: {},
 	/* 放svg文件的文件夹路径*/
 	assetsSvgPath: "",
 	assetsPath: "",
@@ -71,7 +71,6 @@ let _stateUI = {
 			stateUI.basePath = src.substring(0, index);
 		}
 	},
-	xI,
 	isDev: localStorage.___VENTOSE_UI_IS_DEV_MODE === "VENTOSE_UI_IS_DEV_MODE",
 	dev(isDev: any) {
 		if (isDev) {

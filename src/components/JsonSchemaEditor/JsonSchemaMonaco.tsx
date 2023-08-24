@@ -202,7 +202,7 @@ export const JsonSchemaMonaco = defineComponent({
 												<div class="flex middle  title-wrapper">
 													<div
 														class="title ellipsis pointer flex1 flex middle "
-														v-uiPopover={{ onlyEllipsis: true }}
+														v-xTips={{ onlyEllipsis: true }}
 														onClick={() => vm.handleTreeClick(dataRef)}>
 														<span>{title}</span>
 														<xGap f="1" />
@@ -476,7 +476,7 @@ export const JsonSchemaMonaco = defineComponent({
 									</>
 								) : null}
 								<xGap f="1" />
-								<span v-uiPopover={vm.helpTips} class="flex middle pointer">
+								<span v-xTips={vm.helpTips} class="flex middle pointer">
 									<xIcon icon="question" />
 									<span class="ml10">{vm.xI("说明")}</span>
 								</span>
@@ -498,7 +498,7 @@ export const JsonSchemaMonaco = defineComponent({
 											<div class="flex middle  title-wrapper">
 												<div
 													class="title ellipsis pointer flex1 flex middle "
-													v-uiPopover={{ onlyEllipsis: true }}
+													v-xTips={{ onlyEllipsis: true }}
 													onClick={() => vm.handleTreeClick(dataRef)}>
 													<span class="mr10">{vDomIcon}</span>
 													<span>{title}</span>

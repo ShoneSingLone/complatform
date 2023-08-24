@@ -1,8 +1,8 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI } from "@/ventose/ui";
+import { $, xU, UI, compositionAPI, xI } from "@/ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
-import { ALL, DefaultInterfaceMenu } from "@/utils/variable";
+import { ALL } from "@/utils/variable";
 import {
 	Methods_ProjectInterface,
 	State_ProjectInterface
@@ -11,6 +11,16 @@ import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "@/router/router";
 import { _$arrayChangeIndex } from "@/utils/common";
 import { stateApp } from "@/state/app";
+
+const DefaultInterfaceMenu = [
+	{
+		_id: ALL,
+		title: xI("全部接口"),
+		menuType: ALL,
+		list: []
+	}
+];
+
 const { usefnObserveDomResize } = compositionAPI;
 
 export const ProjectInterfaceLeftSider = defineComponent({
@@ -134,7 +144,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											<xIcon
 												icon={icon}
 												class="x-sider-tree_menu_icon"
-												v-uiPopover={{ content: tips, delay: 1000 }}
+												v-xTips={{ content: tips, delay: 1000 }}
 												onClick={clickHandler}
 											/>
 											<xGap l="8" />

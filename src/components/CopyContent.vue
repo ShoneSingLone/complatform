@@ -4,7 +4,7 @@
 		<xIcon
 			icon="copy"
 			class="ml10 copy-content-wrapper_icon"
-			v-uiPopover="{ content: 'copy' }"
+			v-xTips="{ content: 'copy' }"
 			@click="copyText" />
 	</span>
 </template>

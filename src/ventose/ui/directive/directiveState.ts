@@ -1,5 +1,5 @@
 export const appAddPlugin: any = {};
-export const appDependState: any = {};
+export const appappState: any = {};
 export const timer4CloseTips: any = {};
 export const tipsShouldInVisibleArea: any = {};
 export const payloadCollections: any = {};

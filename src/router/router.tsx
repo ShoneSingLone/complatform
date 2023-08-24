@@ -1,11 +1,10 @@
-import { ViewGroup } from "../containers/Group/ViewGroup";
 import { computed, ComputedRef } from "vue";
-import { setDocumentTitle, stateUI, xU } from "@/ventose/ui";
+import { ViewGroup } from "../containers/Group/ViewGroup";
+import { setDocumentTitle, xI, xU } from "@/ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
 import { Methods_App, stateApp } from "@/state/app";
 import { PRIVATE } from "@/utils/variable";
 
-const { xI } = stateUI;
 /* const LazyComponent = (componentName, componentPath) => ({
 	componentName: componentName,
 	component: () => import(componentPath)

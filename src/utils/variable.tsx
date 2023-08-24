@@ -1,4 +1,4 @@
-import { stateUI } from "@/ventose/ui";
+import { xI } from "@/ventose/ui";
 
 export const TAB_KEY_PROJECT_LIST = "项目列表";
 export const TAB_KEY_MEMBER_LIST = "成员列表";
@@ -32,15 +32,6 @@ export const DELETE = "DELETE";
 export const PATCH = "PATCH";
 export const QUERY = "query";
 export const BODY = "body";
-
-export const DefaultInterfaceMenu = [
-	{
-		_id: ALL,
-		title: stateUI.xI("全部接口"),
-		menuType: ALL,
-		list: []
-	}
-];
 
 // 默认每页展示10条数据
 export const PAGE_LIMIT = 10;

@@ -329,7 +329,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 						return (
 							<p
 								class="ellipsis"
-								v-uiPopover={{ onlyEllipsis: true }}
+								v-xTips={{ onlyEllipsis: true }}
 								key={cell}>
 								{" "}
 								{cell}

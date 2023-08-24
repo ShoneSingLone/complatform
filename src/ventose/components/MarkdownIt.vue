@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="markdown-wrapper"
-		v-uiPopover="configsPopoverChangeTheme"
+		v-xTips="configsPopoverChangeTheme"
 		title="右键点击可以修改<code/>元素高亮样式">
 		<div class="markdown-wrapper_description mt10" v-html="html"></div>
 	</div>

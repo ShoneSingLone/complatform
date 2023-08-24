@@ -6,7 +6,7 @@ export const ReadonlyItem = defineComponent({
 		return (
 			<div
 				class="cursor-not-allowed xItem_readonly ellipsis"
-				v-uiPopover={{ onlyEllipsis: true }}>
+				v-xTips={{ onlyEllipsis: true }}>
 				<div class="el-input flex">
 					<div class="xItem_readonly__wrapper flex1">
 						{this.value}

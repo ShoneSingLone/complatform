@@ -5,11 +5,9 @@ import $ from "jquery";
 import { xU } from "../../ventoseUtils";
 import { i_layerOptions } from "./i_layerOptions";
 
-export const KEY = {
-	right: 39,
-	left: 37,
-	esc: 27
-};
+export const KEY_RIGHT = 39;
+export const KEY_LEFT = 37;
+export const KEY_ESC = 27;
 /*
  *
  *

@@ -114,7 +114,7 @@ export const I18nLeftSider = defineComponent({
 											<xIcon
 												icon={icon}
 												class="x-sider-tree_menu_icon"
-												v-uiPopover={{ content: tips, delay: 1000 }}
+												v-xTips={{ content: tips, delay: 1000 }}
 												onClick={clickHandler}
 											/>
 											<xGap l="8" />

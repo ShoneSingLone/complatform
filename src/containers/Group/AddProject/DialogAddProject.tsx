@@ -99,7 +99,7 @@ export const xItem_ProjectBasePath = (options: any = {}) => {
 				icon: (
 					<xIcon
 						icon="question"
-						v-uiPopover={{ content: "接口基本路径，默认是/" }}
+						v-xTips={{ content: "接口基本路径，默认是/" }}
 					/>
 				)
 			}),
@@ -115,7 +115,7 @@ export const xItem_ProjectColor = (options: any = {}) => {
 		value,
 		prop: "color",
 		itemType: "Select",
-		label: stateUI.xI("icon背景颜色"),
+		label: xI("icon背景颜色"),
 		rules: [FormRules.required()],
 		options: xU.map(PROJECT_COLOR, background => {
 			return {
@@ -150,7 +150,7 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 		value,
 		prop: "icon",
 		itemType: "Select",
-		label: stateUI.xI("图标"),
+		label: xI("图标"),
 		rules: [FormRules.required()],
 		options: xU.map(optionsXIcon, value => {
 			return {
@@ -175,7 +175,7 @@ export const xItem_ProjectName = (options: any = {}) => {
 
 	const rules = [
 		FormRules.required("请输入项目名称"),
-		FormRules.nameLength({ label: stateUI.xI("项目") })
+		FormRules.nameLength({ label: xI("项目") })
 	];
 
 	if (xU.isArray(appendRules)) {

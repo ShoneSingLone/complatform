@@ -1,6 +1,6 @@
 import { ICON_STRATEGE } from "@/components/JsonSchemaEditor/SchemaEditor";
-import { stateUI, defCol, xI, xU } from "@/ventose/ui";
-import { ITEM_OPTIONS_VDOM } from "./common.options";
+import { defCol, xI, xU } from "@/ventose/ui";
+import { ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 
 export const colParamsName = () =>
 	defCol({

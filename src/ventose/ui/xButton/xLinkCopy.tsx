@@ -42,7 +42,7 @@ export const xLinkCopy = defineComponent({
 				<div
 					class="flex1 ellipsis mr4"
 					onClick={handleClickText}
-					v-uiPopover={{ onlyEllipsis: true }}
+					v-xTips={{ onlyEllipsis: true }}
 					ref="contents">
 					{xDomText}
 				</div>

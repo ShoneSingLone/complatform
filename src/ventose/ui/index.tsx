@@ -25,7 +25,7 @@ import {
 } from "./xDataGrid/xVirTable/xVirTable";
 import { xU } from "./ventoseUtils";
 import { Cpt_UI_locale, stateUI, xI } from "./stateUI";
-import { installUIDialogComponent } from "./xSingle/dialog/dialog";
+import { installVentoseUIDialog } from "./xSingle/dialog/dialog";
 import { installDirective } from "./directive";
 import {
 	defCol,
@@ -146,11 +146,12 @@ export { resetValueOf as resetValueOf };
 export { setValueTo as setValueTo };
 export { compileVNode as compileVNode };
 
-export const VentoseUIWithInstall = {
-	install: (app, options /* {appPlugins,dependState} */) => {
+export const installVentoseUI = {
+	install: (app, { appUiPlugin, appState } = {} /*  */) => {
+		const options = { appUiPlugin, appState };
 		app.config.globalProperties.xI = xI;
 		installDirective(app, options);
-		installUIDialogComponent(UI, options, app);
+		installVentoseUIDialog(app, options, UI);
 		/*使用svg */
 		xIconUseSvgInit();
 		xU.each(components, (component, name) => {
@@ -166,59 +167,3 @@ export const VentoseUIWithInstall = {
 		});
 	}
 };
-/*
-export { ElCollapse as Collapse };
-export { ElSelect as Select };
-export { ElAutoComplete as AutoComplete };
-export { ElAlert as Alert };
-export { ElInput as Input };
-export { ElTree as Tree };
-export { ElModal as Modal };
-export { ElElButton as Button };
-export { Elmessage as message };
-export { ElCheckbox as Checkbox };
-export { ElSwitch as Switch };
-export { ElTabs as Tabs };
-export { ElTable as Table };
-export { ElForm as Form };
-export { ElIcon as Icon };
-export { ElPopconfirm as Popconfirm };
-export { ElUpload as Upload };
-export { ElRow as Row };
-
-
-<aCollapse
-<aTooltip
-<ElRow
-<ElButton
-<ElSpin
-<xIcon
-<ElDropdown
-<ElAvatar
-<ElMenu
-<ElMenuItem
-<ElInput
-<ElSelect
-<ElAlert<aAutoComplete
-<ElTag
-<ElTree
-<ElCheckbox
-<aModal
-<aSearch
-<aTooltipTitle
-<aModalPostman
-<aInputGroup
-<aTooltipContent
-<aCollapsePanel
-<ElTimelineItem
-<ElTimeline
-<aSelectOption
-<aResult
-<aside
-<aUploadDragger
-<aTextarea
-<any
-<ElPagination
-
-
- */
