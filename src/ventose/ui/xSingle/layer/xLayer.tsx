@@ -915,16 +915,6 @@ class ClassLayer {
 				}, 500);
 			}
 
-			/* 如果是固定定位 */
-
-			/* 		$win.on("resize", function () {
-dialogInst.setPosition();
-// if (/^\d+%$/.test(config.area[0]) || /^\d+%$/.test(config.area[1])) { }
-if (config.type == xLayer.tips) {
-dialogInst.setTips();
-}
-});
-*/
 			if (typeof config.during === "number" && config.during > 0) {
 				setTimeout(function () {
 					xLayer.close(dialogInst._layer_index);
