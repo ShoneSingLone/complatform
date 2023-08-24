@@ -905,10 +905,10 @@ class ClassLayer {
 		/* 首次弹出时，若 css 尚未加载，则等待 css 加载完毕后，重新设定尺寸 */
 
 		dialogInst.setPosition(() => {
+			debugger;
 			if (config.type === TYPE_TIPS) {
 				dialogInst.setTips();
 			}
-
 			if (config.fullscreen) {
 				setTimeout(() => {
 					xLayer.full(_layer_index);
@@ -1085,7 +1085,7 @@ class ClassLayer {
 			return [calTop, calLeft];
 		})();
 		$eleDialog.css({ top, left });
-		onAfterSetPosition.call(dialogInst);
+		onAfterSetPosition && onAfterSetPosition.call(dialogInst);
 	}
 
 	async setTips() {

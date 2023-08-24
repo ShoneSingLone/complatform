@@ -219,16 +219,17 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 											this.dialogOptions.dialogInst.cpt$title
 										);
 
-										vm.dialogOptions.dialogInst.setPosition();
 										setTimeout(() => {
-											vm.dialogOptions.dialogInst.setPosition();
 											(function () {
 												vm.$resizeObserver = new ResizeObserver(entries => {
+													console.log(
+														"ResizeObserver dialogOptions.dialogInst.setPosition"
+													);
 													vm.dialogOptions.dialogInst.setPosition();
 												});
 												vm.$resizeObserver.observe(vm.$el);
 											})();
-										}, 64);
+										}, 1000);
 									},
 									data() {
 										return { dialogOptions };
