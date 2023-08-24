@@ -20,7 +20,7 @@ import {
 type t_trigger = "click" | "rightClick";
 type t_uiPopoverOptions = {
 	content: string;
-	onlyEllipsis?: Boolean;
+	onlyEllipsis?: boolean;
 };
 
 /* 目标元素 */
@@ -42,7 +42,16 @@ const tipsKeys: {
 } = {};
 
 function openTips({ $ele, xTipsTargetID, appId, event }: any) {
-	const options = tipsOptionsCollection[xTipsTargetID] || { content: "" };
+	const options: {
+		content?: object | string;
+		placement?: "top" | "right" | "bottom" | "left";
+		openAtPoint?: object;
+		maxWidth?: number;
+		onlyEllipsis?: boolean;
+		contentClass?: string;
+		contentStyle?: object;
+	} = tipsOptionsCollection[xTipsTargetID] || { content: "" };
+
 	/* onlyEllipsis,content */
 	if (!options.content) {
 		/* 是不是需要判断内容有省略号 */
@@ -108,10 +117,14 @@ function openTips({ $ele, xTipsTargetID, appId, event }: any) {
 		};
 	}
 
-	/* @ts-ignore */
 	if (options.maxWidth) {
-		/* @ts-ignore */
-		layerTipsOptions.maxWidth = maxWidth;
+		layerTipsOptions.maxWidth = options.maxWidth;
+	}
+	if (options.contentClass) {
+		layerTipsOptions.contentClass = options.contentClass;
+	}
+	if (options.contentStyle) {
+		layerTipsOptions.contentStyle = options.contentStyle;
 	}
 
 	setTimeout(() => {

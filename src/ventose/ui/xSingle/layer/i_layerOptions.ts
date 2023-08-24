@@ -15,6 +15,7 @@ export type t_offsetString =
 
 export interface i_layerOptions {
 	contentClass?: string;
+	contentStyle?: object;
 	/* type - 基本层类型;
     类型：number，默认：0
     layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）。 若你采用layer.open({type: 1})方式调用，则type为必填项（信息框除外）

@@ -758,7 +758,16 @@ class ClassLayer {
 			.filter(fnValid)
 			.join(" ");
 
+		let styleString = xU._$objToStyleString(config.contentStyle);
+		if (styleString) {
+			styleString = `style="${styleString}" `;
+		}
 		const [width, height] = config.area || [];
+		const DomContentString = `
+		<div id="${_contentID}" class="${classContent}" ${styleString}>
+			${this.cptDomIcon}
+			${this.cptDomContent}
+		</div>`;
 
 		return `<div id="${_layer_name}" 
 	layer-wrapper="${_layer_name}" 
@@ -774,10 +783,7 @@ class ClassLayer {
 		height:${height};"
 	>
 		${this.cptDomTitle}
-		<div class="${classContent}" id="${_contentID}">
-			${this.cptDomIcon}
-			${this.cptDomContent}
-		</div>
+		${DomContentString}
 		${this.cptDomSetDialogOperations}
 		${this.cptDomFooterBtns}
 		${this.cptDomResizeBar}
@@ -1083,6 +1089,102 @@ class ClassLayer {
 	}
 
 	async setTips() {
+		/* Tips=================470 */
+		const dialogInst = this;
+		const { config, $eleDialog: $dialog } = dialogInst;
+		let $target = $(config.follow);
+		const fillStyle = (() => {
+			let color;
+			try {
+				const targetDom = $dialog.find(`.${NAME_LAYER_CONTENT}`)[0];
+				color = getComputedStyle(targetDom);
+				color = color.getPropertyValue("--background-color");
+			} catch (error) {
+			} finally {
+				return color || "white";
+			}
+		})();
+
+		/* !!import */
+		$dialog.attr(DATA_TIPS_FOLLOW_ID, $target.attr("id"));
+		var $tips = $dialog.find(".layerContent_tips");
+
+		/* 如果没有跟随的元素就默认页面 */
+		if ($target.length == 0) {
+			$target = $html;
+		}
+
+		const [direction]: any = config.tips || ["top", ""];
+
+		/* 默认中间位置 */
+		var info = {
+			strategy: 0,
+			targetW: $target.outerWidth(),
+			targetH: $target.outerHeight(),
+			targetT: $target.offset().top,
+			targetL: $target.offset().left,
+			tipsW: $tips.outerWidth(),
+			tipsH: $tips.outerHeight(),
+			tipsT: $tips.offset().top,
+			tipsL: $tips.offset().left,
+			dialogW: $dialog.outerWidth(),
+			dialogH: $dialog.outerHeight(),
+			dialogT: $dialog.offset().top,
+			dialogL: $dialog.offset().left
+		};
+
+		/* - $win.scrollTop() */
+		/* 辨别tips的方位 */
+		const direction_strategy = {
+			[LAYER_TOP]() {
+				/* 上  */
+				info.dialogT = info.targetT - info.dialogH;
+				info.dialogL = info.targetL - (info.dialogW - info.targetW) / 2;
+
+				if (info.dialogT < 0) {
+					direction_strategy["right"]();
+				} else {
+					setTipsG({ direction: "top" });
+				}
+			},
+			[LAYER_RIGHT]() {
+				/* 右 */
+				info.dialogL = info.targetL + info.targetW;
+				info.dialogT = info.targetT - (info.dialogH - info.targetH) / 2;
+				if (info.dialogL + info.dialogW > $win.width()) {
+					direction_strategy["bottom"]();
+				} else {
+					setTipsG({ direction: "right" });
+				}
+			},
+			[LAYER_BOTTOM]() {
+				/* 下 */
+				info.dialogT = info.targetT + info.targetH;
+				info.dialogL = info.targetL - (info.dialogW - info.targetW) / 2;
+				setTipsG({ direction: "bottom" });
+			},
+			[LAYER_LEFT]() {
+				/* 左 */
+				info.dialogL = info.targetL - info.dialogW;
+				info.dialogT = info.targetT - (info.dialogH - info.targetH) / 2;
+				if (info.dialogL < 0) {
+					direction_strategy["top"]();
+				} else {
+					setTipsG({ direction: "left" });
+				}
+			}
+		};
+
+		direction_strategy[direction]();
+
+		$dialog.css({
+			top: info.dialogT,
+			left: info.dialogL
+		});
+
+		/* TODO: 动画 */
+		// "transform-origin": [ $tipsG.hasClass("x-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("x-layer-TipsL") ? "left" : "right" ].join(" ")
+
 		function setTipsG({ direction }) {
 			const RADIUS = 4;
 			const LENGTH = 10;
@@ -1220,7 +1322,7 @@ class ClassLayer {
 			ctx.shadowOffsetY = 0;
 			ctx.shadowBlur = 8;
 			ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-			ctx.fillStyle = "white";
+			ctx.fillStyle = fillStyle;
 			ctx.fill();
 			const contentTipsGCss = {
 				"background-image": `url(${canvas.toDataURL()})`
@@ -1228,93 +1330,6 @@ class ClassLayer {
 
 			$dialog.find(`.x-layer-content`).css(contentTipsGCss);
 		}
-
-		/* Tips=================470 */
-		const dialogInst = this;
-		const { config, $eleDialog: $dialog } = dialogInst;
-		let $target = $(config.follow);
-		/* !!import */
-		$dialog.attr(DATA_TIPS_FOLLOW_ID, $target.attr("id"));
-		var $tips = $dialog.find(".layerContent_tips");
-
-		/* 如果没有跟随的元素就默认页面 */
-		if ($target.length == 0) {
-			$target = $html;
-		}
-
-		const [direction]: any = config.tips || ["top", ""];
-
-		/* 默认中间位置 */
-		var info = {
-			strategy: 0,
-			targetW: $target.outerWidth(),
-			targetH: $target.outerHeight(),
-			targetT: $target.offset().top,
-			targetL: $target.offset().left,
-			tipsW: $tips.outerWidth(),
-			tipsH: $tips.outerHeight(),
-			tipsT: $tips.offset().top,
-			tipsL: $tips.offset().left,
-			dialogW: $dialog.outerWidth(),
-			dialogH: $dialog.outerHeight(),
-			dialogT: $dialog.offset().top,
-			dialogL: $dialog.offset().left
-		};
-
-		console.log(JSON.stringify(info, null, 2));
-
-		function positionAuto(direction) {}
-		/* - $win.scrollTop() */
-		/* 辨别tips的方位 */
-		const direction_strategy = {
-			[LAYER_TOP]() {
-				/* 上  */
-				info.dialogT = info.targetT - info.dialogH;
-				info.dialogL = info.targetL - (info.dialogW - info.targetW) / 2;
-
-				if (info.dialogT < 0) {
-					direction_strategy["right"]();
-				} else {
-					setTipsG({ direction: "top" });
-				}
-			},
-			[LAYER_RIGHT]() {
-				/* 右 */
-				info.dialogL = info.targetL + info.targetW;
-				info.dialogT = info.targetT - (info.dialogH - info.targetH) / 2;
-				if (info.dialogL + info.dialogW > $win.width()) {
-					direction_strategy["bottom"]();
-				} else {
-					setTipsG({ direction: "right" });
-				}
-			},
-			[LAYER_BOTTOM]() {
-				/* 下 */
-				info.dialogT = info.targetT + info.targetH;
-				info.dialogL = info.targetL - (info.dialogW - info.targetW) / 2;
-				setTipsG({ direction: "bottom" });
-			},
-			[LAYER_LEFT]() {
-				/* 左 */
-				info.dialogL = info.targetL - info.dialogW;
-				info.dialogT = info.targetT - (info.dialogH - info.targetH) / 2;
-				if (info.dialogL < 0) {
-					direction_strategy["top"]();
-				} else {
-					setTipsG({ direction: "left" });
-				}
-			}
-		};
-
-		direction_strategy[direction]();
-
-		$dialog.css({
-			top: info.dialogT,
-			left: info.dialogL
-		});
-
-		/* TODO: 动画 */
-		// "transform-origin": [ $tipsG.hasClass("x-layer-TipsT") ? "top" : "bottem", $tipsG.hasClass("x-layer-TipsL") ? "left" : "right" ].join(" ")
 	}
 
 	onMoveOrResize() {

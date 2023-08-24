@@ -176,10 +176,16 @@ export default defineComponent({
 			"onClick"
 		];
 		const _properties = xU.omit(this.configs, propsWillDeleteFromProperty);
-
 		return (
 			<ElButton
-				v-uiPopover={{ content: this.title }}
+				v-uiPopover={{
+					content: this.title,
+					contentClass: "xButton-disabled_tips",
+					contentStyle: {
+						"--background-color": " var(--app-info-bg, #e9edfa)",
+						"--border-color": "var(--app-info-line, #5e7ce0)"
+					}
+				}}
 				onClick={this.cpt_onClick}
 				class="x-button antdv-button"
 				loading={this.loading}
