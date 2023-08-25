@@ -7,7 +7,8 @@ import {
 	defCol,
 	xI,
 	setDataGridInfo,
-xU,	defColActions,
+	xU,
+	defColActions,
 	defColActionsBtnlist
 } from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";

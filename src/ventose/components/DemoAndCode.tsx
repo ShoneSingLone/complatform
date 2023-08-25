@@ -4,7 +4,8 @@ import { DialogSourceCode } from "./DialogSourceCode";
 import {
 	defXVirTableConfigs,
 	stateUI,
-xU,	compileVNode,
+	xU,
+	compileVNode,
 	defCol,
 	$,
 	defItem

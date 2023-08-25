@@ -18,11 +18,12 @@
 	</form>
 </template>
 
-<script lang="jsx">
+<script lang="tsx">
 import "./Login.scss";
 import { defineComponent } from "vue";
 import {
-	 xU, xI,
+	xU,
+	xI,
 	defItem,
 	EVENT_TYPE,
 	itemsInvalid,

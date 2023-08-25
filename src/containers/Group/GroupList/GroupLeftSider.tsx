@@ -93,17 +93,6 @@ export function fnShowUpsertGroupDialog(row = {}) {
 	});
 }
 
-const tip = (
-	<div class="title-container">
-		<h3 class="title">欢迎使用 YApi ~</h3>
-		<p>
-			这里的 <b>“个人空间”</b>{" "}
-			是你自己才能看到的分组，你拥有这个分组的全部权限，可以在这个分组里探索
-			YApi 的功能。
-		</p>
-	</div>
-);
-
 export const GroupLeftSider = defineComponent({
 	props: [
 		"height",
@@ -329,7 +318,7 @@ export const GroupLeftSider = defineComponent({
 					<xGap l="10" />
 					<div
 						class="btn editSet pointer"
-						onClick={() => this.fnShowUpsertGroupDialog()}
+						onClick={this.fnShowUpsertGroupDialog}
 						v-xTips={{ content: "添加分组" }}>
 						<xIcon icon="add" style="width:16px;height:16px;" />
 					</div>

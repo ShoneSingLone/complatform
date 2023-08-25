@@ -17,7 +17,29 @@ export const KEY_ESC = 27;
 const $win = $(window);
 const $html = $("html");
 const $document = $(document);
-const INSTANCE_DIALOG_COLLECTION = {};
+const INSTANCE = new Proxy(
+	{},
+	{
+		get(target, p, receiver) {
+			if (p === "remove") {
+				return _layer_index => {
+					delete target[_layer_index];
+					return target[_layer_index];
+				};
+			}
+			const ins = target[p];
+			if (ins) {
+				return ins;
+			} else {
+				return {};
+			}
+		},
+		set(target, p, newValue, receiver) {
+			target[p] = newValue;
+			return newValue;
+		}
+	}
+);
 
 /* 缓存常用字符 */
 export const DATA_LAYER_INDEX = "data-layer-index";
@@ -321,7 +343,7 @@ const xLayer = {
 
 						$eleDialog[0].innerHTML = "";
 						$eleDialog.remove();
-						delete INSTANCE_DIALOG_COLLECTION[_layer_index];
+						INSTANCE.remove(_layer_index);
 
 						try {
 							READY.end[_layer_index] && READY.end[_layer_index]();
@@ -350,24 +372,26 @@ const xLayer = {
 					reject(false);
 				}
 			}
-			const { $eleDialog, config } = INSTANCE_DIALOG_COLLECTION[_layer_index];
-			if (config.type === TYPE_DIALOG) {
+			const { $eleDialog, config } = INSTANCE[_layer_index];
+			if (config?.type === TYPE_DIALOG) {
 				/* 动画 */
 				const { left: sL, top: sT } = config.triggerDom;
-				$eleDialog.animate(
-					{
-						opacity: 0.1,
-						left: `${sL}px`,
-						top: `${sT}px`,
-						width: 0,
-						height: 0
-					},
-					null,
-					_close
-				);
-			} else {
-				_close();
+
+				if (sL && sT) {
+					$eleDialog.animate(
+						{
+							opacity: 0.1,
+							left: `${sL}px`,
+							top: `${sT}px`,
+							width: 0,
+							height: 0
+						},
+						null,
+						_close
+					);
+				}
 			}
+			_close();
 		});
 	},
 	getChildFrame(selector, index) {
@@ -976,22 +1000,26 @@ class ClassLayer {
 					width,
 					height
 				} = this.$eleDialog[0].getBoundingClientRect();
-				const { left: sL, top: sT } = this.config.triggerDom;
-				this.$eleDialog.css({
-					visibility: "visible",
-					opacity: 0.1,
-					left: `${sL}px`,
-					top: `${sT}px`,
-					width: 0,
-					height: 0
-				});
-				this.$eleDialog.animate({
-					opacity: 1,
-					left: `${eL}px`,
-					top: `${eT}px`,
-					width,
-					height
-				});
+				const { left: sL, top: sT } = config.triggerDom || {};
+				if (sL && sT) {
+					this.$eleDialog.css({
+						visibility: "visible",
+						opacity: 0.1,
+						left: `${sL}px`,
+						top: `${sT}px`,
+						width: 0,
+						height: 0
+					});
+					this.$eleDialog.animate({
+						opacity: 1,
+						left: `${eL}px`,
+						top: `${eT}px`,
+						width,
+						height
+					});
+				} else {
+					debugger;
+				}
 			}
 
 			this.$eleDialog.css({
@@ -1437,7 +1465,7 @@ class ClassLayer {
 	thirdInsertSuccessAndAddListener() {
 		const dialogInst = this;
 		/* resize时重新resize */
-		INSTANCE_DIALOG_COLLECTION[this._layer_index] = this;
+		INSTANCE[this._layer_index] = this;
 
 		const { $eleDialog, config } = dialogInst;
 

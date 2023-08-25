@@ -4,8 +4,6 @@ import {
 	defItem,
 	pickValueFrom,
 	setValueTo,
-	xU,
-	itemsInvalid,
 	xU
 } from "@/ventose/ui";
 import { Methods_App, stateApp } from "@/state/app";

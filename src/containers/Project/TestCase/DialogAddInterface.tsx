@@ -2,7 +2,8 @@ import {
 	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
-	 xU, defItem,
+	xU,
+	defItem,
 	setValueTo
 } from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";

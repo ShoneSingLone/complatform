@@ -2,7 +2,8 @@ import {
 	itemsInvalid,
 	AllWasWell,
 	pickValueFrom,
-	 xU, defItem,
+	xU,
+	defItem,
 	xI,
 	VNodeCollection,
 	setValueTo
