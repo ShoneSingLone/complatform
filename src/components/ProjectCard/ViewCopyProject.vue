@@ -16,7 +16,7 @@
 <script lang="jsx">
 import { defineComponent } from "vue";
 import {
-	AllWasWell,
+	
 	defItem,
 	pickValueFrom,
 	xU,

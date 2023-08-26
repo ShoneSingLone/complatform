@@ -32,7 +32,7 @@ export const AppHeader = defineComponent({
 	methods: {
 		goToGroup() {
 			if (this.Cpt_url.pathname === "/wiki_project") {
-				this.Cpt_url.go("/project/interface/all", {
+				this.Cpt_url.go("/interface/all", {
 					group_id: this.Cpt_url.query.group_id,
 					project_id: this.Cpt_url.query.project_id
 				});
@@ -109,7 +109,7 @@ export const AppHeader = defineComponent({
 							class="flex middle"
 							href={aHashLink("/wiki_all", {})}
 							style={this.styleLogo}
-							target="_black">
+							target="_blank">
 							<xIcon icon="wikidoc" style={this.styleLogo} />
 						</a>
 					</span>

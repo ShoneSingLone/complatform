@@ -101,15 +101,6 @@ export async function itemsInvalid(selector?: any) {
 	}
 }
 
-/**
- * 没有错误信息则校验通过
- * @param {*} res
- * @returns
- */
-export const AllWasWell = (res: any) => {
-	return xU.isArray(res) && res.length === 0;
-};
-
 export const xItem = defineComponent({
 	name: "XItem",
 	props: {

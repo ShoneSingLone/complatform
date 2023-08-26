@@ -139,7 +139,8 @@ export const AppFooter = defineComponent({
 				<div
 					class="footer-wrapper"
 					style={this.wrapperStyle}
-					id="ViewAppFooter">
+					id="ViewAppFooter"
+					data-view-id="AppFooter">
 					<ElRow class="footer-container" style={this.contentStyle}>
 						{this.footList.map((item, i) => {
 							return (

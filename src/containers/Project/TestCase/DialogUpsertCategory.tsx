@@ -1,10 +1,15 @@
-import { itemsInvalid, AllWasWell, pickValueFrom, xU } from "@/ventose/ui";
-import { defItem, xU, setValueTo } from "@/ventose/ui";
+import {
+	itemsInvalid,
+	pickValueFrom,
+	defItem,
+	xU,
+	setValueTo
+} from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
-import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { Methods_ProjectInterface } from "@/state/interface";
 
 export const DialogUpsertCategory = defineComponent({
 	props: {

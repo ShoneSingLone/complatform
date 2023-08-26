@@ -1,8 +1,9 @@
-import { computed, reactive, watch } from "vue";
+import { computed, getCurrentInstance, reactive, watch } from "vue";
 import { xU, stateUI, setDocumentTitle } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { Cpt_url } from "@/router/router";
 import { sortTreeByOrder } from "@/utils/common";
+import { GROUP, PROJECT } from "@/utils/variable";
 
 const defautlValue = () => ({
 	treeData: [],
@@ -10,19 +11,35 @@ const defautlValue = () => ({
 	allWiki: {},
 	currentWiki: {},
 	/* 左侧 树 展开 */
-	expandedKeys: []
+	expandedKeys: [],
+	belongType: ""
 });
 
-export function resetStateWiki() {
+export function resetStateWiki(ctx) {
 	xU.map(defautlValue(), (value, prop) => {
-		State_Wiki[prop] = value;
+		stateWiki[prop] = value;
 	});
-	return State_Wiki;
+	stateWiki.belongType = stateWiki.belongType = (() => {
+		if (ctx?.$props?.belongType) {
+			/* 以组价形式引入 */
+			return ctx.$props.belongType;
+		} else {
+			/* 以route-view 形式引入 */
+			const [_, belong_type] =
+				String(Cpt_url.value.pathname).match(/\/wiki_(.*)/) || [];
+			if (belong_type) {
+				return belong_type;
+			} else {
+				return "";
+			}
+		}
+	})();
+	return stateWiki;
 }
 
-const _State_Wiki = defautlValue();
+const _stateWiki = defautlValue();
 
-export const State_Wiki = reactive(_State_Wiki);
+export const stateWiki = reactive(_stateWiki);
 
 export const Methods_Wiki = {
 	clickWiki(query) {
@@ -32,18 +49,18 @@ export const Methods_Wiki = {
 		refresh(xU.merge({}, oldQuery, query));
 	},
 	setExpandedKeys: xU.debounce(async _id => {
-		const expandedKeys = new Set(State_Wiki.expandedKeys);
-		let currentWiki = State_Wiki.allWiki[_id];
+		const expandedKeys = new Set(stateWiki.expandedKeys);
+		let currentWiki = stateWiki.allWiki[_id];
 		while (currentWiki) {
 			expandedKeys.add(currentWiki._id);
 			if (currentWiki.p_id !== 0) {
-				currentWiki = State_Wiki.allWiki[currentWiki.p_id];
+				currentWiki = stateWiki.allWiki[currentWiki.p_id];
 			} else {
 				currentWiki = null;
 			}
 		}
-		State_Wiki.expandedKeys = [...expandedKeys];
-		State_Wiki.isLoading = false;
+		stateWiki.expandedKeys = [...expandedKeys];
+		stateWiki.isLoading = false;
 		/*  */
 	}, 1000),
 	/**
@@ -59,7 +76,7 @@ export const Methods_Wiki = {
 			if (!xU.isInput(_id)) {
 				_id = Cpt_url.value.query.wiki_id;
 				if (!_id) {
-					_id = State_Wiki.treeData?.[0]?._id;
+					_id = stateWiki.treeData?.[0]?._id;
 					if (!_id) {
 						return;
 					} else {
@@ -76,16 +93,16 @@ export const Methods_Wiki = {
 		try {
 			xU.loading(true);
 			if (item) {
-				State_Wiki.currentWiki = item;
+				stateWiki.currentWiki = item;
 				Methods_Wiki.setExpandedKeys(item._id);
 				return;
 			} else {
 				const { data } = await API.wiki.detail(_id);
 				if (data) {
-					State_Wiki.currentWiki = data;
+					stateWiki.currentWiki = data;
 					Methods_Wiki.setExpandedKeys(_id);
 				} else {
-					State_Wiki.currentWiki = {};
+					stateWiki.currentWiki = {};
 				}
 			}
 		} catch (error) {
@@ -96,28 +113,29 @@ export const Methods_Wiki = {
 	},
 	async updateWikiMenuList() {
 		const { group_id, project_id } = Cpt_url.value.query || {};
+
 		let belong_id;
-		if (cpt_wikiBelongType.value === "group") {
+		if (stateWiki.belongType === GROUP) {
 			belong_id = group_id;
 		}
-		if (cpt_wikiBelongType.value === "project") {
+		if (stateWiki.belongType === PROJECT) {
 			belong_id = project_id;
 		}
 
 		const { data } = await API.wiki.menu({
-			belong_type: cpt_wikiBelongType.value,
+			belong_type: stateWiki.belongType,
 			belong_id
 		});
 		const { list, orderArray } = data;
-		State_Wiki.treeData = buildTree(list, orderArray);
+		stateWiki.treeData = buildTree(list, orderArray);
 		Methods_Wiki.setCurrentWiki();
 	}
 };
 
 watch(
-	() => State_Wiki?.currentWiki?.title,
+	() => stateWiki?.currentWiki?.title,
 	() => {
-		setDocumentTitle(`文档-${State_Wiki.currentWiki?.title}`);
+		setDocumentTitle(`文档-${stateWiki.currentWiki?.title}`);
 	}
 );
 watch(
@@ -133,7 +151,7 @@ watch(
 export function buildTree(dataArray, orderArray) {
 	console.time("buildTree");
 	/* findChildren */
-	State_Wiki.allWiki = xU.reduce(
+	stateWiki.allWiki = xU.reduce(
 		dataArray,
 		(target, i) => {
 			target[i._id] = i;
@@ -142,9 +160,9 @@ export function buildTree(dataArray, orderArray) {
 		{}
 	);
 
-	xU.each(State_Wiki.allWiki, function (item) {
+	xU.each(stateWiki.allWiki, function (item) {
 		if (!item) return;
-		const parent = State_Wiki.allWiki[item.p_id];
+		const parent = stateWiki.allWiki[item.p_id];
 		if (parent) {
 			if (!xU.isArray(parent.children)) {
 				parent.children = [];
@@ -153,20 +171,10 @@ export function buildTree(dataArray, orderArray) {
 		}
 	});
 
-	let tree = xU.filter(State_Wiki.allWiki, item => item.p_id === 0);
+	let tree = xU.filter(stateWiki.allWiki, item => item.p_id === 0);
 	if (xU.isArrayFill(orderArray)) {
 		tree = sortTreeByOrder(tree, orderArray);
 	}
 	console.timeEnd("buildTree");
 	return tree;
 }
-
-export const cpt_wikiBelongType = computed(() => {
-	const [_, belong_type] =
-		String(Cpt_url.value.pathname).match(/\/wiki_(.*)/) || [];
-	if (belong_type) {
-		return belong_type;
-	} else {
-		return "";
-	}
-});

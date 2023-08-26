@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from "vue";
-import { $, xU, compositionAPI, stateUI } from "@/ventose/ui";
+import { $, xU, compositionAPI, stateUI, xI } from "@/ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
 import { ALL } from "@/utils/variable";
@@ -8,9 +8,9 @@ import { Cpt_url } from "@/router/router";
 import { _$arrayChangeIndex } from "@/utils/common";
 import { stateApp } from "@/state/app";
 import {
-	State_ProjectTestcase,
+	stateProjectTestcase,
 	Methods_ProjectTestcase
-} from "@/containers/Project/Testcase/State_ProjectTestcase";
+} from "@/state/projectTestcase";
 
 const { usefnObserveDomResize } = compositionAPI;
 
@@ -29,7 +29,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 			usefnObserveDomResize();
 		return {
 			stateApp,
-			State_ProjectTestcase,
+			stateProjectTestcase,
 			Cpt_url,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -37,7 +37,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 	},
 	watch: {
 		filterText(text) {
-			this.State_ProjectTestcase.isLoading = true;
+			this.stateProjectTestcase.isLoading = true;
 			this.setFilterText(text);
 		}
 	},
@@ -91,14 +91,14 @@ export const ProjectTestcaseLeftSider = defineComponent({
 			return StrategyMap[pathname];
 		},
 		treeData() {
-			return DefaultTestcaseMenu.concat(this.State_ProjectTestcase.allCategory);
+			return DefaultTestcaseMenu.concat(this.stateProjectTestcase.allCategory);
 		},
 		vDomTree() {
 			const vm = this;
 			return (
-				<div class="left-tree">
+				<div class="left-tree box-shadow">
 					<ElTree
-						v-model:expandedKeys={vm.State_ProjectTestcase.expandedKeys}
+						v-model:expandedKeys={vm.stateProjectTestcase.expandedKeys}
 						height={vm.siderHeight}
 						treeData={vm.treeData}
 						draggable
@@ -164,13 +164,13 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
-													tips: vm.xI("添加集合"),
+													tips: xI("添加集合"),
 													clickHandler: () =>
 														vm.showUpsertTestcaseCategoryDialog()
 												})}
 												{genIcon({
 													icon: "refresh",
-													tips: vm.xI("刷新"),
+													tips: xI("刷新"),
 													clickHandler:
 														Methods_ProjectTestcase.updateTestcaseMenuList
 												})}
@@ -189,19 +189,19 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
-													tips: vm.xI("添加用例"),
+													tips: xI("添加用例"),
 													clickHandler: $event =>
 														vm.showAddTestcaseDialog(_id, $event)
 												})}
 												{genIcon({
 													icon: "edit",
-													tips: vm.xI("修改集合"),
+													tips: xI("修改集合"),
 													clickHandler: $event =>
 														vm.showUpsertTestcaseCategoryDialog(item)
 												})}
 												{genIcon({
 													icon: "delete",
-													tips: vm.xI("删除集合"),
+													tips: xI("删除集合"),
 													clickHandler: $event => vm.deleteCategory(_id, $event)
 												})}
 											</div>
@@ -211,7 +211,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "delete",
-													tips: vm.xI("删除用例"),
+													tips: xI("删除用例"),
 													clickHandler: $event =>
 														vm.deleteInterface(_id, $event)
 												})}
@@ -257,7 +257,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 	},
 	methods: {
 		async handleDropInterface(e: any) {
-			this.State_ProjectTestcase.isLoading = true;
+			this.stateProjectTestcase.isLoading = true;
 			/*
 			1.drag testcase
 				1.1 drop 到同一个category
@@ -287,13 +287,13 @@ export const ProjectTestcaseLeftSider = defineComponent({
 				xU.message.error(error.message);
 			} finally {
 				setTimeout(() => {
-					this.State_ProjectTestcase.isLoading = false;
+					this.stateProjectTestcase.isLoading = false;
 				}, 400);
 			}
 		},
 		/* 同类 testcase */
 		async switchSameCategoryInterfaceOrder({ dragItem, dropItem }) {
-			const category = xU.find(this.State_ProjectTestcase.allCategory, {
+			const category = xU.find(this.stateProjectTestcase.allCategory, {
 				_id: dragItem.categoryId
 			});
 			const paramsChanges = _$arrayChangeIndex(
@@ -312,15 +312,15 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		},
 		async switchCategoryOrder({ dragItem, dropItem }) {
 			const paramsChanges = _$arrayChangeIndex(
-				this.State_ProjectTestcase.allCategory,
+				this.stateProjectTestcase.allCategory,
 				dragItem._id,
 				dropItem._id
 			);
 			await API.project.switchManyCategoryOrder(paramsChanges);
 		},
 		setFilterText: xU.debounce(function (filterText) {
-			this.State_ProjectTestcase.filterText = filterText;
-			this.State_ProjectTestcase.isLoading = false;
+			this.stateProjectTestcase.filterText = filterText;
+			this.stateProjectTestcase.isLoading = false;
 		}, 600),
 		setSelectedKeys(id) {
 			this.selectedKeys = [id];
@@ -332,12 +332,12 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		deleteInterface(id) {
 			const vm = this;
 			xU.confirm({
-				title: vm.xI("您确认删除此用例？"),
-				content: vm.xI(`温馨提示：用例删除后，无法恢复`).label,
+				title: xI("您确认删除此用例？"),
+				content: xI(`温馨提示：用例删除后，无法恢复`).label,
 				async onOk() {
 					try {
 						await API.project.deleteInterfaceById(id);
-						xU.message.success(vm.xI("删除用例成功"));
+						xU.message.success(xI("删除用例成功"));
 						Methods_ProjectTestcase.updateTestcaseMenuList();
 						vm.Cpt_url.go(
 							"/project/testcase/all",
@@ -372,7 +372,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		},
 		showUpsertTestcaseCategoryDialog(category = false) {
 			xU.openDialog({
-				title: category ? this.xI("修改集合").label : this.xI("添加集合"),
+				title: category ? this.xI("修改集合") : this.xI("添加集合"),
 				component: DialogUpsertCategory,
 				category
 			});

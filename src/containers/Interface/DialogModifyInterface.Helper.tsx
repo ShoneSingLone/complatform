@@ -146,7 +146,7 @@ export const TagSelectRender = defineComponent({
 				<xGap l="10" />
 				<xButton
 					configs={{
-						text: vm.xI("Tag设置"),
+						text: xI("Tag设置"),
 						onClick: openUpsertTagDialog
 					}}
 					class="ml10"

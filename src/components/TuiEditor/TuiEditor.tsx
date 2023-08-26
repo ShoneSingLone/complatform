@@ -257,7 +257,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 							v-xTips={vm.configsPopoverChangeTheme}
 							onClick={vm.handleClick}
 							ref="viewer"
-							class="toastui-editor-contents flex1 border-radius elevation-1 padding20"
+							class="toastui-editor-contents flex1 border-radius box-shadow padding20"
 							style="height:300px;width:100%;z-index:1;padding:20px;"></div>
 					)}
 					<div class="display-none">

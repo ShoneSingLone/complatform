@@ -14,17 +14,19 @@ import { GroupMemberList } from "./GroupMemberList/GroupMemberList";
 import {
 	ADMIN,
 	DEV,
-	GUEST,
 	OWNER,
 	PRIVATE,
 	PUBLIC,
-	TAB_KEY_ARRAY,
 	TAB_KEY_GROUP_LOG,
 	TAB_KEY_MEMBER_LIST,
-	TAB_KEY_PROJECT_LIST
+	TAB_KEY_PROJECT_LIST,
+	TAB_KEY_GROUP_WIKI,
+	GROUP,
+	OPEN_BLANK
 } from "@/utils/variable";
 
 import { xI, xU } from "@/ventose/ui";
+import { ViewWiki } from "../Wiki/ViewWiki";
 
 /* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
 
@@ -74,11 +76,7 @@ export const ViewGroup = defineComponent({
 		},
 		currTabName: {
 			get() {
-				const { group_tab } = this.Cpt_url.query;
-				if (TAB_KEY_ARRAY.includes(group_tab)) {
-					return group_tab;
-				}
-				return TAB_KEY_PROJECT_LIST;
+				return this.Cpt_url.query.group_tab || TAB_KEY_PROJECT_LIST;
 			},
 			set(group_tab) {
 				this.Cpt_url.query.group_tab = group_tab;
@@ -119,15 +117,26 @@ export const ViewGroup = defineComponent({
 			}
 			return <GroupProjectList />;
 		},
+		vDomTabGroupWiki() {
+			if (this.currTabName !== TAB_KEY_GROUP_WIKI) {
+				return null;
+			}
+			return <ViewWiki belongType={GROUP} style="margin: 0 -10px -10px;" />;
+		},
 		vDomSwitchPanel() {
 			let btnArray = [
 				TAB_KEY_PROJECT_LIST,
 				TAB_KEY_MEMBER_LIST,
-				TAB_KEY_GROUP_LOG
+				TAB_KEY_GROUP_LOG,
+				TAB_KEY_GROUP_WIKI
 			];
 
 			if (this.stateApp.currGroup.type === PRIVATE) {
-				btnArray = [TAB_KEY_PROJECT_LIST, TAB_KEY_GROUP_LOG];
+				btnArray = [
+					TAB_KEY_PROJECT_LIST,
+					TAB_KEY_GROUP_LOG,
+					TAB_KEY_GROUP_WIKI
+				];
 			}
 
 			return (
@@ -135,21 +144,27 @@ export const ViewGroup = defineComponent({
 					<el-button-group class="ml-4">
 						{xU.map(btnArray, name => {
 							const type = this.currTabName === name ? "primary" : "";
+							let tips = {};
+							if (name === TAB_KEY_GROUP_WIKI) {
+								const href = aHashLink("/wiki_group", {
+									group_id: Cpt_url.value.query.group_id
+								});
+								const tipsLabel = xI(OPEN_BLANK);
+								tips = {
+									content: `<a class="flex middle" href="${href}" target="_blank" >${tipsLabel} </a>`
+								};
+							}
 							return (
-								<xButton type={type} onClick={() => (this.currTabName = name)}>
+								<xButton
+									v-xTips={tips}
+									type={type}
+									onClick={() => (this.currTabName = name)}>
 									{name}
 								</xButton>
 							);
 						})}
 					</el-button-group>
 					<xGap f="1" />
-					<a
-						class="flex middle"
-						href={aHashLink("/wiki_all", {})}
-						target="_black"
-						v-xTips={{ content: xI("分组文档") }}>
-						<xIcon icon="wikidoc" />
-					</a>
 				</div>
 			);
 		}
@@ -157,17 +172,18 @@ export const ViewGroup = defineComponent({
 	render() {
 		return (
 			<section
-				id="GroupView"
+				id="ViewGroup"
 				class="padding20 flex horizon"
 				v-xloading={!this.groupId}>
 				<aside id="ViewGroup_sider" class="flex vertical box-shadow">
 					<GroupLeftSider />
 				</aside>
-				<section class="GrouMainSection el-card is-always-shadow flex1">
+				<section class="view-main-section box-shadow flex1">
 					{this.vDomSwitchPanel}
 					{this.vDomTabProjectList}
 					{this.vDomTabMember}
 					{this.vDomTabGroupLog}
+					{this.vDomTabGroupWiki}
 				</section>
 			</section>
 		);

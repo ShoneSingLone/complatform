@@ -3,9 +3,9 @@ import { stateApp } from "@/state/app";
 import { Cpt_url } from "@/router/router";
 import { ProjectInterfaceLeftSider } from "./ProjectInterfaceLeftSider";
 import {
-	State_ProjectInterface,
+	stateInterface,
 	Methods_ProjectInterface
-} from "@/containers/Project/Interface/State_ProjectInterface";
+} from "@/state/interface";
 
 export const ProjectInterface = defineComponent({
 	components: {
@@ -14,7 +14,7 @@ export const ProjectInterface = defineComponent({
 	setup() {
 		return {
 			stateApp,
-			State_Project: State_ProjectInterface,
+			State_Project: stateInterface,
 			Cpt_url
 		};
 	},

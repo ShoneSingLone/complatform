@@ -3,14 +3,15 @@ import {
 	pickValueFrom,
 	xU,
 	defItem,
-	setValueTo
+	setValueTo,
+	xI
 } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { EnvSelectRender } from "./DialogModifyInterface.Helper";
-import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { Methods_ProjectInterface } from "@/state/interface";
 
 export const DialogInterfaceProxyModify = defineComponent({
 	props: {
@@ -40,7 +41,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 			dataXItem: {
 				isProxy: defItem({
 					value: false,
-					label: vm.xI("是否开启转发"),
+					label: xI("是否开启转发"),
 					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
@@ -48,7 +49,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 					isShow() {
 						return vm.dataXItem.isProxy.value;
 					},
-					label: vm.xI("转发环境"),
+					label: xI("转发环境"),
 					value: "",
 					options: [],
 					setOptions(envArray) {

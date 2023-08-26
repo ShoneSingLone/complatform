@@ -103,7 +103,7 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 	app.component("xDialogFooter", xDialogFooter);
 	let DialogOpenAt = null;
 	$(window).on("click.DialogOpenAt", function (event) {
-		console.log("click.DialogOpenAt", event.target);
+		// console.log("click.DialogOpenAt", event.target);
 		DialogOpenAt = $(event.target).offset();
 	});
 

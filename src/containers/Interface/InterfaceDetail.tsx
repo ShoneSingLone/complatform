@@ -19,7 +19,7 @@ import copy from "copy-to-clipboard";
 import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
 import { JsonSchemaMonaco } from "../../../components/JsonSchemaEditor/JsonSchemaMonaco";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
-import { State_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { stateInterface } from "@/state/interface";
 import { socket, newWsPayload } from "@/utils/ws";
 import {
 	colParamsName,
@@ -33,7 +33,7 @@ import { DialogPostman } from "./DialogPostman";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		return { State_Project: State_ProjectInterface, Cpt_url, stateApp };
+		return { State_Project: stateInterface, Cpt_url, stateApp };
 	},
 	data(vm) {
 		return {
@@ -46,7 +46,7 @@ export const InterfaceDetail = defineComponent({
 					...colParamsName(),
 					...defCol({
 						prop: "example",
-						label: vm.xI("示例"),
+						label: xI("示例"),
 						width: "300"
 					}),
 					...colRemark()
@@ -389,7 +389,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							label: (
 								<div class="flex middle">
 									<xButton type="primary" onClick={vm.runPostman}>
-										{vm.xI("运行")}
+										{xI("运行")}
 									</xButton>
 									<span class="flex1">{xI("Mock地址")}</span>
 								</div>
@@ -459,21 +459,21 @@ async ${xU.camelCase(path)}({params,data}) {
 					<InfoCard title={<span>基本信息</span>} info={vm.descriptions} />
 					<xGap t="20" />
 					{vm.detailInfo.desc && (
-						<InfoCard title={vm.xI("备注")}>
+						<InfoCard title={xI("备注")}>
 							<TuiEditor modelValue={{ html: vm.detailInfo.desc }} readonly />
 						</InfoCard>
 					)}
 					<xGap t="20" />
 					<InfoCard title={"请求参数"}>
 						{vm.configs_table_path_params.dataSource.length > 0 && (
-							<ElCard title={vm.xI("路径参数")}>
+							<ElCard title={xI("路径参数")}>
 								<xDataGrid configs={vm.configs_table_path_params} />
 							</ElCard>
 						)}
 						{vm.configs_table_headers.dataSource.length > 0 && (
 							<>
 								<xGap t="10" />
-								<ElCard title={vm.xI("Headers")}>
+								<ElCard title={xI("Headers")}>
 									<xDataGrid configs={vm.configs_table_headers} />
 								</ElCard>
 							</>
@@ -481,7 +481,7 @@ async ${xU.camelCase(path)}({params,data}) {
 						{vm.configs_table_query.dataSource.length > 0 && (
 							<>
 								<xGap t="10" />
-								<ElCard title={vm.xI("Query")}>
+								<ElCard title={xI("Query")}>
 									<xDataGrid configs={vm.configs_table_query} />
 								</ElCard>
 							</>
@@ -490,7 +490,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							vm.configs_table_body_form.dataSource.length > 0 && (
 								<>
 									<xGap t="10" />
-									<ElCard title={vm.xI("Body")}>
+									<ElCard title={xI("Body")}>
 										<xDataGrid configs={vm.configs_table_body_form} />
 									</ElCard>
 								</>
@@ -499,7 +499,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							vm.detailInfo.req_body_other && (
 								<>
 									<xGap t="10" />
-									<ElCard title={vm.xI("Body")}>
+									<ElCard title={xI("Body")}>
 										<JsonSchemaMonaco
 											v-model:schemaString={vm.detailInfo.req_body_other}
 											readOnly={true}
@@ -511,7 +511,7 @@ async ${xU.camelCase(path)}({params,data}) {
 							vm.detailInfo.req_body_other && (
 								<>
 									<xGap t="10" />
-									<ElCard title={vm.xI("Body")}>
+									<ElCard title={xI("Body")}>
 										<div style="height:300px;width:90%">
 											<MonacoEditor
 												language="json"

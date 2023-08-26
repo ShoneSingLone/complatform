@@ -2,9 +2,7 @@ import { defineComponent } from "vue";
 import { stateApp, Cpt_avatarUrl } from "@/state/app";
 import { xI, xU, defFormConfigs, setValueTo } from "@/ventose/ui";
 import { DialogUpdatePwd } from "./DialogUpdatePwd";
-import { pickValueFrom } from "./../../element/ui/tools/form";
 import { FormRules } from "@/utils/common.FormRules";
-import { EVENT_TYPE } from "@/ventose/ui";
 import { API } from "@/api";
 
 function getBase64(img, callback) {

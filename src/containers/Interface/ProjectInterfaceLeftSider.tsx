@@ -5,8 +5,8 @@ import { API } from "@/api/index";
 import { ALL } from "@/utils/variable";
 import {
 	Methods_ProjectInterface,
-	State_ProjectInterface
-} from "@/containers/Project/Interface/State_ProjectInterface";
+	stateInterface
+} from "@/state/interface";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { Cpt_url } from "@/router/router";
 import { _$arrayChangeIndex } from "@/utils/common";
@@ -29,7 +29,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 			usefnObserveDomResize();
 		return {
 			stateApp,
-			State_Project: State_ProjectInterface,
+			State_Project: stateInterface,
 			Cpt_url,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -84,9 +84,9 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		currentSelectedMenu() {
 			const { pathname, query } = this.Cpt_url;
 			const StrategyMap = {
-				"/project/interface/all": ALL,
-				"/project/interface/category": query.category_id,
-				"/project/interface/detail": query.interface_id
+				"/interface/all": ALL,
+				"/interface/category": query.category_id,
+				"/interface/detail": query.interface_id
 			};
 			return StrategyMap[pathname];
 		},
@@ -96,7 +96,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<div class="left-tree">
+				<div class="left-tree box-shadow">
 					<ElTree
 						v-model:expandedKeys={vm.State_Project.expandedKeys}
 						height={vm.siderHeight}
@@ -118,19 +118,19 @@ export const ProjectInterfaceLeftSider = defineComponent({
 								const handleClickMenuItem = () => {
 									if (menuType === ALL) {
 										Cpt_url.value.go(
-											"/project/interface/all",
+											"/interface/all",
 											xU.omit(Cpt_url.value.query, [
 												"category_id",
 												"interface_id"
 											])
 										);
 									} else if (menuType === "category") {
-										Cpt_url.value.go("/project/interface/category", {
+										Cpt_url.value.go("/interface/category", {
 											...Cpt_url.value.query,
 											category_id: _id
 										});
 									} else {
-										Cpt_url.value.go("/project/interface/detail", {
+										Cpt_url.value.go("/interface/detail", {
 											...Cpt_url.value.query,
 											category_id: categoryId,
 											interface_id: _id
@@ -164,12 +164,12 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
-													tips: vm.xI("添加分类"),
+													tips: xI("添加分类"),
 													clickHandler: () => vm.showUpsertCategoryDialog()
 												})}
 												{genIcon({
 													icon: "refresh",
-													tips: vm.xI("刷新"),
+													tips: xI("刷新"),
 													clickHandler:
 														Methods_ProjectInterface.updateInterfaceMenuList
 												})}
@@ -188,19 +188,19 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "add",
-													tips: vm.xI("添加接口"),
+													tips: xI("添加接口"),
 													clickHandler: $event =>
 														vm.showAddInterfaceDialog(_id, $event)
 												})}
 												{genIcon({
 													icon: "edit",
-													tips: vm.xI("修改分类"),
+													tips: xI("修改分类"),
 													clickHandler: $event =>
 														vm.showUpsertCategoryDialog(item)
 												})}
 												{genIcon({
 													icon: "delete",
-													tips: vm.xI("删除分类"),
+													tips: xI("删除分类"),
 													clickHandler: $event => vm.deleteCategory(_id, $event)
 												})}
 											</div>
@@ -210,7 +210,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 											<div class="x-sider-tree_menu_opration">
 												{genIcon({
 													icon: "delete",
-													tips: vm.xI("删除接口"),
+													tips: xI("删除接口"),
 													clickHandler: $event =>
 														vm.deleteInterface(_id, $event)
 												})}
@@ -316,15 +316,15 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		deleteInterface(id) {
 			const vm = this;
 			xU.confirm({
-				title: vm.xI("您确认删除此接口？"),
-				content: vm.xI(`温馨提示：接口删除后，无法恢复`).label,
+				title: xI("您确认删除此接口？"),
+				content: xI(`温馨提示：接口删除后，无法恢复`).label,
 				async onOk() {
 					try {
 						await API.project.deleteInterfaceById(id);
-						xU.message.success(vm.xI("删除接口成功"));
+						xU.message.success(xI("删除接口成功"));
 						Methods_ProjectInterface.updateInterfaceMenuList();
 						vm.Cpt_url.go(
-							"/project/interface/all",
+							"/interface/all",
 							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
 						);
 					} catch (error) {
@@ -344,7 +344,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 						xU.message.success("删除分类成功");
 						Methods_ProjectInterface.updateInterfaceMenuList();
 						vm.Cpt_url.go(
-							"/project/interface/all",
+							"/interface/all",
 							xU.omit(vm.Cpt_url.query, ["category_id"])
 						);
 					} catch (error) {
@@ -356,7 +356,7 @@ export const ProjectInterfaceLeftSider = defineComponent({
 		},
 		showUpsertCategoryDialog(category = false) {
 			xU.openDialog({
-				title: category ? this.xI("修改分类").label : this.xI("添加分类"),
+				title: category ? this.xI("修改分类") : this.xI("添加分类"),
 				component: DialogUpsertCategory,
 				category
 			});

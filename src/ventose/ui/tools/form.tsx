@@ -5,7 +5,7 @@ import { xU } from "../ventoseUtils";
  * @param configs =>{first:{value:"aaa"},age:{value:22}}
  * @returns=>{first:"aaa",age:22}
  */
-export const pickValueFrom = configs => {
+export function pickValueFrom<T>(configs: object): T {
 	return xU.reduce(
 		configs,
 		(target, config, prop) => {
@@ -15,8 +15,8 @@ export const pickValueFrom = configs => {
 			return target;
 		},
 		{}
-	);
-};
+	) as T;
+}
 export const setValueTo = (configs, values) => {
 	configs = xU.reduce(
 		values,

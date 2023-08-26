@@ -9,7 +9,6 @@ import {
 	defCol,
 	defDataGridOption,
 	setDataGridInfo,
-	defXVirTableConfigs,
 	xI
 } from "@/ventose/ui";
 import { ICON_STRATEGE, SchemaEditor, SPE } from "./SchemaEditor";
@@ -18,14 +17,12 @@ import { API } from "../../api/index";
 import generateSchema from "generate-schema";
 import { MonacoEditor } from "../MonacoEditor/MonacoEditor";
 import {
-	colExample,
 	colParamsName,
 	colRemark,
 	colRequired,
 	colType,
 	colValue
 } from "@/utils/common.columns";
-import { ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 const { usefnObserveDomResize } = compositionAPI;
 
 function makeProps(pre, prop) {
@@ -61,10 +58,10 @@ const PopoverContent = defineComponent(
 		template: `<ul>
 		<li>1. Tree  <xIcon icon="arrow_right"/> Lowcode  <xIcon icon="arrow_right"/> JSON </li>
 		<li>2. <ElTag color="green"><xIcon icon="arrow_right"/> </ElTag>{{xI("左侧的编辑会直接作用于右侧")}}</li>
-		<li>3. <ElTag color="red"><xIcon icon="arrow_left"/> </ElTag>{{xI("右侧的编辑需要手工同步到左侧").label}}，{{xI("依次点击").label}}<xButton type="primary">{{xI("同步到左侧")}}</xButton></li>
+		<li>3. <ElTag color="red"><xIcon icon="arrow_left"/> </ElTag>{{xI("右侧的编辑需要手工同步到左侧")}}，{{xI("依次点击")}}<xButton type="primary">{{xI("同步到左侧")}}</xButton></li>
 		<li>4. {{xI("编辑中会有冗余信息，同步到左侧的JSON Tree 之后会Tree Shaking")}} </li>
-		<li>5. {{xI("点击").label}} <ElTag color="green">root</ElTag>{{xI("查看全部JSON内容,并且可以全量修改")}}</li>
-		<li>6. {{xI("普通JSON对象可以转为schema格式").label}} <xButton type="primary">{{xI("JSON 转 schema")}}</xButton></li>
+		<li>5. {{xI("点击")}} <ElTag color="green">root</ElTag>{{xI("查看全部JSON内容,并且可以全量修改")}}</li>
+		<li>6. {{xI("普通JSON对象可以转为schema格式")}} <xButton type="primary">{{xI("JSON 转 schema")}}</xButton></li>
 	  </ul>`
 	})
 );
@@ -190,10 +187,10 @@ export const JsonSchemaMonaco = defineComponent({
 
 											if (title == "root") {
 												labelType = (
-													<div class="mr10 cell-width">{vm.xI("类型")}</div>
+													<div class="mr10 cell-width">{xI("类型")}</div>
 												);
 												labelDescription = (
-													<div class="mr10 cell-width">{vm.xI("备注")}</div>
+													<div class="mr10 cell-width">{xI("备注")}</div>
 												);
 											}
 
@@ -433,7 +430,7 @@ export const JsonSchemaMonaco = defineComponent({
 				itemType: "Checkbox",
 				slots: {
 					default() {
-						return vm.xI("Mock预览");
+						return xI("Mock预览");
 					}
 				}
 			}
@@ -477,7 +474,7 @@ export const JsonSchemaMonaco = defineComponent({
 								<xGap f="1" />
 								<span v-xTips={vm.helpTips} class="flex middle pointer">
 									<xIcon icon="question" />
-									<span class="ml10">{vm.xI("说明")}</span>
+									<span class="ml10">{xI("说明")}</span>
 								</span>
 							</div>
 							<ElTree

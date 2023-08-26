@@ -3,7 +3,7 @@ import {
 	defCol,
 	defItem,
 	defXVirTableConfigs,
-	xU,
+	xI,
 	xU
 } from "@/ventose/ui";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
@@ -93,14 +93,14 @@ export const QueryParamsForm = defineComponent({
 					].join("\n"),
 				columns: {
 					...defCol({
-						label: vm.xI("名称"),
+						label: xI("名称"),
 						prop: "name",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.name} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("必需"),
+						label: xI("必需"),
 						prop: "required",
 						width: "110px",
 						renderCell: ({ record }) =>
@@ -113,21 +113,21 @@ export const QueryParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.xI("示例"),
+						label: xI("示例"),
 						prop: "example",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("备注"),
+						label: xI("备注"),
 						prop: "desc",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.desc} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("操作"),
+						label: xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,

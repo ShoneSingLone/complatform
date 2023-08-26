@@ -1,6 +1,5 @@
 import {
 	itemsInvalid,
-	AllWasWell,
 	pickValueFrom,
 	xU,
 	defItem,
@@ -10,15 +9,12 @@ import {
 import { defineComponent, markRaw } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
-import {
-	Methods_ProjectInterface,
-	State_ProjectInterface
-} from "@/containers/Project/Interface/State_ProjectInterface";
+import { Methods_ProjectInterface, stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
-import { Methods_Wiki, cpt_wikiBelongType } from "./State_Wiki";
-import { ARTICLE } from "@/utils/variable";
+import { Methods_Wiki, stateWiki } from "@/state/wiki";
+import { ARTICLE, GROUP, PROJECT } from "@/utils/variable";
 
 export const DialogAddArticle = defineComponent({
 	props: {
@@ -64,10 +60,10 @@ export const DialogAddArticle = defineComponent({
 				const { project_id, group_id } = this.Cpt_url.query;
 				let belong_id;
 
-				if (cpt_wikiBelongType.value === "group") {
+				if (stateWiki.belongType === GROUP) {
 					belong_id = group_id;
 				}
-				if (cpt_wikiBelongType.value === "project") {
+				if (stateWiki.belongType === PROJECT) {
 					belong_id = project_id;
 				}
 				const { title } = pickValueFrom(this.dataXItem);
@@ -75,7 +71,7 @@ export const DialogAddArticle = defineComponent({
 					title,
 					type: ARTICLE,
 					p_id: this.pid,
-					belong_type: cpt_wikiBelongType.value,
+					belong_type: stateWiki.belongType,
 					belong_id
 				};
 				try {

@@ -3,7 +3,7 @@ import {
 	defCol,
 	defItem,
 	defXVirTableConfigs,
-	xU,
+	xI,
 	xU
 } from "@/ventose/ui";
 import { State_Project } from "@/containers/Project/Interface/State_Project";
@@ -90,7 +90,7 @@ export const HeaderParamsForm = defineComponent({
 					].join("\n"),
 				columns: {
 					...defCol({
-						label: vm.xI("名称"),
+						label: xI("名称"),
 						prop: "name",
 						renderEditor: ({ record }) => (
 							<aAutoComplete
@@ -103,28 +103,28 @@ export const HeaderParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.xI("参数值"),
+						label: xI("参数值"),
 						prop: "value",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.value} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("示例"),
+						label: xI("示例"),
 						prop: "example",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("备注"),
+						label: xI("备注"),
 						prop: "desc",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.desc} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("操作"),
+						label: xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,

@@ -1,20 +1,22 @@
 import "./ViewWiki.scss";
 import { defineComponent } from "vue";
 import { WikiLeftSider } from "./WikiLeftSider";
-import { State_Wiki, Methods_Wiki, cpt_wikiBelongType } from "./State_Wiki";
+import { stateWiki, Methods_Wiki, resetStateWiki } from "@/state/wiki";
 import { TuiEditor } from "@/components";
 import { API } from "@/api/index";
 import { xU, xI, defItem } from "@/ventose/ui";
 import { Cpt_url } from "@/router/router";
 
 export const ViewWiki = defineComponent({
+	props: ["belongType"],
 	setup() {
 		return {
-			State_Wiki
+			stateWiki
 		};
 	},
 	mounted() {
-		if (cpt_wikiBelongType.value) {
+		resetStateWiki(this);
+		if (stateWiki.belongType) {
 			Methods_Wiki.updateWikiMenuList();
 		} else {
 			Cpt_url.value.go("/");
@@ -23,7 +25,11 @@ export const ViewWiki = defineComponent({
 	data() {
 		const vm = this;
 		return {
-			titleConfigs: defItem({ value: State_Wiki.currentWiki.title }),
+			titleConfigs: defItem({
+				value: stateWiki.currentWiki.title,
+				itemWrapperClass: "flex1 mr10",
+				isShow: () => !vm.isReadonly
+			}),
 			isReadonly: true
 		};
 	},
@@ -33,7 +39,7 @@ export const ViewWiki = defineComponent({
 				xU.loading(true);
 				const params = xU.merge(
 					{},
-					State_Wiki.currentWiki,
+					stateWiki.currentWiki,
 					{
 						markdown: this.markdown
 					},
@@ -55,13 +61,13 @@ export const ViewWiki = defineComponent({
 	computed: {
 		btnEditOrSave() {
 			return {
-				text: this.isReadonly ? xI("编辑").label : xI("保存"),
+				text: this.isReadonly ? xI("编辑") : xI("保存"),
 				type: "primary",
-				isShow: () => !!State_Wiki.currentWiki?._id,
+				isShow: () => !!stateWiki.currentWiki?._id,
 				onClick: () => {
 					if (this.isReadonly) {
 						this.isReadonly = false;
-						this.titleConfigs.value = State_Wiki.currentWiki?.title;
+						this.titleConfigs.value = stateWiki.currentWiki?.title;
 					} else {
 						this.save();
 					}
@@ -83,11 +89,11 @@ export const ViewWiki = defineComponent({
 		wikiContent: {
 			get() {
 				return {
-					md: State_Wiki.currentWiki.markdown || ""
+					md: stateWiki.currentWiki.markdown || ""
 				};
 			},
-			set(modelValue, oldModelValue) {
-				State_Wiki.currentWiki.markdown = modelValue.md;
+			set(modelValue) {
+				stateWiki.currentWiki.markdown = modelValue.md;
 			}
 		},
 		vDomTitle() {
@@ -100,16 +106,9 @@ export const ViewWiki = defineComponent({
 							"font-size": "18px",
 							display: this.isReadonly ? "inline-block" : "none"
 						}}>
-						{State_Wiki.currentWiki.title}
+						{stateWiki.currentWiki.title}
 					</span>
-					<xItem
-						id="wiki-editor-title"
-						class={{
-							"flex1 mr10": true,
-							"display-none": this.isReadonly
-						}}
-						configs={this.titleConfigs}
-					/>
+					<xItem id="wiki-editor-title" configs={this.titleConfigs} />
 				</>
 			);
 		}
@@ -119,12 +118,12 @@ export const ViewWiki = defineComponent({
 			<section
 				id="ViewWiki"
 				class="flex flex1"
-				v-xloading={State_Wiki.isLoading}>
+				v-xloading={stateWiki.isLoading}>
 				<WikiLeftSider
 					onChange={() => (this.isReadonly = true)}
 					isShow={this.isReadonly}
 				/>
-				<main class="flex flex1 padding10 vertical paddingB20">
+				<main class="flex flex1 padding10 vertical">
 					<div class="flex mb10 middle" style="height:48px;">
 						{this.vDomTitle}
 						<xButton configs={this.btnCancel} />

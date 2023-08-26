@@ -10,7 +10,7 @@ import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import { ITEM_OPTIONS } from "@/utils/common.options";
-import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { Methods_ProjectInterface } from "@/state/interface";
 
 export const DialogInterfaceStatusModify = defineComponent({
 	props: {

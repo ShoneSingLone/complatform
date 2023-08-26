@@ -5,6 +5,7 @@ import { defineComponent } from "vue";
 import xMenuTree from "../entry/lib/xMenuTree.vue";
 import {
 	xU,
+	xI,
 	defItem,
 	defCol,
 	defXVirTableConfigs,
@@ -60,7 +61,7 @@ export default defineComponent({
 				columns: {
 					...defCol({
 						prop: "name",
-						label: vm.xI("名称"),
+						label: xI("名称"),
 						renderCell: ({ record }) => {
 							return compileVNode(`<xItem :configs="record.configsName"/>`, {
 								record
@@ -68,7 +69,7 @@ export default defineComponent({
 						}
 					}),
 					...defCol({
-						label: vm.xI("操作"),
+						label: xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,

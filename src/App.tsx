@@ -7,7 +7,7 @@ import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
 import { Cpt_url } from "@/router/router";
 import { Methods_App, stateApp } from "@/state/app";
-import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { Methods_ProjectInterface } from "@/state/interface";
 import { $ } from "@/ventose/ui";
 import { RouterView } from "./components/RouterView/RouterView";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
@@ -64,7 +64,7 @@ export default defineComponent({
 					guards={this.routerViewGuards}
 					data-view-id="AppRouterView"
 				/>
-				<AppFooter data-view-id="AppFooter" />
+				<AppFooter />
 			</ElConfigProvider>
 		);
 	}

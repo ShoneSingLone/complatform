@@ -1,9 +1,10 @@
 import { defineComponent, markRaw } from "vue";
 import {
-	AllWasWell,
+	
 	defItem,
 	pickValueFrom,
 	setValueTo,
+	xI,
 	xU
 } from "@/ventose/ui";
 import { Methods_App, stateApp } from "@/state/app";
@@ -38,10 +39,10 @@ export const DialogUpsertProxyEnv = defineComponent({
 			currentSelected: "",
 			configsForm: {
 				name: defItem({
-					label: vm.xI("环境名称")
+					label: xI("环境名称")
 				}),
 				domain: defItem({
-					label: vm.xI("环境域名"),
+					label: xI("环境域名"),
 					slots: markRaw({
 						addonBefore: () => <xItem configs={vm.configsForm.protocol} />
 					}),

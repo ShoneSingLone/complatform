@@ -34,7 +34,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 	const vm = this;
 	const isUpdate = !!row._id;
 	xU.openDialog({
-		title: isUpdate ? xI("修改分组信息").label : xI("添加分组"),
+		title: isUpdate ? xI("修改分组信息") : xI("添加分组"),
 		component: isUpdate ? DialogEditGroup : DialogAddGroup,
 		// fullscreen: true,
 		maxmin: true,
@@ -59,7 +59,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 						currGroupDesc,
 						custom_field1_enable,
 						custom_field1_name
-					} = pickValueFrom(formItems);
+					} = pickValueFrom<any>(formItems);
 
 					formData = {
 						...row,
@@ -87,7 +87,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 					throw new Error("未通过验证");
 				}
 			}
-			await vm.fnUpsertGroupInfo(formData);
+			await fnUpsertGroupInfo(formData);
 			$close();
 		}
 	});
@@ -312,7 +312,7 @@ export const GroupLeftSider = defineComponent({
 	computed: {
 		vDomSearchInput() {
 			return (
-				<div class="group-operate flex start middle">
+				<div class="group-operate flex start middle mb10">
 					{/* 搜索框 */}
 					<xItem configs={this.configsSearch} class="flex1" />
 					<xGap l="10" />
@@ -320,7 +320,7 @@ export const GroupLeftSider = defineComponent({
 						class="btn editSet pointer"
 						onClick={this.fnShowUpsertGroupDialog}
 						v-xTips={{ content: "添加分组" }}>
-						<xIcon icon="add" style="width:16px;height:16px;" />
+						<xIcon icon="add" class="icon-opreation_click" />
 					</div>
 				</div>
 			);
@@ -331,10 +331,10 @@ export const GroupLeftSider = defineComponent({
 
 		return (
 			<aside class="x-sider_wrapper" style={this.styleAside}>
-				{this.vDomSearchInput}
 				<div
 					class="x-sider_wrapper_tree"
 					v-element-size={this.setElScrollbarHeight}>
+					{this.vDomSearchInput}
 					<ElScrollbar height={this.elScrollbarHeight}>
 						<ElTree
 							v-xloading={vm.groupListForShow.length === 0}

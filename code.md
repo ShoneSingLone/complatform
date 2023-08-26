@@ -9,7 +9,7 @@ import { State_App } from "@/state/State_App";
 
 ```js
 
-itemsInvalid, AllWasWell, pickValueFrom,
+itemsInvalid,  pickValueFrom,
 
 rules: [FormRules.required("请输入项目基本路径!")]
 
@@ -28,7 +28,7 @@ if (!(await itemsInvalid())) {
 }
 
 xU.openDialog({
-	title: this.$t("添加分类").label,
+	title: this.$t("添加分类"),
 	component: DialogAddCategory,
 	onOk: async (instance) => {
 		const res = await instance.vm.submit();

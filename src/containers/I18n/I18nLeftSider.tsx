@@ -20,7 +20,7 @@ export const I18nLeftSider = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Wiki: stateI18n,
+			stateWiki: stateI18n,
 			stateApp,
 			Cpt_url,
 			fnObserveDomResize,
@@ -84,7 +84,7 @@ export const I18nLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<div class="left-tree">
+				<div class="left-tree box-shadow">
 					<div class="flex mb10">
 						<xButton configs={vm.btnAddNew} />
 						<xGap l="10" />
@@ -145,14 +145,14 @@ export const I18nLeftSider = defineComponent({
 										<div class="x-sider-tree_menu_opration">
 											{genIcon({
 												icon: "add",
-												tips: vm.xI("添加"),
+												tips: xI("添加"),
 												clickHandler: () =>
 													vm.openDialogUpsertI18nRecord(item.data)
 											})}
 											{canDelete &&
 												genIcon({
 													icon: "delete",
-													tips: vm.xI("删除"),
+													tips: xI("删除"),
 													clickHandler: () => vm.deleteArticle(_id)
 												})}
 										</div>

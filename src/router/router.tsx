@@ -1,9 +1,8 @@
 import { computed, ComputedRef } from "vue";
-import { ViewGroup } from "../containers/Group/ViewGroup";
 import { setDocumentTitle, xI, xU } from "@/ventose/ui";
 import { ViewNotFound } from "../components/ViewNotFound";
 import { Methods_App, stateApp } from "@/state/app";
-import { PRIVATE } from "@/utils/variable";
+import { ALL, GROUP, PRIVATE, PROJECT } from "@/utils/variable";
 
 /* const LazyComponent = (componentName, componentPath) => ({
 	componentName: componentName,
@@ -39,15 +38,15 @@ export const routes = [
 	{
 		path: `/group`,
 		componentName: "ViewGroup",
-		component: ViewGroup,
+		component: () => import("../containers/Group/ViewGroup.js"),
 		meta: {
 			title: xI("分组")
 		}
 	},
-	wiki("all", "文档-所有人可见"),
-	wiki("group", "文档-分组"),
-	wiki("project", "项目文档"),
-	wiki(PRIVATE, "个人文档"),
+	wiki(ALL, "文档-All"),
+	wiki(GROUP, "文档-Group"),
+	wiki(PROJECT, "文档-Project"),
+	wiki(PRIVATE, "文档-Private"),
 	{
 		path: `/xI`,
 		componentName: "ViewI18n",
@@ -66,33 +65,30 @@ export const routes = [
 	},
 	{
 		label: xI("接口"),
-		path: "/project/interface",
+		path: "/interface",
 		componentName: "ProjectInterface",
-		component: () =>
-			import("../containers/Project/Interface/ProjectInterface.js"),
+		component: () => import("../containers/Interface/ProjectInterface.jsx"),
 		meta: {
 			title: xI("接口")
 		}
 	},
 	{
 		label: xI("接口-全部"),
-		path: "/project/interface/all",
+		path: "/interface/all",
 		componentName: "InterfaceAll",
-		component: () => import("../containers/Project/Interface/InterfaceAll.js")
+		component: () => import("../containers/Interface/InterfaceAll.js")
 	},
 	{
 		label: xI("接口-分类"),
-		path: "/project/interface/category",
+		path: "/interface/category",
 		componentName: "InterfaceCategory",
-		component: () =>
-			import("../containers/Project/Interface/InterfaceCategory.js")
+		component: () => import("../containers/Interface/InterfaceCategory.js")
 	},
 	{
 		label: xI("接口-详情"),
-		path: "/project/interface/detail",
+		path: "/interface/detail",
 		componentName: "InterfaceDetail",
-		component: () =>
-			import("../containers/Project/Interface/InterfaceDetail.js")
+		component: () => import("../containers/Interface/InterfaceDetail.js")
 	},
 	{
 		label: xI("测试集"),

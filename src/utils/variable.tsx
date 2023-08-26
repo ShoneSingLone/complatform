@@ -1,13 +1,18 @@
 import { xI } from "@/ventose/ui";
 
+export const OPEN_BLANK = "新窗口打开";
+export const TAB_KEY_PROJECT_WIKI = "项目文档";
+export const TAB_KEY_INTERFACE = "接口";
 export const TAB_KEY_PROJECT_LIST = "项目列表";
 export const TAB_KEY_MEMBER_LIST = "成员列表";
 export const TAB_KEY_GROUP_LOG = "分组动态";
+export const TAB_KEY_GROUP_WIKI = "分组文档";
 
 export const TAB_KEY_ARRAY = [
 	TAB_KEY_PROJECT_LIST,
 	TAB_KEY_MEMBER_LIST,
-	TAB_KEY_GROUP_LOG
+	TAB_KEY_GROUP_LOG,
+	TAB_KEY_GROUP_WIKI
 ];
 
 /* type */
@@ -19,7 +24,9 @@ export const DEV = "dev";
 export const ADMIN = "admin";
 export const PRIVATE = "private";
 export const OWNER = "owner";
-export const ALL = "ALL";
+export const ALL = "all";
+export const PROJECT = "project";
+export const GROUP = "group";
 /* role */
 export const FOLDER = "folder";
 export const ARTICLE = "article";

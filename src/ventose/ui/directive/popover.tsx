@@ -266,7 +266,7 @@ $(document).on(
 		const $ele: any = $(this);
 		const xTipsTargetID = $ele.attr("id");
 		if (!tipsIndex(xTipsTargetID)) {
-			console.log(xTipsTargetID);
+			// xU(xTipsTargetID);
 			if (($ele.attr("data-trigger") as t_trigger) === "click") {
 				return;
 			}

@@ -82,8 +82,8 @@ export const ProjectSettingCommon = defineComponent({
 							).label,
 							icon: <xIcon icon="question" />
 						}),
-					checkedChildren: vm.xI("开"),
-					unCheckedChildren: vm.xI("关"),
+					checkedChildren: xI("开"),
+					unCheckedChildren: xI("关"),
 					value: !!vm.stateApp.currProject.strice
 				}),
 				is_json5: defItem({
@@ -94,15 +94,15 @@ export const ProjectSettingCommon = defineComponent({
 							tips: xI("开启后可在接口 body 和返回值中写 json 字段"),
 							icon: <xIcon icon="question" />
 						}),
-					checkedChildren: vm.xI("开"),
-					unCheckedChildren: vm.xI("关"),
+					checkedChildren: xI("开"),
+					unCheckedChildren: xI("关"),
 					value: !!vm.stateApp.currProject.is_json5
 				}),
 				switch_notice: defItem({
 					itemType: "Switch",
 					label: xI("默认开启消息通知"),
-					checkedChildren: vm.xI("开"),
-					unCheckedChildren: vm.xI("关"),
+					checkedChildren: xI("开"),
+					unCheckedChildren: xI("关"),
 					value: !!vm.stateApp.currProject.switch_notice
 				})
 			}

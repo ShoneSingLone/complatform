@@ -1,6 +1,6 @@
 import {
 	xI,
-	AllWasWell,
+	
 	defItem,
 	pickValueFrom,
 	setValueTo,
@@ -17,8 +17,8 @@ import { ITEM_OPTIONS } from "@/utils/common.options";
 import { HTTP_METHOD } from "@/utils/variable";
 import {
 	Methods_ProjectInterface,
-	State_ProjectInterface
-} from "@/containers/Project/Interface/State_ProjectInterface";
+	stateInterface
+} from "@/state/interface";
 import { _$handlePath } from "@/utils/common";
 import {
 	EnvSelectRender,
@@ -41,7 +41,7 @@ export const DialogModifyInterface = defineComponent({
 		}
 	},
 	setup() {
-		return { stateApp, State_ProjectInterface };
+		return { stateApp, stateInterface };
 	},
 	computed: {
 		vDomXItemPathparams() {
@@ -84,7 +84,7 @@ export const DialogModifyInterface = defineComponent({
 				catid: defItem({
 					value: "",
 					itemType: "Select",
-					label: vm.xI("接口分类"),
+					label: xI("接口分类"),
 					placeholder: "分类名称",
 					options: [],
 					rules: [FormRules.required()],
@@ -100,16 +100,16 @@ export const DialogModifyInterface = defineComponent({
 				}),
 				title: defItem({
 					value: "",
-					label: vm.xI("接口名称"),
-					placeholder: vm.xI("接口名称"),
+					label: xI("接口名称"),
+					placeholder: xI("接口名称"),
 					rules: [
 						FormRules.required(),
-						FormRules.nameLength({ label: vm.xI("接口") })
+						FormRules.nameLength({ label: xI("接口") })
 					]
 				}),
 				basepath: defItem({
 					value: vm.stateApp.currProject.basepath,
-					label: vm.xI("接口基本路径"),
+					label: xI("接口基本路径"),
 					labelVNodeRender:
 						VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
 					disabled: true
@@ -127,7 +127,7 @@ export const DialogModifyInterface = defineComponent({
 				}),
 				path: defItem({
 					value: "",
-					label: vm.xI("接口路径"),
+					label: xI("接口路径"),
 					labelVNodeRender: VNodeCollection.labelTips(
 						<ul>
 							<li>
@@ -191,7 +191,7 @@ export const DialogModifyInterface = defineComponent({
 					}, 800)
 				}),
 				pathParams: defItem({
-					label: vm.xI("接口路径参数"),
+					label: xI("接口路径参数"),
 					value: [],
 					itemType: InpterfacePathParams
 				}),
@@ -214,13 +214,13 @@ export const DialogModifyInterface = defineComponent({
 				}),
 				isProxy: defItem({
 					value: false,
-					label: vm.xI("是否开启转发"),
+					label: xI("是否开启转发"),
 					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
 				witchEnv: defItem({
 					isShow: () => vm.dataXItem.isProxy.value,
-					label: vm.xI("转发环境"),
+					label: xI("转发环境"),
 					value: "",
 					options: [],
 					setOptions(envArray) {
@@ -234,41 +234,41 @@ export const DialogModifyInterface = defineComponent({
 					itemType: EnvSelectRender
 				}),
 				requestArgs: defItem({
-					label: vm.xI("请求参数设置"),
+					label: xI("请求参数设置"),
 					value: [],
 					activeKey: "1",
 					deepWatch: { apiMethod: "" },
 					itemType: RequestArgsRender
 				}),
 				responseArgs: defItem({
-					label: vm.xI("响应参数设置"),
+					label: xI("响应参数设置"),
 					value: {},
 					activeKey: "1",
 					apiMethod: "",
 					itemType: ResponseRender
 				}),
 				remark: defItem({
-					label: vm.xI("备注"),
+					label: xI("备注"),
 					value: { html: "", md: "" },
 					itemType: MarkdownRender
 				}),
 				noticed: defItem({
-					label: vm.xI("消息通知"),
+					label: xI("消息通知"),
 					labelVNodeRender: VNodeCollection.labelTips(
-						<div>{vm.xI("开启消息通知，可在 项目设置 里修改")}</div>
+						<div>{xI("开启消息通知，可在 项目设置 里修改")}</div>
 					),
-					checkedChildren: vm.xI("开"),
-					unCheckedChildren: vm.xI("关"),
+					checkedChildren: xI("开"),
+					unCheckedChildren: xI("关"),
 					value: true,
 					itemType: "Switch"
 				}),
 				api_opened: defItem({
-					label: vm.xI("开放接口"),
+					label: xI("开放接口"),
 					labelVNodeRender: VNodeCollection.labelTips(
-						<div>{vm.xI("用户可以在 数据导出 时选择只导出公开接口")}</div>
+						<div>{xI("用户可以在 数据导出 时选择只导出公开接口")}</div>
 					),
-					checkedChildren: vm.xI("开"),
-					unCheckedChildren: vm.xI("关"),
+					checkedChildren: xI("开"),
+					unCheckedChildren: xI("关"),
 					value: false,
 					itemType: "Switch"
 				})

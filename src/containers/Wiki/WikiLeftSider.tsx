@@ -5,9 +5,8 @@ import { DialogAddArticle } from "./DialogAddArticle";
 import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { stateApp } from "@/state/app";
-import { Methods_Wiki, State_Wiki, cpt_wikiBelongType } from "./State_Wiki";
+import { Methods_Wiki, stateWiki } from "@/state/wiki";
 import type Node from "element-plus/es/components/tree/src/model/node";
-import type { DragEvents } from "element-plus/es/components/tree/src/model/useDragNode";
 import type { NodeDropType } from "element-plus/es/components/tree/src/tree.type";
 
 const { usefnObserveDomResize } = compositionAPI;
@@ -23,7 +22,7 @@ export const WikiLeftSider = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Wiki,
+			stateWiki,
 			stateApp,
 			Cpt_url,
 			cpt_isPersonalWikiView,
@@ -91,7 +90,7 @@ export const WikiLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<div class="left-tree flex vertical">
+				<div class="left-tree box-shadow">
 					<div class="flex mb10 middle">
 						<ElInput v-model={vm.filterText} />
 						<xGap l="10" />
@@ -109,8 +108,8 @@ export const WikiLeftSider = defineComponent({
 					</div>
 					<ElScrollbar height={vm.siderHeight} class="flex1">
 						<ElTree
-							v-model:expandedKeys={vm.State_Wiki.expandedKeys}
-							data={vm.State_Wiki.treeData}
+							v-model:expandedKeys={vm.stateWiki.expandedKeys}
+							data={vm.stateWiki.treeData}
 							onNodeDragEnd={vm.handleDropArticle}
 							draggable
 							node-key="_id"
@@ -123,9 +122,7 @@ export const WikiLeftSider = defineComponent({
 										const { title, _id, type } = data;
 										const classContentString = (() => {
 											let _classString = "x-sider-tree_menu";
-											if (
-												String(_id) == String(vm.State_Wiki.currentWiki._id)
-											) {
+											if (String(_id) == String(vm.stateWiki.currentWiki._id)) {
 												return _classString + " x-sider-tree_menu_active";
 											}
 											return _classString;
@@ -165,14 +162,14 @@ export const WikiLeftSider = defineComponent({
 												<div class="x-sider-tree_menu_opration">
 													{genIcon({
 														icon: "add",
-														tips: vm.xI("添加"),
+														tips: xI("添加"),
 														clickHandler: () =>
 															vm.showUpsertArticleDialog(item.data)
 													})}
 													{canDelete &&
 														genIcon({
 															icon: "delete",
-															tips: vm.xI("删除"),
+															tips: xI("删除"),
 															clickHandler: () => vm.deleteArticle(_id)
 														})}
 												</div>
@@ -195,7 +192,7 @@ export const WikiLeftSider = defineComponent({
 			dropNode: Node,
 			dropType: NodeDropType
 		) {
-			State_Wiki.isLoading = true;
+			stateWiki.isLoading = true;
 			const params = {
 				dragItem: draggingNode.data,
 				dropItem: dropNode.data,
@@ -206,7 +203,7 @@ export const WikiLeftSider = defineComponent({
 			} catch (error) {
 				xU.message.error(error.message);
 			} finally {
-				State_Wiki.isLoading = false;
+				stateWiki.isLoading = false;
 			}
 		},
 		/* 同类 testcase */
@@ -216,7 +213,7 @@ export const WikiLeftSider = defineComponent({
 			if (dragItem._id == dropItem._id) {
 				return;
 			}
-			const menuOrderArray = getTreeOrder(State_Wiki.treeData);
+			const menuOrderArray = getTreeOrder(stateWiki.treeData);
 			const dragIndex = menuOrderArray.indexOf(dragItem._id);
 			if (dropType === "inner") {
 				dragItem.p_id = dropItem._id;
@@ -244,14 +241,14 @@ export const WikiLeftSider = defineComponent({
 				await API.wiki.upsertOne(dragItem);
 				await API.wiki.resetMenuOrder({
 					order: menuOrderArray,
-					belong_type: cpt_wikiBelongType.value,
+					belong_type: stateWiki.belongType,
 					belong_id: (() => {
 						const { group_id, project_id } = Cpt_url.value.query;
 						const s_map = {
 							group: group_id,
 							project: project_id
 						};
-						return s_map[cpt_wikiBelongType.value];
+						return s_map[stateWiki.belongType];
 					})()
 				});
 				await Methods_Wiki.updateWikiMenuList();
@@ -274,7 +271,7 @@ export const WikiLeftSider = defineComponent({
 						xU.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList();
 						Methods_Wiki.clickWiki({
-							wiki_id: xU.first(State_Wiki.treeData)?._id
+							wiki_id: xU.first(stateWiki.treeData)?._id
 						});
 					} catch (error) {
 						xU.message.error(error.message);

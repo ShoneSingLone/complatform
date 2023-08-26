@@ -3,7 +3,7 @@ import {
 	xU,
 	setValueTo,
 	itemsInvalid,
-	AllWasWell,
+	
 	pickValueFrom,
 	xU,
 	defFormConfigs,
@@ -14,7 +14,7 @@ import { FormRules, newRule } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
-import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { Methods_ProjectInterface } from "@/state/interface";
 
 export const DialogUpdatePwd = defineComponent({
 	props: {

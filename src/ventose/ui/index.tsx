@@ -39,7 +39,7 @@ import {
 } from "./xDataGrid/common";
 import { antColKey, defItem, defFormConfigs, vModel } from "./xForm/common";
 import {
-	AllWasWell,
+	xScope,
 	EVENT_TYPE,
 	itemsInvalid,
 	setCSSVariables,
@@ -131,7 +131,7 @@ export { EVENT_TYPE as EVENT_TYPE };
 export { setPagination as setPagination };
 export { getPaginationPageSize as getPaginationPageSize };
 export { itemsInvalid as itemsInvalid };
-export { AllWasWell as AllWasWell };
+export { xScope as xScope };
 export { setDocumentTitle as setDocumentTitle };
 export { setCSSVariables as setCSSVariables };
 export { defItem as defItem };

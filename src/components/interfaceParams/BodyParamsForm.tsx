@@ -3,6 +3,7 @@ import {
 	defCol,
 	defItem,
 	defXVirTableConfigs,
+	xI,
 	xU
 } from "@/ventose/ui";
 import { State_Project } from "@/containers/Project/Interface/State_Project";
@@ -72,14 +73,14 @@ export const BodyParamsForm = defineComponent({
 					].join("\n"),
 				columns: {
 					...defCol({
-						label: vm.xI("名称"),
+						label: xI("名称"),
 						prop: "name",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.name} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("类型"),
+						label: xI("类型"),
 						prop: "type",
 						width: "110px",
 						renderCell: ({ record }) =>
@@ -92,7 +93,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.xI("必需"),
+						label: xI("必需"),
 						prop: "required",
 						width: "110px",
 						renderCell: ({ record }) =>
@@ -105,21 +106,21 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.xI("示例"),
+						label: xI("示例"),
 						prop: "example",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("备注"),
+						label: xI("备注"),
 						prop: "desc",
 						renderEditor: ({ record }) => (
 							<ElInput v-model:value={record.desc} />
 						)
 					}),
 					...defCol({
-						label: vm.xI("操作"),
+						label: xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,

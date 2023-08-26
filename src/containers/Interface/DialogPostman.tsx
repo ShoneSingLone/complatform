@@ -1,18 +1,19 @@
 import {
 	itemsInvalid,
-	AllWasWell,
+	
 	pickValueFrom,
 	xU,
 	defItem,
-	setValueTo
+	setValueTo,
+	xI
 } from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import {
 	Methods_ProjectInterface,
-	State_ProjectInterface
-} from "@/containers/Project/Interface/State_ProjectInterface";
+	stateInterface
+} from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
@@ -47,12 +48,12 @@ export const DialogPostman = defineComponent({
 				catid: defItem({
 					value: "",
 					itemType: "Select",
-					label: vm.xI("接口分类"),
+					label: xI("接口分类"),
 					placeholder: "分类名称",
 					options: [],
 					rules: [FormRules.required()],
 					once() {
-						this.options = State_ProjectInterface.allCategory;
+						this.options = stateInterface.allCategory;
 						/* 默认在点击的分类下添加新接口 */
 						if (vm.propOptions.categoryId) {
 							this.value = vm.propOptions.categoryId;
@@ -63,16 +64,16 @@ export const DialogPostman = defineComponent({
 				}),
 				title: defItem({
 					value: "",
-					label: vm.xI("接口名称"),
-					placeholder: vm.xI("接口名称"),
+					label: xI("接口名称"),
+					placeholder: xI("接口名称"),
 					rules: [
 						FormRules.required(),
-						FormRules.nameLength({ label: vm.xI("接口") })
+						FormRules.nameLength({ label: xI("接口") })
 					]
 				}),
 				path: defItem({
 					value: "/",
-					label: vm.xI("接口路径"),
+					label: xI("接口路径"),
 					placeholder: "/path",
 					rules: [FormRules.required(), FormRules.apiPath()],
 					once() {
@@ -103,7 +104,7 @@ export const DialogPostman = defineComponent({
 					});
 					if (data) {
 						Methods_ProjectInterface.updateInterfaceMenuList();
-						Cpt_url.value.go("/project/interface/detail", {
+						Cpt_url.value.go("/interface/detail", {
 							...Cpt_url.value.query,
 							interface_id: data._id
 						});

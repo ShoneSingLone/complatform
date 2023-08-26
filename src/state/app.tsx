@@ -215,7 +215,7 @@ export const Methods_App = {
 			const res = await API.project.list(groupId);
 			const { data } = res || {};
 			_stateApp.projectList = data.list;
-			xU("stateApp.projectList", _stateApp.projectList);
+			// xU("stateApp.projectList", _stateApp.projectList);
 		} catch (error) {
 			xU(error);
 		}

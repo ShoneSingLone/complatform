@@ -18,50 +18,50 @@ const defautlValue = () => ({
 
 export function resetStateInterface() {
 	xU.map(defautlValue(), (value, prop) => {
-		State_ProjectInterface[prop] = value;
+		stateInterface[prop] = value;
 	});
-	return State_ProjectInterface;
+	return stateInterface;
 }
 
-const _State_Project_interface = defautlValue();
+const _stateInterface = defautlValue();
 
-export const State_ProjectInterface = reactive(_State_Project_interface);
+export const stateInterface = reactive(_stateInterface);
 
 export const Methods_ProjectInterface = {
 	setExpand: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
-		if (!pathname.includes("/project/interface")) {
+		if (!pathname.includes("/interface")) {
 			return;
 		}
 
-		if ("/project/interface/detail" === pathname) {
-			State_ProjectInterface.expandedKeys = [Number(query.category_id)];
+		if ("/interface/detail" === pathname) {
+			stateInterface.expandedKeys = [Number(query.category_id)];
 		} else {
-			State_ProjectInterface.expandedKeys = [];
+			stateInterface.expandedKeys = [];
 		}
 	}, 500),
 	resetURL: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
 
-		if (!pathname.includes("/project/interface")) {
+		if (!pathname.includes("/interface")) {
 			return;
 		}
 		const { category_id, interface_id } = query;
 		const fnStrategyMap = {
-			"/project/interface/all": () => {
+			"/interface/all": () => {
 				Cpt_url.value.go(
-					"/project/interface/all",
+					"/interface/all",
 					xU.pick(Cpt_url.value.query, ["group_id", "project_id"])
 				);
 			},
-			"/project/interface/category": () => {
+			"/interface/category": () => {
 				if (!category_id) {
-					fnStrategyMap["/project/interface/all"]();
+					fnStrategyMap["/interface/all"]();
 				}
 			},
-			"/project/interface/detail": () => {
+			"/interface/detail": () => {
 				if (!interface_id) {
-					fnStrategyMap["/project/interface/all"]();
+					fnStrategyMap["/interface/all"]();
 				}
 			}
 		};
@@ -70,7 +70,7 @@ export const Methods_ProjectInterface = {
 		if (fn) {
 			fn();
 		} else {
-			fnStrategyMap["/project/interface/all"]();
+			fnStrategyMap["/interface/all"]();
 		}
 	}, 100),
 	async updateInterfaceMenuList() {
@@ -106,8 +106,8 @@ export const Methods_ProjectInterface = {
 				};
 			});
 
-			State_ProjectInterface.allCategory = allCategory;
-			State_ProjectInterface.allInterface = xU.reduce(
+			stateInterface.allCategory = allCategory;
+			stateInterface.allInterface = xU.reduce(
 				allCategory,
 				(dataSource, i) => {
 					if (xU.isArrayFill(i.list)) {
@@ -118,14 +118,14 @@ export const Methods_ProjectInterface = {
 				[]
 			);
 			const _allTags = xU.reduce(
-				State_ProjectInterface.allInterface,
+				stateInterface.allInterface,
 				(allTags, i) => {
 					return allTags.concat(i.tag);
 				},
 				[]
 			);
-			State_ProjectInterface.allTags = xU.uniqBy(_allTags);
-			return State_ProjectInterface.allCategory;
+			stateInterface.allTags = xU.uniqBy(_allTags);
+			return stateInterface.allCategory;
 		}
 	}
 };
@@ -187,18 +187,15 @@ export function useInterfaceTableConfigs(isAll = false) {
 																style="min-width: 400px"
 																v-model:value={filterParams.catid}
 																class="select">
-																{xU.map(
-																	State_ProjectInterface.allCategory,
-																	i => {
-																		return (
-																			<aSelectOption value={i.value}>
-																				<span class={"tag-status " + i.value}>
-																					{i.label}
-																				</span>
-																			</aSelectOption>
-																		);
-																	}
-																)}
+																{xU.map(stateInterface.allCategory, i => {
+																	return (
+																		<aSelectOption value={i.value}>
+																			<span class={"tag-status " + i.value}>
+																				{i.label}
+																			</span>
+																		</aSelectOption>
+																	);
+																})}
 															</ElSelect>
 														</div>
 													);
@@ -209,7 +206,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								);
 							},
 							renderCell({ cell }) {
-								const item = xU.find(State_ProjectInterface.allCategory, {
+								const item = xU.find(stateInterface.allCategory, {
 									value: cell
 								});
 								return item ? (
@@ -263,7 +260,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 						return (
 							<a
 								onClick={() => {
-									Cpt_url.value.go("/project/interface/detail", {
+									Cpt_url.value.go("/interface/detail", {
 										...Cpt_url.value.query,
 										category_id: record.categoryId,
 										interface_id: record._id
@@ -474,7 +471,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 														style="width: 400px"
 														v-model:value={filterParams.tag}
 														class="select">
-														{xU.map(State_ProjectInterface.allTags, i => {
+														{xU.map(stateInterface.allTags, i => {
 															return (
 																<aSelectOption value={i}>{i}</aSelectOption>
 															);
@@ -497,7 +494,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 	);
 
 	const fnUpdateListForShow = xU.debounce(function fnUpdateListForShow() {
-		const { allInterface } = State_ProjectInterface;
+		const { allInterface } = stateInterface;
 		let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
 		let paramKeys = Object.keys(filterParams);
 		let prop = paramKeys.pop();
@@ -533,7 +530,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 		configs_interfaceTable.dataSource = interfaceForShow;
 
 		setTimeout(() => {
-			State_ProjectInterface.isLoading = false;
+			stateInterface.isLoading = false;
 		}, 100);
 	}, 500);
 

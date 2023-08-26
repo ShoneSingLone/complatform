@@ -3,6 +3,26 @@
 	flex-flow: row nowrap;
 	flex: 1;
 	height: 100px;
+	.project-tab {
+		padding: 16px;
+		font-size: var(--app-font-size);
+		border-radius: var(--app-border-radius);
+		.xIcon {
+			width: 24px;
+			height: 24px;
+			margin-bottom: 8px;
+		}
+
+		&:hover {
+			cursor: pointer;
+			background-color: var(--el-fill-color-light);
+		}
+		&.active {
+			color: var(--app-link);
+			fill: var(--app-link);
+		}
+	}
+
 	> .el-menu {
 		> .el-sub-menu {
 			display: flex;
