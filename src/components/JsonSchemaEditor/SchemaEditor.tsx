@@ -1,5 +1,4 @@
 import {
-	
 	components,
 	defItem,
 	pickValueFrom,

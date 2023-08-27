@@ -1,12 +1,5 @@
 //@ts-nocheck
-import {
-	
-	defItem,
-	stateUI,
-	itemsInvalid,
-	xU,
-	xI
-} from "@ventose/ui";
+import { defItem, stateUI, itemsInvalid, xU, xI } from "@ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 

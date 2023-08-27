@@ -11,7 +11,7 @@ import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { EnvSelectRender } from "./DialogModifyInterface.Helper";
-import { Methods_ProjectInterface } from "@/state/interface";
+import { stateInterface } from "@/state/interface";
 
 export const DialogInterfaceProxyModify = defineComponent({
 	props: {
@@ -94,7 +94,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 							API.project.updateInterface({ id, witchEnv, isProxy })
 						)
 					);
-					Methods_ProjectInterface.updateInterfaceMenuList();
+					stateInterface._updateInterfaceMenuList();
 					this.propOptions.$close();
 					xU.message.success(this.xI("修改_成功", { title: "代理" }).label);
 				} catch (error) {

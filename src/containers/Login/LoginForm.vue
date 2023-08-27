@@ -27,7 +27,6 @@ import {
 	defItem,
 	EVENT_TYPE,
 	itemsInvalid,
-	
 	lStorage,
 	stateUI,
 	pickValueFrom

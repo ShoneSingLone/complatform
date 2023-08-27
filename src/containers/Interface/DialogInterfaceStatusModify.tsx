@@ -10,7 +10,7 @@ import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import { ITEM_OPTIONS } from "@/utils/common.options";
-import { Methods_ProjectInterface } from "@/state/interface";
+import { stateInterface } from "@/state/interface";
 
 export const DialogInterfaceStatusModify = defineComponent({
 	props: {
@@ -64,7 +64,7 @@ export const DialogInterfaceStatusModify = defineComponent({
 					const res = await Promise.all(
 						xU.map(selected, id => API.project.updateInterface({ id, status }))
 					);
-					Methods_ProjectInterface.updateInterfaceMenuList();
+					stateInterface._updateInterfaceMenuList();
 					this.propOptions.$close();
 					xU.message.success(this.xI("修改_成功", { title: "状态" }).label);
 				} catch (error) {

@@ -2,10 +2,7 @@ import { itemsInvalid, pickValueFrom, xU, defItem, xI } from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
-import {
-	Methods_ProjectInterface,
-	stateInterface
-} from "@/state/interface";
+import { stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
@@ -95,7 +92,7 @@ export const DialogAddInterface = defineComponent({
 						method: this.apiMethod.value
 					});
 					if (data) {
-						Methods_ProjectInterface.updateInterfaceMenuList();
+						stateInterface._updateInterfaceMenuList();
 						Cpt_url.value.go("/interface/detail", {
 							...Cpt_url.value.query,
 							interface_id: data._id

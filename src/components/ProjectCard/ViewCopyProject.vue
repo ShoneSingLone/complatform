@@ -15,13 +15,7 @@
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import {
-	
-	defItem,
-	pickValueFrom,
-	xU,
-	itemsInvalid
-} from "@/ventose/ui";
+import { defItem, pickValueFrom, xU, itemsInvalid } from "@/ventose/ui";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import {
 	xItem_ProjectIcon,

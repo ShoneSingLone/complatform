@@ -7,7 +7,7 @@ import { AppFooter } from "./components/Footer/AppFooter";
 import { AppHeader } from "./components/Header/AppHeader";
 import { Cpt_url } from "@/router/router";
 import { Methods_App, stateApp } from "@/state/app";
-import { Methods_ProjectInterface } from "@/state/interface";
+import { stateInterface } from "@/state/interface";
 import { $ } from "@/ventose/ui";
 import { RouterView } from "./components/RouterView/RouterView";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
@@ -45,7 +45,7 @@ export default defineComponent({
 					await Methods_App.fetchProjectList(this.Cpt_url.query.group_id);
 					if (this.Cpt_url.query.project_id) {
 						await Methods_App.setCurrProject(this.Cpt_url.query.project_id);
-						await Methods_ProjectInterface.updateInterfaceMenuList();
+						await stateInterface._updateInterfaceMenuList();
 					}
 				}
 			} catch (error) {

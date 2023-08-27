@@ -1,9 +1,6 @@
 import { defineComponent } from "vue";
 import { Cpt_url } from "@/router/router";
-import {
-	stateInterface,
-	useInterfaceTableConfigs
-} from "@/state/interface";
+import { stateInterface, useInterfaceTableConfigs } from "@/state/interface";
 import { xI } from "@/ventose/ui";
 import {
 	openDialogInterfaceStatusModify,

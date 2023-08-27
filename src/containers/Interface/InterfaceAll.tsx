@@ -1,9 +1,6 @@
 import { defineComponent } from "vue";
 
-import {
-	stateInterface,
-	useInterfaceTableConfigs
-} from "@/state/interface";
+import { stateInterface, useInterfaceTableConfigs } from "@/state/interface";
 import { xI, xU } from "@/ventose/ui";
 import {
 	openDialogInterfaceProxyModify,

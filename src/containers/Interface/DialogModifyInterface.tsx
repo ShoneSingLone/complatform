@@ -1,6 +1,5 @@
 import {
 	xI,
-	
 	defItem,
 	pickValueFrom,
 	setValueTo,
@@ -15,10 +14,7 @@ import { stateApp } from "@/state/app";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { HTTP_METHOD } from "@/utils/variable";
-import {
-	Methods_ProjectInterface,
-	stateInterface
-} from "@/state/interface";
+import { stateInterface } from "@/state/interface";
 import { _$handlePath } from "@/utils/common";
 import {
 	EnvSelectRender,
@@ -529,9 +525,9 @@ export const DialogModifyInterface = defineComponent({
 							/* 可能修改了分类，影响对应url */
 							Cpt_url.value.query.category_id = formData.catid;
 							/* 刷新右侧接口树 */
-							await Methods_ProjectInterface.updateInterfaceMenuList();
+							await stateInterface._updateInterfaceMenuList();
 							/* 设置树展开 */
-							Methods_ProjectInterface.setExpand();
+							stateInterface._setExpand();
 
 							if (this.propOptions.updateInterfaceInfo) {
 								/* 更新详情  */

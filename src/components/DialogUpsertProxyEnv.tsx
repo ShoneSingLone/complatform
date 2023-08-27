@@ -1,12 +1,5 @@
 import { defineComponent, markRaw } from "vue";
-import {
-	
-	defItem,
-	pickValueFrom,
-	setValueTo,
-	xI,
-	xU
-} from "@/ventose/ui";
+import { defItem, pickValueFrom, setValueTo, xI, xU } from "@/ventose/ui";
 import { Methods_App, stateApp } from "@/state/app";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import { API } from "@/api";

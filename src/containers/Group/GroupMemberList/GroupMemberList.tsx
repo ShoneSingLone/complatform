@@ -7,7 +7,6 @@ import {
 	stateUI,
 	xU,
 	defItem,
-	
 	pickValueFrom,
 	itemsInvalid,
 	xI

@@ -10,7 +10,7 @@ import { Cpt_url } from "@/router/router";
 
 export const ProjectTestcase = defineComponent({
 	components: {
-		ProjectInterfaceLeftSider: ProjectTestcaseLeftSider
+		InterfaceLeftSider: ProjectTestcaseLeftSider
 	},
 	setup() {
 		return {

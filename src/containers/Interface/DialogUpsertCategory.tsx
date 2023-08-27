@@ -9,7 +9,7 @@ import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
-import { Methods_ProjectInterface } from "@/state/interface";
+import { stateInterface } from "@/state/interface";
 
 export const DialogUpsertCategory = defineComponent({
 	props: {
@@ -72,7 +72,7 @@ export const DialogUpsertCategory = defineComponent({
 					} else {
 						await this.insertNewCategory({ name, desc, project_id });
 					}
-					Methods_ProjectInterface.updateInterfaceMenuList();
+					stateInterface._updateInterfaceMenuList();
 					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {

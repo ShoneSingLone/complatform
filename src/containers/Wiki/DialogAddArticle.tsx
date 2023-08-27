@@ -9,7 +9,7 @@ import {
 import { defineComponent, markRaw } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
-import { Methods_ProjectInterface, stateInterface } from "@/state/interface";
+import { stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";

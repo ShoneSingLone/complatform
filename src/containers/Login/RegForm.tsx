@@ -5,7 +5,6 @@ import {
 	EVENT_TYPE,
 	xU,
 	stateUI,
-	
 	itemsInvalid,
 	pickValueFrom,
 	xI

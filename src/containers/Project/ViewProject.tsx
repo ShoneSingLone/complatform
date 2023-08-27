@@ -11,8 +11,8 @@ import {
 	TAB_KEY_INTERFACE,
 	TAB_KEY_PROJECT_WIKI
 } from "@/utils/variable";
-import { ViewWiki } from "../Wiki/ViewWiki";
-import { ProjectInterface } from "../Interface/ProjectInterface";
+import { ViewWiki } from "@/containers/Wiki/ViewWiki";
+import { ViewInterface } from "@/containers/Interface/ViewInterface";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
@@ -94,7 +94,7 @@ export const ViewProject = defineComponent({
 			if (curretProjectTabName.value !== TAB_KEY_INTERFACE) {
 				return null;
 			}
-			return <ProjectInterface />;
+			return <ViewInterface />;
 		});
 
 		onMounted(() => {

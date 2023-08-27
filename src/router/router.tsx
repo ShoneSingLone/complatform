@@ -66,91 +66,10 @@ export const routes = [
 	{
 		label: xI("接口"),
 		path: "/interface",
-		componentName: "ProjectInterface",
-		component: () => import("../containers/Interface/ProjectInterface.jsx"),
+		componentName: "ViewInterface",
+		component: () => import("../containers/Interface/ViewInterface.js"),
 		meta: {
 			title: xI("接口")
-		}
-	},
-	{
-		label: xI("接口-全部"),
-		path: "/interface/all",
-		componentName: "InterfaceAll",
-		component: () => import("../containers/Interface/InterfaceAll.js")
-	},
-	{
-		label: xI("接口-分类"),
-		path: "/interface/category",
-		componentName: "InterfaceCategory",
-		component: () => import("../containers/Interface/InterfaceCategory.js")
-	},
-	{
-		label: xI("接口-详情"),
-		path: "/interface/detail",
-		componentName: "InterfaceDetail",
-		component: () => import("../containers/Interface/InterfaceDetail.js")
-	},
-	{
-		label: xI("测试集"),
-		path: "/project/testcase",
-		componentName: "ProjectTestcase",
-		component: () =>
-			import("../containers/Project/TestCase/ProjectTestcase.js"),
-		meta: {
-			title: xI("测试集")
-		}
-	},
-	{
-		label: xI("测试集-全部"),
-		path: "/project/testcase/all",
-		componentName: "ProjectTestcaseAll",
-		component: () =>
-			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
-	},
-	{
-		label: xI("测试集-分类"),
-		path: "/project/testcase/category",
-		componentName: "ProjectTestcaseAll",
-		component: () =>
-			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
-	},
-	{
-		label: xI("测试集-详情"),
-		path: "/project/testcase/detail",
-		componentName: "ProjectTestcaseAll",
-		component: () =>
-			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
-	},
-	{
-		label: xI("动态"),
-		path: "/project/activity",
-		component: ViewNotFound,
-		meta: {
-			title: xI("动态")
-		}
-	},
-	{
-		label: xI("数据管理"),
-		path: "/project/data",
-		component: ViewNotFound,
-		meta: {
-			title: xI("数据管理")
-		}
-	},
-	{
-		label: xI("成员管理"),
-		path: "/project/members",
-		component: ViewNotFound,
-		meta: {
-			title: xI("成员管理")
-		}
-	},
-	{
-		label: xI("设置"),
-		path: "/project/setting",
-		component: () => import("../containers/Project/Setting/ProjectSetting.js"),
-		meta: {
-			title: xI("设置")
 		}
 	},
 	{

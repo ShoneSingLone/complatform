@@ -1,5 +1,5 @@
 import { reactive, watch } from "vue";
-import { xU, stateUI, defCol, defXVirTableConfigs } from "@/ventose/ui";
+import { xU, stateUI, defCol, defXVirTableConfigs, xScope } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
@@ -13,22 +13,8 @@ const defautlValue = () => ({
 	allTags: [],
 	allCategory: [],
 	/* 左侧 树 展开 */
-	expandedKeys: []
-});
-
-export function resetStateInterface() {
-	xU.map(defautlValue(), (value, prop) => {
-		stateInterface[prop] = value;
-	});
-	return stateInterface;
-}
-
-const _stateInterface = defautlValue();
-
-export const stateInterface = reactive(_stateInterface);
-
-export const Methods_ProjectInterface = {
-	setExpand: xU.debounce(function () {
+	expandedKeys: [],
+	_setExpand: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
 		if (!pathname.includes("/interface")) {
 			return;
@@ -40,7 +26,7 @@ export const Methods_ProjectInterface = {
 			stateInterface.expandedKeys = [];
 		}
 	}, 500),
-	resetURL: xU.debounce(function () {
+	_resetURL: xU.debounce(function () {
 		const { pathname, query } = Cpt_url.value;
 
 		if (!pathname.includes("/interface")) {
@@ -73,7 +59,7 @@ export const Methods_ProjectInterface = {
 			fnStrategyMap["/interface/all"]();
 		}
 	}, 100),
-	async updateInterfaceMenuList() {
+	async _updateInterfaceMenuList() {
 		/* 必然是有当前project的id */
 		const projectId = Number(Cpt_url.value?.query?.project_id);
 		if (!projectId) {
@@ -128,7 +114,18 @@ export const Methods_ProjectInterface = {
 			return stateInterface.allCategory;
 		}
 	}
-};
+});
+
+export function resetStateInterface() {
+	xU.map(defautlValue(), (value, prop) => {
+		stateInterface[prop] = value;
+	});
+	return stateInterface;
+}
+const _stateInterface = defautlValue();
+type t_stateInterface = typeof _stateInterface;
+
+export const stateInterface = xScope<t_stateInterface>(_stateInterface);
 
 watch(
 	() => {
@@ -136,7 +133,7 @@ watch(
 		return pathname + query.category_id;
 	},
 	() => {
-		Methods_ProjectInterface.setExpand();
+		stateInterface._setExpand();
 	}
 );
 
