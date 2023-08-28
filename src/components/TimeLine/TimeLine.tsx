@@ -80,7 +80,7 @@ export const TimeLine = defineComponent({
 		},
 
 		showDiffLogDialog(data) {
-			xU.openDialog({
+			xU.dialog({
 				title: xI("Api 改动日志(Esc 关闭弹窗)"),
 				component: DialogShowApiModify,
 				maxmin: true,

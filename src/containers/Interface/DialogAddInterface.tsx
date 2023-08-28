@@ -6,6 +6,7 @@ import { stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
+import { INTERFACE } from "@/utils/variable";
 
 export const DialogAddInterface = defineComponent({
 	props: {
@@ -68,7 +69,7 @@ export const DialogAddInterface = defineComponent({
 					once() {
 						const vDomApiMethodsSelector = <xItem configs={vm.apiMethod} />;
 						this.slots = markRaw({
-							addonBefore: () => vDomApiMethodsSelector
+							prepend: () => vDomApiMethodsSelector
 						});
 					}
 				})
@@ -82,10 +83,10 @@ export const DialogAddInterface = defineComponent({
 		async onOk() {
 			if (!(await itemsInvalid())) {
 				const { catid, title, path } = pickValueFrom(this.dataXItem);
-				const { projectId, $close } = this.propOptions;
+				const { payload, $close } = this.propOptions;
 				try {
 					const { data } = await API.project.addInterface({
-						project_id: projectId,
+						project_id: payload.projectId,
 						catid,
 						title,
 						path,
@@ -93,11 +94,10 @@ export const DialogAddInterface = defineComponent({
 					});
 					if (data) {
 						stateInterface._updateInterfaceMenuList();
-						Cpt_url.value.go("/interface/detail", {
-							...Cpt_url.value.query,
-							interface_id: data._id
-						});
-
+						Cpt_url.value.query.interface_type = INTERFACE;
+						Cpt_url.value.query.category_id = payload.categoryId;
+						Cpt_url.value.query.interface_id = data._id;
+						stateInterface._setExpand();
 						xU.message.success("添加接口成功");
 						$close();
 					}
@@ -111,9 +111,8 @@ export const DialogAddInterface = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
-					<xGap t="10" />
 					<ElAlert
-						title={this.xI("注： 详细的接口数据可以在编辑页面中添加")}
+						title={xI("注： 详细的接口数据可以在编辑页面中添加")}
 						type="info"
 						closable
 						class="width100"
@@ -129,6 +128,7 @@ export const DialogAddInterface = defineComponent({
 								</>
 							);
 						})}
+						<xGap t="10" />
 					</xForm>
 					<xGap t="10" />
 				</div>

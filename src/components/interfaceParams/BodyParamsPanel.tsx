@@ -21,8 +21,8 @@ export const BodyParamsPanel = defineComponent({
 	},
 	methods: {
 		openBulkValuesDialog() {
-			xU.openDialog({
-				title: this.xI("批量添加参数"),
+			xU.dialog({
+				title: xI("批量添加参数"),
 				component: DialogBulkValues,
 				formValues: this.params.req_body_form,
 				onOk: req_body_form => {

@@ -500,7 +500,7 @@ export const DialogModifyInterface = defineComponent({
 				_formData.req_body_type === "json"
 			) {
 				if (!_formData.req_body_other) {
-					throw new Error(this.xI("请求参数 json-schema 格式有误"));
+					throw new Error(xI("请求参数 json-schema 格式有误"));
 				}
 			}
 			if (
@@ -509,7 +509,7 @@ export const DialogModifyInterface = defineComponent({
 				_formData.res_body_type === "json"
 			) {
 				if (!_formData.res_body) {
-					throw new Error(this.xI("返回数据 json-schema 格式有误"));
+					throw new Error(xI("返回数据 json-schema 格式有误"));
 				}
 			}
 			return _formData;
@@ -538,10 +538,10 @@ export const DialogModifyInterface = defineComponent({
 								this.propOptions.$close();
 							}, 1000);
 						})();
-						xU.message.success(this.xI("修改成功"));
+						xU.message.success(xI("修改成功"));
 					}
 				} catch (error) {
-					xU.message.error(this.xI("修改失败"));
+					xU.message.error(xI("修改失败"));
 				}
 			}
 		}

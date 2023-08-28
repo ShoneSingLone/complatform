@@ -102,7 +102,7 @@ export const DemoAndCode = defineComponent({
 			this.rerun(scfObjSourceCode);
 		},
 		showSourceCodeDialog() {
-			xU.openDialog({
+			xU.dialog({
 				title: this.path,
 				component: DialogSourceCode,
 				maxmin: true,

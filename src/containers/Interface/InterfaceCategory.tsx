@@ -3,8 +3,8 @@ import { Cpt_url } from "@/router/router";
 import { stateInterface, useInterfaceTableConfigs } from "@/state/interface";
 import { xI } from "@/ventose/ui";
 import {
-	openDialogInterfaceStatusModify,
-	openDialogInterfaceProxyModify
+	dialogInterfaceStatusModify,
+	dialogInterfaceProxyModify
 } from "./DialogModifyInterface.Helper";
 
 export const InterfaceCategory = defineComponent({
@@ -33,7 +33,7 @@ export const InterfaceCategory = defineComponent({
 					return vm.disabled;
 				},
 				async onClick() {
-					openDialogInterfaceStatusModify({
+					dialogInterfaceStatusModify({
 						selected: vm.configs_interfaceTable.selected
 					});
 				}
@@ -44,7 +44,7 @@ export const InterfaceCategory = defineComponent({
 					return vm.disabled;
 				},
 				async onClick() {
-					openDialogInterfaceProxyModify({
+					dialogInterfaceProxyModify({
 						selected: vm.configs_interfaceTable.selected
 					});
 				}

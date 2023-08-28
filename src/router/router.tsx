@@ -94,7 +94,15 @@ export const ProjectChildren = routes.filter(route => {
 type type_url = {
 	go: (path: string, query?: object) => null;
 	refresh: (query: object) => null;
-	query: () => object;
+	query: {
+		group_id?: string;
+		group_tab?: string;
+		project_id?: string;
+		project_tab?: string;
+		interface_type?: string;
+		interface_id?: string;
+		category_id?: string;
+	};
 };
 
 export const Cpt_url: ComputedRef<type_url> = computed(() => {

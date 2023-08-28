@@ -33,7 +33,7 @@ export async function fnUpsertGroupInfo(formData = {}) {
 export function fnShowUpsertGroupDialog(row = {}) {
 	const vm = this;
 	const isUpdate = !!row._id;
-	xU.openDialog({
+	xU.dialog({
 		title: isUpdate ? xI("修改分组信息") : xI("添加分组"),
 		component: isUpdate ? DialogEditGroup : DialogAddGroup,
 		// fullscreen: true,

@@ -21,14 +21,13 @@ export const setValueTo = (configs, values) => {
 	configs = xU.reduce(
 		values,
 		(configs, value, prop) => {
-			if (value === undefined) {
-				return;
-			}
-			if (configs[prop]) {
-				configs[prop].value = value;
-				/* onChange */
-				if (xU.isFunction(configs[prop].onChange)) {
-					configs[prop].onChange(value);
+			if (value !== undefined) {
+				if (configs[prop]) {
+					configs[prop].value = value;
+					/* onChange */
+					if (xU.isFunction(configs[prop].onChange)) {
+						configs[prop].onChange(value);
+					}
 				}
 			}
 			return configs;

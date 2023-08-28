@@ -122,11 +122,11 @@ export default {
 						"ul",
 						null,
 						[
-							xI(`只能由英文字母(区分大小写)、数字和特殊字符@.\\_-组成`).label,
-							xI(`不能以"op_svc"、"paas_op"或\\开头`).label,
-							xI(`不能以\\结尾`).label,
-							xI(`不能命名为"admin"、"power_user"或"guest"`).label,
-							xI(`长度范围是4到32位`).label
+							xI(`只能由英文字母(区分大小写)、数字和特殊字符@.\\_-组成`),
+							xI(`不能以"op_svc"、"paas_op"或\\开头`),
+							xI(`不能以\\结尾`),
+							xI(`不能命名为"admin"、"power_user"或"guest"`),
+							xI(`长度范围是4到32位`)
 						].map(content => h("li", null, content))
 					)
 				),

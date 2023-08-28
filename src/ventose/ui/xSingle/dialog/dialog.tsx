@@ -16,21 +16,23 @@ const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 }, 100);
 
 export type t_dialogOptions = {
-	/* 弹窗里面的弹窗点击之后不关闭（点不到其他位置） */
-	keepTop?: boolean;
-	payload?: any;
-	isEcsCloseDialog?: boolean;
-	/* 传入的组件的实例 */
-	vmDialogContent?: object;
 	/* 在component里面propDialogOptions作为参数传入*/
 	title?: any;
+	/* 传入的组件 */
 	component: object;
+	/* 传入的组件的实例 */
+	contentVM?: object;
+	/* 用来组件间通信，业务参数 */
+	payload?: any;
+	/*关闭方法*/
+	$close?: Function;
+	/* 弹窗里面的弹窗点击之后不关闭（点不到其他位置） */
+	keepTop?: boolean;
+	isEcsCloseDialog?: boolean;
 	area?: string[];
 	/* layer 索引，用于layer close */
 	_layer_index?: number;
 	fullscreen?: boolean;
-	/*关闭方法*/
-	$close?: Function;
 	/* hook: 完成组件首次加载 */
 	onAfterOpenDialoag?: Function;
 	onBeforeClose?: Function;
@@ -99,17 +101,22 @@ const xDialogFooter = defineComponent({
 	}
 });
 
+let DialogOpenAt = null;
+window.addEventListener(
+	"click",
+	function (event) {
+		const { x, y } = event;
+		// console.log("click.DialogOpenAt", event.target);
+		DialogOpenAt = { left: x, top: y };
+	},
+	/* 捕获，冒泡有可能被阻止 */
+	true
+);
+
 export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 	app.component("xDialogFooter", xDialogFooter);
-	let DialogOpenAt = null;
-	$(window).on("click.DialogOpenAt", function (event) {
-		// console.log("click.DialogOpenAt", event.target);
-		DialogOpenAt = $(event.target).offset();
-	});
 
-	xU.openDialog = xU.debounce(async function dialogComponent(
-		dialogOptions: t_dialogOptions
-	) {
+	xU.dialog = async function dialogComponent(dialogOptions: t_dialogOptions) {
 		return new Promise(resolve => {
 			if (DialogOpenAt) {
 				dialogOptions.triggerDom = DialogOpenAt;
@@ -200,7 +207,7 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 										return { cpt_vDomTitle };
 									},
 									created() {
-										this.dialogOptions.vmDialogContent = this;
+										this.dialogOptions.contentVM = this;
 										if (this.dialogOptions.keepTop) {
 											setTimeout(() => {
 												this.dialogOptions.dialogInst.cpt$shade.css(
@@ -262,9 +269,9 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 						}
 						dialogOptions.dialogInst = null;
 						dialogOptions.payload = null;
-						dialogOptions.vmDialogContent.$resizeObserver.disconnect();
-						dialogOptions.vmDialogContent.$resizeObserver = null;
-						dialogOptions.vmDialogContent = null;
+						dialogOptions.contentVM.$resizeObserver.disconnect();
+						dialogOptions.contentVM.$resizeObserver = null;
+						dialogOptions.contentVM = null;
 						dialogOptions = null;
 					}
 				},
@@ -272,6 +279,5 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 			);
 			xLayer.open(layerOptions);
 		});
-	},
-	32);
+	};
 };

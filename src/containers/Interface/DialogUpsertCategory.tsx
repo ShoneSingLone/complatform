@@ -3,7 +3,8 @@ import {
 	defItem,
 	setValueTo,
 	pickValueFrom,
-	xU
+	xU,
+	xI
 } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
@@ -44,13 +45,12 @@ export const DialogUpsertCategory = defineComponent({
 		};
 	},
 	mounted() {
-		this.propOptions.vm = this;
 		this.initForm();
 	},
 	computed: {
 		category() {
-			if (this.propOptions.category) {
-				return this.propOptions.category;
+			if (this.propOptions.payload.category) {
+				return this.propOptions.payload.category;
 			} else {
 				return false;
 			}
@@ -76,9 +76,9 @@ export const DialogUpsertCategory = defineComponent({
 					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {
-						xU.message.error(this.xI("修改_失败", { title: "分类" }).label);
+						xU.message.error(xI("修改_失败", { title: "分类" }));
 					} else {
-						xU.message.error(this.xI("添加_失败", { title: "分类" }).label);
+						xU.message.error(xI("添加_失败", { title: "分类" }));
 					}
 				}
 			}
@@ -90,7 +90,7 @@ export const DialogUpsertCategory = defineComponent({
 				desc
 			});
 			if (res) {
-				xU.message.success(this.xI("添加_成功", { title: "分类" }).label);
+				xU.message.success(xI("添加_成功", { title: "分类" }));
 			} else {
 				throw new Error("");
 			}
@@ -103,7 +103,7 @@ export const DialogUpsertCategory = defineComponent({
 				desc
 			});
 			if (res) {
-				xU.message.success(this.xI("修改_成功", { title: "分类" }).label);
+				xU.message.success(xI("修改_成功", { title: "分类" }));
 			} else {
 				throw new Error("");
 			}
@@ -112,8 +112,7 @@ export const DialogUpsertCategory = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper ">
-					<xGap t="10" />
+				<div class="x-dialog-boddy-wrapper">
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
@@ -126,7 +125,6 @@ export const DialogUpsertCategory = defineComponent({
 							);
 						})}
 					</xForm>
-					<xGap b="38" />
 				</div>
 				<xDialogFooter
 					configs={{

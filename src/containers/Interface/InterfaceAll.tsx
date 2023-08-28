@@ -3,8 +3,8 @@ import { defineComponent } from "vue";
 import { stateInterface, useInterfaceTableConfigs } from "@/state/interface";
 import { xI, xU } from "@/ventose/ui";
 import {
-	openDialogInterfaceProxyModify,
-	openDialogInterfaceStatusModify
+	dialogInterfaceProxyModify,
+	dialogInterfaceStatusModify
 } from "./DialogModifyInterface.Helper";
 
 export const InterfaceAll = defineComponent({
@@ -48,7 +48,7 @@ export const InterfaceAll = defineComponent({
 					return vm.disabled;
 				},
 				async onClick() {
-					openDialogInterfaceStatusModify({
+					dialogInterfaceStatusModify({
 						selected: vm.configs_interfaceTable.selected
 					});
 				}
@@ -59,7 +59,7 @@ export const InterfaceAll = defineComponent({
 					return vm.disabled;
 				},
 				async onClick() {
-					openDialogInterfaceProxyModify({
+					dialogInterfaceProxyModify({
 						selected: vm.configs_interfaceTable.selected
 					});
 				}

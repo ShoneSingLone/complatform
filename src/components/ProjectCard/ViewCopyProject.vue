@@ -57,7 +57,7 @@ export default defineComponent({
 		},
 		dialogDefautBtn() {
 			return {
-				textOk: this.xI("复制"),
+				textOk: xI("复制"),
 				onCancel: this.propOptions.$close,
 				onOk: this.onOk
 			};

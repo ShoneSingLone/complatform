@@ -149,7 +149,7 @@ export const GroupProjectList = defineComponent({
 		},
 		async showAddProjectDialog() {
 			const vm = this;
-			xU.openDialog({
+			xU.dialog({
 				title: "添加项目",
 				component: DialogAddProject,
 				groupId: vm.Cpt_url.query.group_id,

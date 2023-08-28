@@ -3,7 +3,7 @@
 		title="v-xTips的使用"
 		path="/boundless/demo/xTips/DemoxTipsNormal.sfc" />
 	<DemoAndCode
-		title="xU.openDialog 弹窗"
+		title="xU.dialog 弹窗"
 		path="/boundless/demo/xTips/DemouiDialogComponent.sfc" />
 </template>
 

@@ -107,8 +107,8 @@ export const InterfaceDetail = defineComponent({
 	methods: {
 		async runPostman() {
 			const vm = this;
-			xU.openDialog({
-				title: this.xI("修改接口"),
+			xU.dialog({
+				title: xI("修改接口"),
 				component: DialogPostman,
 				area: ["1024px", "624px"],
 				maxmin: true
@@ -168,14 +168,14 @@ export const InterfaceDetail = defineComponent({
 			const $dialogModifyInterface = $(`.dialog-modify-interface`);
 
 			if ($dialogModifyInterface.length > 0) {
-				xU.message.warn(this.xI("已存在修改面板"));
+				xU.message.warn(xI("已存在修改面板"));
 				return;
 			}
 			const { status, curdata, message } = await this.checkConflict(item);
 
 			if (status == 2) {
 				try {
-					await xU.dialog.confirm({
+					await xU.confirm({
 						content: (
 							<div class="flex middle">
 								<a href={makeAhref(`/user/profile/${curdata.uid}`)}>
@@ -196,8 +196,8 @@ export const InterfaceDetail = defineComponent({
 			if (message) {
 				xU.message.warn(message);
 			}
-			xU.openDialog({
-				title: this.xI("修改接口") + `-${item.title}`,
+			xU.dialog({
+				title: xI("修改接口") + `-${item.title}`,
 				// fullscreen: true,
 				component: DialogModifyInterface,
 				area: ["1024px", "624px"],

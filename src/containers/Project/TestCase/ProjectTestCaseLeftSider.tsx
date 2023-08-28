@@ -333,7 +333,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 			const vm = this;
 			xU.confirm({
 				title: xI("您确认删除此用例？"),
-				content: xI(`温馨提示：用例删除后，无法恢复`).label,
+				content: xI(`温馨提示：用例删除后，无法恢复`),
 				async onOk() {
 					try {
 						await API.project.deleteInterfaceById(id);
@@ -351,7 +351,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		},
 		deleteCategory(id) {
 			const vm = this;
-			xU.dialog.confirm({
+			xU.confirm({
 				title: "确定删除此用例集合吗？",
 				content: `温馨提示：该操作会删除该集合下所有用例，用例删除后无法恢复`,
 				async onOk() {
@@ -371,8 +371,8 @@ export const ProjectTestcaseLeftSider = defineComponent({
 			});
 		},
 		showUpsertTestcaseCategoryDialog(category = false) {
-			xU.openDialog({
-				title: category ? this.xI("修改集合") : this.xI("添加集合"),
+			xU.dialog({
+				title: category ? xI("修改集合") : xI("添加集合"),
 				component: DialogUpsertCategory,
 				category
 			});
@@ -380,8 +380,8 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		showAddTestcaseDialog(categoryId, $event: Event) {
 			$event.stopPropagation();
 			$event.preventDefault();
-			xU.openDialog({
-				title: this.xI("添加用例"),
+			xU.dialog({
+				title: xI("添加用例"),
 				categoryId,
 				projectId: this.stateApp.currProject._id,
 				component: DialogAddInterface

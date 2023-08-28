@@ -94,6 +94,8 @@ const VueComponents: any = {};
 const CACHE_PENDDING = {};
 
 const privateLodash = {
+	/* installVentoseUIDialog Vue3 依赖外部plugin，没有全局的 */
+	dialog: async (options: t_dialogOptions) => null,
 	confirm(options: t_confirmOptions) {
 		options.title =
 			options.title ||
@@ -103,14 +105,13 @@ const privateLodash = {
 					<span class="ml10">{xI("提示")}</span>
 				</span>
 			));
-
-		xU.openDialog({
+		xU.dialog({
 			title: options.title,
 			payload: options,
 			component: DialogConfirm
 		});
 	},
-	delete(options: t_confirmOptions) {
+	deleteConfirm(options: t_confirmOptions) {
 		options.title = () => (
 			<span>
 				<xIcon icon="insideIconWarning" />
@@ -119,14 +120,10 @@ const privateLodash = {
 		);
 		this.confirm(options);
 	},
-	dialog: {
-		/* installVentoseUIDialog Vue3 依赖外部plugin，没有全局的 */
-		component: async (options: t_dialogOptions) => null,
-		success: useModel("success"),
-		info: useModel("info"),
-		error: useModel("error"),
-		warning: useModel("warning")
-	},
+	success: useModel("success"),
+	info: useModel("info"),
+	error: useModel("error"),
+	warning: useModel("warning"),
 	message: ElMessage,
 	notification: new Proxy(ElNotification, {
 		get(target, p, receiver) {

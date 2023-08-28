@@ -80,7 +80,7 @@ export const ViewUserProfile = defineComponent({
 			);
 		},
 		async updatePwd() {
-			xU.openDialog({
+			xU.dialog({
 				title: xI("修改密码"),
 				component: DialogUpdatePwd
 			});

@@ -74,7 +74,6 @@ export default defineComponent({
 		if (properties.isPassword) {
 			properties.showPassword = true;
 		}
-
 		return (
 			<component
 				v-model={this._modelValue}

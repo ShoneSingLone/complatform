@@ -31,7 +31,7 @@ export const DialogUpsertI18nRecord = defineComponent({
 	data() {
 		const vm = this;
 		const idTipsMarkdown = `\`\`\`js
-//${xI(`作为Key值`).label}
+//${xI(`作为Key值`)}
 xI("Key值")
 \`\`\``;
 		return {
@@ -61,7 +61,7 @@ xI("Key值")
 					value: "",
 					label: xI("国际化信息"),
 					labelVNodeRender: VNodeCollection.labelTips(
-						xI(`以数组的形式["语言","language"]`).label
+						xI(`以数组的形式["语言","language"]`)
 					),
 					rules: [FormRules.required(), FormRules.stringIsArrayJson()],
 					itemType: defineComponent({

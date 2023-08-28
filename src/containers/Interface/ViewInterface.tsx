@@ -18,7 +18,7 @@ export const ViewInterface = defineComponent({
 					v-xloading={stateInterface.isLoading}>
 					<InterfaceLeftSider />
 					<main class="flex flex1 padding10" style="width:1px;">
-						asdfsf
+						{JSON.stringify(Cpt_url.value.query)}
 					</main>
 				</section>
 			);

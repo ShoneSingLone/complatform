@@ -103,9 +103,9 @@ export const DialogUpdatePwd = defineComponent({
 					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {
-						xU.message.error(this.xI("修改_失败", { title: "分类" }).label);
+						xU.message.error(xI("修改_失败", { title: "分类" }));
 					} else {
-						xU.message.error(this.xI("添加_失败", { title: "分类" }).label);
+						xU.message.error(xI("添加_失败", { title: "分类" }));
 					}
 				}
 			}
@@ -117,7 +117,7 @@ export const DialogUpdatePwd = defineComponent({
 				desc
 			});
 			if (res) {
-				xU.message.success(this.xI("添加_成功", { title: "分类" }).label);
+				xU.message.success(xI("添加_成功", { title: "分类" }));
 			} else {
 				throw new Error("");
 			}
@@ -130,7 +130,7 @@ export const DialogUpdatePwd = defineComponent({
 				desc
 			});
 			if (res) {
-				xU.message.success(this.xI("修改_成功", { title: "分类" }).label);
+				xU.message.success(xI("修改_成功", { title: "分类" }));
 			} else {
 				throw new Error("");
 			}

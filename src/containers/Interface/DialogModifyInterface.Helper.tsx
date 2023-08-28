@@ -11,7 +11,7 @@ import {
 } from "@/components";
 
 export async function openProxyEnvDialog() {
-	xU.openDialog({
+	xU.dialog({
 		title: xI("管理项目接口转发环境"),
 		// offset: [20, 20],
 		component: DialogUpsertProxyEnv,
@@ -21,7 +21,7 @@ export async function openProxyEnvDialog() {
 }
 
 export async function openUpsertTagDialog() {
-	xU.openDialog({
+	xU.dialog({
 		title: xI("管理项目接口Tags"),
 		// offset: [20, 20],
 		component: DialogUpsertTags,
@@ -220,16 +220,16 @@ export const ResponseRender = defineComponent({
 	}
 });
 
-export function openDialogInterfaceStatusModify({ selected }) {
-	xU.openDialog({
+export function dialogInterfaceStatusModify({ selected }) {
+	xU.dialog({
 		title: xI("变更状态"),
 		component: DialogInterfaceStatusModify,
 		selected
 	});
 }
 
-export function openDialogInterfaceProxyModify({ selected }) {
-	xU.openDialog({
+export function dialogInterfaceProxyModify({ selected }) {
+	xU.dialog({
 		title: xI("变更代理"),
 		component: DialogInterfaceProxyModify,
 		selected

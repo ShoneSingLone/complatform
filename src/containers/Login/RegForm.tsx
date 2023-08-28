@@ -127,7 +127,7 @@ export default defineComponent({
 							const res = await API.user.regActions(
 								pickValueFrom(vm.configsForm)
 							);
-							xU.notification.success(xI('"注册成功"').label);
+							xU.notification.success(xI('"注册成功"'));
 
 							Cpt_url.value.go("/group");
 						} else {

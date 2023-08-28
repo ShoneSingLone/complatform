@@ -1,16 +1,15 @@
 import { xI, xU, xScope } from "@/ventose/ui";
 import { defineComponent, onMounted } from "vue";
 import { API } from "@/api";
-import {
-	cpt_treeData,
-	cpt_interfaceId,
-	stateInterface
-} from "@/state/interface";
+import { cpt_treeData, stateInterface } from "@/state/interface";
 import { _$arrayChangeIndex } from "@/utils/common";
 import type Node from "element-plus/es/components/tree/src/model/node";
 import type { NodeDropType } from "element-plus/es/components/tree/src/tree.type";
 import { Cpt_url } from "@/router/router";
 import { ALL, CATEGORY, INTERFACE } from "@/utils/variable";
+import { DialogUpsertCategory } from "./DialogUpsertCategory";
+import { DialogAddInterface } from "./DialogAddInterface";
+import { stateApp } from "@/state/app";
 
 export const InterfaceLeftSider = defineComponent({
 	setup() {
@@ -35,6 +34,61 @@ export const InterfaceLeftSider = defineComponent({
 			},
 			siderHeight: 500,
 			/* 同类 interface */
+			_showAddInterfaceDialog(categoryId, $event: Event) {
+				$event.stopPropagation();
+				$event.preventDefault();
+				xU.dialog({
+					component: DialogAddInterface,
+					title: xI("添加接口"),
+					payload: {
+						categoryId,
+						projectId: Cpt_url.value.query.project_id
+					}
+				});
+			},
+			_deleteInterface(id) {
+				const vm = this;
+				xU.confirm({
+					title: xI("您确认删除此接口？"),
+					content: xI(`温馨提示：接口删除后，无法恢复`),
+					async onOk() {
+						try {
+							await API.project.deleteInterfaceById(id);
+							xU.message.success(xI("删除接口成功"));
+							stateInterface._updateInterfaceMenuList();
+						} catch (error) {
+							xU.message.error(error.message);
+						}
+					}
+				});
+			},
+			_deleteCategory(id) {
+				const vm = this;
+				xU.confirm({
+					title: "确定删除此接口分类吗？",
+					content: `温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复`,
+					async onOk() {
+						try {
+							await API.project.deleteCategoryById(id);
+							xU.message.success("删除分类成功");
+							stateInterface._updateInterfaceMenuList();
+						} catch (error) {
+							xU.message.error(error.message);
+							return Promise.reject();
+						}
+					}
+				});
+			},
+			_showUpsertCategoryDialog({ category }: any = {}) {
+				xU.dialog({
+					title: category ? xI("修改分类") : xI("添加分类"),
+					component: DialogUpsertCategory,
+					payload: {
+						category
+					}
+				});
+			},
+
 			async _switchSameCategoryInterfaceOrder({ dragItem, dropItem }) {
 				const category = xU.find(stateInterface.allCategory, {
 					_id: dragItem.categoryId
@@ -60,7 +114,7 @@ export const InterfaceLeftSider = defineComponent({
 
 			async _switchCategoryOrder({ dragItem, dropItem }) {
 				const paramsChanges = _$arrayChangeIndex(
-					this.State_Project.allCategory,
+					State_Project.allCategory,
 					dragItem._id,
 					dropItem._id
 				);
@@ -110,7 +164,7 @@ export const InterfaceLeftSider = defineComponent({
 		return function () {
 			return (
 				<aside class="x-sider_wrapper" style={vm.styleAside}>
-					{JSON.stringify(stateInterface.expandedKeys)}
+					{/* {JSON.stringify(stateInterface.expandedKeys)} */}
 					<div class="x-sider_wrapper_tree" ref="wrapper">
 						<div
 							class="left-tree box-shadow"
@@ -118,7 +172,7 @@ export const InterfaceLeftSider = defineComponent({
 							<ElScrollbar height={vm.siderHeight} class="flex1">
 								<ElTree
 									height={vm.siderHeight}
-									v-model:expandedKeys={stateInterface.expandedKeys}
+									defaultExpandedKeys={stateInterface.expandedKeys}
 									data={cpt_treeData.value}
 									onNodeDragEnd={vm._handleDropInterface}
 									draggable
@@ -175,34 +229,98 @@ export const InterfaceLeftSider = defineComponent({
 													})();
 												};
 
-												const canDelete =
-													!item?.children || item?.children?.length === 0;
+												if (menuType === ALL) {
+													return (
+														<div
+															data-interface-all-menu
+															class={classContentString}>
+															<div
+																onClick={handleClick}
+																class="flex middle flex1">
+																<xGap l="10" />
+																<xIcon icon="allCategory" />
+																<div class="x-sider-tree_menu_title">
+																	{title}
+																</div>
+															</div>
+															<div class="x-sider-tree_menu_opration">
+																{/* 全部接口 */}
+																{genIcon({
+																	icon: "add",
+																	tips: xI("添加分类"),
+																	clickHandler: () =>
+																		vm._showUpsertCategoryDialog()
+																})}
+																{genIcon({
+																	icon: "refresh",
+																	tips: xI("刷新"),
+																	clickHandler: () =>
+																		stateInterface._updateInterfaceMenuList()
+																})}
+															</div>
+														</div>
+													);
+												}
+
+												const vDomOpration = (() => {
+													if (menuType === "category") {
+														return (
+															<div class="x-sider-tree_menu_opration">
+																{genIcon({
+																	icon: "add",
+																	tips: xI("添加接口"),
+																	clickHandler: $event =>
+																		vm._showAddInterfaceDialog(
+																			categoryId,
+																			$event
+																		)
+																})}
+																{genIcon({
+																	icon: "edit",
+																	tips: xI("修改分类"),
+																	clickHandler: $event =>
+																		vm._showUpsertCategoryDialog({
+																			category: data
+																		})
+																})}
+																{genIcon({
+																	icon: "delete",
+																	tips: xI("删除分类"),
+																	clickHandler: $event =>
+																		vm._deleteCategory(_id, $event)
+																})}
+															</div>
+														);
+													} else {
+														return (
+															<div class="x-sider-tree_menu_opration">
+																{genIcon({
+																	icon: "delete",
+																	tips: xI("删除接口"),
+																	clickHandler: $event =>
+																		vm._deleteInterface(_id, $event)
+																})}
+															</div>
+														);
+													}
+												})();
+
+												let iconName = "subCategoryInterface";
+												if (menuType === "category") {
+													iconName = "subCategory";
+												}
 
 												return (
 													<div class={classContentString}>
-														<xGap l="10" onClick={handleClick} />
-														<xIcon icon="icon_article" onClick={handleClick} />
 														<div
-															class="x-sider-tree_menu_title"
+															class="flex middle flex1"
 															onClick={handleClick}>
-															<xHighlight
-																content={title}
-																filter={vm.filterText}
-															/>
+															<xGap l="10" />
+															<xIcon icon={iconName} />
+															<div class="x-sider-tree_menu_title">{title}</div>
 														</div>
 														<div class="x-sider-tree_menu_opration">
-															{genIcon({
-																icon: "add",
-																tips: xI("添加"),
-																clickHandler: () =>
-																	vm.showUpsertArticleDialog(item.data)
-															})}
-															{canDelete &&
-																genIcon({
-																	icon: "delete",
-																	tips: xI("删除"),
-																	clickHandler: () => vm.deleteArticle(_id)
-																})}
+															{vDomOpration}
 														</div>
 													</div>
 												);

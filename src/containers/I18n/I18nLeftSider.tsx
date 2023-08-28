@@ -6,6 +6,7 @@ import { Cpt_url } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { stateApp } from "@/state/app";
 import { stateI18n } from "./State_i18n";
+import { Methods_Wiki } from "@/state/wiki";
 
 const { usefnObserveDomResize } = compositionAPI;
 
@@ -72,7 +73,7 @@ export const I18nLeftSider = defineComponent({
 		btnAddNew() {
 			return {
 				text: xI("新增"),
-				onClick: () => this.openDialogUpsertI18nRecord()
+				onClick: () => this.dialogUpsertI18nRecord()
 			};
 		},
 		btnRefresh() {
@@ -146,8 +147,7 @@ export const I18nLeftSider = defineComponent({
 											{genIcon({
 												icon: "add",
 												tips: xI("添加"),
-												clickHandler: () =>
-													vm.openDialogUpsertI18nRecord(item.data)
+												clickHandler: () => vm.dialogUpsertI18nRecord(item.data)
 											})}
 											{canDelete &&
 												genIcon({
@@ -233,7 +233,7 @@ export const I18nLeftSider = defineComponent({
 		}, 20),
 		deleteArticle(_id) {
 			const vm = this;
-			xU.dialog.confirm({
+			xU.confirm({
 				title: "确定删除此文档吗？",
 				content: `文档删除后无法恢复`,
 				async onOk() {
@@ -251,9 +251,9 @@ export const I18nLeftSider = defineComponent({
 				}
 			});
 		},
-		openDialogUpsertI18nRecord(record) {
-			xU.openDialog({
-				title: this.xI("添加记录"),
+		dialogUpsertI18nRecord(record) {
+			xU.dialog({
+				title: xI("添加记录"),
 				record,
 				component: DialogUpsertI18nRecord
 			});

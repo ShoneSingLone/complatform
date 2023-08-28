@@ -120,7 +120,7 @@ export const DialogAddInterface = defineComponent({
 				<div class="x-dialog-boddy-wrapper">
 					<xGap t="10" />
 					<ElAlert
-						title={this.xI("注： 详细的接口数据可以在编辑页面中添加")}
+						title={xI("注： 详细的接口数据可以在编辑页面中添加")}
 						type="info"
 						closable
 						class="width100"

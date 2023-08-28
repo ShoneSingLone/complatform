@@ -35,14 +35,8 @@ const defautlValue = () => ({
 	expandedKeys: [],
 	/********************** methods ******************/
 	_setExpand: xU.debounce(function () {
-		debugger;
-		const { pathname, query } = Cpt_url.value;
-		if (!pathname.includes("/interface")) {
-			return;
-		}
-
-		if ("/interface/detail" === pathname) {
-			stateInterface.expandedKeys = [Number(query.category_id)];
+		if (Cpt_url.value.query.category_id) {
+			stateInterface.expandedKeys = [Number(Cpt_url.value.query.category_id)];
 		} else {
 			stateInterface.expandedKeys = [];
 		}
@@ -132,6 +126,8 @@ const defautlValue = () => ({
 				[]
 			);
 			stateInterface.allTags = xU.uniqBy(_allTags);
+
+			stateInterface._setExpand();
 			return stateInterface.allCategory;
 		}
 	}
@@ -147,16 +143,6 @@ export const stateInterface = xScope<t_stateInterface>(
 
 export const cpt_treeData = computed(() => {
 	return DefaultInterfaceMenu.concat(stateInterface.allCategory);
-});
-
-export const cpt_interfaceId = computed({
-	get() {
-		return Cpt_url.value.query.interface_id;
-	},
-	set(id) {
-		Cpt_url.value.query.interface_id = id;
-		return;
-	}
 });
 
 watch(

@@ -59,7 +59,7 @@ export default {
 								return xI("租户");
 							}
 							if (record.level) {
-								return xI("级VDC", { level: record.level || "1" }).label;
+								return xI("级VDC", { level: record.level || "1" });
 							}
 							return "--";
 						}

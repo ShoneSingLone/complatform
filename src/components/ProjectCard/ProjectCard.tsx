@@ -23,7 +23,7 @@ export default defineComponent({
 	},
 	methods: {
 		showCopyProjectDialog() {
-			xU.openDialog({
+			xU.dialog({
 				title: `复制项目${this.projectData.name}`,
 				component: ViewCopyProject,
 				copyProject: this.copyProject,

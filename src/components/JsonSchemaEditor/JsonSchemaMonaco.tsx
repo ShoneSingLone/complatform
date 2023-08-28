@@ -81,9 +81,9 @@ export const JsonSchemaMonaco = defineComponent({
 	computed: {
 		syncLabel() {
 			if (this.currentNode) {
-				return this.xI("同步到编辑器");
+				return xI("同步到编辑器");
 			} else {
-				return this.xI("同步到 JSON 树");
+				return xI("同步到 JSON 树");
 			}
 		},
 		isShowSchemaEditor() {
@@ -265,7 +265,7 @@ export const JsonSchemaMonaco = defineComponent({
 				this.$emit("update:schemaString", schemaString);
 			} catch (error) {
 				console.error(error);
-				xU.message.error(this.xI("数据有误"));
+				xU.message.error(xI("数据有误"));
 			} finally {
 				this.schemaJson = schemaJson;
 			}
@@ -324,7 +324,7 @@ export const JsonSchemaMonaco = defineComponent({
 					/* TODO: 校验node是否合法*/
 					this.setCurrentNode(node);
 				} catch (error) {
-					xU.message.error(this.xI("同步失败"));
+					xU.message.error(xI("同步失败"));
 				}
 			} else {
 				/* 全量 */
@@ -346,7 +346,7 @@ export const JsonSchemaMonaco = defineComponent({
 				const res = generateSchema.json(json5.parse(this.jsonSchemaString));
 				this.jsonSchemaString = JSON.stringify(res, null, 2);
 			} catch (error) {
-				xU.message.error(this.xI("JSON 转 schema 解析出错"));
+				xU.message.error(xI("JSON 转 schema 解析出错"));
 			}
 		},
 		async previewMock() {
@@ -362,7 +362,7 @@ export const JsonSchemaMonaco = defineComponent({
 					throw new Error();
 				}
 			} catch (error) {
-				xU.message.error(this.xI("预览 Mock 结果出错"));
+				xU.message.error(xI("预览 Mock 结果出错"));
 			}
 		}
 	},
@@ -541,7 +541,7 @@ export const JsonSchemaMonaco = defineComponent({
 									onClick={this.monacoJsonToSchema}
 									type="primary"
 									disabled={this.isMockPreview}>
-									{this.xI("JSON 转 schema")}
+									{xI("JSON 转 schema")}
 								</xButton>
 							)}
 							<xGap l="10" />

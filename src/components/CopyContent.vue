@@ -17,9 +17,9 @@ export default {
 	methods: {
 		copyText() {
 			if (copy($(this.$refs.contents).text())) {
-				xU.message.success(this.xI("已经成功复制到剪切板"));
+				xU.message.success(xI("已经成功复制到剪切板"));
 			} else {
-				xU.message.error(this.xI("复制到剪切板失败"));
+				xU.message.error(xI("复制到剪切板失败"));
 			}
 		}
 	}

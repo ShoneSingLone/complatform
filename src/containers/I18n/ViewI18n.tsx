@@ -79,8 +79,8 @@ export const ViewI18n = defineComponent({
 										text: xI("修改"),
 										onClick: async () => {
 											await stateI18n._$updateCurrent(record._id);
-											xU.openDialog({
-												title: this.xI("修改记录"),
+											xU.dialog({
+												title: xI("修改记录"),
 												record: xU.cloneDeep(stateI18n.currentI18n),
 												component: DialogUpsertI18nRecord
 											});
@@ -150,7 +150,7 @@ export const ViewI18n = defineComponent({
 			return {
 				text: xI("导入"),
 				async onClick() {
-					xU.openDialog({
+					xU.dialog({
 						title: xI("导入国际化JSON文件"),
 						component: DialogImportI18nJSON
 					});

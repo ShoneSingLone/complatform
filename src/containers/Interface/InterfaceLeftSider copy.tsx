@@ -178,54 +178,11 @@ export const InterfaceLeftSider = defineComponent({
 									/* { "edit_uid": 0, "status": "undone", "isProxy": false, "witchEnv": "", "index": 0, "tag": [], "_id": 9, "method": "GET", "catid": 56, "title": "first", "path": "/aws_ecs/goku/rest/vdc/v3.1/projects", "project_id": 83, "uid": 12, "add_time": 1669122695, "up_time": 1669122695 } */
 								}
 
-								const vDomOpration = (() => {
-									if (menuType === "category") {
-										return (
-											<div class="x-sider-tree_menu_opration">
-												{genIcon({
-													icon: "add",
-													tips: xI("添加接口"),
-													clickHandler: $event =>
-														vm.showAddInterfaceDialog(_id, $event)
-												})}
-												{genIcon({
-													icon: "edit",
-													tips: xI("修改分类"),
-													clickHandler: $event =>
-														vm.showUpsertCategoryDialog(item)
-												})}
-												{genIcon({
-													icon: "delete",
-													tips: xI("删除分类"),
-													clickHandler: $event => vm.deleteCategory(_id, $event)
-												})}
-											</div>
-										);
-									} else {
-										return (
-											<div class="x-sider-tree_menu_opration">
-												{genIcon({
-													icon: "delete",
-													tips: xI("删除接口"),
-													clickHandler: $event =>
-														vm.deleteInterface(_id, $event)
-												})}
-											</div>
-										);
-									}
-								})();
-
-								let iconName = "subCategoryInterface";
-								if (menuType === "category") {
-									iconName = "subCategory";
-								}
-
 								return (
 									<div class={classContentString} onClick={handleClickMenuItem}>
 										<xGap l="10" />
 										<xIcon icon={iconName} />
 										<span class="x-sider-tree_menu_title">{title}</span>
-										{vDomOpration}
 									</div>
 								);
 							}
@@ -242,65 +199,7 @@ export const InterfaceLeftSider = defineComponent({
 		/* vDomList 需要实际高度 */
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
-		}, 20),
-		deleteInterface(id) {
-			const vm = this;
-			xU.confirm({
-				title: xI("您确认删除此接口？"),
-				content: xI(`温馨提示：接口删除后，无法恢复`).label,
-				async onOk() {
-					try {
-						await API.project.deleteInterfaceById(id);
-						xU.message.success(xI("删除接口成功"));
-						stateInterface._updateInterfaceMenuList();
-						vm.Cpt_url.go(
-							"/interface/all",
-							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
-						);
-					} catch (error) {
-						xU.message.error(error.message);
-					}
-				}
-			});
-		},
-		deleteCategory(id) {
-			const vm = this;
-			xU.dialog.confirm({
-				title: "确定删除此接口分类吗？",
-				content: `温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复`,
-				async onOk() {
-					try {
-						await API.project.deleteCategoryById(id);
-						xU.message.success("删除分类成功");
-						stateInterface._updateInterfaceMenuList();
-						vm.Cpt_url.go(
-							"/interface/all",
-							xU.omit(vm.Cpt_url.query, ["category_id"])
-						);
-					} catch (error) {
-						xU.message.error(error.message);
-						return Promise.reject();
-					}
-				}
-			});
-		},
-		showUpsertCategoryDialog(category = false) {
-			xU.openDialog({
-				title: category ? this.xI("修改分类") : this.xI("添加分类"),
-				component: DialogUpsertCategory,
-				category
-			});
-		},
-		showAddInterfaceDialog(categoryId, $event: Event) {
-			$event.stopPropagation();
-			$event.preventDefault();
-			xU.openDialog({
-				title: this.xI("添加接口"),
-				categoryId,
-				projectId: this.stateApp.currProject._id,
-				component: DialogAddInterface
-			});
-		}
+		}, 20)
 	},
 	render() {
 		return (

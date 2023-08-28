@@ -263,7 +263,7 @@ export const WikiLeftSider = defineComponent({
 		}, 300),
 		async deleteArticle(_id) {
 			const vm = this;
-			xU.delete({
+			xU.deleteConfirm({
 				content: `文档删除后无法恢复`,
 				async onOk() {
 					try {
@@ -280,8 +280,8 @@ export const WikiLeftSider = defineComponent({
 			});
 		},
 		showUpsertArticleDialog(parentDoc) {
-			xU.openDialog({
-				title: this.xI("添加文档"),
+			xU.dialog({
+				title: xI("添加文档"),
 				parentDoc,
 				/* 所有人可见 */
 				belong_type: "all",

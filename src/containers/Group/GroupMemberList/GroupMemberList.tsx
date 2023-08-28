@@ -88,7 +88,7 @@ export const GroupMemberList = defineComponent({
 										class: "ml10",
 										async onClick() {
 											try {
-												await xU.dialog.delete({
+												await xU.deleteConfirm({
 													title: "删除确认",
 													content: "你确定要删除吗?"
 												});
@@ -130,7 +130,7 @@ export const GroupMemberList = defineComponent({
 				methods.fetchGroupMemberList();
 			},
 			showAddMemberDialog() {
-				xU.openDialog({
+				xU.dialog({
 					title: xI("添加成员"),
 					component: ViewAddMember,
 					area: ["480px", "260px"],

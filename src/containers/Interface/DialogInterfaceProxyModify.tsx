@@ -96,9 +96,9 @@ export const DialogInterfaceProxyModify = defineComponent({
 					);
 					stateInterface._updateInterfaceMenuList();
 					this.propOptions.$close();
-					xU.message.success(this.xI("修改_成功", { title: "代理" }).label);
+					xU.message.success(xI("修改_成功", { title: "代理" }));
 				} catch (error) {
-					xU.message.error(this.xI("修改_失败", { title: "代理" }).label);
+					xU.message.error(xI("修改_失败", { title: "代理" }));
 				}
 			}
 		}

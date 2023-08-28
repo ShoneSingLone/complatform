@@ -187,7 +187,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 							if (/^new_env/.test(i._id)) {
 								return async () => {
 									try {
-										await xU.dialog.confirm({
+										await xU.confirm({
 											content: `删除环境变量${i.name}?`
 										});
 										const envIndex = xU.findIndex(this.privateEnv, {
@@ -281,7 +281,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			const keys = Object.keys(delta || {});
 			if (keys.length > 0) {
 				try {
-					await xU.dialog.confirm({
+					await xU.confirm({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
@@ -363,7 +363,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				id: this.propProjectId,
 				env: envArray
 			});
-			xU.message.success(this.xI("环境设置成功"));
+			xU.message.success(xI("环境设置成功"));
 			Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
 		},
 		async addEnv() {
@@ -381,7 +381,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		async deleteEnv(item) {
 			const id = item._id;
 			try {
-				await xU.dialog.confirm({ content: `删除环境变量${item.name}?` });
+				await xU.confirm({ content: `删除环境变量${item.name}?` });
 				const envIndex = xU.findIndex(this.privateEnv, {
 					_id: id
 				});
@@ -391,7 +391,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 					id: this.propProjectId,
 					env: envArray
 				});
-				xU.message.success(this.xI("环境设置成功"));
+				xU.message.success(xI("环境设置成功"));
 				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
 			} catch (error) {}
 		}
@@ -420,7 +420,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						textOk: this.xI("暂存"),
+						textOk: xI("暂存"),
 						onOk: this.onOk,
 						onCancel: this.propOptions.$close
 					}}

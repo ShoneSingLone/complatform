@@ -27,7 +27,7 @@ export const ViewNotFound = defineComponent({
 				{{
 					extra: () => (
 						<xButton type="primary" onClick={this.goHome}>
-							{this.xI("BackHome")}
+							{xI("BackHome")}
 						</xButton>
 					)
 				}}
