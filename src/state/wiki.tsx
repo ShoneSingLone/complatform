@@ -127,6 +127,7 @@ export const Methods_Wiki = {
 			belong_id
 		});
 		const { list, orderArray } = data;
+		debugger;
 		stateWiki.treeData = buildTree(list, orderArray);
 		Methods_Wiki.setCurrentWiki();
 	}

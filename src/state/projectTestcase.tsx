@@ -16,13 +16,6 @@ const defautlValue = () => ({
 	expandedKeys: []
 });
 
-export function resetStateInterface() {
-	xU.map(defautlValue(), (value, prop) => {
-		stateProjectTestcase[prop] = value;
-	});
-	return stateProjectTestcase;
-}
-
 const _stateProjectTestcase = defautlValue();
 
 export const stateProjectTestcase = reactive(_stateProjectTestcase);

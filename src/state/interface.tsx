@@ -1,20 +1,41 @@
-import { reactive, watch } from "vue";
-import { xU, stateUI, defCol, defXVirTableConfigs, xScope } from "@/ventose/ui";
+import { computed, reactive, watch } from "vue";
+import {
+	xU,
+	stateUI,
+	defCol,
+	defXVirTableConfigs,
+	xScope,
+	xI
+} from "@/ventose/ui";
 import { API } from "@/api/index";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { Cpt_url } from "@/router/router";
 import { stateApp } from "@/state/app";
+import { ALL } from "@/utils/variable";
+
+const DefaultInterfaceMenu = [
+	{
+		_id: ALL,
+		title: xI("全部接口"),
+		menuType: ALL,
+		list: []
+	}
+];
 
 const defautlValue = () => ({
 	isLoading: false,
 	list: [],
 	filterText: "",
+	interface_id: ALL,
+	currentInterface: {},
 	allInterface: [],
 	allTags: [],
 	allCategory: [],
 	/* 左侧 树 展开 */
 	expandedKeys: [],
+	/********************** methods ******************/
 	_setExpand: xU.debounce(function () {
+		debugger;
 		const { pathname, query } = Cpt_url.value;
 		if (!pathname.includes("/interface")) {
 			return;
@@ -70,7 +91,7 @@ const defautlValue = () => ({
 		if (data) {
 			/* @ts-ignore */
 			const allCategory = data.map(category => {
-				const list = xU.map(category.list, i => {
+				const children = xU.map(category.list, i => {
 					return {
 						...i,
 						menuType: "interface",
@@ -80,7 +101,7 @@ const defautlValue = () => ({
 				});
 				return {
 					...category,
-					list,
+					children,
 					isCategory: true,
 					categoryName: category.title,
 					categoryId: category._id,
@@ -116,25 +137,31 @@ const defautlValue = () => ({
 	}
 });
 
-export function resetStateInterface() {
-	xU.map(defautlValue(), (value, prop) => {
-		stateInterface[prop] = value;
-	});
-	return stateInterface;
-}
 const _stateInterface = defautlValue();
 type t_stateInterface = typeof _stateInterface;
 
-export const stateInterface = xScope<t_stateInterface>(_stateInterface);
+export const stateInterface = xScope<t_stateInterface>(
+	_stateInterface,
+	defautlValue
+);
+
+export const cpt_treeData = computed(() => {
+	return DefaultInterfaceMenu.concat(stateInterface.allCategory);
+});
+
+export const cpt_interfaceId = computed({
+	get() {
+		return Cpt_url.value.query.interface_id;
+	},
+	set(id) {
+		Cpt_url.value.query.interface_id = id;
+		return;
+	}
+});
 
 watch(
-	() => {
-		const { pathname, query } = Cpt_url.value;
-		return pathname + query.category_id;
-	},
-	() => {
-		stateInterface._setExpand();
-	}
+	[Cpt_url.value.pathname, Cpt_url.value.query?.category_id],
+	stateInterface._setExpand
 );
 
 /*interfaceAll 与 interfaceCategory 同用的列表*/

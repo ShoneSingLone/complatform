@@ -122,6 +122,11 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 		},
 		set(_query, prop, val) {
 			_query[prop] = val;
+
+			/* 如果为undefined则删除 */
+			if (val == undefined) {
+				delete _query[prop];
+			}
 			onlyModifyQuery(xU.merge({}, _query));
 			return true;
 		}

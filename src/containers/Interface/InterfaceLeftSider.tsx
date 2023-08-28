@@ -1,9 +1,16 @@
-import { xI, xU } from "@/ventose/ui";
-import { defineComponent, ref, watch } from "vue";
-import { xScope } from "@/ventose/ui";
-import { stateWiki } from "@/state/wiki";
-import { stateInterface } from "@/state/interface";
+import { xI, xU, xScope } from "@/ventose/ui";
+import { defineComponent, onMounted } from "vue";
 import { API } from "@/api";
+import {
+	cpt_treeData,
+	cpt_interfaceId,
+	stateInterface
+} from "@/state/interface";
+import { _$arrayChangeIndex } from "@/utils/common";
+import type Node from "element-plus/es/components/tree/src/model/node";
+import type { NodeDropType } from "element-plus/es/components/tree/src/tree.type";
+import { Cpt_url } from "@/router/router";
+import { ALL, CATEGORY, INTERFACE } from "@/utils/variable";
 
 export const InterfaceLeftSider = defineComponent({
 	setup() {
@@ -27,6 +34,23 @@ export const InterfaceLeftSider = defineComponent({
 				onClick() {}
 			},
 			siderHeight: 500,
+			/* 同类 interface */
+			async _switchSameCategoryInterfaceOrder({ dragItem, dropItem }) {
+				const category = xU.find(stateInterface.allCategory, {
+					_id: dragItem.categoryId
+				});
+				const paramsChanges = _$arrayChangeIndex(
+					category.list,
+					dragItem._id,
+					dropItem._id
+				);
+				await API.project.switchManyInterfaceOrder(paramsChanges);
+			},
+			/* interface 换 category */
+			_setFilterText: xU.debounce(function (filterText) {
+				vm.filterText = filterText;
+				stateInterface.isLoading = false;
+			}, 600),
 			async _switchDiffCategoryInterfaceOrder({ dragItem, dropItem }) {
 				await API.project.updateInterface({
 					id: dragItem._id,
@@ -42,8 +66,11 @@ export const InterfaceLeftSider = defineComponent({
 				);
 				await API.project.switchManyCategoryOrder(paramsChanges);
 			},
-
-			async _handleDropInterface(e) {
+			async _handleDropInterface(
+				draggingNode: Node,
+				dropNode: Node,
+				dropType: NodeDropType
+			) {
 				/*
                 1.drag interface
                     1.1 drop 到同一个category
@@ -51,19 +78,17 @@ export const InterfaceLeftSider = defineComponent({
                 2.drag category
                     2.1 调整 category 顺序
                 */
-				const dragItem = e.dragNode;
-				const dropItem = e.node;
-				const isDragInterface = dragItem.menuType === "interface";
+				const dragItem = draggingNode.data;
+				const dropItem = dropNode.data;
+				const isDragInterface = dragItem.menuType === INTERFACE;
 				const isDropSameCategory = dragItem.categoryId === dropItem.categoryId;
-
 				const params = { dragItem, dropItem };
-
 				try {
 					if (isDragInterface) {
 						if (isDropSameCategory) {
-							await this.switchSameCategoryInterfaceOrder(params);
+							await vm._switchSameCategoryInterfaceOrder(params);
 						} else {
-							await this.switchDiffCategoryInterfaceOrder(params);
+							await vm._switchDiffCategoryInterfaceOrder(params);
 						}
 					} else {
 						await vm._switchCategoryOrder(params);
@@ -76,29 +101,39 @@ export const InterfaceLeftSider = defineComponent({
 		};
 		vm = xScope(vm);
 
+		onMounted(() => {
+			if (!Cpt_url.value.query.category_id) {
+				Cpt_url.value.query.category_id = ALL;
+			}
+		});
+
 		return function () {
 			return (
 				<aside class="x-sider_wrapper" style={vm.styleAside}>
+					{JSON.stringify(stateInterface.expandedKeys)}
 					<div class="x-sider_wrapper_tree" ref="wrapper">
-						<div class="left-tree box-shadow">
+						<div
+							class="left-tree box-shadow"
+							v-element-size={({ height }) => (vm.siderHeight = height)}>
 							<ElScrollbar height={vm.siderHeight} class="flex1">
 								<ElTree
-									v-model:expandedKeys={stateWiki.expandedKeys}
-									data={stateWiki.treeData}
+									height={vm.siderHeight}
+									v-model:expandedKeys={stateInterface.expandedKeys}
+									data={cpt_treeData.value}
 									onNodeDragEnd={vm._handleDropInterface}
 									draggable
 									node-key="_id"
 									expand-on-click-node={false}
-									default-expand-all>
-									{{
+									v-slots={{
 										default(item) {
 											try {
 												const { data } = item;
-												const { title, _id, type } = data;
+												const { title, _id, categoryId, menuType } = data;
+
 												const classContentString = (() => {
 													let _classString = "x-sider-tree_menu";
 													if (
-														String(_id) == String(stateWiki.currentWiki._id)
+														xU.isSame(_id, Cpt_url.value.query.interface_id)
 													) {
 														return _classString + " x-sider-tree_menu_active";
 													}
@@ -120,8 +155,24 @@ export const InterfaceLeftSider = defineComponent({
 												};
 
 												const handleClick = () => {
-													Methods_Wiki.clickWiki({ wiki_id: item.data._id });
-													vm.$emit("change");
+													Cpt_url.value.query.interface_type = menuType;
+
+													(() => {
+														if (menuType == ALL) {
+															Cpt_url.value.query.interface_id = undefined;
+															Cpt_url.value.query.category_id = undefined;
+															return;
+														}
+														if (menuType == CATEGORY) {
+															Cpt_url.value.query.interface_id = undefined;
+															Cpt_url.value.query.category_id = categoryId;
+															return;
+														}
+														if (menuType == INTERFACE) {
+															Cpt_url.value.query.interface_id = _id;
+															Cpt_url.value.query.category_id = categoryId;
+														}
+													})();
 												};
 
 												const canDelete =
@@ -160,7 +211,7 @@ export const InterfaceLeftSider = defineComponent({
 											}
 										}
 									}}
-								</ElTree>
+								/>
 							</ElScrollbar>
 						</div>
 					</div>

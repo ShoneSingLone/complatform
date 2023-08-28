@@ -1,6 +1,6 @@
 import { xU, xI, xScope } from "@/ventose/ui";
 import { computed, defineComponent, onMounted, reactive, watch } from "vue";
-import { resetStateInterface } from "@/state/interface";
+import { stateInterface } from "@/state/interface";
 import "./ViewProject.less";
 import { RouterView } from "@/components/RouterView/RouterView";
 import { Cpt_url, aHashLink } from "@/router/router";
@@ -20,7 +20,7 @@ export const ViewProject = defineComponent({
 	name: "ViewProject",
 	setup() {
 		/* 以project为root，共享数据随project生命周期重置 */
-		resetStateInterface();
+		stateInterface.__resetState();
 		const [_, a, b] = String(Cpt_url.value.pathname).split("/");
 
 		var vm = {

@@ -1,8 +1,14 @@
 import { reduce } from "lodash";
 import { markRaw, reactive } from "vue";
 
-export function xScope<T>(scope): T {
-	return reactive(
+export function xScope<T>(
+	scope,
+	newDefaultScope = null
+): T & {
+	/* 作为根节点重置数据状态,在setup时 */
+	__resetState?: () => null;
+} {
+	scope = reactive(
 		reduce(
 			scope,
 			(_scope, val, key): any => {
@@ -17,4 +23,9 @@ export function xScope<T>(scope): T {
 			{}
 		)
 	) as T;
+
+	scope.__resetState = () => {
+		scope = xScope(newDefaultScope(), newDefaultScope);
+	};
+	return scope;
 }

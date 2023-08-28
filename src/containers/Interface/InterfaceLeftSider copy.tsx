@@ -26,7 +26,7 @@ export const InterfaceLeftSider = defineComponent({
 			usefnObserveDomResize();
 		return {
 			stateApp,
-			State_Project: stateInterface,
+			stateInterface: stateInterface,
 			Cpt_url,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -34,7 +34,7 @@ export const InterfaceLeftSider = defineComponent({
 	},
 	watch: {
 		cpt_filterText(text) {
-			this.State_Project.isLoading = true;
+			this.stateInterface.isLoading = true;
 			this.setFilterText(text);
 		}
 	},
@@ -88,14 +88,14 @@ export const InterfaceLeftSider = defineComponent({
 			return StrategyMap[pathname];
 		},
 		treeData() {
-			return DefaultInterfaceMenu.concat(this.State_Project.allCategory);
+			return DefaultInterfaceMenu.concat(this.stateInterface.allCategory);
 		},
 		vDomTree() {
 			const vm = this;
 			return (
 				<div class="left-tree box-shadow">
 					<ElTree
-						v-model:expandedKeys={vm.State_Project.expandedKeys}
+						v-model:expandedKeys={vm.stateInterface.expandedKeys}
 						height={vm.siderHeight}
 						treeData={vm.treeData}
 						draggable
@@ -236,58 +236,6 @@ export const InterfaceLeftSider = defineComponent({
 		}
 	},
 	methods: {
-		async handleDropInterface(e) {
-			this.State_Project.isLoading = true;
-			/*
-			1.drag interface
-				1.1 drop 到同一个category
-				1.2 drop 到不同category
-			2.drag category
-				2.1 调整 category 顺序
-			*/
-			const dragItem = e.dragNode;
-			const dropItem = e.node;
-			const isDragInterface = dragItem.menuType === "interface";
-			const isDropSameCategory = dragItem.categoryId === dropItem.categoryId;
-
-			const params = { dragItem, dropItem };
-
-			try {
-				if (isDragInterface) {
-					if (isDropSameCategory) {
-						await this.switchSameCategoryInterfaceOrder(params);
-					} else {
-						await this.switchDiffCategoryInterfaceOrder(params);
-					}
-				} else {
-					await this.switchCategoryOrder(params);
-				}
-				stateInterface._updateInterfaceMenuList();
-			} catch (error) {
-				xU.message.error(error.message);
-			} finally {
-				setTimeout(() => {
-					this.State_Project.isLoading = false;
-				}, 400);
-			}
-		},
-		/* 同类 interface */
-		async switchSameCategoryInterfaceOrder({ dragItem, dropItem }) {
-			const category = xU.find(this.State_Project.allCategory, {
-				_id: dragItem.categoryId
-			});
-			const paramsChanges = _$arrayChangeIndex(
-				category.list,
-				dragItem._id,
-				dropItem._id
-			);
-			await API.project.switchManyInterfaceOrder(paramsChanges);
-		},
-		/* interface 换 category */
-		setFilterText: xU.debounce(function (cpt_filterText) {
-			this.State_Project.cpt_filterText = cpt_filterText;
-			this.State_Project.isLoading = false;
-		}, 600),
 		setSelectedKeys(id) {
 			this.selectedKeys = [id];
 		},

@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import { stateApp } from "@/state/app";
 import { Cpt_url } from "@/router/router";
 import { InterfaceLeftSider } from "./InterfaceLeftSider";
@@ -6,7 +6,11 @@ import { stateInterface } from "@/state/interface";
 
 export const ViewInterface = defineComponent({
 	setup() {
-		stateInterface._resetURL();
+		stateInterface.__resetState();
+
+		onMounted(() => {
+			stateInterface._resetURL();
+		});
 		return function () {
 			return (
 				<section
