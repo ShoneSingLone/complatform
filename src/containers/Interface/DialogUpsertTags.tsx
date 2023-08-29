@@ -1,6 +1,6 @@
 import { defItem, xU } from "@/ventose/ui";
 import { defineComponent } from "vue";
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { API } from "@/api";
 import { orderAsc } from "@/components/InputKeyValue";
 import { FormRules } from "@/utils/common.FormRules";
@@ -135,7 +135,7 @@ export const DialogUpsertTags = defineComponent({
 					tag: xU.map(this.formData, item => item)
 				};
 				await API.project.updateTags(data);
-				await Methods_App.setCurrProject(this.propProjectId, {
+				await stateApp._setCurrProject(this.propProjectId, {
 					isEnforce: true
 				});
 				xU.message.success("Tag修改成功");

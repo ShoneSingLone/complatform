@@ -42,6 +42,6 @@ if (window.electronAPI) {
 
 	/* cookies */
 	window.electronAPI.onChangePort((_event, port) => {
-		stateApp.baseURL = `http://localhost:${port}`;
+		stateApp.BASE_URL = `http://localhost:${port}`;
 	});
 }

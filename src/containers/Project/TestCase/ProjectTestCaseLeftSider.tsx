@@ -4,7 +4,7 @@ import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { API } from "@/api/index";
 import { ALL } from "@/utils/variable";
 import { DialogAddInterface } from "./DialogAddInterface";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { _$arrayChangeIndex } from "@/utils/common";
 import { stateApp } from "@/state/app";
 import {
@@ -30,7 +30,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 		return {
 			stateApp,
 			stateProjectTestcase,
-			Cpt_url,
+			cptRouter,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
@@ -82,7 +82,7 @@ export const ProjectTestcaseLeftSider = defineComponent({
 	},
 	computed: {
 		currentSelectedMenu() {
-			const { pathname, query } = this.Cpt_url;
+			const { pathname, query } = this.cptRouter;
 			const StrategyMap = {
 				"/project/testcase/all": ALL,
 				"/project/testcase/category": query.category_id,
@@ -117,21 +117,21 @@ export const ProjectTestcaseLeftSider = defineComponent({
 
 								const handleClickMenuItem = () => {
 									if (menuType === ALL) {
-										Cpt_url.value.go(
+										cptRouter.value.go(
 											"/project/testcase/all",
-											xU.omit(Cpt_url.value.query, [
+											xU.omit(cptRouter.value.query, [
 												"category_id",
 												"interface_id"
 											])
 										);
 									} else if (menuType === "category") {
-										Cpt_url.value.go("/project/testcase/category", {
-											...Cpt_url.value.query,
+										cptRouter.value.go("/project/testcase/category", {
+											...cptRouter.value.query,
 											category_id: _id
 										});
 									} else {
-										Cpt_url.value.go("/project/testcase/detail", {
-											...Cpt_url.value.query,
+										cptRouter.value.go("/project/testcase/detail", {
+											...cptRouter.value.query,
 											category_id: categoryId,
 											interface_id: _id
 										});
@@ -339,9 +339,9 @@ export const ProjectTestcaseLeftSider = defineComponent({
 						await API.project.deleteInterfaceById(id);
 						xU.message.success(xI("删除用例成功"));
 						Methods_ProjectTestcase.updateTestcaseMenuList();
-						vm.Cpt_url.go(
+						vm.cptRouter.go(
 							"/project/testcase/all",
-							xU.omit(vm.Cpt_url.query, ["category_id", "interface_id"])
+							xU.omit(vm.cptRouter.query, ["category_id", "interface_id"])
 						);
 					} catch (error) {
 						xU.message.error(error.message);
@@ -359,9 +359,9 @@ export const ProjectTestcaseLeftSider = defineComponent({
 						await API.project.deleteCategoryById(id);
 						xU.message.success("删除集合成功");
 						Methods_ProjectTestcase.updateTestcaseMenuList();
-						vm.Cpt_url.go(
+						vm.cptRouter.go(
 							"/project/testcase/all",
-							xU.omit(vm.Cpt_url.query, ["category_id"])
+							xU.omit(vm.cptRouter.query, ["category_id"])
 						);
 					} catch (error) {
 						xU.message.error(error.message);

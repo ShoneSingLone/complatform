@@ -9,7 +9,7 @@ import {
 } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { stateApp } from "@/state/app";
 import { ALL } from "@/utils/variable";
 
@@ -22,7 +22,7 @@ const DefaultInterfaceMenu = [
 	}
 ];
 
-const defautlValue = () => ({
+const defautlStateInterface = () => ({
 	isLoading: false,
 	list: [],
 	filterText: "",
@@ -35,14 +35,14 @@ const defautlValue = () => ({
 	expandedKeys: [],
 	/********************** methods ******************/
 	_setExpand: xU.debounce(function () {
-		if (Cpt_url.value.query.category_id) {
-			stateInterface.expandedKeys = [Number(Cpt_url.value.query.category_id)];
+		if (cptRouter.value.query.category_id) {
+			stateInterface.expandedKeys = [Number(cptRouter.value.query.category_id)];
 		} else {
 			stateInterface.expandedKeys = [];
 		}
 	}, 500),
 	_resetURL: xU.debounce(function () {
-		const { pathname, query } = Cpt_url.value;
+		const { pathname, query } = cptRouter.value;
 
 		if (!pathname.includes("/interface")) {
 			return;
@@ -50,9 +50,9 @@ const defautlValue = () => ({
 		const { category_id, interface_id } = query;
 		const fnStrategyMap = {
 			"/interface/all": () => {
-				Cpt_url.value.go(
+				cptRouter.value.go(
 					"/interface/all",
-					xU.pick(Cpt_url.value.query, ["group_id", "project_id"])
+					xU.pick(cptRouter.value.query, ["group_id", "project_id"])
 				);
 			},
 			"/interface/category": () => {
@@ -76,7 +76,7 @@ const defautlValue = () => ({
 	}, 100),
 	async _updateInterfaceMenuList() {
 		/* 必然是有当前project的id */
-		const projectId = Number(Cpt_url.value?.query?.project_id);
+		const projectId = Number(cptRouter.value?.query?.project_id);
 		if (!projectId) {
 			console.error("miss project_id in url");
 			return;
@@ -133,12 +133,12 @@ const defautlValue = () => ({
 	}
 });
 
-const _stateInterface = defautlValue();
+const _stateInterface = defautlStateInterface();
 type t_stateInterface = typeof _stateInterface;
 
-export const stateInterface = xScope<t_stateInterface>(
+export var stateInterface = xScope<t_stateInterface>(
 	_stateInterface,
-	defautlValue
+	defautlStateInterface
 );
 
 export const cpt_treeData = computed(() => {
@@ -146,7 +146,7 @@ export const cpt_treeData = computed(() => {
 });
 
 watch(
-	[Cpt_url.value.pathname, Cpt_url.value.query?.category_id],
+	[cptRouter.value.pathname, cptRouter.value.query?.category_id],
 	stateInterface._setExpand
 );
 
@@ -270,8 +270,8 @@ export function useInterfaceTableConfigs(isAll = false) {
 						return (
 							<a
 								onClick={() => {
-									Cpt_url.value.go("/interface/detail", {
-										...Cpt_url.value.query,
+									cptRouter.value.go("/interface/detail", {
+										...cptRouter.value.query,
 										category_id: record.categoryId,
 										interface_id: record._id
 									});

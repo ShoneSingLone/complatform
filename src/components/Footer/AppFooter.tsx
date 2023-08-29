@@ -1,8 +1,8 @@
 import "./Footer.scss";
 import { defineComponent } from "vue";
 import { $ } from "@/ventose/ui";
-import { Methods_App, stateApp } from "@/state/app";
-import { Cpt_url } from "@/router/router";
+import { stateApp } from "@/state/app";
+import { cptRouter } from "@/router/router";
 
 const version = Date.now();
 
@@ -35,7 +35,7 @@ const FootItem = ({ linkList, title, iconType }) => {
 
 export const AppFooter = defineComponent({
 	setup() {
-		return { stateApp, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	data() {
 		return {
@@ -128,7 +128,7 @@ export const AppFooter = defineComponent({
 				},
 				text: this.toggleText,
 				isHide: true,
-				onClick: Methods_App.toggleFooterFold
+				onClick: stateApp._toggleFooterFold
 			};
 		}
 	},

@@ -11,8 +11,8 @@ const ajax = axios.create({
 // request interceptor
 ajax.interceptors.request.use(
 	config => {
-		config.url = `${stateApp.baseURL}${config.url}`;
-		// config.url = `${stateApp.baseURL}${config.url}`;
+		config.url = `${stateApp.BASE_URL}${config.url}`;
+		// config.url = `${stateApp.BASE_URL}${config.url}`;
 		xCookies.pick(config);
 		if (config.data) {
 			xU.each(["name"], prop => {

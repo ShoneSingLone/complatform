@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import $ from "jquery";
 //@ts-nocheck
-import AppLayout from "./components/AppLayout.vue";
+import AppLayout from "@/components/AppLayout.vue";
 $("#app").removeClass("x-loading");
 </script>
 

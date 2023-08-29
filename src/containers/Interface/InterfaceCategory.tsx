@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { stateInterface, useInterfaceTableConfigs } from "@/state/interface";
 import { xI } from "@/ventose/ui";
 import {
@@ -14,7 +14,7 @@ export const InterfaceCategory = defineComponent({
 
 		return {
 			State_Project: stateInterface,
-			Cpt_url,
+			cptRouter,
 			filterParams,
 			configs_interfaceTable,
 			fnUpdateListForShow
@@ -69,7 +69,7 @@ export const InterfaceCategory = defineComponent({
 				}, 10 * 1000);
 			}
 		},
-		"Cpt_url.query.category_id": {
+		"cptRouter.query.category_id": {
 			immediate: true,
 			handler(catid) {
 				this.filterParams.catid = [Number(catid)];

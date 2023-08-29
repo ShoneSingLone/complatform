@@ -5,7 +5,7 @@ import { API } from "@/api/index";
 import { ALL } from "@/utils/variable";
 import { stateInterface } from "@/state/interface";
 import { DialogAddInterface } from "./DialogAddInterface";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { _$arrayChangeIndex } from "@/utils/common";
 import { stateApp } from "@/state/app";
 
@@ -27,7 +27,7 @@ export const InterfaceLeftSider = defineComponent({
 		return {
 			stateApp,
 			stateInterface: stateInterface,
-			Cpt_url,
+			cptRouter,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
@@ -79,7 +79,7 @@ export const InterfaceLeftSider = defineComponent({
 	},
 	computed: {
 		currentSelectedMenu() {
-			const { pathname, query } = this.Cpt_url;
+			const { pathname, query } = this.cptRouter;
 			const StrategyMap = {
 				"/interface/all": ALL,
 				"/interface/category": query.category_id,
@@ -114,21 +114,21 @@ export const InterfaceLeftSider = defineComponent({
 
 								const handleClickMenuItem = () => {
 									if (menuType === ALL) {
-										Cpt_url.value.go(
+										cptRouter.value.go(
 											"/interface/all",
-											xU.omit(Cpt_url.value.query, [
+											xU.omit(cptRouter.value.query, [
 												"category_id",
 												"interface_id"
 											])
 										);
 									} else if (menuType === "category") {
-										Cpt_url.value.go("/interface/category", {
-											...Cpt_url.value.query,
+										cptRouter.value.go("/interface/category", {
+											...cptRouter.value.query,
 											category_id: _id
 										});
 									} else {
-										Cpt_url.value.go("/interface/detail", {
-											...Cpt_url.value.query,
+										cptRouter.value.go("/interface/detail", {
+											...cptRouter.value.query,
 											category_id: categoryId,
 											interface_id: _id
 										});

@@ -12,7 +12,7 @@ import {
 	PROJECT_ICON,
 	PUBLIC
 } from "@/utils/variable";
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { FormRules } from "@/utils/common.FormRules";
 import { _$handlePath, _$randomValueAndProp } from "@/utils/common";
 
@@ -234,10 +234,10 @@ export const DialogAddProject = defineComponent({
 	},
 	methods: {
 		async init() {
-			Methods_App.setBreadcrumb([{ name: "新建项目" }]);
+			stateApp._setBreadcrumb([{ name: "新建项目" }]);
 
 			if (!stateApp.currGroup._id) {
-				await Methods_App.fetchGroupList();
+				await stateApp._fetchGroupList();
 			}
 			if (stateApp.groupList.length === 0) {
 				return null;

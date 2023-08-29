@@ -1,6 +1,6 @@
 import { defineComponent, markRaw } from "vue";
 import { defItem, pickValueFrom, setValueTo, xI, xU } from "@/ventose/ui";
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import { API } from "@/api";
 import { ITEM_OPTIONS } from "@/utils/common.options";
@@ -364,7 +364,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				env: envArray
 			});
 			xU.message.success(xI("环境设置成功"));
-			Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
+			stateApp._setCurrProject(this.propProjectId, { isEnforce: true });
 		},
 		async addEnv() {
 			const newItem = {
@@ -392,7 +392,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 					env: envArray
 				});
 				xU.message.success(xI("环境设置成功"));
-				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
+				stateApp._setCurrProject(this.propProjectId, { isEnforce: true });
 			} catch (error) {}
 		}
 	},

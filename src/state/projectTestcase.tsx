@@ -2,7 +2,7 @@ import { reactive, watch } from "vue";
 import { xU, defCol, defXVirTableConfigs, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { stateApp } from "@/state/app";
 
 const defautlValue = () => ({
@@ -22,7 +22,7 @@ export const stateProjectTestcase = reactive(_stateProjectTestcase);
 
 export const Methods_ProjectTestcase = {
 	setExpand: xU.debounce(function () {
-		const { pathname, query } = Cpt_url.value;
+		const { pathname, query } = cptRouter.value;
 		if (!pathname.includes("/project/testcase")) {
 			return;
 		}
@@ -34,7 +34,7 @@ export const Methods_ProjectTestcase = {
 		}
 	}, 500),
 	resetURL: xU.debounce(function () {
-		const { pathname, query } = Cpt_url.value;
+		const { pathname, query } = cptRouter.value;
 		if (!pathname.includes("/project/testcase")) {
 			return;
 		}
@@ -42,9 +42,9 @@ export const Methods_ProjectTestcase = {
 		const { category_id, interface_id } = query;
 		const fnStrategyMap = {
 			"/project/testcase/all": () => {
-				Cpt_url.value.go(
+				cptRouter.value.go(
 					"/project/testcase/all",
-					xU.pick(Cpt_url.value.query, ["group_id", "project_id"])
+					xU.pick(cptRouter.value.query, ["group_id", "project_id"])
 				);
 			},
 			"/project/testcase/category": () => {
@@ -68,7 +68,7 @@ export const Methods_ProjectTestcase = {
 	}, 100),
 	async updateTestcaseMenuList() {
 		/* 必然是有当前project的id */
-		const projectId = Number(Cpt_url.value?.query?.project_id);
+		const projectId = Number(cptRouter.value?.query?.project_id);
 		if (!projectId) {
 			console.error("miss project_id in url");
 			return;
@@ -127,7 +127,7 @@ export const Methods_ProjectTestcase = {
 
 watch(
 	() => {
-		const { pathname, query } = Cpt_url.value;
+		const { pathname, query } = cptRouter.value;
 		return pathname + query.category_id;
 	},
 	() => {
@@ -255,8 +255,8 @@ export function useInterfaceTableConfigs(isAll = false) {
 						return (
 							<a
 								onClick={() => {
-									Cpt_url.value.go("/project/testcase/detail", {
-										...Cpt_url.value.query,
+									cptRouter.value.go("/project/testcase/detail", {
+										...cptRouter.value.query,
 										category_id: record.categoryId,
 										interface_id: record._id
 									});

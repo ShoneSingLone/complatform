@@ -1,32 +1,19 @@
 import { computed, getCurrentInstance, reactive, watch } from "vue";
-import { xU, stateUI, setDocumentTitle } from "@/ventose/ui";
+import { xU, stateUI, setDocumentTitle, xScope } from "@/ventose/ui";
 import { API } from "@/api/index";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { sortTreeByOrder } from "@/utils/common";
 import { GROUP, PROJECT } from "@/utils/variable";
 
-const defautlValue = () => ({
-	treeData: [],
-	isLoading: false,
-	allWiki: {},
-	currentWiki: {},
-	/* 左侧 树 展开 */
-	expandedKeys: [],
-	belongType: ""
-});
-
-export function resetStateWiki(ctx) {
-	xU.map(defautlValue(), (value, prop) => {
-		stateWiki[prop] = value;
-	});
-	stateWiki.belongType = stateWiki.belongType = (() => {
+const defautlValue = ({ ctx }: any = {}) => {
+	const belongType = (() => {
 		if (ctx?.$props?.belongType) {
 			/* 以组价形式引入 */
 			return ctx.$props.belongType;
 		} else {
 			/* 以route-view 形式引入 */
 			const [_, belong_type] =
-				String(Cpt_url.value.pathname).match(/\/wiki_(.*)/) || [];
+				String(cptRouter.value.pathname).match(/\/wiki_(.*)/) || [];
 			if (belong_type) {
 				return belong_type;
 			} else {
@@ -34,17 +21,26 @@ export function resetStateWiki(ctx) {
 			}
 		}
 	})();
-	return stateWiki;
-}
+
+	return {
+		treeData: [],
+		isLoading: false,
+		allWiki: {},
+		currentWiki: {},
+		/* 左侧 树 展开 */
+		expandedKeys: [],
+		belongType
+	};
+};
 
 const _stateWiki = defautlValue();
-
-export const stateWiki = reactive(_stateWiki);
+type t_stateWiki = typeof _stateWiki;
+export var stateWiki = xScope<t_stateWiki>(_stateWiki);
 
 export const Methods_Wiki = {
 	clickWiki(query) {
-		/*vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });*/
-		const { query: oldQuery, refresh } = Cpt_url.value;
+		/*vm.cptRouter.go("/wiki", { wiki_id: item.data._id });*/
+		const { query: oldQuery, refresh } = cptRouter.value;
 
 		refresh(xU.merge({}, oldQuery, query));
 	},
@@ -74,7 +70,7 @@ export const Methods_Wiki = {
 		try {
 			xU.loading(true);
 			if (!xU.isInput(_id)) {
-				_id = Cpt_url.value.query.wiki_id;
+				_id = cptRouter.value.query.wiki_id;
 				if (!_id) {
 					_id = stateWiki.treeData?.[0]?._id;
 					if (!_id) {
@@ -112,7 +108,7 @@ export const Methods_Wiki = {
 		}
 	},
 	async updateWikiMenuList() {
-		const { group_id, project_id } = Cpt_url.value.query || {};
+		const { group_id, project_id } = cptRouter.value.query || {};
 
 		let belong_id;
 		if (stateWiki.belongType === GROUP) {
@@ -139,7 +135,7 @@ watch(
 	}
 );
 watch(
-	() => Cpt_url.value.query.wiki_id,
+	() => cptRouter.value.query.wiki_id,
 	_id => {
 		if (_id) {
 			Methods_Wiki.setCurrentWiki(_id);

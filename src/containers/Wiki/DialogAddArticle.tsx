@@ -12,7 +12,7 @@ import { stateApp } from "@/state/app";
 import { stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { Methods_Wiki, stateWiki } from "@/state/wiki";
 import { ARTICLE, GROUP, PROJECT } from "@/utils/variable";
 
@@ -27,7 +27,7 @@ export const DialogAddArticle = defineComponent({
 		}
 	},
 	setup() {
-		return { stateApp, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	data() {
 		const vm = this;
@@ -57,7 +57,7 @@ export const DialogAddArticle = defineComponent({
 	methods: {
 		async onOk() {
 			if (!(await itemsInvalid())) {
-				const { project_id, group_id } = this.Cpt_url.query;
+				const { project_id, group_id } = this.cptRouter.query;
 				let belong_id;
 
 				if (stateWiki.belongType === GROUP) {

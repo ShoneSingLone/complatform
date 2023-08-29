@@ -9,7 +9,7 @@ import {
 	lStorage
 } from "@/ventose/ui";
 import { API } from "@/api";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { InfoCard } from "../../../components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { stateApp } from "@/state/app";
@@ -33,7 +33,7 @@ import { DialogPostman } from "./DialogPostman";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		return { State_Project: stateInterface, Cpt_url, stateApp };
+		return { State_Project: stateInterface, cptRouter, stateApp };
 	},
 	data(vm) {
 		return {
@@ -94,7 +94,7 @@ export const InterfaceDetail = defineComponent({
 		};
 	},
 	watch: {
-		"Cpt_url.query.interface_id": {
+		"cptRouter.query.interface_id": {
 			immediate: true,
 			async handler(interface_id) {
 				if (!interface_id) {
@@ -116,7 +116,7 @@ export const InterfaceDetail = defineComponent({
 		},
 		async updateInterfaceInfo() {
 			const { data } = await API.project.fetchInterfaceDetail(
-				this.Cpt_url.query.interface_id
+				this.cptRouter.query.interface_id
 			);
 			this.detailInfo = data;
 			xU(data);
@@ -216,7 +216,7 @@ export const InterfaceDetail = defineComponent({
 
 			return new Promise((resolve, reject) => {
 				try {
-					const wsURL = new URL(stateApp.baseURL);
+					const wsURL = new URL(stateApp.BASE_URL);
 					socket.on("solveConflict", data => {});
 					socket
 						.open(
@@ -267,7 +267,7 @@ export const InterfaceDetail = defineComponent({
 			const { tag, up_time, title, uid, username, path, method } =
 				this.detailInfo;
 			const projectId = this.stateApp.currProject._id;
-			const interfaceId = this.Cpt_url.query.interface_id;
+			const interfaceId = this.cptRouter.query.interface_id;
 			/* TODO:后端获取模板 */
 			return `\`\`\`js
 /**

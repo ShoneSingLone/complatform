@@ -1,20 +1,20 @@
 import { defineComponent } from "vue";
-import { Methods_App } from "@/state/app";
+import { stateApp } from "@/state/app";
 
 export default defineComponent({
 	props: ["isLast"],
 	methods: {
 		// 点击下一步
 		nextStep() {
-			Methods_App.changeStudyTip();
+			stateApp._changeStudyTip();
 			if (this.isLast) {
-				Methods_App.finishStudy();
+				stateApp._finishStudy();
 			}
 		},
 
 		// 点击退出指引
 		exitGuide() {
-			Methods_App.finishStudy();
+			stateApp._finishStudy();
 		}
 	},
 	render() {

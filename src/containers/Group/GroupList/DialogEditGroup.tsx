@@ -9,10 +9,10 @@ import {
 	xI
 } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 
 import { API } from "@/api";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { ADMIN } from "@/utils/variable";
 
 const { xItem } = components;
@@ -21,7 +21,7 @@ export const DialogEditGroup = defineComponent({
 	setup() {
 		return {
 			stateApp,
-			Cpt_url
+			cptRouter
 		};
 	},
 	props: {
@@ -227,9 +227,9 @@ export const DialogEditGroup = defineComponent({
 			const { currGroup } = this.stateApp;
 			const res = await API.group.deleteGroup({ id: currGroup._id });
 			xU.notification.success("删除成功");
-			await Methods_App.fetchGroupList();
+			await stateApp._fetchGroupList();
 			const firstGroup = xU.first(this.stateApp.groupList);
-			this.Cpt_url.go("/group", { group_id: firstGroup._id });
+			this.cptRouter.go("/group", { group_id: firstGroup._id });
 		}
 	},
 	mounted() {

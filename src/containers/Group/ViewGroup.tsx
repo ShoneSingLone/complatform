@@ -7,9 +7,9 @@ import {
 } from "./GroupList/GroupLeftSider";
 import { GroupProjectList } from "./GroupProjectList/GroupProjectList";
 import GroupLog from "./GroupLog/GroupLog";
-import { Cpt_url, aHashLink } from "@/router/router";
+import { cptRouter, aHashLink } from "@/router/router";
 import { API } from "@/api";
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { GroupMemberList } from "./GroupMemberList/GroupMemberList";
 import {
 	ADMIN,
@@ -33,7 +33,7 @@ import { ViewWiki } from "../Wiki/ViewWiki";
 export const ViewGroup = defineComponent({
 	setup() {
 		return {
-			Cpt_url,
+			cptRouter,
 			stateApp,
 			fnShowUpsertGroupDialog,
 			fnUpsertGroupInfo
@@ -44,8 +44,8 @@ export const ViewGroup = defineComponent({
 	},
 	mounted() {
 		this.ifUrlNoGroupIdGetAndAddIdToUrl();
-		if (!this.Cpt_url.query.group_tab) {
-			this.Cpt_url.query.group_tab = TAB_KEY_PROJECT_LIST;
+		if (!this.cptRouter.query.group_tab) {
+			this.cptRouter.query.group_tab = TAB_KEY_PROJECT_LIST;
 		}
 	},
 	beforeUnmount() {
@@ -58,9 +58,9 @@ export const ViewGroup = defineComponent({
 			try {
 				if (!this.groupId || this.groupId === "undefined") {
 					let { data: group } = await API.group.getMyGroup();
-					this.Cpt_url.query.group_id = group._id;
+					this.cptRouter.query.group_id = group._id;
 				} else {
-					await Methods_App.setCurrGroup(this.groupId);
+					await stateApp._setCurrGroup(this.groupId);
 				}
 			} catch (e) {
 				console.error(e);
@@ -72,14 +72,14 @@ export const ViewGroup = defineComponent({
 	},
 	computed: {
 		groupId() {
-			return this.Cpt_url.query.group_id || false;
+			return this.cptRouter.query.group_id || false;
 		},
 		currTabName: {
 			get() {
-				return this.Cpt_url.query.group_tab || TAB_KEY_PROJECT_LIST;
+				return this.cptRouter.query.group_tab || TAB_KEY_PROJECT_LIST;
 			},
 			set(group_tab) {
-				this.Cpt_url.query.group_tab = group_tab;
+				this.cptRouter.query.group_tab = group_tab;
 			}
 		},
 		vDomTabMember() {
@@ -147,7 +147,7 @@ export const ViewGroup = defineComponent({
 							let tips = {};
 							if (name === TAB_KEY_GROUP_WIKI) {
 								const href = aHashLink("/wiki_group", {
-									group_id: Cpt_url.value.query.group_id
+									group_id: cptRouter.value.query.group_id
 								});
 								const tipsLabel = xI(OPEN_BLANK);
 								tips = {

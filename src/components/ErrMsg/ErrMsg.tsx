@@ -1,6 +1,6 @@
 import "./ErrMsg.scss";
 import { defineComponent } from "vue";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 
 /**
  * 错误信息提示
@@ -34,7 +34,8 @@ export const ErrMsg = defineComponent({
 					title = "你还没有关注项目呢";
 					desc = (
 						<span>
-							先去 <a onClick={() => Cpt_url.value.go("/group")}>“项目广场”</a>{" "}
+							先去{" "}
+							<a onClick={() => cptRouter.value.go("/group")}>“项目广场”</a>{" "}
 							逛逛吧, 那里可以添加关注。
 						</span>
 					);

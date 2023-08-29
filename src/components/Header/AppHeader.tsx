@@ -4,8 +4,8 @@ import Srch from "./Search/Search";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import { defineComponent, VNode } from "vue";
 import { xU } from "@/ventose/ui";
-import { Cpt_avatarUrl, Methods_App, stateApp } from "@/state/app";
-import { Cpt_url, aHashLink } from "@/router/router";
+import { cptAvatarUrl, stateApp } from "@/state/app";
+import { cptRouter, aHashLink } from "@/router/router";
 import { API } from "@/api";
 import { ADMIN } from "@/utils/variable";
 
@@ -27,28 +27,28 @@ export const AppHeader = defineComponent({
 		"imageUrl"
 	],
 	setup() {
-		return { stateApp, Cpt_url, Cpt_avatarUrl };
+		return { stateApp, cptRouter, cptAvatarUrl };
 	},
 	methods: {
 		goToGroup() {
-			if (this.Cpt_url.pathname === "/wiki_project") {
-				this.Cpt_url.go("/interface/all", {
-					group_id: this.Cpt_url.query.group_id,
-					project_id: this.Cpt_url.query.project_id
+			if (this.cptRouter.pathname === "/wiki_project") {
+				this.cptRouter.go("/interface/all", {
+					group_id: this.cptRouter.query.group_id,
+					project_id: this.cptRouter.query.project_id
 				});
 				return;
 			}
-			this.Cpt_url.go("/group", {
-				group_id: this.Cpt_url.query.group_id
+			this.cptRouter.go("/group", {
+				group_id: this.cptRouter.query.group_id
 			});
 		},
 		goToI18nManger() {
-			this.Cpt_url.go("/xI", {});
+			this.cptRouter.go("/xI", {});
 		}
 	},
 	computed: {
 		icon() {
-			if (["/group", "/wiki", "/xI"].includes(this.Cpt_url.pathname)) {
+			if (["/group", "/wiki", "/xI"].includes(this.cptRouter.pathname)) {
 				return "yapi_logo";
 			}
 			return "back_group";
@@ -77,7 +77,7 @@ export const AppHeader = defineComponent({
 						<xIcon
 							icon={i.icon}
 							style={iconStyle}
-							onClick={() => this.Cpt_url.go(i.path)}
+							onClick={() => this.cptRouter.go(i.path)}
 						/>
 					);
 				}
@@ -121,7 +121,7 @@ export const AppHeader = defineComponent({
 						<ElDropdown
 							trigger="click"
 							v-slots={{
-								default: () => <ElAvatar src={vm.Cpt_avatarUrl} />,
+								default: () => <ElAvatar src={vm.cptAvatarUrl} />,
 								dropdown: () => this.MenuUser
 							}}
 						/>
@@ -158,7 +158,7 @@ export const AppHeader = defineComponent({
 								name: "退出",
 								icon: "logout",
 								onClick() {
-									Methods_App.logoutActions();
+									stateApp._logoutActions();
 								}
 							}
 						},

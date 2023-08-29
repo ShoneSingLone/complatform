@@ -1,37 +1,34 @@
-import { defineComponent } from "vue";
-import { Cpt_url } from "@/router/router";
+import { defineComponent, onMounted } from "vue";
+import { cptRouter } from "@/router/router";
+import { xI } from "@/ventose/ui";
 
 export const ViewNotFound = defineComponent({
 	props: ["pathname"],
-	setup() {
-		return {
-			Cpt_url
+	setup(props) {
+		function goHome() {
+			cptRouter.value.go("/group");
+		}
+		onMounted(() => {
+			if (cptRouter.value.pathname === "/") {
+				goHome();
+			}
+		});
+		return function () {
+			return (
+				<ElResult
+					icon="error"
+					title="404"
+					subTitle={props.pathname}
+					class="flex1">
+					{{
+						extra: () => (
+							<xButton type="primary" onClick={goHome}>
+								{xI("BackHome")}
+							</xButton>
+						)
+					}}
+				</ElResult>
+			);
 		};
-	},
-	methods: {
-		goHome() {
-			this.Cpt_url.go("/group");
-		}
-	},
-	mounted() {
-		if (this.Cpt_url.pathname === "/") {
-			this.goHome();
-		}
-	},
-	data(vm) {
-		return {};
-	},
-	render() {
-		return (
-			<ElResult icon="error" title="404" subTitle={this.pathname} class="flex1">
-				{{
-					extra: () => (
-						<xButton type="primary" onClick={this.goHome}>
-							{xI("BackHome")}
-						</xButton>
-					)
-				}}
-			</ElResult>
-		);
 	}
 });

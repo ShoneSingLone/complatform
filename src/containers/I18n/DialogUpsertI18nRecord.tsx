@@ -11,7 +11,7 @@ import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateApp } from "@/state/app";
 import { FormRules } from "@/utils/common.FormRules";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { stateI18n } from "./State_i18n";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 
@@ -26,7 +26,7 @@ export const DialogUpsertI18nRecord = defineComponent({
 		}
 	},
 	setup() {
-		return { stateApp, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	data() {
 		const vm = this;

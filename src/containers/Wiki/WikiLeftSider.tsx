@@ -2,7 +2,7 @@ import { defineComponent, reactive, ref, watch } from "vue";
 import { $, xU, compositionAPI, stateUI, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { DialogAddArticle } from "./DialogAddArticle";
-import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
+import { cptRouter, cpt_isPersonalWikiView } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { stateApp } from "@/state/app";
 import { Methods_Wiki, stateWiki } from "@/state/wiki";
@@ -24,7 +24,7 @@ export const WikiLeftSider = defineComponent({
 		return {
 			stateWiki,
 			stateApp,
-			Cpt_url,
+			cptRouter,
 			cpt_isPersonalWikiView,
 			fnObserveDomResize,
 			fnUnobserveDomResize
@@ -71,7 +71,7 @@ export const WikiLeftSider = defineComponent({
 			return {
 				text: xI("新增"),
 				isShow() {
-					const { user_id } = Cpt_url.value.query;
+					const { user_id } = cptRouter.value.query;
 					if (user_id) {
 						return String(user_id) === String(stateApp.user._id);
 					}
@@ -243,7 +243,7 @@ export const WikiLeftSider = defineComponent({
 					order: menuOrderArray,
 					belong_type: stateWiki.belongType,
 					belong_id: (() => {
-						const { group_id, project_id } = Cpt_url.value.query;
+						const { group_id, project_id } = cptRouter.value.query;
 						const s_map = {
 							group: group_id,
 							project: project_id

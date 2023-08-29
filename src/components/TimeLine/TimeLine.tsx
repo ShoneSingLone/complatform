@@ -5,7 +5,7 @@ import * as jsondiffpatch from "jsondiffpatch";
 
 import { defPagination, stateUI, xU, xI } from "@/ventose/ui";
 import { defineComponent } from "vue";
-import { Methods_App } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { DialogShowApiModify } from "./DialogShowApiModify";
 import { LOG_TYPE, METHOD_COLOR } from "../../utils/variable";
 import { _$timeAgo } from "../../utils/common";
@@ -99,7 +99,7 @@ export const TimeLine = defineComponent({
 
 		handleSelectApi(selectValue) {
 			this.curSelectValue = selectValue;
-			Methods_App.fetchNewsData({ id: this.typeid, type: this.type });
+			stateApp._fetchNewsData({ id: this.typeid, type: this.type });
 		}
 	},
 	computed: {

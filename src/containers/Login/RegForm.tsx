@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { Methods_App } from "@/state/app";
+import { stateApp } from "@/state/app";
 import {
 	defItem,
 	EVENT_TYPE,
@@ -11,7 +11,7 @@ import {
 } from "@/ventose/ui";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import { API } from "@/api";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { stylesLoginFormIcon } from "@/utils/variable";
 import { types } from "sass";
 import Error = types.Error;
@@ -38,8 +38,8 @@ export default defineComponent({
 	},
 	setup() {
 		return {
-			Cpt_url,
-			Methods_App
+			cptRouter,
+			Methods_App: stateApp
 		};
 	},
 	data() {
@@ -129,7 +129,7 @@ export default defineComponent({
 							);
 							xU.notification.success(xI('"注册成功"'));
 
-							Cpt_url.value.go("/group");
+							cptRouter.value.go("/group");
 						} else {
 							throw new Error("未通过验证");
 						}

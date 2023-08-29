@@ -1,4 +1,4 @@
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { defineComponent, onMounted, reactive } from "vue";
 import "./MemberList.scss";
 import {
@@ -151,14 +151,14 @@ export const GroupMemberList = defineComponent({
 			},
 			// 重新获取列表
 			async fetchGroupMemberList() {
-				const menber = await Methods_App.fetchGroupMemberList(
+				const menber = await stateApp._fetchGroupMemberList(
 					stateApp.currGroup._id
 				);
 				state.userInfo = arrayAddKey(menber);
 			},
 			// 增 - 添加成员
 			async addMember({ member_uids, role }) {
-				const { data } = await Methods_App.addMember({
+				const { data } = await stateApp._addMember({
 					id: stateApp.currGroup._id,
 					member_uids,
 					role
@@ -175,7 +175,7 @@ export const GroupMemberList = defineComponent({
 				const id = stateApp.currGroup._id;
 				const index = xU.layer.loading();
 				try {
-					await Methods_App.delMember({ id, member_uid });
+					await stateApp._delMember({ id, member_uid });
 					xU.notification.success("修改成功");
 					methods.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
 				} catch (e) {
@@ -190,7 +190,7 @@ export const GroupMemberList = defineComponent({
 				const id = stateApp.currGroup._id;
 				const index = xU.layer.loading();
 				try {
-					await Methods_App.changeMemberRole({ id, member_uid, role });
+					await stateApp._changeMemberRole({ id, member_uid, role });
 					xU.notification.success("修改成功");
 					methods.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
 				} catch (e) {

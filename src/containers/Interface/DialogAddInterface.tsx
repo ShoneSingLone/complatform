@@ -5,7 +5,7 @@ import { stateApp } from "@/state/app";
 import { stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { INTERFACE } from "@/utils/variable";
 
 export const DialogAddInterface = defineComponent({
@@ -94,9 +94,9 @@ export const DialogAddInterface = defineComponent({
 					});
 					if (data) {
 						stateInterface._updateInterfaceMenuList();
-						Cpt_url.value.query.interface_type = INTERFACE;
-						Cpt_url.value.query.category_id = payload.categoryId;
-						Cpt_url.value.query.interface_id = data._id;
+						cptRouter.value.query.interface_type = INTERFACE;
+						cptRouter.value.query.category_id = payload.categoryId;
+						cptRouter.value.query.interface_id = data._id;
 						stateInterface._setExpand();
 						xU.message.success("添加接口成功");
 						$close();

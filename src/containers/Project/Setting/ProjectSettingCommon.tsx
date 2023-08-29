@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { stateApp } from "@/state/app";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { xI } from "@/ventose/ui";
 import {
 	xItem_ProjectName,
@@ -22,7 +22,7 @@ export const ProjectSettingCommon = defineComponent({
 	setup() {
 		return {
 			stateApp,
-			Cpt_url
+			cptRouter
 		};
 	},
 	data(vm) {
@@ -41,7 +41,7 @@ export const ProjectSettingCommon = defineComponent({
 			},
 			dataXItem: {
 				projectGroupId: defItem(
-					xItem_ProjectGroupId({ value: vm.Cpt_url.query.group_id }, vm)
+					xItem_ProjectGroupId({ value: vm.cptRouter.query.group_id }, vm)
 				),
 				projectName: defItem(
 					xItem_ProjectName({ value: vm.stateApp.currProject.name })

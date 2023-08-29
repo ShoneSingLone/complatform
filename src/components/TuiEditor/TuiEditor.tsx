@@ -23,7 +23,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 			const src = (() => {
 				const [_, id] = String(destination).match(/^_id:(\d+)/) || [];
 				if (id) {
-					return `${stateApp.baseURL}/api/resource/get?id=${id}`;
+					return `${stateApp.BASE_URL}/api/resource/get?id=${id}`;
 				} else {
 					return destination;
 				}

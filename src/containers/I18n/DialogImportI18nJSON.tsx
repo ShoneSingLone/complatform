@@ -2,7 +2,7 @@ import { xU, xI, defCol, defXVirTableConfigs } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateI18n } from "./State_i18n";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 
 export const DialogImportI18nJSON = defineComponent({
 	props: {

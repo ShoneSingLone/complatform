@@ -8,10 +8,10 @@ import {
 } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { DialogEditGroup } from "./DialogEditGroup";
 import { DialogAddGroup } from "./DialogAddGroup";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
 
 export async function fnUpsertGroupInfo(formData = {}) {
@@ -22,9 +22,9 @@ export async function fnUpsertGroupInfo(formData = {}) {
 		await API.group.addGroup(formData);
 	}
 	/*TODO:*/
-	await Methods_App.fetchGroupList();
-	await Methods_App.setCurrGroup(stateApp.currGroup._id);
-	await Methods_App.fetchNewsData({
+	await stateApp._fetchGroupList();
+	await stateApp._setCurrGroup(stateApp.currGroup._id);
+	await stateApp._fetchNewsData({
 		id: stateApp.currGroup._id,
 		type: "group"
 	});
@@ -112,7 +112,7 @@ export const GroupLeftSider = defineComponent({
 	],
 	setup() {
 		return {
-			Cpt_url,
+			cptRouter,
 			stateApp,
 			fnShowUpsertGroupDialog,
 			fnUpsertGroupInfo
@@ -220,7 +220,7 @@ export const GroupLeftSider = defineComponent({
 
 	async mounted() {
 		await this.initGroupList();
-		await Methods_App.setCurrGroup(this.stateApp.currGroup._id);
+		await stateApp._setCurrGroup(this.stateApp.currGroup._id);
 	},
 	methods: {
 		setElScrollbarHeight: xU.debounce(function ({ height }) {
@@ -229,7 +229,7 @@ export const GroupLeftSider = defineComponent({
 		}, 300),
 		async initGroupList() {
 			try {
-				await Methods_App.fetchGroupList();
+				await stateApp._fetchGroupList();
 				this.searchGroup();
 			} catch (error) {
 				console.error(error);
@@ -239,9 +239,9 @@ export const GroupLeftSider = defineComponent({
 			if (!groupId) {
 				return;
 			}
-			await Methods_App.setCurrGroup(groupId);
-			this.Cpt_url.go("/group", { group_id: groupId });
-			await Methods_App.fetchNewsData({ id: groupId, type: "group" });
+			await stateApp._setCurrGroup(groupId);
+			this.cptRouter.go("/group", { group_id: groupId });
+			await stateApp._fetchNewsData({ id: groupId, type: "group" });
 		},
 		getVDomIconEdit({ group }) {
 			if (!group._id) {

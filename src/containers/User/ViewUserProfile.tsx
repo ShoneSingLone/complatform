@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { stateApp, Cpt_avatarUrl } from "@/state/app";
+import { stateApp, cptAvatarUrl } from "@/state/app";
 import { xI, xU, defFormConfigs, setValueTo } from "@/ventose/ui";
 import { DialogUpdatePwd } from "./DialogUpdatePwd";
 import { FormRules } from "@/utils/common.FormRules";
@@ -15,7 +15,7 @@ export const ViewUserProfile = defineComponent({
 	setup() {
 		return {
 			stateApp,
-			Cpt_avatarUrl
+			cptAvatarUrl
 		};
 	},
 	data(vm) {
@@ -126,7 +126,7 @@ export const ViewUserProfile = defineComponent({
 		}
 	},
 	render({
-		Cpt_avatarUrl,
+		cptAvatarUrl,
 		configsForm,
 		styleForm,
 		styleFormLabel,
@@ -150,8 +150,8 @@ export const ViewUserProfile = defineComponent({
 									onChange={handleChange}
 									beforeUpload={beforeAvatarUpload}>
 									{(() => {
-										if (Cpt_avatarUrl) {
-											return <ElAvatar size={64} src={Cpt_avatarUrl} />;
+										if (cptAvatarUrl) {
+											return <ElAvatar size={64} src={cptAvatarUrl} />;
 										} else {
 											return (
 												<el-icon class="avatar-uploader-icon">

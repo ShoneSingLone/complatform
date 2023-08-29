@@ -5,7 +5,7 @@ import { cpt_treeData, stateInterface } from "@/state/interface";
 import { _$arrayChangeIndex } from "@/utils/common";
 import type Node from "element-plus/es/components/tree/src/model/node";
 import type { NodeDropType } from "element-plus/es/components/tree/src/tree.type";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { ALL, CATEGORY, INTERFACE } from "@/utils/variable";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { DialogAddInterface } from "./DialogAddInterface";
@@ -42,7 +42,7 @@ export const InterfaceLeftSider = defineComponent({
 					title: xI("添加接口"),
 					payload: {
 						categoryId,
-						projectId: Cpt_url.value.query.project_id
+						projectId: cptRouter.value.query.project_id
 					}
 				});
 			},
@@ -156,8 +156,8 @@ export const InterfaceLeftSider = defineComponent({
 		vm = xScope(vm);
 
 		onMounted(() => {
-			if (!Cpt_url.value.query.category_id) {
-				Cpt_url.value.query.category_id = ALL;
+			if (!cptRouter.value.query.category_id) {
+				cptRouter.value.query.category_id = ALL;
 			}
 		});
 
@@ -187,7 +187,7 @@ export const InterfaceLeftSider = defineComponent({
 												const classContentString = (() => {
 													let _classString = "x-sider-tree_menu";
 													if (
-														xU.isSame(_id, Cpt_url.value.query.interface_id)
+														xU.isSame(_id, cptRouter.value.query.interface_id)
 													) {
 														return _classString + " x-sider-tree_menu_active";
 													}
@@ -209,22 +209,22 @@ export const InterfaceLeftSider = defineComponent({
 												};
 
 												const handleClick = () => {
-													Cpt_url.value.query.interface_type = menuType;
+													cptRouter.value.query.interface_type = menuType;
 
 													(() => {
 														if (menuType == ALL) {
-															Cpt_url.value.query.interface_id = undefined;
-															Cpt_url.value.query.category_id = undefined;
+															cptRouter.value.query.interface_id = undefined;
+															cptRouter.value.query.category_id = undefined;
 															return;
 														}
 														if (menuType == CATEGORY) {
-															Cpt_url.value.query.interface_id = undefined;
-															Cpt_url.value.query.category_id = categoryId;
+															cptRouter.value.query.interface_id = undefined;
+															cptRouter.value.query.category_id = categoryId;
 															return;
 														}
 														if (menuType == INTERFACE) {
-															Cpt_url.value.query.interface_id = _id;
-															Cpt_url.value.query.category_id = categoryId;
+															cptRouter.value.query.interface_id = _id;
+															cptRouter.value.query.category_id = categoryId;
 														}
 													})();
 												};

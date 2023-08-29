@@ -1,13 +1,13 @@
 import { defineComponent, onMounted } from "vue";
 import { stateApp } from "@/state/app";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { InterfaceLeftSider } from "./InterfaceLeftSider";
 import { stateInterface } from "@/state/interface";
 
 export const ViewInterface = defineComponent({
 	setup() {
 		stateInterface.__resetState();
-
+		stateInterface._updateInterfaceMenuList();
 		onMounted(() => {
 			stateInterface._resetURL();
 		});
@@ -18,7 +18,7 @@ export const ViewInterface = defineComponent({
 					v-xloading={stateInterface.isLoading}>
 					<InterfaceLeftSider />
 					<main class="flex flex1 padding10" style="width:1px;">
-						{JSON.stringify(Cpt_url.value.query)}
+						{JSON.stringify(cptRouter.value.query)}
 					</main>
 				</section>
 			);

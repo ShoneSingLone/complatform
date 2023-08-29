@@ -3,7 +3,7 @@ import { computed, defineComponent, onMounted, reactive, watch } from "vue";
 import { stateInterface } from "@/state/interface";
 import "./ViewProject.less";
 import { RouterView } from "@/components/RouterView/RouterView";
-import { Cpt_url, aHashLink } from "@/router/router";
+import { cptRouter, aHashLink } from "@/router/router";
 import { stateApp } from "@/state/app";
 import {
 	OPEN_BLANK,
@@ -21,7 +21,7 @@ export const ViewProject = defineComponent({
 	setup() {
 		/* 以project为root，共享数据随project生命周期重置 */
 		stateInterface.__resetState();
-		const [_, a, b] = String(Cpt_url.value.pathname).split("/");
+		const [_, a, b] = String(cptRouter.value.pathname).split("/");
 
 		var vm = {
 			asdf: 123,
@@ -31,10 +31,10 @@ export const ViewProject = defineComponent({
 
 		const curretProjectTabName = computed({
 			get() {
-				return Cpt_url.value.query.project_tab;
+				return cptRouter.value.query.project_tab;
 			},
 			set(project_tab) {
-				Cpt_url.value.query.project_tab = project_tab;
+				cptRouter.value.query.project_tab = project_tab;
 			}
 		});
 
@@ -47,8 +47,8 @@ export const ViewProject = defineComponent({
 			}
 
 			const href = aHashLink("/wiki_project", {
-				group_id: Cpt_url.value.query.group_id,
-				project_id: Cpt_url.value.query.project_id
+				group_id: cptRouter.value.query.group_id,
+				project_id: cptRouter.value.query.project_id
 			});
 			const tips = {
 				content: `<a href="${href}" target="_blank"> ${tipsLabel} </a>`,

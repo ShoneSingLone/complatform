@@ -3,7 +3,7 @@ import "./Search.scss";
 import axios from "axios";
 
 import { defineComponent } from "vue";
-import { Methods_App } from "@/state/app";
+import { stateApp } from "@/state/app";
 
 // @withRouter
 export default defineComponent({
@@ -29,9 +29,9 @@ export default defineComponent({
 			if (option.props.type === "分组") {
 				this.props.changeMenuItem("/group");
 				this.$router.push({ path: "/group/" + option.props["id"] });
-				Methods_App.setCurrGroup(ption.props["id"] - 0);
+				stateApp._setCurrGroup(ption.props["id"] - 0);
 			} else if (option.props.type === "项目") {
-				await Methods_App.setCurrGroup(option.props["groupId"]);
+				await stateApp._setCurrGroup(option.props["groupId"]);
 				this.$router.push({ path: "/project/" + option.props["id"] });
 			} else if (option.props.type === "接口") {
 				await this.props.fetchInterfaceListMenu(option.props["projectId"]);

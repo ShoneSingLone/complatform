@@ -1,12 +1,12 @@
 import { defineComponent } from "vue";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 export const ProjectTestcaseAll = defineComponent({
 	setup() {
 		return {
-			Cpt_url
+			cptRouter
 		};
 	},
 	render() {
-		return <h1>{this.Cpt_url.pathname}</h1>;
+		return <h1>{this.cptRouter.pathname}</h1>;
 	}
 });

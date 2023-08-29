@@ -11,7 +11,7 @@ import {
 	defColActions,
 	defColActionsBtnlist
 } from "@/ventose/ui";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { DialogImportI18nJSON } from "./DialogImportI18nJSON";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import * as _ from "lodash";
@@ -24,7 +24,7 @@ import { ITEM_OPTIONS } from "@/utils/common.options";
 export const ViewI18n = defineComponent({
 	setup() {
 		return {
-			Cpt_url,
+			cptRouter,
 			/* 作为root节点，使用useStateI18n，mounted会重置数据 */
 			stateI18n: useStateI18n()
 		};

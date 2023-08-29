@@ -4,7 +4,7 @@ import { stateApp } from "@/state/app";
 import { API } from "@/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
 import { xU } from "@/ventose/ui";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { aHashLink } from "../../router/router";
 
 export default defineComponent({
@@ -19,7 +19,7 @@ export default defineComponent({
 		"currPage"
 	],
 	setup() {
-		return { stateApp, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	methods: {
 		showCopyProjectDialog() {
@@ -125,7 +125,7 @@ export default defineComponent({
 				<a
 					href={aHashLink("/project", {
 						project_id: this.projectData._id,
-						group_id: this.Cpt_url.query.group_id
+						group_id: this.cptRouter.query.group_id
 					})}>
 					<xIcon
 						class="ui-logo"

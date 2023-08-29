@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { stateApp } from "@/state/app";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { xI } from "@/ventose/ui";
 import { ProjectSettingCommon } from "./ProjectSettingCommon";
 
@@ -8,7 +8,7 @@ export const ProjectSetting = defineComponent({
 	setup() {
 		return {
 			stateApp,
-			Cpt_url
+			cptRouter
 		};
 	},
 	data(vm) {

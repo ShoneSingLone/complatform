@@ -3,12 +3,12 @@ import "./Breadcrumb.scss";
 import { defineComponent } from "vue";
 import { xU } from "@/ventose/ui";
 import { stateApp } from "@/state/app";
-import { Cpt_url, routes } from "@/router/router";
+import { cptRouter, routes } from "@/router/router";
 
 export const BreadcrumbNavigation = defineComponent({
 	setup() {
 		return {
-			Cpt_url,
+			cptRouter,
 			stateApp
 		};
 	},
@@ -16,7 +16,7 @@ export const BreadcrumbNavigation = defineComponent({
 		breadcrumbItems() {
 			return xU.map(
 				[
-					Cpt_url.value.pathname,
+					cptRouter.value.pathname,
 					this.stateApp.currGroup,
 					this.stateApp.currProject
 				],
@@ -41,7 +41,7 @@ export const BreadcrumbNavigation = defineComponent({
 						if (0 === index) {
 							const route = xU.find(
 								routes,
-								route => route.path === Cpt_url.value.pathname
+								route => route.path === cptRouter.value.pathname
 							);
 
 							if (route?.meta?.title) {

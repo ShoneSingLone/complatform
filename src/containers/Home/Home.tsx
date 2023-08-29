@@ -1,8 +1,8 @@
 import { LogoSVG } from "@/components/LogoSVG";
 import { defineComponent } from "vue";
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { $ } from "@/ventose/ui";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 
 const TipTitle = () => {
 	return (
@@ -20,7 +20,7 @@ const TipBtns = () => {
 				<xButton
 					type="primary"
 					class="btn-home btn-login"
-					onClick={() => Cpt_url.value.go("/login")}>
+					onClick={() => cptRouter.value.go("/login")}>
 					登录 / 注册
 				</xButton>
 				<xButton class="btn-home btn-home-normal">
@@ -82,7 +82,7 @@ const HomeGuest = params => {
 									<xButton
 										type="primary"
 										class="btn-home btn-login"
-										onClick={() => Cpt_url.value.go("/login")}>
+										onClick={() => cptRouter.value.go("/login")}>
 										登录 / 注册
 									</xButton>
 									{/* {ThirdLogin ? <ThirdLogin /> : null} */}
@@ -378,7 +378,7 @@ export default defineComponent({
 	},
 	methods: {
 		toStart() {
-			Methods_App.changeMenuItem("/group");
+			stateApp._changeMenuItem("/group");
 		}
 	},
 	render() {

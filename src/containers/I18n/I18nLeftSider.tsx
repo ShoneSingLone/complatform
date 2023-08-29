@@ -2,7 +2,7 @@ import { defineComponent } from "vue";
 import { $, xU, compositionAPI, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
 import { stateApp } from "@/state/app";
 import { stateI18n } from "./State_i18n";
@@ -23,7 +23,7 @@ export const I18nLeftSider = defineComponent({
 		return {
 			stateWiki: stateI18n,
 			stateApp,
-			Cpt_url,
+			cptRouter,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
@@ -125,7 +125,7 @@ export const I18nLeftSider = defineComponent({
 
 								const handleClick = () => {
 									stateI18n.isLoading = true;
-									vm.Cpt_url.go("/xI", { wiki_id: item.data._id });
+									vm.cptRouter.go("/xI", { wiki_id: item.data._id });
 									vm.$emit("change");
 									setTimeout(() => {
 										/* 内网环境，数据3秒都回不来，就有点呵呵了 */
@@ -241,7 +241,7 @@ export const I18nLeftSider = defineComponent({
 						await API.wiki.delete(_id);
 						xU.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						vm.Cpt_url.go("/xI", {
+						vm.cptRouter.go("/xI", {
 							wiki_id: xU.first(stateI18n.i18nRecordArray)?._id
 						});
 					} catch (error) {

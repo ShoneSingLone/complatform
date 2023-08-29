@@ -1,11 +1,11 @@
 import "./ViewWiki.scss";
 import { defineComponent } from "vue";
 import { WikiLeftSider } from "./WikiLeftSider";
-import { stateWiki, Methods_Wiki, resetStateWiki } from "@/state/wiki";
+import { stateWiki, Methods_Wiki } from "@/state/wiki";
 import { TuiEditor } from "@/components";
 import { API } from "@/api/index";
 import { xU, xI, defItem } from "@/ventose/ui";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 
 export const ViewWiki = defineComponent({
 	props: ["belongType"],
@@ -15,11 +15,11 @@ export const ViewWiki = defineComponent({
 		};
 	},
 	mounted() {
-		resetStateWiki(this);
+		stateWiki.__resetState(this);
 		if (stateWiki.belongType) {
 			Methods_Wiki.updateWikiMenuList();
 		} else {
-			Cpt_url.value.go("/");
+			cptRouter.value.go("/");
 		}
 	},
 	data() {

@@ -3,20 +3,20 @@ import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 
 import "./ProjectList.scss";
 import { defineComponent } from "vue";
-import { Methods_App, stateApp } from "@/state/app";
+import { stateApp } from "@/state/app";
 import { xU, xI } from "@/ventose/ui";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { DialogAddProject } from "../AddProject/DialogAddProject";
 import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
 
 export const GroupProjectList = defineComponent({
 	setup() {
-		return { stateApp, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	data() {
 		const vm = this;
 		vm.fetchProjectList = xU.debounce(async function () {
-			await Methods_App.fetchProjectList(vm.Cpt_url.query.group_id);
+			await stateApp._fetchProjectList(vm.cptRouter.query.group_id);
 			vm.isLoading = false;
 		});
 		vm.updateProjectList = () => {
@@ -122,7 +122,7 @@ export const GroupProjectList = defineComponent({
 		}
 	},
 	watch: {
-		"Cpt_url.query.group_id": {
+		"cptRouter.query.group_id": {
 			immediate: true,
 			handler() {
 				this.isLoading = true;
@@ -152,7 +152,7 @@ export const GroupProjectList = defineComponent({
 			xU.dialog({
 				title: "添加项目",
 				component: DialogAddProject,
-				groupId: vm.Cpt_url.query.group_id,
+				groupId: vm.cptRouter.query.group_id,
 				updateProjectList: vm.updateProjectList
 			});
 		},

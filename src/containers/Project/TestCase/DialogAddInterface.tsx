@@ -12,7 +12,7 @@ import { stateApp } from "@/state/app";
 import { stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 
 export const DialogAddInterface = defineComponent({
 	props: {
@@ -100,8 +100,8 @@ export const DialogAddInterface = defineComponent({
 					});
 					if (data) {
 						stateInterface.updateTestcaseMenuList();
-						Cpt_url.value.go("/interface/detail", {
-							...Cpt_url.value.query,
+						cptRouter.value.go("/interface/detail", {
+							...cptRouter.value.query,
 							interface_id: data._id
 						});
 

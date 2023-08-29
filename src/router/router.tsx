@@ -1,8 +1,8 @@
 import { computed, ComputedRef } from "vue";
-import { setDocumentTitle, xI, xU } from "@/ventose/ui";
-import { ViewNotFound } from "../components/ViewNotFound";
-import { Methods_App, stateApp } from "@/state/app";
 import { ALL, GROUP, PRIVATE, PROJECT } from "@/utils/variable";
+import { setDocumentTitle, xI, xU } from "@/ventose/ui";
+import { ViewNotFound } from "@/components/ViewNotFound";
+import { stateApp } from "@/state/app";
 
 /* const LazyComponent = (componentName, componentPath) => ({
 	componentName: componentName,
@@ -12,7 +12,7 @@ import { ALL, GROUP, PRIVATE, PROJECT } from "@/utils/variable";
 const wiki = (tag, title) => ({
 	path: `/wiki_${tag}`,
 	componentName: "ViewWiki",
-	component: () => import("../containers/Wiki/ViewWiki.js"),
+	component: () => import("@/containers/Wiki/ViewWiki.js"),
 	meta: {
 		title
 	}
@@ -22,7 +22,7 @@ export const routes = [
 	{
 		path: `/login`,
 		componentName: "LoginContainer",
-		component: () => import("../containers/Login/LoginContainer.js"),
+		component: () => import("@/containers/Login/LoginContainer.js"),
 		meta: {
 			title: xI("用户登录")
 		}
@@ -30,7 +30,7 @@ export const routes = [
 	{
 		path: `/user_profile`,
 		componentName: "ViewUserProfile",
-		component: () => import("../containers/User/ViewUserProfile.js"),
+		component: () => import("@/containers/User/ViewUserProfile.js"),
 		meta: {
 			title: xI("用户")
 		}
@@ -38,7 +38,7 @@ export const routes = [
 	{
 		path: `/group`,
 		componentName: "ViewGroup",
-		component: () => import("../containers/Group/ViewGroup.js"),
+		component: () => import("@/containers/Group/ViewGroup.js"),
 		meta: {
 			title: xI("分组")
 		}
@@ -50,7 +50,7 @@ export const routes = [
 	{
 		path: `/xI`,
 		componentName: "ViewI18n",
-		component: () => import("../containers/I18n/ViewI18n.js"),
+		component: () => import("@/containers/I18n/ViewI18n.js"),
 		meta: {
 			title: xI("国际化")
 		}
@@ -58,7 +58,7 @@ export const routes = [
 	{
 		path: `/project`,
 		componentName: "ViewProject",
-		component: () => import("../containers/Project/ViewProject.js"),
+		component: () => import("@/containers/Project/ViewProject.js"),
 		meta: {
 			title: xI("项目")
 		}
@@ -67,7 +67,7 @@ export const routes = [
 		label: xI("接口"),
 		path: "/interface",
 		componentName: "ViewInterface",
-		component: () => import("../containers/Interface/ViewInterface.js"),
+		component: () => import("@/containers/Interface/ViewInterface.js"),
 		meta: {
 			title: xI("接口")
 		}
@@ -91,10 +91,11 @@ export const ProjectChildren = routes.filter(route => {
 	}
 });
 
-type type_url = {
+type t_router = {
 	go: (path: string, query?: object) => null;
 	refresh: (query: object) => null;
 	query: {
+		user_id?: string;
 		group_id?: string;
 		group_tab?: string;
 		project_id?: string;
@@ -103,9 +104,9 @@ type type_url = {
 		interface_id?: string;
 		category_id?: string;
 	};
-};
+} & URL;
 
-export const Cpt_url: ComputedRef<type_url> = computed(() => {
+export const cptRouter = computed(() => {
 	const urlHash = stateApp.urlHash || "/";
 	const { origin } = location;
 
@@ -140,7 +141,7 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 		}
 	});
 
-	const _Cpt_url = new Proxy(_url, {
+	const _cptRouter = new Proxy(_url, {
 		get(obj, prop) {
 			if (prop === "query") {
 				return query;
@@ -158,7 +159,7 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 		}
 	});
 
-	return _Cpt_url;
+	return _cptRouter as t_router;
 });
 
 /***
@@ -186,7 +187,7 @@ export function aHashLink(urlLike: string, query: any = {}) {
 async function setLocationHash(href: string, url: URL) {
 	try {
 		/*如果已登录*/
-		if (!(await Methods_App.checkLoginState())) {
+		if (!(await stateApp._checkLoginState())) {
 			return;
 		}
 		/*但是，非登陆页面则跳转到主页*/
@@ -223,5 +224,5 @@ function onlyModifyQuery(_query) {
 }
 
 export const cpt_isPersonalWikiView = computed(() => {
-	return !!Cpt_url.value.query.user_id;
+	return !!cptRouter.value.query.user_id;
 });

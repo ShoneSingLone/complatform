@@ -33,7 +33,7 @@ import {
 } from "@/ventose/ui";
 import { FormRules } from "@/utils/common.FormRules";
 import { API } from "@/api";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { Methods_App } from "@/state/app";
 import { stylesLoginFormIcon } from "@/utils/variable";
 
@@ -53,7 +53,7 @@ export default defineComponent({
 	},
 	setup() {
 		return {
-			Cpt_url,
+			cptRouter,
 			Methods_App
 		};
 	},
@@ -110,7 +110,7 @@ export default defineComponent({
 					const formData = pickValueFrom(vm.configsForm);
 					const res = await API.user.loginActions(formData);
 					xU.notification.success("登录成功! ");
-					Cpt_url.value.go("/group");
+					cptRouter.value.go("/group");
 				} else {
 					throw new Error("未通过验证");
 				}

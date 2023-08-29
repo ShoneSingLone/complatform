@@ -24,7 +24,7 @@ import {
 	ResponseRender,
 	TagSelectRender
 } from "./DialogModifyInterface.Helper";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 
 export const DialogModifyInterface = defineComponent({
 	props: {
@@ -523,7 +523,7 @@ export const DialogModifyInterface = defineComponent({
 						/* 更新 url 左侧树 */
 						await (async () => {
 							/* 可能修改了分类，影响对应url */
-							Cpt_url.value.query.category_id = formData.catid;
+							cptRouter.value.query.category_id = formData.catid;
 							/* 刷新右侧接口树 */
 							await stateInterface._updateInterfaceMenuList();
 							/* 设置树展开 */
