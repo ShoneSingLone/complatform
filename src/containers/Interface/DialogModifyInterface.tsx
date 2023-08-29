@@ -3,7 +3,6 @@ import {
 	defItem,
 	pickValueFrom,
 	setValueTo,
-	xU,
 	itemsInvalid,
 	VNodeCollection,
 	xU

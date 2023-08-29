@@ -30,9 +30,7 @@ export function useColHeader({
 								<div class="flex1 el-card" style="overflow:auto;padding:14px;">
 									{controller}
 								</div>
-								<div
-									class="flex middle end"
-									style="padding-top:12px">
+								<div class="flex middle end" style="padding-top:12px">
 									<xButton
 										onClick={() =>
 											onFilter({

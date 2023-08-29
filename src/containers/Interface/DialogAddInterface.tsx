@@ -45,8 +45,8 @@ export const DialogAddInterface = defineComponent({
 					once() {
 						this.options = stateInterface.allCategory;
 						/* 默认在点击的分类下添加新接口 */
-						if (vm.propOptions.categoryId) {
-							this.value = vm.propOptions.categoryId;
+						if (vm.propOptions.payload.categoryId) {
+							this.value = vm.propOptions.payload.categoryId;
 						} else {
 							this.value = xU.first(this.options).value;
 						}

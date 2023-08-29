@@ -182,20 +182,25 @@ export const InterfaceAside = defineComponent({
 										default(item) {
 											try {
 												const { data } = item;
+												// console.log("data", data);
 												const { title, _id, categoryId, menuType } = data;
+
+												// title = `${title} ${_id} ${categoryId}`;
 
 												const classContentString = (() => {
 													let _classString = "x-sider-tree_menu";
 													if (
-														cptRouter.value.query.interface_type ===
-															INTERFACE &&
+														menuType === INTERFACE &&
 														xU.isSame(_id, cptRouter.value.query.interface_id)
 													) {
 														_classString += " x-sider-tree_menu_active";
 													}
 													if (
-														cptRouter.value.query.interface_type === CATEGORY &&
-														xU.isSame(_id, cptRouter.value.query.category_id)
+														menuType === CATEGORY &&
+														xU.isSame(
+															categoryId,
+															cptRouter.value.query.category_id
+														)
 													) {
 														_classString += " x-sider-tree_menu_active";
 													}

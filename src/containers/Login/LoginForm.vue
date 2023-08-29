@@ -34,7 +34,6 @@ import {
 import { FormRules } from "@/utils/common.FormRules";
 import { API } from "@/api";
 import { cptRouter } from "@/router/router";
-import { Methods_App } from "@/state/app";
 import { stylesLoginFormIcon } from "@/utils/variable";
 
 const formItemStyle = {
@@ -53,8 +52,7 @@ export default defineComponent({
 	},
 	setup() {
 		return {
-			cptRouter,
-			Methods_App
+			cptRouter
 		};
 	},
 	data(vm) {

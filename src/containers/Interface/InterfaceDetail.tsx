@@ -10,14 +10,14 @@ import {
 } from "@/ventose/ui";
 import { API } from "@/api";
 import { cptRouter } from "@/router/router";
-import { InfoCard } from "../../../components/InfoCard";
+import { InfoCard } from "@/components/InfoCard";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { stateApp } from "@/state/app";
 import { DialogModifyInterface } from "./DialogModifyInterface";
 import { makeAhref } from "@/components/RouterView/RouterView";
 import copy from "copy-to-clipboard";
-import { TuiEditor } from "../../../components/TuiEditor/TuiEditor";
-import { JsonSchemaMonaco } from "../../../components/JsonSchemaEditor/JsonSchemaMonaco";
+import { TuiEditor } from "@/components/TuiEditor/TuiEditor";
+import { JsonSchemaMonaco } from "@/components/JsonSchemaEditor/JsonSchemaMonaco";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { stateInterface } from "@/state/interface";
 import { socket, newWsPayload } from "@/utils/ws";
