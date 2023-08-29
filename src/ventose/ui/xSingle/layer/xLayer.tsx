@@ -457,6 +457,7 @@ const xLayer = {
 		if (options.height > windowHeight) {
 			options.height = parseFloat(windowHeight);
 		}
+		debugger;
 		$eleDialog.css(options);
 		contentHeight = $contentEle.outerHeight();
 		if (type === TYPE_IFRAME) {
@@ -998,6 +999,7 @@ class ClassLayer {
 					height
 				} = this.$eleDialog[0].getBoundingClientRect();
 				const { left: sL, top: sT } = config.triggerDom || {};
+
 				if (sL && sT) {
 					this.$eleDialog.css({
 						visibility: "visible",
@@ -1007,13 +1009,20 @@ class ClassLayer {
 						width: 0,
 						height: 0
 					});
-					this.$eleDialog.animate({
-						opacity: 1,
-						left: `${eL}px`,
-						top: `${eT}px`,
-						width,
-						height
-					});
+
+					this.$eleDialog.animate(
+						{
+							opacity: 1,
+							left: `${eL}px`,
+							top: `${eT}px`,
+							width,
+							height
+						},
+						null,
+						() => {
+							this.$eleDialog.css({ width: "auto", height: "auto" });
+						}
+					);
 				} else {
 					debugger;
 				}

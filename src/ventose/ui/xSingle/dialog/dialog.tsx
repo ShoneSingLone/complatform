@@ -234,11 +234,22 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 									data() {
 										return { dialogOptions };
 									},
+									methods: {
+										handleContentResize() {
+											const width =
+												this.dialogOptions.dialogInst.$eleDialog[0].style.width;
+											console.log(width);
+											if ("auto" === width) {
+												this.dialogOptions.dialogInst.setPosition();
+											}
+										}
+									},
 									render() {
 										return (
 											<div
 												class="ventose-dialog-content"
-												data-el-id={_layer_index}>
+												data-el-id={_layer_index}
+												v-element-size={this.handleContentResize}>
 												{/* title 使用 vue render vNode，挂载之后替换到title的DOM里面 */}
 												<div ref="DIALOG_TITLE">{this.cpt_vDomTitle}</div>
 												<BussinessComponent propOptions={this.dialogOptions} />
