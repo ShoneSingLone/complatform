@@ -39,7 +39,7 @@ const InterfaceAll = defineComponent({
   methods: {},
   data(vm) {
     return {
-      btnChangeStatus: {
+      $btnChangeStatus: {
         text: $t$1("\u53D8\u66F4\u72B6\u6001").label,
         disabled() {
           return vm.disabled;
@@ -50,7 +50,7 @@ const InterfaceAll = defineComponent({
           });
         }
       },
-      btnChangeProxy: {
+      $btnChangeProxy: {
         text: $t$1("\u53D8\u66F4\u4EE3\u7406").label,
         disabled() {
           return vm.disabled;

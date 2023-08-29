@@ -137,12 +137,12 @@ export const TagSelectRender = defineComponent({
 	render(vm) {
 		return (
 			<div class="flex overflow-auto">
-				<ElSelect
+				<el-select
 					placeholder="请选择 tag"
 					mode="multiple"
 					v-model:value={vm.selected}>
 					{this.vDomOptions}
-				</ElSelect>
+				</el-select>
 				<xGap l="10" />
 				<xButton
 					configs={{
@@ -224,7 +224,9 @@ export function dialogInterfaceStatusModify({ selected }) {
 	xU.dialog({
 		title: xI("变更状态"),
 		component: DialogInterfaceStatusModify,
-		selected
+		payload: {
+			selected
+		}
 	});
 }
 
@@ -232,6 +234,8 @@ export function dialogInterfaceProxyModify({ selected }) {
 	xU.dialog({
 		title: xI("变更代理"),
 		component: DialogInterfaceProxyModify,
-		selected
+		payload: {
+			selected
+		}
 	});
 }

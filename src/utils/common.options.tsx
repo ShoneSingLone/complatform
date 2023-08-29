@@ -5,7 +5,8 @@ export const ITEM_OPTIONS = {
 	httpMethod: xU.map(HTTP_METHOD, (item, prop) => ({
 		label: prop,
 		value: prop,
-		color: item.color
+		color: item.color,
+		type: item.type
 	})),
 	interfaceBodyType: [
 		{ label: "form", value: "form", isForm: true },
@@ -81,7 +82,11 @@ export const ITEM_OPTIONS_VDOM = {
 			value: String(cell).toLocaleUpperCase()
 		});
 		/*@ts-ignore*/
-		return <ElTag color={i.color}>{i.label}</ElTag>;
+		return (
+			<div class="flex end width100">
+				<ElTag type={i.type}>{i.label}</ElTag>
+			</div>
+		);
 	},
 	status: status => {
 		if (!xU.isInput(status)) return null;
@@ -98,7 +103,9 @@ export const ITEM_OPTIONS_VDOM = {
 		}
 		return xU.map(tags, i => (
 			/*@ts-ignore*/
-			<ElTag color="blue">{i}</ElTag>
+			<ElTag effect="plain" round class="mr4">
+				{i}
+			</ElTag>
 		));
 	}
 };

@@ -93,7 +93,7 @@ export function fnShowUpsertGroupDialog(row = {}) {
 	});
 }
 
-export const GroupLeftSider = defineComponent({
+export const GroupAside = defineComponent({
 	props: [
 		"height",
 		"groupList",

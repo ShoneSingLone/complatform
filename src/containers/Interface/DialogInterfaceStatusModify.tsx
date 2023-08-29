@@ -57,11 +57,11 @@ export const DialogInterfaceStatusModify = defineComponent({
 			}
 		},
 		async onOk() {
-			const { selected } = this.propOptions;
+			const { selected } = this.propOptions.payload;
 			if (!(await itemsInvalid())) {
-				const { status } = pickValueFrom(this.dataXItem);
+				const { status }: any = pickValueFrom(this.dataXItem);
 				try {
-					const res = await Promise.all(
+					await Promise.all(
 						xU.map(selected, id => API.project.updateInterface({ id, status }))
 					);
 					stateInterface._updateInterfaceMenuList();

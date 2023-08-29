@@ -15,7 +15,7 @@ export const ViewWiki = defineComponent({
 		};
 	},
 	mounted() {
-		stateWiki.__resetState(this);
+		stateWiki.__resetState({ ctx: this });
 		if (stateWiki.belongType) {
 			Methods_Wiki.updateWikiMenuList();
 		} else {

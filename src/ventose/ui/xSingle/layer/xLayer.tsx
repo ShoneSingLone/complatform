@@ -832,10 +832,7 @@ class ClassLayer {
 	${DATA_LAYER_INDEX}="${_layer_index}"
 	data-during-time="${config.during}"
 	data-content-type="${isContentTypeObject ? "object" : "string"}"
-	style="position:fixed;
-		z-index:calc(var(--el-index-normal) + ${zIndex});
-		width:${width}; 
-		height:${height};"
+	style="position:fixed; z-index:calc(var(--el-index-normal) + ${zIndex});"
 	>
 		${this.cptDomTitle}
 		${DomContentString}
@@ -1582,69 +1579,63 @@ $document
 		const $currentTarget = $(currentTarget);
 		xLayer.setLayerTop($currentTarget);
 	})
-	.on(
-		"mousemove",
-		`.${NAME_LAYER_MOVE}`,
-		function (e) {
-			const { moveOrResizeInstance, moveOrResizeType, onMoving } = READY;
-			/* 拖拽移动 */
-			if (moveOrResizeInstance instanceof ClassLayer) {
-				const { $eleDialog, config } = moveOrResizeInstance;
-				if (moveOrResizeType === "move") {
-					e.preventDefault();
-					let X = e.clientX - READY.pointMousedown[0];
-					let Y = e.clientY - READY.pointMousedown[1];
-					const fixed = $eleDialog.css("position") === "fixed";
+	.on("mousemove", `.${NAME_LAYER_MOVE}`, function (e) {
+		const { moveOrResizeInstance, moveOrResizeType, onMoving } = READY;
+		/* 拖拽移动 */
+		if (moveOrResizeInstance instanceof ClassLayer) {
+			const { $eleDialog, config } = moveOrResizeInstance;
+			if (moveOrResizeType === "move") {
+				e.preventDefault();
+				let X = e.clientX - READY.pointMousedown[0];
+				let Y = e.clientY - READY.pointMousedown[1];
+				const fixed = $eleDialog.css("position") === "fixed";
 
-					READY.stX = fixed ? 0 : $win.scrollLeft();
-					READY.stY = fixed ? 0 : $win.scrollTop();
-					/* 控制元素不被拖出窗口外 */
-					if (!config.moveOut) {
-						let setRig = $win.width() - $eleDialog.outerWidth() + READY.stX;
-						let setBot = $win.height() - $eleDialog.outerHeight() + READY.stY;
+				READY.stX = fixed ? 0 : $win.scrollLeft();
+				READY.stY = fixed ? 0 : $win.scrollTop();
+				/* 控制元素不被拖出窗口外 */
+				if (!config.moveOut) {
+					let setRig = $win.width() - $eleDialog.outerWidth() + READY.stX;
+					let setBot = $win.height() - $eleDialog.outerHeight() + READY.stY;
 
-						if (X < READY.stX) {
-							X = READY.stX;
-						}
-
-						if (X > setRig) {
-							X = setRig;
-						}
-
-						if (Y < READY.stY) {
-							Y = READY.stY;
-						}
-
-						if (Y > setBot) {
-							Y = setBot;
-						}
+					if (X < READY.stX) {
+						X = READY.stX;
 					}
 
-					$eleDialog.css({ left: X, top: Y });
-				}
+					if (X > setRig) {
+						X = setRig;
+					}
 
-				if (config.resize) {
-					if (READY.moveOrResizeType === "resize") {
-						e.preventDefault();
-						const X = e.clientX - READY.pointMousedown[0];
-						const Y = e.clientY - READY.pointMousedown[1];
+					if (Y < READY.stY) {
+						Y = READY.stY;
+					}
 
-						$eleDialog.css({
-							width: READY.moveOrResizeWH[0] + X,
-							height: READY.moveOrResizeWH[1] + Y
-						});
-
-						config.onResizing && config.onResizing($eleDialog);
+					if (Y > setBot) {
+						Y = setBot;
 					}
 				}
-			} else if (typeof onMoving == "function") {
-				event && onMoving(event);
+
+				$eleDialog.css({ left: X, top: Y });
 			}
 
-			/* Resize */
+			if (config.resize) {
+				if (READY.moveOrResizeType === "resize") {
+					e.preventDefault();
+					const X = e.clientX - READY.pointMousedown[0];
+					const Y = e.clientY - READY.pointMousedown[1];
+
+					$eleDialog.css({
+						width: READY.moveOrResizeWH[0] + X,
+						height: READY.moveOrResizeWH[1] + Y
+					});
+
+					config.onResizing && config.onResizing($eleDialog);
+				}
+			}
+		} else if (typeof onMoving == "function") {
+			event && onMoving(event);
 		}
-		// xU.throttle(, 90)
-	)
+		/* Resize */
+	})
 	.on("mouseup", function (e) {
 		if (READY.moveOrResizeInstance instanceof ClassLayer) {
 			const { config } = READY.moveOrResizeInstance;

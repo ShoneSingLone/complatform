@@ -46,13 +46,13 @@ export const BODY = "body";
 export const PAGE_LIMIT = 10;
 
 export const HTTP_METHOD = {
-	[GET]: { color: "green", default_tab: QUERY },
-	[HEAD]: { color: "purple", default_tab: QUERY },
-	[OPTIONS]: { color: "default", default_tab: QUERY },
-	[POST]: { color: "pink", request_body: true, default_tab: BODY },
-	[PUT]: { color: "orange", request_body: true, default_tab: BODY },
-	[DELETE]: { color: "red", request_body: true, default_tab: BODY },
-	[PATCH]: { color: "blue", request_body: true, default_tab: BODY }
+	[GET]: { type: "", color: "green", default_tab: QUERY },
+	[HEAD]: { type: "warning", color: "purple", default_tab: QUERY },
+	[OPTIONS]: { type: "info", color: "default", default_tab: QUERY },
+	[POST]: { type: "success", color: "pink", request_body: true, default_tab: BODY },
+	[PUT]: { type: "", color: "orange", request_body: true, default_tab: BODY },
+	[DELETE]: { type: "danger", color: "red", request_body: true, default_tab: BODY },
+	[PATCH]: { type: "", color: "blue", request_body: true, default_tab: BODY }
 };
 
 export const STATIC_WORD = {

@@ -42,40 +42,10 @@ const defautlStateInterface = () => ({
 		}
 	}, 500),
 	_resetURL: xU.debounce(function () {
-		const { pathname, query } = cptRouter.value;
-
-		if (!pathname.includes("/interface")) {
-			return;
-		}
-		const { category_id, interface_id } = query;
-		const fnStrategyMap = {
-			"/interface/all": () => {
-				cptRouter.value.go(
-					"/interface/all",
-					xU.pick(cptRouter.value.query, ["group_id", "project_id"])
-				);
-			},
-			"/interface/category": () => {
-				if (!category_id) {
-					fnStrategyMap["/interface/all"]();
-				}
-			},
-			"/interface/detail": () => {
-				if (!interface_id) {
-					fnStrategyMap["/interface/all"]();
-				}
-			}
-		};
-
-		const fn = fnStrategyMap[pathname];
-		if (fn) {
-			fn();
-		} else {
-			fnStrategyMap["/interface/all"]();
-		}
+		/* TODO: */
 	}, 100),
 	async _updateInterfaceMenuList() {
-		/* 必然是有当前project的id */
+		/* required project_id */
 		const projectId = Number(cptRouter.value?.query?.project_id);
 		if (!projectId) {
 			console.error("miss project_id in url");
@@ -186,7 +156,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										<ElPopover placement="bottomRight" trigger="click">
 											{{
 												default() {
-													return <xIcon icon="iconFilter" class="pointer" />;
+													return <xIcon icon="icon_filter" class="pointer" />;
 												},
 												content() {
 													return (
@@ -246,7 +216,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (
@@ -311,7 +281,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (
@@ -354,7 +324,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (
@@ -406,7 +376,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (
@@ -470,7 +440,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (

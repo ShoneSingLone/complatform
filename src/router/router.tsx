@@ -194,13 +194,14 @@ async function setLocationHash(href: string, url: URL) {
 		if (["/login"].includes(url.pathname)) {
 			href = "/";
 		}
-		const route = xU.find(routes, { path: url.pathname });
-		const label = route.label || route?.meta?.title;
-
-		if (label) {
-			setDocumentTitle(label);
-		} else {
-			setDocumentTitle("YApi-高效、易用、功能强大的可视化接口管理平台");
+		const route: any = xU.find(routes, { path: url.pathname });
+		if (route) {
+			const label = route.label || route?.meta?.title;
+			if (label) {
+				setDocumentTitle(label);
+			} else {
+				setDocumentTitle("YApi-高效、易用、功能强大的可视化接口管理平台");
+			}
 		}
 	} catch (error) {
 		console.error(error);

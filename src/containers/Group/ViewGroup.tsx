@@ -1,10 +1,10 @@
 import "./Group.less";
 import { defineComponent } from "vue";
 import {
-	GroupLeftSider,
+	GroupAside,
 	fnShowUpsertGroupDialog,
 	fnUpsertGroupInfo
-} from "./GroupList/GroupLeftSider";
+} from "./GroupList/GroupAside";
 import { GroupProjectList } from "./GroupProjectList/GroupProjectList";
 import GroupLog from "./GroupLog/GroupLog";
 import { cptRouter, aHashLink } from "@/router/router";
@@ -176,7 +176,7 @@ export const ViewGroup = defineComponent({
 				class="padding20 flex horizon"
 				v-xloading={!this.groupId}>
 				<aside id="ViewGroup_sider" class="flex vertical box-shadow">
-					<GroupLeftSider />
+					<GroupAside />
 				</aside>
 				<section class="view-main-section box-shadow flex1">
 					{this.vDomSwitchPanel}

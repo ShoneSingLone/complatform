@@ -85,7 +85,7 @@ export const DialogInterfaceProxyModify = defineComponent({
 			}
 		},
 		async onOk() {
-			const { selected } = this.propOptions;
+			const { selected } = this.propOptions.payload;
 			if (!(await itemsInvalid())) {
 				const { isProxy, witchEnv } = pickValueFrom(this.dataXItem);
 				try {

@@ -28,7 +28,7 @@ export default [
 	"github",
 	"gohome",
 	"home",
-	"iconFilter",
+	"icon_filter",
 	"icon_article",
 	"icon_group",
 	"icon_i18n",

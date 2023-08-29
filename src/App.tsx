@@ -1,6 +1,5 @@
 /*https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup*/
 import "./containers/Home/Home.scss";
-import "./styles/App.less";
 import "./style.less";
 import { defineComponent } from "vue";
 import { AppFooter } from "@/components/Footer/AppFooter";

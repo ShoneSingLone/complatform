@@ -171,7 +171,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 										<ElPopover placement="bottomRight" trigger="click">
 											{{
 												default() {
-													return <xIcon icon="iconFilter" class="pointer" />;
+													return <xIcon icon="icon_filter" class="pointer" />;
 												},
 												content() {
 													return (
@@ -231,7 +231,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (
@@ -296,7 +296,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (
@@ -339,7 +339,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (
@@ -391,7 +391,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (
@@ -455,7 +455,7 @@ export function useInterfaceTableConfigs(isAll = false) {
 								<ElPopover placement="bottomRight" trigger="click">
 									{{
 										default() {
-											return <xIcon icon="iconFilter" class="pointer" />;
+											return <xIcon icon="icon_filter" class="pointer" />;
 										},
 										content() {
 											return (

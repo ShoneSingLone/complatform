@@ -27,7 +27,7 @@ export const InterfaceCategory = defineComponent({
 	},
 	data(vm) {
 		return {
-			btnChangeStatus: {
+			$btnChangeStatus: {
 				text: xI("变更状态"),
 				disabled() {
 					return vm.disabled;
@@ -38,7 +38,7 @@ export const InterfaceCategory = defineComponent({
 					});
 				}
 			},
-			btnChangeProxy: {
+			$btnChangeProxy: {
 				text: xI("变更代理"),
 				disabled() {
 					return vm.disabled;

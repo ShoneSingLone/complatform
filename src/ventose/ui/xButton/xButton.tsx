@@ -62,7 +62,7 @@ export default defineComponent({
 			return;
 		}
 		/* 预置 */
-		const presetFn = BTN_PRESET_MAP[this.configs.preset];
+		const presetFn = BTN_PRESET_MAP[this.configs.preset || this.$attrs.preset];
 		if (presetFn) {
 			const preset = presetFn(this.configs);
 			this.configs.icon = preset.icon;

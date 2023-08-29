@@ -1,26 +1,26 @@
-import { defineComponent, onMounted } from "vue";
-import { stateApp } from "@/state/app";
-import { cptRouter } from "@/router/router";
-import { InterfaceLeftSider } from "./InterfaceLeftSider";
+import { defineComponent, onMounted, reactive } from "vue";
 import { stateInterface } from "@/state/interface";
+import { InterfaceAside } from "@/containers/Interface/InterfaceAside";
+import { InterfaceMain } from "@/containers/Interface/InterfaceMain";
+import { xU } from "@/ventose/ui";
+import { xScope } from "../../ventose/ui";
 
 export const ViewInterface = defineComponent({
 	setup() {
 		stateInterface.__resetState();
 		stateInterface._updateInterfaceMenuList();
+		xU(stateInterface);
+
 		onMounted(() => {
 			stateInterface._resetURL();
 		});
+
 		return function () {
 			return (
-				<section
-					id="ViewProjectInterface"
-					v-xloading={stateInterface.isLoading}>
-					<InterfaceLeftSider />
-					<main class="flex flex1 padding10" style="width:1px;">
-						{JSON.stringify(cptRouter.value.query)}
-					</main>
-				</section>
+				<main id="ViewInterface">
+					<InterfaceAside />
+					<InterfaceMain />
+				</main>
 			);
 		};
 	}

@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 
 import { stateInterface, useInterfaceTableConfigs } from "@/state/interface";
-import { xI, xU } from "@/ventose/ui";
+import { xI } from "@/ventose/ui";
 import {
 	dialogInterfaceProxyModify,
 	dialogInterfaceStatusModify
@@ -42,7 +42,7 @@ export const InterfaceAll = defineComponent({
 	methods: {},
 	data(vm) {
 		return {
-			btnChangeStatus: {
+			$btnChangeStatus: {
 				text: xI("变更状态"),
 				disabled() {
 					return vm.disabled;
@@ -53,7 +53,7 @@ export const InterfaceAll = defineComponent({
 					});
 				}
 			},
-			btnChangeProxy: {
+			$btnChangeProxy: {
 				text: xI("变更代理"),
 				disabled() {
 					return vm.disabled;

@@ -21,13 +21,6 @@ export const ViewProject = defineComponent({
 	setup() {
 		/* 以project为root，共享数据随project生命周期重置 */
 		stateInterface.__resetState();
-		const [_, a, b] = String(cptRouter.value.pathname).split("/");
-
-		var vm = {
-			asdf: 123,
-			_asdf() {}
-		};
-		vm = xScope(vm);
 
 		const curretProjectTabName = computed({
 			get() {
@@ -116,12 +109,14 @@ export const ViewProject = defineComponent({
 
 			return (
 				<div id="ViewProject">
+					{/* 最左边竖放的tabs */}
 					<aside class="ViewProject-tabs elevation-1">
 						{cpt_vDomTabProjectWiki.value}
 						{cpt_vDomTabInterface.value}
 						{/* {vDomTabProjectWiki} */}
 					</aside>
-					<section class="flex vertical flex1">
+					{/* 主页 */}
+					<section data-view-tab={curretProjectTabName.value}>
 						{cpt_vDomViewProjectWiki.value}
 						{cpt_vDomViewIterface.value}
 					</section>

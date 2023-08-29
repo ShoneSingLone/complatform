@@ -76,6 +76,18 @@ xLayer.loading = function (indexDelete) {
 	}
 };
 
+export function cellValToLabel(options, condition) {
+	const item: any = xU.find(options, condition);
+	return item ? (
+		<div
+			class={"ml10 tag-status ellipsis"}
+			data-id={item?.value}
+			title={item?.label}>
+			{item?.label}
+		</div>
+	) : null;
+}
+
 type t_confirmOptions = {
 	title?: stirng;
 	content?: stirng;
@@ -94,6 +106,7 @@ const VueComponents: any = {};
 const CACHE_PENDDING = {};
 
 const privateLodash = {
+	cellValToLabel,
 	/* installVentoseUIDialog Vue3 依赖外部plugin，没有全局的 */
 	dialog: async (options: t_dialogOptions) => null,
 	confirm(options: t_confirmOptions) {

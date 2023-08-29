@@ -11,7 +11,7 @@ import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { stateApp } from "@/state/app";
 
-export const InterfaceLeftSider = defineComponent({
+export const InterfaceAside = defineComponent({
 	setup() {
 		var vm = {
 			styleAside: {
@@ -187,10 +187,19 @@ export const InterfaceLeftSider = defineComponent({
 												const classContentString = (() => {
 													let _classString = "x-sider-tree_menu";
 													if (
+														cptRouter.value.query.interface_type ===
+															INTERFACE &&
 														xU.isSame(_id, cptRouter.value.query.interface_id)
 													) {
-														return _classString + " x-sider-tree_menu_active";
+														_classString += " x-sider-tree_menu_active";
 													}
+													if (
+														cptRouter.value.query.interface_type === CATEGORY &&
+														xU.isSame(_id, cptRouter.value.query.category_id)
+													) {
+														_classString += " x-sider-tree_menu_active";
+													}
+
 													return _classString;
 												})();
 

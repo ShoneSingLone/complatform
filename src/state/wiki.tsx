@@ -21,7 +21,6 @@ const defautlValue = ({ ctx }: any = {}) => {
 			}
 		}
 	})();
-
 	return {
 		treeData: [],
 		isLoading: false,
@@ -35,7 +34,7 @@ const defautlValue = ({ ctx }: any = {}) => {
 
 const _stateWiki = defautlValue();
 type t_stateWiki = typeof _stateWiki;
-export var stateWiki = xScope<t_stateWiki>(_stateWiki);
+export var stateWiki = xScope<t_stateWiki>(_stateWiki, defautlValue);
 
 export const Methods_Wiki = {
 	clickWiki(query) {
