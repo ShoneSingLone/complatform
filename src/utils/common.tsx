@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { RouterView } from "../components/RouterView/RouterView";
 import { ErrMsg } from "../components/ErrMsg/ErrMsg";
-import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
 import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { MarkdownIt as Mkit } from "@/components/Mkit/MarkdownIt";
@@ -33,9 +32,6 @@ export const appUiPlugin = {
 			install: (app, { watch } = {}) => {
 				app.directive("ElementSize", vElementSize);
 				app.component("Mkit", Mkit);
-				app.component("InfoCard", InfoCard);
-				app.component("InfoCardRow", InfoCardRow);
-				app.component("InfoCardCol", InfoCardCol);
 				app.component("RouterView", RouterView);
 				app.component("ErrMsg", ErrMsg);
 				app.component("CopyContent", CopyContent);

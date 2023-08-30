@@ -96,6 +96,18 @@ export const ITEM_OPTIONS_VDOM = {
 		/*@ts-ignore*/
 		return <span class={"tag-status " + item.value}>{item.label}</span>;
 	},
+	trueOrFalse: trueOrFalse => {
+		if (!xU.isInput(trueOrFalse)) return null;
+		const item = xU.find(ITEM_OPTIONS.trueOrFalse, {
+			value: trueOrFalse
+		});
+
+		if (item.label === ITEM_OPTIONS.trueOrFalse[0].label) {
+			return <ElTag type="success">{item.label}</ElTag>;
+		} else {
+			return <ElTag type="error">{item.label}</ElTag>;
+		}
+	},
 	tags: tags => {
 		if (!xU.isInput(tags)) return null;
 		if (typeof tags === "string") {

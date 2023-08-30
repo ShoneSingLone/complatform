@@ -41,7 +41,7 @@ export const RequestArgsPanel = defineComponent({
 		// return JSON.stringify(this.params)
 
 		// if (!this.params) {
-		// 	return <div v-xloading="trur" class="flex middle height100 width100" />;
+		// 	return <div v-xloading="true" class="flex middle height100 width100" />;
 		// }
 
 		const bodyHeader = (() => {

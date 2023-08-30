@@ -11,7 +11,7 @@
 
 <script lang="jsx">
 import copy from "copy-to-clipboard";
-import { $, xU } from "@/ventose/ui";
+import { $, xU, xI } from "@/ventose/ui";
 
 export default {
 	methods: {

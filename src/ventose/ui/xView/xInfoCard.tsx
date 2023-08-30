@@ -1,155 +1,175 @@
-import $ from "jquery";
-import { defineComponent } from "vue";
 import "./xInfoCard.less";
-import { xU } from "../ventoseUtils";
+import { debounce, isFunction, map } from "lodash";
+import { computed, defineComponent, watch } from "vue";
+import { xScope } from "@/ventose/ui";
 
-export const InfoCardCol = defineComponent({
-	props: ["col"],
-	computed: {
-		isHide() {
-			return this.col.isHide || false;
-		},
-		styleLabel() {
-			return {};
-		},
-		vDomLabel() {
-			return this.col.label;
-		},
-		vDomContent() {
-			return this.col.value;
-		}
-	},
-	render() {
-		if (this.isHide) {
-			return null;
-		}
+const DISPLAY_NONE = "...";
 
-		return (
-			<>
-				<div class="x-descriptions-item-label" style={this.styleLabel}>
-					{this.vDomLabel}
-				</div>
-				<div class="x-descriptions-item-content flex1">{this.vDomContent}</div>
-			</>
-		);
-	}
-});
-
-export const InfoCardRow = defineComponent({
-	props: ["row"],
-	computed: {
-		colArray() {
-			return this?.row?.colArray || false;
-		},
-		vDomCol() {
-			if (this.row) {
-				return xU.map(this.colArray, col => {
-					return <InfoCardCol col={col} />;
-				});
+/**
+ * ["title:3", "...", ""],
+ * 根据第一行来计算col列数，计算每一个cell的宽度
+ * 如果是... cell会显示空白
+ * 如果是"" cell不会显示
+ */
+export const xInfoCardItem = defineComponent({
+	props: ["item", "unitWidth", "span"],
+	setup(props) {
+		var labelStyle = computed(() => {
+			if (cpt_label.value === DISPLAY_NONE) {
+				return {
+					opacity: 0
+				};
 			}
-			return null;
-		},
-		styleRow() {
-			if (this?.row?.style) {
-				return this.row.style;
+			return {};
+		});
+		var contentStyle = computed(() => {
+			if (cpt_content.value === DISPLAY_NONE) {
+				return {
+					opacity: 0
+				};
+			}
+			return {};
+		});
+		var cpt_span = computed(() => {
+			return props.item.span || 1;
+		});
+		var cpt_label = computed(() => {
+			if (isFunction(props.item.label)) {
+				return props.item.label();
+			}
+			if (props.item.label) {
+				return props.item.label;
 			}
 			return "";
-		}
-	},
-	render() {
-		return (
-			<div
-				class="InfoCardRow x-descriptions-row flex middle"
-				style={this.styleRow}>
-				{this.vDomCol}
-			</div>
-		);
+		});
+		var cpt_content = computed(() => {
+			if (isFunction(props.item.content)) {
+				return props.item.content();
+			}
+			return props.item.content || DISPLAY_NONE;
+		});
+
+		return function () {
+			// console.log("props.item", props.item);
+			if (!props.item.label) {
+				return null;
+			}
+			return (
+				<div
+					data-role="cell"
+					data-span={cpt_span.value}
+					class="el-descriptions-row flex middle cell xInfoCardItem">
+					<div class="el-descriptions-item__label is-bordered-label">
+						<span style={labelStyle.value}>{cpt_label.value}</span>
+					</div>
+					<div class="el-descriptions-item__content flex1">
+						<span style={contentStyle.value}>{cpt_content.value}</span>
+					</div>
+				</div>
+			);
+		};
 	}
 });
 
 export const xInfoCard = defineComponent({
-	props: ["info", "title"],
-	methods: {
-		updateLableStyle(styleObject) {
-			const styleString = xU
-				.map(
-					xU.merge(
-						{ "min-width": "120px", "text-align": "right" },
-						styleObject
-					),
-					(value, prop) => `${prop}: ${value}`
-				)
-				.join(";");
-
-			const styleContent = `#${this.id} .x-descriptions-item-label {${styleString}}`;
-			if (!this.$styleEle) {
-				const $form = $(`#${this.id}`);
-				const $style = $("<style/>", { id: `style_${this.id}` });
-				$form.prepend($style);
-				this.$styleEle = $style;
-			}
-			this.$styleEle.html(styleContent);
-		}
-	},
-	mounted() {
-		this.$watch(
-			"info.colLabelWidth",
-			width => {
-				if (width) {
-					xU("width", width);
-					this.updateLableStyle({ width });
-				}
+	props: ["configs"],
+	setup(props) {
+		var vm = {
+			rect: {},
+			unitWidth: 0,
+			_item(propString) {
+				let [prop, span] = String(propString).split(":");
+				const item = cpt_items.value[prop] || { label: prop };
+				const _span = Number(span) || 1;
+				const _item = {
+					...item,
+					span: _span
+				};
+				return _item;
 			},
-			{
-				immediate: true,
-				deep: true
+			_handleSizeChange: rect => {
+				vm.rect = rect;
+				const { width } = rect;
+				const unitWidth = Math.ceil(width / cpt_col.value) - 1;
+
+				if (vm.unitWidth !== unitWidth) {
+					vm.unitWidth = unitWidth;
+				}
 			}
-		);
-	},
-	computed: {
-		id() {
-			return `InfoCard_${this._.uid}`;
-		},
-		colLabelWidth() {
-			return this?.info?.colLabelWidth || "120px";
-		},
-		rowArray() {
-			return this?.info?.rowArray || false;
-		},
-		vDomTitle() {
-			if (!this.title) {
-				return null;
-			}
-			return (
-				<div class="x-descriptions-header">
-					<div class="x-descriptions-title">{this.title}</div>
-				</div>
-			);
-		},
-		vDomDescriptions() {
-			if (this.rowArray) {
+		};
+		type t_vm = typeof vm;
+		vm = xScope<t_vm>(vm);
+
+		var cpt_vDomItems = computed(() => {
+			return map(cpt_layout.value, (layoutRow, index) => {
+				console.log(layoutRow);
 				return (
-					<div class="x-descriptions-view">
-						{xU.map(this.rowArray, row => {
-							return <InfoCardRow row={row} />;
+					<div
+						class="el-descriptions__body el-descriptions__table is-bordered el-descriptions--small"
+						style={cpt_cellStyle.value}
+						key={index}>
+						{map(layoutRow, prop => {
+							return (
+								<xInfoCardItem
+									key="prop + index"
+									item={vm._item(prop)}
+									unitWidth={vm.unitWidth}
+								/>
+							);
 						})}
 					</div>
 				);
+			});
+		});
+		var cpt_cellStyle = computed(() => {
+			return {
+				// "--columns-count": `repeat(${cpt_col.value}, 1fr)`,
+				"--cell-label-width": `${cpt_labelWidth.value}px`,
+				"--cell-width-1": `${vm.unitWidth}px`,
+				"--cell-width-2": `${vm.unitWidth * 2}px`,
+				"--cell-width-3": `${vm.unitWidth * 3}px`,
+				"--cell-width-4": `${vm.unitWidth * 4}px`
+			};
+		});
+		var cpt_labelWidth = computed(() => {
+			if (props.configs.labelWidth) {
+				return props.configs.labelWidth;
 			}
-			if (this.$slots.default) {
-				return this.$slots.default();
+			return 140;
+		});
+		var cpt_items = computed(() => {
+			if (props.configs.items) {
+				return props.configs.items;
 			}
-			return null;
-		}
-	},
-	render() {
-		return (
-			<div
-				class="x-descriptions x-descriptions-middle x-descriptions-bordered x-infomation-card"
-				id={this.id}>
-				{this.vDomTitle}
-				{this.vDomDescriptions}
-			</div>
-		);
+			return {};
+		});
+		var cpt_layout = computed(() => {
+			if (props.configs.layout) {
+				return props.configs.layout({ rect: vm.rect });
+			} else {
+				alert("requrie layout");
+			}
+			return [];
+		});
+		var cpt_col = computed(() => {
+			return cpt_layout.value[0].length;
+		});
+
+		return function () {
+			if (!props.configs) {
+				return;
+			}
+			return (
+				<div
+					class="xInfoCard el-descriptions"
+					v-element-size={vm._handleSizeChange}>
+					<div class="el-descriptions__header">
+						<div class="el-descriptions__title">{props.configs.title}</div>
+						<div class="el-descriptions__extra">{props.configs.extra}</div>
+					</div>
+					{cpt_vDomItems.value}
+				</div>
+			);
+		};
 	}
 });
