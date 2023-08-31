@@ -258,7 +258,7 @@ export const TuiEditor = defineAsyncComponent(async () => {
 							onClick={vm.handleClick}
 							ref="viewer"
 							class="toastui-editor-contents flex1 border-radius box-shadow padding20"
-							style="height:300px;width:100%;z-index:1;padding:20px;"></div>
+							style="height:300px;width:100%;z-index:1;padding:var(--app-padding);"></div>
 					)}
 					<div class="display-none">
 						<ElImage

@@ -1,5 +1,11 @@
 #ViewWiki {
+	display: flex;
+	flex: 1;
 	height: 1px;
+
+	aside + main {
+		margin-left: calc(var(--app-padding) * -1);
+	}
 }
 
 #wiki-editor-title {

@@ -1,6 +1,5 @@
 //@ts-nocheck
-import "./index.less";
-import "./ui.scss";
+import "./ventoseUI.less";
 import ElementPlus from "element-plus";
 import dayjs from "dayjs";
 import $ from "jquery";

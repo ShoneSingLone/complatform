@@ -102,7 +102,7 @@ export const xInfoCard = defineComponent({
 
 		var cpt_vDomItems = computed(() => {
 			return map(cpt_layout.value, (layoutRow, index) => {
-				console.log(layoutRow);
+				// console.log(layoutRow);
 				return (
 					<div
 						class="el-descriptions__body el-descriptions__table is-bordered el-descriptions--small"

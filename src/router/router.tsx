@@ -100,6 +100,7 @@ type t_router = {
 		group_tab?: string;
 		project_id?: string;
 		project_tab?: string;
+		project_setting_tab?: string;
 		interface_type?: string;
 		interface_id?: string;
 		category_id?: string;

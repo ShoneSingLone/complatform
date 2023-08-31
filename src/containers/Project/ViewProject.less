@@ -6,14 +6,23 @@
 	width: 100vw;
 	overflow: auto;
 
-	> section {
-		display: flex;
-		flex-flow: column nowrap;
-		flex: 1;
-		width: 1px;
+	#ViewProjectTabs {
+		min-width: 88px;
 	}
+
+	/* 非独立页面的wiki */
+	#ViewWiki {
+		height: 100%;
+	}
+
+	// > section {
+	// 	display: flex;
+	// 	flex-flow: column nowrap;
+	// 	flex: 1;
+	// 	width: 1px;
+	// }
 	.project-tab {
-		padding: 16px;
+		padding: var(--app-padding);
 		font-size: var(--app-font-size);
 		border-radius: var(--app-border-radius);
 		.xIcon {
@@ -146,11 +155,16 @@
 	overflow: auto;
 	display: flex;
 	flex-flow: row nowrap;
-	.interface-list {
+
+	#ViewInterfaceList {
 		display: flex;
 		flex-flow: column nowrap;
 		flex: 1;
-		padding: 20px;
+		padding: var(--app-padding);
 		width: 1px;
+	}
+
+	> aside + #ViewInterfaceList {
+		margin-left: calc(var(--app-padding) * -1);
 	}
 }

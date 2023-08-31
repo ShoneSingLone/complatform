@@ -236,11 +236,17 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 									},
 									methods: {
 										handleContentResize() {
-											const width =
-												this.dialogOptions.dialogInst.$eleDialog[0].style.width;
-											console.log(width);
-											if ("auto" === width) {
-												this.dialogOptions.dialogInst.setPosition();
+											if (
+												this.dialogOptions?.dialogInst?.$eleDialog[0]?.style
+													?.width
+											) {
+												const width =
+													this.dialogOptions.dialogInst.$eleDialog[0].style
+														.width;
+												console.log(width);
+												if ("auto" === width) {
+													this.dialogOptions.dialogInst.setPosition();
+												}
 											}
 										}
 									},

@@ -134,7 +134,7 @@ export default defineComponent({
 	<xItem :configs="date" />
 	<!-- <div class="flex horizon">
 		<pre
-			class="flex1 overflow-auto elevation-1 padding10"
+			class="flex1 overflow-auto elevation-1 app-padding"
 			style="
 				width: 100%;
 				height: 300px;

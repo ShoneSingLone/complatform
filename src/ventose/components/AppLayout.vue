@@ -1,7 +1,7 @@
 <template>
 	<ElContainer class="flex vertical" style="height: 100vh">
 		<ElHeader style="background-color: black" class="flex start middle">
-			<div class="padding10">
+			<div class="app-padding">
 				<xButton @click="openStatsDialog"> 分析报告 </xButton>
 			</div>
 		</ElHeader>

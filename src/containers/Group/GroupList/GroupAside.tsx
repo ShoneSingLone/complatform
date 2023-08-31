@@ -271,16 +271,6 @@ export const GroupAside = defineComponent({
 				);
 			}
 		},
-		getVDomGroupName({ group }) {
-			return (
-				<div
-					class="flex1 flex middle"
-					onClick={() => this.selectGroup(group._id)}>
-					<xIcon class="x-sider-tree_menu_icon" icon={group.icon} />
-					<div class="x-sider-tree_menu_title">{group.group_name}</div>
-				</div>
-			);
-		},
 		getVDomIconDesc({ group }) {
 			if (!!group.group_desc) {
 				return (
@@ -296,12 +286,28 @@ export const GroupAside = defineComponent({
 				return null;
 			}
 		},
-		getGroupItemClass({ group }) {
+		getGroupMenuItemClass({ group }) {
 			return {
 				"x-sider-tree_menu": true,
 				"x-sider-tree_menu_active":
 					stateApp.currGroup._id && xU.isSame(stateApp.currGroup._id, group._id)
 			};
+		},
+		getGrouMenuItem({ group }) {
+			return (
+				<div class={this.getGroupMenuItemClass({ group })}>
+					<div
+						class="x-sider-tree_menu_title"
+						onClick={() => this.selectGroup(group._id)}>
+						<xIcon class="x-sider-tree_menu_icon" icon={group.icon} />
+						{group.group_name}
+					</div>
+					<div class="x-sider-tree_menu_opration">
+						{this.getVDomIconDesc({ group })}
+						{this.getVDomIconEdit({ group })}
+					</div>
+				</div>
+			);
 		}
 	},
 	watch: {
@@ -328,36 +334,30 @@ export const GroupAside = defineComponent({
 	},
 	render() {
 		const vm = this;
-
 		return (
-			<aside class="x-sider_wrapper" style={this.styleAside}>
+			<aside class="x-sider_wrapper" style={vm.styleAside}>
 				<div
 					class="x-sider_wrapper_tree"
 					v-element-size={this.setElScrollbarHeight}>
 					{this.vDomSearchInput}
-					<ElScrollbar height={this.elScrollbarHeight}>
-						<ElTree
-							v-xloading={vm.groupListForShow.length === 0}
-							v-model:expandedKeys={stateApp.expandedKeys.group}
-							data={vm.groupListForShow}
-							node-key="_id"
-							expand-on-click-node={false}
-							default-expand-all>
-							{{
-								default({ data: group }) {
-									return (
-										<div class={vm.getGroupItemClass({ group })}>
-											{vm.getVDomGroupName({ group })}
-											<div class="x-sider-tree_menu_opration">
-												{vm.getVDomIconDesc({ group })}
-												{vm.getVDomIconEdit({ group })}
-											</div>
-										</div>
-									);
-								}
-							}}
-						</ElTree>
-					</ElScrollbar>
+					<el-scrollbar
+						height={this.elScrollbarHeight}
+						v-slots={{
+							default: () => (
+								<el-tree
+									v-xloading={vm.groupListForShow.length === 0}
+									v-model:expandedKeys={stateApp.expandedKeys.group}
+									data={vm.groupListForShow}
+									node-key="_id"
+									expand-on-click-node={false}
+									default-expand-all
+									v-slots={{
+										default: ({ data: group }) => vm.getGrouMenuItem({ group })
+									}}
+								/>
+							)
+						}}
+					/>
 				</div>
 				<div class="resize_bar" icon="scroll" v-uiMove={this.resizeAside} />
 			</aside>

@@ -9,10 +9,12 @@ import {
 	OPEN_BLANK,
 	PROJECT,
 	TAB_KEY_INTERFACE,
+	TAB_KEY_PROJECT_SETTING,
 	TAB_KEY_PROJECT_WIKI
 } from "@/utils/variable";
 import { ViewWiki } from "@/containers/Wiki/ViewWiki";
 import { ViewInterface } from "@/containers/Interface/ViewInterface";
+import { ProjectSetting } from "./Setting/ProjectSetting";
 
 /* 数据状态由ViewProject 提供，以便subView 切换之后数据状态不变 */
 
@@ -30,6 +32,25 @@ export const ViewProject = defineComponent({
 				cptRouter.value.query.project_tab = project_tab;
 			}
 		});
+
+		function newComputedFn({ iconName, tabKey, label }) {
+			return () => {
+				let className = "project-tab flex vertical middle";
+
+				if (curretProjectTabName.value === tabKey) {
+					className += " active";
+				}
+
+				return (
+					<div
+						class={className}
+						onClick={() => (curretProjectTabName.value = tabKey)}>
+						<xIcon icon={iconName} />
+						<div>{label}</div>
+					</div>
+				);
+			};
+		}
 
 		const cpt_vDomTabProjectWiki = computed(() => {
 			const tipsLabel = xI(OPEN_BLANK);
@@ -59,28 +80,34 @@ export const ViewProject = defineComponent({
 			);
 		});
 
-		const cpt_vDomTabInterface = computed(() => {
-			let className = "project-tab flex vertical middle";
+		const cpt_vDomTabInterface = computed(
+			newComputedFn({
+				iconName: "icon_interface_mgr",
+				tabKey: TAB_KEY_INTERFACE,
+				label: xI("接口")
+			})
+		);
 
-			if (curretProjectTabName.value === TAB_KEY_INTERFACE) {
-				className += " active";
-			}
-
-			return (
-				<div
-					class={className}
-					onClick={() => (curretProjectTabName.value = TAB_KEY_INTERFACE)}>
-					<xIcon icon="icon_interface_mgr" />
-					<div>{xI("接口")}</div>
-				</div>
-			);
-		});
+		const cpt_vDomTabProjectSetting = computed(
+			newComputedFn({
+				iconName: "icon_project_setting",
+				tabKey: TAB_KEY_PROJECT_SETTING,
+				label: xI("项目设置")
+			})
+		);
 
 		const cpt_vDomViewProjectWiki = computed(() => {
 			if (curretProjectTabName.value !== TAB_KEY_PROJECT_WIKI) {
 				return null;
 			}
 			return <ViewWiki belongType={PROJECT} />;
+		});
+
+		const cpt_vDomViewProjectSetting = computed(() => {
+			if (curretProjectTabName.value !== TAB_KEY_PROJECT_SETTING) {
+				return null;
+			}
+			return <ProjectSetting />;
 		});
 
 		const cpt_vDomViewIterface = computed(() => {
@@ -110,16 +137,16 @@ export const ViewProject = defineComponent({
 			return (
 				<div id="ViewProject">
 					{/* 最左边竖放的tabs */}
-					<aside class="ViewProject-tabs elevation-1">
+					<aside id="ViewProjectTabs" class="elevation-1">
 						{cpt_vDomTabProjectWiki.value}
 						{cpt_vDomTabInterface.value}
+						{cpt_vDomTabProjectSetting.value}
 						{/* {vDomTabProjectWiki} */}
 					</aside>
 					{/* 主页 */}
-					<section data-view-tab={curretProjectTabName.value}>
-						{cpt_vDomViewProjectWiki.value}
-						{cpt_vDomViewIterface.value}
-					</section>
+					{cpt_vDomViewProjectWiki.value}
+					{cpt_vDomViewIterface.value}
+					{cpt_vDomViewProjectSetting.value}
 				</div>
 			);
 		};

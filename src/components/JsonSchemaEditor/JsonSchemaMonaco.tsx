@@ -447,7 +447,7 @@ export const JsonSchemaMonaco = defineComponent({
 						<div v-xloading="true" class="flex middle height100 width100" />
 					) : (
 						<div class="flex middle height100 vertical">
-							<div class="padding10 flex middle width100">
+							<div class="app-padding flex middle width100">
 								{/* 宽度不够时，只显示一个 */}
 								{this.onlyOneEditor ? (
 									<>

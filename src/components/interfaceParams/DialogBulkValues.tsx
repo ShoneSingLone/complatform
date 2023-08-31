@@ -85,7 +85,7 @@ export const DialogBulkValues = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="flex flex1 vertical padding10">
+				<div class="flex flex1 vertical app-padding">
 					<ElAlert
 						title={`型如key:value一行一个 换行即可，不要使用逗号、分号分隔`}
 					/>

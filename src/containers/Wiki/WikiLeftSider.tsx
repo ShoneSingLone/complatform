@@ -137,7 +137,6 @@ export const WikiLeftSider = defineComponent({
 														v-xTips={{ content: tips, delay: 1000 }}
 														onClick={clickHandler}
 													/>
-													<xGap l="8" />
 												</>
 											);
 										};
@@ -152,11 +151,11 @@ export const WikiLeftSider = defineComponent({
 
 										return (
 											<div class={classContentString}>
-												<xGap l="10" onClick={handleClick} />
-												<xIcon icon="icon_article" onClick={handleClick} />
 												<div
 													class="x-sider-tree_menu_title"
 													onClick={handleClick}>
+													<xGap l="10" onClick={handleClick} />
+													<xIcon icon="icon_article" onClick={handleClick} />
 													<xHighlight content={title} filter={vm.filterText} />
 												</div>
 												<div class="x-sider-tree_menu_opration">

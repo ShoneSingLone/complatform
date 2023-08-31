@@ -34,8 +34,8 @@ export const ProjectTestcase = defineComponent({
 				id="ViewProjectTestcase"
 				v-xloading={this.stateProjectTestcase.isLoading}>
 				<ProjectTestcaseLeftSider />
-				<main class="flex flex1 padding10" style="width:1px;height:100%">
-					<RouterView class="flex flex1 width100 height100 vertical padding10" />
+				<main class="flex flex1 app-padding" style="width:1px;height:100%">
+					<RouterView class="flex flex1 width100 height100 vertical app-padding" />
 				</main>
 			</section>
 		);

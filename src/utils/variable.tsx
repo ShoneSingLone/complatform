@@ -2,11 +2,17 @@ import { xI } from "@/ventose/ui";
 
 export const OPEN_BLANK = "新窗口打开";
 export const TAB_KEY_PROJECT_WIKI = "项目文档";
+export const TAB_KEY_PROJECT_SETTING = "项目设置";
 export const TAB_KEY_INTERFACE = "接口";
 export const TAB_KEY_PROJECT_LIST = "项目列表";
 export const TAB_KEY_MEMBER_LIST = "成员列表";
 export const TAB_KEY_GROUP_LOG = "分组动态";
 export const TAB_KEY_GROUP_WIKI = "分组文档";
+/* project */
+export const TAB_KEY_PROJECT_CONFIGS = xI("项目配置");
+export const TAB_KEY_PROJECT_REQUEST = xI("请求配置");
+export const TAB_KEY_PROJECT_AUTH = xI("token配置");
+export const TAB_KEY_PROJECT_MOCK = xI("全局mock脚本");
 
 export const TAB_KEY_ARRAY = [
 	TAB_KEY_PROJECT_LIST,

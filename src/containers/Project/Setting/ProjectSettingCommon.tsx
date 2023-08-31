@@ -16,7 +16,7 @@ import { xItem_ProjectBasePath } from "../../Group/AddProject/DialogAddProject";
 import {
 	openProxyEnvDialog,
 	openUpsertTagDialog
-} from "../Interface/DialogModifyInterface.Helper";
+} from "@/containers/Interface/DialogModifyInterface.Helper";
 
 export const ProjectSettingCommon = defineComponent({
 	setup() {

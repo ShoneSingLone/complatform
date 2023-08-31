@@ -105,7 +105,7 @@ export const ITEM_OPTIONS_VDOM = {
 		if (item.label === ITEM_OPTIONS.trueOrFalse[0].label) {
 			return <ElTag type="success">{item.label}</ElTag>;
 		} else {
-			return <ElTag type="error">{item.label}</ElTag>;
+			return <ElTag type="danger">{item.label}</ElTag>;
 		}
 	},
 	tags: tags => {

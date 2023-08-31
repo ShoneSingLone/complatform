@@ -1,6 +1,4 @@
 import {
-	defItem,
-	xU,
 	setValueTo,
 	itemsInvalid,
 	pickValueFrom,

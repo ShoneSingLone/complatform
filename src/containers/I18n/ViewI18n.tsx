@@ -205,7 +205,7 @@ export const ViewI18n = defineComponent({
 				class="flex flex1"
 				v-xloading={stateI18n.isLoading}>
 				<I18nLeftSider />
-				<main class="flex flex1 padding10 vertical">
+				<main class="flex flex1 app-padding vertical">
 					<xDataGridToolbar configs={this.configsI18nTable}>
 						<xButton configs={this.btnImport} />
 						<xGap l="4" />

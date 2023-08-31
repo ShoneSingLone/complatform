@@ -1,4 +1,4 @@
-import "./ViewWiki.scss";
+import "./ViewWiki.less";
 import { defineComponent } from "vue";
 import { WikiLeftSider } from "./WikiLeftSider";
 import { stateWiki, Methods_Wiki } from "@/state/wiki";
@@ -115,15 +115,12 @@ export const ViewWiki = defineComponent({
 	},
 	render() {
 		return (
-			<section
-				id="ViewWiki"
-				class="flex flex1"
-				v-xloading={stateWiki.isLoading}>
+			<section id="ViewWiki" v-xloading={stateWiki.isLoading}>
 				<WikiLeftSider
 					onChange={() => (this.isReadonly = true)}
 					isShow={this.isReadonly}
 				/>
-				<main class="flex flex1 padding10 vertical">
+				<main class="flex flex1 app-padding vertical">
 					<div class="flex mb10 middle" style="height:48px;">
 						{this.vDomTitle}
 						<xButton configs={this.btnCancel} />

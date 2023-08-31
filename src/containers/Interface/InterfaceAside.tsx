@@ -249,14 +249,12 @@ export const InterfaceAside = defineComponent({
 														<div
 															data-interface-all-menu
 															class={classContentString}>
+															<xGap l="10" />
+															<xIcon icon="allCategory" />
 															<div
 																onClick={handleClick}
-																class="flex middle flex1">
-																<xGap l="10" />
-																<xIcon icon="allCategory" />
-																<div class="x-sider-tree_menu_title">
-																	{title}
-																</div>
+																class="x-sider-tree_menu_title">
+																{title}
 															</div>
 															<div class="x-sider-tree_menu_opration">
 																{/* 全部接口 */}
@@ -328,11 +326,11 @@ export const InterfaceAside = defineComponent({
 												return (
 													<div class={classContentString}>
 														<div
-															class="flex middle flex1"
+															class="x-sider-tree_menu_title"
 															onClick={handleClick}>
 															<xGap l="10" />
 															<xIcon icon={iconName} />
-															<div class="x-sider-tree_menu_title">{title}</div>
+															{title}
 														</div>
 														<div class="x-sider-tree_menu_opration">
 															{vDomOpration}

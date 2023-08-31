@@ -257,7 +257,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 				);
 			})();
 			return (
-				<div class="env-configs flex1 padding10 ant-card ant-card-bordered overflow-auto">
+				<div class="env-configs flex1 app-padding ant-card ant-card-bordered overflow-auto">
 					{vDomContent}
 				</div>
 			);
@@ -401,7 +401,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		return (
 			<>
 				<div
-					class="DialogUpsertProxyEnv flex1 flex horizon padding10"
+					class="DialogUpsertProxyEnv flex1 flex horizon app-padding"
 					style="overflow:auto;">
 					<div class="env-list-wrapper flex vertical">
 						<div class="flex center mb10">

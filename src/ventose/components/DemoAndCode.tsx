@@ -119,7 +119,7 @@ ${this.BussinessComponentSourceCode}
 		return (
 			<div style="min-height:100px;padding:20px">
 				<ElCard
-					class="padding10"
+					class="app-padding"
 					style={this.styleContainer}
 					v-xloading={this.isLoading}>
 					<div

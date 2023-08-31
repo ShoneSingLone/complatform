@@ -407,12 +407,9 @@ export const InterfaceMain = defineComponent({
 			return interfaceForShow;
 		});
 
-
-		
-
 		return function () {
 			return (
-				<div class="interface-list">
+				<div id="ViewInterfaceList">
 					<div class="Operation mb10 flex end middle">
 						<xButton class="mr4" configs={vm.$btnChangeStatus} />
 						<xButton class="mr4" configs={vm.$btnChangeProxy} />
