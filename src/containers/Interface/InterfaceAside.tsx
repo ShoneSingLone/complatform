@@ -158,6 +158,7 @@ export const InterfaceAside = defineComponent({
 		onMounted(() => {
 			if (!cptRouter.value.query.category_id) {
 				cptRouter.value.query.category_id = ALL;
+				cptRouter.value.query.interface_type = ALL;
 			}
 		});
 

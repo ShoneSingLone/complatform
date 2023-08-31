@@ -407,6 +407,9 @@ export const InterfaceMain = defineComponent({
 			return interfaceForShow;
 		});
 
+
+		
+
 		return function () {
 			return (
 				<div class="interface-list">

@@ -231,8 +231,8 @@ export const InterfaceDetail = defineComponent({
 				if (env) {
 					return (
 						<div>
-							<ElTag color="cyan">{env.name}</ElTag>
-							<span>{env.domain}</span>
+							<el-tag>{env.name}</el-tag>
+							<span class="ml10">{env.domain}</span>
 						</div>
 					);
 				}
