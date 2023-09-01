@@ -4,6 +4,8 @@ import { xI, xU, defFormConfigs, setValueTo } from "@/ventose/ui";
 import { DialogUpdatePwd } from "./DialogUpdatePwd";
 import { FormRules } from "@/utils/common.FormRules";
 import { API } from "@/api";
+import { cptRouter } from "@/router/router";
+import { getAvatarSrcByid } from "@/utils/common";
 
 function getBase64(img, callback) {
 	const reader = new FileReader();
@@ -12,6 +14,7 @@ function getBase64(img, callback) {
 }
 
 export const ViewUserProfile = defineComponent({
+	props: ["id"],
 	setup() {
 		return {
 			stateApp,
@@ -31,7 +34,8 @@ export const ViewUserProfile = defineComponent({
 					value: "",
 					label: xI("用户名"),
 					prop: "username",
-					rules: [FormRules.required()]
+					rules: [FormRules.required()],
+					isReadonly: !vm.cpt_isAuth
 				},
 				{
 					value: "",
@@ -70,12 +74,15 @@ export const ViewUserProfile = defineComponent({
 		this.init();
 	},
 	methods: {
-		init() {
+		async init() {
+			const { data: userInfo } = await API.user.getUserById(this.cpt_userId);
+			this.userInfo = userInfo;
+
 			setValueTo(
 				this.configsForm,
-				xU.merge({}, stateApp.user, {
-					up_time: xU.dateFormat(stateApp.user.up_time, 1),
-					add_time: xU.dateFormat(stateApp.user.add_time, 1)
+				xU.merge({}, this.userInfo, {
+					up_time: xU.dateFormat(this.userInfo.up_time, 1),
+					add_time: xU.dateFormat(this.userInfo.add_time, 1)
 				})
 			);
 		},
@@ -101,17 +108,26 @@ export const ViewUserProfile = defineComponent({
 			if (info.status === "ready") {
 				// Get this url from response in real world.
 				getBase64(info.raw, basecode => {
-					stateApp.user.imageUrl = basecode;
+					this.userInfo.imageUrl = basecode;
 					this.uploadAvatar(basecode);
 				});
 			}
 		},
 		async uploadAvatar(basecode) {
 			await API.user.uploadAvatar({ basecode: basecode });
-			stateApp.user.imageUrl = "";
+			this.userInfo.imageUrl = "";
 		}
 	},
 	computed: {
+		cpt_avatarUrl() {
+			return getAvatarSrcByid(this.cpt_userId);
+		},
+		cpt_isAuth() {
+			return stateApp.user._id === this.cpt_userId;
+		},
+		cpt_userId() {
+			return this.id || cptRouter.value.query.user_id || stateApp.user._id;
+		},
 		styleForm() {
 			return {
 				width: "520px"
@@ -136,22 +152,22 @@ export const ViewUserProfile = defineComponent({
 	}) {
 		const vm = this;
 		return (
-			<div style="padding:20px" class="flex middle center">
-				<ElCard title="个人设置">
+			<div class="flex middle center">
+				<elCard title="个人设置">
 					<xForm formStyle={styleForm} labelStyle={styleFormLabel}>
 						<div id="xItem_391" class=" x-item-wrapper flex middle ">
 							<div class="x-form-item-label">
 								<label>用户头像</label>
 							</div>
 							<div class="x-form-item-control">
-								<ElUpload
+								<elUpload
 									class="avatar-uploader"
 									show-file-list={false}
 									onChange={handleChange}
 									beforeUpload={beforeAvatarUpload}>
 									{(() => {
-										if (cptAvatarUrl) {
-											return <ElAvatar size={64} src={cptAvatarUrl} />;
+										if (this.cpt_avatarUrl) {
+											return <elAvatar size={64} src={this.cpt_avatarUrl} />;
 										} else {
 											return (
 												<el-icon class="avatar-uploader-icon">
@@ -160,33 +176,35 @@ export const ViewUserProfile = defineComponent({
 											);
 										}
 									})()}
-								</ElUpload>
+								</elUpload>
 							</div>
 						</div>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={configsForm.uid} />
-						<xGap t="10" />
+						<xGap t />
 						<div class="flex middle">
 							<xItem configs={configsForm.username} class="flex1" />
-							<xButton onClick={updatePwd} class="ml10" type="primary">
-								修改密码
-							</xButton>
+							{this.cpt_isAuth && (
+								<xButton onClick={updatePwd} class="ml" type="primary">
+									修改密码
+								</xButton>
+							)}
 						</div>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={configsForm.email} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={configsForm.role} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={configsForm.type} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={configsForm.add_time} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={configsForm.up_time} />
-						<xGap t="10" />
-						<xButton type="primary">更新</xButton>
-						<xGap t="10" />
+						<xGap t />
+						{this.cpt_isAuth && <xButton type="primary">更新</xButton>}
+						<xGap t />
 					</xForm>
-				</ElCard>
+				</elCard>
 			</div>
 		);
 	}

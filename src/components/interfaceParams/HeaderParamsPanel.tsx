@@ -17,9 +17,9 @@ export const HeaderParamsPanel = defineComponent({
 	},
 	render(vm) {
 		return (
-			<ElCard>
+			<elCard>
 				<HeaderParamsForm reqHeaders={this.reqHeaders} />
-			</ElCard>
+			</elCard>
 		);
 	}
 });

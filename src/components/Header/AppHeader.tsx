@@ -31,11 +31,7 @@ export const AppHeader = defineComponent({
 	},
 	methods: {
 		goToGroup() {
-			if (this.cptRouter.pathname === "/wiki_project") {
-				this.cptRouter.go("/interface/all", {
-					group_id: this.cptRouter.query.group_id,
-					project_id: this.cptRouter.query.project_id
-				});
+			if (this.cptRouter.pathname === "/group") {
 				return;
 			}
 			this.cptRouter.go("/group", {
@@ -207,15 +203,13 @@ export const AppHeader = defineComponent({
 		}
 		return (
 			<header class="app-header-wrapper">
-				<div class="content flex middle">
-					<span onClick={this.goToGroup} class="flex middle pointer">
-						{/* yapi logo */}
-						<xIcon icon={this.icon} style={this.styleLogo} />
-					</span>
-					<BreadcrumbNavigation />
-					<span class="flex1"></span>
-					{this.ToolUser}
-				</div>
+				<span onClick={this.goToGroup} class="flex middle pointer">
+					{/* yapi logo */}
+					<xIcon icon={this.icon} style={this.styleLogo} />
+				</span>
+				<BreadcrumbNavigation />
+				<span class="flex1"></span>
+				{this.ToolUser}
 			</header>
 		);
 	}

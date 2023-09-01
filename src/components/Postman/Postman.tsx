@@ -1101,7 +1101,7 @@ ${JSON.stringify(result.header, null, 2)}
 								注：Test 脚本只有做自动化测试才执行
 							</p>
 							<ElRow>
-								<ElCol span="18">
+								<elCol span="18">
 									<AceEditor
 										onChange={this.onOpenTest}
 										class="case-script"
@@ -1110,8 +1110,8 @@ ${JSON.stringify(result.header, null, 2)}
 											this.aceEditor = aceEditor;
 										}}
 									/>
-								</ElCol>
-								<ElCol span="6">
+								</elCol>
+								<elCol span="6">
 									<div class="insert-code">
 										{InsertCodeMap.map(item => {
 											return (
@@ -1127,7 +1127,7 @@ ${JSON.stringify(result.header, null, 2)}
 											);
 										})}
 									</div>
-								</ElCol>
+								</elCol>
 							</ElRow>
 						</Tabs.TabPane>
 					) : null}

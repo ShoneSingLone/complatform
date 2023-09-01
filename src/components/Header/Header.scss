@@ -18,8 +18,11 @@
 
 /* .app-header-wrapper.css */
 .app-header-wrapper {
-	padding: 10px 20px;
+	padding: var(--app-padding);
 	box-shadow: var(--el-box-shadow-light);
+	height: 48px;
+	display: flex;
+	align-items: center;
 
 	.logo {
 		position: relative;

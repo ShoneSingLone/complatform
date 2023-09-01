@@ -193,3 +193,6 @@ export function sortTreeByOrder(treeData, orderArray = []) {
 		return item;
 	});
 }
+
+export const getAvatarSrcByid = user_id =>
+	`${stateApp.BASE_URL}/api/user/avatar?uid=${user_id}`;

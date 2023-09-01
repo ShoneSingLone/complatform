@@ -77,7 +77,7 @@ export class PreprocessHTML {
 	toc() {
 		const TOC_TAG = `&lt;!-- toc --&gt;`;
 		const headers = xU.filter(this.$html, ele => {
-			console.log(ele.tagName);
+			xU(ele.tagName);
 			return /^h(\d+)/i.test(ele.tagName);
 		});
 

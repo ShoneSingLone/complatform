@@ -12,7 +12,7 @@ export const xPagination = defineComponent({
 		return { stateUI };
 	},
 	props: {
-		onPaginationChange: {
+		onQuery: {
 			type: Function,
 			default: false
 		},
@@ -36,8 +36,8 @@ export const xPagination = defineComponent({
 	methods: {
 		onShowSizeChange: xU.debounce(function ({ page, size }) {
 			setPagination(this, { page, size });
-			if (this.onPaginationChange) {
-				this.onPaginationChange(this.pagination);
+			if (this.onQuery) {
+				this.onQuery(this.pagination);
 			}
 		}, 30)
 	},

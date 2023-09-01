@@ -11,11 +11,11 @@
 	<xPagination
 		class="table-pagination"
 		:pagination="configs_table.pagination"
-		:onPaginationChange="handlePaginationChange" />
+		:onQuery="handlePaginationChange" />
 </template>
 
 <script lang="tsx">
-import { defCol, defDataGridOption, xU, xI } from "@ventose/ui";
+import { defCol, defDataGrid, xU, xI } from "@ventose/ui";
 import { ITEM_OPTIONS } from "@/common/options";
 
 export default {
@@ -27,7 +27,7 @@ export default {
 	},
 	data() {
 		return {
-			configs_table: defDataGridOption({
+			configs_table: defDataGrid({
 				async queryTableList(params) {},
 				dataSource: [],
 				columns: {

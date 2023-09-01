@@ -119,7 +119,7 @@ export const DialogUpsertCategory = defineComponent({
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);

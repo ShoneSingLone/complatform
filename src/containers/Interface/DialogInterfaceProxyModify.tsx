@@ -107,12 +107,12 @@ export const DialogInterfaceProxyModify = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper ">
-					<xGap t="10" />
+					<xGap t />
 					<xForm
 						class="flex"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
 						<xItem configs={this.dataXItem.isProxy} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 					</xForm>
 					<xGap b="38" />

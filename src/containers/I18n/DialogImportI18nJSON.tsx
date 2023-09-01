@@ -171,7 +171,7 @@ export const DialogImportI18nJSON = defineComponent({
 						class="x-dialog-boddy-wrapper margin20 flex vertical"
 						style="height:40vh">
 						<ElAlert title={raw$tips} />
-						<xGap t="10" />
+						<xGap t />
 						<xVirTable
 							configs={this.raw$configsTableExistedRecords}
 							class="flex1 width100 "

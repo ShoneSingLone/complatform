@@ -1,15 +1,15 @@
 <template>
-	<ElCard class="flex1">
+	<elCard class="flex1">
 		<ElAlert :message="alertMessage" type="info" />
 		<xForm
 			class="flex vertical"
 			:label-style="{ 'min-width': '120px', width: 'unset' }">
 			<template v-for="(item, prop) in formItems" :key="prop">
-				<xGap t="10" />
+				<xGap t />
 				<xItem :configs="item" />
 			</template>
 		</xForm>
-	</ElCard>
+	</elCard>
 	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 

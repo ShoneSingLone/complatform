@@ -77,14 +77,14 @@ export const DialogInterfaceStatusModify = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper ">
-					<xGap t="10" />
+					<xGap t />
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);

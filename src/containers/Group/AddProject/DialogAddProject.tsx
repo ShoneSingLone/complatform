@@ -278,7 +278,7 @@ export const DialogAddProject = defineComponent({
 							console.log(configs);
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);

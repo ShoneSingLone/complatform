@@ -92,7 +92,7 @@ export const DialogAddArticle = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
-					<xGap t="10" />
+					<xGap t />
 					<ElAlert
 						title={xI("保存标题后再编辑文档内容")}
 						type="info"
@@ -105,13 +105,13 @@ export const DialogAddArticle = defineComponent({
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);
 						})}
 					</xForm>
-					<xGap t="10" />
+					<xGap t />
 				</div>
 				<xDialogFooter
 					configs={{

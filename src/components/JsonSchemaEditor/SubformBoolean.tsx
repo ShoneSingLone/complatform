@@ -7,7 +7,7 @@ export const SubformBoolean = defineComponent({
 	render(vm) {
 		return (
 			<>
-				<xGap t="10" />
+				<xGap t />
 				<xItem
 					configs={vm.configs.booleanDefault}
 					v-model={vm.data.booleanDefault}

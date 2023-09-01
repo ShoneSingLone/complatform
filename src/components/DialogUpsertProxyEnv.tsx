@@ -242,17 +242,17 @@ export const DialogUpsertProxyEnv = defineComponent({
 							width: "80px",
 							padding: "0 14px"
 						}}>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.name} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.domain} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.global} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.header} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.cookie} />
-						<xGap t="10" />
+						<xGap t />
 					</xForm>
 				);
 			})();

@@ -5,17 +5,21 @@ import { injectHtml } from "vite-plugin-html";
 import path from "path";
 import svgHelper from "./preprocess/plugins/svg";
 import { visualizer } from "rollup-plugin-visualizer";
-import viteCompression from "vite-plugin-compression";
+import { PROD_SERVER_ADDRESS } from "../privateConfigs.js";
 
-import { PROD_SERVER_ADDRESS, PROD_SERVER_ADDRESS2, DEV_SERVER_ADDRESS } from "../privateConfigs.js";
 
-// DEV_SERVER_ADDRESS = "http://localhost:3010";
-const IS_DEV = process.env.IS_DEV != "PRD";
-const { PRD_USE } = process.env;
+const { PRD_USE, DEV_MODEL } = process.env;
 const __APP_VERSION = Date.now().toString();
-const __BASE_URL = IS_DEV ? DEV_SERVER_ADDRESS : PRD_USE == "1" ? PROD_SERVER_ADDRESS : PROD_SERVER_ADDRESS2;
 
-console.log("PRD_USE: ", PRD_USE, "__BASE_URL: ", __BASE_URL);
+
+let __BASE_URL = "";
+if (DEV_MODEL === "PRD") {
+	/* 如果跨域 */
+	if (PRD_USE === "1") {
+		__BASE_URL = PROD_SERVER_ADDRESS;
+	}
+}
+console.log("🚀 __BASE_URL: ", __BASE_URL);
 
 const isBuildLibTui = process.env.type === "lib:tui";
 
@@ -100,7 +104,7 @@ if (isBuildLibTui) {
 	};
 }
 
-// if (!IS_DEV) {
+// if (!DEV_MODEL) {
 // 	appOptions.plugins.push(viteCompression({
 // 		/* 100kb */
 // 		threshold: 100

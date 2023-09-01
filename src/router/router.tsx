@@ -104,6 +104,7 @@ type t_router = {
 		interface_type?: string;
 		interface_id?: string;
 		category_id?: string;
+		wiki_id?: string;
 	};
 } & URL;
 

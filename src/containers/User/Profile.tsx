@@ -403,7 +403,7 @@ class Profile extends Component {
 					)}
 
 					<ElRow class="avatarCon" type="flex" justify="start">
-						<ElCol span={24}>
+						<elCol span={24}>
 							{userinfo.uid === this.props.curUid ? (
 								<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>
 							) : (
@@ -411,22 +411,22 @@ class Profile extends Component {
 									<img src={`/api/user/avatar?uid=${userinfo.uid}`} />
 								</div>
 							)}
-						</ElCol>
+						</elCol>
 					</ElRow>
 					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<ElCol span={4}>用户id</ElCol>
-						<ElCol span={12}>{userinfo.uid}</ElCol>
+						<elCol span={4}>用户id</elCol>
+						<elCol span={12}>{userinfo.uid}</elCol>
 					</ElRow>
 					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<ElCol span={4}>用户名</ElCol>
-						<ElCol span={12}>{userNameEditHtml}</ElCol>
+						<elCol span={4}>用户名</elCol>
+						<elCol span={12}>{userNameEditHtml}</elCol>
 					</ElRow>
 					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<ElCol span={4}>Email</ElCol>
-						<ElCol span={12}>{emailEditHtml}</ElCol>
+						<elCol span={4}>Email</elCol>
+						<elCol span={12}>{emailEditHtml}</elCol>
 					</ElRow>
 					<ElRow
 						class="user-item"
@@ -434,8 +434,8 @@ class Profile extends Component {
 						type="flex"
 						justify="start">
 						<div class="maoboli" />
-						<ElCol span={4}>角色</ElCol>
-						<ElCol span={12}>{roleEditHtml}</ElCol>
+						<elCol span={4}>角色</elCol>
+						<elCol span={12}>{roleEditHtml}</elCol>
 					</ElRow>
 					<ElRow
 						class="user-item"
@@ -443,27 +443,27 @@ class Profile extends Component {
 						type="flex"
 						justify="start">
 						<div class="maoboli" />
-						<ElCol span={4}>登陆方式</ElCol>
-						<ElCol span={12}>
+						<elCol span={4}>登陆方式</elCol>
+						<elCol span={12}>
 							{userinfo.type === "site" ? "站点登陆" : "第三方登陆"}
-						</ElCol>
+						</elCol>
 					</ElRow>
 					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<ElCol span={4}>创建账号时间</ElCol>
-						<ElCol span={12}>{formatTime(userinfo.add_time)}</ElCol>
+						<elCol span={4}>创建账号时间</elCol>
+						<elCol span={12}>{formatTime(userinfo.add_time)}</elCol>
 					</ElRow>
 					<ElRow class="user-item" type="flex" justify="start">
 						<div class="maoboli" />
-						<ElCol span={4}>更新账号时间</ElCol>
-						<ElCol span={12}>{formatTime(userinfo.up_time)}</ElCol>
+						<elCol span={4}>更新账号时间</elCol>
+						<elCol span={12}>{formatTime(userinfo.up_time)}</elCol>
 					</ElRow>
 
 					{userType ? (
 						<ElRow class="user-item" type="flex" justify="start">
 							<div class="maoboli" />
-							<ElCol span={4}>密码</ElCol>
-							<ElCol span={12}>{secureEditHtml}</ElCol>
+							<elCol span={4}>密码</elCol>
+							<elCol span={12}>{secureEditHtml}</elCol>
 						</ElRow>
 					) : (
 						""

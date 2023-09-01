@@ -1,8 +1,8 @@
 //@ts-nocheck
 import { t_buttonOptions } from "../xButton/xButton";
 import { xU } from "../ventoseUtils";
-import { ColumnProps } from "element-plus/es/table";
 import { stateUI } from "../stateUI";
+import { each, isFunction } from "lodash";
 
 /*ui 内部使用*/
 export const STATIC_WORD = {
@@ -10,7 +10,7 @@ export const STATIC_WORD = {
 	NEXT_TICK_TIME: 64
 };
 export type t_col = {
-	prop: string;
+	prop?: string;
 	label: any;
 	width?: string;
 	minWidth?: string;
@@ -19,8 +19,18 @@ export type t_col = {
 	renderHeader?: Function;
 	renderCell?: Function;
 };
+export type t_ElTableV2 = {
+	fixed?: boolean | "right" | "left";
+	label?: any;
+	width?: number;
+	isShow?: boolean;
+	children?: t_col[];
+	headerCellRenderer?: Function;
+	cellRenderer?: Function;
+};
 
 export type t_dataGridOptions = {
+	onMounted?: Function;
 	isLoading?: boolean;
 	/*查询、刷新、onPaginationChange=》isLoading可以内置*/
 	queryTableList: Function;
@@ -40,7 +50,7 @@ export type t_dataGridOptions = {
 		total: number;
 	};
 	/*分页page size 改变之后的回调，参数是pagination*/
-	onPaginationChange?: Function;
+	onQuery?: Function;
 	/*里面查询区域的配置信息，可以在renderOptions作为参数传入*/
 	optionsConfigs?: {
 		/*xItem value 集合*/
@@ -55,11 +65,37 @@ export type t_dataGridOptions = {
 	 * columns作为数组，与antdv官方文档参数保持一致
 	 * */
 	isGroupingColumns?: boolean;
+	/* 排序 */
+	columnsOrder?: string[];
 	/*列信息*/
 	columns: { [p: string]: t_col };
 };
 
-/* 默认 pagination onPaginationChange isLoading */
+export function defColumns(options: { [p: string]: t_ElTableV2 }) {
+	each(options, (column, prop) => {
+		column = {
+			key: prop,
+			dataKey: prop,
+			width: 150,
+			...column
+		};
+
+		Object.defineProperty(column, "title", {
+			get() {
+				if (isFunction(column.label)) {
+					return column.label.call(column);
+				} else {
+					return column.title || column.label;
+				}
+			},
+			set(val) {
+				column.title = val;
+			}
+		});
+	});
+	return options;
+}
+/* 默认 pagination onQuery isLoading */
 
 /**
  * 如果没有queryTableList 则不会显示 query 和 refresh 按钮
@@ -69,7 +105,7 @@ export type t_dataGridOptions = {
  * @param {t_dataGridOptions} options
  * @returns
  */
-export function defDataGridOption(options: t_dataGridOptions) {
+export function defDataGrid(options: t_dataGridOptions) {
 	/* @ts-ignore */
 	options.pagination = options.pagination || defPagination();
 	options.isLoading = Boolean(options.isLoading);
@@ -84,8 +120,21 @@ export function defDataGridOption(options: t_dataGridOptions) {
 			this.isLoading = false;
 		};
 	}
-	options.onPaginationChange =
-		options.onPaginationChange ||
+	if (options.columns) {
+		each(options.columns, (column, prop) => {
+			column.prop = prop;
+			if (isFunction(column.label)) {
+				Object.defineProperty(column, "label", {
+					get() {
+						debugger;
+						return column.label.call(column);
+					}
+				});
+			}
+		});
+	}
+	options.onQuery =
+		options.onQuery ||
 		async function (pagination) {
 			/* this必须指向响应式数据 */
 			await this.queryTableList({ pagination });
@@ -147,15 +196,6 @@ export function defCol(options: t_col) {
 			title: options.label,
 			dataIndex: options.prop
 		}
-	};
-}
-
-/*antd 的配置项*/
-export function defColAnt(options: any | ColumnProps) {
-	return {
-		...options,
-		prop: options.key,
-		dataIndex: options.key
 	};
 }
 

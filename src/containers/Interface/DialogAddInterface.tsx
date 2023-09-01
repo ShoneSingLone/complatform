@@ -123,14 +123,14 @@ export const DialogAddInterface = defineComponent({
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);
 						})}
-						<xGap t="10" />
+						<xGap t />
 					</xForm>
-					<xGap t="10" />
+					<xGap t />
 				</div>
 				<xDialogFooter
 					configs={{

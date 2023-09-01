@@ -75,7 +75,7 @@ export const DialogBulkValues = defineComponent({
 			return xU.map(this.formItems, (item, prop) => {
 				return (
 					<>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={item} />
 					</>
 				);

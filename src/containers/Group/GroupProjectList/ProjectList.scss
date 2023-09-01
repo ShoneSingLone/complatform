@@ -4,6 +4,12 @@
 }
 
 .project-list {
+	display: flex;
+	flex-flow: column nowrap;
+	flex: 1;
+	height: 1px;
+	margin-top: var(--app-padding);
+
 	.project-list-header {
 		background: #eee;
 		height: 64px;

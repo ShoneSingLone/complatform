@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, mergeProps } from "vue";
 import { xU } from "../ventoseUtils";
 import { xI } from "../stateUI";
 
@@ -55,6 +55,9 @@ export default defineComponent({
 			default() {
 				return {};
 			}
+		},
+		class: {
+			type: [String, Object]
 		}
 	},
 	beforeMount() {
@@ -170,6 +173,11 @@ export default defineComponent({
 			"onClick"
 		];
 		const _properties = xU.omit(this.configs, propsWillDeleteFromProperty);
+		const propsClass = mergeProps(
+			{ class: "x-button" },
+			{ class: this.class },
+			{ class: this.configs.class || {} }
+		);
 		return (
 			<ElButton
 				v-xTips={{
@@ -182,10 +190,10 @@ export default defineComponent({
 					}
 				}}
 				onClick={this.cpt_onClick}
-				class="x-button antdv-button"
 				loading={this.loading}
 				disabled={!!this.disabled}
 				type={this.cpt_type}
+				{...propsClass}
 				{...xU.omit(_properties, ["icon", "onClick"])}
 				v-slots={{
 					default: () => {

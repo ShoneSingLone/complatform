@@ -59,7 +59,7 @@ class News extends Component {
 					]}
 				/>
 				<div class="x-dialog-boddy-wrapper">
-					<section class="news-box m-panel">
+					<section class="news-box">
 						<div class="logHead">
 							<Breadcrumb />
 							<div class="Mockurl">

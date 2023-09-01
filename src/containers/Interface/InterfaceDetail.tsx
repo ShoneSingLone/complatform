@@ -3,7 +3,7 @@ import {
 	$,
 	xU,
 	defCol,
-	defDataGridOption,
+	defDataGrid,
 	stateUI,
 	xI,
 	lStorage,
@@ -37,7 +37,7 @@ export const InterfaceDetail = defineComponent({
 			WebSocket: null,
 			detailInfo: false,
 			/* 路径参数 */
-			pathParams: defDataGridOption({
+			pathParams: defDataGrid({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
@@ -52,7 +52,7 @@ export const InterfaceDetail = defineComponent({
 				queryTableList: undefined
 			}),
 			/* header参数 */
-			headersParams: defDataGridOption({
+			headersParams: defDataGrid({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
@@ -65,7 +65,7 @@ export const InterfaceDetail = defineComponent({
 				queryTableList: undefined
 			}),
 			/* query参数 */
-			queryParams: defDataGridOption({
+			queryParams: defDataGrid({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
@@ -77,7 +77,7 @@ export const InterfaceDetail = defineComponent({
 				queryTableList: undefined
 			}),
 			/* body 参数 */
-			bodyFormParams: defDataGridOption({
+			bodyFormParams: defDataGrid({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
@@ -450,52 +450,52 @@ async ${xU.camelCase(path)}({params,data}) {
 						<xGap t="20" />
 						<xInfoCard title={"请求参数"}>
 							{vm.pathParams.dataSource.length > 0 && (
-								<ElCard title={xI("路径参数")}>
+								<elCard title={xI("路径参数")}>
 									<xDataGrid configs={vm.pathParams} />
-								</ElCard>
+								</elCard>
 							)}
 							{vm.headersParams.dataSource.length > 0 && (
 								<>
-									<xGap t="10" />
-									<ElCard title={xI("Headers")}>
+									<xGap t />
+									<elCard title={xI("Headers")}>
 										<xDataGrid configs={vm.headersParams} />
-									</ElCard>
+									</elCard>
 								</>
 							)}
 							{vm.queryParams.dataSource.length > 0 && (
 								<>
-									<xGap t="10" />
-									<ElCard title={xI("Query")}>
+									<xGap t />
+									<elCard title={xI("Query")}>
 										<xDataGrid configs={vm.queryParams} />
-									</ElCard>
+									</elCard>
 								</>
 							)}
 							{vm.detailInfo.req_body_type == "form" &&
 								vm.bodyFormParams.dataSource.length > 0 && (
 									<>
-										<xGap t="10" />
-										<ElCard title={xI("Body")}>
+										<xGap t />
+										<elCard title={xI("Body")}>
 											<xDataGrid configs={vm.bodyFormParams} />
-										</ElCard>
+										</elCard>
 									</>
 								)}
 							{vm.detailInfo.req_body_type == "json" &&
 								vm.detailInfo.req_body_other && (
 									<>
-										<xGap t="10" />
-										<ElCard title={xI("Body")}>
+										<xGap t />
+										<elCard title={xI("Body")}>
 											<JsonSchemaMonaco
 												v-model:schemaString={vm.detailInfo.req_body_other}
 												readOnly={true}
 											/>
-										</ElCard>
+										</elCard>
 									</>
 								)}
 							{vm.detailInfo.req_body_type == "raw" &&
 								vm.detailInfo.req_body_other && (
 									<>
-										<xGap t="10" />
-										<ElCard title={xI("Body")}>
+										<xGap t />
+										<elCard title={xI("Body")}>
 											<div style="height:300px;width:90%">
 												<MonacoEditor
 													language="json"
@@ -503,7 +503,7 @@ async ${xU.camelCase(path)}({params,data}) {
 													readOnly={true}
 												/>
 											</div>
-										</ElCard>
+										</elCard>
 									</>
 								)}
 						</xInfoCard>

@@ -346,6 +346,40 @@ body,
 .flexFn (@iterations);
 
 
+
+.margin {
+	margin: var(--app-padding);
+}
+.padding {
+	padding: var(--app-padding);
+}
+.paddingT {
+	padding-top: var(--app-padding);
+}
+.paddingR {
+	padding-right: var(--app-padding);
+}
+.paddingB {
+	padding-bottom: var(--app-padding);
+}
+.paddingL {
+	padding-left: var(--app-padding);
+}
+
+.mt {
+	margin-top: var(--app-padding);
+}
+.mr {
+	margin-right: var(--app-padding);
+}
+.mb {
+	margin-bottom: var(--app-padding);
+}
+.ml {
+	margin-left: var(--app-padding);
+}
+
+
 @iterations: 1;
 .flexFn (@i) when (@i <= 30) {
 	.margin@{i} {
@@ -398,6 +432,13 @@ each(@listFlex, {
 	display: flex;
 	flex:1;
 	align-items: center;
+	width: 1px;
+}
+
+.h1px{
+	height: 1px;
+}
+.w1px{
 	width: 1px;
 }
 

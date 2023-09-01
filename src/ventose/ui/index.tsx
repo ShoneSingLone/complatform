@@ -11,7 +11,8 @@ import xForm from "./xForm/xForm.vue";
 import xButtonCountDown from "./xButton/xButtonCountDown.vue";
 import xCharts from "./xCharts/xCharts.vue";
 import xView from "./xView/xView.vue";
-import xDataGrid from "./xDataGrid/xDataGrid.vue";
+import { xTable } from "./xDataGrid/xTable";
+import xDataGrid from "./xDataGrid/xDataGrid";
 import xDataGridToolbar from "./xDataGrid/xDataGridToolbar.vue";
 import xCellLabel from "./xDataGrid/xCellLabel.vue";
 import xColFilter from "./xDataGrid/xColFilter.vue";
@@ -30,7 +31,8 @@ import {
 	defCol,
 	defColActions,
 	defColActionsBtnlist,
-	defDataGridOption,
+	defDataGrid,
+	defColumns,
 	defPagination,
 	getPaginationPageSize,
 	setDataGridInfo,
@@ -88,6 +90,7 @@ const componentMyUI = {
 	xButtonCountDown,
 	xCharts,
 	xView,
+	xTable,
 	xDataGrid,
 	xDataGridToolbar,
 	xColFilter,
@@ -116,7 +119,8 @@ export { defPagination as defPagination };
 export { defCol as defCol };
 export { defColActions as defColActions };
 export { defColActionsBtnlist as defColActionsBtnlist };
-export { defDataGridOption as defDataGridOption };
+export { defColumns as defColumns };
+export { defDataGrid as defDataGrid };
 export { defXVirTableConfigs as defXVirTableConfigs };
 export { setDataGridInfo as setDataGridInfo };
 /* stateUI作为句柄，与外部通信，xI language 等属性 */

@@ -7,7 +7,7 @@ import {
 	$,
 	compositionAPI,
 	defCol,
-	defDataGridOption,
+	defDataGrid,
 	setDataGridInfo,
 	xI
 } from "@/ventose/ui";
@@ -374,7 +374,7 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	data(vm) {
 		return {
-			tableConfigs: defDataGridOption({
+			tableConfigs: defDataGrid({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {

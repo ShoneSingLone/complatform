@@ -239,6 +239,7 @@
 	display: flex;
 	align-items: center;
 	width: 1px;
+	padding-right: var(--app-padding);
 
 	&.x-sider-tree_menu_active {
 		color: var(--app-link);
@@ -478,10 +479,6 @@ em {
 	padding: 0.24rem !important;
 }
 
-.card-panel {
-	padding: 0.36rem 0.24rem 0;
-}
-
 .pannel-without-tab {
 	min-height: 5rem;
 }
@@ -602,4 +599,10 @@ em {
 
 .display-none {
 	display: none;
+}
+
+.x-dialog-wrapper {
+	.el-card.is-always-shadow {
+		box-shadow: unset;
+	}
 }

@@ -40,7 +40,7 @@ export const ResponsePanel = defineComponent({
 	},
 	render() {
 		return (
-			<ElCard>
+			<elCard>
 				{{
 					title: () => {
 						return (
@@ -71,7 +71,7 @@ export const ResponsePanel = defineComponent({
 						);
 					}
 				}}
-			</ElCard>
+			</elCard>
 		);
 	}
 });

@@ -1,8 +1,9 @@
-import { createApp, defineComponent } from "vue";
+import { computed, createApp, defineComponent } from "vue";
 import { xU } from "../../ventoseUtils";
 import $ from "jquery";
 import { KEY_ESC, NAME_LAYER_CONTENT, xLayer } from "../layer/xLayer";
 import { xI } from "../../stateUI";
+import { debounce } from "lodash";
 
 const EcsPressHandler = xU.debounce(async function (event, dialogOptions) {
 	const $antModal = $(".x-modal-root");
@@ -97,7 +98,7 @@ const xDialogFooter = defineComponent({
 		}
 	},
 	render() {
-		return <div class="flex middle end paddingT20">{this.vDomContent}</div>;
+		return <div class="flex middle end paddingT">{this.vDomContent}</div>;
 	}
 });
 
@@ -232,10 +233,7 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 										);
 									},
 									data() {
-										return { dialogOptions };
-									},
-									methods: {
-										handleContentResize() {
+										this.handleContentResize = debounce(() => {
 											if (
 												this.dialogOptions?.dialogInst?.$eleDialog[0]?.style
 													?.width
@@ -248,7 +246,8 @@ export const installVentoseUIDialog = (app, { appUiPlugin, appState }, xU) => {
 													this.dialogOptions.dialogInst.setPosition();
 												}
 											}
-										}
+										}, 300);
+										return { dialogOptions };
 									},
 									render() {
 										return (

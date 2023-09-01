@@ -118,7 +118,7 @@ ${this.BussinessComponentSourceCode}
 	render() {
 		return (
 			<div style="min-height:100px;padding:20px">
-				<ElCard
+				<elCard
 					class="app-padding"
 					style={this.styleContainer}
 					v-xloading={this.isLoading}>
@@ -155,7 +155,7 @@ ${this.BussinessComponentSourceCode}
 							zIndex: 1
 						}}></xIcon>
 					{this.BussinessComponent ? h(this.BussinessComponent) : null}
-				</ElCard>
+				</elCard>
 			</div>
 		);
 	}

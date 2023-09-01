@@ -14,6 +14,15 @@ export const user = {
 			params
 		});
 	},
+	getUserById(id) {
+		return ajax({
+			method: "get",
+			url: "/api/user/find",
+			params: {
+				id
+			}
+		});
+	},
 	uploadAvatar(data) {
 		return ajax({
 			method: "post",

@@ -60,7 +60,7 @@ console.log(window)
 					{xU.map(this.dataXItem, item => {
 						return (
 							<>
-								<xGap t="10" />
+								<xGap t />
 								<xItem configs={item} />
 							</>
 						);
@@ -74,7 +74,7 @@ console.log(window)
 	<ElAlert title={xI("提示信息")} type="info" />
     {xU.map(this.dataXItem, (item) => {
      return (<>
-      <xGap t="10" />
+      <xGap t />
       <xItem configs={item} />
      </>);
     })}

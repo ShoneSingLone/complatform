@@ -263,7 +263,8 @@ export const xItem = defineComponent({
 					/* configs.value */
 					return vm.configs.value;
 				} else {
-					throw new Error(DID_NOT_SET_VALUE);
+					console.error(DID_NOT_SET_VALUE);
+					return vm._privateValue;
 				}
 			},
 			set(val) {
@@ -279,7 +280,8 @@ export const xItem = defineComponent({
 					/* configs.value */
 					this.configs.value = val;
 				} else {
-					throw new Error(DID_NOT_SET_VALUE);
+					console.error(DID_NOT_SET_VALUE);
+					this._privateValue = val;
 				}
 			}
 		},

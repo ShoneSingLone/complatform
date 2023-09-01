@@ -87,9 +87,11 @@ export const ViewGroup = defineComponent({
 				return null;
 			}
 			if (this.stateApp.currGroup.type === PUBLIC) {
+				/* "成员列表" */
 				return (
-					/* "成员列表" */
-					<GroupMemberList />
+					<div class="mt flex1 h1px">
+						<GroupMemberList />
+					</div>
 				);
 			} else {
 				return null;

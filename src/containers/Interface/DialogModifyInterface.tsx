@@ -43,7 +43,7 @@ export const DialogModifyInterface = defineComponent({
 			if (xU.isArrayFill(this.dataXItem.pathParams.value)) {
 				return (
 					<>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.dataXItem.pathParams} />
 					</>
 				);
@@ -551,40 +551,40 @@ export const DialogModifyInterface = defineComponent({
 				<div class="dialog-modify-interface x-dialog-boddy-wrapper flex1 flex horizon height100 width100 overflow-auto">
 					<div class="flex1">
 						<xForm labelStyle={{ "min-width": "120px", width: "unset" }}>
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.catid} />
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.title} />
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.basepath} />
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.path} />
 							{/* 接口路径参数 */}
 							{this.vDomXItemPathparams}
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.tag} />
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.status} />
-							<xGap t="10" />
+							<xGap t />
 							<div class="flex">
 								<xItem configs={this.dataXItem.isProxy} />
 								<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 							</div>
 							{/* 请求参数 */}
-							<xGap t="10" />
+							<xGap t />
 							{/* {JSON.stringify(this.dataXItem.requestArgs.value, null, 2)} */}
 							<xItem configs={this.dataXItem.requestArgs} />
 							{/* 响应参数  */}
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.responseArgs} />
 							{/* 备注 */}
 							<xLogObject obj={this.dataXItem.remark} hide />
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.remark} />
-							<xGap t="10" />
+							<xGap t />
 							<xItem configs={this.dataXItem.api_opened} />
 						</xForm>
-						<xGap t="10" />
+						<xGap t />
 					</div>
 				</div>
 				<xDialogFooter>

@@ -259,22 +259,22 @@ export const SchemaEditor = defineComponent({
 					class="flex vertical flex1 overflow-auto"
 					labelStyle={{ "min-width": "120px", width: "unset" }}>
 					<xItem configs={this.dataXItem.key} v-model={vm.currentNode.key} />
-					<xGap t="10" />
+					<xGap t />
 					<xItem
 						configs={this.dataXItem.title}
 						v-model={vm.currentNode.title}
 					/>
-					<xGap t="10" />
+					<xGap t />
 					<xItem
 						configs={this.dataXItem.description}
 						v-model={vm.currentNode.description}
 					/>
-					<xGap t="10" />
+					<xGap t />
 					<xItem
 						configs={this.dataXItem.required}
 						v-model={vm.currentNode.required}
 					/>
-					<xGap t="10" />
+					<xGap t />
 					<xItem configs={this.dataXItem.type} v-model={vm.currentNode.type} />
 					{vm.currentNode.type === "object" && (
 						<SubformObject configs={this.dataXItem} data={vm.currentNode} />

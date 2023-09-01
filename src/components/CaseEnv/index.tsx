@@ -57,12 +57,12 @@ export default class CaseEnv extends React.Component {
 											justify="space-around"
 											align="middle"
 											class="env-item">
-											<ElCol span={6} class="label">
+											<elCol span={6} class="label">
 												<ElTooltip content={item.name}>
 													<span class="label-name">{item.name}</span>
 												</ElTooltip>
-											</ElCol>
-											<ElCol span={18}>
+											</elCol>
+											<elCol span={18}>
 												<Select
 													style={{
 														width: "100%"
@@ -84,7 +84,7 @@ export default class CaseEnv extends React.Component {
 														);
 													})}
 												</Select>
-											</ElCol>
+											</elCol>
 										</ElRow>
 									);
 								})}

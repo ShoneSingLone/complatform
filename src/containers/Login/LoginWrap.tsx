@@ -3,9 +3,6 @@ import LoginForm from "./LoginForm.vue";
 import RegForm from "./RegForm";
 import { defineComponent } from "vue";
 import { stateApp } from "@/state/app";
-import { types } from "sass";
-import Boolean = types.Boolean;
-import { useElementSize } from "@vueuse/core";
 
 export default defineComponent({
 	components: {
@@ -20,7 +17,6 @@ export default defineComponent({
 		}
 	},
 	setup() {
-		const { height } = useElementSize();
 		return { stateApp: stateApp };
 	},
 	render() {

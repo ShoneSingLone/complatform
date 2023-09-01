@@ -8,12 +8,12 @@ const version = Date.now();
 
 const FootItem = ({ linkList, title, iconType }) => {
 	return (
-		<ElCol span={6}>
+		<elCol span={6}>
 			<h4 class="title flex horizon middle">
 				{iconType ? (
 					<xIcon
 						icon={iconType}
-						style="width: 24px;height: 24px;display: inline-block;"
+						style="width: var(--app-padding);height: var(--app-padding);display: inline-block;"
 					/>
 				) : (
 					""
@@ -29,7 +29,7 @@ const FootItem = ({ linkList, title, iconType }) => {
 					</p>
 				);
 			})}
-		</ElCol>
+		</elCol>
 	);
 };
 
@@ -134,7 +134,7 @@ export const AppFooter = defineComponent({
 	},
 	render() {
 		return (
-			<>
+			<div>
 				<xButton configs={this.toggleFoldBtn} />
 				<div
 					class="footer-wrapper"
@@ -154,7 +154,7 @@ export const AppFooter = defineComponent({
 						})}
 					</ElRow>
 				</div>
-			</>
+			</div>
 		);
 	}
 });

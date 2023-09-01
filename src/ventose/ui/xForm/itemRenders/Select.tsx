@@ -37,7 +37,6 @@ export default defineComponent({
 			"options",
 			"renderOptions"
 		]);
-		xU(_property);
 		const renderOptions = () => {
 			if (properties.renderOptions) {
 				return properties.renderOptions();

@@ -243,7 +243,7 @@ class ModalPostman extends Component {
 				<ElRow class="modal-postman-form" type="flex">
 					{methodsParamsList.map((item, index) => {
 						return item.type === "dataSource" ? (
-							<ElCol span={8} class="modal-postman-col" key={index}>
+							<elCol span={8} class="modal-postman-col" key={index}>
 								<ElCollapse
 									class="modal-postman-collapse"
 									activeKey={this.state.activeKey}
@@ -286,36 +286,36 @@ class ModalPostman extends Component {
 										</Panel>
 									)}
 								</ElCollapse>
-							</ElCol>
+							</elCol>
 						) : (
-							<ElCol span={8} class="modal-postman-col" key={index}>
+							<elCol span={8} class="modal-postman-col" key={index}>
 								<this.MethodsListSource
 									index={index}
 									value={item.name}
 									params={item.params}
 								/>
-							</ElCol>
+							</elCol>
 						);
 					})}
 				</ElRow>
 				<ElRow class="modal-postman-expression">
-					<ElCol span={6}>
+					<elCol span={6}>
 						<h3 class="title">表达式</h3>
-					</ElCol>
-					<ElCol span={18}>
+					</elCol>
+					<elCol span={18}>
 						<span class="expression-item">{outputParams()}</span>
-					</ElCol>
+					</elCol>
 				</ElRow>
 				<ElRow class="modal-postman-preview">
-					<ElCol span={6}>
+					<elCol span={6}>
 						<h3 class="title">预览</h3>
-					</ElCol>
-					<ElCol span={18}>
+					</elCol>
+					<elCol span={18}>
 						<h3>
 							{this.handleValue(outputParams()) ||
 								(outputParams() && this.handleError())}
 						</h3>
-					</ElCol>
+					</elCol>
 				</ElRow>
 			</aModal>
 		);

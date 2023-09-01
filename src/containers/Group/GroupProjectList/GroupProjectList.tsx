@@ -80,7 +80,7 @@ export const GroupProjectList = defineComponent({
 		},
 		vDomOwnerSpace() {
 			return this.projectData.length ? (
-				<div class="flex1 height100 overflow-auto">
+				<div class="flex1 overflow-auto">
 					{this.vDomNoFollowPanel}
 					{this.vDomFollowPanel}
 				</div>
@@ -166,19 +166,16 @@ export const GroupProjectList = defineComponent({
 	},
 	render() {
 		return (
-			<div
-				v-xloading={this.isLoading}
-				style={{ paddingTop: "24px" }}
-				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
+			<div v-xloading={this.isLoading} class="project-list">
 				<ElRow class="project-list-header">
-					<ElCol span={16} style={{ textAlign: "left" }}>
+					<elCol span={16} style={{ textAlign: "left" }}>
 						<span>共</span>
 						<span> {this.stateApp.projectList.length} </span>
 						<span>个项目</span>
-					</ElCol>
-					<ElCol span={8} class="flex end flex1">
+					</elCol>
+					<elCol span={8} class="flex end flex1">
 						{this.vDomAddProjectButton}
-					</ElCol>
+					</elCol>
 				</ElRow>
 				{this.vDomSpaceProject}
 			</div>

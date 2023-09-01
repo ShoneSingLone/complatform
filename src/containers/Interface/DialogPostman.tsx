@@ -118,7 +118,7 @@ export const DialogPostman = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
-					<xGap t="10" />
+					<xGap t />
 					<ElAlert
 						title={xI("注： 详细的接口数据可以在编辑页面中添加")}
 						type="info"
@@ -131,13 +131,13 @@ export const DialogPostman = defineComponent({
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);
 						})}
 					</xForm>
-					<xGap t="10" />
+					<xGap t />
 				</div>
 				<xDialogFooter
 					configs={{

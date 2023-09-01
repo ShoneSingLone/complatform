@@ -20,15 +20,12 @@ export const TimeLine = defineComponent({
 		return function () {
 			return (
 				<>
-					<section class="mb10 mt10 el-card padding20">
+					<section class="mb mt el-card padding">
 						{this.vDomSectionProject}
 						{this.vDomSectionRecords}
 					</section>
 					<div class="flex end">
-						<xPagination
-							pagination={this.pagination}
-							onPaginationChange={this.getMore}
-						/>
+						<xPagination pagination={this.pagination} onQuery={this.getMore} />
 					</div>
 				</>
 			);
@@ -138,8 +135,8 @@ export const TimeLine = defineComponent({
 			if (this.type === "project") {
 				return (
 					<ElRow class="news-search">
-						<ElCol span="3">{xI("选择查询的 Api")}：</ElCol>
-						<ElCol span="10">
+						<elCol span="3">{xI("选择查询的 Api")}：</elCol>
+						<elCol span="10">
 							<aAutoComplete
 								onSelect={this.handleSelectApi}
 								style={{ width: "100%" }}
@@ -163,7 +160,7 @@ export const TimeLine = defineComponent({
 								</OptGroup>
 								<OptGroup label="api">{this.vDomProjectChildren}</OptGroup>
 							</aAutoComplete>
-						</ElCol>
+						</elCol>
 					</ElRow>
 				);
 			}

@@ -124,9 +124,9 @@ export const ProjectSettingCommon = defineComponent({
 							</>
 						);
 					})}
-					<xGap t="10" />
+					<xGap t />
 					<xButton configs={this.configsBtnOpenUpsertTagDialog} />
-					<xGap t="10" />
+					<xGap t />
 					<xButton configs={this.configsBtnOpenProxyEnvDialog} />
 				</xForm>
 			</>
