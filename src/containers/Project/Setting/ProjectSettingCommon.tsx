@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
-import { Cpt_url } from "@/router/router";
-import { $t } from "@ventose/ui";
+import { stateApp } from "@/state/app";
+import { cptRouter } from "@/router/router";
+import { xI } from "@/ventose/ui";
 import {
 	xItem_ProjectName,
 	xItem_ProjectIcon,
@@ -10,95 +10,100 @@ import {
 	xItem_ProjectGroupId,
 	xItem_ProjectType
 } from "@/containers/Group/AddProject/DialogAddProject";
-import { defItem } from "@ventose/ui";
-import { xU } from "@ventose/ui";
+import { defItem } from "@/ventose/ui";
+import { xU } from "@/ventose/ui";
 import { xItem_ProjectBasePath } from "../../Group/AddProject/DialogAddProject";
 import {
 	openProxyEnvDialog,
 	openUpsertTagDialog
-} from "../Interface/DialogModifyInterface.Helper";
+} from "@/containers/Interface/DialogModifyInterface.Helper";
 
 export const ProjectSettingCommon = defineComponent({
 	setup() {
 		return {
-			State_App,
-			Cpt_url
+			stateApp,
+			cptRouter
 		};
 	},
 	data(vm) {
 		return {
 			configsBtnOpenUpsertTagDialog: {
-				text: $t("管理接口Tags").label,
+				text: xI("管理接口Tags"),
 				async onClick() {
 					await openUpsertTagDialog();
 				}
 			},
 			configsBtnOpenProxyEnvDialog: {
-				text: $t("管理接口转发环境").label,
+				text: xI("管理接口转发环境"),
 				async onClick() {
 					await openProxyEnvDialog();
 				}
 			},
 			dataXItem: {
-				...defItem(
-					xItem_ProjectGroupId({ value: vm.Cpt_url.query.group_id }, vm)
+				projectGroupId: defItem(
+					xItem_ProjectGroupId({ value: vm.cptRouter.query.group_id }, vm)
 				),
-				...defItem(xItem_ProjectName({ value: vm.State_App.currProject.name })),
-				...defItem(xItem_ProjectIcon({ value: vm.State_App.currProject.icon })),
-				...defItem(
-					xItem_ProjectColor({ value: vm.State_App.currProject.color })
+				projectName: defItem(
+					xItem_ProjectName({ value: vm.stateApp.currProject.name })
 				),
-				...defItem(
-					xItem_ProjectBasePath({ value: vm.State_App.currProject.basepath })
+				projectIcon: defItem(
+					xItem_ProjectIcon({ value: vm.stateApp.currProject.icon })
 				),
-				...defItem(xItem_ProjectDesc({ value: vm.State_App.currProject.desc })),
-				...defItem(
-					xItem_ProjectType({ value: vm.State_App.currProject.project_type })
+				projectColor: defItem(
+					xItem_ProjectColor({ value: vm.stateApp.currProject.color })
 				),
-				...defItem({
-					value: vm.State_App.currProject.proxyHostPort || "",
-					prop: "proxyHostPort",
-					label: defItem.labelWithTips({
-						label: "代理地址",
-						tips: $t("请求需要使用VPN，则需要有一台开启VPN的PC作为代理机")
-							.label,
-						icon: <xIcon icon="question" />
-					}),
+				projectBasePath: defItem(
+					xItem_ProjectBasePath({ value: vm.stateApp.currProject.basepath })
+				),
+				projectDesc: defItem(
+					xItem_ProjectDesc({ value: vm.stateApp.currProject.desc })
+				),
+				projectType: defItem(
+					xItem_ProjectType({ value: vm.stateApp.currProject.project_type })
+				),
+				proxyHostPort: defItem({
+					value: vm.stateApp.currProject.proxyHostPort || "",
+					label: () =>
+						defItem.labelWithTips({
+							label: "代理地址",
+							tips: xI("请求需要使用VPN，则需要有一台开启VPN的PC作为代理机")
+								.label,
+							icon: <xIcon icon="question" />
+						}),
 					placeholder: "ip:port"
 				}),
-				...defItem({
+				strice: defItem({
 					itemType: "Switch",
-					prop: "strice",
-					label: defItem.labelWithTips({
-						label: $t("mock严格模式").label,
-						tips: $t(
-							"开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验"
-						).label,
-						icon: <xIcon icon="question" />
-					}),
-					checkedChildren: vm.$t("开").label,
-					unCheckedChildren: vm.$t("关").label,
-					value: !!vm.State_App.currProject.strice
+					label: () =>
+						defItem.labelWithTips({
+							label: xI("mock严格模式"),
+							tips: xI(
+								"开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验"
+							).label,
+							icon: <xIcon icon="question" />
+						}),
+					checkedChildren: xI("开"),
+					unCheckedChildren: xI("关"),
+					value: !!vm.stateApp.currProject.strice
 				}),
-				...defItem({
+				is_json5: defItem({
 					itemType: "Switch",
-					prop: "is_json5",
-					label: defItem.labelWithTips({
-						label: $t("开启json5").label,
-						tips: $t("开启后可在接口 body 和返回值中写 json 字段").label,
-						icon: <xIcon icon="question" />
-					}),
-					checkedChildren: vm.$t("开").label,
-					unCheckedChildren: vm.$t("关").label,
-					value: !!vm.State_App.currProject.is_json5
+					label: () =>
+						defItem.labelWithTips({
+							label: xI("开启json5"),
+							tips: xI("开启后可在接口 body 和返回值中写 json 字段"),
+							icon: <xIcon icon="question" />
+						}),
+					checkedChildren: xI("开"),
+					unCheckedChildren: xI("关"),
+					value: !!vm.stateApp.currProject.is_json5
 				}),
-				...defItem({
+				switch_notice: defItem({
 					itemType: "Switch",
-					prop: "switch_notice",
-					label: $t("默认开启消息通知").label,
-					checkedChildren: vm.$t("开").label,
-					unCheckedChildren: vm.$t("关").label,
-					value: !!vm.State_App.currProject.switch_notice
+					label: xI("默认开启消息通知"),
+					checkedChildren: xI("开"),
+					unCheckedChildren: xI("关"),
+					value: !!vm.stateApp.currProject.switch_notice
 				})
 			}
 		};
@@ -119,9 +124,9 @@ export const ProjectSettingCommon = defineComponent({
 							</>
 						);
 					})}
-					<xGap t="10" />
+					<xGap t />
 					<xButton configs={this.configsBtnOpenUpsertTagDialog} />
-					<xGap t="10" />
+					<xGap t />
 					<xButton configs={this.configsBtnOpenProxyEnvDialog} />
 				</xForm>
 			</>

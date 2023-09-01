@@ -1,6 +1,6 @@
-import { lStorage, UI, xU } from "@ventose/ui";
+import { lStorage, xU } from "@/ventose/ui";
 import axios from "axios";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 
 const ajax = axios.create({
 	/* 跨域携带cookies */
@@ -11,7 +11,8 @@ const ajax = axios.create({
 // request interceptor
 ajax.interceptors.request.use(
 	config => {
-		config.url = `${State_App.baseURL}${config.url}`;
+		config.url = `${stateApp.BASE_URL}${config.url}`;
+		// config.url = `${stateApp.BASE_URL}${config.url}`;
 		xCookies.pick(config);
 		if (config.data) {
 			xU.each(["name"], prop => {
@@ -30,7 +31,7 @@ ajax.interceptors.response.use(
 	async response => {
 		xCookies.save(response);
 		if (response?.data?.errcode == 40011) {
-			State_App.user.isLogin = false;
+			stateApp.user.isLogin = false;
 			window.location.hash = "/login";
 		}
 
@@ -38,8 +39,10 @@ ajax.interceptors.response.use(
 			return Promise.resolve({ data: response.data, response });
 		}
 		if (response?.data?.errcode !== 0) {
-			UI.message.error(response?.data?.errmsg);
-			return Promise.reject(response);
+			if (response?.data?.errmsg) {
+				return Promise.reject(new Error(response?.data?.errmsg));
+			}
+			return Promise.reject(response?.data || response);
 		}
 
 		return Promise.resolve({ data: response.data.data, response });
@@ -77,7 +80,7 @@ const xCookies = {
 
 export function logError(msg) {
 	if (!msg) return;
-	UI.notification.error(msg);
+	xU.notification.error(msg);
 	console.error(msg);
 }
 

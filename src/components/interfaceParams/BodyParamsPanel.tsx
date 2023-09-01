@@ -1,4 +1,4 @@
-import { defItem, UI, xU } from "@ventose/ui";
+import { defItem, xU } from "@/ventose/ui";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { defineComponent } from "vue";
 import { BodyParamsForm } from "./BodyParamsForm";
@@ -12,7 +12,7 @@ export const BodyParamsPanel = defineComponent({
 	emits: ["update:params"],
 	data(vm) {
 		return {
-			configsBodyType: defItem.item({
+			configsBodyType: defItem({
 				prop: "configsBodyType",
 				itemType: "RadioGroup",
 				options: ITEM_OPTIONS.interfaceBodyType
@@ -21,8 +21,8 @@ export const BodyParamsPanel = defineComponent({
 	},
 	methods: {
 		openBulkValuesDialog() {
-			UI.dialog.component({
-				title: this.$t("批量添加参数").label,
+			xU.dialog({
+				title: xI("批量添加参数"),
 				component: DialogBulkValues,
 				formValues: this.params.req_body_form,
 				onOk: req_body_form => {
@@ -43,7 +43,7 @@ export const BodyParamsPanel = defineComponent({
 	},
 	render() {
 		return (
-			<aCard>
+			<elCard>
 				{{
 					extra: () => {
 						if (
@@ -89,7 +89,7 @@ export const BodyParamsPanel = defineComponent({
 						);
 					}
 				}}
-			</aCard>
+			</elCard>
 		);
 	}
 });

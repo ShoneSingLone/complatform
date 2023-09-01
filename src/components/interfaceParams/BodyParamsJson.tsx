@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { State_App } from "../../state/State_App";
+import { stateApp } from "@/state/app";
 import { JsonSchemaMonaco } from "../JsonSchemaEditor/JsonSchemaMonaco";
 
 export const BodyParamsJson = defineComponent({
@@ -7,7 +7,7 @@ export const BodyParamsJson = defineComponent({
 	emits: ["update:reqBodyOther"],
 	setup() {
 		return {
-			State_App
+			stateApp
 		};
 	},
 	watch: {},

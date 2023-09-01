@@ -1,32 +1,28 @@
 import json5 from "json5";
 import { defineComponent, markRaw } from "vue";
-import { State_App } from "../../state/State_App";
+import { stateApp } from "@/state/app";
 import "./JsonSchemaMonaco.less";
 import {
-	UI,
 	xU,
 	$,
 	compositionAPI,
 	defCol,
-	defDataGridOption,
+	defDataGrid,
 	setDataGridInfo,
-	defXVirTableConfigs,
-	$t
-} from "@ventose/ui";
+	xI
+} from "@/ventose/ui";
 import { ICON_STRATEGE, SchemaEditor, SPE } from "./SchemaEditor";
 import { diff } from "jsondiffpatch";
 import { API } from "../../api/index";
 import generateSchema from "generate-schema";
 import { MonacoEditor } from "../MonacoEditor/MonacoEditor";
 import {
-	colExample,
 	colParamsName,
 	colRemark,
 	colRequired,
 	colType,
 	colValue
 } from "@/utils/common.columns";
-import { ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 const { usefnObserveDomResize } = compositionAPI;
 
 function makeProps(pre, prop) {
@@ -61,11 +57,11 @@ const PopoverContent = defineComponent(
 	markRaw({
 		template: `<ul>
 		<li>1. Tree  <xIcon icon="arrow_right"/> Lowcode  <xIcon icon="arrow_right"/> JSON </li>
-		<li>2. <aTag color="green"><xIcon icon="arrow_right"/> </aTag>{{$t("左侧的编辑会直接作用于右侧").label}}</li>
-		<li>3. <aTag color="red"><xIcon icon="arrow_left"/> </aTag>{{$t("右侧的编辑需要手工同步到左侧").label}}，{{$t("依次点击").label}}<aButton type="primary">{{$t("同步到左侧").label}}</aButton></li>
-		<li>4. {{$t("编辑中会有冗余信息，同步到左侧的JSON Tree 之后会Tree Shaking").label}} </li>
-		<li>5. {{$t("点击").label}} <aTag color="green">root</aTag>{{$t("查看全部JSON内容,并且可以全量修改").label}}</li>
-		<li>6. {{$t("普通JSON对象可以转为schema格式").label}} <aButton type="primary">{{$t("JSON 转 schema").label}}</aButton></li>
+		<li>2. <ElTag color="green"><xIcon icon="arrow_right"/> </ElTag>{{xI("左侧的编辑会直接作用于右侧")}}</li>
+		<li>3. <ElTag color="red"><xIcon icon="arrow_left"/> </ElTag>{{xI("右侧的编辑需要手工同步到左侧")}}，{{xI("依次点击")}}<xButton type="primary">{{xI("同步到左侧")}}</xButton></li>
+		<li>4. {{xI("编辑中会有冗余信息，同步到左侧的JSON Tree 之后会Tree Shaking")}} </li>
+		<li>5. {{xI("点击")}} <ElTag color="green">root</ElTag>{{xI("查看全部JSON内容,并且可以全量修改")}}</li>
+		<li>6. {{xI("普通JSON对象可以转为schema格式")}} <xButton type="primary">{{xI("JSON 转 schema")}}</xButton></li>
 	  </ul>`
 	})
 );
@@ -77,7 +73,7 @@ export const JsonSchemaMonaco = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_App,
+			stateApp,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
@@ -85,9 +81,9 @@ export const JsonSchemaMonaco = defineComponent({
 	computed: {
 		syncLabel() {
 			if (this.currentNode) {
-				return this.$t("同步到编辑器").label;
+				return xI("同步到编辑器");
 			} else {
-				return this.$t("同步到 JSON 树").label;
+				return xI("同步到 JSON 树");
 			}
 		},
 		isShowSchemaEditor() {
@@ -163,10 +159,10 @@ export const JsonSchemaMonaco = defineComponent({
 					<div class="left-json-tree_readonly" style="width:100%">
 						{/* 在有数据之后才能展开全部 */}
 						{this.isTreeLoading ? (
-							<aSpin spinning={true} class="flex middle height100 width100" />
+							<div v-xloading="true" class="flex middle height100 width100" />
 						) : (
 							<div class="flex middle height100 vertical">
-								<aTree
+								<ElTree
 									class="JsonSchemaMonaco-json-tree flex1 overflow-auto width100"
 									show-line
 									defaultExpandAll
@@ -191,14 +187,10 @@ export const JsonSchemaMonaco = defineComponent({
 
 											if (title == "root") {
 												labelType = (
-													<div class="mr10 cell-width">
-														{vm.$t("类型").label}
-													</div>
+													<div class="mr10 cell-width">{xI("类型")}</div>
 												);
 												labelDescription = (
-													<div class="mr10 cell-width">
-														{vm.$t("备注").label}
-													</div>
+													<div class="mr10 cell-width">{xI("备注")}</div>
 												);
 											}
 
@@ -206,7 +198,7 @@ export const JsonSchemaMonaco = defineComponent({
 												<div class="flex middle  title-wrapper">
 													<div
 														class="title ellipsis pointer flex1 flex middle "
-														v-uiPopover={{ onlyEllipsis: true }}
+														v-xTips={{ onlyEllipsis: true }}
 														onClick={() => vm.handleTreeClick(dataRef)}>
 														<span>{title}</span>
 														<xGap f="1" />
@@ -218,7 +210,7 @@ export const JsonSchemaMonaco = defineComponent({
 											);
 										}
 									}}
-								</aTree>
+								</ElTree>
 							</div>
 						)}
 					</div>
@@ -273,7 +265,7 @@ export const JsonSchemaMonaco = defineComponent({
 				this.$emit("update:schemaString", schemaString);
 			} catch (error) {
 				console.error(error);
-				UI.message.error(this.$t("数据有误").label);
+				xU.message.error(xI("数据有误"));
 			} finally {
 				this.schemaJson = schemaJson;
 			}
@@ -332,7 +324,7 @@ export const JsonSchemaMonaco = defineComponent({
 					/* TODO: 校验node是否合法*/
 					this.setCurrentNode(node);
 				} catch (error) {
-					UI.message.error(this.$t("同步失败").label);
+					xU.message.error(xI("同步失败"));
 				}
 			} else {
 				/* 全量 */
@@ -354,7 +346,7 @@ export const JsonSchemaMonaco = defineComponent({
 				const res = generateSchema.json(json5.parse(this.jsonSchemaString));
 				this.jsonSchemaString = JSON.stringify(res, null, 2);
 			} catch (error) {
-				UI.message.error(this.$t("JSON 转 schema 解析出错").label);
+				xU.message.error(xI("JSON 转 schema 解析出错"));
 			}
 		},
 		async previewMock() {
@@ -370,7 +362,7 @@ export const JsonSchemaMonaco = defineComponent({
 					throw new Error();
 				}
 			} catch (error) {
-				UI.message.error(this.$t("预览 Mock 结果出错").label);
+				xU.message.error(xI("预览 Mock 结果出错"));
 			}
 		}
 	},
@@ -382,7 +374,7 @@ export const JsonSchemaMonaco = defineComponent({
 	},
 	data(vm) {
 		return {
-			tableConfigs: defDataGridOption({
+			tableConfigs: defDataGrid({
 				isHidePagination: true,
 				dataSource: [],
 				columns: {
@@ -393,7 +385,7 @@ export const JsonSchemaMonaco = defineComponent({
 					...colRemark({ prop: "description" }),
 					...defCol({
 						prop: "others",
-						label: $t("其他信息").label,
+						label: xI("其他信息"),
 						renderCell: ({ record }) => {
 							const vDom = [];
 							const newInfo = (label, value) => (
@@ -403,16 +395,16 @@ export const JsonSchemaMonaco = defineComponent({
 								</div>
 							);
 							if (record.enum) {
-								vDom.push(newInfo($t("枚举").label, record.enum.join(",")));
+								vDom.push(newInfo(xI("枚举"), record.enum.join(",")));
 							}
 							if (record.maximum) {
-								vDom.push(newInfo($t("最大值").label, record.maximum));
+								vDom.push(newInfo(xI("最大值"), record.maximum));
 							}
 							if (record.minimum) {
-								vDom.push(newInfo($t("最小值").label, record.minimum));
+								vDom.push(newInfo(xI("最小值"), record.minimum));
 							}
 							if (record.format) {
-								vDom.push(newInfo($t("format").label, record.format));
+								vDom.push(newInfo(xI("format"), record.format));
 							}
 							return <div class="flex vertical">{vDom}</div>;
 						}
@@ -438,7 +430,7 @@ export const JsonSchemaMonaco = defineComponent({
 				itemType: "Checkbox",
 				slots: {
 					default() {
-						return vm.$t("Mock预览").label;
+						return xI("Mock预览");
 					}
 				}
 			}
@@ -452,14 +444,14 @@ export const JsonSchemaMonaco = defineComponent({
 			<div class="JsonSchemaMonaco flex x-card" ref="JsonSchemaMonaco">
 				<div class="left-json-tree">
 					{this.isTreeLoading ? (
-						<aSpin spinning={true} class="flex middle height100 width100" />
+						<div v-xloading="true" class="flex middle height100 width100" />
 					) : (
 						<div class="flex middle height100 vertical">
-							<div class="padding10 flex middle width100">
+							<div class="app-padding flex middle width100">
 								{/* 宽度不够时，只显示一个 */}
 								{this.onlyOneEditor ? (
 									<>
-										<aButton
+										<xButton
 											type={
 												this.currentEditor === "SchemaEditor"
 													? "primary"
@@ -467,8 +459,8 @@ export const JsonSchemaMonaco = defineComponent({
 											}
 											onClick={vm.toggleEditor}>
 											<xIcon icon="column2" />
-										</aButton>
-										<aButton
+										</xButton>
+										<xButton
 											type={
 												this.currentEditor === "MonacoEditor"
 													? "primary"
@@ -476,16 +468,16 @@ export const JsonSchemaMonaco = defineComponent({
 											}
 											onClick={vm.toggleEditor}>
 											<xIcon icon="column3" />
-										</aButton>
+										</xButton>
 									</>
 								) : null}
 								<xGap f="1" />
-								<span v-uiPopover={vm.helpTips} class="flex middle pointer">
+								<span v-xTips={vm.helpTips} class="flex middle pointer">
 									<xIcon icon="question" />
-									<span className="ml10">{vm.$t("说明").label}</span>
+									<span class="ml10">{xI("说明")}</span>
 								</span>
 							</div>
-							<aTree
+							<ElTree
 								class="JsonSchemaMonaco-json-tree flex1 overflow-auto width100"
 								show-line
 								defaultExpandAll
@@ -502,7 +494,7 @@ export const JsonSchemaMonaco = defineComponent({
 											<div class="flex middle  title-wrapper">
 												<div
 													class="title ellipsis pointer flex1 flex middle "
-													v-uiPopover={{ onlyEllipsis: true }}
+													v-xTips={{ onlyEllipsis: true }}
 													onClick={() => vm.handleTreeClick(dataRef)}>
 													<span class="mr10">{vDomIcon}</span>
 													<span>{title}</span>
@@ -525,7 +517,7 @@ export const JsonSchemaMonaco = defineComponent({
 										);
 									}
 								}}
-							</aTree>
+							</ElTree>
 						</div>
 					)}
 				</div>
@@ -537,20 +529,20 @@ export const JsonSchemaMonaco = defineComponent({
 						class="JsonSchemaMonaco-monaco-panel flex1 flex vertical"
 						style={{ width: "1px" }}>
 						<div class="JsonSchemaMonaco-monaco-panel_button flex middle">
-							<aButton
+							<xButton
 								onClick={this.syncMonacoString}
 								type="primary"
 								disabled={this.isMockPreview}>
 								{this.syncLabel}
-							</aButton>
+							</xButton>
 							<xGap l="10" />
 							{!this.currentNode && (
-								<aButton
+								<xButton
 									onClick={this.monacoJsonToSchema}
 									type="primary"
 									disabled={this.isMockPreview}>
-									{this.$t("JSON 转 schema").label}
-								</aButton>
+									{xI("JSON 转 schema")}
+								</xButton>
 							)}
 							<xGap l="10" />
 							{!this.currentNode && (

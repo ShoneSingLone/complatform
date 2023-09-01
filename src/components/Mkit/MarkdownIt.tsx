@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { xU, $ } from "@ventose/ui";
+import { xU, $ } from "@/ventose/ui";
 import { marked, Renderer } from "./marked/marked";
 import { hljs } from "@/assets/libs/highlight";
 import {
@@ -104,10 +104,10 @@ export const MarkdownIt = defineComponent({
 
 				setTimeout(() => {
 					this.destoryListener();
-					this.$previewer = $(".ant-image-preview-body");
+					this.$previewer = $(".x-tui-image-preview-body");
 					this.$previewer.on(
 						"click",
-						"[class^=ant-image-preview-switch-]",
+						"[class^=x-tui-image-preview-switch-]",
 						this.handleClickPreviewSwitch
 					);
 					this.$previewer.append(leftArrow);
@@ -123,11 +123,11 @@ export const MarkdownIt = defineComponent({
 				this.$rawImgIndex = (this.$rawImgIndex - 1 + length) % length;
 			}
 			const imgSrc = $(this.$rawImgList[this.$rawImgIndex]).attr("src");
-			$(".ant-image-preview-img").attr("src", imgSrc);
+			$(".x-tui-image-preview-img").attr("src", imgSrc);
 		},
 		handleClick(event: { target: any }) {
 			const { target } = event;
-			const $ele = $(target).parents(".ant-image[data-src]");
+			const $ele = $(target).parents(".x-tui-image[data-src]");
 			if ($ele && $ele.length) {
 				this.showImg($ele.attr("data-src"));
 			}
@@ -140,12 +140,12 @@ export const MarkdownIt = defineComponent({
 					ref="markdown"
 					onClick={handleClick}
 					class="markdown-wrapper_description mt10"
-					v-uiPopover={this.configsPopoverChangeTheme}
+					v-xTips={this.configsPopoverChangeTheme}
 					innerHTML={this.html}
 					title="右键点击可以修改<code/>元素高亮样式"></div>
 				{/*  */}
 				<div class="display-none">
-					<a-image
+					<ElImage
 						src={imgSrc}
 						preview={{
 							visible,

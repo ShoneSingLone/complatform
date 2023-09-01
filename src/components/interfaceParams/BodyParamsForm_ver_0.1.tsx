@@ -1,6 +1,6 @@
-import { defCol, defItem, defXVirTableConfigs, xU } from "@ventose/ui";
+import { defCol, defItem, defXVirTableConfigs, xI, xU } from "@/ventose/ui";
 import { State_Project } from "@/containers/Project/Interface/State_Project";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { defineComponent } from "vue";
 
@@ -46,52 +46,52 @@ export const BodyParamsForm = defineComponent({
 				(dataForm, rowItem, rowIndex) => {
 					dataForm[rowIndex] = {
 						id: xU.genId("bodyFormParams"),
-						name: defItem.item({
+						name: defItem({
 							rowIndex,
 							prop: "name",
 							itemWrapperClass: "input-width100",
 							value: rowItem.name,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "name", val);
 							}
 						}),
-						type: defItem.item({
+						type: defItem({
 							rowIndex,
 							prop: "type",
 							itemType: "Select",
 							itemWrapperClass: "input-width100",
 							options: ITEM_OPTIONS.interfaceBodyFormType,
 							value: rowItem.type,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "type", val);
 							}
 						}),
-						required: defItem.item({
+						required: defItem({
 							rowIndex,
 							prop: "required",
 							itemType: "Select",
 							itemWrapperClass: "input-width100",
 							options: ITEM_OPTIONS.required,
 							value: rowItem.required,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "required", val);
 							}
 						}),
-						example: defItem.item({
+						example: defItem({
 							rowIndex,
 							prop: "example",
 							itemWrapperClass: "input-width100",
 							value: rowItem.example,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "example", val);
 							}
 						}),
-						desc: defItem.item({
+						desc: defItem({
 							rowIndex,
 							prop: "desc",
 							itemWrapperClass: "input-width100",
 							value: rowItem.desc,
-							onAfterValueEmit: val => {
+							onAfterEmitItemValue: val => {
 								this.setTableValue(rowIndex, "desc", val);
 							}
 						})
@@ -117,7 +117,7 @@ export const BodyParamsForm = defineComponent({
 					].join("\n"),
 				columns: {
 					...defCol({
-						label: vm.$t("名称").label,
+						label: xI("名称"),
 						prop: "name",
 						renderCell: ({ index }) => (
 							<xItem
@@ -127,7 +127,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("类型").label,
+						label: xI("类型"),
 						prop: "type",
 						width: "100px",
 						renderCell: ({ index }) => (
@@ -138,7 +138,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("必需").label,
+						label: xI("必需"),
 						prop: "required",
 						width: "110px",
 						renderCell: ({ index }) => (
@@ -149,7 +149,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("示例").label,
+						label: xI("示例"),
 						prop: "example",
 						renderCell: ({ index }) => (
 							<xItem
@@ -159,7 +159,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("备注").label,
+						label: xI("备注"),
 						prop: "desc",
 						renderCell: ({ index }) => (
 							<xItem
@@ -169,7 +169,7 @@ export const BodyParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("操作").label,
+						label: xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,
@@ -191,9 +191,9 @@ export const BodyParamsForm = defineComponent({
 				<div style={{ height: "300px" }}>
 					<xVirTable configs={this.configs_table} class="flex1 width100 " />
 				</div>
-				<aButton class="width100" type="dashed" onClick={this.addRow}>
+				<xButton class="width100" type="dashed" onClick={this.addRow}>
 					<xIcon icon="add" />
-				</aButton>
+				</xButton>
 			</>
 		);
 	}

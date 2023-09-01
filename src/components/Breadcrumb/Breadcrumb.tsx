@@ -1,33 +1,44 @@
 import "./Breadcrumb.scss";
 
 import { defineComponent } from "vue";
-import { xU } from "@ventose/ui";
-import { State_App } from "../../state/State_App";
-import { Cpt_url } from "../../router/router";
+import { xI, xU } from "@/ventose/ui";
+import { stateApp } from "@/state/app";
+import { aHashLink, cptRouter, routes } from "@/router/router";
 
 export const BreadcrumbNavigation = defineComponent({
 	setup() {
 		return {
-			Cpt_url,
-			State_App
+			cptRouter,
+			stateApp
 		};
 	},
 	computed: {
 		breadcrumbItems() {
 			return xU.map(
-				[this.State_App.currGroup, this.State_App.currProject],
+				[
+					{
+						label: stateApp.currGroup.group_name,
+						id: cptRouter.value.query.group_id
+					},
+					{
+						label: stateApp.currProject.name,
+						id: cptRouter.value.query.project_id,
+						url: aHashLink("/project", {
+							group_id: cptRouter.value.query.group_id,
+							project_id: cptRouter.value.query.project_id
+						})
+					}
+				],
 				(item, index) => {
-					if (!item) {
-						return null;
+					if (item.id) {
+						return (
+							<ElBreadcrumbItem key={item.label}>
+								{item.url ? <a href={item.url}>{item.label}</a> : item.url}
+							</ElBreadcrumbItem>
+						);
 					}
-					if (this.Cpt_url.pathname === "/group") {
-						return null;
-					}
-					return (
-						<aBreadcrumbItem key={index}>
-							{item.group_name || item.name}
-						</aBreadcrumbItem>
-					);
+
+					return null;
 				}
 			);
 		}
@@ -35,7 +46,7 @@ export const BreadcrumbNavigation = defineComponent({
 	render() {
 		return (
 			<div class="breadcrumb-container">
-				<aBreadcrumb>{this.breadcrumbItems}</aBreadcrumb>
+				<ElBreadcrumb>{this.breadcrumbItems}</ElBreadcrumb>
 			</div>
 		);
 	}

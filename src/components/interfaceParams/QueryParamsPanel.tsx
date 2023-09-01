@@ -17,9 +17,9 @@ export const QueryParamsPanel = defineComponent({
 	},
 	render(vm) {
 		return (
-			<aCard>
+			<elCard>
 				<QueryParamsForm reqQuery={this.reqQuery} />
-			</aCard>
+			</elCard>
 		);
 	}
 });

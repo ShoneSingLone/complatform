@@ -1,12 +1,12 @@
 import { defineComponent } from "vue";
-import { $, xU, UI, compositionAPI, $t } from "@ventose/ui";
+import { $, xU, compositionAPI, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
-import { Cpt_url } from "@/router/router";
-import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
+import { cptRouter } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { stateI18n } from "./State_i18n";
+import { Methods_Wiki } from "@/state/wiki";
 
 const { usefnObserveDomResize } = compositionAPI;
 
@@ -21,9 +21,9 @@ export const I18nLeftSider = defineComponent({
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Wiki: stateI18n,
-			State_App,
-			Cpt_url,
+			stateWiki: stateI18n,
+			stateApp,
+			cptRouter,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
@@ -72,8 +72,8 @@ export const I18nLeftSider = defineComponent({
 	computed: {
 		btnAddNew() {
 			return {
-				text: $t("新增").label,
-				onClick: () => this.openDialogUpsertI18nRecord()
+				text: xI("新增"),
+				onClick: () => this.dialogUpsertI18nRecord()
 			};
 		},
 		btnRefresh() {
@@ -85,15 +85,13 @@ export const I18nLeftSider = defineComponent({
 		vDomTree() {
 			const vm = this;
 			return (
-				<div
-					class="elevation-2 height100 padding10"
-					style="border-radius: 8px;">
+				<div class="left-tree box-shadow">
 					<div class="flex mb10">
 						<xButton configs={vm.btnAddNew} />
 						<xGap l="10" />
 						<xButton configs={vm.btnRefresh} />
 					</div>
-					<aTree
+					<ElTree
 						v-model:expandedKeys={stateI18n.expandedKeys}
 						height={vm.siderHeight}
 						treeData={stateI18n.i18nRecordArray}
@@ -104,7 +102,7 @@ export const I18nLeftSider = defineComponent({
 							title(item) {
 								const { title, _id, type } = item;
 								const classContentString = (() => {
-									let _classString = "flex middle x-sider-tree_menu";
+									let _classString = "x-sider-tree_menu";
 									if (String(_id) == String(stateI18n.currentI18n._id)) {
 										return _classString + " x-sider-tree_menu_active";
 									}
@@ -117,7 +115,7 @@ export const I18nLeftSider = defineComponent({
 											<xIcon
 												icon={icon}
 												class="x-sider-tree_menu_icon"
-												v-uiPopover={{ content: tips, delay: 1000 }}
+												v-xTips={{ content: tips, delay: 1000 }}
 												onClick={clickHandler}
 											/>
 											<xGap l="8" />
@@ -127,7 +125,7 @@ export const I18nLeftSider = defineComponent({
 
 								const handleClick = () => {
 									stateI18n.isLoading = true;
-									vm.Cpt_url.go("/i18n", { wiki_id: item.data._id });
+									vm.cptRouter.go("/xI", { wiki_id: item.data._id });
 									vm.$emit("change");
 									setTimeout(() => {
 										/* 内网环境，数据3秒都回不来，就有点呵呵了 */
@@ -145,17 +143,16 @@ export const I18nLeftSider = defineComponent({
 										<span class="x-sider-tree_menu_title">
 											<div class="flex middle">{item.id}</div>
 										</span>
-										<div class="flex middle x-sider-tree_menu_opration">
+										<div class="x-sider-tree_menu_opration">
 											{genIcon({
 												icon: "add",
-												tips: vm.$t("添加").label,
-												clickHandler: () =>
-													vm.openDialogUpsertI18nRecord(item.data)
+												tips: xI("添加"),
+												clickHandler: () => vm.dialogUpsertI18nRecord(item.data)
 											})}
 											{canDelete &&
 												genIcon({
 													icon: "delete",
-													tips: vm.$t("删除").label,
+													tips: xI("删除"),
 													clickHandler: () => vm.deleteArticle(_id)
 												})}
 										</div>
@@ -163,13 +160,13 @@ export const I18nLeftSider = defineComponent({
 								);
 							}
 						}}
-					</aTree>
+					</ElTree>
 				</div>
 			);
 		}
 	},
 	methods: {
-		async handleDropArticle(e: AntTreeNodeDropEvent) {
+		async handleDropArticle(e: any) {
 			stateI18n.isLoading = true;
 			/*
 			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。
@@ -188,7 +185,7 @@ export const I18nLeftSider = defineComponent({
 			try {
 				await this.moveItemAndResetOrder(params);
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			} finally {
 				stateI18n.isLoading = false;
 			}
@@ -221,9 +218,9 @@ export const I18nLeftSider = defineComponent({
 					belong_type: "all"
 				});
 				await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-				UI.message.success($t("更新成功").label);
+				xU.message.success(xI("更新成功"));
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			}
 		},
 		setFilterText: xU.debounce(function (filterText) {
@@ -236,27 +233,27 @@ export const I18nLeftSider = defineComponent({
 		}, 20),
 		deleteArticle(_id) {
 			const vm = this;
-			UI.dialog.confirm({
+			xU.confirm({
 				title: "确定删除此文档吗？",
 				content: `文档删除后无法恢复`,
 				async onOk() {
 					try {
 						await API.wiki.delete(_id);
-						UI.message.success("删除文档成功");
+						xU.message.success("删除文档成功");
 						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						vm.Cpt_url.go("/i18n", {
+						vm.cptRouter.go("/xI", {
 							wiki_id: xU.first(stateI18n.i18nRecordArray)?._id
 						});
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 						return Promise.reject();
 					}
 				}
 			});
 		},
-		openDialogUpsertI18nRecord(record) {
-			UI.dialog.component({
-				title: this.$t("添加记录").label,
+		dialogUpsertI18nRecord(record) {
+			xU.dialog({
+				title: xI("添加记录"),
 				record,
 				component: DialogUpsertI18nRecord
 			});
@@ -264,10 +261,8 @@ export const I18nLeftSider = defineComponent({
 	},
 	render() {
 		return (
-			<aside
-				class="x-sider_wrapper flex vertical move-transition padding10"
-				style={this.styleAside}>
-				<div class="x-sider_wrapper_tree flex1 mt10 mb10" ref="wrapper">
+			<aside class="x-sider_wrapper" style={this.styleAside}>
+				<div class="x-sider_wrapper_tree" ref="wrapper">
 					{this.vDomTree}
 				</div>
 				<div class="resize_bar" icon="scroll" v-uiMove={this.configsResize} />

@@ -1,0 +1,170 @@
+#ViewProject {
+	display: flex;
+	flex-flow: row nowrap;
+	flex: 1;
+	height: 100px;
+	width: 100vw;
+	overflow: auto;
+
+	#ViewProjectTabs {
+		min-width: 88px;
+	}
+
+	/* 非独立页面的wiki */
+	#ViewWiki {
+		height: 100%;
+	}
+
+	// > section {
+	// 	display: flex;
+	// 	flex-flow: column nowrap;
+	// 	flex: 1;
+	// 	width: 1px;
+	// }
+	.project-tab {
+		padding: var(--app-padding);
+		font-size: var(--app-font-size);
+		border-radius: var(--app-border-radius);
+		.xIcon {
+			width: 24px;
+			height: 24px;
+			margin-bottom: 8px;
+		}
+
+		&:hover {
+			cursor: pointer;
+			background-color: var(--el-fill-color-light);
+		}
+		&.active {
+			color: var(--app-link);
+			fill: var(--app-link);
+		}
+	}
+
+	> .el-menu {
+		> .el-sub-menu {
+			display: flex;
+			align-items: center;
+			height: var(--el-menu-item-height);
+			line-height: var(--el-menu-item-height);
+			font-size: var(--el-menu-item-font-size);
+			color: var(--el-menu-text-color);
+			padding: 0 var(--el-menu-base-level-padding);
+			list-style: none;
+			cursor: pointer;
+			position: relative;
+			transition: border-color var(--el-transition-duration),
+				background-color var(--el-transition-duration),
+				color var(--el-transition-duration);
+			box-sizing: border-box;
+			white-space: nowrap;
+			padding-right: calc(
+				var(--el-menu-base-level-padding) + var(--el-menu-icon-width)
+			);
+		}
+	}
+
+	> ul.menubar {
+		width: 200px;
+	}
+}
+
+#ViewProjectInterface,
+#ViewProjectTestcase {
+	display: flex;
+	flex: 1;
+	flex-flow: row nowrap;
+	height: 100px;
+	width: 100%;
+
+	.testcase-title__wrapper {
+		display: flex;
+		justify-content: center;
+		// border-radius: 50%;
+		width: 16px;
+		height: 16px;
+		font-size: 20px;
+		border: 1px solid #5d9cec;
+		align-items: center;
+		font-weight: 700;
+		> .testcase-title {
+			transform: scale(0.5);
+		}
+	}
+	.el-layout-sider {
+		background-color: var(--color-white);
+	}
+}
+
+.Interface-view {
+	background-color: var(--color-white);
+	margin-left: -10px;
+}
+
+.DialogUpsertProxyEnv {
+	height: 700px;
+
+	.env-list-wrapper,
+	.env-list {
+		width: 228px;
+		height: 100%;
+		min-height: 424px;
+		.delete-env-icon {
+			transition: 0.3s ease-in-out;
+			display: none;
+			color: red;
+		}
+		.delete-env-btn {
+			&.active {
+				background: #1890ff;
+				color: var(--color-white);
+				&:hover {
+					.delete-env-icon {
+						display: inline-block;
+						color: var(--color-white);
+					}
+				}
+			}
+			&:hover {
+				.delete-env-icon {
+					display: inline-block;
+					&:hover {
+						transform: scale(1.3);
+					}
+				}
+			}
+		}
+	}
+	.env-configs-wrapper {
+		width: 560px;
+		height: 100%;
+		max-height: 600px;
+		min-height: 424px;
+		overflow: auto;
+		transition: 0.3s ease-in-out;
+		padding-left: 10px;
+		.env-configs {
+			min-width: 432px;
+		}
+	}
+}
+
+#ViewInterface {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	display: flex;
+	flex-flow: row nowrap;
+
+	#ViewInterfaceList {
+		display: flex;
+		flex-flow: column nowrap;
+		flex: 1;
+		padding: var(--app-padding);
+		width: 1px;
+	}
+
+	> aside + #ViewInterfaceList {
+		margin-left: calc(var(--app-padding) * -1);
+	}
+}

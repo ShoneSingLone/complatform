@@ -1,30 +1,25 @@
 import {
-	validateForm,
-	AllWasWell,
+	itemsInvalid,
 	pickValueFrom,
-	UI,
-	defItem,
 	xU,
+	defItem,
 	setValueTo,
-	$t
-} from "@ventose/ui";
+	xI
+} from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
-import {
-	Methods_ProjectInterface,
-	State_ProjectInterface
-} from "@/containers/Project/Interface/State_ProjectInterface";
+import { stateApp } from "@/state/app";
+import { stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
-import { Cpt_url } from "@/router/router";
-import { Methods_Wiki } from "./State_Wiki";
-import { ARTICLE } from "@/utils/variable";
+import { cptRouter } from "@/router/router";
+import { Methods_Wiki, stateWiki } from "@/state/wiki";
+import { ARTICLE, GROUP, PROJECT } from "@/utils/variable";
 
 export const DialogAddArticle = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -32,17 +27,16 @@ export const DialogAddArticle = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	data() {
 		const vm = this;
 		return {
 			dataXItem: {
-				...defItem({
+				title: defItem({
 					value: "",
-					prop: "title",
-					label: $t("文档名称").label,
-					placeholder: $t("文档名称").label,
+					label: xI("文档名称"),
+					placeholder: xI("文档名称"),
 					rules: [FormRules.required()]
 				})
 			}
@@ -50,41 +44,46 @@ export const DialogAddArticle = defineComponent({
 	},
 	computed: {
 		pid() {
-			const _id = this.propDialogOptions.parentDoc?._id;
+			const _id = this.propOptions.parentDoc?._id;
 			return _id || 0;
 		},
 		belong_type() {
-			return this.propDialogOptions.belong_type || "all";
+			return this.propOptions.belong_type || "all";
 		}
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 	},
 	methods: {
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
-			if (AllWasWell(validateResults)) {
+			if (!(await itemsInvalid())) {
+				const { project_id, group_id } = this.cptRouter.query;
+				let belong_id;
+
+				if (stateWiki.belongType === GROUP) {
+					belong_id = group_id;
+				}
+				if (stateWiki.belongType === PROJECT) {
+					belong_id = project_id;
+				}
 				const { title } = pickValueFrom(this.dataXItem);
 				const params = {
 					title,
 					type: ARTICLE,
 					p_id: this.pid,
-					belong_type: this.belong_type
+					belong_type: stateWiki.belongType,
+					belong_id
 				};
 				try {
-					const { data } = await API.wiki.action({
-						action: "upsertOne",
-						data: params
-					});
-
+					const { data } = await API.wiki.upsertOne(params);
 					if (data?.msg?._id) {
-						UI.message.success("添加接口成功");
-						Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						this.Cpt_url.go("/wiki", { wiki_id: data.msg._id });
-						this.propDialogOptions.closeDialog();
+						xU.message.success("添加文档成功");
+						Methods_Wiki.updateWikiMenuList();
+						Methods_Wiki.clickWiki({ wiki_id: data.msg._id });
+						this.propOptions.$close();
 					}
 				} catch (error) {
-					UI.message.error("添加失败");
+					xU.message.error(error || "添加失败");
 				}
 			}
 		}
@@ -92,13 +91,13 @@ export const DialogAddArticle = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper flex1 height100">
-					<xGap t="10" />
-					<aAlert
-						message={this.$t("保存标题后再编辑文档内容").label}
+				<div class="x-dialog-boddy-wrapper">
+					<xGap t />
+					<elAlert
+						title={xI("保存标题后再编辑文档内容")}
 						type="info"
 						closable
-						className="width100"
+						class="width100"
 					/>
 					<xForm
 						class="flex vertical"
@@ -106,17 +105,17 @@ export const DialogAddArticle = defineComponent({
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);
 						})}
 					</xForm>
-					<xGap t="10" />
+					<xGap t />
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

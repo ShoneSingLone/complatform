@@ -1,47 +1,51 @@
-import "./Group.scss";
+import "./Group.less";
 import { defineComponent } from "vue";
 import {
-	GroupLeftSider,
+	GroupAside,
 	fnShowUpsertGroupDialog,
 	fnUpsertGroupInfo
-} from "./GroupList/GroupLeftSider";
+} from "./GroupList/GroupAside";
 import { GroupProjectList } from "./GroupProjectList/GroupProjectList";
 import GroupLog from "./GroupLog/GroupLog";
-import { Cpt_url } from "../../router/router";
-import { API } from "../../api";
-import { Methods_App, State_App } from "../../state/State_App";
+import { cptRouter, aHashLink } from "@/router/router";
+import { API } from "@/api";
+import { stateApp } from "@/state/app";
 import { GroupMemberList } from "./GroupMemberList/GroupMemberList";
+import {
+	ADMIN,
+	DEV,
+	OWNER,
+	PRIVATE,
+	PUBLIC,
+	TAB_KEY_GROUP_LOG,
+	TAB_KEY_MEMBER_LIST,
+	TAB_KEY_PROJECT_LIST,
+	TAB_KEY_GROUP_WIKI,
+	GROUP,
+	OPEN_BLANK
+} from "@/utils/variable";
+
+import { xI, xU } from "@/ventose/ui";
+import { ViewWiki } from "../Wiki/ViewWiki";
 
 /* import GroupSetting from "./GroupSetting/GroupSetting.vue"; */
-
-const TAB_KEY_PROJECT_LIST = "项目列表";
-const TAB_KEY_MEMBER_LIST = "成员列表";
-const TAB_KEY_GROUP_LOG = "分组动态";
-
-const TAB_KEY_ARRAY = [
-	TAB_KEY_PROJECT_LIST,
-	TAB_KEY_MEMBER_LIST,
-	TAB_KEY_GROUP_LOG
-];
 
 export const ViewGroup = defineComponent({
 	setup() {
 		return {
-			Cpt_url,
-			State_App,
+			cptRouter,
+			stateApp,
 			fnShowUpsertGroupDialog,
 			fnUpsertGroupInfo
 		};
 	},
 	data() {
-		return {
-			state: {}
-		};
+		return {};
 	},
 	mounted() {
 		this.ifUrlNoGroupIdGetAndAddIdToUrl();
-		if (!this.Cpt_url.query.group_tab) {
-			this.Cpt_url.query.group_tab = TAB_KEY_PROJECT_LIST;
+		if (!this.cptRouter.query.group_tab) {
+			this.cptRouter.query.group_tab = TAB_KEY_PROJECT_LIST;
 		}
 	},
 	beforeUnmount() {
@@ -54,9 +58,9 @@ export const ViewGroup = defineComponent({
 			try {
 				if (!this.groupId || this.groupId === "undefined") {
 					let { data: group } = await API.group.getMyGroup();
-					this.Cpt_url.query.group_id = group._id;
+					this.cptRouter.query.group_id = group._id;
 				} else {
-					await Methods_App.setCurrGroup(this.groupId);
+					await stateApp._setCurrGroup(this.groupId);
 				}
 			} catch (e) {
 				console.error(e);
@@ -68,170 +72,119 @@ export const ViewGroup = defineComponent({
 	},
 	computed: {
 		groupId() {
-			return this.Cpt_url.query.group_id || false;
+			return this.cptRouter.query.group_id || false;
 		},
-		tabActiveKey: {
-			set(group_tab) {
-				this.Cpt_url.query.group_tab = group_tab;
-			},
+		currTabName: {
 			get() {
-				const { group_tab } = this.Cpt_url.query;
-				if (TAB_KEY_ARRAY.includes(group_tab)) {
-					return group_tab;
-				}
-				return TAB_KEY_PROJECT_LIST;
+				return this.cptRouter.query.group_tab || TAB_KEY_PROJECT_LIST;
+			},
+			set(group_tab) {
+				this.cptRouter.query.group_tab = group_tab;
 			}
 		},
 		vDomTabMember() {
-			if (this.State_App.currGroup.type === "public") {
+			if (this.currTabName !== TAB_KEY_MEMBER_LIST) {
+				return null;
+			}
+			if (this.stateApp.currGroup.type === PUBLIC) {
+				/* "成员列表" */
 				return (
-					/* "成员列表" */
-					<aTabPane tab={TAB_KEY_MEMBER_LIST} key={TAB_KEY_MEMBER_LIST}>
+					<div class="mt flex1 h1px">
 						<GroupMemberList />
-					</aTabPane>
+					</div>
 				);
 			} else {
 				return null;
 			}
 		},
 		vDomTabGroupLog() {
-			const isGroupRoleAuth = ["admin", "owner"].includes(
-				this.State_App?.currGroup?.role
+			if (this.currTabName !== TAB_KEY_GROUP_LOG) {
+				return null;
+			}
+			const isGroupRoleAuth = [ADMIN, OWNER, DEV].includes(
+				this.stateApp?.currGroup?.role
 			);
-			const isUserRoleAuth = ["admin", "owner", "guest", "dev"].includes(
-				this.State_App.user.role
-			);
-
-			if (isGroupRoleAuth || isUserRoleAuth) {
+			if (isGroupRoleAuth) {
 				return (
 					/* 分组动态 */
-					<aTabPane tab={TAB_KEY_GROUP_LOG} key={TAB_KEY_GROUP_LOG}>
-						<GroupLog />
-					</aTabPane>
+					<GroupLog />
 				);
 			} else {
 				return null;
 			}
 		},
-		stylePanel() {
-			const isFooterFold = this.State_App.isFooterFold;
-			return {
-				"flex vertical": true,
-				"footer-fold elevation-4": isFooterFold,
-				"elevation-8": !isFooterFold
-			};
-		},
-		styleContent() {
-			return {
-				height: "100%",
-				margin: "0 24px 0 16px",
-				overflow: "initial",
-				backgroundColor: "#fff"
-			};
-		},
-		vDomGroupName() {
-			let _vDomGroupName = (
-				<div class="name">{this.State_App.currGroup.group_name}</div>
-			);
-
-			if (this.State_App.currGroup.group_desc) {
-				return (
-					<aPopover trigger="hover">
-						{{
-							content: () => (
-								<p style={{ maxWidth: "600px" }}>
-									{this.State_App.currGroup.group_desc}
-								</p>
-							),
-							default: () => _vDomGroupName
-						}}
-					</aPopover>
-				);
-			} else {
-				return _vDomGroupName;
-			}
-		},
-		vDomEditIcon() {
-			/*当前用户在当前group的角色是owner*/
-			const isGroupRoleAuth = this.State_App.currGroup.role === "owner";
-			/*超级管理员*/
-			const isUserRoleAuth = this.State_App.user.role === "admin";
-			/*个人空间不可修改*/
-			const isGroupPrivate = this.State_App.currGroup.type === "private";
-
-			if (isGroupPrivate) {
+		vDomTabProjectList() {
+			if (this.currTabName !== TAB_KEY_PROJECT_LIST) {
 				return null;
 			}
-
-			if (isGroupRoleAuth || isUserRoleAuth) {
-				return (
-					<xIcon
-						class="btn editSet pointer"
-						icon="edit"
-						onClick={() =>
-							this.fnShowUpsertGroupDialog(this.State_App.currGroup)
-						}
-						v-uiPopover={{
-							content: "修改分组信息",
-							placement: "bottom",
-							delay: 1500
-						}}
-						style="width:16px;"
-					/>
-				);
-			}
+			return <GroupProjectList />;
 		},
-		vDomEditGroupInfo() {
-			/* TODO: 权限校验 */
+		vDomTabGroupWiki() {
+			if (this.currTabName !== TAB_KEY_GROUP_WIKI) {
+				return null;
+			}
+			return <ViewWiki belongType={GROUP} style="margin: 0 -10px -10px;" />;
+		},
+		vDomSwitchPanel() {
+			let btnArray = [
+				TAB_KEY_PROJECT_LIST,
+				TAB_KEY_MEMBER_LIST,
+				TAB_KEY_GROUP_LOG,
+				TAB_KEY_GROUP_WIKI
+			];
+
+			if (this.stateApp.currGroup.type === PRIVATE) {
+				btnArray = [
+					TAB_KEY_PROJECT_LIST,
+					TAB_KEY_GROUP_LOG,
+					TAB_KEY_GROUP_WIKI
+				];
+			}
+
 			return (
-				<div class="curr-group-name">
-					<div class="curr-group-name_title elevation-1">
-						{this.vDomGroupName}
-						{this.vDomEditIcon}
-					</div>
+				<div class="flex middle start">
+					<el-button-group class="ml-4">
+						{xU.map(btnArray, name => {
+							const type = this.currTabName === name ? "primary" : "";
+							let tips = {};
+							if (name === TAB_KEY_GROUP_WIKI) {
+								const href = aHashLink("/wiki_group", {
+									group_id: cptRouter.value.query.group_id
+								});
+								const tipsLabel = xI(OPEN_BLANK);
+								tips = {
+									content: `<a class="flex middle" href="${href}" target="_blank" >${tipsLabel} </a>`
+								};
+							}
+							return (
+								<xButton
+									v-xTips={tips}
+									type={type}
+									onClick={() => (this.currTabName = name)}>
+									{name}
+								</xButton>
+							);
+						})}
+					</el-button-group>
+					<xGap f="1" />
 				</div>
 			);
 		}
 	},
 	render() {
 		return (
-			<aLayout id="GroupView" class="padding20" v-loading={!this.groupId}>
-				<aLayoutSider id="ViewGroup_sider" class={this.stylePanel} width="300">
-					<GroupLeftSider />
-				</aLayoutSider>
-				<aLayout>
-					<aLayoutContent
-						data-app-position="Group-layout-content"
-						style={this.styleContent}>
-						<aTabs
-							id="Group-layout-content-tabs"
-							v-model:activeKey={this.tabActiveKey}
-							type="card"
-							centered
-							class="m-tab tabs-large height100">
-							{{
-								leftExtra: () => {
-									return this.vDomEditGroupInfo;
-								},
-								default: () => {
-									return (
-										<>
-											{/* 项目列表 */}
-											<aTabPane
-												tab={TAB_KEY_PROJECT_LIST}
-												key={TAB_KEY_PROJECT_LIST}>
-												<GroupProjectList />
-											</aTabPane>
-											{this.vDomTabMember}
-											{this.vDomTabGroupLog}
-										</>
-									);
-								}
-							}}
-						</aTabs>
-					</aLayoutContent>
-				</aLayout>
-			</aLayout>
+			<section id="ViewGroup" v-xloading={!this.groupId}>
+				<aside id="ViewGroup_sider" class="flex vertical box-shadow">
+					<GroupAside />
+				</aside>
+				<section class="view-main-section box-shadow flex1">
+					{this.vDomSwitchPanel}
+					{this.vDomTabProjectList}
+					{this.vDomTabMember}
+					{this.vDomTabGroupLog}
+					{this.vDomTabGroupWiki}
+				</section>
+			</section>
 		);
 	}
 });

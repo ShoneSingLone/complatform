@@ -1,25 +1,22 @@
 import {
-	defItem,
-	xU,
-	FormRules,
 	setValueTo,
-	validateForm,
-	AllWasWell,
+	itemsInvalid,
 	pickValueFrom,
-	UI,
+	xU,
 	defFormConfigs,
-	$t,
+	xI,
 	EVENT_TYPE
-} from "@ventose/ui";
+} from "@/ventose/ui";
+import { FormRules, newRule } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
-import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { stateApp } from "@/state/app";
+import { stateInterface } from "@/state/interface";
 
 export const DialogUpdatePwd = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -27,7 +24,7 @@ export const DialogUpdatePwd = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		const vm = this;
@@ -56,14 +53,14 @@ export const DialogUpdatePwd = defineComponent({
 					placeholder: "确认新密码",
 					isPassword: true,
 					rules: [
-						FormRules.required(
-							() => $t("请再次输入密码!").label,
-							[EVENT_TYPE.blur]
-						),
-						FormRules.custom({
-							msg: () => $t("两次输入的密码不一致!").label,
-							validator: async confirm =>
-								vm.dataXItem.password.value !== confirm,
+						FormRules.required(xI("请再次输入密码!")),
+						newRule({
+							validator: async confirm => {
+								if (vm.dataXItem.password.value !== confirm) {
+									return xI("两次输入的密码不一致!");
+								}
+								return "";
+							},
 							trigger: [EVENT_TYPE.update]
 						})
 					]
@@ -72,13 +69,13 @@ export const DialogUpdatePwd = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 		this.initForm();
 	},
 	computed: {
 		category() {
-			if (this.propDialogOptions.category) {
-				return this.propDialogOptions.category;
+			if (this.propOptions.category) {
+				return this.propOptions.category;
 			} else {
 				return false;
 			}
@@ -91,23 +88,22 @@ export const DialogUpdatePwd = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
-			if (AllWasWell(validateResults)) {
+			if (!(await itemsInvalid())) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
-				const project_id = this.State_App.currProject._id;
+				const project_id = this.stateApp.currProject._id;
 				try {
 					if (this.category) {
 						await this.updateOldCategory({ name, desc, project_id });
 					} else {
 						await this.insertNewCategory({ name, desc, project_id });
 					}
-					Methods_ProjectInterface.updateInterfaceMenuList();
-					this.propDialogOptions.closeDialog();
+					stateInterface._updateInterfaceMenuList();
+					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {
-						UI.message.error(this.$t("修改_失败", { title: "分类" }).label);
+						xU.message.error(xI("修改_失败", { title: "分类" }));
 					} else {
-						UI.message.error(this.$t("添加_失败", { title: "分类" }).label);
+						xU.message.error(xI("添加_失败", { title: "分类" }));
 					}
 				}
 			}
@@ -119,7 +115,7 @@ export const DialogUpdatePwd = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.$t("添加_成功", { title: "分类" }).label);
+				xU.message.success(xI("添加_成功", { title: "分类" }));
 			} else {
 				throw new Error("");
 			}
@@ -132,7 +128,7 @@ export const DialogUpdatePwd = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.$t("修改_成功", { title: "分类" }).label);
+				xU.message.success(xI("修改_成功", { title: "分类" }));
 			} else {
 				throw new Error("");
 			}
@@ -141,15 +137,15 @@ export const DialogUpdatePwd = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper flex1 height100 ">
-					<xGap t="10" />
+				<div class="x-dialog-boddy-wrapper ">
+					<xGap t />
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);
@@ -159,7 +155,7 @@ export const DialogUpdatePwd = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

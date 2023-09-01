@@ -1,13 +1,13 @@
 import { defineComponent, reactive, ref, watch } from "vue";
-import { $, xU, UI, compositionAPI, State_UI, $t } from "@ventose/ui";
+import { $, xU, compositionAPI, stateUI, xI } from "@/ventose/ui";
 import { API } from "@/api/index";
-import { ARTICLE, FOLDER } from "@/utils/variable";
 import { DialogAddArticle } from "./DialogAddArticle";
-import { Cpt_url, cpt_isPersonalWikiView } from "@/router/router";
-import { AntTreeNodeDropEvent } from "ant-design-vue/lib/tree/Tree";
+import { cptRouter, cpt_isPersonalWikiView } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";
-import { State_App } from "@/state/State_App";
-import { Methods_Wiki, State_Wiki } from "./State_Wiki";
+import { stateApp } from "@/state/app";
+import { Methods_Wiki, stateWiki } from "@/state/wiki";
+import type Node from "element-plus/es/components/tree/src/model/node";
+import type { NodeDropType } from "element-plus/es/components/tree/src/tree.type";
 
 const { usefnObserveDomResize } = compositionAPI;
 
@@ -16,25 +16,21 @@ const { usefnObserveDomResize } = compositionAPI;
 /* 文档 编辑、删除 */
 
 export const WikiLeftSider = defineComponent({
+	props: ["isShow"],
 	emits: ["change"],
 	setup() {
 		const { fnObserveDomResize, fnUnobserveDomResize } =
 			usefnObserveDomResize();
 		return {
-			State_Wiki,
-			State_App,
-			Cpt_url,
+			stateWiki,
+			stateApp,
+			cptRouter,
 			cpt_isPersonalWikiView,
 			fnObserveDomResize,
 			fnUnobserveDomResize
 		};
 	},
-	watch: {
-		filterText(text) {
-			State_Wiki.isLoading = true;
-			this.setFilterText(text);
-		}
-	},
+	watch: {},
 	data(vm) {
 		return {
 			configsResize: {
@@ -73,11 +69,11 @@ export const WikiLeftSider = defineComponent({
 	computed: {
 		btnAddNew() {
 			return {
-				text: $t("新增").label,
+				text: xI("新增"),
 				isShow() {
-					const { user_id } = Cpt_url.value.query;
+					const { user_id } = cptRouter.value.query;
 					if (user_id) {
-						return String(user_id) === String(State_App.user._id);
+						return String(user_id) === String(stateApp.user._id);
 					}
 
 					return true;
@@ -88,186 +84,203 @@ export const WikiLeftSider = defineComponent({
 		btnRefresh() {
 			return {
 				preset: "refresh",
-				onClick: () => Methods_Wiki.updateWikiMenuList({ belong_type: "all" })
+				onClick: () => Methods_Wiki.updateWikiMenuList()
 			};
 		},
 		vDomTree() {
 			const vm = this;
 			return (
-				<div
-					class="elevation-2 height100 padding10"
-					style="border-radius: 8px;">
-					<div class="flex mb10">
-						<aInput />
+				<div class="left-tree box-shadow">
+					<div class="flex mb10 middle">
+						<ElInput v-model={vm.filterText} />
 						<xGap l="10" />
-						<xButton configs={vm.btnAddNew} />
+						<xIcon
+							icon="add"
+							onClick={vm.btnAddNew.onClick}
+							class="icon-opreation_click"
+						/>
 						<xGap l="10" />
-						<xButton configs={vm.btnRefresh} />
+						<xIcon
+							icon="refresh"
+							onClick={vm.btnRefresh.onClick}
+							class="icon-opreation_click"
+						/>
 					</div>
-					<aTree
-						v-model:expandedKeys={vm.State_Wiki.expandedKeys}
-						height={vm.siderHeight}
-						treeData={vm.State_Wiki.treeData}
-						draggable
-						onDrop={vm.handleDropArticle}
-						fieldNames={vm.configs.fieldNames}>
-						{{
-							title(item) {
-								const { title, _id, type } = item;
-								const classContentString = (() => {
-									let _classString = "flex middle x-sider-tree_menu";
-									if (String(_id) == String(vm.State_Wiki.currentWiki._id)) {
-										return _classString + " x-sider-tree_menu_active";
+					<ElScrollbar height={vm.siderHeight} class="flex1">
+						<ElTree
+							v-model:expandedKeys={vm.stateWiki.expandedKeys}
+							data={vm.stateWiki.treeData}
+							onNodeDragEnd={vm.handleDropArticle}
+							draggable
+							node-key="_id"
+							expand-on-click-node={false}
+							default-expand-all>
+							{{
+								default(item) {
+									try {
+										const { data } = item;
+										const { title, _id, type } = data;
+										const classContentString = (() => {
+											let _classString = "x-sider-tree_menu";
+											if (String(_id) == String(vm.stateWiki.currentWiki._id)) {
+												return _classString + " x-sider-tree_menu_active";
+											}
+											return _classString;
+										})();
+
+										const genIcon = ({ icon, tips, clickHandler }) => {
+											return (
+												<>
+													<xIcon
+														icon={icon}
+														class="x-sider-tree_menu_icon"
+														v-xTips={{ content: tips, delay: 1000 }}
+														onClick={clickHandler}
+													/>
+												</>
+											);
+										};
+
+										const handleClick = () => {
+											Methods_Wiki.clickWiki({ wiki_id: item.data._id });
+											vm.$emit("change");
+										};
+
+										const canDelete =
+											!item?.children || item?.children?.length === 0;
+
+										return (
+											<div class={classContentString}>
+												<div
+													class="x-sider-tree_menu_title"
+													onClick={handleClick}>
+													<xGap l="10" onClick={handleClick} />
+													<xIcon icon="icon_article" onClick={handleClick} />
+													<xHighlight content={title} filter={vm.filterText} />
+												</div>
+												<div class="x-sider-tree_menu_opration">
+													{genIcon({
+														icon: "add",
+														tips: xI("添加"),
+														clickHandler: () =>
+															vm.showUpsertArticleDialog(item.data)
+													})}
+													{canDelete &&
+														genIcon({
+															icon: "delete",
+															tips: xI("删除"),
+															clickHandler: () => vm.deleteArticle(_id)
+														})}
+												</div>
+											</div>
+										);
+									} catch (error) {
+										return null;
 									}
-									return _classString;
-								})();
-
-								const genIcon = ({ icon, tips, clickHandler }) => {
-									return (
-										<>
-											<xIcon
-												icon={icon}
-												class="x-sider-tree_menu_icon"
-												v-uiPopover={{ content: tips, delay: 1000 }}
-												onClick={clickHandler}
-											/>
-											<xGap l="8" />
-										</>
-									);
-								};
-
-								const handleClick = () => {
-									State_Wiki.isLoading = true;
-									vm.Cpt_url.go("/wiki", { wiki_id: item.data._id });
-									vm.$emit("change");
-									setTimeout(() => {
-										/* 内网环境，数据3秒都回不来，就有点呵呵了 */
-										State_Wiki.isLoading = false;
-									}, 1000 * 3);
-								};
-
-								const canDelete =
-									!item?.children || item?.children?.length === 0;
-
-								return (
-									<div class={classContentString} onClick={handleClick}>
-										<xGap l="10" />
-										<xIcon icon="icon_article" />
-										<span class="x-sider-tree_menu_title">
-											<div class="flex middle">{title}</div>
-										</span>
-										<div class="flex middle x-sider-tree_menu_opration">
-											{genIcon({
-												icon: "add",
-												tips: vm.$t("添加").label,
-												clickHandler: () =>
-													vm.showUpsertArticleDialog(item.data)
-											})}
-											{canDelete &&
-												genIcon({
-													icon: "delete",
-													tips: vm.$t("删除").label,
-													clickHandler: () => vm.deleteArticle(_id)
-												})}
-										</div>
-									</div>
-								);
-							}
-						}}
-					</aTree>
+								}
+							}}
+						</ElTree>
+					</ElScrollbar>
 				</div>
 			);
 		}
 	},
 	methods: {
-		async handleDropArticle(e: AntTreeNodeDropEvent) {
-			State_Wiki.isLoading = true;
-			/*
-			 * boolean类型，true代表拖拽到节点之间的缝隙中，false代表拖拽到节点上，即节点的内容区。
-			 * dropPosition:dropItemPos=index
-			 * * * 拖拽到节点之上： index-1
-			 * * * 拖拽到节点上： 	index
-			 * * * 拖拽到节点之下： index+1
-			 */
-			const { dragNode: dragItem, node: dropItem, dropPosition, dropToGap } = e;
+		async handleDropArticle(
+			draggingNode: Node,
+			dropNode: Node,
+			dropType: NodeDropType
+		) {
+			stateWiki.isLoading = true;
 			const params = {
-				dragItem: dragItem.dataRef,
-				dropItem: dropItem.dataRef,
-				dropToGap,
-				dropPosition
+				dragItem: draggingNode.data,
+				dropItem: dropNode.data,
+				dropType
 			};
 			try {
 				await this.moveItemAndResetOrder(params);
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			} finally {
-				State_Wiki.isLoading = false;
+				stateWiki.isLoading = false;
 			}
 		},
 		/* 同类 testcase */
-		async moveItemAndResetOrder({
-			dragItem,
-			dropItem,
-			dropToGap,
-			dropPosition
-		}) {
+		async moveItemAndResetOrder({ dragItem, dropItem, dropType }) {
 			dragItem = { ...dragItem };
 			dropItem = { ...dropItem };
-			const menuOrderArray = getTreeOrder(State_Wiki.treeData);
+			if (dragItem._id == dropItem._id) {
+				return;
+			}
+			const menuOrderArray = getTreeOrder(stateWiki.treeData);
 			const dragIndex = menuOrderArray.indexOf(dragItem._id);
-			const dropIndex = menuOrderArray.indexOf(dropItem._id);
-
-			if (dropToGap) {
-				dragItem.p_id = dropItem.p_id;
-				menuOrderArray.splice(dragIndex, 1);
-				menuOrderArray.splice(dropIndex, 0, dragItem._id);
-			} else {
+			if (dropType === "inner") {
 				dragItem.p_id = dropItem._id;
 			}
 
+			if (dropType === "after") {
+				dragItem.p_id = dropItem.p_id;
+				menuOrderArray.splice(dragIndex, 1);
+				const dropIndex = menuOrderArray.indexOf(dropItem._id);
+				menuOrderArray.splice(dropIndex + 1, 0, dragItem._id);
+			}
+
+			if (dropType === "before") {
+				dragItem.p_id = dropItem.p_id;
+				menuOrderArray.splice(dragIndex, 1);
+				let dropIndex = menuOrderArray.indexOf(dropItem._id);
+				if (dropIndex === 0) {
+					menuOrderArray.unshift(dragItem._id);
+				} else {
+					menuOrderArray.splice(dropIndex - 1, 0, dragItem._id);
+				}
+			}
+
 			try {
-				await API.wiki.action({ action: "upsertOne", data: dragItem });
+				await API.wiki.upsertOne(dragItem);
 				await API.wiki.resetMenuOrder({
 					order: menuOrderArray,
-					belong_type: "all"
+					belong_type: stateWiki.belongType,
+					belong_id: (() => {
+						const { group_id, project_id } = cptRouter.value.query;
+						const s_map = {
+							group: group_id,
+							project: project_id
+						};
+						return s_map[stateWiki.belongType];
+					})()
 				});
-				await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-				UI.message.success($t("更新成功").label);
+				await Methods_Wiki.updateWikiMenuList();
+				xU.message.success(xI("更新成功"));
 			} catch (error) {
-				UI.message.error(error.message);
+				xU.message.error(error.message);
 			}
 		},
-		setFilterText: xU.debounce(function (filterText) {
-			State_Wiki.filterText = filterText;
-			State_Wiki.isLoading = false;
-		}, 600),
 		/* vDomList 需要实际高度 */
 		setSiderHeight: xU.debounce(function (siderHeight) {
 			this.siderHeight = siderHeight;
 		}, 300),
-		deleteArticle(_id) {
+		async deleteArticle(_id) {
 			const vm = this;
-			UI.dialog.confirm({
-				title: "确定删除此文档吗？",
+			xU.deleteConfirm({
 				content: `文档删除后无法恢复`,
 				async onOk() {
 					try {
 						await API.wiki.delete(_id);
-						UI.message.success("删除文档成功");
-						await Methods_Wiki.updateWikiMenuList({ belong_type: "all" });
-						vm.Cpt_url.go("/wiki", {
-							wiki_id: xU.first(State_Wiki.treeData)?._id
+						xU.message.success("删除文档成功");
+						await Methods_Wiki.updateWikiMenuList();
+						Methods_Wiki.clickWiki({
+							wiki_id: xU.first(stateWiki.treeData)?._id
 						});
 					} catch (error) {
-						UI.message.error(error.message);
-						return Promise.reject();
+						xU.message.error(error.message);
 					}
 				}
 			});
 		},
 		showUpsertArticleDialog(parentDoc) {
-			UI.dialog.component({
-				title: this.$t("添加文档").label,
+			xU.dialog({
+				title: xI("添加文档"),
 				parentDoc,
 				/* 所有人可见 */
 				belong_type: "all",
@@ -276,11 +289,12 @@ export const WikiLeftSider = defineComponent({
 		}
 	},
 	render() {
+		if (!this.isShow) {
+			return null;
+		}
 		return (
-			<aside
-				class="x-sider_wrapper flex vertical move-transition padding10"
-				style={this.styleAside}>
-				<div class="x-sider_wrapper_tree flex1 mt10 mb10" ref="wrapper">
+			<aside class="x-sider_wrapper" style={this.styleAside}>
+				<div class="x-sider_wrapper_tree" ref="wrapper">
 					{this.vDomTree}
 				</div>
 				<div class="resize_bar" icon="scroll" v-uiMove={this.configsResize} />

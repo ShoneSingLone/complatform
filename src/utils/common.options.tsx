@@ -1,11 +1,12 @@
-import { $t, xU } from "@ventose/ui";
+import { xI, xU } from "@/ventose/ui";
 import { ARTICLE, FOLDER, HTTP_METHOD } from "./variable";
 
 export const ITEM_OPTIONS = {
 	httpMethod: xU.map(HTTP_METHOD, (item, prop) => ({
 		label: prop,
 		value: prop,
-		color: item.color
+		color: item.color,
+		type: item.type
 	})),
 	interfaceBodyType: [
 		{ label: "form", value: "form", isForm: true },
@@ -34,8 +35,8 @@ export const ITEM_OPTIONS = {
 		{ label: "否", value: "false" }
 	],
 	wikiType: [
-		{ label: $t("文件夹").label, value: FOLDER },
-		{ label: $t("文档").label, value: ARTICLE }
+		{ label: xI("文件夹"), value: FOLDER },
+		{ label: xI("文档"), value: ARTICLE }
 	],
 	trueOrFalse: [
 		{ label: "是", value: true },
@@ -65,7 +66,7 @@ export const ITEM_OPTIONS_VDOM = {
 			return null;
 		}
 		/*@ts-ignore*/
-		return <aTag>{i?.label}</aTag>;
+		return <ElTag>{i?.label}</ElTag>;
 	},
 	required(cell) {
 		if (!xU.isInput(cell)) return null;
@@ -73,7 +74,7 @@ export const ITEM_OPTIONS_VDOM = {
 			value: String(cell).toLocaleUpperCase()
 		});
 		/*@ts-ignore*/
-		return <aTag color={i.color}>{i.label}</aTag>;
+		return <ElTag color={i.color}>{i.label}</ElTag>;
 	},
 	httpMethod(cell) {
 		if (!xU.isInput(cell)) return null;
@@ -81,7 +82,11 @@ export const ITEM_OPTIONS_VDOM = {
 			value: String(cell).toLocaleUpperCase()
 		});
 		/*@ts-ignore*/
-		return <aTag color={i.color}>{i.label}</aTag>;
+		return (
+			<div class="flex end width100">
+				<ElTag type={i.type}>{i.label}</ElTag>
+			</div>
+		);
 	},
 	status: status => {
 		if (!xU.isInput(status)) return null;
@@ -91,6 +96,18 @@ export const ITEM_OPTIONS_VDOM = {
 		/*@ts-ignore*/
 		return <span class={"tag-status " + item.value}>{item.label}</span>;
 	},
+	trueOrFalse: trueOrFalse => {
+		if (!xU.isInput(trueOrFalse)) return null;
+		const item = xU.find(ITEM_OPTIONS.trueOrFalse, {
+			value: trueOrFalse
+		});
+
+		if (item.label === ITEM_OPTIONS.trueOrFalse[0].label) {
+			return <ElTag type="success">{item.label}</ElTag>;
+		} else {
+			return <ElTag type="danger">{item.label}</ElTag>;
+		}
+	},
 	tags: tags => {
 		if (!xU.isInput(tags)) return null;
 		if (typeof tags === "string") {
@@ -98,7 +115,9 @@ export const ITEM_OPTIONS_VDOM = {
 		}
 		return xU.map(tags, i => (
 			/*@ts-ignore*/
-			<aTag color="blue">{i}</aTag>
+			<ElTag effect="plain" round class="mr4">
+				{i}
+			</ElTag>
 		));
 	}
 };

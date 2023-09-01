@@ -1,12 +1,12 @@
 import {
-	AllWasWell,
 	components,
 	defItem,
-	FormRules,
 	pickValueFrom,
-	validateForm,
-	xU
-} from "@ventose/ui";
+	itemsInvalid,
+	xU,
+	xI
+} from "@/ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent, h, inject } from "vue";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import { SubformObject, objectNeedProps } from "./SubformObject";
@@ -39,36 +39,31 @@ export const SchemaEditor = defineComponent({
 	data(vm) {
 		return {
 			dataXItem: {
-				...defItem({
+				key: defItem({
 					/* 在编辑的时候不需要变化，但是在同步的时候需要提交【newKey，oldKey】，oldKey用于定位原属性位置 */
 					defaultValue: "",
-					prop: "key",
-					label: vm.$t("对象访问路径").label,
+					label: xI("对象访问路径"),
 					readonly: true
 				}),
-				...defItem({
+				title: defItem({
 					defaultValue: "",
-					prop: "title",
-					label: vm.$t("字段名").label,
+					label: xI("字段名"),
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				description: defItem({
 					defaultValue: "",
-					prop: "description",
-					label: vm.$t("描述").label,
+					label: xI("描述"),
 					isTextarea: true
 				}),
-				...defItem({
+				required: defItem({
 					defaultValue: "0",
-					prop: "required",
-					label: vm.$t("是否必须").label,
+					label: xI("是否必须"),
 					itemType: "RadioGroup",
 					options: ITEM_OPTIONS.required
 				}),
-				...defItem({
+				type: defItem({
 					value: "object",
-					prop: "type",
-					label: vm.$t("类型").label,
+					label: xI("类型"),
 					itemType: "RadioGroup",
 					options: [
 						"object",
@@ -86,61 +81,52 @@ export const SchemaEditor = defineComponent({
 						value: type
 					}))
 				}),
-				...defItem({
+				enum: defItem({
 					defaultValue: "",
-					prop: "enum",
-					label: vm.$t("枚举").label,
+					label: xI("枚举"),
 					isTextarea: true,
-					placeholder: vm.$t("一行一个值，不需要符号分隔").label,
+					placeholder: xI("一行一个值，不需要符号分隔"),
 					disabled: true
 				}),
-				...defItem({
+				enumDesc: defItem({
 					defaultValue: "",
-					prop: "enumDesc",
 					isTextarea: true,
-					label: vm.$t("枚举描述").label
+					label: xI("枚举描述")
 				}),
 				/* object */
-				...defItem({
+				minProperties: defItem({
 					defaultValue: "",
-					prop: "minProperties",
-					label: vm.$t("最小元素个数").label,
+					label: xI("最小元素个数"),
 					isNumber: true
 				}),
-				...defItem({
+				maxProperties: defItem({
 					defaultValue: "",
-					prop: "maxProperties",
-					label: vm.$t("最大元素个数").label,
+					label: xI("最大元素个数"),
 					isNumber: true
 				}),
 				/* string */
-				...defItem({
+				default: defItem({
 					defaultValue: "",
-					prop: "default",
-					label: vm.$t("默认值").label
+					label: xI("默认值")
 				}),
-				...defItem({
+				minLength: defItem({
 					defaultValue: "",
-					prop: "minLength",
-					label: vm.$t("最小字符数").label,
+					label: xI("最小字符数"),
 					isNumber: true
 				}),
-				...defItem({
+				maxLength: defItem({
 					defaultValue: "",
-					prop: "maxLength",
-					label: vm.$t("最大字符数").label,
+					label: xI("最大字符数"),
 					isNumber: true
 				}),
-				...defItem({
+				pattern: defItem({
 					defaultValue: "",
-					prop: "pattern",
-					placeholder: vm.$t("new RegExp(xxxxxxx)适用").label,
-					label: vm.$t("正则表达式").label
+					placeholder: xI("new RegExp(xxxxxxx)适用"),
+					label: xI("正则表达式")
 				}),
-				...defItem({
+				format: defItem({
 					defaultValue: "",
-					prop: "format",
-					label: vm.$t("格式").label,
+					label: xI("格式"),
 					itemType: "Select",
 					options: [
 						"date",
@@ -151,58 +137,50 @@ export const SchemaEditor = defineComponent({
 						"ipv6",
 						"uri"
 					].map(label => ({ label, value: label })),
-					allowClear: true
+					clearable: true
 				}),
 				/* number */
-				...defItem({
+				minimum: defItem({
 					defaultValue: "",
-					prop: "minimum",
-					label: vm.$t("最小值").label,
+					label: xI("最小值"),
 					isNumber: true
 				}),
-				...defItem({
+				maximum: defItem({
 					defaultValue: "",
-					prop: "maximum",
-					label: vm.$t("最大值").label,
+					label: xI("最大值"),
 					isNumber: true
 				}),
-				...defItem({
+				exclusiveMinimum: defItem({
 					defaultValue: false,
 					itemType: "Checkbox",
-					prop: "exclusiveMinimum",
-					label: vm.$t("不包含最小值").label
+					label: xI("不包含最小值")
 				}),
-				...defItem({
+				exclusiveMaximum: defItem({
 					defaultValue: false,
 					itemType: "Checkbox",
-					prop: "exclusiveMaximum",
-					label: vm.$t("不包含最大值").label
+					label: xI("不包含最大值")
 				}),
 				/* array */
-				...defItem({
+				minItems: defItem({
 					defaultValue: "",
-					prop: "minItems",
-					label: vm.$t("最小元素个数").label,
+					label: xI("最小元素个数"),
 					isNumber: true
 				}),
-				...defItem({
+				maxItems: defItem({
 					defaultValue: "",
-					prop: "maxItems",
-					label: vm.$t("最大元素个数").label,
+					label: xI("最大元素个数"),
 					isNumber: true
 				}),
-				...defItem({
+				uniqueItems: defItem({
 					defaultValue: false,
 					itemType: "Checkbox",
-					prop: "uniqueItems",
-					label: vm.$t("元素不可重复").label
+					label: xI("元素不可重复")
 				}),
-				...defItem({
+				booleanDefault: defItem({
 					defaultValue: "",
 					itemType: "Select",
-					allowClear: true,
-					prop: "booleanDefault",
-					label: vm.$t("默认值").label,
+					clearable: true,
+					label: xI("默认值"),
 					options: ITEM_OPTIONS.YesOrNo
 				})
 			}
@@ -224,9 +202,8 @@ export const SchemaEditor = defineComponent({
 			const currentTypeNeedProps = baseProps.concat(SUB_PROPS_STRATEGY[type]);
 			const targetValues = xU.pick(this.currentNode, currentTypeNeedProps);
 			/* 需要记录出示的Node 的 Key ，才能在同步的时候找到原始的值 */
-			const validateResults = await validateForm(this.dataXItem, targetValues);
 
-			if (AllWasWell(validateResults)) {
+			if (!(await itemsInvalid())) {
 				const oldkey = String(this.currentNode.key);
 				/* key：对象的访问路径，纯代码角度，用于定位和替换 */
 				const newKey = (() => {
@@ -272,32 +249,32 @@ export const SchemaEditor = defineComponent({
 		}
 
 		return (
-			<div className="SchemaEditor flex vertical flex1">
+			<div class="SchemaEditor flex vertical flex1">
 				<div class="SchemaEditor_button ">
-					<aButton onClick={vm.syncToJsonTree} type="primary">
-						{vm.$t("同步到 JSON 树").label}
-					</aButton>
+					<xButton onClick={vm.syncToJsonTree} type="primary">
+						{xI("同步到 JSON 树")}
+					</xButton>
 				</div>
 				<xForm
 					class="flex vertical flex1 overflow-auto"
 					labelStyle={{ "min-width": "120px", width: "unset" }}>
 					<xItem configs={this.dataXItem.key} v-model={vm.currentNode.key} />
-					<xGap t="10" />
+					<xGap t />
 					<xItem
 						configs={this.dataXItem.title}
 						v-model={vm.currentNode.title}
 					/>
-					<xGap t="10" />
+					<xGap t />
 					<xItem
 						configs={this.dataXItem.description}
 						v-model={vm.currentNode.description}
 					/>
-					<xGap t="10" />
+					<xGap t />
 					<xItem
 						configs={this.dataXItem.required}
 						v-model={vm.currentNode.required}
 					/>
-					<xGap t="10" />
+					<xGap t />
 					<xItem configs={this.dataXItem.type} v-model={vm.currentNode.type} />
 					{vm.currentNode.type === "object" && (
 						<SubformObject configs={this.dataXItem} data={vm.currentNode} />

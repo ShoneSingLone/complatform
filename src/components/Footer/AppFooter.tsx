@@ -1,19 +1,19 @@
 import "./Footer.scss";
 import { defineComponent } from "vue";
-import { $ } from "@ventose/ui";
-import { Methods_App, State_App } from "../../state/State_App";
-import { Cpt_url } from "./../../router/router";
+import { $ } from "@/ventose/ui";
+import { stateApp } from "@/state/app";
+import { cptRouter } from "@/router/router";
 
 const version = Date.now();
 
 const FootItem = ({ linkList, title, iconType }) => {
 	return (
-		<aCol span={6}>
+		<elCol span={6}>
 			<h4 class="title flex horizon middle">
 				{iconType ? (
 					<xIcon
 						icon={iconType}
-						style="width: 24px;height: 24px;display: inline-block;"
+						style="width: var(--app-padding);height: var(--app-padding);display: inline-block;"
 					/>
 				) : (
 					""
@@ -29,13 +29,13 @@ const FootItem = ({ linkList, title, iconType }) => {
 					</p>
 				);
 			})}
-		</aCol>
+		</elCol>
 	);
 };
 
 export const AppFooter = defineComponent({
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	data() {
 		return {
@@ -99,21 +99,21 @@ export const AppFooter = defineComponent({
 	},
 	computed: {
 		wrapperStyle() {
-			if (this.State_App.isFooterFold) {
+			if (this.stateApp.isFooterFold) {
 				return { height: "192px" };
 			} else {
 				return { height: "0" };
 			}
 		},
 		contentStyle() {
-			if (this.State_App.isFooterFold) {
+			if (this.stateApp.isFooterFold) {
 				return { display: "flex" };
 			} else {
 				return { display: "none" };
 			}
 		},
 		toggleText() {
-			if (this.State_App.isFooterFold) {
+			if (this.stateApp.isFooterFold) {
 				return "折叠";
 			} else {
 				return "展开";
@@ -124,23 +124,24 @@ export const AppFooter = defineComponent({
 				type: "primary",
 				class: {
 					"toggle-fold-btn footer-toggle": true,
-					unfold: this.State_App.isFooterFold
+					unfold: this.stateApp.isFooterFold
 				},
 				text: this.toggleText,
 				isHide: true,
-				onClick: Methods_App.toggleFooterFold
+				onClick: stateApp._toggleFooterFold
 			};
 		}
 	},
 	render() {
 		return (
-			<>
+			<div>
 				<xButton configs={this.toggleFoldBtn} />
 				<div
 					class="footer-wrapper"
 					style={this.wrapperStyle}
-					id="ViewAppFooter">
-					<aRow class="footer-container" style={this.contentStyle}>
+					id="ViewAppFooter"
+					data-view-id="AppFooter">
+					<ElRow class="footer-container" style={this.contentStyle}>
 						{this.footList.map((item, i) => {
 							return (
 								<FootItem
@@ -151,9 +152,9 @@ export const AppFooter = defineComponent({
 								/>
 							);
 						})}
-					</aRow>
+					</ElRow>
 				</div>
-			</>
+			</div>
 		);
 	}
 });

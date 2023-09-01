@@ -1,24 +1,21 @@
-@import "../../styles/mixin.scss";
-
 .breadcrumb-container {
-	.ant-breadcrumb {
+	.el-breadcrumb {
 		font-size: 16px;
 		float: left;
 		color: #fff;
 		padding-left: 16px;
 		line-height: unset;
 	}
-	.ant-breadcrumb a {
-		color: #fff;
+	.el-breadcrumb a {
 		&:hover {
-			color: $color-blue;
+			color: var(--app-brand);
 		}
 	}
-	.ant-breadcrumb > span:last-child {
+	.el-breadcrumb > span:last-child {
 		color: #fff;
 		font-weight: normal;
 	}
-	.ant-breadcrumb-separator {
+	.el-breadcrumb-separator {
 		color: #fff;
 		font-weight: normal;
 	}

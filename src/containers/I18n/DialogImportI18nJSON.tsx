@@ -1,13 +1,13 @@
-import { UI, xU, $t, defCol, defXVirTableConfigs } from "@ventose/ui";
+import { xU, xI, defCol, defXVirTableConfigs } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
 import { stateI18n } from "./State_i18n";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 
 export const DialogImportI18nJSON = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -25,12 +25,12 @@ export const DialogImportI18nJSON = defineComponent({
 		configsBtnCancel() {
 			return {
 				preset: "cancel",
-				onClick: this.propDialogOptions.closeDialog
+				onClick: this.propOptions.$close
 			};
 		},
 		configsBtnUpdateExistedRecord() {
 			return {
-				text: $t("覆盖").label,
+				text: xI("覆盖"),
 				disabled: () => {
 					return !xU.isArrayFill(
 						this?.raw$configsTableExistedRecords?.selected
@@ -48,12 +48,12 @@ export const DialogImportI18nJSON = defineComponent({
 				const { data } = await API.god.importI18nJSON(formData);
 				const { different } = data;
 
-				UI.message.success(`成功添加记录`);
+				xU.message.success(`成功添加记录`);
 				if (xU.isArrayFill(different)) {
 					this.showCoverExistedConfirm(data);
 				} else {
 					await stateI18n._$updateList();
-					this.propDialogOptions.closeDialog();
+					this.propOptions.$close();
 				}
 			} catch (error) {
 				xU(error);
@@ -95,7 +95,7 @@ export const DialogImportI18nJSON = defineComponent({
 						}
 					}),
 					...defCol({
-						label: $t("描述").label,
+						label: xI("描述"),
 						width: "80px",
 						prop: "desc",
 						renderCell({ record }) {
@@ -103,7 +103,7 @@ export const DialogImportI18nJSON = defineComponent({
 						}
 					}),
 					...defCol({
-						label: $t("diff").label,
+						label: xI("diff"),
 						prop: "different",
 						renderCell({ record }) {
 							let valueArray, desc;
@@ -121,7 +121,7 @@ export const DialogImportI18nJSON = defineComponent({
 								desc = record?.diffRes?.desc;
 								desc = (
 									<xInfoDiffCard
-										title={$t("描述").label}
+										title={xI("描述")}
 										old={desc[1]}
 										new={desc[0]}
 									/>
@@ -140,7 +140,7 @@ export const DialogImportI18nJSON = defineComponent({
 			});
 
 			this.isShowCoverView = true;
-			this.$nextTick(() => this.propDialogOptions._layerInstance.offset());
+			this.$nextTick(() => this.propOptions.dialogInst.offset());
 		},
 		async onCoverExisted() {
 			try {
@@ -155,9 +155,9 @@ export const DialogImportI18nJSON = defineComponent({
 					};
 				});
 				await API.god.upsertI18nRecordMany(params);
-				UI.message.success(`修改记录成功`);
+				xU.message.success(`修改记录成功`);
 				await stateI18n._$updateList();
-				this.propDialogOptions.closeDialog();
+				this.propOptions.$close();
 			} catch (error) {
 				xU(error);
 			}
@@ -170,8 +170,8 @@ export const DialogImportI18nJSON = defineComponent({
 					<div
 						class="x-dialog-boddy-wrapper margin20 flex vertical"
 						style="height:40vh">
-						<aAlert message={raw$tips} />
-						<xGap t="10" />
+						<elAlert title={raw$tips} />
+						<xGap t />
 						<xVirTable
 							configs={this.raw$configsTableExistedRecords}
 							class="flex1 width100 "
@@ -186,9 +186,7 @@ export const DialogImportI18nJSON = defineComponent({
 			);
 		}
 		return (
-			<div
-				class="x-dialog-boddy-wrapper flex1 height100 margin20"
-				v-loading={this.isLoading}>
+			<div class="x-dialog-boddy-wrapper margin20" v-xloading={this.isLoading}>
 				<aUploadDragger
 					name="file"
 					beforeUpload={this.handleChange}
@@ -198,7 +196,7 @@ export const DialogImportI18nJSON = defineComponent({
 					</p>
 					<p class="ant-upload-text">
 						{/* Click or drag file to this area to upload */}
-						{$t("单击或拖动文件到此区域进行上传").label}
+						{xI("单击或拖动文件到此区域进行上传")}
 					</p>
 				</aUploadDragger>
 			</div>

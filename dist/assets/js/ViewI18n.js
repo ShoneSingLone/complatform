@@ -1,4 +1,65 @@
-import { L as markRaw, x as xU, b as API, ab as newReactiveState, ac as onMounted, ad as onUnmounted, d as defineComponent, h as _State_App, C as Cpt_url, $ as $t$1, a as defItem, ae as VNodeCollection, e as createVNode, r as resolveComponent, F as FormRules, N as ITEM_OPTIONS, s as setValueTo, v as validateForm, A as AllWasWell, p as pickValueFrom, U as UI, g as Fragment, m as isVNode, B as $, D as getTreeOrder, G as withDirectives, H as resolveDirective, I as compositionAPI, O as defXVirTableConfigs, P as defCol, af as defColActions, W as setDataGridInfo, Z as MonacoEditor, ag as defColActionsBtnlist } from "./index.js";
+import { av as Lodash, N as markRaw, aw as reactive, e as xU, b as API, ap as onMounted, ax as onUnmounted, d as defineComponent, s as stateApp, c as cptRouter, x as xI, a as defItem, f as createVNode, r as resolveComponent, i as itemsInvalid, F as Fragment, g as isVNode, $, k as getTreeOrder, w as withDirectives, j as resolveDirective, l as compositionAPI, Q as defXVirTableConfigs, R as defCol, ay as defColActions, v as ADMIN, V as setDataGridInfo, X as MonacoEditor, az as defColActionsBtnlist } from "./index.js";
+import { F as FormRules, s as setValueTo, p as pickValueFrom } from "./common.FormRules.js";
+import { I as ITEM_OPTIONS } from "./common.options.js";
+import { V as VNodeCollection } from "./VNodeRender.js";
+import { M as Methods_Wiki$1 } from "./wiki.js";
+function newReactiveState(stateAndMethods) {
+  const __defaultValues = {};
+  function isFunctionInState({
+    value,
+    prop
+  }) {
+    if (value) {
+      const valueType = typeof value;
+      let isFunction = valueType == "function";
+      if (isFunction) {
+        isFunction = /^_\$/.test(prop);
+        if (isFunction) {
+          return true;
+        }
+      }
+    } else {
+      return false;
+    }
+  }
+  Lodash.each(stateAndMethods, (value, prop) => {
+    if (isFunctionInState({
+      value,
+      prop
+    })) {
+      stateAndMethods[prop] = markRaw(value);
+      return;
+    }
+    try {
+      __defaultValues[prop] = Lodash.cloneDeep(value);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+  const innerVariablesAndMethods = {
+    __defaultValues: markRaw(__defaultValues),
+    _$resetSelf: markRaw(function() {
+      Lodash.each(stateAndMethods.__defaultValues, (value, prop) => {
+        stateAndMethods[prop] = value;
+      });
+    }),
+    _$null: markRaw(function() {
+      Lodash.each(stateAndMethods, (value, prop) => {
+        if (isFunctionInState({
+          value,
+          prop
+        })) {
+          return;
+        }
+        if (!Object.keys(innerVariablesAndMethods).includes(prop)) {
+          delete stateAndMethods[prop];
+        }
+      });
+    })
+  };
+  Lodash.each(innerVariablesAndMethods, (value, prop) => stateAndMethods[prop] = value);
+  return reactive(stateAndMethods);
+}
 const ViewI18n$1 = "";
 markRaw({
   setExpandedKeys: xU.debounce(async (_id) => {
@@ -68,7 +129,7 @@ function _isSlot(s) {
 }
 const DialogUpsertI18nRecord = defineComponent({
   props: {
-    propDialogOptions: {
+    propOptions: {
       type: Object,
       default() {
         return {
@@ -79,46 +140,42 @@ const DialogUpsertI18nRecord = defineComponent({
   },
   setup() {
     return {
-      State_App: _State_App,
-      Cpt_url
+      stateApp,
+      cptRouter
     };
   },
   data() {
     const idTipsMarkdown = `\`\`\`js
-//${$t$1(`\u4F5C\u4E3AKey\u503C`).label}
-$t("Key\u503C").label
+//${xI(`\u4F5C\u4E3AKey\u503C`)}
+xI("Key\u503C")
 \`\`\``;
     return {
       dataXItem: {
-        ...defItem({
+        key: defItem({
           value: "",
-          prop: "key",
-          label: $t$1("key").label,
+          label: xI("key"),
           labelVNodeRender: VNodeCollection.labelTips(createVNode(resolveComponent("Mkit"), {
             "md": idTipsMarkdown
           }, null)),
           rules: [FormRules.required()]
         }),
-        ...defItem({
+        desc: defItem({
           value: "",
-          prop: "desc",
-          label: $t$1("\u63CF\u8FF0").label,
+          label: xI("\u63CF\u8FF0"),
           isTextarea: true,
           rules: [FormRules.required()]
         }),
-        ...defItem({
+        isRectified: defItem({
           value: false,
-          prop: "isRectified",
-          label: $t$1("\u662F\u5426\u5DF2\u6821\u6B63").label,
+          label: xI("\u662F\u5426\u5DF2\u6821\u6B63"),
           itemType: "Switch",
           options: ITEM_OPTIONS.trueOrFalse,
           rules: [FormRules.required()]
         }),
-        ...defItem({
+        valueArray: defItem({
           value: "",
-          prop: "valueArray",
-          label: $t$1("\u56FD\u9645\u5316\u4FE1\u606F").label,
-          labelVNodeRender: VNodeCollection.labelTips($t$1(`\u4EE5\u6570\u7EC4\u7684\u5F62\u5F0F["\u8BED\u8A00","language"]`).label),
+          label: xI("\u56FD\u9645\u5316\u4FE1\u606F"),
+          labelVNodeRender: VNodeCollection.labelTips(xI(`\u4EE5\u6570\u7EC4\u7684\u5F62\u5F0F["\u8BED\u8A00","language"]`)),
           rules: [FormRules.required(), FormRules.stringIsArrayJson()],
           itemType: defineComponent({
             props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
@@ -128,7 +185,7 @@ $t("Key\u503C").label
                   return this.properties.value || ``;
                 },
                 set(modelValue) {
-                  this.listeners["onUpdate:value"](modelValue);
+                  this.listeners["onEmitItemValue"](modelValue);
                 }
               }
             },
@@ -152,30 +209,29 @@ $t("Key\u503C").label
   methods: {
     initForm() {
       var _a, _b, _c;
-      if ((_b = (_a = this.propDialogOptions) == null ? void 0 : _a.record) == null ? void 0 : _b.valueArray) {
-        setValueTo(this.dataXItem, (_c = this.propDialogOptions) == null ? void 0 : _c.record);
+      if ((_b = (_a = this.propOptions) == null ? void 0 : _a.record) == null ? void 0 : _b.valueArray) {
+        setValueTo(this.dataXItem, (_c = this.propOptions) == null ? void 0 : _c.record);
       }
     },
     async onOk() {
       var _a, _b;
-      const validateResults = await validateForm(this.dataXItem);
-      if (AllWasWell(validateResults)) {
+      if (!await itemsInvalid()) {
         try {
           const {
             data
           } = await API.god.upsertOneI18nRecord({
-            ...(_a = this.propDialogOptions) == null ? void 0 : _a.record,
+            ...(_a = this.propOptions) == null ? void 0 : _a.record,
             ...pickValueFrom(this.dataXItem)
           });
           if ((_b = data == null ? void 0 : data.msg) == null ? void 0 : _b._id) {
-            UI.message.success("\u6DFB\u52A0\u8BB0\u5F55\u6210\u529F");
+            xU.message.success("\u6DFB\u52A0\u8BB0\u5F55\u6210\u529F");
           } else {
-            UI.message.success("\u4FEE\u6539\u8BB0\u5F55\u6210\u529F");
+            xU.message.success("\u4FEE\u6539\u8BB0\u5F55\u6210\u529F");
           }
           stateI18n._$updateList({});
-          this.propDialogOptions.closeDialog();
+          this.propOptions.$close();
         } catch (error) {
-          UI.message.error("\u6DFB\u52A0\u5931\u8D25");
+          xU.message.error("\u6DFB\u52A0\u5931\u8D25");
         }
       }
     }
@@ -183,9 +239,9 @@ $t("Key\u503C").label
   render() {
     let _slot;
     return createVNode(Fragment, null, [createVNode("div", {
-      "class": "x-dialog-boddy-wrapper flex1 height100"
+      "class": "x-dialog-boddy-wrapper"
     }, [createVNode(resolveComponent("xGap"), {
-      "t": "10"
+      "t": true
     }, null), createVNode(resolveComponent("xForm"), {
       "class": "flex vertical",
       "labelStyle": {
@@ -194,17 +250,17 @@ $t("Key\u503C").label
       }
     }, _isSlot(_slot = xU.map(this.dataXItem, (configs, prop) => {
       return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
-        "t": "10"
+        "t": true
       }, null), createVNode(resolveComponent("xItem"), {
         "configs": configs
       }, null)]);
     })) ? _slot : {
       default: () => [_slot]
     }), createVNode(resolveComponent("xGap"), {
-      "t": "10"
+      "t": true
     }, null)]), createVNode(resolveComponent("xDialogFooter"), {
       "configs": {
-        onCancel: this.propDialogOptions.closeDialog,
+        onCancel: this.propOptions.$close,
         onOk: this.onOk
       }
     }, null)]);
@@ -222,9 +278,9 @@ const I18nLeftSider = defineComponent({
       fnUnobserveDomResize
     } = usefnObserveDomResize();
     return {
-      State_Wiki: stateI18n,
-      State_App: _State_App,
-      Cpt_url,
+      stateWiki: stateI18n,
+      stateApp,
+      cptRouter,
       fnObserveDomResize,
       fnUnobserveDomResize
     };
@@ -278,14 +334,14 @@ const I18nLeftSider = defineComponent({
   computed: {
     btnAddNew() {
       return {
-        text: $t$1("\u65B0\u589E").label,
-        onClick: () => this.openDialogUpsertI18nRecord()
+        text: xI("\u65B0\u589E"),
+        onClick: () => this.dialogUpsertI18nRecord()
       };
     },
     btnRefresh() {
       return {
         preset: "refresh",
-        onClick: () => Methods_Wiki.updateWikiMenuList({
+        onClick: () => Methods_Wiki$1.updateWikiMenuList({
           belong_type: "all"
         })
       };
@@ -293,8 +349,7 @@ const I18nLeftSider = defineComponent({
     vDomTree() {
       const vm = this;
       return createVNode("div", {
-        "class": "elevation-2 height100 padding10",
-        "style": "border-radius: 8px;"
+        "class": "left-tree box-shadow"
       }, [createVNode("div", {
         "class": "flex mb10"
       }, [createVNode(resolveComponent("xButton"), {
@@ -303,7 +358,7 @@ const I18nLeftSider = defineComponent({
         "l": "10"
       }, null), createVNode(resolveComponent("xButton"), {
         "configs": vm.btnRefresh
-      }, null)]), createVNode(resolveComponent("aTree"), {
+      }, null)]), createVNode(resolveComponent("ElTree"), {
         "expandedKeys": stateI18n.expandedKeys,
         "onUpdate:expandedKeys": ($event) => stateI18n.expandedKeys = $event,
         "height": vm.siderHeight,
@@ -320,7 +375,7 @@ const I18nLeftSider = defineComponent({
             type
           } = item;
           const classContentString = (() => {
-            let _classString = "flex middle x-sider-tree_menu";
+            let _classString = "x-sider-tree_menu";
             if (String(_id) == String(stateI18n.currentI18n._id)) {
               return _classString + " x-sider-tree_menu_active";
             }
@@ -335,7 +390,7 @@ const I18nLeftSider = defineComponent({
               "icon": icon,
               "class": "x-sider-tree_menu_icon",
               "onClick": clickHandler
-            }, null), [[resolveDirective("uiPopover"), {
+            }, null), [[resolveDirective("xTips"), {
               content: tips,
               delay: 1e3
             }]]), createVNode(resolveComponent("xGap"), {
@@ -344,7 +399,7 @@ const I18nLeftSider = defineComponent({
           };
           const handleClick = () => {
             stateI18n.isLoading = true;
-            vm.Cpt_url.go("/i18n", {
+            vm.cptRouter.go("/xI", {
               wiki_id: item.data._id
             });
             vm.$emit("change");
@@ -365,14 +420,14 @@ const I18nLeftSider = defineComponent({
           }, [createVNode("div", {
             "class": "flex middle"
           }, [item.id])]), createVNode("div", {
-            "class": "flex middle x-sider-tree_menu_opration"
+            "class": "x-sider-tree_menu_opration"
           }, [genIcon({
             icon: "add",
-            tips: vm.$t("\u6DFB\u52A0").label,
-            clickHandler: () => vm.openDialogUpsertI18nRecord(item.data)
+            tips: xI("\u6DFB\u52A0"),
+            clickHandler: () => vm.dialogUpsertI18nRecord(item.data)
           }), canDelete && genIcon({
             icon: "delete",
-            tips: vm.$t("\u5220\u9664").label,
+            tips: xI("\u5220\u9664"),
             clickHandler: () => vm.deleteArticle(_id)
           })])]);
         }
@@ -397,7 +452,7 @@ const I18nLeftSider = defineComponent({
       try {
         await this.moveItemAndResetOrder(params);
       } catch (error) {
-        UI.message.error(error.message);
+        xU.message.error(error.message);
       } finally {
         stateI18n.isLoading = false;
       }
@@ -433,12 +488,12 @@ const I18nLeftSider = defineComponent({
           order: menuOrderArray,
           belong_type: "all"
         });
-        await Methods_Wiki.updateWikiMenuList({
+        await Methods_Wiki$1.updateWikiMenuList({
           belong_type: "all"
         });
-        UI.message.success($t$1("\u66F4\u65B0\u6210\u529F").label);
+        xU.message.success(xI("\u66F4\u65B0\u6210\u529F"));
       } catch (error) {
-        UI.message.error(error.message);
+        xU.message.error(error.message);
       }
     },
     setFilterText: xU.debounce(function(filterText) {
@@ -450,30 +505,30 @@ const I18nLeftSider = defineComponent({
     }, 20),
     deleteArticle(_id) {
       const vm = this;
-      UI.dialog.confirm({
+      xU.confirm({
         title: "\u786E\u5B9A\u5220\u9664\u6B64\u6587\u6863\u5417\uFF1F",
         content: `\u6587\u6863\u5220\u9664\u540E\u65E0\u6CD5\u6062\u590D`,
         async onOk() {
           var _a;
           try {
             await API.wiki.delete(_id);
-            UI.message.success("\u5220\u9664\u6587\u6863\u6210\u529F");
-            await Methods_Wiki.updateWikiMenuList({
+            xU.message.success("\u5220\u9664\u6587\u6863\u6210\u529F");
+            await Methods_Wiki$1.updateWikiMenuList({
               belong_type: "all"
             });
-            vm.Cpt_url.go("/i18n", {
+            vm.cptRouter.go("/xI", {
               wiki_id: (_a = xU.first(stateI18n.i18nRecordArray)) == null ? void 0 : _a._id
             });
           } catch (error) {
-            UI.message.error(error.message);
+            xU.message.error(error.message);
             return Promise.reject();
           }
         }
       });
     },
-    openDialogUpsertI18nRecord(record) {
-      UI.dialog.component({
-        title: this.$t("\u6DFB\u52A0\u8BB0\u5F55").label,
+    dialogUpsertI18nRecord(record) {
+      xU.dialog({
+        title: xI("\u6DFB\u52A0\u8BB0\u5F55"),
         record,
         component: DialogUpsertI18nRecord
       });
@@ -481,10 +536,10 @@ const I18nLeftSider = defineComponent({
   },
   render() {
     return createVNode("aside", {
-      "class": "x-sider_wrapper flex vertical move-transition padding10",
+      "class": "x-sider_wrapper",
       "style": this.styleAside
     }, [createVNode("div", {
-      "class": "x-sider_wrapper_tree flex1 mt10 mb10",
+      "class": "x-sider_wrapper_tree",
       "ref": "wrapper"
     }, [this.vDomTree]), withDirectives(createVNode("div", {
       "class": "resize_bar",
@@ -494,7 +549,7 @@ const I18nLeftSider = defineComponent({
 });
 const DialogImportI18nJSON = defineComponent({
   props: {
-    propDialogOptions: {
+    propOptions: {
       type: Object,
       default() {
         return {
@@ -514,12 +569,12 @@ const DialogImportI18nJSON = defineComponent({
     configsBtnCancel() {
       return {
         preset: "cancel",
-        onClick: this.propDialogOptions.closeDialog
+        onClick: this.propOptions.$close
       };
     },
     configsBtnUpdateExistedRecord() {
       return {
-        text: $t$1("\u8986\u76D6").label,
+        text: xI("\u8986\u76D6"),
         disabled: () => {
           var _a;
           return !xU.isArrayFill((_a = this == null ? void 0 : this.raw$configsTableExistedRecords) == null ? void 0 : _a.selected);
@@ -539,12 +594,12 @@ const DialogImportI18nJSON = defineComponent({
         const {
           different
         } = data;
-        UI.message.success(`\u6210\u529F\u6DFB\u52A0\u8BB0\u5F55`);
+        xU.message.success(`\u6210\u529F\u6DFB\u52A0\u8BB0\u5F55`);
         if (xU.isArrayFill(different)) {
           this.showCoverExistedConfirm(data);
         } else {
           await stateI18n._$updateList();
-          this.propDialogOptions.closeDialog();
+          this.propOptions.$close();
         }
       } catch (error) {
         xU(error);
@@ -585,7 +640,7 @@ const DialogImportI18nJSON = defineComponent({
             }
           }),
           ...defCol({
-            label: $t$1("\u63CF\u8FF0").label,
+            label: xI("\u63CF\u8FF0"),
             width: "80px",
             prop: "desc",
             renderCell({
@@ -595,7 +650,7 @@ const DialogImportI18nJSON = defineComponent({
             }
           }),
           ...defCol({
-            label: $t$1("diff").label,
+            label: xI("diff"),
             prop: "different",
             renderCell({
               record
@@ -613,7 +668,7 @@ const DialogImportI18nJSON = defineComponent({
               if ((_b = record == null ? void 0 : record.diffRes) == null ? void 0 : _b.desc) {
                 desc = (_c = record == null ? void 0 : record.diffRes) == null ? void 0 : _c.desc;
                 desc = createVNode(resolveComponent("xInfoDiffCard"), {
-                  "title": $t$1("\u63CF\u8FF0").label,
+                  "title": xI("\u63CF\u8FF0"),
                   "old": desc[1],
                   "new": desc[0]
                 }, null);
@@ -626,7 +681,7 @@ const DialogImportI18nJSON = defineComponent({
         }
       });
       this.isShowCoverView = true;
-      this.$nextTick(() => this.propDialogOptions._layerInstance.offset());
+      this.$nextTick(() => this.propOptions.dialogInst.offset());
     },
     async onCoverExisted() {
       try {
@@ -642,9 +697,9 @@ const DialogImportI18nJSON = defineComponent({
           };
         });
         await API.god.upsertI18nRecordMany(params);
-        UI.message.success(`\u4FEE\u6539\u8BB0\u5F55\u6210\u529F`);
+        xU.message.success(`\u4FEE\u6539\u8BB0\u5F55\u6210\u529F`);
         await stateI18n._$updateList();
-        this.propDialogOptions.closeDialog();
+        this.propOptions.$close();
       } catch (error) {
         xU(error);
       }
@@ -658,10 +713,10 @@ const DialogImportI18nJSON = defineComponent({
       return createVNode(Fragment, null, [createVNode("div", {
         "class": "x-dialog-boddy-wrapper margin20 flex vertical",
         "style": "height:40vh"
-      }, [createVNode(resolveComponent("aAlert"), {
-        "message": raw$tips
+      }, [createVNode(resolveComponent("elAlert"), {
+        "title": raw$tips
       }, null), createVNode(resolveComponent("xGap"), {
-        "t": "10"
+        "t": true
       }, null), createVNode(resolveComponent("xVirTable"), {
         "configs": this.raw$configsTableExistedRecords,
         "class": "flex1 width100 "
@@ -676,7 +731,7 @@ const DialogImportI18nJSON = defineComponent({
       })]);
     }
     return withDirectives(createVNode("div", {
-      "class": "x-dialog-boddy-wrapper flex1 height100 margin20"
+      "class": "x-dialog-boddy-wrapper margin20"
     }, [createVNode(resolveComponent("aUploadDragger"), {
       "name": "file",
       "beforeUpload": this.handleChange,
@@ -688,14 +743,14 @@ const DialogImportI18nJSON = defineComponent({
         "icon": "icon_inbox"
       }, null)]), createVNode("p", {
         "class": "ant-upload-text"
-      }, [$t$1("\u5355\u51FB\u6216\u62D6\u52A8\u6587\u4EF6\u5230\u6B64\u533A\u57DF\u8FDB\u884C\u4E0A\u4F20").label])]
-    })]), [[resolveDirective("loading"), this.isLoading]]);
+      }, [xI("\u5355\u51FB\u6216\u62D6\u52A8\u6587\u4EF6\u5230\u6B64\u533A\u57DF\u8FDB\u884C\u4E0A\u4F20")])]
+    })]), [[resolveDirective("xloading"), this.isLoading]]);
   }
 });
 const ViewI18n = defineComponent({
   setup() {
     return {
-      Cpt_url,
+      cptRouter,
       stateI18n: useStateI18n()
     };
   },
@@ -720,11 +775,11 @@ const ViewI18n = defineComponent({
             prop: "key"
           }),
           ...defCol({
-            label: $t$1("\u63CF\u8FF0").label,
+            label: xI("\u63CF\u8FF0"),
             prop: "desc"
           }),
           ...defCol({
-            label: $t$1("\u6821\u6B63").label,
+            label: xI("\u6821\u6B63"),
             width: "80px",
             prop: "isRectified",
             renderCell({
@@ -740,23 +795,23 @@ const ViewI18n = defineComponent({
               return defColActionsBtnlist({
                 fold: 7,
                 btns: [{
-                  text: $t$1("\u67E5\u770BvalueArray").label,
+                  text: xI("\u67E5\u770BvalueArray"),
                   onClick: async () => {
                     await stateI18n._$updateCurrent(record._id);
                   }
                 }, {
-                  text: $t$1("\u4FEE\u6539").label,
+                  text: xI("\u4FEE\u6539"),
                   onClick: async () => {
                     await stateI18n._$updateCurrent(record._id);
-                    UI.dialog.component({
-                      title: this.$t("\u4FEE\u6539\u8BB0\u5F55").label,
+                    xU.dialog({
+                      title: xI("\u4FEE\u6539\u8BB0\u5F55"),
                       record: xU.cloneDeep(stateI18n.currentI18n),
                       component: DialogUpsertI18nRecord
                     });
                   }
                 }, {
-                  text: $t$1("\u5220\u9664").label,
-                  isShow: _State_App.user.role === "admin",
+                  text: xI("\u5220\u9664"),
+                  isShow: stateApp.user.role === ADMIN,
                   onClick: async () => {
                     vm.deleteI18nRecords([record]);
                   }
@@ -771,10 +826,10 @@ const ViewI18n = defineComponent({
   methods: {
     async exportRecordAsJson(records) {
       function download(url2, name) {
-        const aTag = document.createElement("a");
-        aTag.href = url2;
-        aTag.download = name;
-        aTag.click();
+        const ElTag = document.createElement("a");
+        ElTag.href = url2;
+        ElTag.download = name;
+        ElTag.click();
       }
       const {
         data
@@ -789,16 +844,16 @@ const ViewI18n = defineComponent({
       download(url, "i18nRecords.json");
     },
     deleteI18nRecords(records) {
-      UI.confirm({
+      xU.confirm({
         title: "\u786E\u5B9A\u5220\u9664\u8FD9\u4E9B\u5417\uFF1F",
         content: `\u8BB0\u5F55\u5220\u9664\u540E\u65E0\u6CD5\u6062\u590D`,
         async onOk() {
           try {
             await stateI18n._$deleteI18nRecords(records);
-            UI.message.success("\u5220\u9664\u8BB0\u5F55\u6210\u529F");
+            xU.message.success("\u5220\u9664\u8BB0\u5F55\u6210\u529F");
             stateI18n._$updateList({});
           } catch (error) {
-            UI.message.error(error.message);
+            xU.message.error(error.message);
             return Promise.reject();
           }
         }
@@ -808,10 +863,10 @@ const ViewI18n = defineComponent({
   computed: {
     btnImport() {
       return {
-        text: $t$1("\u5BFC\u5165").label,
+        text: xI("\u5BFC\u5165"),
         async onClick() {
-          await UI.dialog.component({
-            title: $t$1("\u5BFC\u5165\u56FD\u9645\u5316JSON\u6587\u4EF6").label,
+          xU.dialog({
+            title: xI("\u5BFC\u5165\u56FD\u9645\u5316JSON\u6587\u4EF6"),
             component: DialogImportI18nJSON
           });
         }
@@ -820,8 +875,8 @@ const ViewI18n = defineComponent({
     btnDelete() {
       const vm = this;
       return {
-        text: $t$1("\u5220\u9664").label,
-        isShow: _State_App.user.role === "admin",
+        text: xI("\u5220\u9664"),
+        isShow: stateApp.user.role === ADMIN,
         disabled() {
           return !xU.isArrayFill(vm.configsI18nTable.selected);
         },
@@ -833,7 +888,7 @@ const ViewI18n = defineComponent({
     btnDownload() {
       const vm = this;
       return {
-        text: $t$1("\u5BFC\u51FA").label,
+        text: xI("\u5BFC\u51FA"),
         disabled() {
           return !xU.isArrayFill(vm.configsI18nTable.selected);
         },
@@ -867,7 +922,7 @@ const ViewI18n = defineComponent({
       "id": "ViewI18n",
       "class": "flex flex1"
     }, [createVNode(I18nLeftSider, null, null), createVNode("main", {
-      "class": "flex flex1 padding10 vertical paddingB20"
+      "class": "flex flex1 app-padding vertical"
     }, [createVNode(resolveComponent("xDataGridToolbar"), {
       "configs": this.configsI18nTable
     }, {
@@ -885,7 +940,7 @@ const ViewI18n = defineComponent({
     }), createVNode(resolveComponent("xVirTable"), {
       "configs": this.configsI18nTable,
       "class": "flex1 width100 "
-    }, null), ((_a = stateI18n.currentI18n) == null ? void 0 : _a.valueArray) && createVNode(resolveComponent("aCard"), null, {
+    }, null), ((_a = stateI18n.currentI18n) == null ? void 0 : _a.valueArray) && createVNode(resolveComponent("elCard"), null, {
       default: () => [createVNode("div", {
         "style": "height:300px"
       }, [createVNode(MonacoEditor, {
@@ -893,7 +948,7 @@ const ViewI18n = defineComponent({
         "onUpdate:code": ($event) => stateI18n.currentI18n.valueArray = $event,
         "language": "json"
       }, null)])]
-    })])]), [[resolveDirective("loading"), stateI18n.isLoading]]);
+    })])]), [[resolveDirective("xloading"), stateI18n.isLoading]]);
   }
 });
 export {

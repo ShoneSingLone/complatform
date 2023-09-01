@@ -1,20 +1,22 @@
-import { State_App, Methods_App } from "@/state/State_App";
-import { defineComponent } from "vue";
+import { stateApp } from "@/state/app";
+import { defineComponent, onMounted, reactive, watch } from "vue";
 import "./MemberList.scss";
 import {
-	defDataGridOption,
+	defDataGrid,
 	defCol,
-	State_UI,
-	UI,
-	defItem,
 	xU,
-	AllWasWell,
 	pickValueFrom,
-	validateForm
-} from "@ventose/ui";
+	itemsInvalid,
+	xI,
+	xScope,
+	defColumns,
+	defItem
+} from "@/ventose/ui";
 import ViewAddMember from "./ViewAddMember.vue";
-
-const { $t } = State_UI;
+import { ADMIN, DEV, OWNER } from "@/utils/variable";
+import { aHashLink } from "@/router/router";
+import { getAvatarSrcByid } from "@/utils/common";
+import { DialogUserInfo } from "@/containers/User/DialogUserInfo";
 
 function arrayAddKey(arr) {
 	return arr.map((item, index) => {
@@ -28,78 +30,58 @@ function arrayAddKey(arr) {
 export const GroupMemberList = defineComponent({
 	props: ["uid"],
 	setup() {
-		return { State_App };
-	},
-	data() {
-		const vm = this;
-		return {
-			state: {
-				userInfo: [],
-				role: ""
-			},
-			configs_table: defDataGridOption({
-				isHidePagination: true,
-				async queryTableList(params) {},
-				dataSource: [],
-				columns: {}
-			})
-		};
-	},
-	async mounted() {
-		this.initTableColumns();
-	},
-	watch: {
-		"State_App.currGroup._id": {
-			immediate: true,
-			handler() {
-				this.fetchGroupMemberList();
-			}
-		}
-	},
-	methods: {
-		initTableColumns() {
-			const vm = this;
-			const isAuth = ["owner", "admin"].includes(vm.State_App.currGroup.role);
-			this.configs_table.columns = {
-				...defCol({
-					prop: "name",
-					label: `成员 ${vm.configs_table.dataSource.length} 人`,
-					renderCell({ record }) {
-						const text = record.username;
-						const imgSrc = `${location.protocol}//${location.host}/api/user/avatar?uid=${record.uid}`;
+		const isAuth = [OWNER, ADMIN].includes(stateApp.currGroup.role);
+		var vm = {
+			role: "",
+			dataSource: [],
+			columns: defColumns({
+				name: {
+					width: 300,
+					headerCellRenderer: () => (
+						<span class="padding">{`成员 ${vm.dataSource.length} 人`}</span>
+					),
+					cellRenderer({ rowData }) {
+						const text = rowData.username;
+						const avatarSrc = getAvatarSrcByid(rowData.uid);
 						return (
-							<div class="m-user">
-								<div to={`/user/profile/${record.uid}`}>
-									<img src={imgSrc} class="m-user-img" />
-								</div>
-								<div to={`/user/profile/${record.uid}`}>
-									<p class="m-user-name">
-										<span>{text}</span>
-									</p>
-								</div>
+							<div
+								class="flex middle start ml10 pointer"
+								onClick={() => vm._showMemberDetial(rowData.uid)}>
+								<elAvatar src={avatarSrc} />
+								<span class="ml10">{text}</span>
 							</div>
 						);
+						return (
+							<a
+								class="flex middle start ml10"
+								target="_blank"
+								href={aHashLink("/user_profile", { user_id: rowData.uid })}>
+								<elAvatar src={avatarSrc} />
+								<span class="ml10">{text}</span>
+							</a>
+						);
 					}
-				}),
-				...defCol({
-					prop: "action",
-					label: (() => {
+				},
+				action: {
+					headerCellRenderer: () => {
 						if (isAuth) {
 							return (
 								<div class="btn-container">
-									<aButton
-										className="btn"
+									<xButton
+										class="btn"
 										type="primary"
-										onClick={vm.showAddMemberDialog}>
+										onClick={vm._showAddMemberDialog}>
 										添加成员
-									</aButton>
+									</xButton>
 								</div>
 							);
 						} else {
 							return "";
 						}
-					})(),
-					renderCell({ record }) {
+					},
+					fixed: "right",
+					width: 200,
+					cellRenderer({ rowData }) {
 						if (isAuth) {
 							const configs = {
 								deleteBtn: {
@@ -107,11 +89,11 @@ export const GroupMemberList = defineComponent({
 									class: "ml10",
 									async onClick() {
 										try {
-											await UI.dialog.delete({
+											await xU.deleteConfirm({
 												title: "删除确认",
 												content: "你确定要删除吗?"
 											});
-											vm.delMember(record.uid);
+											vm._delMember(rowData.uid);
 										} catch (e) {
 											console.log("取消删除");
 										}
@@ -121,132 +103,128 @@ export const GroupMemberList = defineComponent({
 
 							return (
 								<div class="flex">
-									<aSelect
-										value={record.role}
-										onChange={role => {
-											vm.changeUserRole({ member_uid: record.uid, role });
-										}}
-										options={[
-											{ label: "组长", value: "owner" },
-											{ label: "开发者", value: "dev" },
-											{ label: "访客", value: "guest" }
-										]}></aSelect>
+									<xItem
+										modelValue={rowData.role}
+										configs={defItem({
+											itemType: "Select",
+											options: [
+												{ label: "组长", value: OWNER },
+												{ label: "开发者", value: DEV },
+												{ label: "访客", value: "guest" }
+											],
+											onAfterEmitItemValue(role) {
+												vm._changeUserRole({ member_uid: rowData.uid, role });
+											}
+										})}
+									/>
 									<xButton configs={configs.deleteBtn} />
 								</div>
 							);
 						} else {
 							const ROLE_MAP = {
-								owner: vm.$t("组长").label,
-								dev: vm.$t("开发者").label,
-								guest: vm.$t("访客").label
+								owner: xI("组长"),
+								dev: xI("开发者"),
+								guest: xI("访客")
 							};
 							// 非管理员可以看到权限 但无法修改
-							return ROLE_MAP[record.role];
+							return ROLE_MAP[rowData.role];
 						}
-					}
-				})
-			};
-		},
-		showAddMemberDialog() {
-			UI.dialog.component({
-				title: State_UI.$t("添加成员").label,
-				component: ViewAddMember,
-				area: ["480px", "260px"],
-				onOk: async ({ formItems, closeDialog }) => {
-					const validateResults = await validateForm(formItems);
-					if (AllWasWell(validateResults)) {
-						const { member_uids, role } = pickValueFrom(formItems);
-						try {
-							await this.addMember({ member_uids, role });
-							closeDialog();
-						} catch (error) {
-							UI.message.error("添加失败");
-						}
-					} else {
-						throw new Error("未通过验证");
 					}
 				}
-			});
-		},
+			}),
+			async _initTableColumns() {
+				await xU.ensureValueDone(() => stateApp.currGroup.role);
+				vm._fetchGroupMemberList();
+			},
+			_showMemberDetial(id) {
+				xU.dialog({
+					title: xI("用户信息"),
+					component: DialogUserInfo,
+					payload: { user_id: id }
+				});
+			},
+			_showAddMemberDialog() {
+				xU.dialog({
+					title: xI("添加成员"),
+					component: ViewAddMember,
+					area: ["480px", "260px"],
+					onOk: async ({ formItems, $close }) => {
+						if (!(await itemsInvalid())) {
+							const { member_uids, role } = pickValueFrom(formItems);
+							try {
+								await vm._addMember({ member_uids, role });
+								$close();
+							} catch (error) {
+								xU.message.error("添加失败");
+							}
+						} else {
+							throw new Error("未通过验证");
+						}
+					}
+				});
+			},
+			// 重新获取列表
+			async _fetchGroupMemberList() {
+				const menbers = await stateApp._fetchGroupMemberList(
+					stateApp.currGroup._id
+				);
 
-		// 重新获取列表
-		async fetchGroupMemberList() {
-			const menber = await Methods_App.fetchGroupMemberList(
-				this.State_App.currGroup._id
+				vm.dataSource = xU.orderBy(menbers, ["username", "member"]);
+			},
+			// 增 - 添加成员
+			async _addMember({ member_uids, role }) {
+				const { data } = await stateApp._addMember({
+					id: stateApp.currGroup._id,
+					member_uids,
+					role
+				});
+
+				const { add_members, exist_members } = data;
+				const addLength = add_members.length;
+				const existLength = exist_members.length;
+				xU.message.success(`新增 ${addLength} 人， ${existLength} 人已存在`);
+				vm._fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
+			},
+			// 删 - 删除分组成员
+			async _delMember(member_uid) {
+				const id = stateApp.currGroup._id;
+				const index = xU.layer.loading();
+				try {
+					await stateApp._delMember({ id, member_uid });
+					xU.notification.success("修改成功");
+					vm._fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
+				} catch (e) {
+					console.error(e);
+				} finally {
+					xU.layer.loading(index);
+				}
+			},
+			// 改 - 修改成员权限
+			async _changeUserRole({ member_uid, role }) {
+				const id = stateApp.currGroup._id;
+				const index = xU.layer.loading();
+				try {
+					await stateApp._changeMemberRole({ id, member_uid, role });
+					xU.notification.success("修改成功");
+					vm._fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
+				} catch (e) {
+					console.error(e);
+				} finally {
+					xU.layer.loading(index);
+				}
+			}
+		};
+		type t_vm = typeof vm;
+		vm = xScope<t_vm>(vm);
+
+		onMounted(() => {
+			vm._initTableColumns();
+		});
+
+		return function () {
+			return (
+				<xTable columns={vm.columns} rows={vm.dataSource} class="el-card" />
 			);
-			this.state.userInfo = arrayAddKey(menber);
-		},
-
-		// 增 - 添加成员
-		async addMember({ member_uids, role }) {
-			const { data } = await Methods_App.addMember({
-				id: this.State_App.currGroup._id,
-				member_uids,
-				role
-			});
-
-			const { add_members, exist_members } = data;
-			const addLength = add_members.length;
-			const existLength = exist_members.length;
-			UI.message.success(`新增 ${addLength} 人， ${existLength} 人已存在`);
-			this.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
-		},
-		// 删 - 删除分组成员
-		async delMember(member_uid) {
-			const id = this.State_App.currGroup._id;
-			const index = UI.layer.loading();
-			try {
-				await Methods_App.delMember({ id, member_uid });
-				UI.notification.success("修改成功");
-				this.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
-			} catch (e) {
-				console.error(e);
-			} finally {
-				UI.layer.loading(index);
-			}
-		},
-
-		// 改 - 修改成员权限
-		async changeUserRole({ member_uid, role }) {
-			const id = this.State_App.currGroup._id;
-			const index = UI.layer.loading();
-			try {
-				await Methods_App.changeMemberRole({ id, member_uid, role });
-				UI.notification.success("修改成功");
-				this.fetchGroupMemberList(); // 添加成功后重新获取分组成员列表
-			} catch (e) {
-				console.error(e);
-			} finally {
-				UI.layer.loading(index);
-			}
-		}
-	},
-	render() {
-		let userinfo = this.state.userInfo;
-		let ownerinfo = [];
-		let devinfo = [];
-		let guestinfo = [];
-		for (let i = 0; i < userinfo.length; i++) {
-			if (userinfo[i].role === "owner") {
-				ownerinfo.push(userinfo[i]);
-			}
-			if (userinfo[i].role === "dev") {
-				devinfo.push(userinfo[i]);
-			}
-			if (userinfo[i].role === "guest") {
-				guestinfo.push(userinfo[i]);
-			}
-		}
-		userinfo = [...ownerinfo, ...devinfo, ...guestinfo];
-		this.configs_table.dataSource = userinfo;
-		if (this.configs_table.columns?.name) {
-			this.configs_table.columns.name.title = `成员 ${userinfo.length} 人`;
-		}
-
-		return (
-			<div class="m-panel">
-				<xDataGrid configs={this.configs_table} />
-			</div>
-		);
+		};
 	}
 });

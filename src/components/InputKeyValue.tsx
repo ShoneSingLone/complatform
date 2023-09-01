@@ -1,7 +1,8 @@
 import { diff } from "jsondiffpatch";
-import { FormRules, xU } from "@ventose/ui";
-import { State_App } from "@/state/State_App";
+import { xU } from "@/ventose/ui";
+import { stateApp } from "@/state/app";
 import { defineComponent, toRaw, toRefs } from "vue";
+import { FormRules } from "@/utils/common.FormRules";
 
 export function makeKeyValueObj(i: any) {
 	return { key: i.name, value: i.value };
@@ -24,7 +25,7 @@ export const InputKeyValue = defineComponent({
 	],
 	emits: ["update:items"],
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		return { privateItems: {}, isLoading: true };
@@ -117,19 +118,25 @@ export const InputKeyValue = defineComponent({
 						type: "error",
 						msg: `${key} 与已有标识重复`
 					};
-					return FormRules.FAIL;
+					return;
+
+					FormRules.FAIL;
 				} else {
 					if (this.fnCheck) {
 						const isFail = this.fnCheck(this.privateItems[prop]);
 						if (isFail == FormRules.FAIL) {
-							return FormRules.FAIL;
+							return;
+
+							FormRules.FAIL;
 						}
 					}
 					this.privateItems[prop].keyConfigs.itemTips = {
 						type: "",
 						msg: ""
 					};
-					return FormRules.SUCCESS;
+					return;
+
+					FormRules.SUCCESS;
 				}
 			});
 			return !xU.some(res, i => i === FormRules.FAIL);
@@ -174,7 +181,7 @@ export const InputKeyValue = defineComponent({
 										/>
 										<xGap l="10" />
 										<xIcon
-											v-loading={this.isLoading}
+											v-xloading={this.isLoading}
 											icon="delete"
 											onClick={() => this.deleteItem(index)}
 											style="color:red;"
@@ -187,7 +194,7 @@ export const InputKeyValue = defineComponent({
 					)}
 				</div>
 				<xIcon
-					v-loading={vm.isLoading}
+					v-xloading={vm.isLoading}
 					icon="add"
 					style="color:#1890ff;"
 					onClick={this.addItem}

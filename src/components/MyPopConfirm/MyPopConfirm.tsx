@@ -1,5 +1,3 @@
-import { Modal, Button } from "ant-design-vue";
-
 // 嵌入到 BrowserRouter 内部，覆盖掉默认的 window.confirm
 // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
 class MyPopConfirm extends Component {
@@ -38,12 +36,12 @@ class MyPopConfirm extends Component {
 				visible={this.state.visible}
 				onCancel={this.no}
 				footer={[
-					<aButton key="back" onClick={this.no}>
+					<xButton key="back" onClick={this.no}>
 						取 消
-					</aButton>,
-					<aButton key="submit" onClick={this.yes}>
+					</xButton>,
+					<xButton key="submit" onClick={this.yes}>
 						确 定
-					</aButton>
+					</xButton>
 				]}>
 				<p>{this.props.msg}</p>
 			</aModal>

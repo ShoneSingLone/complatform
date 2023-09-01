@@ -1,105 +1,15 @@
-import { q as reactive, x as xU, b as API, t as watch, u as sortTreeByOrder, y as setDocumentTitle, C as Cpt_url, d as defineComponent, h as _State_App, a as defItem, $ as $t$1, F as FormRules, v as validateForm, A as AllWasWell, p as pickValueFrom, z as ARTICLE, U as UI, e as createVNode, r as resolveComponent, g as Fragment, m as isVNode, B as $, D as getTreeOrder, G as withDirectives, H as resolveDirective, I as compositionAPI } from "./index.js";
+import { d as defineComponent, s as stateApp, c as cptRouter, a as defItem, x as xI, i as itemsInvalid, G as GROUP, P as PROJECT, A as ARTICLE, b as API, e as xU, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, h as cpt_isPersonalWikiView, $, w as withDirectives, j as resolveDirective, k as getTreeOrder, l as compositionAPI } from "./index.js";
+import { F as FormRules, p as pickValueFrom } from "./common.FormRules.js";
+import { s as stateWiki, M as Methods_Wiki } from "./wiki.js";
 import { T as TuiEditor } from "./TuiEditor.js";
+import "./common.options.js";
 const ViewWiki$1 = "";
-const defautlValue = () => ({
-  treeData: [],
-  isLoading: false,
-  allWiki: {},
-  currentWiki: {},
-  expandedKeys: []
-});
-const _State_Wiki = defautlValue();
-const State_Wiki = reactive(_State_Wiki);
-const Methods_Wiki = {
-  setExpandedKeys: xU.debounce(async (_id) => {
-    const expandedKeys = new Set(State_Wiki.expandedKeys);
-    let currentWiki = State_Wiki.allWiki[_id];
-    while (currentWiki) {
-      expandedKeys.add(currentWiki._id);
-      if (currentWiki.p_id !== 0) {
-        currentWiki = State_Wiki.allWiki[currentWiki.p_id];
-      } else {
-        currentWiki = null;
-      }
-    }
-    State_Wiki.expandedKeys = [...expandedKeys];
-    State_Wiki.isLoading = false;
-  }, 1e3),
-  async setCurrentWiki(_id, item) {
-    if (!xU.isInput(_id)) {
-      return;
-    } else if (item) {
-      State_Wiki.currentWiki = item;
-      Methods_Wiki.setExpandedKeys(item._id);
-      return;
-    } else {
-      const {
-        data
-      } = await API.wiki.action({
-        action: "detail",
-        _id
-      });
-      if (data) {
-        State_Wiki.currentWiki = data;
-        Methods_Wiki.setExpandedKeys(_id);
-      }
-    }
-  },
-  async updateWikiMenuList(payload) {
-    const {
-      data
-    } = await API.wiki.menu(payload);
-    const {
-      list,
-      orderArray
-    } = data;
-    State_Wiki.treeData = buildTree(list, orderArray);
-  }
-};
-watch(() => {
-  var _a;
-  return (_a = State_Wiki == null ? void 0 : State_Wiki.currentWiki) == null ? void 0 : _a.title;
-}, () => {
-  var _a;
-  setDocumentTitle(`\u6587\u6863-${(_a = State_Wiki.currentWiki) == null ? void 0 : _a.title}`);
-});
-watch(() => Cpt_url.value.query.wiki_id, (_id) => {
-  if (_id) {
-    Methods_Wiki.setCurrentWiki(_id);
-  }
-}, {
-  immediate: true
-});
-function buildTree(dataArray, orderArray) {
-  console.time("buildTree");
-  State_Wiki.allWiki = xU.reduce(dataArray, (target, i) => {
-    target[i._id] = i;
-    return target;
-  }, {});
-  xU.each(State_Wiki.allWiki, function(item) {
-    if (!item)
-      return;
-    const parent = State_Wiki.allWiki[item.p_id];
-    if (parent) {
-      if (!xU.isArray(parent.children)) {
-        parent.children = [];
-      }
-      parent.children.push(item);
-    }
-  });
-  let tree = xU.filter(State_Wiki.allWiki, (item) => item.p_id === 0);
-  if (xU.isArrayFill(orderArray)) {
-    tree = sortTreeByOrder(tree, orderArray);
-  }
-  console.timeEnd("buildTree");
-  return tree;
-}
 function _isSlot(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 const DialogAddArticle = defineComponent({
   props: {
-    propDialogOptions: {
+    propOptions: {
       type: Object,
       default() {
         return {
@@ -110,18 +20,17 @@ const DialogAddArticle = defineComponent({
   },
   setup() {
     return {
-      State_App: _State_App,
-      Cpt_url
+      stateApp,
+      cptRouter
     };
   },
   data() {
     return {
       dataXItem: {
-        ...defItem({
+        title: defItem({
           value: "",
-          prop: "title",
-          label: $t$1("\u6587\u6863\u540D\u79F0").label,
-          placeholder: $t$1("\u6587\u6863\u540D\u79F0").label,
+          label: xI("\u6587\u6863\u540D\u79F0"),
+          placeholder: xI("\u6587\u6863\u540D\u79F0"),
           rules: [FormRules.required()]
         })
       }
@@ -130,21 +39,31 @@ const DialogAddArticle = defineComponent({
   computed: {
     pid() {
       var _a;
-      const _id = (_a = this.propDialogOptions.parentDoc) == null ? void 0 : _a._id;
+      const _id = (_a = this.propOptions.parentDoc) == null ? void 0 : _a._id;
       return _id || 0;
     },
     belong_type() {
-      return this.propDialogOptions.belong_type || "all";
+      return this.propOptions.belong_type || "all";
     }
   },
   mounted() {
-    this.propDialogOptions.vm = this;
+    this.propOptions.vm = this;
   },
   methods: {
     async onOk() {
       var _a;
-      const validateResults = await validateForm(this.dataXItem);
-      if (AllWasWell(validateResults)) {
+      if (!await itemsInvalid()) {
+        const {
+          project_id,
+          group_id
+        } = this.cptRouter.query;
+        let belong_id;
+        if (stateWiki.belongType === GROUP) {
+          belong_id = group_id;
+        }
+        if (stateWiki.belongType === PROJECT) {
+          belong_id = project_id;
+        }
         const {
           title
         } = pickValueFrom(this.dataXItem);
@@ -152,27 +71,23 @@ const DialogAddArticle = defineComponent({
           title,
           type: ARTICLE,
           p_id: this.pid,
-          belong_type: this.belong_type
+          belong_type: stateWiki.belongType,
+          belong_id
         };
         try {
           const {
             data
-          } = await API.wiki.action({
-            action: "upsertOne",
-            data: params
-          });
+          } = await API.wiki.upsertOne(params);
           if ((_a = data == null ? void 0 : data.msg) == null ? void 0 : _a._id) {
-            UI.message.success("\u6DFB\u52A0\u63A5\u53E3\u6210\u529F");
-            Methods_Wiki.updateWikiMenuList({
-              belong_type: "all"
-            });
-            this.Cpt_url.go("/wiki", {
+            xU.message.success("\u6DFB\u52A0\u6587\u6863\u6210\u529F");
+            Methods_Wiki.updateWikiMenuList();
+            Methods_Wiki.clickWiki({
               wiki_id: data.msg._id
             });
-            this.propDialogOptions.closeDialog();
+            this.propOptions.$close();
           }
         } catch (error) {
-          UI.message.error("\u6DFB\u52A0\u5931\u8D25");
+          xU.message.error(error || "\u6DFB\u52A0\u5931\u8D25");
         }
       }
     }
@@ -180,14 +95,14 @@ const DialogAddArticle = defineComponent({
   render() {
     let _slot;
     return createVNode(Fragment, null, [createVNode("div", {
-      "class": "x-dialog-boddy-wrapper flex1 height100"
+      "class": "x-dialog-boddy-wrapper"
     }, [createVNode(resolveComponent("xGap"), {
-      "t": "10"
-    }, null), createVNode(resolveComponent("aAlert"), {
-      "message": this.$t("\u4FDD\u5B58\u6807\u9898\u540E\u518D\u7F16\u8F91\u6587\u6863\u5185\u5BB9").label,
+      "t": true
+    }, null), createVNode(resolveComponent("elAlert"), {
+      "title": xI("\u4FDD\u5B58\u6807\u9898\u540E\u518D\u7F16\u8F91\u6587\u6863\u5185\u5BB9"),
       "type": "info",
       "closable": true,
-      "className": "width100"
+      "class": "width100"
     }, null), createVNode(resolveComponent("xForm"), {
       "class": "flex vertical",
       "labelStyle": {
@@ -196,17 +111,17 @@ const DialogAddArticle = defineComponent({
       }
     }, _isSlot(_slot = xU.map(this.dataXItem, (configs, prop) => {
       return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
-        "t": "10"
+        "t": true
       }, null), createVNode(resolveComponent("xItem"), {
         "configs": configs
       }, null)]);
     })) ? _slot : {
       default: () => [_slot]
     }), createVNode(resolveComponent("xGap"), {
-      "t": "10"
+      "t": true
     }, null)]), createVNode(resolveComponent("xDialogFooter"), {
       "configs": {
-        onCancel: this.propDialogOptions.closeDialog,
+        onCancel: this.propOptions.$close,
         onOk: this.onOk
       }
     }, null)]);
@@ -216,6 +131,7 @@ const {
   usefnObserveDomResize
 } = compositionAPI;
 const WikiLeftSider = defineComponent({
+  props: ["isShow"],
   emits: ["change"],
   setup() {
     const {
@@ -223,19 +139,15 @@ const WikiLeftSider = defineComponent({
       fnUnobserveDomResize
     } = usefnObserveDomResize();
     return {
-      State_Wiki,
-      State_App: _State_App,
-      Cpt_url,
+      stateWiki,
+      stateApp,
+      cptRouter,
+      cpt_isPersonalWikiView,
       fnObserveDomResize,
       fnUnobserveDomResize
     };
   },
-  watch: {
-    filterText(text) {
-      State_Wiki.isLoading = true;
-      this.setFilterText(text);
-    }
-  },
+  watch: {},
   data(vm) {
     return {
       configsResize: {
@@ -279,135 +191,152 @@ const WikiLeftSider = defineComponent({
   computed: {
     btnAddNew() {
       return {
-        text: $t$1("\u65B0\u589E").label,
+        text: xI("\u65B0\u589E"),
+        isShow() {
+          const {
+            user_id
+          } = cptRouter.value.query;
+          if (user_id) {
+            return String(user_id) === String(stateApp.user._id);
+          }
+          return true;
+        },
         onClick: () => this.showUpsertArticleDialog()
       };
     },
     btnRefresh() {
       return {
         preset: "refresh",
-        onClick: () => Methods_Wiki.updateWikiMenuList({
-          belong_type: "all"
-        })
+        onClick: () => Methods_Wiki.updateWikiMenuList()
       };
     },
     vDomTree() {
       const vm = this;
       return createVNode("div", {
-        "class": "elevation-2 height100 padding10",
-        "style": "border-radius: 8px;"
+        "class": "left-tree box-shadow"
       }, [createVNode("div", {
-        "class": "flex mb10"
-      }, [createVNode(resolveComponent("xButton"), {
-        "configs": vm.btnAddNew
+        "class": "flex mb10 middle"
+      }, [createVNode(resolveComponent("ElInput"), {
+        "modelValue": vm.filterText,
+        "onUpdate:modelValue": ($event) => vm.filterText = $event
       }, null), createVNode(resolveComponent("xGap"), {
         "l": "10"
-      }, null), createVNode(resolveComponent("xButton"), {
-        "configs": vm.btnRefresh
-      }, null)]), createVNode(resolveComponent("aTree"), {
-        "expandedKeys": vm.State_Wiki.expandedKeys,
-        "onUpdate:expandedKeys": ($event) => vm.State_Wiki.expandedKeys = $event,
+      }, null), createVNode(resolveComponent("xIcon"), {
+        "icon": "add",
+        "onClick": vm.btnAddNew.onClick,
+        "class": "icon-opreation_click"
+      }, null), createVNode(resolveComponent("xGap"), {
+        "l": "10"
+      }, null), createVNode(resolveComponent("xIcon"), {
+        "icon": "refresh",
+        "onClick": vm.btnRefresh.onClick,
+        "class": "icon-opreation_click"
+      }, null)]), createVNode(resolveComponent("ElScrollbar"), {
         "height": vm.siderHeight,
-        "treeData": vm.State_Wiki.treeData,
-        "draggable": true,
-        "onDrop": vm.handleDropArticle,
-        "fieldNames": vm.configs.fieldNames
+        "class": "flex1"
       }, {
-        title(item) {
-          var _a;
-          const {
-            title,
-            _id,
-            type
-          } = item;
-          const classContentString = (() => {
-            let _classString = "flex middle x-sider-tree_menu";
-            if (String(_id) == String(vm.State_Wiki.currentWiki._id)) {
-              return _classString + " x-sider-tree_menu_active";
+        default: () => [createVNode(resolveComponent("ElTree"), {
+          "expandedKeys": vm.stateWiki.expandedKeys,
+          "onUpdate:expandedKeys": ($event) => vm.stateWiki.expandedKeys = $event,
+          "data": vm.stateWiki.treeData,
+          "onNodeDragEnd": vm.handleDropArticle,
+          "draggable": true,
+          "node-key": "_id",
+          "expand-on-click-node": false,
+          "default-expand-all": true
+        }, {
+          default(item) {
+            var _a;
+            try {
+              const {
+                data
+              } = item;
+              const {
+                title,
+                _id,
+                type
+              } = data;
+              const classContentString = (() => {
+                let _classString = "x-sider-tree_menu";
+                if (String(_id) == String(vm.stateWiki.currentWiki._id)) {
+                  return _classString + " x-sider-tree_menu_active";
+                }
+                return _classString;
+              })();
+              const genIcon = ({
+                icon,
+                tips,
+                clickHandler
+              }) => {
+                return createVNode(Fragment, null, [withDirectives(createVNode(resolveComponent("xIcon"), {
+                  "icon": icon,
+                  "class": "x-sider-tree_menu_icon",
+                  "onClick": clickHandler
+                }, null), [[resolveDirective("xTips"), {
+                  content: tips,
+                  delay: 1e3
+                }]])]);
+              };
+              const handleClick = () => {
+                Methods_Wiki.clickWiki({
+                  wiki_id: item.data._id
+                });
+                vm.$emit("change");
+              };
+              const canDelete = !(item == null ? void 0 : item.children) || ((_a = item == null ? void 0 : item.children) == null ? void 0 : _a.length) === 0;
+              return createVNode("div", {
+                "class": classContentString
+              }, [createVNode("div", {
+                "class": "x-sider-tree_menu_title",
+                "onClick": handleClick
+              }, [createVNode(resolveComponent("xGap"), {
+                "l": "10",
+                "onClick": handleClick
+              }, null), createVNode(resolveComponent("xIcon"), {
+                "icon": "icon_article",
+                "onClick": handleClick
+              }, null), createVNode(resolveComponent("xHighlight"), {
+                "content": title,
+                "filter": vm.filterText
+              }, null)]), createVNode("div", {
+                "class": "x-sider-tree_menu_opration"
+              }, [genIcon({
+                icon: "add",
+                tips: xI("\u6DFB\u52A0"),
+                clickHandler: () => vm.showUpsertArticleDialog(item.data)
+              }), canDelete && genIcon({
+                icon: "delete",
+                tips: xI("\u5220\u9664"),
+                clickHandler: () => vm.deleteArticle(_id)
+              })])]);
+            } catch (error) {
+              return null;
             }
-            return _classString;
-          })();
-          const genIcon = ({
-            icon,
-            tips,
-            clickHandler
-          }) => {
-            return createVNode(Fragment, null, [withDirectives(createVNode(resolveComponent("xIcon"), {
-              "icon": icon,
-              "class": "x-sider-tree_menu_icon",
-              "onClick": clickHandler
-            }, null), [[resolveDirective("uiPopover"), {
-              content: tips,
-              delay: 1e3
-            }]]), createVNode(resolveComponent("xGap"), {
-              "l": "8"
-            }, null)]);
-          };
-          const handleClick = () => {
-            State_Wiki.isLoading = true;
-            vm.Cpt_url.go("/wiki", {
-              wiki_id: item.data._id
-            });
-            vm.$emit("change");
-            setTimeout(() => {
-              State_Wiki.isLoading = false;
-            }, 1e3 * 3);
-          };
-          const canDelete = !(item == null ? void 0 : item.children) || ((_a = item == null ? void 0 : item.children) == null ? void 0 : _a.length) === 0;
-          return createVNode("div", {
-            "class": classContentString,
-            "onClick": handleClick
-          }, [createVNode(resolveComponent("xGap"), {
-            "l": "10"
-          }, null), createVNode(resolveComponent("xIcon"), {
-            "icon": "icon_article"
-          }, null), createVNode("span", {
-            "class": "x-sider-tree_menu_title"
-          }, [createVNode("div", {
-            "class": "flex middle"
-          }, [title])]), createVNode("div", {
-            "class": "flex middle x-sider-tree_menu_opration"
-          }, [genIcon({
-            icon: "add",
-            tips: vm.$t("\u6DFB\u52A0").label,
-            clickHandler: () => vm.showUpsertArticleDialog(item.data)
-          }), canDelete && genIcon({
-            icon: "delete",
-            tips: vm.$t("\u5220\u9664").label,
-            clickHandler: () => vm.deleteArticle(_id)
-          })])]);
-        }
+          }
+        })]
       })]);
     }
   },
   methods: {
-    async handleDropArticle(e) {
-      State_Wiki.isLoading = true;
-      const {
-        dragNode: dragItem,
-        node: dropItem,
-        dropPosition,
-        dropToGap
-      } = e;
+    async handleDropArticle(draggingNode, dropNode, dropType) {
+      stateWiki.isLoading = true;
       const params = {
-        dragItem: dragItem.dataRef,
-        dropItem: dropItem.dataRef,
-        dropToGap,
-        dropPosition
+        dragItem: draggingNode.data,
+        dropItem: dropNode.data,
+        dropType
       };
       try {
         await this.moveItemAndResetOrder(params);
       } catch (error) {
-        UI.message.error(error.message);
+        xU.message.error(error.message);
       } finally {
-        State_Wiki.isLoading = false;
+        stateWiki.isLoading = false;
       }
     },
     async moveItemAndResetOrder({
       dragItem,
       dropItem,
-      dropToGap,
-      dropPosition
+      dropType
     }) {
       dragItem = {
         ...dragItem
@@ -415,66 +344,77 @@ const WikiLeftSider = defineComponent({
       dropItem = {
         ...dropItem
       };
-      const menuOrderArray = getTreeOrder(State_Wiki.treeData);
+      if (dragItem._id == dropItem._id) {
+        return;
+      }
+      const menuOrderArray = getTreeOrder(stateWiki.treeData);
       const dragIndex = menuOrderArray.indexOf(dragItem._id);
-      const dropIndex = menuOrderArray.indexOf(dropItem._id);
-      if (dropToGap) {
-        dragItem.p_id = dropItem.p_id;
-        menuOrderArray.splice(dragIndex, 1);
-        menuOrderArray.splice(dropIndex, 0, dragItem._id);
-      } else {
+      if (dropType === "inner") {
         dragItem.p_id = dropItem._id;
       }
+      if (dropType === "after") {
+        dragItem.p_id = dropItem.p_id;
+        menuOrderArray.splice(dragIndex, 1);
+        const dropIndex = menuOrderArray.indexOf(dropItem._id);
+        menuOrderArray.splice(dropIndex + 1, 0, dragItem._id);
+      }
+      if (dropType === "before") {
+        dragItem.p_id = dropItem.p_id;
+        menuOrderArray.splice(dragIndex, 1);
+        let dropIndex = menuOrderArray.indexOf(dropItem._id);
+        if (dropIndex === 0) {
+          menuOrderArray.unshift(dragItem._id);
+        } else {
+          menuOrderArray.splice(dropIndex - 1, 0, dragItem._id);
+        }
+      }
       try {
-        await API.wiki.action({
-          action: "upsertOne",
-          data: dragItem
-        });
+        await API.wiki.upsertOne(dragItem);
         await API.wiki.resetMenuOrder({
           order: menuOrderArray,
-          belong_type: "all"
+          belong_type: stateWiki.belongType,
+          belong_id: (() => {
+            const {
+              group_id,
+              project_id
+            } = cptRouter.value.query;
+            const s_map = {
+              group: group_id,
+              project: project_id
+            };
+            return s_map[stateWiki.belongType];
+          })()
         });
-        await Methods_Wiki.updateWikiMenuList({
-          belong_type: "all"
-        });
-        UI.message.success($t$1("\u66F4\u65B0\u6210\u529F").label);
+        await Methods_Wiki.updateWikiMenuList();
+        xU.message.success(xI("\u66F4\u65B0\u6210\u529F"));
       } catch (error) {
-        UI.message.error(error.message);
+        xU.message.error(error.message);
       }
     },
-    setFilterText: xU.debounce(function(filterText) {
-      State_Wiki.filterText = filterText;
-      State_Wiki.isLoading = false;
-    }, 600),
     setSiderHeight: xU.debounce(function(siderHeight) {
       this.siderHeight = siderHeight;
     }, 300),
-    deleteArticle(_id) {
-      const vm = this;
-      UI.dialog.confirm({
-        title: "\u786E\u5B9A\u5220\u9664\u6B64\u6587\u6863\u5417\uFF1F",
+    async deleteArticle(_id) {
+      xU.deleteConfirm({
         content: `\u6587\u6863\u5220\u9664\u540E\u65E0\u6CD5\u6062\u590D`,
         async onOk() {
           var _a;
           try {
             await API.wiki.delete(_id);
-            UI.message.success("\u5220\u9664\u6587\u6863\u6210\u529F");
-            await Methods_Wiki.updateWikiMenuList({
-              belong_type: "all"
-            });
-            vm.Cpt_url.go("/wiki", {
-              wiki_id: (_a = xU.first(State_Wiki.treeData)) == null ? void 0 : _a._id
+            xU.message.success("\u5220\u9664\u6587\u6863\u6210\u529F");
+            await Methods_Wiki.updateWikiMenuList();
+            Methods_Wiki.clickWiki({
+              wiki_id: (_a = xU.first(stateWiki.treeData)) == null ? void 0 : _a._id
             });
           } catch (error) {
-            UI.message.error(error.message);
-            return Promise.reject();
+            xU.message.error(error.message);
           }
         }
       });
     },
     showUpsertArticleDialog(parentDoc) {
-      UI.dialog.component({
-        title: this.$t("\u6DFB\u52A0\u6587\u6863").label,
+      xU.dialog({
+        title: xI("\u6DFB\u52A0\u6587\u6863"),
         parentDoc,
         belong_type: "all",
         component: DialogAddArticle
@@ -482,11 +422,14 @@ const WikiLeftSider = defineComponent({
     }
   },
   render() {
+    if (!this.isShow) {
+      return null;
+    }
     return createVNode("aside", {
-      "class": "x-sider_wrapper flex vertical move-transition padding10",
+      "class": "x-sider_wrapper",
       "style": this.styleAside
     }, [createVNode("div", {
-      "class": "x-sider_wrapper_tree flex1 mt10 mb10",
+      "class": "x-sider_wrapper_tree",
       "ref": "wrapper"
     }, [this.vDomTree]), withDirectives(createVNode("div", {
       "class": "resize_bar",
@@ -495,100 +438,133 @@ const WikiLeftSider = defineComponent({
   }
 });
 const ViewWiki = defineComponent({
-  mounted() {
-    Methods_Wiki.updateWikiMenuList({
-      belong_type: "all"
-    });
-  },
-  data(vm) {
+  props: ["belongType"],
+  setup() {
     return {
-      title: "",
-      titleConfigs: defItem.item({
-        placeholder: $t$1("\u6587\u6863\u540D\u79F0").label
+      stateWiki
+    };
+  },
+  mounted() {
+    stateWiki.__resetState({
+      ctx: this
+    });
+    if (stateWiki.belongType) {
+      Methods_Wiki.updateWikiMenuList();
+    } else {
+      cptRouter.value.go("/");
+    }
+  },
+  data() {
+    const vm = this;
+    return {
+      titleConfigs: defItem({
+        value: stateWiki.currentWiki.title,
+        itemWrapperClass: "flex1 mr10",
+        isShow: () => !vm.isReadonly
       }),
-      isReadonly: defItem.item({
-        value: true,
-        itemType: "Switch",
-        checkedChildren: $t$1("\u9884\u89C8").label
-      }),
-      btnSave: {
-        preset: "save",
-        isShow() {
-          return !vm.isReadonly.value;
-        },
-        onClick: vm.save
-      }
+      isReadonly: true
     };
   },
   methods: {
     async save() {
-      const params = xU.merge({}, State_Wiki.currentWiki, {
-        markdown: this.markdown
-      }, {
-        title: this.title
-      });
-      await API.wiki.action({
-        action: "upsertOne",
-        data: params
-      });
-      Methods_Wiki.updateWikiMenuList({
-        belong_type: "all"
-      });
-      Methods_Wiki.setCurrentWiki(params._id, params);
-      UI.message.success($t$1("\u4FDD\u5B58\u6210\u529F").label);
+      try {
+        xU.loading(true);
+        const params = xU.merge({}, stateWiki.currentWiki, {
+          markdown: this.markdown
+        }, {
+          title: this.titleConfigs.value
+        });
+        await API.wiki.upsertOne(params);
+        Methods_Wiki.updateWikiMenuList();
+        Methods_Wiki.setCurrentWiki(params._id, params);
+        xU.message.success(xI("\u4FDD\u5B58\u6210\u529F"));
+        this.titleConfigs.value = "";
+        this.isReadonly = true;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        xU.loading();
+      }
     }
   },
   computed: {
+    btnEditOrSave() {
+      return {
+        text: this.isReadonly ? xI("\u7F16\u8F91") : xI("\u4FDD\u5B58"),
+        type: "primary",
+        isShow: () => {
+          var _a;
+          return !!((_a = stateWiki.currentWiki) == null ? void 0 : _a._id);
+        },
+        onClick: () => {
+          var _a;
+          if (this.isReadonly) {
+            this.isReadonly = false;
+            this.titleConfigs.value = (_a = stateWiki.currentWiki) == null ? void 0 : _a.title;
+          } else {
+            this.save();
+          }
+        }
+      };
+    },
+    btnCancel() {
+      return {
+        text: xI("\u53D6\u6D88"),
+        isShow: () => {
+          return !this.isReadonly;
+        },
+        onClick: () => {
+          Methods_Wiki.setCurrentWiki();
+          this.isReadonly = true;
+        }
+      };
+    },
     wikiContent: {
       get() {
         return {
-          md: State_Wiki.currentWiki.markdown || ""
+          md: stateWiki.currentWiki.markdown || ""
         };
       },
-      set(modelValue, oldModelValue) {
-        State_Wiki.currentWiki.markdown = modelValue.md;
+      set(modelValue) {
+        stateWiki.currentWiki.markdown = modelValue.md;
       }
     },
     vDomTitle() {
-      if (this.isReadonly.value) {
-        return createVNode("span", {
-          "class": "ml10",
-          "style": "font-weight:700;font-size:18px;"
-        }, [State_Wiki.currentWiki.title]);
-      } else {
-        return createVNode(Fragment, null, [createVNode(resolveComponent("xItem"), {
-          "configs": this.titleConfigs,
-          "modelValue": State_Wiki.currentWiki.title,
-          "onUpdate:modelValue": (val) => this.title = val
-        }, null)]);
-      }
+      return createVNode(Fragment, null, [createVNode("span", {
+        "class": "ml10 flex1",
+        "style": {
+          "font-weight": "700",
+          "font-size": "18px",
+          display: this.isReadonly ? "inline-block" : "none"
+        }
+      }, [stateWiki.currentWiki.title]), createVNode(resolveComponent("xItem"), {
+        "id": "wiki-editor-title",
+        "configs": this.titleConfigs
+      }, null)]);
     }
   },
-  render({
-    btnSave,
-    vDomTitle
-  }) {
+  render() {
     return withDirectives(createVNode("section", {
-      "id": "ViewWiki",
-      "class": "flex flex1"
+      "id": "ViewWiki"
     }, [createVNode(WikiLeftSider, {
-      "onChange": () => this.isReadonly.value = true
+      "onChange": () => this.isReadonly = true,
+      "isShow": this.isReadonly
     }, null), createVNode("main", {
-      "class": "flex flex1 padding10 vertical paddingB20"
+      "class": "flex flex1 app-padding vertical"
     }, [createVNode("div", {
       "class": "flex mb10 middle",
       "style": "height:48px;"
-    }, [createVNode(resolveComponent("xItem"), {
-      "configs": this.isReadonly
-    }, null), vDomTitle, createVNode(resolveComponent("xGap"), {
-      "f": "1"
+    }, [this.vDomTitle, createVNode(resolveComponent("xButton"), {
+      "configs": this.btnCancel
+    }, null), createVNode(resolveComponent("xGap"), {
+      "r": "10"
     }, null), createVNode(resolveComponent("xButton"), {
-      "configs": btnSave
+      "configs": this.btnEditOrSave
     }, null)]), createVNode(TuiEditor, {
       "modelValue": this.wikiContent,
       "onUpdate:modelValue": ($event) => this.wikiContent = $event,
-      "isReadonly": this.isReadonly.value
-    }, null)])]), [[resolveDirective("loading"), State_Wiki.isLoading]]);
+      "isReadonly": this.isReadonly
+    }, null)])]), [[resolveDirective("xloading"), stateWiki.isLoading]]);
   }
 });
 export {

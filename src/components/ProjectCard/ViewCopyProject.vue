@@ -1,28 +1,22 @@
 <template>
-	<aCard class="flex1">
-		<aAlert :message="alertMessage" type="info" />
+	<elCard class="flex1">
+		<elAlert :title="alertMessage" type="info" />
 		<xForm
 			class="flex vertical"
 			:label-style="{ 'min-width': '120px', width: 'unset' }">
 			<template v-for="(item, prop) in formItems" :key="prop">
-				<xGap t="10" />
+				<xGap t />
 				<xItem :configs="item" />
 			</template>
 		</xForm>
-	</aCard>
+	</elCard>
 	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import {
-	AllWasWell,
-	defItem,
-	FormRules,
-	pickValueFrom,
-	UI,
-	validateForm
-} from "@ventose/ui";
+import { defItem, pickValueFrom, xU, itemsInvalid, xI } from "@/ventose/ui";
+import { FormRules, newRule } from "@/utils/common.FormRules";
 import {
 	xItem_ProjectIcon,
 	xItem_ProjectName
@@ -31,7 +25,7 @@ import {
 export default defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -40,18 +34,17 @@ export default defineComponent({
 	},
 	methods: {
 		async onOk() {
-			const validateResults = await validateForm(this.formItems);
-			if (AllWasWell(validateResults)) {
+			if (!(await itemsInvalid())) {
 				const { name, icon } = pickValueFrom(this.formItems);
 				try {
-					await this.propDialogOptions.copyProject({
+					await this.propOptions.copyProject({
 						newProjectName: name,
 						icon
 					});
-					this.propDialogOptions.closeDialog();
+					this.propOptions.$close();
 				} catch (error) {
 					console.error(error);
-					UI.message.error("复制失败");
+					xU.message.error("复制失败");
 				}
 			} else {
 				throw new Error("未通过验证");
@@ -60,12 +53,12 @@ export default defineComponent({
 	},
 	computed: {
 		propProjectName() {
-			return String(this.propDialogOptions?.projectName || "");
+			return String(this.propOptions?.projectName || "");
 		},
 		dialogDefautBtn() {
 			return {
-				textOk: this.$t("复制").label,
-				onCancel: this.propDialogOptions.closeDialog,
+				textOk: xI("复制"),
+				onCancel: this.propOptions.$close,
 				onOk: this.onOk
 			};
 		}
@@ -75,13 +68,13 @@ export default defineComponent({
 		return {
 			alertMessage: `该操作将会复制 ${this.propProjectName} 下的所有接口集合，但不包括测试集合中的接口`,
 			formItems: {
-				...defItem(
+				projectName: defItem(
 					xItem_ProjectName({
 						value: this.propProjectName,
 						appendRules: [
-							FormRules.custom({
+							newRule({
 								validator(value, { configs, rule }) {
-									if (value === vm.propDialogOptions.projectName) {
+									if (value === vm.propOptions.projectName) {
 										rule.msg = "不能与原项目名相同";
 										return FormRules.FAIL;
 									} else {
@@ -92,7 +85,7 @@ export default defineComponent({
 						]
 					})
 				),
-				...defItem(xItem_ProjectIcon())
+				projectIcon: defItem(xItem_ProjectIcon())
 			}
 		};
 	}

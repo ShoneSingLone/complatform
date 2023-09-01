@@ -2,7 +2,6 @@
 
 import React from "react";
 
-import { Collapse, Select } from "ant-design-vue";
 import "./index.scss";
 
 const Option = Select.Option;
@@ -27,7 +26,7 @@ export default class CaseEnv extends React.Component {
 
 	render() {
 		return (
-			<aCollapse
+			<ElCollapse
 				style={{
 					margin: 0,
 					marginBottom: "16px"
@@ -40,10 +39,10 @@ export default class CaseEnv extends React.Component {
 						<span>
 							{" "}
 							选择测试用例环境
-							<aTooltip title="默认使用测试用例选择的环境">
+							<ElTooltip content="默认使用测试用例选择的环境">
 								{" "}
 								<xIcon icon="question-circle-o" />{" "}
-							</aTooltip>
+							</ElTooltip>
 						</span>
 					}
 					key="1">
@@ -52,18 +51,18 @@ export default class CaseEnv extends React.Component {
 							<div>
 								{this.props.envList.map(item => {
 									return (
-										<aRow
+										<ElRow
 											key={item._id}
 											type="flex"
 											justify="space-around"
 											align="middle"
 											class="env-item">
-											<aCol span={6} class="label">
-												<aTooltip title={item.name}>
+											<elCol span={6} class="label">
+												<ElTooltip content={item.name}>
 													<span class="label-name">{item.name}</span>
-												</aTooltip>
-											</aCol>
-											<aCol span={18}>
+												</ElTooltip>
+											</elCol>
+											<elCol span={18}>
 												<Select
 													style={{
 														width: "100%"
@@ -85,15 +84,15 @@ export default class CaseEnv extends React.Component {
 														);
 													})}
 												</Select>
-											</aCol>
-										</aRow>
+											</elCol>
+										</ElRow>
 									);
 								})}
 							</div>
 						)}
 					</div>
 				</Panel>
-			</aCollapse>
+			</ElCollapse>
 		);
 	}
 }

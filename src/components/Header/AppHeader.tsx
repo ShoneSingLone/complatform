@@ -3,10 +3,11 @@ import "./Header.scss";
 import Srch from "./Search/Search";
 import { BreadcrumbNavigation } from "../Breadcrumb/Breadcrumb";
 import { defineComponent, VNode } from "vue";
-import { UI, xU } from "@ventose/ui";
-import { Cpt_avatarUrl, Methods_App, State_App } from "@/state/State_App";
-import { Cpt_url, aHashLink } from "@/router/router";
+import { xU } from "@/ventose/ui";
+import { cptAvatarUrl, stateApp } from "@/state/app";
+import { cptRouter, aHashLink } from "@/router/router";
 import { API } from "@/api";
+import { ADMIN } from "@/utils/variable";
 
 export const AppHeader = defineComponent({
 	props: [
@@ -26,40 +27,43 @@ export const AppHeader = defineComponent({
 		"imageUrl"
 	],
 	setup() {
-		return { State_App, Cpt_url, Cpt_avatarUrl };
+		return { stateApp, cptRouter, cptAvatarUrl };
 	},
 	methods: {
 		goToGroup() {
-			this.Cpt_url.go("/group", {
-				group_id: this.Cpt_url.query.group_id
+			if (this.cptRouter.pathname === "/group") {
+				return;
+			}
+			this.cptRouter.go("/group", {
+				group_id: this.cptRouter.query.group_id
 			});
 		},
 		goToI18nManger() {
-			this.Cpt_url.go("/i18n", {});
+			this.cptRouter.go("/xI", {});
 		}
 	},
 	computed: {
 		icon() {
-			if (["/group", "/wiki", "/i18n"].includes(this.Cpt_url.pathname)) {
+			if (["/group", "/wiki", "/xI"].includes(this.cptRouter.pathname)) {
 				return "yapi_logo";
 			}
 			return "back_group";
 		},
 		ToolUser() {
 			const vm = this;
-			let { groupList, isLogin } = this.State_App.user;
+			let { groupList, isLogin } = this.stateApp.user;
 
 			if (!isLogin) {
 				return null;
 			}
 
 			const items = [
-				{ content: "我的关注", path: "/follow", icon: "star" },
-				{ content: "新建项目", path: "/follow", icon: "add" },
+				{ content: "我的关注", path: "/follow", icon: "icon_我的关注" },
+				{ content: "新建项目", path: "/follow", icon: "icon_新建项目" },
 				{
-					content: "使用文档",
+					content: `使用文档`,
 					href: "https://hellosean1025.github.io/yapi",
-					icon: "question"
+					icon: "icon_使用文档"
 				}
 			].map(i => {
 				let link: VNode | null = null;
@@ -69,7 +73,7 @@ export const AppHeader = defineComponent({
 						<xIcon
 							icon={i.icon}
 							style={iconStyle}
-							onClick={() => this.Cpt_url.go(i.path)}
+							onClick={() => this.cptRouter.go(i.path)}
 						/>
 					);
 				}
@@ -81,9 +85,9 @@ export const AppHeader = defineComponent({
 						</a>
 					);
 				}
-				const configsPopover = { content: i.content, placement: "bottom" };
+				const configsPopover = { content: i.content, placement: "left" };
 				return (
-					<div class="toolbar-li" v-uiPopover={configsPopover}>
+					<div class="toolbar-li" v-xTips={configsPopover}>
 						{link}
 					</div>
 				);
@@ -93,14 +97,15 @@ export const AppHeader = defineComponent({
 					<span
 						onClick={this.goToI18nManger}
 						class="flex middle pointer ml10 header-menu-icon_background">
+						{/* yapi logo */}
 						<xIcon icon="icon_i18n" style={this.styleLogo} />
 					</span>
 					<span class="flex middle pointer ml10 header-menu-icon_background">
 						<a
 							class="flex middle"
-							href={aHashLink("/wiki", {})}
+							href={aHashLink("/wiki_all", {})}
 							style={this.styleLogo}
-							target="_black">
+							target="_blank">
 							<xIcon icon="wikidoc" style={this.styleLogo} />
 						</a>
 					</span>
@@ -109,15 +114,11 @@ export const AppHeader = defineComponent({
 					</div>
 					{items}
 					<div class="toolbar-li">
-						<aDropdown
-							trigger={["click"]}
+						<elDropdown
+							trigger="click"
 							v-slots={{
-								default: () => (
-									<a class="dropdown-link">
-										<aAvatar src={vm.Cpt_avatarUrl} />
-									</a>
-								),
-								overlay: () => this.MenuUser
+								default: () => <elAvatar src={vm.cptAvatarUrl} />,
+								dropdown: () => this.MenuUser
 							}}
 						/>
 					</div>
@@ -125,19 +126,9 @@ export const AppHeader = defineComponent({
 			);
 		},
 		MenuUser() {
-			const { uid, role } = this.State_App.user;
+			const { uid, role } = this.stateApp.user;
 			return (
-				<aMenu
-					class="user-menu"
-					onClick={item => {
-						const { key } = item;
-						if (key === "user") {
-							Cpt_url.value.go("/user_profile");
-						}
-						if (key === "logout") {
-							Methods_App.logoutActions();
-						}
-					}}>
+				<elDropdownMenu class="user-menu">
 					{xU.map(
 						{
 							user: {
@@ -147,7 +138,7 @@ export const AppHeader = defineComponent({
 								adminFlag: false
 							},
 							user_doc: {
-								path: aHashLink("/wiki", { user_id: State_App.user._id }),
+								path: aHashLink("/wiki_private"),
 								target: "_blank",
 								name: "个人文档",
 								icon: "wikidoc",
@@ -161,39 +152,40 @@ export const AppHeader = defineComponent({
 							},
 							logout: {
 								name: "退出",
-								icon: "logout"
+								icon: "logout",
+								onClick() {
+									stateApp._logoutActions();
+								}
 							}
 						},
 						(item, key) => {
-							const isAdmin = role === "admin";
+							const isAdmin = role === ADMIN;
 
 							if (item.adminFlag && !isAdmin) {
 								return null;
 							}
 
 							const menuContent = (
-								<>
+								<span class="flex middle ">
 									<xIcon icon={item.icon} />
 									<span class="ml4">{item.name}</span>
-								</>
+								</span>
 							);
 
 							let menuLink = (
 								<a
 									href={item.path || ""}
-									class="flex horizon"
-									target={item.target || ""}>
+									class="header-dropdown-menu-item"
+									target={item.target || ""}
+									onClick={item?.onClick}>
 									{menuContent}
 								</a>
 							);
 
-							if (key === "logout") {
-							}
-
-							return <aMenuItem key={key}>{menuLink}</aMenuItem>;
+							return <elDropdownItem key={key}>{menuLink}</elDropdownItem>;
 						}
 					)}
-				</aMenu>
+				</elDropdownMenu>
 			);
 		}
 	},
@@ -206,20 +198,19 @@ export const AppHeader = defineComponent({
 		};
 	},
 	render() {
-		if (!State_App.user.isLogin) {
+		if (!stateApp.user.isLogin) {
 			return null;
 		}
 		return (
-			<aLayoutHeader class="header-box m-header elevation-4">
-				<div class="content flex middle">
-					<span onClick={this.goToGroup} class="flex middle pointer">
-						<xIcon icon={this.icon} style={this.styleLogo} />
-					</span>
-					<BreadcrumbNavigation />
-					<span class="flex1"></span>
-					{this.ToolUser}
-				</div>
-			</aLayoutHeader>
+			<header class="app-header-wrapper">
+				<span onClick={this.goToGroup} class="flex middle pointer">
+					{/* yapi logo */}
+					<xIcon icon={this.icon} style={this.styleLogo} />
+				</span>
+				<BreadcrumbNavigation />
+				<span class="flex1"></span>
+				{this.ToolUser}
+			</header>
 		);
 	}
 });

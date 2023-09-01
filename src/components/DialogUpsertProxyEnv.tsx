@@ -1,15 +1,7 @@
 import { defineComponent, markRaw } from "vue";
-import {
-	AllWasWell,
-	defItem,
-	pickValueFrom,
-	setValueTo,
-	UI,
-	validateForm,
-	xU
-} from "@ventose/ui";
-import { Methods_App, State_App } from "@/state/State_App";
-import { FormRules } from "@/utils/common.FormRules";
+import { defItem, pickValueFrom, setValueTo, xI, xU } from "@/ventose/ui";
+import { stateApp } from "@/state/app";
+import { FormRules, newRule } from "@/utils/common.FormRules";
 import { API } from "@/api";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 import {
@@ -22,7 +14,7 @@ import { diff } from "jsondiffpatch";
 export const DialogUpsertProxyEnv = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -30,7 +22,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		const vm = this;
@@ -39,43 +31,36 @@ export const DialogUpsertProxyEnv = defineComponent({
 			privateEnv: {},
 			currentSelected: "",
 			configsForm: {
-				...defItem({
-					label: vm.$t("环境名称").label,
-					prop: "name"
+				name: defItem({
+					label: xI("环境名称")
 				}),
-				...defItem({
-					label: vm.$t("环境域名").label,
-					prop: "domain",
+				domain: defItem({
+					label: xI("环境域名"),
 					slots: markRaw({
 						addonBefore: () => <xItem configs={vm.configsForm.protocol} />
 					}),
 					rules: [
-						FormRules.custom({
-							validator(value, { rule }) {
+						newRule({
+							validator(value) {
 								if (value.length === 0) {
-									rule.msg = "请输入环境域名!";
-									return FormRules.FAIL;
+									return "请输入环境域名!";
 								} else if (/\s/.test(value)) {
-									rule.msg = "环境域名不允许出现空格!";
-									return FormRules.FAIL;
+									return "环境域名不允许出现空格!";
 								} else {
-									rule.msg = "";
-									return FormRules.SUCCESS;
+									return "";
 								}
 							}
 						})
 					]
 				}),
-				...defItem({
-					prop: "protocol",
+				protocol: defItem({
 					itemType: "Select",
 					options: ITEM_OPTIONS.httpProtocol,
 					style: "width:100px;"
 				}),
-				...defItem({
+				header: defItem({
 					value: [],
 					label: "Header",
-					prop: "header",
 					itemType: KeyValuePanel,
 					fnCheck(configs) {
 						if (configs.keyConfigs.value === "Cookie") {
@@ -92,12 +77,12 @@ export const DialogUpsertProxyEnv = defineComponent({
 						const { index, key, value } = args;
 						return {
 							_id: index,
-							keyConfigs: defItem.item({
+							keyConfigs: defItem({
 								prop: "key" + index,
 								placeholder: "Header名称",
 								value: key || ""
 							}),
-							valueConfigs: defItem.item({
+							valueConfigs: defItem({
 								prop: "value" + index,
 								placeholder: "Header值",
 								value: value || ""
@@ -105,21 +90,20 @@ export const DialogUpsertProxyEnv = defineComponent({
 						};
 					}
 				}),
-				...defItem({
+				cookie: defItem({
 					value: [],
 					label: "Cookie",
-					prop: "cookie",
 					itemType: KeyValuePanel,
 					genItem(args) {
 						const { index, key, value } = args;
 						return {
 							_id: index,
-							keyConfigs: defItem.item({
+							keyConfigs: defItem({
 								prop: "key" + index,
 								placeholder: "Cookie名称",
 								value: key || ""
 							}),
-							valueConfigs: defItem.item({
+							valueConfigs: defItem({
 								prop: "value" + index,
 								placeholder: "Cookie值",
 								value: value || ""
@@ -127,21 +111,20 @@ export const DialogUpsertProxyEnv = defineComponent({
 						};
 					}
 				}),
-				...defItem({
+				global: defItem({
 					value: [],
 					label: "global",
-					prop: "global",
 					itemType: KeyValuePanel,
 					genItem(args) {
 						const { index, key, value } = args;
 						return {
 							_id: index,
-							keyConfigs: defItem.item({
+							keyConfigs: defItem({
 								prop: "key" + index,
 								placeholder: "global名称",
 								value: key || ""
 							}),
-							valueConfigs: defItem.item({
+							valueConfigs: defItem({
 								prop: "value" + index,
 								placeholder: "global值",
 								value: value || ""
@@ -153,7 +136,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		};
 	},
 	watch: {
-		"State_App.currProject.env": {
+		"stateApp.currProject.env": {
 			immediate: true,
 			handler(env) {
 				if (!env) {
@@ -185,8 +168,8 @@ export const DialogUpsertProxyEnv = defineComponent({
 	},
 	computed: {
 		propProjectId() {
-			if (this.State_App.currProject._id) {
-				return this.State_App.currProject._id;
+			if (this.stateApp.currProject._id) {
+				return this.stateApp.currProject._id;
 			} else {
 				alert("miss projectId");
 			}
@@ -204,7 +187,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 							if (/^new_env/.test(i._id)) {
 								return async () => {
 									try {
-										await UI.dialog.confirm({
+										await xU.confirm({
 											content: `删除环境变量${i.name}?`
 										});
 										const envIndex = xU.findIndex(this.privateEnv, {
@@ -218,7 +201,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 						})();
 
 						return (
-							<aButton
+							<xButton
 								type="text"
 								onClick={() => this.switchEvn(i)}
 								class={className}>
@@ -226,7 +209,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 									<div
 										class="flex1 ellipsis"
 										style="text-align:left;"
-										v-uiPopover={{ onlyEllipsis: true, placement: "left" }}>
+										v-xTips={{ onlyEllipsis: true, placement: "left" }}>
 										{i.name}
 									</div>
 									<xIcon
@@ -235,7 +218,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 										onClick={fnDelete}
 									/>
 								</div>
-							</aButton>
+							</xButton>
 						);
 					})}
 				</div>
@@ -246,8 +229,8 @@ export const DialogUpsertProxyEnv = defineComponent({
 			const vDomContent = (() => {
 				if (this.isLoading) {
 					return (
-						<aSpin
-							spinning={true}
+						<div
+							x-xloading="true"
 							class="ant-spin ant-spin-spinning flex middle center height100 width100"
 						/>
 					);
@@ -259,22 +242,22 @@ export const DialogUpsertProxyEnv = defineComponent({
 							width: "80px",
 							padding: "0 14px"
 						}}>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.name} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.domain} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.global} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.header} />
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={this.configsForm.cookie} />
-						<xGap t="10" />
+						<xGap t />
 					</xForm>
 				);
 			})();
 			return (
-				<div class="env-configs flex1 padding10 ant-card ant-card-bordered overflow-auto">
+				<div class="env-configs flex1 app-padding ant-card ant-card-bordered overflow-auto">
 					{vDomContent}
 				</div>
 			);
@@ -298,7 +281,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			const keys = Object.keys(delta || {});
 			if (keys.length > 0) {
 				try {
-					await UI.dialog.confirm({
+					await xU.confirm({
 						content: "有未保存的修改，切换之后将被放弃"
 					});
 					continu();
@@ -340,8 +323,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 			}, 64);
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.configsForm);
-			if (!AllWasWell(validateResults)) {
+			if (await itemsInvalid()) {
 				return;
 			}
 
@@ -381,8 +363,8 @@ export const DialogUpsertProxyEnv = defineComponent({
 				id: this.propProjectId,
 				env: envArray
 			});
-			UI.message.success(this.$t("环境设置成功").label);
-			Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
+			xU.message.success(xI("环境设置成功"));
+			stateApp._setCurrProject(this.propProjectId, { isEnforce: true });
 		},
 		async addEnv() {
 			const newItem = {
@@ -399,7 +381,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		async deleteEnv(item) {
 			const id = item._id;
 			try {
-				await UI.dialog.confirm({ content: `删除环境变量${item.name}?` });
+				await xU.confirm({ content: `删除环境变量${item.name}?` });
 				const envIndex = xU.findIndex(this.privateEnv, {
 					_id: id
 				});
@@ -409,8 +391,8 @@ export const DialogUpsertProxyEnv = defineComponent({
 					id: this.propProjectId,
 					env: envArray
 				});
-				UI.message.success(this.$t("环境设置成功").label);
-				Methods_App.setCurrProject(this.propProjectId, { isEnforce: true });
+				xU.message.success(xI("环境设置成功"));
+				stateApp._setCurrProject(this.propProjectId, { isEnforce: true });
 			} catch (error) {}
 		}
 	},
@@ -419,7 +401,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 		return (
 			<>
 				<div
-					class="DialogUpsertProxyEnv flex1 flex horizon padding10"
+					class="DialogUpsertProxyEnv flex1 flex horizon app-padding"
 					style="overflow:auto;">
 					<div class="env-list-wrapper flex vertical">
 						<div class="flex center mb10">
@@ -427,7 +409,7 @@ export const DialogUpsertProxyEnv = defineComponent({
 								icon="add"
 								onClick={this.addEnv}
 								class="flex middle color-primary pointer"
-								v-uiPopover={{ content: "添加新环境", delay: 1000 }}
+								v-xTips={{ content: "添加新环境", delay: 1000 }}
 							/>
 						</div>
 						{this.vDomLeftSide}
@@ -438,9 +420,9 @@ export const DialogUpsertProxyEnv = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						textOk: this.$t("暂存").label,
+						textOk: xI("暂存"),
 						onOk: this.onOk,
-						onCancel: this.propDialogOptions.closeDialog
+						onCancel: this.propOptions.$close
 					}}
 				/>
 			</>
@@ -452,7 +434,7 @@ const KeyValuePanel = defineComponent({
 	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
 	methods: {
 		fnUpdate(val) {
-			this.listeners["onUpdate:value"](val);
+			this.listeners["onEmitItemValue"](val);
 		}
 	},
 	render(vm) {

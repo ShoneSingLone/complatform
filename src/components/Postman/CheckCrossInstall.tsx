@@ -1,5 +1,4 @@
 import React from "react";
-import { Alert } from "ant-design-vue";
 
 exports.initCrossRequest = function (fn) {
 	let startTime = 0;

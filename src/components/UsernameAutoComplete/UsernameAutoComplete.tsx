@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { API } from "@/api";
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 
 /**
  * 用户名输入框自动完成组件
@@ -36,14 +36,6 @@ import { xU } from "@ventose/ui";
 
 export default defineComponent({
 	props: ["callbackState"],
-	data() {
-		return {
-			state: {
-				dataSource: [],
-				fetching: false
-			}
-		};
-	},
 	methods: {
 		doSearch: xU.debounce(function (params) {
 			API.user
@@ -83,33 +75,26 @@ export default defineComponent({
 	computed: {
 		children() {
 			return xU.map(this.state.dataSource, (item, index) => (
-				<aSelectOption key={index} value={"" + item.id}>
+				<ElOption key={item.id} value={"" + item.id} data-index={index}>
 					{item.username}
-				</aSelectOption>
+				</ElOption>
 			));
 		}
 	},
 	render() {
 		let { fetching } = this.state;
 		return (
-			<aSelect
-				mode="multiple"
+			<ElSelect
+				multiple
+				filterable
+				remote
+				remote-show-suffix
+				onChange={this.handleChange}
+				remoteMethod={this.onSearch}
 				style={{ width: "100%" }}
-				placeholder="请输入用户名"
-				filterOption={false}
-				optionLabelProp="children"
-				notFoundContent={
-					fetching ? (
-						<>
-							<aSpin />
-							<span style="color:gray;margin-left:4px;"> 正在获取用户列表</span>
-						</>
-					) : null
-				}
-				onSearch={this.onSearch}
-				onChange={this.handleChange}>
+				placeholder="请输入用户名">
 				{this.children}
-			</aSelect>
+			</ElSelect>
 		);
 	}
 });

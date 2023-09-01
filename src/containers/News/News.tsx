@@ -3,7 +3,7 @@ import "./News.scss";
 import NewsTimeline from "./NewsTimeline/NewsTimeline";
 
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import { Button } from "ant-design-vue";
+
 import { getMockUrl } from "../../reducer/modules/news.js";
 import Subnav from "../../components/Subnav/Subnav.js";
 
@@ -59,13 +59,13 @@ class News extends Component {
 					]}
 				/>
 				<div class="x-dialog-boddy-wrapper">
-					<section class="news-box m-panel">
+					<section class="news-box">
 						<div class="logHead">
 							<Breadcrumb />
 							<div class="Mockurl">
 								<span>Mock地址：</span>
 								<p>{this.state.mockURL}</p>
-								<aButton type="primary">下载Mock数据</aButton>
+								<xButton type="primary">下载Mock数据</xButton>
 							</div>
 						</div>
 						<NewsTimeline />

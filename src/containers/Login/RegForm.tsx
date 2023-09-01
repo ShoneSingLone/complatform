@@ -1,18 +1,20 @@
 import { defineComponent } from "vue";
-import { Methods_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import {
 	defItem,
 	EVENT_TYPE,
-	UI,
-	State_UI,
-	AllWasWell,
-	validateForm,
-	FormRules,
+	xU,
+	stateUI,
+	itemsInvalid,
 	pickValueFrom,
-	$t
-} from "@ventose/ui";
+	xI
+} from "@/ventose/ui";
+import { FormRules, newRule } from "@/utils/common.FormRules";
 import { API } from "@/api";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
+import { stylesLoginFormIcon } from "@/utils/variable";
+import { types } from "sass";
+import Error = types.Error;
 
 const formItemStyle = {
 	marginBottom: ".16rem"
@@ -20,14 +22,6 @@ const formItemStyle = {
 
 const changeHeight = {
 	height: ".42rem"
-};
-
-const styles = {
-	icon: {
-		color: "rgba(0, 0, 0, 0.25)",
-		width: "16px",
-		height: "16px"
-	}
 };
 
 export default defineComponent({
@@ -44,89 +38,81 @@ export default defineComponent({
 	},
 	setup() {
 		return {
-			Cpt_url,
-			Methods_App
+			cptRouter,
+			Methods_App: stateApp
 		};
 	},
 	data() {
 		const vm = this;
 		return {
 			configsForm: {
-				...defItem({
+				userName: defItem({
 					value: "",
-					prop: "userName",
 					size: "large",
 					/* render的时候重新获取 */
-					placeholder: () => $t("用户名").label,
-					rules: [
-						FormRules.required(
-							() => $t("请输入用户名!").label,
-							[EVENT_TYPE.blur]
-						)
-					],
+					placeholder: () => xI("用户名"),
+					rules: [FormRules.required(xI("请输入用户名!")[EVENT_TYPE.blur])],
 					slots: {
-						prefix: () => <xIcon icon="UserOutlined" style={styles.icon} />
+						prefix: () => (
+							<xIcon icon="UserOutlined" style={stylesLoginFormIcon.icon} />
+						)
 					}
 				}),
-				...defItem({
+				email: defItem({
 					value: "",
-					prop: "email",
 					size: "large",
 					/* render的时候重新获取 */
-					placeholder: () => $t("Email").label,
+					placeholder: () => xI("Email"),
 					rules: [
-						FormRules.required(
-							() => $t("请输入Email!").label,
-							[EVENT_TYPE.blur]
-						),
+						FormRules.required(xI("请输入Email!")[EVENT_TYPE.blur]),
 						FormRules.email()
 					],
 					slots: {
-						prefix: () => <MailOutlined style={styles.icon} />
+						prefix: () => (
+							<xIcon icon="MailOutlined" style={stylesLoginFormIcon.icon} />
+						)
 					}
 				}),
-				...defItem({
+				password: defItem({
 					value: "",
-					prop: "password",
 					isPassword: true,
 					size: "large",
 					/* render的时候重新获取 */
-					placeholder: () => $t("密码").label,
+					placeholder: () => xI("密码"),
 					rules: [
-						FormRules.required(
-							() => $t("请输入密码").label,
-							[EVENT_TYPE.update]
-						)
+						FormRules.required(() => xI("请输入密码"), [EVENT_TYPE.update])
 					],
-					onValidateFial: thisConfigs => {
+					onValidateFail: thisConfigs => {
 						console.log(thisConfigs.itemTips);
 					},
 					slots: {
-						prefix: () => <xIcon icon="LockOutlined" style={styles.icon} />
+						prefix: () => (
+							<xIcon icon="LockOutlined" style={stylesLoginFormIcon.icon} />
+						)
 					}
 				}),
-				...defItem({
+				confirm: defItem({
 					value: "",
-					prop: "confirm",
 					isPassword: true,
 					size: "large",
 					/* render的时候重新获取 */
-					placeholder: () => $t("请再次输入密码!").label,
+					placeholder: () => xI("请再次输入密码!"),
 					rules: [
-						FormRules.required(
-							() => $t("请再次输入密码!").label,
-							[EVENT_TYPE.blur]
-						),
-						FormRules.custom({
-							msg: () => $t("两次输入的密码不一致!").label,
+						FormRules.required(xI("请再次输入密码!"), [EVENT_TYPE.blur]),
+						newRule({
 							validator: async confirm => {
-								return vm.configsForm.password.value !== confirm;
+								if (vm.configsForm.password.value !== confirm) {
+									return xI("两次输入的密码不一致!");
+								}
+								return "";
 							},
 							trigger: [EVENT_TYPE.update]
 						})
 					],
 					slots: {
-						prefix: () => <LockOutlined style={styles.icon} />
+						prefix: () => (
+							<xIcon icon="LockOutlined" style={stylesLoginFormIcon.icon} />
+						)
 					}
 				})
 			},
@@ -134,22 +120,20 @@ export default defineComponent({
 				size: "large",
 				type: "primary",
 				class: "login-button flex center login-form-button",
-				text: () => $t("注册").label,
+				text: () => xI("注册"),
 				async onClick() {
 					try {
-						const validateResults = await validateForm(vm.configsForm);
-						if (AllWasWell(validateResults)) {
+						if (!(await itemsInvalid(vm.$refs.form))) {
 							const res = await API.user.regActions(
 								pickValueFrom(vm.configsForm)
 							);
-							UI.notification.success($t('"注册成功"').label);
+							xU.notification.success(xI('"注册成功"'));
 
-							Cpt_url.value.go("/group");
+							cptRouter.value.go("/group");
 						} else {
 							throw new Error("未通过验证");
 						}
 					} catch (e) {
-						debugger;
 						console.error(e);
 					}
 				}
@@ -160,7 +144,7 @@ export default defineComponent({
 	render({ configsSubmit, configsForm }) {
 		return (
 			<>
-				<form>
+				<form ref="form">
 					{/* <!-- 用户名 --> */}
 					<xItem configs={configsForm.userName} autocomplete="userName" />
 					<xGap t="20" />
@@ -177,6 +161,7 @@ export default defineComponent({
 						configs={configsForm.confirm}
 						autocomplete="current-password"
 					/>
+					<xGap t="20" />
 					<div class="item-wrapper">
 						<xButton configs={configsSubmit} />
 					</div>

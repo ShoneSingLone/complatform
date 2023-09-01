@@ -1,10 +1,10 @@
 import { defineComponent } from "vue";
-import { State_UI } from "@ventose/ui";
+import { stateUI } from "@/ventose/ui";
 
 export const SelectLanguage = defineComponent({
 	setup() {
 		return {
-			State_UI
+			stateUI
 		};
 	},
 	data() {
@@ -18,7 +18,7 @@ export const SelectLanguage = defineComponent({
 	methods: {
 		changeLanguage(item: any) {
 			const { key } = item || {};
-			this.State_UI.language = key;
+			this.stateUI.language = key;
 			setTimeout(() => {
 				window.location.reload();
 			}, 300);
@@ -28,13 +28,13 @@ export const SelectLanguage = defineComponent({
 		vDomMenuItems() {
 			return xU.map(this.languageLabels, (locale, prop) => {
 				return (
-					<aMenuItem v-for="in " key={prop}>
+					<ElMenuItem index={prop} v-for="in ">
 						<span role="img" ariaLabel={locale.label}>
 							{" "}
 							{locale.icon}{" "}
 						</span>
 						<span>{locale.label}</span>
-					</aMenuItem>
+					</ElMenuItem>
 				);
 			});
 		}
@@ -42,20 +42,20 @@ export const SelectLanguage = defineComponent({
 	render() {
 		const vm = this;
 		return (
-			<aDropdown placement="bottomRight">
+			<elDropdown placement="bottomRight">
 				<GlobalOutlined />
 				{{
 					overlay() {
 						return (
-							<aMenu
-								selected-keys={vm.State_UI.language}
+							<ElMenu
+								selected-keys={vm.stateUI.language}
 								onClick={vm.changeLanguage}>
 								{vm.vDomMenuItems}
-							</aMenu>
+							</ElMenu>
 						);
 					}
 				}}
-			</aDropdown>
+			</elDropdown>
 		);
 	}
 });

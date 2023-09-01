@@ -1,4 +1,5 @@
 import { ajax } from "@/api/ajax";
+import { xU } from "@/ventose/ui";
 import qs from "qs";
 
 export const project = {
@@ -71,13 +72,11 @@ export const project = {
 		});
 	},
 	/* { group_id: 0, page: 1, limit: 10 } */
-	list(groupId) {
+	list(group_id) {
 		return ajax({
 			method: "get",
 			url: "/api/project/list",
-			params: {
-				group_id: Number(groupId)
-			}
+			params: { group_id }
 		});
 	},
 	addInterface(data) {

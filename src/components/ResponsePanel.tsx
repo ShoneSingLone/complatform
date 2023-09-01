@@ -1,4 +1,4 @@
-import { defItem, xU } from "@ventose/ui";
+import { defItem, xU } from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { JsonSchemaMonaco } from "../components/JsonSchemaEditor/JsonSchemaMonaco";
 import { ITEM_OPTIONS } from "@/utils/common.options";
@@ -11,7 +11,7 @@ export const ResponsePanel = defineComponent({
 	emits: ["update:body", "update:bodyType"],
 	data() {
 		return {
-			configsPrivateBodyType: defItem.item({
+			configsPrivateBodyType: defItem({
 				prop: "configsPrivateBodyType",
 				itemType: "RadioGroup",
 				options: xU.filter(ITEM_OPTIONS.interfaceBodyType, i =>
@@ -40,7 +40,7 @@ export const ResponsePanel = defineComponent({
 	},
 	render() {
 		return (
-			<aCard>
+			<elCard>
 				{{
 					title: () => {
 						return (
@@ -71,7 +71,7 @@ export const ResponsePanel = defineComponent({
 						);
 					}
 				}}
-			</aCard>
+			</elCard>
 		);
 	}
 });

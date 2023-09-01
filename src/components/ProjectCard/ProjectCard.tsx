@@ -1,10 +1,11 @@
 import "./ProjectCard.scss";
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { API } from "@/api";
 import ViewCopyProject from "./ViewCopyProject.vue";
-import { UI, xU } from "@ventose/ui";
-import { Cpt_url } from "../../router/router";
+import { xU } from "@/ventose/ui";
+import { cptRouter } from "@/router/router";
+import { aHashLink } from "../../router/router";
 
 export default defineComponent({
 	props: [
@@ -18,11 +19,11 @@ export default defineComponent({
 		"currPage"
 	],
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	methods: {
 		showCopyProjectDialog() {
-			UI.dialog.component({
+			xU.dialog({
 				title: `复制项目${this.projectData.name}`,
 				component: ViewCopyProject,
 				copyProject: this.copyProject,
@@ -39,19 +40,13 @@ export default defineComponent({
 				{ preName: data.name }
 			);
 			await API.project.copyProjectMsg(data);
-			UI.message.success("项目复制成功");
+			xU.message.success("项目复制成功");
 			this.callbackResult();
-		},
-		async goToProject() {
-			this.Cpt_url.go("/project/interface/all", {
-				project_id: this.projectData._id,
-				group_id: this.Cpt_url.query.group_id
-			});
 		},
 		add: xU.debounce(async function () {
 			try {
 				const { projectData } = this;
-				const uid = this.State_App.user.uid;
+				const uid = this.stateApp.user.uid;
 				const param = {
 					uid,
 					projectid: projectData._id,
@@ -80,31 +75,35 @@ export default defineComponent({
 	computed: {
 		followIcon() {
 			return (
-				<span class="pointer" onClick={this.followIconClickHandler}>
-					<aTooltip placement="rightTop" title={this.followIconTitle}>
-						<xIcon icon={this.followIconIcon} style={{ color: "#faad14" }} />
-					</aTooltip>
-				</span>
+				<div
+					class="pointer icon-item-wrapper"
+					onClick={this.followIconClickHandler}>
+					<ElTooltip content={this.followIconTitle} placement="top-start">
+						<xIcon icon={this.followIconIcon} style={{ fill: "#faad14" }} />
+					</ElTooltip>
+				</div>
 			);
 		},
 		copyIcon() {
 			if (this.isShow) {
 				return (
-					<span class="pointer icon-copy" onClick={this.showCopyProjectDialog}>
-						<aTooltip placement="rightTop" title="复制项目">
-							<xIcon icon="copy" style={{ color: "#232426" }} />
-						</aTooltip>
-					</span>
+					<div
+						class="pointer icon-copy icon-item-wrapper"
+						onClick={this.showCopyProjectDialog}>
+						<ElTooltip content="复制项目" placement="top-start">
+							<xIcon icon="copy" style={{ fill: "#232426" }} />
+						</ElTooltip>
+					</div>
 				);
 			}
 			return null;
 		},
 		iconStyle() {
 			return {
-				color: "white",
-				width: "84px",
-				height: "84px",
-				borderRadius: "16px",
+				fill: "white",
+				width: "48px",
+				height: "48px",
+				borderRadius: "var(--baorder-radius,10px)",
 				backgroundColor: this.projectData.color
 			};
 		},
@@ -123,17 +122,23 @@ export default defineComponent({
 		},
 		logo() {
 			return (
-				<xIcon
-					class="ui-logo"
-					icon={this.projectData.icon}
-					style={this.iconStyle}
-					onClick={this.goToProject}
-				/>
+				<a
+					href={aHashLink("/project", {
+						project_id: this.projectData._id,
+						group_id: this.cptRouter.query.group_id
+					})}>
+					<xIcon
+						class="ui-logo"
+						icon={this.projectData.icon}
+						style={this.iconStyle}
+					/>
+				</a>
 			);
 		},
 		title() {
 			return (
-				<div class="ui-title" v-uiPopover={{ onlyEllipsis: true }}>
+				<div class="ui-title">
+					{/* v-xTips={{ onlyEllipsis: true }} */}
 					{/* <span class="mr10">{this.projectData._id}</span> */}
 					<span>{this.projectData.name || this.projectData.projectname}</span>
 				</div>
@@ -142,14 +147,17 @@ export default defineComponent({
 	},
 	render() {
 		return (
-			<div class="card-container" style={"width:200px;"}>
-				<aCard hoverable class="m-card">
-					{this.logo}
-					{this.title}
-				</aCard>
+			<div class="card-container">
+				<div class="project-card-wrapper">
+					<div class="el-card is-always-shadow">
+						<div class="el-card__body">
+							{this.logo}
+							{this.title}
+						</div>
+					</div>
+				</div>
 				<div class="card-btns flex">
 					{this.copyIcon}
-					<xGap l="10" />
 					{this.followIcon}
 				</div>
 			</div>

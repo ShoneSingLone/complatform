@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 import { defineAsyncComponent, defineComponent } from "vue";
 import { asyncGetMonaco } from "./LoadMonacoLibs";
 

@@ -1,7 +1,6 @@
 $imgUrl: "../../../static/image/";
 $color-grey: #e5e5e5;
-$color-blue: #2395f1;
-$color-white: #fff;
+$color-blue: var(--app-brand);
 
 .intro-container {
 	.imgWrapper {
@@ -44,9 +43,9 @@ $color-white: #fff;
 					height: 0.4rem;
 					width: 0.4rem;
 					border-radius: 0.02rem;
-					background-color: $color-blue;
+					background-color: var(--app-brand);
 					margin-right: 0.1rem;
-					color: $color-white;
+					color: var(--color-white);
 					display: flex;
 					align-items: center;
 					justify-content: center;

@@ -1,12 +1,10 @@
-@import "../../styles/common.scss";
-
 .m-subnav {
 	margin-bottom: 0.24rem;
 	background-color: #fff;
 	box-shadow: 0 0 0.04rem rgba(0, 0, 0, 0.08);
 	font-size: 0.14rem;
 	border: none;
-	.ant-menu {
+	.el-menu {
 		font-size: unset;
 	}
 	.m-subnav-menu {

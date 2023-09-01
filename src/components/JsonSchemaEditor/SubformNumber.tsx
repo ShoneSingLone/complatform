@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 
 export const numberNeedProps = [
 	"default",
@@ -26,9 +26,9 @@ export const SubformNumber = defineComponent({
 		xU(vm.integer);
 		return (
 			<>
-				<xGap t="10" />
+				<xGap t />
 				<xItem configs={vm.configs.default} v-model={vm.data.default} />
-				<xGap t="10" />
+				<xGap t />
 				<div class=" ant-form-item ant-form-item-with-help x-item flex ">
 					<xItem
 						configs={vm.configs.minimum}
@@ -42,7 +42,7 @@ export const SubformNumber = defineComponent({
 					/>
 					<xGap r="16" />
 				</div>
-				<xGap t="10" />
+				<xGap t />
 				<div class=" ant-form-item ant-form-item-with-help x-item flex ">
 					<xItem
 						configs={vm.configs.maximum}
@@ -56,12 +56,12 @@ export const SubformNumber = defineComponent({
 					/>
 					<xGap r="16" />
 				</div>
-				<xGap t="10" />
+				<xGap t />
 				<xItem configs={vm.configs.enum} v-model={vm.data.enum}>
 					{/* 勾选之后才会显示enum备注 */}
 					{{
 						afterControll: () => (
-							<aCheckbox
+							<ElCheckbox
 								class="ml10"
 								checked={!!vm.data.isUseEnum}
 								onUpdate:checked={val => {
@@ -74,7 +74,7 @@ export const SubformNumber = defineComponent({
 				</xItem>
 				{vm.data.isUseEnum ? (
 					<>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={vm.configs.enumDesc} v-model={vm.data.enumDesc} />
 					</>
 				) : null}

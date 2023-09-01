@@ -3,10 +3,11 @@ import {
 	defCol,
 	defItem,
 	defXVirTableConfigs,
+	xI,
 	xU
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { State_Project } from "@/containers/Project/Interface/State_Project";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { defineComponent } from "vue";
 
@@ -66,56 +67,60 @@ export const BodyParamsForm = defineComponent({
 				customClass: tableId =>
 					[
 						`#${tableId} .input-width100{width:100%;}`,
-						`#${tableId} div[role=td] .ant-tag{margin:auto;}`,
+						`#${tableId} div[role=td] .el-tag{margin:auto;}`,
 						`#${tableId} div[role=tr] div[role=th][data-prop=operations]{justify-content:center;}`,
 						`#${tableId} div[role=tr] div[role=td][data-prop=operations]{justify-content:center;color:red;}`
 					].join("\n"),
 				columns: {
 					...defCol({
-						label: vm.$t("名称").label,
+						label: xI("名称"),
 						prop: "name",
-						renderEditor: ({ record }) => <aInput v-model:value={record.name} />
+						renderEditor: ({ record }) => (
+							<ElInput v-model:value={record.name} />
+						)
 					}),
 					...defCol({
-						label: vm.$t("类型").label,
+						label: xI("类型"),
 						prop: "type",
 						width: "110px",
 						renderCell: ({ record }) =>
 							ITEM_OPTIONS_VDOM.interfaceBodyFormType(record.type),
 						renderEditor: ({ record }) => (
-							<aSelect
+							<ElSelect
 								options={ITEM_OPTIONS.interfaceBodyFormType}
 								v-model:value={record.type}
 							/>
 						)
 					}),
 					...defCol({
-						label: vm.$t("必需").label,
+						label: xI("必需"),
 						prop: "required",
 						width: "110px",
 						renderCell: ({ record }) =>
 							ITEM_OPTIONS_VDOM.required(record.required),
 						renderEditor: ({ record }) => (
-							<aSelect
+							<ElSelect
 								options={ITEM_OPTIONS.required}
 								v-model:value={record.required}
 							/>
 						)
 					}),
 					...defCol({
-						label: vm.$t("示例").label,
+						label: xI("示例"),
 						prop: "example",
 						renderEditor: ({ record }) => (
-							<aInput v-model:value={record.example} />
+							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
-						label: vm.$t("备注").label,
+						label: xI("备注"),
 						prop: "desc",
-						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
+						renderEditor: ({ record }) => (
+							<ElInput v-model:value={record.desc} />
+						)
 					}),
 					...defCol({
-						label: vm.$t("操作").label,
+						label: xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,
@@ -134,10 +139,10 @@ export const BodyParamsForm = defineComponent({
 	render() {
 		return (
 			<>
-				<aButton class="width100 mb10" type="dashed" onClick={this.addRow}>
+				<xButton class="width100 mb10" type="dashed" onClick={this.addRow}>
 					<xIcon icon="add" />
 					{/* {JSON.stringify(this.configs_table.dataSource, null, 2)} */}
-				</aButton>
+				</xButton>
 				<div style={{ height: "300px" }}>
 					<xVirTable configs={this.configs_table} class="flex1 width100 " />
 				</div>

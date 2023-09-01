@@ -2,20 +2,17 @@ import { defineComponent } from "vue";
 import {
 	xU,
 	defItem,
-	State_UI,
-	FormRules,
-	validateForm,
-	AllWasWell,
+	stateUI,
+	itemsInvalid,
 	pickValueFrom
-} from "@ventose/ui";
+} from "@/ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { MonacoEditor } from "../MonacoEditor/MonacoEditor";
-
-const { $t } = State_UI;
 
 export const DialogBulkValues = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -25,9 +22,8 @@ export const DialogBulkValues = defineComponent({
 	data() {
 		return {
 			formItems: {
-				...defItem({
+				bulkdValue: defItem({
 					isTextarea: true,
-					prop: "bulkValue",
 					value: "",
 					placeholder: "key:value\nkey:value\nkey:value",
 					rules: [FormRules.required()],
@@ -37,14 +33,14 @@ export const DialogBulkValues = defineComponent({
 		};
 	},
 	watch: {
-		"propDialogOptions.formValues": {
+		"propOptions.formValues": {
 			immediate: true,
 			handler() {}
 		}
 	},
 	mounted() {
 		this.formItems.bulkValue.value = xU
-			.map(this.propDialogOptions.formValues, item => {
+			.map(this.propOptions.formValues, item => {
 				return `${item.key || ""}:${item.value || ""}`;
 			})
 			.join("\n");
@@ -54,24 +50,23 @@ export const DialogBulkValues = defineComponent({
 			return "min-height:500px:width:500px";
 		},
 		onOk() {
-			if (!xU.isFunction(this.propDialogOptions?.onOk)) {
+			if (!xU.isFunction(this.propOptions?.onOk)) {
 				alert("miss onOk function");
 				return xU.doNothing;
 			}
-			return this.propDialogOptions?.onOk;
+			return this.propOptions?.onOk;
 		},
 		configsFooter() {
 			return {
-				onCancel: this.propDialogOptions.closeDialog,
+				onCancel: this.propOptions.$close,
 				onOk: async () => {
-					const validateResults = await validateForm(this.formItems);
-					if (AllWasWell(validateResults)) {
+					if (!(await itemsInvalid())) {
 						/* @ts-ignore */
 						const { bulkValue } = pickValueFrom(this.formItems);
 						const bulkValueArray = bulkValue.split("\n");
 						const formArray = xU.map(bulkValueArray, str => str.split(":"));
 						this.onOk(formArray);
-						this.propDialogOptions.closeDialog();
+						this.propOptions.$close();
 					}
 				}
 			};
@@ -80,7 +75,7 @@ export const DialogBulkValues = defineComponent({
 			return xU.map(this.formItems, (item, prop) => {
 				return (
 					<>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={item} />
 					</>
 				);
@@ -90,9 +85,9 @@ export const DialogBulkValues = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="flex flex1 vertical padding10">
-					<aAlert
-						message={`型如key:value一行一个 换行即可，不要使用逗号、分号分隔`}
+				<div class="flex flex1 vertical app-padding">
+					<elAlert
+						title={`型如key:value一行一个 换行即可，不要使用逗号、分号分隔`}
 					/>
 					<div style="height:340px;width:500px">
 						<MonacoEditor

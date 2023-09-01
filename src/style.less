@@ -1,0 +1,608 @@
+@charset "utf-8";
+
+:root {
+	--border-radius: 10px;
+	--box-shadow-panel: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+	--color-text-dark: rgba(13, 27, 62, 0.65);
+	--app-brand: #5e7ce0;
+	--app-brand-foil: #f2f2f3;
+	--app-brand-hover: #7693f5;
+	--app-brand-active: #526ecc;
+	--app-brand-active-focus: #344899;
+	--color-blue: var(--app-brand);
+	--color-green: #00a854;
+	--color-yellow: #ffbf00;
+	--color-red: #f56a00;
+	--color-pink: #f5317f;
+	--color-cyan: #00a2ae;
+	--color-gray: #bfbfbf;
+	--color-purple: #7265e6;
+	--color-selected: #1890ff;
+	--color-selected-bg: #e6f7ff;
+	--color-white: #fff;
+	--color-white-secondary: rgba(255, 255, 255, 0.67);
+	--color-bg-gray: #ececec;
+	--color-blue-deeper: #34495e;
+	--color-title: #273848d9;
+	--color-grey-deep: #929aac;
+	--color-black-light: #404040;
+	--color-bg-dark: #32363a;
+	--font-familly: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+		Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+	--app-global-bg: #f6f6f8;
+	--app-glass-morphism-bg: rgba(245, 246, 248, 0.9);
+	--app-global-bg-normal: #ffffff;
+	--app-base-bg: #ffffff;
+	--app-base-bg-dark: #252b3a;
+	--app-contrast: #c7000b;
+	--app-text: #252b3a;
+	--app-text-weak: #575d6c;
+	--app-aide-text: #71757f;
+	--app-aide-text-hover: #252b3a;
+	--app-aide-text-stress: #575d6c;
+	--app-placeholder: #babbc0;
+	--app-light-text: #ffffff;
+	--app-dark-text: #252b3a;
+	--app-link: #526ecc;
+	--app-link-active: #526ecc;
+	--app-link-light: #96adfa;
+	--app-link-light-active: #beccfa;
+	--app-line: #d7d8da;
+	--app-dividing-line: #f2f2f3;
+	--app-block: #ffffff;
+	--app-area: #f5f5f5;
+	--app-danger: #f66f6a;
+	--app-warning: #fac20a;
+	--app-waiting: #beccfa;
+	--app-success: #50d4ab;
+	--app-info: #5e7ce0;
+	--app-initial: #e9edfa;
+	--app-unavailable: #f5f5f5;
+	--app-shadow: rgba(37, 43, 58, 0.24);
+	--app-light-shadow: rgba(37, 43, 58, 0.12);
+	--app-connected-overlay-shadow: rgba(37, 43, 58, 0.16);
+	--app-feedback-overlay-shadow: rgba(37, 43, 58, 0.2);
+	--app-icon-text: #71757f;
+	--app-icon-bg: #ffffff;
+	--app-icon-fill: #71757f;
+	--app-icon-fill-weak: #babbc0;
+	--app-icon-fill-hover: #252b3a;
+	--app-icon-fill-active: #252b3a;
+	--app-icon-fill-active-hover: #252b3a;
+	--app-shape-icon-fill: #d7d8da;
+	--app-shape-icon-fill-hover: #babbc0;
+	--app-shape-icon-fill-active: #babbc0;
+	--app-shape-icon-fill-disabled: #f5f5f5;
+	--app-form-control-line: #d7d8da;
+	--app-form-control-bg: #ffffff;
+	--app-form-control-line-hover: #9b9fa8;
+	--app-form-control-line-active: #5e7ce0;
+	--app-form-control-interactive-outline: rgba(94, 124, 224, 0.08);
+	--app-form-control-line-active-hover: #344899;
+	--app-list-item-active-bg: #f2f5fc;
+	--app-list-item-active-text: #252b3a;
+	--app-list-item-active-hover-bg: #f2f5fc;
+	--app-list-item-hover-bg: #f2f2f3;
+	--app-list-item-hover-text: #252b3a;
+	--app-list-item-selected-bg: #f2f5fc;
+	--app-list-item-strip-bg: #f2f5fc;
+	--app-disabled-bg: #f5f5f5;
+	--app-disabled-line: #dfe1e6;
+	--app-disabled-text: #cfd0d3;
+	--app-primary-disabled: #beccfa;
+	--app-icon-fill-active-disabled: #beccfa;
+	--app-label-bg: #e9edfa;
+	--app-connected-overlay-bg: #ffffff;
+	--app-connected-overlay-line: #526ecc;
+	--app-fullscreen-overlay-bg: #ffffff;
+	--app-feedback-overlay-bg: #464d6e;
+	--app-feedback-overlay-text: #dfe1e6;
+	--app-embed-search-bg: #f2f2f3;
+	--app-embed-search-bg-hover: #eef0f5;
+	--app-float-block-shadow: rgba(94, 124, 224, 0.3);
+	--app-highlight-overlay: rgba(255, 255, 255, 0.8);
+	--app-range-item-hover-bg: #e9edfa;
+	--app-gray-form-control-bg: #f5f5f5;
+	--app-gray-form-control-hover-bg: #ebebeb;
+	--app-nav-expand-bg: #fbfbfc;
+	--app-primary: #5e7ce0;
+	--app-primary-hover: #7693f5;
+	--app-primary-active: #344899;
+	--app-contrast-hover: #d64a52;
+	--app-contrast-active: #b12220;
+	--app-danger-line: #f66f6a;
+	--app-danger-bg: #ffd5d4;
+	--app-warning-line: #fa9841;
+	--app-warning-bg: #ffe1c7;
+	--app-info-line: #5e7ce0;
+	--app-info-bg: #e9edfa;
+	--app-success-line: #50d4ab;
+	--app-success-bg: #cffcee;
+	--app-primary-line: #5e7ce0;
+	--app-primary-bg: #f2f5fc;
+	--app-default-line: #5e7ce0;
+	--app-default-bg: #f7f8fa;
+	--app-shadow-length-base: 0 2px 6px 0;
+	--app-shadow-length-slide-left: -2px 0 8px 0;
+	--app-shadow-length-slide-right: 2px 0 8px 0;
+	--app-shadow-length-connected-overlay: 0 2px 12px 0;
+	--app-shadow-length-hover: 0 4px 16px 0;
+	--app-shadow-length-feedback-overlay: 0 8px 16px 0;
+	--app-shadow-length-fullscreen-overlay: 0 10px 24px 0;
+	--app-border-radius: 4px;
+	--app-border-radius-feedback: 4px;
+	--app-border-radius-card: 8px;
+	--app-border-radius-full: 100px;
+	--app-font-size: 14px;
+	--app-font-size-card-title: 16px;
+	--app-font-size-page-title: 16px;
+	--app-font-size-modal-title: 18px;
+	--app-font-size-price: 20px;
+	--app-font-size-data-overview: 24px;
+	--app-font-size-icon: 16px;
+	--app-font-size-sm: 12px;
+	--app-font-size-md: 14px;
+	--app-font-size-lg: 14px;
+	--app-font-title-weight: bold;
+	--app-font-content-weight: normal;
+	--app-line-height-base: 1.5;
+	--app-animation-ease-in-smooth: cubic-bezier(0.645, 0.045, 0.355, 1);
+	--app-animation-duration-slow: 300ms;
+	--app-animation-duration-base: 200ms;
+	--app-animation-duration-fast: 100ms;
+	--app-animation-ease-in: cubic-bezier(0.5, 0, 0.84, 0.25);
+	--app-animation-ease-out: cubic-bezier(0.16, 0.75, 0.5, 1);
+	--app-animation-ease-in-out: cubic-bezier(0.5, 0.05, 0.5, 0.95);
+	--app-animation-ease-in-out-smooth: cubic-bezier(0.645, 0.045, 0.355, 1);
+	--app-animation-linear: cubic-bezier(0, 0, 1, 1);
+	--app-z-index-full-page-overlay: 1080;
+	--app-z-index-pop-up: 1060;
+	--app-z-index-dropdown: 1052;
+	--app-z-index-modal: 1050;
+	--app-z-index-drawer: 1040;
+	--app-z-index-framework: 1000;
+	--app-btn-sm-padding: 0 12px;
+	--app-padding: 16px;
+	--app-btn-padding: 0 16px;
+	--app-btn-lg-padding: 0 20px;
+	--app-btn-common-bg: #ebebeb;
+	--app-btn-common-border-color: transparent;
+	--app-btn-common-bg-hover: #d1d1d1;
+	--app-btn-common-color-hover: #252b3a;
+	--app-btn-common-border-color-hover: transparent;
+	--app-btn-common-bg-active: #bdbdbd;
+	--app-btn-common-color-active: #252b3a;
+	--app-btn-common-border-color-active: transparent;
+	--app-btn-common-border-disabled: transparent;
+	--app-icon-hover-bg: #ebebeb;
+	--app-icon-active-bg: #d1d1d1;
+}
+
+[data-view-id="AppRouterView"] {
+	flex: 1;
+}
+
+* {
+	font-family: var(--font-familly);
+}
+
+.x-sider_wrapper {
+	height: 100%;
+	width: 300px;
+	overflow: hidden;
+	flex-flow: column nowrap;
+	display: flex;
+
+	.resize_bar {
+		&:hover {
+			cursor: ew-resize;
+		}
+
+		position: absolute;
+		top: 40px;
+		bottom: 0;
+		right: 0;
+		width: var(--app-padding);
+	}
+}
+
+.x-sider_wrapper_tree {
+	height: 100px;
+	flex: 1;
+	padding: var(--app-padding);
+
+	.el-tree-treenode {
+		width: 100%;
+		font-size: 14px;
+
+		span {
+			transition: 0.3s all ease-in-out;
+		}
+
+		span[title] {
+			flex: 1;
+		}
+
+		.el-tree-node-content-wrapper {
+			padding: 0;
+
+			[data-interface-all-menu] {
+				transform: translateX(-32px);
+			}
+		}
+	}
+}
+
+.x-sider-tree_menu {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	width: 1px;
+	padding-right: var(--app-padding);
+
+	&.x-sider-tree_menu_active {
+		color: var(--app-link);
+		background: linear-gradient(
+			90deg,
+			var(--app-info-bg) 90%,
+			transparent 100%
+		);
+		border-radius: 4px;
+		// font-size: 14px;
+		line-height: 24px;
+	}
+
+	.x-sider-tree_menu_title {
+		flex: 1;
+		padding-left: 8px;
+		width: 1px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+
+		> .xIcon {
+			margin-right: 8px;
+		}
+	}
+
+	.x-sider-tree_menu_opration {
+		display: none;
+		opacity: 0;
+		transition: 0.3s all ease-in-out;
+
+		.xIcon + .xIcon {
+			margin-right: 4px;
+		}
+
+		.x-sider-tree_menu_icon {
+			width: 16px;
+			height: 16px;
+
+			&:hover {
+				color: var(--color-selected);
+			}
+		}
+	}
+
+	&:hover {
+		.x-sider-tree_menu_opration {
+			display: flex;
+			align-items: center;
+			opacity: 1;
+		}
+	}
+}
+
+a {
+	color: var(--app-primary);
+
+	&:hover {
+		color: var(--app-primary-hover);
+	}
+
+	&:active {
+		color: var(--app-primary-active);
+	}
+}
+
+#admin-delete-group-alert {
+	div.el-alert__content {
+		width: 100%;
+		//display: flex;
+	}
+}
+
+.left-tree {
+	height: 100%;
+	padding: var(--app-padding);
+	border-radius: var(--border-radius);
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.view-main-section {
+	flex: 1;
+	display: flex;
+	flex-flow: column nowrap;
+	width: 1px;
+	padding: var(--app-padding);
+	margin: 0;
+	> section {
+		flex: 1;
+		height: 1px;
+		overflow: auto;
+	}
+}
+
+aside + section.view-main-section {
+	margin-left: var(--app-padding);
+}
+
+html,
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+		"Microsoft YaHei", SimSun, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	// background-color: #32363a;
+}
+
+// ::selection {
+// 	background-color: var(--app-brand);
+// }
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset006pxrgba(255, 0, 0, 0.3);
+	// background-color:
+	background: rgba(255, 255, 255, 0.1);
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+	border-radius: var(--border-radius);
+	background: rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(0, 0, 0, 0.2);
+}
+
+div,
+article,
+p,
+table,
+tr,
+td,
+th,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+form,
+dl,
+dt,
+dd {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+ul {
+	list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+
+	&:active,
+	&:hover,
+	&:visited,
+	&:focus {
+		text-decoration: none;
+	}
+}
+
+a:hover {
+	color: #636363;
+}
+
+em {
+	font-style: normal;
+}
+
+[data-reactroot],
+.g-main,
+.router-main {
+	height: 100%;
+}
+
+// 页面最外层元素 样式
+.router-main {
+	padding-bottom: 0.24rem;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin-bottom: -2.4rem;
+	background-color: #eceef1;
+
+	&::after {
+		content: "";
+		display: block;
+		height: 2.4rem;
+	}
+}
+
+.m-tab {
+	.el-tabs-nav-wrap {
+		background-color: #eceef1;
+	}
+}
+
+.hidden {
+	display: none;
+}
+
+// 布局容器 guitter: 16px
+.x-dialog-boddy-wrapper {
+	height: 1px;
+	display: flex;
+	flex-flow: column nowrap;
+	flex: 1;
+	overflow: auto;
+}
+
+.m-container {
+	margin: 0.24rem auto;
+	padding: 0.24rem;
+}
+
+.el-dropdown .user-menu {
+	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+
+// confirm 框内边距过大
+.el-confirm .el-modal-body {
+	padding: 0.24rem !important;
+}
+
+.pannel-without-tab {
+	min-height: 5rem;
+}
+
+.panel-title {
+	margin-bottom: 0.16rem;
+	border-left: 3px solid var(--app-brand);
+	padding-left: 8px;
+
+	.title {
+		font-weight: normal;
+	}
+
+	.desc {
+		font-size: 13px;
+		color: #919191;
+	}
+}
+
+.tag-status {
+	&::before {
+		content: "";
+		display: inline-block;
+		margin-right: 6px;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		position: relative;
+		bottom: 1px;
+	}
+
+	&.done::before {
+		background-color: #57cf27;
+	}
+
+	&.undone::before {
+		background-color: #ff561b;
+	}
+}
+
+.el-tabs.el-tabs-card > .el-tabs-bar .el-tabs-tab {
+	border: none;
+}
+
+.el-tabs.el-tabs-card > .el-tabs-bar .el-tabs-tab-active {
+	border: none;
+}
+
+.el-tabs.el-tabs-card > .el-tabs__content {
+	margin-top: -1px;
+}
+
+.tabs-large .el-tabs-nav-container {
+	font-size: 16px;
+}
+
+.el-tree li .el-tree-node-content-wrapper {
+	padding: 3px 5px;
+	height: unset;
+	// line-height: 25px;
+}
+
+.el-tree li .el-tree-node-content-wrapper.el-tree-node-selected {
+	background-color: #d5ebfc;
+}
+
+// 页面级底部固定 需要添加padding以保证页面底部不被覆盖
+// .has-affix-footer {
+//   padding-bottom: .92rem;
+// }
+
+.popover-index {
+	max-width: 3.2rem;
+
+	.el-popover-title {
+		height: auto;
+	}
+
+	.title-container {
+		padding: 0.16rem 0;
+
+		.title {
+			text-align: center;
+		}
+	}
+
+	.btn-container {
+		text-align: center;
+
+		.btn {
+			margin: 0 0.04rem;
+		}
+	}
+}
+
+.study-mask {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.35);
+	z-index: 2;
+}
+
+// tooltip 中的链接
+.link-tooltip {
+	color: #56b2fd;
+
+	&:hover {
+		color: var(--app-brand);
+	}
+}
+
+.border-radius {
+	border-radius: var(--border-radius);
+}
+
+.display-none {
+	display: none;
+}
+
+.x-dialog-wrapper {
+	.el-card.is-always-shadow {
+		box-shadow: unset;
+	}
+}

@@ -1,48 +1,40 @@
-@import "../../styles/mixin.scss";
-
 .card-container {
 	position: relative;
 	user-select: none;
 	transition: all 0.2s;
-	margin-right: 20px;
+	padding: 10px;
+	//margin-right: 20px;
 
 	& + .card-container {
-		margin-right: 20px;
+		//margin-right: 20px;
 	}
 
-	.m-card,
+	.project-card-wrapper,
 	.card-btns {
 		transform: translateY(0);
 		transition: all 0.2s;
 	}
 
 	// 覆盖 card 组件 hover 状态的默认阴影样式
-	.ant-card:not(.ant-card-no-hovering):hover {
-		box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+	.el-card:not(.el-card-no-hovering):hover {
+		box-shadow: var(--el-box-shadow-light);
 	}
 
 	// 卡片右上角按钮
 	.card-btns {
+		background: var(--color-white);
 		position: absolute;
-		top: 8px;
-		right: 8px;
-		height: 16px;
-		border-top-right-radius: 4px;
-
-		span {
-			display: none;
-
-			&:hover {
-				color: #2395f1;
-			}
-		}
+		top: 0;
+		right: -6px;
+		border-radius: var(--border-radius);
+		box-shadow: var(--el-box-shadow-light);
+		padding: 10px;
+		display: none;
 	}
 
 	&:hover {
 		.card-btns {
-			span {
-				display: inline-block;
-			}
+			display: flex;
 		}
 	}
 }
@@ -53,55 +45,59 @@
 	}
 }
 
-.m-card {
-	text-align: center;
-	margin-bottom: 0.16rem;
-	transition: all 0.4s;
+.project-card-wrapper {
 	position: relative;
-	border-radius: 16px;
+	//padding: 10px;
+	//outline: 1px solid red;
 
-	&.ant-card-hoverable {
+	.el-card {
+		// margin: 10px;
+		border-radius: var(--border-radius);
+		//outline: 1px solid red;
+	}
+
+	.el-card__body {
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: center;
+		align-items: center;
+		background-color: transparent;
+		padding-top: 0.24rem + 0.16rem + 1rem;
+		transition: all 0.2s;
+		border-radius: var(--border-radius);
+		overflow: hidden;
+
+		.ui-logo {
+			padding: 16px;
+			color: #fff;
+			font-size: 96px;
+			background-color: var(--app-brand);
+			line-height: 1rem;
+
+			&:hover {
+				box-shadow: 0 6px 6px -3px #0003, 0 10px 14px 1px #00000024,
+					0 4px 18px 3px #0000001f !important;
+				cursor: pointer;
+			}
+		}
+
+		.ui-title {
+			margin-top: 10px;
+			font-size: 14px;
+			font-weight: normal;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+
+	&.el-card-hoverable {
 		&:hover {
 			cursor: unset;
 		}
 	}
 
-	.ant-card-body {
-		background-color: transparent;
-		padding-top: 0.24rem + 0.16rem + 1rem;
-		box-shadow: 0 4px 6px rgba(255, 255, 255, 0.11),
-			0 1px 3px rgba(255, 255, 255, 0.08);
-		transition: all 0.2s;
-		border-radius: 16px;
-		overflow: hidden;
-	}
-
-	.ui-logo {
-		position: absolute;
-		padding: 16px;
-		left: 50%;
-		top: 0;
-		transform: translate(-50%, 0.24rem);
-		color: #fff;
-		font-size: 96px;
-		background-color: #2395f1;
-		line-height: 1rem;
-		&:hover {
-			box-shadow: 0 6px 6px -3px #0003, 0 10px 14px 1px #00000024,
-				0 4px 18px 3px #0000001f !important;
-			cursor: pointer;
-		}
-	}
-
-	.ui-title {
-		font-size: 0.19rem;
-		font-weight: normal;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	.m-card-body {
+	.project-card-wrapper-body {
 		.icon {
 			font-size: 0.8rem;
 		}
@@ -109,40 +105,6 @@
 		.name {
 			font-size: 0.18rem;
 			margin-top: 0.16rem;
-		}
-	}
-}
-
-@media (max-width: 768px) {
-	.m-card {
-		.ui-logo {
-			width: 0.6rem;
-			height: 0.6rem;
-			line-height: 0.6rem;
-			font-size: 0.3rem;
-			transform: translate(-50%, 0.08rem);
-		}
-
-		.ant-card-body {
-			padding-top: 0.08rem + 0.08rem + 0.6rem;
-			padding-bottom: 0.08rem;
-		}
-	}
-}
-
-@media (min-width: 768px) and (max-width: 992px) {
-	.m-card {
-		.ui-logo {
-			width: 0.8rem;
-			height: 0.8rem;
-			line-height: 0.8rem;
-			font-size: 0.4rem;
-			transform: translate(-50%, 0.16rem);
-		}
-
-		.ant-card-body {
-			padding-top: 0.16rem + 0.16rem + 0.8rem;
-			padding-bottom: 0.16rem;
 		}
 	}
 }

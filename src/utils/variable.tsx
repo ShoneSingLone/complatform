@@ -1,6 +1,41 @@
-import { State_UI } from "@ventose/ui";
+import { xI } from "@/ventose/ui";
 
-export const ALL = "ALL";
+export const OPEN_BLANK = "新窗口打开";
+export const TAB_KEY_PROJECT_WIKI = "项目文档";
+export const TAB_KEY_PROJECT_SETTING = "项目设置";
+export const TAB_KEY_INTERFACE = "接口";
+export const TAB_KEY_PROJECT_LIST = "项目列表";
+export const TAB_KEY_MEMBER_LIST = "成员列表";
+export const TAB_KEY_GROUP_LOG = "分组动态";
+export const TAB_KEY_GROUP_WIKI = "分组文档";
+/* project */
+export const TAB_KEY_PROJECT_CONFIGS = xI("项目配置");
+export const TAB_KEY_PROJECT_REQUEST = xI("请求配置");
+export const TAB_KEY_PROJECT_AUTH = xI("token配置");
+export const TAB_KEY_PROJECT_MOCK = xI("全局mock脚本");
+
+export const TAB_KEY_ARRAY = [
+	TAB_KEY_PROJECT_LIST,
+	TAB_KEY_MEMBER_LIST,
+	TAB_KEY_GROUP_LOG,
+	TAB_KEY_GROUP_WIKI
+];
+
+/* type */
+export const PUBLIC = "public";
+
+/* role */
+export const GUEST = "guest";
+export const DEV = "dev";
+export const ADMIN = "admin";
+export const PRIVATE = "private";
+export const OWNER = "owner";
+export const ALL = "all";
+export const CATEGORY = "category";
+export const INTERFACE = "interface";
+export const PROJECT = "project";
+export const GROUP = "group";
+/* role */
 export const FOLDER = "folder";
 export const ARTICLE = "article";
 export const GET = "GET";
@@ -13,27 +48,27 @@ export const PATCH = "PATCH";
 export const QUERY = "query";
 export const BODY = "body";
 
-export const DefaultInterfaceMenu = [
-	{
-		_id: ALL,
-		title: State_UI.$t("全部接口").label,
-		menuType: ALL,
-		list: []
-	}
-];
-
 // 默认每页展示10条数据
 export const PAGE_LIMIT = 10;
-// 限制名称的字符长度(中文算两个长度)
-export const NAME_LIMIT = 100;
+
 export const HTTP_METHOD = {
-	[GET]: { color: "green", default_tab: QUERY },
-	[HEAD]: { color: "purple", default_tab: QUERY },
-	[OPTIONS]: { color: "default", default_tab: QUERY },
-	[POST]: { color: "pink", request_body: true, default_tab: BODY },
-	[PUT]: { color: "orange", request_body: true, default_tab: BODY },
-	[DELETE]: { color: "red", request_body: true, default_tab: BODY },
-	[PATCH]: { color: "blue", request_body: true, default_tab: BODY }
+	[GET]: { type: "", color: "green", default_tab: QUERY },
+	[HEAD]: { type: "warning", color: "purple", default_tab: QUERY },
+	[OPTIONS]: { type: "info", color: "default", default_tab: QUERY },
+	[POST]: {
+		type: "success",
+		color: "pink",
+		request_body: true,
+		default_tab: BODY
+	},
+	[PUT]: { type: "", color: "orange", request_body: true, default_tab: BODY },
+	[DELETE]: {
+		type: "danger",
+		color: "red",
+		request_body: true,
+		default_tab: BODY
+	},
+	[PATCH]: { type: "", color: "blue", request_body: true, default_tab: BODY }
 };
 
 export const STATIC_WORD = {
@@ -60,7 +95,7 @@ export const LOG_TYPE = {
 
 export const PROJECT_COLOR = {
 	notice: "#faad14",
-	blue: "#2395f1",
+	blue: "var(--app-brand)",
 	green: "#00a854",
 	yellow: "#ffbf00",
 	red: "#f56a00",
@@ -224,4 +259,12 @@ export const docHref = {
 	adv_mock_case: "https://hellosean1025.github.io/yapi/documents/mock.html",
 	adv_mock_script:
 		"https://hellosean1025.github.io/yapi/documents/adv_mock.html"
+};
+
+export const stylesLoginFormIcon = {
+	icon: {
+		color: "rgba(0, 0, 0, 0.25)",
+		width: "16px",
+		height: "16px"
+	}
 };

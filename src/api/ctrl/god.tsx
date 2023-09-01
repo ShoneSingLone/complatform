@@ -1,5 +1,5 @@
 import { ajax } from "@/api/ajax";
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 
 export const god = {
 	upsertOneI18nRecord(payload) {

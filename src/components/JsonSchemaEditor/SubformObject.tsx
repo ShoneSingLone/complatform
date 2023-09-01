@@ -7,14 +7,14 @@ export const SubformObject = defineComponent({
 	render(vm) {
 		return (
 			<>
-				<xGap t="10" />
+				<xGap t />
 				<div class="flex middle">
 					<xItem
 						configs={vm.configs.minProperties}
 						v-model={vm.data.minProperties}
 						class="flex1"
 					/>
-					<xGap t="10" />
+					<xGap t />
 					<xItem
 						configs={vm.configs.maxProperties}
 						v-model={vm.data.maxProperties}

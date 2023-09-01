@@ -3,19 +3,20 @@ import { ErrMsg } from "@/components/ErrMsg/ErrMsg";
 
 import "./ProjectList.scss";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "@/state/State_App";
-import { UI, xU } from "@ventose/ui";
-import { Cpt_url } from "../../../router/router";
+import { stateApp } from "@/state/app";
+import { xU, xI } from "@/ventose/ui";
+import { cptRouter } from "@/router/router";
 import { DialogAddProject } from "../AddProject/DialogAddProject";
+import { ADMIN, OWNER, PRIVATE } from "@/utils/variable";
 
 export const GroupProjectList = defineComponent({
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	data() {
 		const vm = this;
 		vm.fetchProjectList = xU.debounce(async function () {
-			await Methods_App.fetchProjectList(vm.Cpt_url.query.group_id);
+			await stateApp._fetchProjectList(vm.cptRouter.query.group_id);
 			vm.isLoading = false;
 		});
 		vm.updateProjectList = () => {
@@ -34,21 +35,16 @@ export const GroupProjectList = defineComponent({
 	},
 	computed: {
 		vDomAddProjectButton() {
-			if (this.isAuthAddProject) {
-				return (
-					<aButton type="primary" onClick={this.showAddProjectDialog}>
-						添加项目
-					</aButton>
-				);
-			} else {
-				return (
-					<aTooltip title="您没有权限,请联系该分组组长或管理员">
-						<aButton type="primary" disabled>
-							添加项目
-						</aButton>
-					</aTooltip>
-				);
-			}
+			const btnConfigs = {
+				text: xI("添加项目"),
+				type: "primary",
+				disabled: this.isAuthAddProject
+					? ""
+					: `<div>${xI("您没有权限")}</div>
+					<div>${xI("请联系该分组组长或管理员")}</div>`,
+				onClick: this.showAddProjectDialog
+			};
+			return <xButton configs={btnConfigs} />;
 		},
 		vDomNoFollowPanel() {
 			const isUnfollow = project => !project.follow;
@@ -58,8 +54,8 @@ export const GroupProjectList = defineComponent({
 
 			if (xU.isArrayFill(unfollowArray)) {
 				return (
-					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
-						<h3 class="owner-type">我的项目</h3>
+					<div class="bottom-line">
+						<h3 class="owner-type">{xI("我的项目")}</h3>
 						{this.genProjectCard(unfollowArray, this.isAuthAddProject)}
 					</div>
 				);
@@ -73,8 +69,8 @@ export const GroupProjectList = defineComponent({
 			]);
 			if (xU.isArrayFill(followProject)) {
 				return (
-					<div style={{ borderBottom: "1px solid #eee", marginBottom: "15px" }}>
-						<h3 class="owner-type">我的关注</h3>
+					<div data-id="我的关注">
+						<h3 class="owner-type">{xI("我的关注")}</h3>
 						{this.genProjectCard(followProject)}
 					</div>
 				);
@@ -84,7 +80,7 @@ export const GroupProjectList = defineComponent({
 		},
 		vDomOwnerSpace() {
 			return this.projectData.length ? (
-				<div class="flex1 height100 overflow-auto">
+				<div class="flex1 overflow-auto">
 					{this.vDomNoFollowPanel}
 					{this.vDomFollowPanel}
 				</div>
@@ -93,7 +89,7 @@ export const GroupProjectList = defineComponent({
 			);
 		},
 		vDomSpaceProject() {
-			if (this.State_App.currGroup.type === "private") {
+			if (this.stateApp.currGroup.type === PRIVATE) {
 				/*私有项目*/
 				return this.vDomOwnerSpace;
 			} else {
@@ -111,23 +107,22 @@ export const GroupProjectList = defineComponent({
 			}
 		},
 		projectData() {
-			return this.State_App.projectList;
+			return this.stateApp.projectList;
 		},
 		isAuthAddProject() {
-			const isGroupRoleAuth = ["admin", "owner"].includes(
-				this.State_App?.currGroup?.role
+			const isGroupRoleAuth = [ADMIN, OWNER].includes(
+				this.stateApp?.currGroup?.role
 			);
 			const _isShow =
-				isGroupRoleAuth ||
-				["admin", "owner"].includes(this.State_App.user.role);
+				isGroupRoleAuth || [ADMIN, OWNER].includes(this.stateApp.user.role);
 			if (!_isShow) {
-				xU("isAuthAddProject", this.State_App.user.role);
+				xU("isAuthAddProject", this.stateApp.user.role);
 			}
 			return _isShow;
 		}
 	},
 	watch: {
-		"Cpt_url.query.group_id": {
+		"cptRouter.query.group_id": {
 			immediate: true,
 			handler() {
 				this.isLoading = true;
@@ -152,12 +147,12 @@ export const GroupProjectList = defineComponent({
 				</div>
 			);
 		},
-		showAddProjectDialog() {
+		async showAddProjectDialog() {
 			const vm = this;
-			UI.dialog.component({
+			xU.dialog({
 				title: "添加项目",
 				component: DialogAddProject,
-				groupId: vm.Cpt_url.query.group_id,
+				groupId: vm.cptRouter.query.group_id,
 				updateProjectList: vm.updateProjectList
 			});
 		},
@@ -171,20 +166,17 @@ export const GroupProjectList = defineComponent({
 	},
 	render() {
 		return (
-			<div
-				v-loading={this.isLoading}
-				style={{ paddingTop: "24px" }}
-				class="m-panel card-panel card-panel-s project-list height100 flex vertical">
-				<aRow class="project-list-header">
-					<aCol span={16} style={{ textAlign: "left" }}>
+			<div v-xloading={this.isLoading} class="project-list">
+				<ElRow class="project-list-header">
+					<elCol span={16} style={{ textAlign: "left" }}>
 						<span>共</span>
-						<span> {this.State_App.projectList.length} </span>
+						<span> {this.stateApp.projectList.length} </span>
 						<span>个项目</span>
-					</aCol>
-					<aCol span={8} class="flex end flex1">
+					</elCol>
+					<elCol span={8} class="flex end flex1">
 						{this.vDomAddProjectButton}
-					</aCol>
-				</aRow>
+					</elCol>
+				</ElRow>
 				{this.vDomSpaceProject}
 			</div>
 		);

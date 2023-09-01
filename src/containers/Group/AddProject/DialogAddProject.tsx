@@ -1,23 +1,23 @@
 import "./Addproject.scss";
 import { defineComponent } from "vue";
-import {
-	AllWasWell,
-	defItem,
-	pickValueFrom,
-	UI,
-	validateForm,
-	xU,
-	State_UI
-} from "@ventose/ui";
-import { API } from "../../../api";
+import { defItem, pickValueFrom, xU, itemsInvalid, xI } from "@/ventose/ui";
+import { API } from "@/api";
 import optionsXIcon from "@/utils/common.options.xIcon";
-import { PROJECT_COLOR, PROJECT_ICON } from "@/utils/variable";
-import { Methods_App, State_App } from "@/state/State_App";
+import {
+	ADMIN,
+	DEV,
+	OWNER,
+	PRIVATE,
+	PROJECT_COLOR,
+	PROJECT_ICON,
+	PUBLIC
+} from "@/utils/variable";
+import { stateApp } from "@/state/app";
 import { FormRules } from "@/utils/common.FormRules";
 import { _$handlePath, _$randomValueAndProp } from "@/utils/common";
 
 export const xItem_ProjectType = (options: any = {}) => {
-	const value = options.value || "private";
+	const value = options.value || PRIVATE;
 	return {
 		value,
 		itemType: "RadioGroup",
@@ -26,25 +26,25 @@ export const xItem_ProjectType = (options: any = {}) => {
 		options: [
 			{
 				label: (
-					<aTooltip title="只有组长和项目开发者可以索引并查看项目信息">
+					<ElTooltip content="只有组长和项目开发者可以索引并查看项目信息">
 						<span class="flex middle">
 							<xIcon icon="lockStrok" />
 							<span>私有</span>
 						</span>
-					</aTooltip>
+					</ElTooltip>
 				),
-				value: "private"
+				value: PRIVATE
 			},
 			{
 				label: (
-					<aTooltip title="任何人都可以索引并查看项目信息">
+					<ElTooltip content="任何人都可以索引并查看项目信息">
 						<span class="flex middle">
 							<xIcon icon="unlock" />
 							<span>公开</span>
 						</span>
-					</aTooltip>
+					</ElTooltip>
 				),
-				value: "public"
+				value: PUBLIC
 			}
 		]
 	};
@@ -69,23 +69,14 @@ export const xItem_ProjectGroupId = (options: any = {}, vm) => {
 		label: "所属分组",
 		placeholder: "请选择项目所属的分组",
 		itemType: "Select",
-		options: [],
-		rules: [FormRules.required("请选择项目所属的分组!")],
-		once() {
-			vm.$watch(
-				"State_App.groupList",
-				groupList => {
-					this.options = xU.map(groupList, i => {
-						return {
-							label: i.group_name,
-							value: String(i._id),
-							disabled: !["dev", "owner", "admin"].includes(i.role)
-						};
-					});
-				},
-				{ immediate: true }
-			);
-		}
+		options: xU.map(stateApp.groupList, i => {
+			return {
+				label: i.group_name,
+				value: String(i._id),
+				disabled: ![DEV, OWNER, ADMIN].includes(i.role)
+			};
+		}),
+		rules: [FormRules.required("请选择项目所属的分组!")]
 	};
 };
 
@@ -94,11 +85,16 @@ export const xItem_ProjectBasePath = (options: any = {}) => {
 	return {
 		value,
 		prop: "basepath",
-		label: defItem.labelWithTips({
-			label: "基本路径",
-			tips: "接口基本路径，默认是/",
-			icon: <xIcon icon="question" />
-		}),
+		label: () =>
+			defItem.labelWithTips({
+				label: "基本路径",
+				icon: (
+					<xIcon
+						icon="question"
+						v-xTips={{ content: "接口基本路径，默认是/" }}
+					/>
+				)
+			}),
 		placeholder: "接口基本路径，默认是/",
 		rules: [FormRules.required("请输入项目基本路径!")]
 	};
@@ -111,18 +107,32 @@ export const xItem_ProjectColor = (options: any = {}) => {
 		value,
 		prop: "color",
 		itemType: "Select",
-		label: State_UI.$t("icon背景颜色").label,
+		label: xI("icon背景颜色"),
 		rules: [FormRules.required()],
 		options: xU.map(PROJECT_COLOR, background => {
 			return {
 				label: (
-					<span style={{ background, color: "transparent" }}>
+					<span
+						style={{
+							background,
+							color: "transparent"
+						}}>
 						_______________
 					</span>
 				),
 				value: background
 			};
-		})
+		}),
+		afterControll: ({ privateValue }) => (
+			<span
+				style={{
+					background: privateValue,
+					color: "transparent",
+					margin: "0 20px"
+				}}>
+				_______________
+			</span>
+		)
 	};
 };
 export const xItem_ProjectIcon = (options: any = {}) => {
@@ -132,7 +142,7 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 		value,
 		prop: "icon",
 		itemType: "Select",
-		label: State_UI.$t("图标").label,
+		label: xI("图标"),
 		rules: [FormRules.required()],
 		options: xU.map(optionsXIcon, value => {
 			return {
@@ -144,7 +154,10 @@ export const xItem_ProjectIcon = (options: any = {}) => {
 				),
 				value
 			};
-		})
+		}),
+		afterControll: ({ privateValue }) => {
+			return <xIcon icon={privateValue} style="margin:0 20px" />;
+		}
 	};
 };
 export const xItem_ProjectName = (options: any = {}) => {
@@ -154,7 +167,7 @@ export const xItem_ProjectName = (options: any = {}) => {
 
 	const rules = [
 		FormRules.required("请输入项目名称"),
-		FormRules.nameLength({ label: State_UI.$t("项目").label })
+		FormRules.nameLength({ label: xI("项目") })
 	];
 
 	if (xU.isArray(appendRules)) {
@@ -187,7 +200,7 @@ const formItemLayout = {
 export const DialogAddProject = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -195,21 +208,21 @@ export const DialogAddProject = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		const vm = this;
 		return {
 			dataXItem: {
-				...defItem(
-					xItem_ProjectGroupId({ value: vm.propDialogOptions.groupId }, vm)
+				projectGroupId: defItem(
+					xItem_ProjectGroupId({ value: vm.propOptions.groupId }, vm)
 				),
-				...defItem(xItem_ProjectName()),
-				...defItem(xItem_ProjectIcon()),
-				...defItem(xItem_ProjectColor()),
-				...defItem(xItem_ProjectBasePath()),
-				...defItem(xItem_ProjectDesc()),
-				...defItem(xItem_ProjectType())
+				projectName: defItem(xItem_ProjectName()),
+				projectIcon: defItem(xItem_ProjectIcon()),
+				projectColor: defItem(xItem_ProjectColor()),
+				projectBasePath: defItem(xItem_ProjectBasePath()),
+				projectDesc: defItem(xItem_ProjectDesc()),
+				projectType: defItem(xItem_ProjectType())
 			},
 			state: {
 				groupList: []
@@ -221,11 +234,12 @@ export const DialogAddProject = defineComponent({
 	},
 	methods: {
 		async init() {
-			Methods_App.setBreadcrumb([{ name: "新建项目" }]);
-			if (!State_App.currGroup._id) {
-				await Methods_App.fetchGroupList();
+			stateApp._setBreadcrumb([{ name: "新建项目" }]);
+
+			if (!stateApp.currGroup._id) {
+				await stateApp._fetchGroupList();
 			}
-			if (State_App.groupList.length === 0) {
+			if (stateApp.groupList.length === 0) {
 				return null;
 			}
 		},
@@ -233,16 +247,35 @@ export const DialogAddProject = defineComponent({
 			const vm = this;
 			// 确认添加项目
 			try {
-				const validateResults = await validateForm(vm.dataXItem);
-				if (AllWasWell(validateResults)) {
-					const formData = pickValueFrom(vm.dataXItem);
-					const { data } = await API.project.addProject(formData);
-					UI.notification.success("创建成功! ");
+				if (!(await itemsInvalid())) {
+					const {
+						projectGroupId,
+						projectName,
+						projectIcon,
+						projectColor,
+						projectBasePath,
+						projectDesc,
+						projectType
+					}: any = pickValueFrom(vm.dataXItem);
+					const { data } = await API.project.addProject({
+						name: projectName,
+						desc: projectDesc,
+						basepath: projectBasePath,
+						project_type: projectType,
+						group_id: projectGroupId,
+						group_name: xU.find(stateApp.groupList, {
+							_id: Number(projectGroupId)
+						}).group_name,
+						icon: projectIcon,
+						color: projectColor
+					});
+					xU.notification.success("创建成功! ");
 					return true;
 				} else {
 					throw new Error("未通过验证");
 				}
 			} catch (e) {
+				xU.notification.error(e.message);
 				console.error(e);
 			}
 		},
@@ -256,30 +289,30 @@ export const DialogAddProject = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper flex1 height100">
-					<div class="x-dialog-boddy-wrapper m-container">
-						<xForm
-							class="flex vertical"
-							labelStyle={{ "min-width": "120px", width: "unset" }}>
-							{xU.map(this.dataXItem, (configs, prop) => {
-								return (
-									<>
-										<xGap t="10" />
-										<xItem configs={configs} />
-									</>
-								);
-							})}
-						</xForm>
-					</div>
+				<div class="x-dialog-boddy-wrapper">
+					{/* {JSON.stringify(pickValueFrom(this.dataXItem))} */}
+					<xForm
+						class="flex vertical"
+						labelStyle={{ "min-width": "120px", width: "unset" }}>
+						{xU.map(this.dataXItem, (configs, prop) => {
+							console.log(configs);
+							return (
+								<>
+									<xGap t />
+									<xItem configs={configs} />
+								</>
+							);
+						})}
+					</xForm>
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: async () => {
 							const res = await this.submit();
 							if (res) {
-								this.propDialogOptions.updateProjectList();
-								this.propDialogOptions.closeDialog();
+								this.propOptions.updateProjectList();
+								this.propOptions.$close();
 							}
 						}
 					}}

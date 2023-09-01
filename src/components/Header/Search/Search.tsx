@@ -1,25 +1,10 @@
-import { AutoComplete } from "ant-design-vue";
 import "./Search.scss";
 
 import axios from "axios";
 
 import { defineComponent } from "vue";
-import { Methods_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 
-const Option = AutoComplete.Option;
-
-/* @connect(
-	state => ({
-		groupList: state.group.groupList,
-		projectList: state.project.projectList
-	}),
-	{
-		setCurrGroup,
-		changeMenuItem,
-		setCurrGroup,
-		fetchInterfaceListMenu
-	}
-) */
 // @withRouter
 export default defineComponent({
 	props: [
@@ -44,9 +29,9 @@ export default defineComponent({
 			if (option.props.type === "分组") {
 				this.props.changeMenuItem("/group");
 				this.$router.push({ path: "/group/" + option.props["id"] });
-				Methods_App.setCurrGroup(ption.props["id"] - 0);
+				stateApp._setCurrGroup(ption.props["id"] - 0);
 			} else if (option.props.type === "项目") {
-				await Methods_App.setCurrGroup(option.props["groupId"]);
+				await stateApp._setCurrGroup(option.props["groupId"]);
 				this.$router.push({ path: "/project/" + option.props["id"] });
 			} else if (option.props.type === "接口") {
 				await this.props.fetchInterfaceListMenu(option.props["projectId"]);
@@ -121,9 +106,11 @@ export default defineComponent({
 	render() {
 		const { dataSource } = this.state;
 
+		return null;
+
 		return (
 			<div class="search-wrapper">
-				<AutoComplete
+				<ElAutoComplete
 					class="search-dropdown"
 					dataSource={dataSource}
 					style={{ width: "100%" }}
@@ -134,12 +121,12 @@ export default defineComponent({
 					//   option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
 					// }
 				>
-					<aInput
+					<ElInput
 						prefix={<xIcon icon="search" class="srch-icon" />}
 						placeholder="搜索分组/项目/接口"
 						class="search-input"
 					/>
-				</AutoComplete>
+				</ElAutoComplete>
 			</div>
 		);
 	}

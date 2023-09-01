@@ -1,22 +1,22 @@
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { ProjectTestcaseLeftSider } from "./ProjectTestcaseLeftSider";
 import {
-	State_ProjectTestcase,
+	stateProjectTestcase,
 	Methods_ProjectTestcase
-} from "@/containers/Project/Testcase/State_ProjectTestcase";
+} from "@/state/projectTestcase";
 import { API } from "@/api/index";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 
 export const ProjectTestcase = defineComponent({
 	components: {
-		ProjectInterfaceLeftSider: ProjectTestcaseLeftSider
+		InterfaceAside: ProjectTestcaseLeftSider
 	},
 	setup() {
 		return {
-			State_App,
-			State_ProjectTestcase,
-			Cpt_url
+			stateApp,
+			stateProjectTestcase,
+			cptRouter
 		};
 	},
 	data() {
@@ -32,10 +32,10 @@ export const ProjectTestcase = defineComponent({
 		return (
 			<section
 				id="ViewProjectTestcase"
-				v-loading={this.State_ProjectTestcase.isLoading}>
+				v-xloading={this.stateProjectTestcase.isLoading}>
 				<ProjectTestcaseLeftSider />
-				<main class="flex flex1 padding10" style="width:1px;height:100%">
-					<RouterView class="flex flex1 width100 height100 vertical padding10" />
+				<main class="flex flex1 app-padding" style="width:1px;height:100%">
+					<RouterView class="flex flex1 width100 height100 vertical app-padding" />
 				</main>
 			</section>
 		);

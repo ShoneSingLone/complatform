@@ -1,4 +1,4 @@
-import { xU } from "@ventose/ui";
+import { xU } from "@/ventose/ui";
 import { BODY, GET, HTTP_METHOD, QUERY } from "@/utils/variable";
 import { defineComponent } from "vue";
 import { BodyParamsPanel } from "./interfaceParams/BodyParamsPanel";
@@ -41,7 +41,7 @@ export const RequestArgsPanel = defineComponent({
 		// return JSON.stringify(this.params)
 
 		// if (!this.params) {
-		// 	return <aSpin spinning={true} class="flex middle height100 width100" />;
+		// 	return <div v-xloading="true" class="flex middle height100 width100" />;
 		// }
 
 		const bodyHeader = (() => {
@@ -53,8 +53,8 @@ export const RequestArgsPanel = defineComponent({
 		})();
 
 		return (
-			<aCollapse v-model:activeKey={this.collapseActive}>
-				<aCollapsePanel
+			<ElCollapse v-model:activeKey={this.collapseActive}>
+				<ElCollapseItem
 					key="header"
 					header={`header ${this.params?.req_headers.length}`}>
 					<HeaderParamsPanel
@@ -66,8 +66,8 @@ export const RequestArgsPanel = defineComponent({
 							)
 						}
 					/>
-				</aCollapsePanel>
-				<aCollapsePanel
+				</ElCollapseItem>
+				<ElCollapseItem
 					key={QUERY}
 					header={`${QUERY} ${this.params?.req_query.length}`}>
 					<QueryParamsPanel
@@ -79,8 +79,8 @@ export const RequestArgsPanel = defineComponent({
 							)
 						}
 					/>
-				</aCollapsePanel>
-				<aCollapsePanel
+				</ElCollapseItem>
+				<ElCollapseItem
 					key={BODY}
 					header={bodyHeader}
 					collapsible={this.bodyCollapsible}>
@@ -90,8 +90,8 @@ export const RequestArgsPanel = defineComponent({
 							this.$emit("update:params", xU.merge({}, this.params, params))
 						}
 					/>
-				</aCollapsePanel>
-			</aCollapse>
+				</ElCollapseItem>
+			</ElCollapse>
 		);
 	}
 });

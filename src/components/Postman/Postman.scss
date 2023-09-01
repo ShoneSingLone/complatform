@@ -1,28 +1,27 @@
-@import "../../styles/mixin.scss";
 .postman {
 	.adv-button {
 		margin-bottom: 8px;
 	}
 	.pretty-editor {
 		border: 1px solid #d9d9d9;
-		border-radius: 4px;
+		border-radius: var(--border-radius);
 		min-height: 200px;
 	}
 	.pretty-editor-body {
 		border: 1px solid #d9d9d9;
-		border-radius: 4px;
+		border-radius: var(--border-radius);
 		min-height: 300px;
 		min-width: 100%;
 	}
 	.pretty-editor-header {
 		border: 1px solid #d9d9d9;
-		border-radius: 4px;
+		border-radius: var(--border-radius);
 		min-height: 300px;
 	}
 
 	.interface-test {
 		padding: 0.24rem;
-		.ant-checkbox-wrapper {
+		.el-checkbox-wrapper {
 			display: flex;
 		}
 	}
@@ -45,9 +44,9 @@
 	.response-tab {
 		margin-top: 20px;
 		margin-bottom: 20px;
-		.ant-tabs-nav {
+		.el-tabs-nav {
 			background: #f7f7f7;
-			border-radius: 0 0 4px 4px;
+			border-radius: var(--border-radius);
 			border: 1px solid #d9d9d9;
 			width: 100%;
 		}
@@ -72,7 +71,7 @@
 		}
 	}
 
-	.ant-spin-blur {
+	.el-spin-blur {
 		.res-code.success {
 			background-color: transparent;
 		}
@@ -87,7 +86,7 @@
 		margin-right: -0.28rem;
 		transition: all 0.2s;
 		position: relative;
-		border-radius: 2px;
+		border-radius: var(--border-radius);
 	}
 	.res-code.success {
 		background-color: $color-antd-green;
@@ -140,7 +139,7 @@
 		.res-body-text {
 			height: 100%;
 			border: 1px solid #d9d9d9;
-			border-radius: 4px;
+			border-radius: var(--border-radius);
 			padding: 8px;
 		}
 	}
@@ -176,12 +175,12 @@
 		margin-left: 6px;
 	}
 	.icon-btn:hover {
-		color: #2395f1;
+		color: var(--app-brand);
 	}
 }
 
 .env-modal {
-	.ant-modal-body {
+	.el-modal-body {
 		padding: 0;
 	}
 }

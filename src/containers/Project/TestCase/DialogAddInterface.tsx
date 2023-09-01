@@ -1,27 +1,23 @@
 import {
-	validateForm,
-	AllWasWell,
+	itemsInvalid,
 	pickValueFrom,
-	UI,
-	defItem,
 	xU,
-	setValueTo
-} from "@ventose/ui";
+	defItem,
+	setValueTo,
+	xI
+} from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
-import { API } from "../../../api";
-import { State_App } from "@/state/State_App";
-import {
-	Methods_ProjectInterface,
-	State_ProjectInterface
-} from "@/containers/Project/Interface/State_ProjectInterface";
+import { API } from "@/api";
+import { stateApp } from "@/state/app";
+import { stateInterface } from "@/state/interface";
 import { FormRules } from "@/utils/common.FormRules";
 import { ITEM_OPTIONS } from "@/utils/common.options";
-import { Cpt_url } from "../../../router/router";
+import { cptRouter } from "@/router/router";
 
 export const DialogAddInterface = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -29,15 +25,14 @@ export const DialogAddInterface = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		const vm = this;
 		return {
-			...defItem({
+			apiMethod: defItem({
 				value: "",
 				itemType: "Select",
-				prop: "apiMethod",
 				options: ITEM_OPTIONS.httpMethod,
 				rules: [FormRules.required()],
 				once() {
@@ -46,38 +41,35 @@ export const DialogAddInterface = defineComponent({
 				style: { width: "120px" }
 			}),
 			dataXItem: {
-				...defItem({
+				catid: defItem({
 					value: "",
 					itemType: "Select",
-					prop: "catid",
-					label: vm.$t("接口分类").label,
+					label: xI("接口分类"),
 					placeholder: "分类名称",
 					options: [],
 					rules: [FormRules.required()],
 					once() {
-						this.options = State_ProjectInterface.allCategory;
+						this.options = stateInterface.allCategory;
 						/* 默认在点击的分类下添加新接口 */
-						if (vm.propDialogOptions.categoryId) {
-							this.value = vm.propDialogOptions.categoryId;
+						if (vm.propOptions.categoryId) {
+							this.value = vm.propOptions.categoryId;
 						} else {
 							this.value = xU.first(this.options).value;
 						}
 					}
 				}),
-				...defItem({
+				title: defItem({
 					value: "",
-					prop: "title",
-					label: vm.$t("接口名称").label,
-					placeholder: vm.$t("接口名称").label,
+					label: xI("接口名称"),
+					placeholder: xI("接口名称"),
 					rules: [
 						FormRules.required(),
-						FormRules.nameLength({ label: vm.$t("接口").label })
+						FormRules.nameLength({ label: xI("接口") })
 					]
 				}),
-				...defItem({
+				path: defItem({
 					value: "/",
-					prop: "path",
-					label: vm.$t("接口路径").label,
+					label: xI("接口路径"),
 					placeholder: "/path",
 					rules: [FormRules.required(), FormRules.apiPath()],
 					once() {
@@ -91,14 +83,13 @@ export const DialogAddInterface = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 	},
 	methods: {
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
-			if (AllWasWell(validateResults)) {
+			if (!(await itemsInvalid())) {
 				const { catid, title, path } = pickValueFrom(this.dataXItem);
-				const { projectId, closeDialog } = this.propDialogOptions;
+				const { projectId, $close } = this.propOptions;
 				try {
 					const { data } = await API.project.addInterface({
 						project_id: projectId,
@@ -108,17 +99,17 @@ export const DialogAddInterface = defineComponent({
 						method: this.apiMethod.value
 					});
 					if (data) {
-						Methods_ProjectInterface.updateTestcaseMenuList();
-						Cpt_url.value.go("/project/interface/detail", {
-							...Cpt_url.value.query,
+						stateInterface.updateTestcaseMenuList();
+						cptRouter.value.go("/interface/detail", {
+							...cptRouter.value.query,
 							interface_id: data._id
 						});
 
-						UI.message.success("添加接口成功");
-						closeDialog();
+						xU.message.success("添加接口成功");
+						$close();
 					}
 				} catch (error) {
-					UI.message.error("添加失败");
+					xU.message.error("添加失败");
 				}
 			}
 		}
@@ -126,13 +117,13 @@ export const DialogAddInterface = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper flex1 height100">
-					<xGap t="10" />
-					<aAlert
-						message={this.$t("注： 详细的接口数据可以在编辑页面中添加").label}
+				<div class="x-dialog-boddy-wrapper">
+					<xGap t />
+					<elAlert
+						title={xI("注： 详细的接口数据可以在编辑页面中添加")}
 						type="info"
 						closable
-						className="width100"
+						class="width100"
 					/>
 					<xForm
 						class="flex vertical"
@@ -140,17 +131,17 @@ export const DialogAddInterface = defineComponent({
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);
 						})}
 					</xForm>
-					<xGap t="10" />
+					<xGap t />
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

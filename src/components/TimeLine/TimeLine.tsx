@@ -3,35 +3,34 @@ import "jsondiffpatch/dist/formatters-styles/html.css";
 import "./TimeLine.scss";
 import * as jsondiffpatch from "jsondiffpatch";
 
-import { defPagination, State_UI, UI, xU } from "@ventose/ui";
+import { defPagination, stateUI, xU, xI } from "@/ventose/ui";
 import { defineComponent } from "vue";
-import { Methods_App, State_App } from "../../state/State_App";
-import { Cpt_url } from "../../router/router";
+import { stateApp } from "@/state/app";
 import { DialogShowApiModify } from "./DialogShowApiModify";
 import { LOG_TYPE, METHOD_COLOR } from "../../utils/variable";
 import { _$timeAgo } from "../../utils/common";
-import { API } from "../../api";
+import { API } from "@/api";
 import { diffMessage } from "../../utils/diff-view";
-
-const { $t } = State_UI;
 
 const formattersHtml = jsondiffpatch.formatters.html;
 
 export const TimeLine = defineComponent({
-	props: [
-		"fetchNewsData",
-		"setLoading",
-		"loading",
-		"typeid",
-		"curUid",
-		"type",
-		"fetchInterfaceList"
-	],
-
+	props: ["typeid", "type"],
 	setup() {
-		return { State_App };
+		return function () {
+			return (
+				<>
+					<section class="mb mt el-card padding">
+						{this.vDomSectionProject}
+						{this.vDomSectionRecords}
+					</section>
+					<div class="flex end">
+						<xPagination pagination={this.pagination} onQuery={this.getMore} />
+					</div>
+				</>
+			);
+		};
 	},
-
 	data() {
 		return {
 			newsWillShow: [],
@@ -39,7 +38,6 @@ export const TimeLine = defineComponent({
 			pagination: defPagination(),
 			state: {
 				bidden: "",
-				loading: false,
 				apiList: []
 			}
 		};
@@ -79,8 +77,8 @@ export const TimeLine = defineComponent({
 		},
 
 		showDiffLogDialog(data) {
-			UI.dialog.component({
-				title: $t("Api 改动日志(Esc 关闭弹窗)").label,
+			xU.dialog({
+				title: xI("Api 改动日志(Esc 关闭弹窗)"),
 				component: DialogShowApiModify,
 				maxmin: true,
 				fullscreen: true,
@@ -98,7 +96,7 @@ export const TimeLine = defineComponent({
 
 		handleSelectApi(selectValue) {
 			this.curSelectValue = selectValue;
-			Methods_App.fetchNewsData({ id: this.typeid, type: this.type });
+			stateApp._fetchNewsData({ id: this.typeid, type: this.type });
 		}
 	},
 	computed: {
@@ -113,14 +111,14 @@ export const TimeLine = defineComponent({
 						path={item.path}
 						key={item._id}>
 						{item.title}{" "}
-						<aTag
+						<ElTag
 							style={{
 								color: methodColor ? methodColor.color : "#cfefdf",
 								backgroundColor: methodColor ? methodColor.bac : "#00a854",
 								border: "unset"
 							}}>
 							{item.method}
-						</aTag>
+						</ElTag>
 					</Option>
 				);
 			});
@@ -136,9 +134,9 @@ export const TimeLine = defineComponent({
 		vDomSectionProject() {
 			if (this.type === "project") {
 				return (
-					<aRow class="news-search">
-						<aCol span="3">{$t("选择查询的 Api").label}：</aCol>
-						<aCol span="10">
+					<ElRow class="news-search">
+						<elCol span="3">{xI("选择查询的 Api")}：</elCol>
+						<elCol span="10">
 							<aAutoComplete
 								onSelect={this.handleSelectApi}
 								style={{ width: "100%" }}
@@ -162,8 +160,8 @@ export const TimeLine = defineComponent({
 								</OptGroup>
 								<OptGroup label="api">{this.vDomProjectChildren}</OptGroup>
 							</aAutoComplete>
-						</aCol>
-					</aRow>
+						</elCol>
+					</ElRow>
 				);
 			}
 
@@ -176,59 +174,44 @@ export const TimeLine = defineComponent({
 					let interfaceDiff = xU.isPlainObject(newsItem.data);
 					const addTime = xU.dateFormat(newsItem.add_time, 1);
 					return (
-						<aTimelineItem
-							dot={
-								<aAvatar
-									class="pointer"
-									src={`/api/user/avatar?uid=${newsItem.uid}`}
-									onClick={() =>
-										Cpt_url.value.go(`/user/profile/${newsItem.uid}`)
+						<ElTimelineItem key={i} timestamp={addTime} placement="top">
+							<el-card>
+								{{
+									header() {
+										return (
+											<div class="card-header flex middle">
+												<div class="logtype">{LOG_TYPE[newsItem.type]}动态</div>
+												<span class="logtime ml10">
+													{_$timeAgo(newsItem.add_time)}
+												</span>
+												{interfaceDiff && (
+													<xButton
+														onClick={() =>
+															this.showDiffLogDialog(newsItem.data)
+														}>
+														改动详情
+													</xButton>
+												)}
+											</div>
+										);
+									},
+									default() {
+										return (
+											<span class="logcontent" v-html={newsItem.content} />
+										);
 									}
-								/>
-							}
-							key={i}>
-							<div class="logMesHeade">
-								<span class="logo_$timeAgo">
-									{_$timeAgo(newsItem.add_time)}
-								</span>
-								<span class="logtype">{LOG_TYPE[newsItem.type]}动态</span>
-								<span class="logtime">{addTime}</span>
-							</div>
-							<span class="logcontent" v-html={newsItem.content} />
-							<div style={{ padding: "10px 0 0 10px" }}>
-								{interfaceDiff && (
-									<aButton
-										onClick={() => this.showDiffLogDialog(newsItem.data)}>
-										改动详情
-									</aButton>
-								)}
-							</div>
-						</aTimelineItem>
+								}}
+							</el-card>
+						</ElTimelineItem>
 					);
 				});
 				records = (
-					<aTimeline class="TimeLine_news-content">
+					<ElTimeline class="TimeLine_news-content">
 						{vDomTimeLineItem}
-					</aTimeline>
+					</ElTimeline>
 				);
 			}
 			return records;
 		}
-	},
-	render() {
-		return (
-			<>
-				<section class="news-timeline flex1">
-					{this.vDomSectionProject}
-					{this.vDomSectionRecords}
-				</section>
-				<div class="flex end padding20">
-					<xPagination
-						pagination={this.pagination}
-						onPaginationChange={this.getMore}
-					/>
-				</div>
-			</>
-		);
 	}
 });

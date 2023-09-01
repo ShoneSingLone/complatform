@@ -1,0 +1,43 @@
+.xInfoCard {
+	.el-descriptions__body {
+		display: flex;
+		flex-flow: row wrap;
+		border-left: 1px solid var(--el-border-color-lighter);
+		border-top: 1px solid var(--el-border-color-lighter);
+
+		+ .el-descriptions__body {
+			border-top: unset;
+		}
+
+		.el-descriptions-item__label {
+			text-align: left;
+			font-weight: 400;
+			width: var(--cell-label-width);
+		}
+
+		.cell {
+			border-right: 1px solid var(--el-border-color-lighter);
+			border-bottom: 1px solid var(--el-border-color-lighter);
+
+			> div {
+				padding: 8px 10px;
+			}
+		}
+
+		[data-span="1"] {
+			width: var(--cell-width-1);
+		}
+
+		[data-span="2"] {
+			width: var(--cell-width-2);
+		}
+
+		[data-span="3"] {
+			width: var(--cell-width-3);
+		}
+
+		[data-span="4"] {
+			width: var(--cell-width-4);
+		}
+	}
+}

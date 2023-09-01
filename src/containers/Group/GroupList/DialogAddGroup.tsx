@@ -1,13 +1,12 @@
 import { defineComponent } from "vue";
-import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
+import { xU, defItem, stateUI, pickValueFrom, xI } from "@/ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { ItemUAC } from "../../../components/ItemRender/ItemUAC";
-
-const { $t } = State_UI;
 
 export const DialogAddGroup = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -18,26 +17,23 @@ export const DialogAddGroup = defineComponent({
 		const vm = this;
 		return {
 			formItems: {
-				...defItem({
-					prop: "newGroupName",
+				newGroupName: defItem({
 					value: "",
-					label: $t("分组名").label,
-					placeholder: $t("请输入分组名称").label,
+					label: xI("分组名"),
+					placeholder: xI("请输入分组名称"),
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				newGroupDesc: defItem({
 					isTextarea: true,
-					prop: "newGroupDesc",
 					value: "",
-					label: $t("简介").label,
+					label: xI("简介"),
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				owner_uids: defItem({
 					itemType: ItemUAC,
-					prop: "owner_uids",
-					value: "",
-					label: $t("组长").label,
+					value: [],
+					label: xI("组长"),
 					placeholder: "请输入分组描述",
 					rules: [FormRules.required()]
 				})
@@ -46,14 +42,14 @@ export const DialogAddGroup = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 	},
 	computed: {
 		vDomFormItems() {
 			return xU.map(this.formItems, (item, prop) => {
 				return (
 					<>
-						<xGap t="10" />
+						<xGap t />
 						<xItem configs={item} />
 					</>
 				);
@@ -63,18 +59,19 @@ export const DialogAddGroup = defineComponent({
 	render() {
 		return (
 			<>
-				<aCard class="flex1 overflow-auto">
+				<div class="x-dialog-boddy-wrapper">
+					{/* {JSON.stringify(pickValueFrom(this.formItems))} */}
 					<xForm class="flex vertical" labelStyle={this.styleLabel}>
 						{this.vDomFormItems}
 					</xForm>
-				</aCard>
+				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: () => {
-							this.propDialogOptions.onOk({
+							this.propOptions.onOk({
 								formItems: this.formItems,
-								closeDialog: this.propDialogOptions.closeDialog
+								$close: this.propOptions.$close
 							});
 						}
 					}}

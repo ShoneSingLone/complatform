@@ -1,0 +1,18 @@
+#ViewWiki {
+	display: flex;
+	flex: 1;
+	height: 1px;
+
+	aside + main {
+		margin-left: calc(var(--app-padding) * -1);
+	}
+}
+
+#wiki-editor-title {
+	.el-input__wrapper {
+		box-shadow: none;
+		font-weight: 700;
+		font-size: 18px;
+		border-bottom: 1px solid var(--el-border-color);
+	}
+}

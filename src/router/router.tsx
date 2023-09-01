@@ -1,155 +1,75 @@
-import { ViewGroup } from "../containers/Group/ViewGroup";
 import { computed, ComputedRef } from "vue";
-import { setDocumentTitle, State_UI, xU } from "@ventose/ui";
-import { ViewNotFound } from "../components/ViewNotFound";
-import { Methods_App, State_App } from "../state/State_App";
+import { ALL, GROUP, PRIVATE, PROJECT } from "@/utils/variable";
+import { setDocumentTitle, xI, xU } from "@/ventose/ui";
+import { ViewNotFound } from "@/components/ViewNotFound";
+import { stateApp } from "@/state/app";
 
-const { $t } = State_UI;
 /* const LazyComponent = (componentName, componentPath) => ({
 	componentName: componentName,
 	component: () => import(componentPath)
 }); */
 
+const wiki = (tag, title) => ({
+	path: `/wiki_${tag}`,
+	componentName: "ViewWiki",
+	component: () => import("@/containers/Wiki/ViewWiki.js"),
+	meta: {
+		title
+	}
+});
+
 export const routes = [
 	{
 		path: `/login`,
 		componentName: "LoginContainer",
-		component: () => import("../containers/Login/LoginContainer.js"),
+		component: () => import("@/containers/Login/LoginContainer.js"),
 		meta: {
-			title: $t("用户登录").label
+			title: xI("用户登录")
 		}
 	},
 	{
 		path: `/user_profile`,
 		componentName: "ViewUserProfile",
-		component: () => import("../containers/User/ViewUserProfile.js"),
+		component: () => import("@/containers/User/ViewUserProfile.js"),
 		meta: {
-			title: $t("用户").label
+			title: xI("用户")
 		}
 	},
 	{
 		path: `/group`,
 		componentName: "ViewGroup",
-		component: ViewGroup,
+		component: () => import("@/containers/Group/ViewGroup.js"),
 		meta: {
-			title: $t("分组").label
+			title: xI("分组")
 		}
 	},
+	wiki(ALL, "文档-All"),
+	wiki(GROUP, "文档-Group"),
+	wiki(PROJECT, "文档-Project"),
+	wiki(PRIVATE, "文档-Private"),
 	{
-		path: `/wiki`,
-		componentName: "ViewWiki",
-		component: () => import("../containers/Wiki/ViewWiki.js"),
-		meta: {
-			title: $t("文档").label
-		}
-	},
-	{
-		path: `/i18n`,
+		path: `/xI`,
 		componentName: "ViewI18n",
-		component: () => import("../containers/I18n/ViewI18n.js"),
+		component: () => import("@/containers/I18n/ViewI18n.js"),
 		meta: {
-			title: $t("国际化").label
+			title: xI("国际化")
 		}
 	},
 	{
 		path: `/project`,
 		componentName: "ViewProject",
-		component: () => import("../containers/Project/ViewProject.js"),
+		component: () => import("@/containers/Project/ViewProject.js"),
 		meta: {
-			title: $t("项目").label
+			title: xI("项目")
 		}
 	},
 	{
-		label: $t("接口").label,
-		path: "/project/interface",
-		componentName: "ProjectInterface",
-		component: () =>
-			import("../containers/Project/Interface/ProjectInterface.js"),
+		label: xI("接口"),
+		path: "/interface",
+		componentName: "ViewInterface",
+		component: () => import("@/containers/Interface/ViewInterface.js"),
 		meta: {
-			title: $t("接口").label
-		}
-	},
-	{
-		label: $t("接口-全部").label,
-		path: "/project/interface/all",
-		componentName: "InterfaceAll",
-		component: () => import("../containers/Project/Interface/InterfaceAll.js")
-	},
-	{
-		label: $t("接口-分类").label,
-		path: "/project/interface/category",
-		componentName: "InterfaceCategory",
-		component: () =>
-			import("../containers/Project/Interface/InterfaceCategory.js")
-	},
-	{
-		label: $t("接口-详情").label,
-		path: "/project/interface/detail",
-		componentName: "InterfaceDetail",
-		component: () =>
-			import("../containers/Project/Interface/InterfaceDetail.js")
-	},
-	{
-		label: $t("测试集").label,
-		path: "/project/testcase",
-		componentName: "ProjectTestcase",
-		component: () =>
-			import("../containers/Project/TestCase/ProjectTestcase.js"),
-		meta: {
-			title: $t("测试集").label
-		}
-	},
-	{
-		label: $t("测试集-全部").label,
-		path: "/project/testcase/all",
-		componentName: "ProjectTestcaseAll",
-		component: () =>
-			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
-	},
-	{
-		label: $t("测试集-分类").label,
-		path: "/project/testcase/category",
-		componentName: "ProjectTestcaseAll",
-		component: () =>
-			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
-	},
-	{
-		label: $t("测试集-详情").label,
-		path: "/project/testcase/detail",
-		componentName: "ProjectTestcaseAll",
-		component: () =>
-			import("../containers/Project/TestCase/ProjectTestcaseAll.js")
-	},
-	{
-		label: $t("动态").label,
-		path: "/project/activity",
-		component: ViewNotFound,
-		meta: {
-			title: $t("动态").label
-		}
-	},
-	{
-		label: $t("数据管理").label,
-		path: "/project/data",
-		component: ViewNotFound,
-		meta: {
-			title: $t("数据管理").label
-		}
-	},
-	{
-		label: $t("成员管理").label,
-		path: "/project/members",
-		component: ViewNotFound,
-		meta: {
-			title: $t("成员管理").label
-		}
-	},
-	{
-		label: $t("设置").label,
-		path: "/project/setting",
-		component: () => import("../containers/Project/Setting/ProjectSetting.js"),
-		meta: {
-			title: $t("设置").label
+			title: xI("接口")
 		}
 	},
 	{
@@ -157,7 +77,7 @@ export const routes = [
 		path: "/:pathMatch(.*)*",
 		component: ViewNotFound,
 		meta: {
-			title: $t("NotFound").label
+			title: xI("NotFound")
 		}
 	}
 ];
@@ -171,14 +91,25 @@ export const ProjectChildren = routes.filter(route => {
 	}
 });
 
-type type_url = {
+type t_router = {
 	go: (path: string, query?: object) => null;
 	refresh: (query: object) => null;
-	query: () => object;
-};
+	query: {
+		user_id?: string;
+		group_id?: string;
+		group_tab?: string;
+		project_id?: string;
+		project_tab?: string;
+		project_setting_tab?: string;
+		interface_type?: string;
+		interface_id?: string;
+		category_id?: string;
+		wiki_id?: string;
+	};
+} & URL;
 
-export const Cpt_url: ComputedRef<type_url> = computed(() => {
-	const urlHash = State_App.urlHash || "/";
+export const cptRouter = computed(() => {
+	const urlHash = stateApp.urlHash || "/";
 	const { origin } = location;
 
 	let _url = {};
@@ -202,12 +133,17 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 		},
 		set(_query, prop, val) {
 			_query[prop] = val;
+
+			/* 如果为undefined则删除 */
+			if (val == undefined) {
+				delete _query[prop];
+			}
 			onlyModifyQuery(xU.merge({}, _query));
 			return true;
 		}
 	});
 
-	const _Cpt_url = new Proxy(_url, {
+	const _cptRouter = new Proxy(_url, {
 		get(obj, prop) {
 			if (prop === "query") {
 				return query;
@@ -225,7 +161,7 @@ export const Cpt_url: ComputedRef<type_url> = computed(() => {
 		}
 	});
 
-	return _Cpt_url;
+	return _cptRouter as t_router;
 });
 
 /***
@@ -253,20 +189,21 @@ export function aHashLink(urlLike: string, query: any = {}) {
 async function setLocationHash(href: string, url: URL) {
 	try {
 		/*如果已登录*/
-		if (!(await Methods_App.checkLoginState())) {
+		if (!(await stateApp._checkLoginState())) {
 			return;
 		}
 		/*但是，非登陆页面则跳转到主页*/
 		if (["/login"].includes(url.pathname)) {
 			href = "/";
 		}
-		const route = xU.find(routes, { path: url.pathname });
-		const label = route.label || route?.meta?.title;
-
-		if (label) {
-			setDocumentTitle(label);
-		} else {
-			setDocumentTitle("YApi-高效、易用、功能强大的可视化接口管理平台");
+		const route: any = xU.find(routes, { path: url.pathname });
+		if (route) {
+			const label = route.label || route?.meta?.title;
+			if (label) {
+				setDocumentTitle(label);
+			} else {
+				setDocumentTitle("YApi-高效、易用、功能强大的可视化接口管理平台");
+			}
 		}
 	} catch (error) {
 		console.error(error);
@@ -290,5 +227,5 @@ function onlyModifyQuery(_query) {
 }
 
 export const cpt_isPersonalWikiView = computed(() => {
-	return !!Cpt_url.value.query.user_id;
+	return !!cptRouter.value.query.user_id;
 });

@@ -9,14 +9,13 @@ import { State_App } from "@/state/State_App";
 
 ```js
 
-validateForm, AllWasWell, pickValueFrom,
+itemsInvalid,  pickValueFrom,
 
 rules: [FormRules.required("请输入项目基本路径!")]
 
 
 
-const validateResults = await validateForm(instance.vm.formItems);
-if (AllWasWell(validateResults)) {
+if (!(await itemsInvalid())) {
 	const { project_name } = pickValueFrom(instance.vm.formItems);
 	try {
 		await this.copyProject({ project_name });
@@ -28,8 +27,8 @@ if (AllWasWell(validateResults)) {
 	throw new Error("未通过验证");
 }
 
-UI.dialog.component({
-	title: this.$t("添加分类").label,
+xU.dialog({
+	title: this.$t("添加分类"),
 	component: DialogAddCategory,
 	onOk: async (instance) => {
 		const res = await instance.vm.submit();

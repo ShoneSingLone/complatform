@@ -1,22 +1,23 @@
 /*https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup*/
 import "./containers/Home/Home.scss";
-import "./styles/App.less";
-import "./style.scss";
-import "./style.css";
+import "./style.less";
 import { defineComponent } from "vue";
-import { AppFooter } from "./components/Footer/AppFooter";
-import { AppHeader } from "./components/Header/AppHeader";
-import { Cpt_url } from "./router/router";
-import { Methods_App, State_App } from "./state/State_App";
-import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
-import { $ } from "@ventose/ui";
+import { AppFooter } from "@/components/Footer/AppFooter";
+import { AppHeader } from "@/components/Header/AppHeader";
+import { cptRouter } from "@/router/router";
+import { stateApp } from "@/state/app";
+import { stateInterface } from "@/state/interface";
+import { $ } from "@/ventose/ui";
+import { RouterView } from "@/components/RouterView/RouterView";
+import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 
 export default defineComponent({
 	components: { AppFooter, AppHeader },
 	setup() {
+		stateApp.__resetState();
 		return {
-			Cpt_url,
-			State_App
+			cptRouter,
+			stateApp
 		};
 	},
 	data() {
@@ -37,14 +38,14 @@ export default defineComponent({
 		async onAfterRefresh() {
 			/* 刷新之后重新获取基础信息 */
 			try {
-				await Methods_App.checkLoginState();
-				await Methods_App.fetchGroupList();
-				if (this.Cpt_url.query.group_id) {
-					await Methods_App.setCurrGroup(this.Cpt_url.query.group_id);
-					await Methods_App.fetchProjectList(this.Cpt_url.query.group_id);
-					if (this.Cpt_url.query.project_id) {
-						await Methods_App.setCurrProject(this.Cpt_url.query.project_id);
-						await Methods_ProjectInterface.updateInterfaceMenuList();
+				await stateApp._checkLoginState();
+				await stateApp._fetchGroupList();
+				if (this.cptRouter.query.group_id) {
+					await stateApp._setCurrGroup(this.cptRouter.query.group_id);
+					await stateApp._fetchProjectList(this.cptRouter.query.group_id);
+					if (this.cptRouter.query.project_id) {
+						await stateApp._setCurrProject(this.cptRouter.query.project_id);
+						await stateInterface._updateInterfaceMenuList();
 					}
 				}
 			} catch (error) {
@@ -57,11 +58,14 @@ export default defineComponent({
 	},
 	render() {
 		return (
-			<>
-				<AppHeader />
-				<RouterView guards={this.routerViewGuards} />
+			<ElConfigProvider size={stateApp.globalSize} locale={zhCn}>
+				<AppHeader data-view-id="AppHeader" />
+				<RouterView
+					guards={this.routerViewGuards}
+					data-view-id="AppRouterView"
+				/>
 				<AppFooter />
-			</>
+			</ElConfigProvider>
 		);
 	}
 });

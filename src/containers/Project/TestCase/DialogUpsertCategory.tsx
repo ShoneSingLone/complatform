@@ -1,14 +1,20 @@
-import { validateForm, AllWasWell, pickValueFrom, UI } from "@ventose/ui";
-import { defItem, xU, FormRules, setValueTo } from "@ventose/ui";
+import {
+	itemsInvalid,
+	pickValueFrom,
+	defItem,
+	xU,
+	setValueTo
+} from "@/ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { defineComponent } from "vue";
-import { API } from "../../../api";
-import { State_App } from "@/state/State_App";
-import { Methods_ProjectInterface } from "@/containers/Project/Interface/State_ProjectInterface";
+import { API } from "@/api";
+import { stateApp } from "@/state/app";
+import { stateInterface } from "@/state/interface";
 
 export const DialogUpsertCategory = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -16,21 +22,19 @@ export const DialogUpsertCategory = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App };
+		return { stateApp };
 	},
 	data() {
 		return {
 			dataXItem: {
-				...defItem({
+				name: defItem({
 					value: "",
-					prop: "name",
 					label: "分类名",
 					placeholder: "分类名称",
 					rules: [FormRules.required("请输入分类名称!")]
 				}),
-				...defItem({
+				desc: defItem({
 					value: "",
-					prop: "desc",
 					label: "备注",
 					isTextarea: true,
 					showCount: true,
@@ -40,13 +44,13 @@ export const DialogUpsertCategory = defineComponent({
 		};
 	},
 	mounted() {
-		this.propDialogOptions.vm = this;
+		this.propOptions.vm = this;
 		this.initForm();
 	},
 	computed: {
 		category() {
-			if (this.propDialogOptions.category) {
-				return this.propDialogOptions.category;
+			if (this.propOptions.category) {
+				return this.propOptions.category;
 			} else {
 				return false;
 			}
@@ -59,23 +63,22 @@ export const DialogUpsertCategory = defineComponent({
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
-			if (AllWasWell(validateResults)) {
+			if (!(await itemsInvalid())) {
 				const { name, desc } = pickValueFrom(this.dataXItem);
-				const project_id = this.State_App.currProject._id;
+				const project_id = this.stateApp.currProject._id;
 				try {
 					if (this.category) {
 						await this.updateOldCategory({ name, desc, project_id });
 					} else {
 						await this.insertNewCategory({ name, desc, project_id });
 					}
-					Methods_ProjectInterface.updateTestcaseMenuList();
-					this.propDialogOptions.closeDialog();
+					stateInterface.updateTestcaseMenuList();
+					this.propOptions.$close();
 				} catch (error) {
 					if (this.category) {
-						UI.message.error(this.$t("修改_失败", { title: "分类" }).label);
+						xU.message.error(xI("修改_失败", { title: "分类" }));
 					} else {
-						UI.message.error(this.$t("添加_失败", { title: "分类" }).label);
+						xU.message.error(xI("添加_失败", { title: "分类" }));
 					}
 				}
 			}
@@ -87,7 +90,7 @@ export const DialogUpsertCategory = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.$t("添加_成功", { title: "分类" }).label);
+				xU.message.success(xI("添加_成功", { title: "分类" }));
 			} else {
 				throw new Error("");
 			}
@@ -100,7 +103,7 @@ export const DialogUpsertCategory = defineComponent({
 				desc
 			});
 			if (res) {
-				UI.message.success(this.$t("修改_成功", { title: "分类" }).label);
+				xU.message.success(xI("修改_成功", { title: "分类" }));
 			} else {
 				throw new Error("");
 			}
@@ -109,15 +112,15 @@ export const DialogUpsertCategory = defineComponent({
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper flex1 height100 ">
-					<xGap t="10" />
+				<div class="x-dialog-boddy-wrapper ">
+					<xGap t />
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);
@@ -127,7 +130,7 @@ export const DialogUpsertCategory = defineComponent({
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

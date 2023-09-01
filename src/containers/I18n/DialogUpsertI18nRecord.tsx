@@ -1,26 +1,24 @@
 import {
-	validateForm,
-	AllWasWell,
+	itemsInvalid,
 	pickValueFrom,
-	UI,
-	defItem,
 	xU,
-	$t,
+	defItem,
+	xI,
 	VNodeCollection,
 	setValueTo
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { defineComponent } from "vue";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 import { FormRules } from "@/utils/common.FormRules";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { stateI18n } from "./State_i18n";
 import { ITEM_OPTIONS } from "@/utils/common.options";
 
 export const DialogUpsertI18nRecord = defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -28,46 +26,42 @@ export const DialogUpsertI18nRecord = defineComponent({
 		}
 	},
 	setup() {
-		return { State_App, Cpt_url };
+		return { stateApp, cptRouter };
 	},
 	data() {
 		const vm = this;
 		const idTipsMarkdown = `\`\`\`js
-//${$t(`作为Key值`).label}
-$t("Key值").label
+//${xI(`作为Key值`)}
+xI("Key值")
 \`\`\``;
 		return {
 			dataXItem: {
-				...defItem({
+				key: defItem({
 					value: "",
-					prop: "key",
-					label: $t("key").label,
+					label: xI("key"),
 					labelVNodeRender: VNodeCollection.labelTips(
 						<Mkit md={idTipsMarkdown} />
 					),
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				desc: defItem({
 					value: "",
-					prop: "desc",
-					label: $t("描述").label,
+					label: xI("描述"),
 					isTextarea: true,
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				isRectified: defItem({
 					value: false,
-					prop: "isRectified",
-					label: $t("是否已校正").label,
+					label: xI("是否已校正"),
 					itemType: "Switch",
 					options: ITEM_OPTIONS.trueOrFalse,
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				valueArray: defItem({
 					value: "",
-					prop: "valueArray",
-					label: $t("国际化信息").label,
+					label: xI("国际化信息"),
 					labelVNodeRender: VNodeCollection.labelTips(
-						$t(`以数组的形式["语言","language"]`).label
+						xI(`以数组的形式["语言","language"]`)
 					),
 					rules: [FormRules.required(), FormRules.stringIsArrayJson()],
 					itemType: defineComponent({
@@ -83,7 +77,7 @@ $t("Key值").label
 									return this.properties.value || ``;
 								},
 								set(modelValue) {
-									this.listeners["onUpdate:value"](modelValue);
+									this.listeners["onEmitItemValue"](modelValue);
 								}
 							}
 						},
@@ -107,27 +101,26 @@ $t("Key值").label
 	},
 	methods: {
 		initForm() {
-			if (this.propDialogOptions?.record?.valueArray) {
-				setValueTo(this.dataXItem, this.propDialogOptions?.record);
+			if (this.propOptions?.record?.valueArray) {
+				setValueTo(this.dataXItem, this.propOptions?.record);
 			}
 		},
 		async onOk() {
-			const validateResults = await validateForm(this.dataXItem);
-			if (AllWasWell(validateResults)) {
+			if (!(await itemsInvalid())) {
 				try {
 					const { data } = await API.god.upsertOneI18nRecord({
-						...this.propDialogOptions?.record,
+						...this.propOptions?.record,
 						...pickValueFrom(this.dataXItem)
 					});
 					if (data?.msg?._id) {
-						UI.message.success("添加记录成功");
+						xU.message.success("添加记录成功");
 					} else {
-						UI.message.success("修改记录成功");
+						xU.message.success("修改记录成功");
 					}
 					stateI18n._$updateList({});
-					this.propDialogOptions.closeDialog();
+					this.propOptions.$close();
 				} catch (error) {
-					UI.message.error("添加失败");
+					xU.message.error("添加失败");
 				}
 			}
 		}
@@ -135,25 +128,25 @@ $t("Key值").label
 	render() {
 		return (
 			<>
-				<div class="x-dialog-boddy-wrapper flex1 height100">
-					<xGap t="10" />
+				<div class="x-dialog-boddy-wrapper">
+					<xGap t />
 					<xForm
 						class="flex vertical"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
 						{xU.map(this.dataXItem, (configs, prop) => {
 							return (
 								<>
-									<xGap t="10" />
+									<xGap t />
 									<xItem configs={configs} />
 								</>
 							);
 						})}
 					</xForm>
-					<xGap t="10" />
+					<xGap t />
 				</div>
 				<xDialogFooter
 					configs={{
-						onCancel: this.propDialogOptions.closeDialog,
+						onCancel: this.propOptions.$close,
 						onOk: this.onOk
 					}}
 				/>

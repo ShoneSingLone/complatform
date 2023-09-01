@@ -1,16 +1,18 @@
-import { $, State_UI, VentoseUIWithInstall, xU } from "@ventose/ui";
-import "@ventose/ui/dist_VentoseUI/VentoseUI.css";
+import { $, stateUI, installVentoseUI, xU } from "@/ventose/ui";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import { RouterView } from "../components/RouterView/RouterView";
 import { ErrMsg } from "../components/ErrMsg/ErrMsg";
-import { InfoCard, InfoCardCol, InfoCardRow } from "../components/InfoCard";
 import CopyContent from "../components/CopyContent.vue";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import { MarkdownIt as Mkit } from "@/components/Mkit/MarkdownIt";
-export { ITEM_OPTIONS } from "./common.options";
+import { vElementSize } from "@vueuse/components";
 
 dayjs.locale("zh-cn");
+// import "element-plus/theme-chalk/src/common/var.scss";
+// import "element-plus/theme-chalk/src/index.scss";
+import "../styles/element-theme.scss";
+import { stateApp } from "@/state/app";
 
 /**
  * 复用配置
@@ -18,27 +20,24 @@ dayjs.locale("zh-cn");
  * @param {*} param1
  * @returns
  */
-export const appPlugins = {
-	install: (app, options /*{dependState, appPlugins}*/) => {
+export const appUiPlugin = {
+	install: app => {
 		/* isUsePopover 全局监听 [data-ui-popover] */
-		app.use(VentoseUIWithInstall, {
-			appPlugins,
-			dependState: options.dependState
+		app.use(installVentoseUI, {
+			appUiPlugin,
+			appState: stateApp
 		});
+
 		app.use({
 			install: (app, { watch } = {}) => {
+				app.directive("ElementSize", vElementSize);
 				app.component("Mkit", Mkit);
-				app.component("InfoCard", InfoCard);
-				app.component("InfoCardRow", InfoCardRow);
-				app.component("InfoCardCol", InfoCardCol);
 				app.component("RouterView", RouterView);
 				app.component("ErrMsg", ErrMsg);
 				app.component("CopyContent", CopyContent);
 				app.component("MonacoEditor", MonacoEditor);
-				//注册i8n实例并引入语言文件
-				app.config.globalProperties.$t = State_UI.$t;
-				State_UI.setAssetsBaseById("favicon-icon");
-				$("html").attr("lang", State_UI.language);
+				stateUI.setAssetsBaseById("favicon-icon");
+				$("html").attr("lang", stateUI.language);
 				watch && watch();
 			}
 		});
@@ -194,3 +193,6 @@ export function sortTreeByOrder(treeData, orderArray = []) {
 		return item;
 	});
 }
+
+export const getAvatarSrcByid = user_id =>
+	`${stateApp.BASE_URL}/api/user/avatar?uid=${user_id}`;

@@ -1,17 +1,16 @@
-import { defineComponent, h, inject, markRaw, provide } from "vue";
-import { Cpt_url, routes } from "../../router/router";
-import { State_UI, xU } from "@ventose/ui";
-import { ViewNotFound } from "../ViewNotFound";
 import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css";
+import { defineComponent, h, inject, markRaw, provide } from "vue";
+import { cptRouter, routes } from "@/router/router";
+import { stateUI, xU } from "@/ventose/ui";
+import { ViewNotFound } from "@/components/ViewNotFound";
 
 NProgress.configure({
 	showSpinner: false
 });
 
 export const makeAhref = (url: string) => {
-	console.log(State_UI.assetsPath);
-
+	console.log(stateUI.assetsPath);
 	return `#${url}`;
 };
 
@@ -25,7 +24,7 @@ export const RouterView = defineComponent({
 		}
 		provide("ViewLength", ViewLength + 1);
 		return {
-			Cpt_url,
+			cptRouter,
 			ViewLength
 		};
 	},
@@ -41,7 +40,7 @@ export const RouterView = defineComponent({
 		NProgress.done();
 	},
 	watch: {
-		"Cpt_url.pathname": {
+		"cptRouter.pathname": {
 			immediate: true,
 			async handler(pathname) {
 				this.currentComponent = markRaw(
@@ -79,9 +78,11 @@ export const RouterView = defineComponent({
 		vDomView() {
 			const getView = () => {
 				if (!this.currentComponent) {
-					return <aSpin spinning={true} class="flex middle" />;
+					return <div v-xloading={true} class="flex middle" />;
 				} else {
-					return h(this.currentComponent, { pathname: this.Cpt_url.pathname });
+					return h(this.currentComponent, {
+						pathname: this.cptRouter.pathname
+					});
 				}
 			};
 

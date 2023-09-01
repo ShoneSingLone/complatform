@@ -1,5 +1,5 @@
 /* @ts-nocheck */
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 
 /* 如果是桌面端 */
 if (window.electronAPI) {
@@ -42,6 +42,6 @@ if (window.electronAPI) {
 
 	/* cookies */
 	window.electronAPI.onChangePort((_event, port) => {
-		State_App.baseURL = `http://localhost:${port}`;
+		stateApp.BASE_URL = `http://localhost:${port}`;
 	});
 }

@@ -5,26 +5,26 @@ import { stateI18n, useStateI18n } from "./State_i18n";
 import {
 	defXVirTableConfigs,
 	defCol,
-	$t,
+	xI,
 	setDataGridInfo,
 	xU,
-	UI,
 	defColActions,
 	defColActionsBtnlist
-} from "@ventose/ui";
-import { Cpt_url } from "@/router/router";
+} from "@/ventose/ui";
+import { cptRouter } from "@/router/router";
 import { DialogImportI18nJSON } from "./DialogImportI18nJSON";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
 import * as _ from "lodash";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
-import { ITEM_OPTIONS } from "@/utils/common";
 import { API } from "@/api";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
+import { ADMIN } from "@/utils/variable";
+import { ITEM_OPTIONS } from "@/utils/common.options";
 
 export const ViewI18n = defineComponent({
 	setup() {
 		return {
-			Cpt_url,
+			cptRouter,
 			/* 作为root节点，使用useStateI18n，mounted会重置数据 */
 			stateI18n: useStateI18n()
 		};
@@ -50,11 +50,11 @@ export const ViewI18n = defineComponent({
 						prop: "key"
 					}),
 					...defCol({
-						label: $t("描述").label,
+						label: xI("描述"),
 						prop: "desc"
 					}),
 					...defCol({
-						label: $t("校正").label,
+						label: xI("校正"),
 						width: "80px",
 						prop: "isRectified",
 						renderCell({ record }) {
@@ -70,25 +70,25 @@ export const ViewI18n = defineComponent({
 								fold: 7,
 								btns: [
 									{
-										text: $t("查看valueArray").label,
+										text: xI("查看valueArray"),
 										onClick: async () => {
 											await stateI18n._$updateCurrent(record._id);
 										}
 									},
 									{
-										text: $t("修改").label,
+										text: xI("修改"),
 										onClick: async () => {
 											await stateI18n._$updateCurrent(record._id);
-											UI.dialog.component({
-												title: this.$t("修改记录").label,
+											xU.dialog({
+												title: xI("修改记录"),
 												record: xU.cloneDeep(stateI18n.currentI18n),
 												component: DialogUpsertI18nRecord
 											});
 										}
 									},
 									{
-										text: $t("删除").label,
-										isShow: State_App.user.role === "admin",
+										text: xI("删除"),
+										isShow: stateApp.user.role === ADMIN,
 										onClick: async () => {
 											vm.deleteI18nRecords([record]);
 										}
@@ -104,10 +104,10 @@ export const ViewI18n = defineComponent({
 	methods: {
 		async exportRecordAsJson(records) {
 			function download(url, name) {
-				const aTag = document.createElement("a");
-				aTag.href = url;
-				aTag.download = name;
-				aTag.click();
+				const ElTag = document.createElement("a");
+				ElTag.href = url;
+				ElTag.download = name;
+				ElTag.click();
 			}
 			const { data } = await API.god.i18nRecords({
 				ids: xU.map(records, i => i._id)
@@ -129,16 +129,16 @@ export const ViewI18n = defineComponent({
 			// 最终下载名为a.json的文件
 		},
 		deleteI18nRecords(records) {
-			UI.confirm({
+			xU.confirm({
 				title: "确定删除这些吗？",
 				content: `记录删除后无法恢复`,
 				async onOk() {
 					try {
 						await stateI18n._$deleteI18nRecords(records);
-						UI.message.success("删除记录成功");
+						xU.message.success("删除记录成功");
 						stateI18n._$updateList({});
 					} catch (error) {
-						UI.message.error(error.message);
+						xU.message.error(error.message);
 						return Promise.reject();
 					}
 				}
@@ -148,10 +148,10 @@ export const ViewI18n = defineComponent({
 	computed: {
 		btnImport() {
 			return {
-				text: $t("导入").label,
+				text: xI("导入"),
 				async onClick() {
-					await UI.dialog.component({
-						title: $t("导入国际化JSON文件").label,
+					xU.dialog({
+						title: xI("导入国际化JSON文件"),
 						component: DialogImportI18nJSON
 					});
 				}
@@ -160,8 +160,8 @@ export const ViewI18n = defineComponent({
 		btnDelete() {
 			const vm = this;
 			return {
-				text: $t("删除").label,
-				isShow: State_App.user.role === "admin",
+				text: xI("删除"),
+				isShow: stateApp.user.role === ADMIN,
 				disabled() {
 					return !xU.isArrayFill(vm.configsI18nTable.selected);
 				},
@@ -173,7 +173,7 @@ export const ViewI18n = defineComponent({
 		btnDownload() {
 			const vm = this;
 			return {
-				text: $t("导出").label,
+				text: xI("导出"),
 				disabled() {
 					return !xU.isArrayFill(vm.configsI18nTable.selected);
 				},
@@ -200,9 +200,12 @@ export const ViewI18n = defineComponent({
 	},
 	render() {
 		return (
-			<section id="ViewI18n" class="flex flex1" v-loading={stateI18n.isLoading}>
+			<section
+				id="ViewI18n"
+				class="flex flex1"
+				v-xloading={stateI18n.isLoading}>
 				<I18nLeftSider />
-				<main class="flex flex1 padding10 vertical paddingB20">
+				<main class="flex flex1 app-padding vertical">
 					<xDataGridToolbar configs={this.configsI18nTable}>
 						<xButton configs={this.btnImport} />
 						<xGap l="4" />
@@ -212,14 +215,14 @@ export const ViewI18n = defineComponent({
 					</xDataGridToolbar>
 					<xVirTable configs={this.configsI18nTable} class="flex1 width100 " />
 					{stateI18n.currentI18n?.valueArray && (
-						<aCard>
+						<elCard>
 							<div style={"height:300px"}>
 								<MonacoEditor
 									v-model:code={stateI18n.currentI18n.valueArray}
 									language="json"
 								/>
 							</div>
-						</aCard>
+						</elCard>
 					)}
 				</main>
 			</section>

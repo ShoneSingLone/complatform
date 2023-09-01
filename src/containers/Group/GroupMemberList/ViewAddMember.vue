@@ -1,28 +1,27 @@
 <template>
-	<aCard class="flex1">
+	<elCard class="flex1">
 		<xForm
 			class="flex vertical"
 			:label-style="{ 'min-width': '120px', width: 'unset' }">
 			<template v-for="(item, prop) in formItems" :key="prop">
-				<xGap t="10" />
+				<xGap t />
 				<xItem :configs="item" />
 			</template>
 		</xForm>
-	</aCard>
+	</elCard>
 	<xDialogFooter :configs="dialogDefautBtn" />
 </template>
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { xU, defItem, State_UI, FormRules } from "@ventose/ui";
+import { xU, defItem, stateUI, xI } from "@/ventose/ui";
+import { FormRules } from "@/utils/common.FormRules";
 import { ItemUAC } from "@/components/ItemRender/ItemUAC";
-
-const { $t } = State_UI;
 
 export default defineComponent({
 	props: {
 		/* Dialog 默认传入参数 */
-		propDialogOptions: {
+		propOptions: {
 			type: Object,
 			default() {
 				return { __elId: false };
@@ -33,18 +32,16 @@ export default defineComponent({
 		const vm = this;
 		return {
 			formItems: {
-				...defItem({
+				member_uids: defItem({
 					value: [],
-					prop: "member_uids",
 					itemType: ItemUAC,
-					label: $t("用户名").label,
+					label: xI("用户名"),
 					rules: [FormRules.required()]
 				}),
-				...defItem({
+				role: defItem({
 					value: "dev",
-					prop: "role",
 					itemType: "Select",
-					label: $t("权限").label,
+					label: xI("权限"),
 					rules: [FormRules.required()],
 					options: [
 						{ label: "组长", value: "owner" },
@@ -58,11 +55,11 @@ export default defineComponent({
 	computed: {
 		dialogDefautBtn() {
 			return {
-				onCancel: this.propDialogOptions.closeDialog,
+				onCancel: this.propOptions.$close,
 				onOk: () => {
-					this.propDialogOptions.onOk({
+					this.propOptions.onOk({
 						formItems: this.formItems,
-						closeDialog: this.propDialogOptions.closeDialog
+						$close: this.propOptions.$close
 					});
 				}
 			};

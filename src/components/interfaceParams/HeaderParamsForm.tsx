@@ -3,11 +3,11 @@ import {
 	defCol,
 	defItem,
 	defXVirTableConfigs,
-	UI,
+	xI,
 	xU
-} from "@ventose/ui";
+} from "@/ventose/ui";
 import { State_Project } from "@/containers/Project/Interface/State_Project";
-import { Cpt_url } from "@/router/router";
+import { cptRouter } from "@/router/router";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { defineComponent, markRaw, reactive } from "vue";
 import { DialogBulkValues } from "./DialogBulkValues";
@@ -50,8 +50,8 @@ export const HeaderParamsForm = defineComponent({
 	},
 	methods: {
 		openBulkValuesDialog() {
-			UI.dialog.component({
-				title: this.$t("批量添加参数").label,
+			xU.dialog({
+				title: xI("批量添加参数"),
 				component: DialogBulkValues,
 				formValues: xU.map(this.configs_table.dataSource, i => {
 					return {
@@ -90,7 +90,7 @@ export const HeaderParamsForm = defineComponent({
 					].join("\n"),
 				columns: {
 					...defCol({
-						label: vm.$t("名称").label,
+						label: xI("名称"),
 						prop: "name",
 						renderEditor: ({ record }) => (
 							<aAutoComplete
@@ -103,26 +103,28 @@ export const HeaderParamsForm = defineComponent({
 						)
 					}),
 					...defCol({
-						label: vm.$t("参数值").label,
+						label: xI("参数值"),
 						prop: "value",
 						renderEditor: ({ record }) => (
-							<aInput v-model:value={record.value} />
+							<ElInput v-model:value={record.value} />
 						)
 					}),
 					...defCol({
-						label: vm.$t("示例").label,
+						label: xI("示例"),
 						prop: "example",
 						renderEditor: ({ record }) => (
-							<aInput v-model:value={record.example} />
+							<ElInput v-model:value={record.example} />
 						)
 					}),
 					...defCol({
-						label: vm.$t("备注").label,
+						label: xI("备注"),
 						prop: "desc",
-						renderEditor: ({ record }) => <aInput v-model:value={record.desc} />
+						renderEditor: ({ record }) => (
+							<ElInput v-model:value={record.desc} />
+						)
 					}),
 					...defCol({
-						label: vm.$t("操作").label,
+						label: xI("操作"),
 						prop: "operations",
 						width: "40px",
 						renderHeader: () => null,
@@ -142,9 +144,9 @@ export const HeaderParamsForm = defineComponent({
 		return (
 			<>
 				<div class="flex middle">
-					<aButton class="mb10" onClick={this.addRow}>
+					<xButton class="mb10" onClick={this.addRow}>
 						添加一行
-					</aButton>
+					</xButton>
 					<xGap f="1" />
 					<a class="mb10 mr10" onClick={this.openBulkValuesDialog}>
 						批量添加

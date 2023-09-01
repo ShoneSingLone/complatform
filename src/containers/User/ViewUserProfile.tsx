@@ -1,13 +1,24 @@
 import { defineComponent } from "vue";
-import { State_App, Cpt_avatarUrl } from "@/state/State_App";
-import { $t, UI, defFormConfigs, setValueTo, xU } from "@ventose/ui";
+import { stateApp, cptAvatarUrl } from "@/state/app";
+import { xI, xU, defFormConfigs, setValueTo } from "@/ventose/ui";
 import { DialogUpdatePwd } from "./DialogUpdatePwd";
+import { FormRules } from "@/utils/common.FormRules";
+import { API } from "@/api";
+import { cptRouter } from "@/router/router";
+import { getAvatarSrcByid } from "@/utils/common";
+
+function getBase64(img, callback) {
+	const reader = new FileReader();
+	reader.addEventListener("load", () => callback(reader.result));
+	reader.readAsDataURL(img);
+}
 
 export const ViewUserProfile = defineComponent({
+	props: ["id"],
 	setup() {
 		return {
-			State_App,
-			Cpt_avatarUrl
+			stateApp,
+			cptAvatarUrl
 		};
 	},
 	data(vm) {
@@ -15,30 +26,44 @@ export const ViewUserProfile = defineComponent({
 			configsForm: defFormConfigs([
 				{
 					value: "",
-					label: $t("用户ID").label,
+					label: xI("用户ID"),
 					prop: "uid",
 					isReadonly: true
 				},
 				{
 					value: "",
-					label: $t("用户名").label,
-					prop: "username"
+					label: xI("用户名"),
+					prop: "username",
+					rules: [FormRules.required()],
+					isReadonly: !vm.cpt_isAuth
 				},
 				{
 					value: "",
-					label: $t("邮箱地址").label,
+					label: xI("邮箱地址"),
 					prop: "email",
 					isReadonly: true
 				},
 				{
 					value: "",
-					label: $t("创建时间").label,
+					label: xI("角色"),
+					prop: "role",
+					isReadonly: true
+				},
+				{
+					value: "",
+					label: xI("登陆方式"),
+					prop: "type",
+					isReadonly: true
+				},
+				{
+					value: "",
+					label: xI("创建时间"),
 					prop: "add_time",
 					isReadonly: true
 				},
 				{
 					value: "",
-					label: $t("更新时间").label,
+					label: xI("更新时间"),
 					prop: "up_time",
 					isReadonly: true
 				}
@@ -49,23 +74,60 @@ export const ViewUserProfile = defineComponent({
 		this.init();
 	},
 	methods: {
-		init() {
+		async init() {
+			const { data: userInfo } = await API.user.getUserById(this.cpt_userId);
+			this.userInfo = userInfo;
+
 			setValueTo(
 				this.configsForm,
-				xU.merge({}, State_App.user, {
-					up_time: xU.dateFormat(State_App.user.up_time, 1),
-					add_time: xU.dateFormat(State_App.user.add_time, 1)
+				xU.merge({}, this.userInfo, {
+					up_time: xU.dateFormat(this.userInfo.up_time, 1),
+					add_time: xU.dateFormat(this.userInfo.add_time, 1)
 				})
 			);
 		},
 		async updatePwd() {
-			await UI.dialog.component({
-				title: $t("修改密码").label,
+			xU.dialog({
+				title: xI("修改密码"),
 				component: DialogUpdatePwd
 			});
+		},
+		beforeAvatarUpload(file) {
+			const isJPG = file.type === "image/jpeg";
+			const isPNG = file.type === "image/png";
+			if (!isJPG && !isPNG) {
+				xU.message.error("图片的格式只能为 jpg、png！");
+			}
+			const isLt2M = file.size / 1024 / 1024 < 0.2;
+			if (!isLt2M) {
+				xU.message.error("图片必须小于 200kb!");
+			}
+			return (isPNG || isJPG) && isLt2M;
+		},
+		handleChange(info) {
+			if (info.status === "ready") {
+				// Get this url from response in real world.
+				getBase64(info.raw, basecode => {
+					this.userInfo.imageUrl = basecode;
+					this.uploadAvatar(basecode);
+				});
+			}
+		},
+		async uploadAvatar(basecode) {
+			await API.user.uploadAvatar({ basecode: basecode });
+			this.userInfo.imageUrl = "";
 		}
 	},
 	computed: {
+		cpt_avatarUrl() {
+			return getAvatarSrcByid(this.cpt_userId);
+		},
+		cpt_isAuth() {
+			return stateApp.user._id === this.cpt_userId;
+		},
+		cpt_userId() {
+			return this.id || cptRouter.value.query.user_id || stateApp.user._id;
+		},
 		styleForm() {
 			return {
 				width: "520px"
@@ -79,27 +141,71 @@ export const ViewUserProfile = defineComponent({
 			};
 		}
 	},
-	render({ Cpt_avatarUrl, configsForm, styleForm, styleFormLabel, updatePwd }) {
+	render({
+		cptAvatarUrl,
+		configsForm,
+		styleForm,
+		styleFormLabel,
+		updatePwd,
+		handleChange,
+		beforeAvatarUpload
+	}) {
+		const vm = this;
 		return (
-			<aCard>
-				<h1>个人设置</h1>
-				<xForm formStyle={styleForm} labelStyle={styleFormLabel}>
-					<aAvatar size={64} src={Cpt_avatarUrl} />
-					<xGap t="10" />
-					<xItem configs={configsForm.uid} />
-					<xGap t="10" />
-					<xItem configs={configsForm.add_time} />
-					<xGap t="10" />
-					<xItem configs={configsForm.up_time} />
-					<xGap t="10" />
-					<xItem configs={configsForm.email} />
-					<xGap t="10" />
-					<xItem configs={configsForm.username} />
-					<xGap t="10" />
-					<aButton onClick={updatePwd}>修改密码</aButton>
-					<xGap t="10" />
-				</xForm>
-			</aCard>
+			<div class="flex middle center">
+				<elCard title="个人设置">
+					<xForm formStyle={styleForm} labelStyle={styleFormLabel}>
+						<div id="xItem_391" class=" x-item-wrapper flex middle ">
+							<div class="x-form-item-label">
+								<label>用户头像</label>
+							</div>
+							<div class="x-form-item-control">
+								<elUpload
+									class="avatar-uploader"
+									show-file-list={false}
+									onChange={handleChange}
+									beforeUpload={beforeAvatarUpload}>
+									{(() => {
+										if (this.cpt_avatarUrl) {
+											return <elAvatar size={64} src={this.cpt_avatarUrl} />;
+										} else {
+											return (
+												<el-icon class="avatar-uploader-icon">
+													<xIcon icon="add" />
+												</el-icon>
+											);
+										}
+									})()}
+								</elUpload>
+							</div>
+						</div>
+						<xGap t />
+						<xItem configs={configsForm.uid} />
+						<xGap t />
+						<div class="flex middle">
+							<xItem configs={configsForm.username} class="flex1" />
+							{this.cpt_isAuth && (
+								<xButton onClick={updatePwd} class="ml" type="primary">
+									修改密码
+								</xButton>
+							)}
+						</div>
+						<xGap t />
+						<xItem configs={configsForm.email} />
+						<xGap t />
+						<xItem configs={configsForm.role} />
+						<xGap t />
+						<xItem configs={configsForm.type} />
+						<xGap t />
+						<xItem configs={configsForm.add_time} />
+						<xGap t />
+						<xItem configs={configsForm.up_time} />
+						<xGap t />
+						{this.cpt_isAuth && <xButton type="primary">更新</xButton>}
+						<xGap t />
+					</xForm>
+				</elCard>
+			</div>
 		);
 	}
 });

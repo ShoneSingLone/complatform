@@ -2,7 +2,7 @@ import "./Login.scss";
 import LoginForm from "./LoginForm.vue";
 import RegForm from "./RegForm";
 import { defineComponent } from "vue";
-import { State_App } from "@/state/State_App";
+import { stateApp } from "@/state/app";
 
 export default defineComponent({
 	components: {
@@ -17,26 +17,28 @@ export default defineComponent({
 		}
 	},
 	setup() {
-		return { State_App: State_App };
+		return { stateApp: stateApp };
 	},
 	render() {
 		/** show only login when register is disabled */
 		return (
-			<aTabs
-				defaultActiveKey={State_App.user.loginWrapActiveKey}
-				class="login-form"
-				tabBarStyle={{ border: "none" }}>
-				<aTabPane tab="登录" key="1">
-					<LoginForm />
-				</aTabPane>
-				<aTabPane tab={"注册"} key="2">
-					{State_App.user.canRegister ? (
-						<RegForm />
-					) : (
-						<div style={{ minHeight: 200 }}>管理员已禁止注册，请联系管理员</div>
-					)}
-				</aTabPane>
-			</aTabs>
+			<div class="login-register-form">
+				<h2 class="login-title">YAPI</h2>
+				<ElTabs v-model={stateApp.user.loginWrapActiveKey}>
+					<ElTabPane label="登录" name="1">
+						<LoginForm />
+					</ElTabPane>
+					<ElTabPane label="注册" name="2">
+						{stateApp.user.canRegister ? (
+							<RegForm />
+						) : (
+							<div style={{ minHeight: 200 }}>
+								管理员已禁止注册，请联系管理员
+							</div>
+						)}
+					</ElTabPane>
+				</ElTabs>
+			</div>
 		);
 	}
 });
