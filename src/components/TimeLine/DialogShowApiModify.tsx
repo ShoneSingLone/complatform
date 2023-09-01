@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { xU } from "@/ventose/ui";
+import { xI, xU } from "@/ventose/ui";
 import { stateApp } from "@/state/app";
 
 export const DialogShowApiModify = defineComponent({
@@ -41,7 +41,7 @@ export const DialogShowApiModify = defineComponent({
 		return (
 			<div class="flex vertical flex1" id="ViewApiModify">
 				<div class="padding20">
-					<ElAlert
+					<elAlert
 						title={xI("注： 绿色代表新增内容，红色代表删除内容")}
 						type="info"
 						closable

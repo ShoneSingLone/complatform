@@ -39,9 +39,10 @@ ajax.interceptors.response.use(
 			return Promise.resolve({ data: response.data, response });
 		}
 		if (response?.data?.errcode !== 0) {
-			return Promise.reject(
-				response?.data?.errmsg || response?.data || response
-			);
+			if (response?.data?.errmsg) {
+				return Promise.reject(new Error(response?.data?.errmsg));
+			}
+			return Promise.reject(response?.data || response);
 		}
 
 		return Promise.resolve({ data: response.data.data, response });

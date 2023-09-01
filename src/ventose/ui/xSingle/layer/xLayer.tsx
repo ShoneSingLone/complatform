@@ -4,6 +4,7 @@
 import $ from "jquery";
 import { xU } from "../../ventoseUtils";
 import { i_layerOptions } from "./i_layerOptions";
+import { merge } from "lodash";
 
 export const KEY_RIGHT = 39;
 export const KEY_LEFT = 37;
@@ -679,9 +680,9 @@ class ClassLayer {
 		if (!config.shade) {
 			return "";
 		}
-		return `<div class="${NAME_LAYER_SHADE}" id="${_shadeID}" style="z-index:${
+		return `<div class="${NAME_LAYER_SHADE}" id="${_shadeID}" style="z-index:calc(var(--el-index-normal) + ${
 			this.zIndex - 1
-		};"></div>`;
+		});"></div>`;
 	}
 
 	get cptDomTitle() {
@@ -814,7 +815,14 @@ class ClassLayer {
 			.filter(fnValid)
 			.join(" ");
 
-		let styleString = xU._$objToStyleString(config.contentStyle);
+		let styleString = xU._$objToStyleString(
+			merge(
+				{
+					"--layer-content-padding": "var(--app-padding)"
+				},
+				config.contentStyle || {}
+			)
+		);
 		if (styleString) {
 			styleString = `style="${styleString}" `;
 		}
@@ -860,7 +868,9 @@ class ClassLayer {
 		dialogInst._contentID = `${NAME_LAYER_CONTENT}${dialogInst._layer_index}`;
 
 		/* shade 会-1 */
-		dialogInst.zIndex = READY.zIndex + (dialogInst.config.zIndex as number);
+		// dialogInst.zIndex = READY.zIndex + (dialogInst.config.zIndex as number);
+		dialogInst.zIndex = READY.zIndex + $(`.x-layer-dialog`).length * 2 + 1;
+
 		dialogInst.isNeedTitle = [TYPE_IFRAME, TYPE_DIALOG].includes(config.type);
 		dialogInst.isMax = Boolean(config.maxmin && dialogInst.isNeedTitle);
 		dialogInst.isContentTypeObject = typeof config.content === "object";
@@ -1191,15 +1201,20 @@ class ClassLayer {
 		const dialogInst = this;
 		const { config, $eleDialog: $dialog } = dialogInst;
 		let $target = $(config.follow);
-		const fillStyle = (() => {
-			let color;
+		const { fillStyle, APP_PADDING } = (() => {
+			let color, padding;
 			try {
 				const targetDom = $dialog.find(`.${NAME_LAYER_CONTENT}`)[0];
-				color = getComputedStyle(targetDom);
-				color = color.getPropertyValue("--background-color");
+				const computedStyle = getComputedStyle(targetDom);
+				color = computedStyle.getPropertyValue("--background-color");
+				padding = computedStyle.getPropertyValue("--app-padding");
+				padding = Number(String(padding).match(/(\d*)/)[1]);
 			} catch (error) {
 			} finally {
-				return color || "white";
+				return {
+					fillStyle: color || "white",
+					APP_PADDING: padding || 20
+				};
 			}
 		})();
 
@@ -1287,7 +1302,10 @@ class ClassLayer {
 			const canvasString = `<canvas width="${dialogW}" height="${dialogH}"/>`;
 			const canvas = $(canvasString)[0];
 			const ctx = canvas.getContext("2d");
-			const [cW, cH] = [$tips.width() + 20, $tips.height() + 20];
+			const [cW, cH] = [
+				$tips.width() + APP_PADDING,
+				$tips.height() + APP_PADDING
+			];
 			const lt = [0, 0];
 			const rt = [cW, 0];
 			const rb = [cW, cH];
@@ -1409,7 +1427,8 @@ class ClassLayer {
 				}
 			};
 
-			ctx.translate(10, 10);
+			const translateOffset = APP_PADDING / 2;
+			ctx.translate(translateOffset, translateOffset);
 			direction_strategy[direction]();
 			ctx.closePath();
 			// ctx.stroke();

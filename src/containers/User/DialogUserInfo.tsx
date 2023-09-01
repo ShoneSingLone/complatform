@@ -20,7 +20,7 @@ export const DialogUserInfo = defineComponent({
 					<div class="x-dialog-boddy-wrapper ">
 						<ViewUserProfile id={payload.user_id} />
 					</div>
-					<xDialogFooter configs={{ hideCancel: true, onOk: $close }} />
+					<xDialogFooter configs={{ hideOk: true, onCancel: $close }} />
 				</>
 			);
 		};

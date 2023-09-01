@@ -52,7 +52,7 @@ export const DialogEditGroup = defineComponent({
 			/* 只有超级管理员能删除分组 */
 			if (stateApp.user.role === ADMIN) {
 				return (
-					<ElAlert
+					<elAlert
 						type="warning"
 						show-icon
 						class="mt20"
@@ -80,7 +80,7 @@ export const DialogEditGroup = defineComponent({
 								);
 							}
 						}}
-					</ElAlert>
+					</elAlert>
 				);
 			}
 			return null;
@@ -193,7 +193,7 @@ export const DialogEditGroup = defineComponent({
 				title: "确认删除 " + vm.stateApp.currGroup.group_name + " 分组吗？",
 				content: () => (
 					<>
-						<ElAlert
+						<elAlert
 							title={
 								xI(
 									"警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!"

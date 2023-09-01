@@ -310,7 +310,7 @@ async ${xU.camelCase(path)}({params,data}) {
 						label: "维护人",
 						content: () => (
 							<div class="flex middle">
-								<ElAvatar
+								<elAvatar
 									src={"/api/user/avatar?uid=" + uid}
 									class="mr8"
 									style="height:24px;width:24px;"

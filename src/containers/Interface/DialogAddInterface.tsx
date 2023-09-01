@@ -82,7 +82,7 @@ export const DialogAddInterface = defineComponent({
 	methods: {
 		async onOk() {
 			if (!(await itemsInvalid())) {
-				const { catid, title, path } = pickValueFrom(this.dataXItem);
+				const { catid, title, path }: any = pickValueFrom(this.dataXItem);
 				const { payload, $close } = this.propOptions;
 				try {
 					const { data } = await API.project.addInterface({
@@ -111,7 +111,7 @@ export const DialogAddInterface = defineComponent({
 		return (
 			<>
 				<div class="x-dialog-boddy-wrapper">
-					<ElAlert
+					<elAlert
 						title={xI("注： 详细的接口数据可以在编辑页面中添加")}
 						type="info"
 						closable

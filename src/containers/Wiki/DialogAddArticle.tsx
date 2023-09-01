@@ -93,7 +93,7 @@ export const DialogAddArticle = defineComponent({
 			<>
 				<div class="x-dialog-boddy-wrapper">
 					<xGap t />
-					<ElAlert
+					<elAlert
 						title={xI("保存标题后再编辑文档内容")}
 						type="info"
 						closable

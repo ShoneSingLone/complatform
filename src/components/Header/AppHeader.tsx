@@ -85,7 +85,7 @@ export const AppHeader = defineComponent({
 						</a>
 					);
 				}
-				const configsPopover = { content: i.content, placement: "bottom" };
+				const configsPopover = { content: i.content, placement: "left" };
 				return (
 					<div class="toolbar-li" v-xTips={configsPopover}>
 						{link}
@@ -114,10 +114,10 @@ export const AppHeader = defineComponent({
 					</div>
 					{items}
 					<div class="toolbar-li">
-						<ElDropdown
+						<elDropdown
 							trigger="click"
 							v-slots={{
-								default: () => <ElAvatar src={vm.cptAvatarUrl} />,
+								default: () => <elAvatar src={vm.cptAvatarUrl} />,
 								dropdown: () => this.MenuUser
 							}}
 						/>
@@ -128,7 +128,7 @@ export const AppHeader = defineComponent({
 		MenuUser() {
 			const { uid, role } = this.stateApp.user;
 			return (
-				<ElDropdownMenu class="user-menu">
+				<elDropdownMenu class="user-menu">
 					{xU.map(
 						{
 							user: {
@@ -182,10 +182,10 @@ export const AppHeader = defineComponent({
 								</a>
 							);
 
-							return <ElDropdownItem key={key}>{menuLink}</ElDropdownItem>;
+							return <elDropdownItem key={key}>{menuLink}</elDropdownItem>;
 						}
 					)}
-				</ElDropdownMenu>
+				</elDropdownMenu>
 			);
 		}
 	},

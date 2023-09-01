@@ -42,7 +42,7 @@ export const SelectLanguage = defineComponent({
 	render() {
 		const vm = this;
 		return (
-			<ElDropdown placement="bottomRight">
+			<elDropdown placement="bottomRight">
 				<GlobalOutlined />
 				{{
 					overlay() {
@@ -55,7 +55,7 @@ export const SelectLanguage = defineComponent({
 						);
 					}
 				}}
-			</ElDropdown>
+			</elDropdown>
 		);
 	}
 });

@@ -248,14 +248,34 @@ export const DialogAddProject = defineComponent({
 			// 确认添加项目
 			try {
 				if (!(await itemsInvalid())) {
-					const formData = pickValueFrom(vm.dataXItem);
-					const { data } = await API.project.addProject(formData);
+					const {
+						projectGroupId,
+						projectName,
+						projectIcon,
+						projectColor,
+						projectBasePath,
+						projectDesc,
+						projectType
+					}: any = pickValueFrom(vm.dataXItem);
+					const { data } = await API.project.addProject({
+						name: projectName,
+						desc: projectDesc,
+						basepath: projectBasePath,
+						project_type: projectType,
+						group_id: projectGroupId,
+						group_name: xU.find(stateApp.groupList, {
+							_id: Number(projectGroupId)
+						}).group_name,
+						icon: projectIcon,
+						color: projectColor
+					});
 					xU.notification.success("创建成功! ");
 					return true;
 				} else {
 					throw new Error("未通过验证");
 				}
 			} catch (e) {
+				xU.notification.error(e.message);
 				console.error(e);
 			}
 		},

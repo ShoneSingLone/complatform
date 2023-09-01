@@ -251,7 +251,7 @@ export function defColActionsBtnlist(options: {
 				}
 				return (
 					<>
-						<ElDropdown
+						<elDropdown
 							v-slots={{
 								default: () => {
 									return <ElButton type="link">{xI("更多")}</ElButton>;

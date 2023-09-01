@@ -1,6 +1,6 @@
 <template>
 	<elCard class="flex1">
-		<ElAlert :message="alertMessage" type="info" />
+		<elAlert :title="alertMessage" type="info" />
 		<xForm
 			class="flex vertical"
 			:label-style="{ 'min-width': '120px', width: 'unset' }">
@@ -15,7 +15,7 @@
 
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { defItem, pickValueFrom, xU, itemsInvalid } from "@/ventose/ui";
+import { defItem, pickValueFrom, xU, itemsInvalid, xI } from "@/ventose/ui";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import {
 	xItem_ProjectIcon,
