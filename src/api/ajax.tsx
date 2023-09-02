@@ -1,6 +1,7 @@
 import { lStorage, xU } from "@/ventose/ui";
 import axios from "axios";
 import { stateApp } from "@/state/app";
+import { cptRouter } from "@/router/router";
 
 const ajax = axios.create({
 	/* 跨域携带cookies */
@@ -13,7 +14,7 @@ ajax.interceptors.request.use(
 	config => {
 		config.url = `${stateApp.BASE_URL}${config.url}`;
 		// config.url = `${stateApp.BASE_URL}${config.url}`;
-		xCookies.pick(config);
+		xToken.pick(config);
 		if (config.data) {
 			xU.each(["name"], prop => {
 				if (config.data[prop]) {
@@ -29,12 +30,11 @@ ajax.interceptors.request.use(
 // response interceptor
 ajax.interceptors.response.use(
 	async response => {
-		xCookies.save(response);
 		if (response?.data?.errcode == 40011) {
 			stateApp.user.isLogin = false;
-			window.location.hash = "/login";
+			cptRouter.value.go("/login");
+			return Promise.resolve(response?.data);
 		}
-
 		if (response.config.url == "/api/interface/schema2json") {
 			return Promise.resolve({ data: response.data, response });
 		}
@@ -44,36 +44,24 @@ ajax.interceptors.response.use(
 			}
 			return Promise.reject(response?.data || response);
 		}
-
 		return Promise.resolve({ data: response.data.data, response });
 	},
 	async error => {
 		xU(error);
 		const { response } = error;
 		if (response) {
-			lStorage["x-cookies"] = response?.headers["x-cookies"] || "";
 			logError(response?.data?.data);
 		}
 		return Promise.reject(error);
 	}
 );
 
-const xCookies = {
+const xToken = {
 	pick(config) {
 		config.headers = config.headers || {};
 		config.params = config.params || {};
-		const xCookies = lStorage["x-cookies"];
-		if (xCookies) {
-			const xCookiesString = JSON.stringify(xCookies);
-			config.headers["x-cookies"] = xCookiesString;
-		} else {
-			config.headers["x-cookies"] = "";
-		}
-	},
-	save(response) {
-		const xCookies = response.headers["x-cookies"];
-		if (xCookies) {
-			lStorage["x-cookies"] = xCookies;
+		if (lStorage["x_token"]) {
+			config.params["x_token"] = JSON.stringify(lStorage["x_token"]);
 		}
 	}
 };

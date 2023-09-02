@@ -202,7 +202,7 @@ export const InterfaceDetail = defineComponent({
 						socket
 							.open(
 								`${wsProtocol}://${wsURL.host}/ws?x-cookies=${JSON.stringify(
-									lStorage["x-cookies"]
+									lStorage["x_token"]
 								)}`
 							)
 							.then(() => {

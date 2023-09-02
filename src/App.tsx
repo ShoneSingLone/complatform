@@ -38,14 +38,15 @@ export default defineComponent({
 		async onAfterRefresh() {
 			/* 刷新之后重新获取基础信息 */
 			try {
-				await stateApp._checkLoginState();
-				await stateApp._fetchGroupList();
-				if (this.cptRouter.query.group_id) {
-					await stateApp._setCurrGroup(this.cptRouter.query.group_id);
-					await stateApp._fetchProjectList(this.cptRouter.query.group_id);
-					if (this.cptRouter.query.project_id) {
-						await stateApp._setCurrProject(this.cptRouter.query.project_id);
-						await stateInterface._updateInterfaceMenuList();
+				if (await stateApp._checkLoginState()) {
+					await stateApp._fetchGroupList();
+					if (this.cptRouter.query.group_id) {
+						await stateApp._setCurrGroup(this.cptRouter.query.group_id);
+						await stateApp._fetchProjectList(this.cptRouter.query.group_id);
+						if (this.cptRouter.query.project_id) {
+							await stateApp._setCurrProject(this.cptRouter.query.project_id);
+							await stateInterface._updateInterfaceMenuList();
+						}
 					}
 				}
 			} catch (error) {

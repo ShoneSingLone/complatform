@@ -4,6 +4,8 @@
 - [前端开发记录](./README.dev.md)
 - [BUG记录](./README.bug.md)
 
+# 访问
+[https://www.singlone.work/dist/](https://www.singlone.work/dist/)
 ## 主要功能
 
 与yapi保持一致

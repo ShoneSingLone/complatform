@@ -79139,7 +79139,6 @@ const xGap = defineComponent({
           b: "bottom",
           l: "left"
         };
-        console.log(this.$attrs);
         const attrs = this.$attrs;
         const gapStyle = {};
         if (attrs.a !== void 0) {
@@ -88731,12 +88730,6 @@ function aHashLink(urlLike, query = {}) {
 async function setLocationHash(href, url2) {
   var _a3;
   try {
-    if (!await stateApp._checkLoginState()) {
-      return;
-    }
-    if (["/login"].includes(url2.pathname)) {
-      href = "/";
-    }
     const route2 = xU$1.find(routes, {
       path: url2.pathname
     });
@@ -88777,7 +88770,7 @@ const ajax = axios.create({
 });
 ajax.interceptors.request.use((config) => {
   config.url = `${stateApp.BASE_URL}${config.url}`;
-  xCookies.pick(config);
+  xToken.pick(config);
   if (config.data) {
     xU$1.each(["name"], (prop) => {
       if (config.data[prop]) {
@@ -88789,10 +88782,10 @@ ajax.interceptors.request.use((config) => {
 }, (error) => Promise.reject(error));
 ajax.interceptors.response.use(async (response) => {
   var _a3, _b, _c, _d;
-  xCookies.save(response);
   if (((_a3 = response == null ? void 0 : response.data) == null ? void 0 : _a3.errcode) == 40011) {
     stateApp.user.isLogin = false;
-    window.location.hash = "/login";
+    cptRouter.value.go("/login");
+    return Promise.resolve(response == null ? void 0 : response.data);
   }
   if (response.config.url == "/api/interface/schema2json") {
     return Promise.resolve({
@@ -88817,27 +88810,16 @@ ajax.interceptors.response.use(async (response) => {
     response
   } = error;
   if (response) {
-    lStorage["x-cookies"] = (response == null ? void 0 : response.headers["x-cookies"]) || "";
     logError((_a3 = response == null ? void 0 : response.data) == null ? void 0 : _a3.data);
   }
   return Promise.reject(error);
 });
-const xCookies = {
+const xToken = {
   pick(config) {
     config.headers = config.headers || {};
     config.params = config.params || {};
-    const xCookies2 = lStorage["x-cookies"];
-    if (xCookies2) {
-      const xCookiesString = JSON.stringify(xCookies2);
-      config.headers["x-cookies"] = xCookiesString;
-    } else {
-      config.headers["x-cookies"] = "";
-    }
-  },
-  save(response) {
-    const xCookies2 = response.headers["x-cookies"];
-    if (xCookies2) {
-      lStorage["x-cookies"] = xCookies2;
+    if (lStorage["x_token"]) {
+      config.params["x_token"] = JSON.stringify(lStorage["x_token"]);
     }
   }
 };
@@ -90849,12 +90831,6 @@ const project = {
   }
 };
 const group = {
-  getMyGroup() {
-    return ajax({
-      method: "get",
-      url: "/api/group/get_mygroup"
-    });
-  },
   delMember(data2) {
     return ajax({
       method: "post",
@@ -91110,9 +91086,8 @@ function defaultStateApp() {
     },
     async _refreshUserInfo() {
       try {
-        const {
-          data: data2
-        } = await API.user.getUserStatus();
+        const res = await API.user.getUserStatus();
+        const data2 = res;
         if (data2) {
           stateApp._setUser({
             ...data2,
@@ -91141,10 +91116,13 @@ function defaultStateApp() {
       return stateApp.user.isLogin;
     },
     async _fetchGroupList() {
-      const {
-        data: groupList
-      } = await API.group.mine();
-      stateApp.groupList = groupList;
+      try {
+        const {
+          data: groupList
+        } = await API.group.mine();
+        stateApp.groupList = groupList;
+      } catch (error) {
+      }
     },
     async _setCurrGroup(group_id) {
       try {
@@ -91227,15 +91205,16 @@ function defaultStateApp() {
         const {
           data: data2
         } = await API.user.logoutActions();
-        stateApp._setUser({
-          isLogin: false,
-          loginState: GUEST_STATUS,
-          userName: null,
-          uid: null,
-          role: "",
-          type: ""
-        });
         if (data2 === "ok") {
+          lStorage["x_token"] = "";
+          stateApp._setUser({
+            isLogin: false,
+            loginState: GUEST_STATUS,
+            userName: null,
+            uid: null,
+            role: "",
+            type: ""
+          });
           cptRouter.value.go("/login");
           xU$1.notification.success(xI$1("\u9000\u51FA\u6210\u529F! "));
         }
@@ -92400,14 +92379,15 @@ const App = defineComponent({
     },
     async onAfterRefresh() {
       try {
-        await stateApp._checkLoginState();
-        await stateApp._fetchGroupList();
-        if (this.cptRouter.query.group_id) {
-          await stateApp._setCurrGroup(this.cptRouter.query.group_id);
-          await stateApp._fetchProjectList(this.cptRouter.query.group_id);
-          if (this.cptRouter.query.project_id) {
-            await stateApp._setCurrProject(this.cptRouter.query.project_id);
-            await stateInterface._updateInterfaceMenuList();
+        if (await stateApp._checkLoginState()) {
+          await stateApp._fetchGroupList();
+          if (this.cptRouter.query.group_id) {
+            await stateApp._setCurrGroup(this.cptRouter.query.group_id);
+            await stateApp._fetchProjectList(this.cptRouter.query.group_id);
+            if (this.cptRouter.query.project_id) {
+              await stateApp._setCurrProject(this.cptRouter.query.project_id);
+              await stateInterface._updateInterfaceMenuList();
+            }
           }
         }
       } catch (error) {

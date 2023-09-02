@@ -1,31 +1,31 @@
 {
-  "src/ventose/ui/xSingle/layer/imgs/loading-2.gif": {
-    "file": "assets/loading-2.gif",
-    "src": "src/ventose/ui/xSingle/layer/imgs/loading-2.gif"
-  },
   "src/ventose/assets/svg/input.svg": {
     "file": "assets/input.svg",
     "src": "src/ventose/assets/svg/input.svg"
-  },
-  "src/ventose/ui/xSingle/layer/imgs/icon.png": {
-    "file": "assets/icon.png",
-    "src": "src/ventose/ui/xSingle/layer/imgs/icon.png"
   },
   "src/ventose/ui/xSingle/layer/imgs/loading.svg": {
     "file": "assets/loading.svg",
     "src": "src/ventose/ui/xSingle/layer/imgs/loading.svg"
   },
+  "src/ventose/ui/xSingle/layer/imgs/loading-2.gif": {
+    "file": "assets/loading-2.gif",
+    "src": "src/ventose/ui/xSingle/layer/imgs/loading-2.gif"
+  },
   "src/ventose/ui/xSingle/layer/imgs/loading-0.gif": {
     "file": "assets/loading-0.gif",
     "src": "src/ventose/ui/xSingle/layer/imgs/loading-0.gif"
+  },
+  "src/ventose/ui/xSingle/layer/imgs/loading-1.gif": {
+    "file": "assets/loading-1.gif",
+    "src": "src/ventose/ui/xSingle/layer/imgs/loading-1.gif"
   },
   "src/ventose/ui/xSingle/layer/imgs/icon-ext.png": {
     "file": "assets/icon-ext.png",
     "src": "src/ventose/ui/xSingle/layer/imgs/icon-ext.png"
   },
-  "src/ventose/ui/xSingle/layer/imgs/loading-1.gif": {
-    "file": "assets/loading-1.gif",
-    "src": "src/ventose/ui/xSingle/layer/imgs/loading-1.gif"
+  "src/ventose/ui/xSingle/layer/imgs/icon.png": {
+    "file": "assets/icon.png",
+    "src": "src/ventose/ui/xSingle/layer/imgs/icon.png"
   },
   "index.html": {
     "file": "assets/js/index.js",
