@@ -1,5 +1,5 @@
 import { computed, reactive, watch } from "vue";
-import { xU, xI, xScope } from "@/ventose/ui";
+import { xU, xI, xScope, lStorage } from "@/ventose/ui";
 import { cptRouter } from "@/router/router";
 import { API } from "@/api";
 
@@ -85,7 +85,8 @@ function defaultStateApp() {
 		},
 		async _refreshUserInfo() {
 			try {
-				const { data } = await API.user.getUserStatus();
+				const res = await API.user.getUserStatus();
+				const data = res;
 				if (data) {
 					stateApp._setUser({
 						...data,
@@ -114,8 +115,10 @@ function defaultStateApp() {
 			return stateApp.user.isLogin;
 		},
 		async _fetchGroupList() {
-			const { data: groupList } = await API.group.mine();
-			stateApp.groupList = groupList;
+			try {
+				const { data: groupList } = await API.group.mine();
+				stateApp.groupList = groupList;
+			} catch (error) {}
 		},
 		/**
 		 * 如果group是对象，直接赋值，
@@ -192,15 +195,16 @@ function defaultStateApp() {
 		async _logoutActions() {
 			try {
 				const { data } = await API.user.logoutActions();
-				stateApp._setUser({
-					isLogin: false,
-					loginState: GUEST_STATUS,
-					userName: null,
-					uid: null,
-					role: "",
-					type: ""
-				});
 				if (data === "ok") {
+					lStorage["x_token"] = "";
+					stateApp._setUser({
+						isLogin: false,
+						loginState: GUEST_STATUS,
+						userName: null,
+						uid: null,
+						role: "",
+						type: ""
+					});
 					cptRouter.value.go("/login");
 					xU.notification.success(xI("退出成功! "));
 				}

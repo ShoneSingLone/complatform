@@ -1,12 +1,6 @@
 import { ajax } from "@/api/ajax";
 
 export const group = {
-	getMyGroup() {
-		return ajax({
-			method: "get",
-			url: "/api/group/get_mygroup"
-		});
-	},
 	delMember(data) {
 		return ajax({
 			method: "post",

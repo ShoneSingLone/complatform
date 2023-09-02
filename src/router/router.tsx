@@ -188,14 +188,6 @@ export function aHashLink(urlLike: string, query: any = {}) {
 
 async function setLocationHash(href: string, url: URL) {
 	try {
-		/*如果已登录*/
-		if (!(await stateApp._checkLoginState())) {
-			return;
-		}
-		/*但是，非登陆页面则跳转到主页*/
-		if (["/login"].includes(url.pathname)) {
-			href = "/";
-		}
 		const route: any = xU.find(routes, { path: url.pathname });
 		if (route) {
 			const label = route.label || route?.meta?.title;

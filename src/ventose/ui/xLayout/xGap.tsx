@@ -29,7 +29,6 @@ export const xGap = defineComponent({
 					l: "left"
 				};
 
-				console.log(this.$attrs);
 				const attrs = this.$attrs;
 				const gapStyle: any = {};
 

@@ -1681,31 +1681,25 @@ const ViewGroup = defineComponent({
   },
   mounted() {
     this.ifUrlNoGroupIdGetAndAddIdToUrl();
-    if (!this.cptRouter.query.group_tab) {
-      this.cptRouter.query.group_tab = TAB_KEY_PROJECT_LIST;
-    }
-  },
-  beforeUnmount() {
-    if (this.timmer) {
-      clearTimeout(this.timmer);
-    }
   },
   methods: {
     async ifUrlNoGroupIdGetAndAddIdToUrl() {
+      if (!this.cptRouter.query.group_tab) {
+        this.cptRouter.query.group_tab = TAB_KEY_PROJECT_LIST;
+      }
       try {
         if (!this.groupId || this.groupId === "undefined") {
           let {
             data: group
-          } = await API.group.getMyGroup();
-          this.cptRouter.query.group_id = group._id;
+          } = await API.group.mine();
+          if (xU.isArrayFill(group)) {
+            this.cptRouter.query.group_id = group[0]._id;
+          }
         } else {
           await stateApp._setCurrGroup(this.groupId);
         }
       } catch (e) {
         console.error(e);
-        this.timmer = setTimeout(() => {
-          this.ifUrlNoGroupIdGetAndAddIdToUrl();
-        }, 1e3);
       }
     }
   },

@@ -2720,7 +2720,7 @@ const InterfaceDetail = defineComponent({
             const wsURL = new URL(stateApp.BASE_URL);
             socket.on("solveConflict", () => {
             });
-            socket.open(`${wsProtocol}://${wsURL.host}/ws?x-cookies=${JSON.stringify(lStorage["x-cookies"])}`).then(() => {
+            socket.open(`${wsProtocol}://${wsURL.host}/ws?x-cookies=${JSON.stringify(lStorage["x_token"])}`).then(() => {
               socket.ws.send(newWsPayload("solveConflict"));
             });
           } catch (e) {

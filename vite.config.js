@@ -12,7 +12,7 @@ const { PRD_USE, DEV_MODEL } = process.env;
 const __APP_VERSION = Date.now().toString();
 
 
-let __BASE_URL = "";
+let __BASE_URL = "http://localhost:3001";
 if (DEV_MODEL === "PRD") {
 	/* 如果跨域 */
 	if (PRD_USE === "1") {
