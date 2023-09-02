@@ -1,4 +1,5 @@
-import { m as xScope, c as cptRouter, e as xU, b as API, G as GROUP, P as PROJECT, n as watch, o as sortTreeByOrder, p as setDocumentTitle } from "./index.js";
+import { U as xScope, e as cptRouter, x as xU, O as API, M as GROUP, P as PROJECT, A as watch, V as setDocumentTitle } from "./index.js";
+import { s as sortTreeByOrder } from "./common.js";
 const defautlValue = ({
   ctx
 } = {}) => {

@@ -1,8 +1,9 @@
-import { d as defineComponent, m as xScope, aA as computed, ap as onMounted, c as cptRouter, aB as TAB_KEY_PROJECT_CONFIGS, f as createVNode, r as resolveComponent, e as xU, g as isVNode, aC as TAB_KEY_PROJECT_REQUEST, aD as TAB_KEY_PROJECT_AUTH, aE as TAB_KEY_PROJECT_MOCK, ae as stateInterface, aF as TAB_KEY_INTERFACE, x as xI, aG as TAB_KEY_PROJECT_SETTING, s as stateApp, w as withDirectives, j as resolveDirective, au as OPEN_BLANK, aH as TAB_KEY_PROJECT_WIKI, K as aHashLink, P as PROJECT } from "./index.js";
+import { d as defineComponent, U as xScope, B as computed, G as onMounted, e as cptRouter, aK as TAB_KEY_PROJECT_CONFIGS, a as createVNode, f as resolveComponent, x as xU, Q as isVNode, aL as TAB_KEY_PROJECT_REQUEST, aM as TAB_KEY_PROJECT_AUTH, aN as TAB_KEY_PROJECT_MOCK, at as stateInterface, aO as TAB_KEY_INTERFACE, h as xI, aP as TAB_KEY_PROJECT_SETTING, J as stateApp, w as withDirectives, i as resolveDirective, aF as OPEN_BLANK, aQ as TAB_KEY_PROJECT_WIKI, a5 as aHashLink, P as PROJECT } from "./index.js";
 import { ViewWiki } from "./ViewWiki.js";
 import { ViewInterface } from "./ViewInterface.js";
 import "./common.FormRules.js";
 import "./wiki.js";
+import "./common.js";
 import "./TuiEditor.js";
 import "./common.options.js";
 import "./VNodeRender.js";
