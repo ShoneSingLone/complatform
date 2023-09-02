@@ -86,7 +86,7 @@ function defaultStateApp() {
 		async _refreshUserInfo() {
 			try {
 				const res = await API.user.getUserStatus();
-				const data = res;
+				const { data } = res;
 				if (data) {
 					stateApp._setUser({
 						...data,
