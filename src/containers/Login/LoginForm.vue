@@ -107,7 +107,7 @@ export default defineComponent({
 				if (!(await itemsInvalid(vm.$el))) {
 					const formData = pickValueFrom(vm.configsForm);
 					const res = await API.user.loginActions(formData);
-					lStorage["x_token"] = res.data.x_token
+					lStorage["x_token"] = res.data.x_token;
 					xU.notification.success("登录成功! ");
 					cptRouter.value.go("/group");
 				} else {

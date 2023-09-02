@@ -1,4 +1,4 @@
-import { f as createVNode, r as resolveComponent } from "./index.js";
+import { a as createVNode, f as resolveComponent } from "./index.js";
 const VNodeCollection = {
   labelTips: (popContent) => (configs, className) => {
     const {

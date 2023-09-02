@@ -77,7 +77,7 @@ export default defineComponent({
 				);
 				this.isLoad = true;
 			} catch (error) {
-				console.error(error);
+				// console.error(error);
 			}
 		}
 	},
