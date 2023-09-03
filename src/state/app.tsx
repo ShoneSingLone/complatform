@@ -2,6 +2,7 @@ import { computed, reactive, watch } from "vue";
 import { xU, xI, xScope, lStorage } from "@/ventose/ui";
 import { cptRouter } from "@/router/router";
 import { API } from "@/api";
+import { getAvatarSrcByid } from "@/utils/common";
 
 const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
@@ -83,26 +84,28 @@ function defaultStateApp() {
 		_setBreadcrumb(breadcrumb) {
 			stateApp._setUser({ breadcrumb });
 		},
-		async _refreshUserInfo() {
+		async _refreshUserInfo(userInfo: any = false) {
 			try {
-				const res = await API.user.getUserStatus();
-				const { data } = res;
-				if (data) {
-					stateApp._setUser({
-						...data,
-						isLogin: !!data._id,
-						isLDAP: data.ladp,
-						canRegister: data.canRegister,
-						role: data ? data.role : null,
-						loginState: !!data._id ? MEMBER_STATUS : GUEST_STATUS,
-						userName: data ? data.username : null,
-						uid: data ? data._id : null,
-						type: data ? data.type : null,
-						study: data ? data.study : false
-					});
+				if (!userInfo) {
+					const res = await API.user.getUserStatus();
+					const { data } = res;
+					userInfo = data;
 				} else {
 					throw new Error("refreshUserInfo error");
 				}
+
+				stateApp._setUser({
+					...userInfo,
+					isLogin: !!userInfo._id,
+					isLDAP: userInfo.ladp,
+					canRegister: userInfo.canRegister,
+					role: userInfo ? userInfo.role : null,
+					loginState: !!userInfo._id ? MEMBER_STATUS : GUEST_STATUS,
+					userName: userInfo ? userInfo.username : null,
+					uid: userInfo ? userInfo._id : null,
+					type: userInfo ? userInfo.type : null,
+					study: userInfo ? userInfo.study : false
+				});
 			} catch (error) {
 				xU(error);
 			}
@@ -193,6 +196,7 @@ function defaultStateApp() {
 			});
 		},
 		async _logoutActions() {
+			debugger;
 			try {
 				const { data } = await API.user.logoutActions();
 				if (data === "ok") {
@@ -284,7 +288,7 @@ const cptAvatarUrl = computed(() => {
 	if (stateApp.user.imageUrl) {
 		return stateApp.user.imageUrl;
 	} else {
-		return `${stateApp.BASE_URL}/api/user/avatar?uid=${stateApp.user.uid}`;
+		return getAvatarSrcByid(stateApp.user.uid);
 	}
 });
 export { cptAvatarUrl };

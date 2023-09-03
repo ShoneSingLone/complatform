@@ -23,6 +23,7 @@ export const ViewUserProfile = defineComponent({
 	},
 	data(vm) {
 		return {
+			userInfo: {},
 			configsForm: defFormConfigs([
 				{
 					value: "",
@@ -35,7 +36,7 @@ export const ViewUserProfile = defineComponent({
 					label: xI("用户名"),
 					prop: "username",
 					rules: [FormRules.required()],
-					isReadonly: !vm.cpt_isAuth
+					isReadonly: () => !vm.cpt_isAuth
 				},
 				{
 					value: "",
@@ -114,16 +115,19 @@ export const ViewUserProfile = defineComponent({
 			}
 		},
 		async uploadAvatar(basecode) {
-			await API.user.uploadAvatar({ basecode: basecode });
-			this.userInfo.imageUrl = "";
+			try {
+				const res = await API.user.uploadAvatar({ basecode: basecode });
+			} catch (error) {
+				this.userInfo.imageUrl = "";
+			}
 		}
 	},
 	computed: {
 		cpt_avatarUrl() {
-			return getAvatarSrcByid(this.cpt_userId);
+			return this.userInfo?.imageUrl || getAvatarSrcByid(this.cpt_userId);
 		},
 		cpt_isAuth() {
-			return stateApp.user._id === this.cpt_userId;
+			return xU.isSame(stateApp.user._id, this.cpt_userId);
 		},
 		cpt_userId() {
 			return this.id || cptRouter.value.query.user_id || stateApp.user._id;

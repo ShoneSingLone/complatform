@@ -30,6 +30,7 @@ import {
 	colValue
 } from "@/utils/common.columns";
 import { DialogPostman } from "./DialogPostman";
+import { getAvatarSrcByid } from "@/utils/common";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
@@ -311,7 +312,7 @@ async ${xU.camelCase(path)}({params,data}) {
 						content: () => (
 							<div class="flex middle">
 								<elAvatar
-									src={"/api/user/avatar?uid=" + uid}
+									src={getAvatarSrcByid(uid)}
 									class="mr8"
 									style="height:24px;width:24px;"
 								/>

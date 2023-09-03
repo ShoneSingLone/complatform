@@ -121,6 +121,7 @@ export const xItem = defineComponent({
 	emits: ["update:modelValue"],
 	setup(props, { attrs, slots, emit, expose }) {
 		let Cpt_isShowXItem: any = true;
+		let Cpt_isReadonly: any = false;
 		let Cpt_isDisabled: any = false;
 		let Cpt_label: any = "";
 
@@ -138,6 +139,12 @@ export const xItem = defineComponent({
 		} else if (xU.isBoolean(props.configs.disabled)) {
 			Cpt_isDisabled = computed(() => props.configs.disabled);
 		}
+		/*isReadonly*/
+		if (xU.isFunction(props.configs.isReadonly)) {
+			Cpt_isReadonly = computed(props.configs.isReadonly);
+		} else if (xU.isBoolean(props.configs.isReadonly)) {
+			Cpt_isReadonly = computed(() => props.configs.isReadonly);
+		}
 
 		/*label*/
 		if (xU.isFunction(props.configs.label)) {
@@ -150,6 +157,7 @@ export const xItem = defineComponent({
 		return {
 			Cpt_isShowXItem,
 			Cpt_isDisabled,
+			Cpt_isReadonly,
 			Cpt_label
 		};
 	},
@@ -516,6 +524,7 @@ export const xItem = defineComponent({
 			CurrentXItem,
 			properties,
 			Cpt_isDisabled,
+			Cpt_isReadonly,
 			propsWillDeleteFromConfigs,
 			itemTypeName,
 			xItem_id
@@ -536,7 +545,8 @@ export const xItem = defineComponent({
 						properties={{
 							...properties,
 							value: this.privateValue,
-							disabled: Cpt_isDisabled
+							disabled: Cpt_isDisabled,
+							isReadonly: Cpt_isReadonly
 						}}
 						listeners={this.listeners}
 						slots={this.itemSlots}

@@ -6,6 +6,7 @@
 
 # 访问
 [https://www.singlone.work/dist/](https://www.singlone.work/dist/)
+[https://www.singlone.work/dist/](https://www.singlone.work/dist/)
 ## 主要功能
 
 与yapi保持一致
