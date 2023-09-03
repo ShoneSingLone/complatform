@@ -79,9 +79,7 @@ export default defineComponent({
 					size: "large",
 					/* render的时候重新获取 */
 					placeholder: () => xI("密码"),
-					rules: [
-						FormRules.required(() => xI("请输入密码"), [EVENT_TYPE.update])
-					],
+					rules: [FormRules.required(xI("请输入密码"), [EVENT_TYPE.update])],
 					onValidateFail: thisConfigs => {
 						console.log(thisConfigs.itemTips);
 					},
