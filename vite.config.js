@@ -12,14 +12,18 @@ const { PRD_USE, DEV_MODEL } = process.env;
 const __APP_VERSION = Date.now().toString();
 
 
-let __BASE_URL = "http://localhost:3001";
+/* 使用whistle代理接口 */
+let __BASE_URL = "";
 if (DEV_MODEL === "PRD") {
 	/* 如果跨域 */
 	if (PRD_USE === "1") {
 		__BASE_URL = PROD_SERVER_ADDRESS;
 	}
 }
-console.log("🚀 __BASE_URL: ", __BASE_URL);
+
+console.log(`🚀 DEV_MODEL:${DEV_MODEL}
+🚀 PRD_USE:${PRD_USE}
+🚀 __BASE_URL:${__BASE_URL}`);
 
 const isBuildLibTui = process.env.type === "lib:tui";
 
@@ -34,7 +38,7 @@ const appOptions = {
 		fs: {
 			allow: [searchForWorkspaceRoot(process.cwd())]
 		},
-		proxy: {
+		proxy: {/* 
 			"^/api": {
 				target: "http://10.143.133.216:3001/",
 				changeOrigin: true,
@@ -42,7 +46,7 @@ const appOptions = {
 				ws: true,
 				rewrite: path => path.replace(/^\/api/, "/api")
 			}
-		}
+		 */}
 	},
 	build: {
 		/* 没有混缩 */
