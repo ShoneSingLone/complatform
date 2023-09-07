@@ -106,33 +106,9 @@ export const xItem_ProjectColor = (options: any = {}) => {
 	return {
 		value,
 		prop: "color",
-		itemType: "Select",
+		itemType: "el-color-picker",
 		label: xI("icon背景颜色"),
-		rules: [FormRules.required()],
-		options: xU.map(PROJECT_COLOR, background => {
-			return {
-				label: (
-					<span
-						style={{
-							background,
-							color: "transparent"
-						}}>
-						_______________
-					</span>
-				),
-				value: background
-			};
-		}),
-		afterControll: ({ privateValue }) => (
-			<span
-				style={{
-					background: privateValue,
-					color: "transparent",
-					margin: "0 20px"
-				}}>
-				_______________
-			</span>
-		)
+		rules: [FormRules.required()]
 	};
 };
 export const xItem_ProjectIcon = (options: any = {}) => {

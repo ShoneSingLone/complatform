@@ -8,6 +8,8 @@ import xButton from "./xButton/xButton";
 import { xGap } from "./xLayout/xGap";
 import xRender from "./xRender/xRender.jsx";
 import xForm from "./xForm/xForm.vue";
+import xContainer from "./xForm/xContainer.vue";
+import { xItem } from "./xForm/xItem";
 import xButtonCountDown from "./xButton/xButtonCountDown.vue";
 import xCharts from "./xCharts/xCharts.vue";
 import xView from "./xView/xView.vue";
@@ -18,7 +20,6 @@ import xCellLabel from "./xDataGrid/xCellLabel.vue";
 import xColFilter from "./xDataGrid/xColFilter.vue";
 import xVirScroll from "./xSingle/xScroll/xVirScroll.vue";
 import { xPagination } from "./xDataGrid/xPagination";
-import { xItem } from "./xForm/xItem";
 import {
 	defXVirTableConfigs,
 	xVirTable
@@ -87,6 +88,7 @@ const componentMyUI = {
 	xRender,
 	xItem,
 	xForm,
+	xContainer,
 	xButtonCountDown,
 	xCharts,
 	xView,
@@ -104,7 +106,6 @@ const componentMyUI = {
 	xInfoDiffCard,
 	xHighlight
 };
-
 export const components = {
 	...componentMyUI
 };
@@ -155,10 +156,12 @@ export const installVentoseUI = {
 		/*使用svg */
 		xIconUseSvgInit();
 		xU.each(components, (component, name) => {
+			console.log(component.name);
 			if (component.name) {
 				name = component.name;
 			} else {
-				xU.doNothing(name, `miss name`);
+				debugger;
+				xU(component, `miss name`);
 			}
 			app.component(component.name || name, component);
 		});

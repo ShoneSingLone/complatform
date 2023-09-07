@@ -1,5 +1,11 @@
 //@ts-nocheck
-import { computed, defineComponent, isProxy, toRaw } from "vue";
+import {
+	computed,
+	defineComponent,
+	isProxy,
+	resolveComponent,
+	toRaw
+} from "vue";
 import renders from "./itemRenders";
 import { xU } from "../ventoseUtils";
 import { diff } from "jsondiffpatch";
@@ -313,8 +319,12 @@ export const xItem = defineComponent({
 				}
 				return this.configs.itemType;
 			}
-			/* String */
-			return renders[this.configs.itemType] || renders.Input;
+			let item = renders[this.configs.itemType];
+			if (item) {
+				return item;
+			}
+			item = resolveComponent(this.configs.itemType);
+			return item || renders.Input;
 		},
 		itemTypeName() {
 			if (xU.isString(this.configs.itemType)) {
@@ -538,13 +548,13 @@ export const xItem = defineComponent({
 				{/* 控件 */}
 				<div class="x-form-item-control" data-x-item-type={itemTypeName}>
 					<CurrentXItem
+						v-model={this.privateValue}
 						data-current-item-label={properties.label}
 						data-current-item-prop={properties.prop}
 						data-current-item-type={itemTypeName}
 						propsWillDeleteFromConfigs={propsWillDeleteFromConfigs}
 						properties={{
 							...properties,
-							value: this.privateValue,
 							disabled: Cpt_isDisabled,
 							isReadonly: Cpt_isReadonly
 						}}

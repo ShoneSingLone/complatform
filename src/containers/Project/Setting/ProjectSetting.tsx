@@ -56,6 +56,10 @@ export const ProjectSetting = defineComponent({
 			);
 		});
 
+		var vDomProjectConfigs = computed(() => {
+			return <ProjectSettingCommon />;
+		});
+
 		onMounted(() => {
 			if (!cptRouter.value.query.project_setting_tab) {
 				cptRouter.value.query.project_setting_tab = TAB_KEY_PROJECT_CONFIGS;
@@ -64,13 +68,16 @@ export const ProjectSetting = defineComponent({
 
 		return function () {
 			return (
-				<section class="view-main-section box-shadow flex1">
-					{vDomSwitchPanel.value}
-					{/* {vDomTabProjectList.value}
+				<div class="padding flex1 width100 flex">
+					<section class="view-main-section box-shadow flex1">
+						{vDomSwitchPanel.value}
+						{vDomProjectConfigs.value}
+						{/* {vDomTabProjectList.value}
 					{vDomTabMember.value}
 					{vDomTabGroupLog.value}
 					{vDomTabGroupWiki.value} */}
-				</section>
+					</section>
+				</div>
 			);
 		};
 	}

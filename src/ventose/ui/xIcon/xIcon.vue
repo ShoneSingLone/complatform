@@ -25,6 +25,7 @@ export function xIconUseSvgInit() {
 }
 
 export default defineComponent({
+	name: "xIcon",
 	data() {
 		return {
 			isLoad: false

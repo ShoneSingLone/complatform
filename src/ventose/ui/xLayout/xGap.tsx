@@ -13,8 +13,13 @@ export const xGap = defineComponent({
 			get() {
 				let basic = "x-gap";
 				const { f } = this.$attrs;
+
 				if (f) {
-					basic += ` flex${f}`;
+					if (xU.isBoolean(f)) {
+						basic += ` flex1`;
+					} else {
+						basic += ` flex${f}`;
+					}
 				}
 				return basic;
 			}

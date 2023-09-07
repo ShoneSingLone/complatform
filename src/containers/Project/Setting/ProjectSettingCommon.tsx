@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { stateApp } from "@/state/app";
 import { cptRouter } from "@/router/router";
-import { xI } from "@/ventose/ui";
+import { xI, defItem } from "@/ventose/ui";
 import {
 	xItem_ProjectName,
 	xItem_ProjectIcon,
@@ -10,8 +10,6 @@ import {
 	xItem_ProjectGroupId,
 	xItem_ProjectType
 } from "@/containers/Group/AddProject/DialogAddProject";
-import { defItem } from "@/ventose/ui";
-import { xU } from "@/ventose/ui";
 import { xItem_ProjectBasePath } from "../../Group/AddProject/DialogAddProject";
 import {
 	openProxyEnvDialog,
@@ -66,9 +64,18 @@ export const ProjectSettingCommon = defineComponent({
 					label: () =>
 						defItem.labelWithTips({
 							label: "代理地址",
-							tips: xI("请求需要使用VPN，则需要有一台开启VPN的PC作为代理机")
-								.label,
-							icon: <xIcon icon="question" />
+							icon: (
+								<xIcon
+									icon="question"
+									v-xTips={{
+										content: xI(
+											`<div>如果请求需要使用VPN，则需要有一台开启VPN的PC作为代理机。</div>
+<div>利用 <a class="pointer" href="https://wproxy.org/whistle/" target="_blank">whistle</a> <b>w2 start</b></div>
+<div>可以开启http://loclhost:8899</div>`
+										)
+									}}
+								/>
+							)
 						}),
 					placeholder: "ip:port"
 				}),
@@ -77,10 +84,16 @@ export const ProjectSettingCommon = defineComponent({
 					label: () =>
 						defItem.labelWithTips({
 							label: xI("mock严格模式"),
-							tips: xI(
-								"开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验"
-							).label,
-							icon: <xIcon icon="question" />
+							icon: (
+								<xIcon
+									icon="question"
+									v-xTips={{
+										content: xI(
+											"开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验"
+										)
+									}}
+								/>
+							)
 						}),
 					checkedChildren: xI("开"),
 					unCheckedChildren: xI("关"),
@@ -91,8 +104,14 @@ export const ProjectSettingCommon = defineComponent({
 					label: () =>
 						defItem.labelWithTips({
 							label: xI("开启json5"),
-							tips: xI("开启后可在接口 body 和返回值中写 json 字段"),
-							icon: <xIcon icon="question" />
+							icon: (
+								<xIcon
+									icon="question"
+									v-xTips={{
+										content: xI("开启后可在接口 body 和返回值中写 json 字段")
+									}}
+								/>
+							)
 						}),
 					checkedChildren: xI("开"),
 					unCheckedChildren: xI("关"),
@@ -113,22 +132,34 @@ export const ProjectSettingCommon = defineComponent({
 	render() {
 		return (
 			<>
-				<xForm
-					class="flex vertical"
-					labelStyle={{ "min-width": "120px", width: "unset" }}>
-					{xU.map(this.dataXItem, (configs, prop) => {
-						return (
-							<>
-								<xGap t="10" key={prop} />
-								<xItem configs={configs} key={prop} />
-							</>
-						);
-					})}
-					<xGap t />
-					<xButton configs={this.configsBtnOpenUpsertTagDialog} />
-					<xGap t />
-					<xButton configs={this.configsBtnOpenProxyEnvDialog} />
-				</xForm>
+				<xContainer col="2">
+					<xItem configs={this.dataXItem.projectName} />
+					<xItem configs={this.dataXItem.projectGroupId} />
+					<xItem configs={this.dataXItem.projectIcon} />
+					<xItem configs={this.dataXItem.projectColor} />
+					<xItem configs={this.dataXItem.projectBasePath} span="full" />
+					<xItem configs={this.dataXItem.projectDesc} span="full" />
+					<xItem configs={this.dataXItem.proxyHostPort} span="full" />
+					<xContainer span="full" class="flex middle" col="3">
+						<xItem configs={this.dataXItem.projectType} />
+						<xItem configs={this.dataXItem.strice} />
+						<xItem configs={this.dataXItem.is_json5} />
+						<xItem configs={this.dataXItem.switch_notice} />
+						<xButton configs={this.configsBtnOpenUpsertTagDialog} />
+						<xButton configs={this.configsBtnOpenProxyEnvDialog} />
+					</xContainer>
+				</xContainer>
+				<xGap f />
+				<div class="flex center middle">
+					<xButton
+						configs={{
+							preset: "save",
+							onClick() {
+								debugger;
+							}
+						}}
+					/>
+				</div>
 			</>
 		);
 	}

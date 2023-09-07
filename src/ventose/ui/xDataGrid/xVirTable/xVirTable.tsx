@@ -75,6 +75,7 @@ defXVirTableConfigs.type = {
  * 展示列的顺序
  */
 export const xVirTable = defineComponent({
+	name: "xVirTable",
 	props: ["configs", "uniqBy"],
 	components: {
 		xVirTableTh,
