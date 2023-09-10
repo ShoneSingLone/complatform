@@ -1096,7 +1096,6 @@ em {
   bottom: 0;
   right: 0;
   left: 0;
-  background: url(./loading-2.gif) center no-repeat;
   background: url(./loading.svg) center no-repeat;
   z-index: 1;
 }
@@ -1316,7 +1315,7 @@ em {
   border-radius: var(--app-border-radius);
   border: 1px solid var(--el-border-color-light);
   background-color: var(--el-border-bg-light);
-  overflow: hidden;
+  overflow: auto;
   color: var(--el-text-color-primary);
   transition: var(--el-transition-duration);
 }
@@ -52673,6 +52672,43 @@ div[id^="lazy-svg_"] {
 .xIcon.icon-opreation_click:hover {
   transform: scale(1.2);
   cursor: pointer;
+}
+.xContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: var(--xContainer-col);
+}
+.xContainer .xContainerItem {
+  padding: var(--app-padding);
+  display: flex;
+  align-items: center;
+}
+.xContainer .xContainerItem > div {
+  width: 100%;
+}
+.xContainer .grid-column1 {
+  grid-column: span 1;
+}
+.xContainer .grid-column2 {
+  grid-column: span 2;
+}
+.xContainer .grid-column3 {
+  grid-column: span 3;
+}
+.xContainer .grid-column4 {
+  grid-column: span 4;
+}
+.xContainer .grid-column5 {
+  grid-column: span 5;
+}
+.xContainer .grid-column6 {
+  grid-column: span 6;
+}
+.xContainer .grid-column7 {
+  grid-column: span 7;
+}
+.xContainer .grid-column8 {
+  grid-column: span 8;
 }
 .vir-item-component {
   height: 100%;

@@ -183,29 +183,9 @@ const xItem_ProjectColor = (options = {}) => {
   return {
     value,
     prop: "color",
-    itemType: "Select",
+    itemType: "el-color-picker",
     label: xI$1("icon\u80CC\u666F\u989C\u8272"),
-    rules: [FormRules.required()],
-    options: xU.map(PROJECT_COLOR, (background) => {
-      return {
-        label: createVNode("span", {
-          "style": {
-            background,
-            color: "transparent"
-          }
-        }, [createTextVNode("_______________")]),
-        value: background
-      };
-    }),
-    afterControll: ({
-      privateValue
-    }) => createVNode("span", {
-      "style": {
-        background: privateValue,
-        color: "transparent",
-        margin: "0 20px"
-      }
-    }, [createTextVNode("_______________")])
+    rules: [FormRules.required()]
   };
 };
 const xItem_ProjectIcon = (options = {}) => {
@@ -5215,14 +5195,21 @@ export {
   ProjectCard as P,
   RequestArgsPanel as R,
   TuiEditor as T,
-  ResponsePanel as a,
-  DialogUpsertProxyEnv as b,
-  colParamsName as c,
-  colRemark as d,
-  colRequired as e,
-  colValue as f,
-  colExample as g,
-  colType as h,
+  xItem_ProjectName as a,
+  xItem_ProjectIcon as b,
+  xItem_ProjectColor as c,
+  xItem_ProjectBasePath as d,
+  xItem_ProjectDesc as e,
+  xItem_ProjectType as f,
+  ResponsePanel as g,
+  DialogUpsertProxyEnv as h,
+  colParamsName as i,
+  colRemark as j,
+  colRequired as k,
   lib as l,
-  orderAsc as o
+  colValue as m,
+  colExample as n,
+  orderAsc as o,
+  colType as p,
+  xItem_ProjectGroupId as x
 };
