@@ -3,6 +3,13 @@ import { xU } from "@/ventose/ui";
 import qs from "qs";
 
 export const project = {
+	update(data) {
+		return ajax({
+			method: "post",
+			url: "/api/project/up",
+			data
+		});
+	},
 	interfaceSchema2json(data) {
 		return ajax({
 			method: "post",

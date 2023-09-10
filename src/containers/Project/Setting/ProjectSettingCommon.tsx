@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { stateApp } from "@/state/app";
 import { cptRouter } from "@/router/router";
-import { xI, defItem } from "@/ventose/ui";
+import { xI, defItem, xU, pickValueFrom, itemsInvalid } from "@/ventose/ui";
 import {
 	xItem_ProjectName,
 	xItem_ProjectIcon,
@@ -15,6 +15,7 @@ import {
 	openProxyEnvDialog,
 	openUpsertTagDialog
 } from "@/containers/Interface/DialogModifyInterface.Helper";
+import { API } from "@/api";
 
 export const ProjectSettingCommon = defineComponent({
 	setup() {
@@ -130,9 +131,10 @@ export const ProjectSettingCommon = defineComponent({
 	created() {},
 	methods: {},
 	render() {
+		const vm = this;
 		return (
 			<>
-				<xContainer col="2">
+				<xContainer col="2" ref="ProjectSettingCommon">
 					<xItem configs={this.dataXItem.projectName} />
 					<xItem configs={this.dataXItem.projectGroupId} />
 					<xItem configs={this.dataXItem.projectIcon} />
@@ -153,9 +155,19 @@ export const ProjectSettingCommon = defineComponent({
 				<div class="flex center middle">
 					<xButton
 						configs={{
-							preset: "save",
-							onClick() {
-								debugger;
+							type: "primary",
+							text: xI("更新"),
+							async onClick() {
+								try {
+									if (!(await itemsInvalid(vm.$refs.ProjectSettingCommon))) {
+										const dataForm = pickValueFrom(vm.dataXItem);
+										dataForm.id = vm.stateApp.currProject._id;
+										await API.project.update(dataForm);
+										xU.message.success("更新成功");
+									}
+								} catch (error) {
+									xU.message.error(error.message);
+								}
 							}
 						}}
 					/>
