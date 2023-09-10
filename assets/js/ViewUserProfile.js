@@ -1,6 +1,5 @@
-import { d as defineComponent, J as stateApp, as as defFormConfigs, h as xI, L as itemsInvalid, at as stateInterface, x as xU, O as API, a as createVNode, f as resolveComponent, F as Fragment, Q as isVNode, am as EVENT_TYPE, au as cptAvatarUrl, e as cptRouter, b as createTextVNode } from "./index.js";
+import { d as defineComponent, s as stateApp, ad as defFormConfigs, x as xI, i as itemsInvalid, ae as stateInterface, e as xU, b as API, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, a7 as EVENT_TYPE, af as cptAvatarUrl, ag as getAvatarSrcByid, c as cptRouter, t as createTextVNode } from "./index.js";
 import { F as FormRules, n as newRule, s as setValueTo, p as pickValueFrom } from "./common.FormRules.js";
-import { c as getAvatarSrcByid } from "./common.js";
 function _isSlot$1(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
@@ -196,6 +195,7 @@ const ViewUserProfile = defineComponent({
   },
   data(vm) {
     return {
+      userInfo: {},
       configsForm: defFormConfigs([{
         value: "",
         label: xI("\u7528\u6237ID"),
@@ -206,7 +206,7 @@ const ViewUserProfile = defineComponent({
         label: xI("\u7528\u6237\u540D"),
         prop: "username",
         rules: [FormRules.required()],
-        isReadonly: !vm.cpt_isAuth
+        isReadonly: () => !vm.cpt_isAuth
       }, {
         value: "",
         label: xI("\u90AE\u7BB1\u5730\u5740"),
@@ -276,18 +276,22 @@ const ViewUserProfile = defineComponent({
       }
     },
     async uploadAvatar(basecode) {
-      await API.user.uploadAvatar({
-        basecode
-      });
-      this.userInfo.imageUrl = "";
+      try {
+        const res = await API.user.uploadAvatar({
+          basecode
+        });
+      } catch (error) {
+        this.userInfo.imageUrl = "";
+      }
     }
   },
   computed: {
     cpt_avatarUrl() {
-      return getAvatarSrcByid(this.cpt_userId);
+      var _a;
+      return ((_a = this.userInfo) == null ? void 0 : _a.imageUrl) || getAvatarSrcByid(this.cpt_userId);
     },
     cpt_isAuth() {
-      return stateApp.user._id === this.cpt_userId;
+      return xU.isSame(stateApp.user._id, this.cpt_userId);
     },
     cpt_userId() {
       return this.id || cptRouter.value.query.user_id || stateApp.user._id;

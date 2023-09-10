@@ -1,7 +1,6 @@
-import { d as defineComponent, J as stateApp, e as cptRouter, K as defItem, h as xI, L as itemsInvalid, M as GROUP, P as PROJECT, N as ARTICLE, O as API, x as xU, a as createVNode, f as resolveComponent, F as Fragment, Q as isVNode, S as cpt_isPersonalWikiView, $, w as withDirectives, i as resolveDirective, T as compositionAPI } from "./index.js";
+import { d as defineComponent, s as stateApp, c as cptRouter, a as defItem, x as xI, i as itemsInvalid, G as GROUP, P as PROJECT, A as ARTICLE, b as API, e as xU, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, h as cpt_isPersonalWikiView, $, w as withDirectives, j as resolveDirective, k as getTreeOrder, l as compositionAPI } from "./index.js";
 import { F as FormRules, p as pickValueFrom } from "./common.FormRules.js";
 import { s as stateWiki, M as Methods_Wiki } from "./wiki.js";
-import { g as getTreeOrder } from "./common.js";
 import { T as TuiEditor } from "./TuiEditor.js";
 import "./common.options.js";
 const ViewWiki$1 = "";

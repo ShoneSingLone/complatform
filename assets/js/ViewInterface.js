@@ -1,8 +1,7 @@
-import { d as defineComponent, J as stateApp, K as defItem, L as itemsInvalid, at as stateInterface, x as xU, h as xI, O as API, a as createVNode, f as resolveComponent, F as Fragment, Q as isVNode, a8 as markRaw, e as cptRouter, aR as INTERFACE, U as xScope, G as onMounted, aS as ALL, w as withDirectives, i as resolveDirective, aT as cpt_treeData, aU as CATEGORY, z as ref, b as createTextVNode, B as computed, ak as HTTP_METHOD, af as defDataGrid, aa as defCol, $, aV as copyToClipboard, aW as makeAhref, ao as lStorage, A as watch } from "./index.js";
-import { e as _$arrayChangeIndex, _ as _$handlePath, M as MonacoEditor } from "./common.js";
+import { d as defineComponent, s as stateApp, a as defItem, i as itemsInvalid, ae as stateInterface, e as xU, x as xI, b as API, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, N as markRaw, c as cptRouter, aJ as INTERFACE, aK as _$arrayChangeIndex, m as xScope, ap as onMounted, aL as ALL, w as withDirectives, j as resolveDirective, aM as cpt_treeData, aN as CATEGORY, aO as ref, t as createTextVNode, aA as computed, _ as _$handlePath, a2 as HTTP_METHOD, W as defDataGrid, R as defCol, $, aP as copyToClipboard, aQ as makeAhref, a9 as lStorage, n as watch, X as MonacoEditor, ag as getAvatarSrcByid } from "./index.js";
 import { F as FormRules, s as setValueTo, p as pickValueFrom } from "./common.FormRules.js";
 import { I as ITEM_OPTIONS, a as ITEM_OPTIONS_VDOM } from "./common.options.js";
-import { o as orderAsc, R as RequestArgsPanel, T as TuiEditor, a as ResponsePanel, b as DialogUpsertProxyEnv, c as colParamsName, d as colRemark, e as colRequired, f as colValue, g as colExample, h as colType, J as JsonSchemaMonaco } from "./TuiEditor.js";
+import { o as orderAsc, R as RequestArgsPanel, T as TuiEditor, g as ResponsePanel, h as DialogUpsertProxyEnv, i as colParamsName, j as colRemark, k as colRequired, m as colValue, n as colExample, p as colType, J as JsonSchemaMonaco } from "./TuiEditor.js";
 import { V as VNodeCollection } from "./VNodeRender.js";
 function _isSlot$6(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
@@ -461,12 +460,13 @@ const InterfaceAside = defineComponent({
         "ref": "wrapper"
       }, [withDirectives(createVNode("div", {
         "class": "left-tree box-shadow"
-      }, [createVNode(resolveComponent("ElScrollbar"), {
+      }, [createVNode(resolveComponent("elScrollbar"), {
         "height": vm.siderHeight,
         "class": "flex1"
       }, {
-        default: () => [createVNode(resolveComponent("ElTree"), {
+        default: () => [createVNode(resolveComponent("elTree"), {
           "height": vm.siderHeight,
+          "default-expand-all": true,
           "defaultExpandedKeys": stateInterface.expandedKeys,
           "data": cpt_treeData.value,
           "onNodeDragEnd": vm._handleDropInterface,
@@ -2762,22 +2762,15 @@ const InterfaceDetail = defineComponent({
       } = vm.detailInfo;
       const projectId = stateApp.currProject._id;
       const interfaceId = cptRouter.value.query.interface_id;
-      return `\`\`\`js
-/**
-*  ${title}
-*  ${window.location.href}
-*  http://10.143.133.216:3001/project/${projectId}/interface/api/${interfaceId}
-*/
-async ${xU.camelCase(path)}({params,data}) {
-	return await request({
-		method: "${method}",
-		url: \`${path}\`,
-		params:params||{},
-		data:data||{}
-	});
-}
-\`\`\`
-`;
+      const requestCode = new Function("params", `return (${stateApp.currProject.requestCode})(params)`);
+      return requestCode({
+        title,
+        path,
+        method,
+        projectId,
+        interfaceId,
+        xU
+      });
     });
     var cpt_vDomCopyAjaxCodePanel = computed(() => {
       return createVNode("div", {
@@ -2826,7 +2819,7 @@ async ${xU.camelCase(path)}({params,data}) {
             content: () => createVNode("div", {
               "class": "flex middle"
             }, [createVNode(resolveComponent("elAvatar"), {
-              "src": "/api/user/avatar?uid=" + uid,
+              "src": getAvatarSrcByid(uid),
               "class": "mr8",
               "style": "height:24px;width:24px;"
             }, null), createVNode("a", null, [username])])
@@ -3057,6 +3050,13 @@ const ViewInterface = defineComponent({
     };
   }
 });
-export {
+const ViewInterface$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
   ViewInterface
+}, Symbol.toStringTag, { value: "Module" }));
+export {
+  ViewInterface as V,
+  openProxyEnvDialog as a,
+  ViewInterface$1 as b,
+  openUpsertTagDialog as o
 };

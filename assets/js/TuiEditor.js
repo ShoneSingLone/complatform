@@ -1,6 +1,5 @@
-import { d as defineComponent, J as stateApp, K as defItem, L as itemsInvalid$1, O as API, x as xU, a as createVNode, f as resolveComponent, F as Fragment, Q as isVNode, W as PRIVATE, b as createTextVNode, X as PUBLIC, Y as DEV, Z as OWNER, a0 as ADMIN, w as withDirectives, i as resolveDirective, a1 as PROJECT_COLOR, h as xI$1, a2 as PROJECT_ICON, _ as _export_sfc, o as openBlock, j as createElementBlock, a3 as withCtx, a4 as renderList, e as cptRouter, a5 as aHashLink, a6 as toRaw, a7 as diff, a8 as markRaw, a9 as defXVirTableConfigs, aa as defCol, ab as h, ac as inject, ad as components, $, ae as setDataGridInfo, af as defDataGrid, T as compositionAPI, ag as HTTP_REQUEST_HEADER, ah as compileVNode, ai as QUERY, aj as GET, ak as HTTP_METHOD, al as BODY, m as defineAsyncComponent } from "./index.js";
+import { d as defineComponent, s as stateApp, a as defItem, i as itemsInvalid$1, b as API, e as xU, _ as _$handlePath, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, q as PRIVATE, t as createTextVNode, u as PUBLIC, D as DEV, O as OWNER, v as ADMIN, w as withDirectives, j as resolveDirective, y as _$randomValueAndProp, z as PROJECT_COLOR, x as xI$1, B as PROJECT_ICON, C as _export_sfc, E as openBlock, H as createElementBlock, I as withCtx, J as renderList, c as cptRouter, K as aHashLink, L as toRaw, M as diff, N as markRaw, Q as defXVirTableConfigs, R as defCol, S as h, T as inject, U as components, $, V as setDataGridInfo, W as defDataGrid, X as MonacoEditor, l as compositionAPI, Y as HTTP_REQUEST_HEADER, Z as compileVNode, a0 as QUERY, a1 as GET, a2 as HTTP_METHOD, a3 as BODY, a4 as defineAsyncComponent, a5 as MkitTheme, a6 as PreprocessHTML } from "./index.js";
 import { p as pickValueFrom, F as FormRules, n as newRule, s as setValueTo } from "./common.FormRules.js";
-import { _ as _$handlePath, a as _$randomValueAndProp, M as MonacoEditor, b as MkitTheme, P as PreprocessHTML } from "./common.js";
 import { I as ITEM_OPTIONS, a as ITEM_OPTIONS_VDOM } from "./common.options.js";
 const ProjectCard$1 = "";
 const Addproject = "";
@@ -184,29 +183,9 @@ const xItem_ProjectColor = (options = {}) => {
   return {
     value,
     prop: "color",
-    itemType: "Select",
+    itemType: "el-color-picker",
     label: xI$1("icon\u80CC\u666F\u989C\u8272"),
-    rules: [FormRules.required()],
-    options: xU.map(PROJECT_COLOR, (background) => {
-      return {
-        label: createVNode("span", {
-          "style": {
-            background,
-            color: "transparent"
-          }
-        }, [createTextVNode("_______________")]),
-        value: background
-      };
-    }),
-    afterControll: ({
-      privateValue
-    }) => createVNode("span", {
-      "style": {
-        background: privateValue,
-        color: "transparent",
-        margin: "0 20px"
-      }
-    }, [createTextVNode("_______________")])
+    rules: [FormRules.required()]
   };
 };
 const xItem_ProjectIcon = (options = {}) => {
@@ -5216,14 +5195,21 @@ export {
   ProjectCard as P,
   RequestArgsPanel as R,
   TuiEditor as T,
-  ResponsePanel as a,
-  DialogUpsertProxyEnv as b,
-  colParamsName as c,
-  colRemark as d,
-  colRequired as e,
-  colValue as f,
-  colExample as g,
-  colType as h,
+  xItem_ProjectName as a,
+  xItem_ProjectIcon as b,
+  xItem_ProjectColor as c,
+  xItem_ProjectBasePath as d,
+  xItem_ProjectDesc as e,
+  xItem_ProjectType as f,
+  ResponsePanel as g,
+  DialogUpsertProxyEnv as h,
+  colParamsName as i,
+  colRemark as j,
+  colRequired as k,
   lib as l,
-  orderAsc as o
+  colValue as m,
+  colExample as n,
+  orderAsc as o,
+  colType as p,
+  xItem_ProjectGroupId as x
 };
