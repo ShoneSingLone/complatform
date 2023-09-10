@@ -233,6 +233,7 @@ export const DialogAddProject = defineComponent({
 						projectDesc,
 						projectType
 					}: any = pickValueFrom(vm.dataXItem);
+
 					const { data } = await API.project.addProject({
 						name: projectName,
 						desc: projectDesc,

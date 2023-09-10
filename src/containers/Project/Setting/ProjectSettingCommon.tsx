@@ -39,25 +39,25 @@ export const ProjectSettingCommon = defineComponent({
 				}
 			},
 			dataXItem: {
-				projectGroupId: defItem(
+				group_id: defItem(
 					xItem_ProjectGroupId({ value: vm.cptRouter.query.group_id }, vm)
 				),
-				projectName: defItem(
+				name: defItem(
 					xItem_ProjectName({ value: vm.stateApp.currProject.name })
 				),
-				projectIcon: defItem(
+				icon: defItem(
 					xItem_ProjectIcon({ value: vm.stateApp.currProject.icon })
 				),
-				projectColor: defItem(
+				color: defItem(
 					xItem_ProjectColor({ value: vm.stateApp.currProject.color })
 				),
-				projectBasePath: defItem(
+				basepath: defItem(
 					xItem_ProjectBasePath({ value: vm.stateApp.currProject.basepath })
 				),
-				projectDesc: defItem(
+				desc: defItem(
 					xItem_ProjectDesc({ value: vm.stateApp.currProject.desc })
 				),
-				projectType: defItem(
+				project_type: defItem(
 					xItem_ProjectType({ value: vm.stateApp.currProject.project_type })
 				),
 				proxyHostPort: defItem({
@@ -135,15 +135,15 @@ export const ProjectSettingCommon = defineComponent({
 		return (
 			<>
 				<xContainer col="2" ref="ProjectSettingCommon">
-					<xItem configs={this.dataXItem.projectName} />
-					<xItem configs={this.dataXItem.projectGroupId} />
-					<xItem configs={this.dataXItem.projectIcon} />
-					<xItem configs={this.dataXItem.projectColor} />
-					<xItem configs={this.dataXItem.projectBasePath} span="full" />
-					<xItem configs={this.dataXItem.projectDesc} span="full" />
+					<xItem configs={this.dataXItem.name} />
+					<xItem configs={this.dataXItem.group_id} />
+					<xItem configs={this.dataXItem.icon} />
+					<xItem configs={this.dataXItem.color} />
+					<xItem configs={this.dataXItem.basepath} span="full" />
+					<xItem configs={this.dataXItem.desc} span="full" />
 					<xItem configs={this.dataXItem.proxyHostPort} span="full" />
 					<xContainer span="full" class="flex middle" col="3">
-						<xItem configs={this.dataXItem.projectType} />
+						<xItem configs={this.dataXItem.project_type} />
 						<xItem configs={this.dataXItem.strice} />
 						<xItem configs={this.dataXItem.is_json5} />
 						<xItem configs={this.dataXItem.switch_notice} />
@@ -161,8 +161,10 @@ export const ProjectSettingCommon = defineComponent({
 								try {
 									if (!(await itemsInvalid(vm.$refs.ProjectSettingCommon))) {
 										const dataForm = pickValueFrom(vm.dataXItem);
+
 										dataForm.id = vm.stateApp.currProject._id;
 										await API.project.update(dataForm);
+										stateApp._setCurrProject(dataForm.id, { isEnforce: true });
 										xU.message.success("更新成功");
 									}
 								} catch (error) {

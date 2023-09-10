@@ -246,23 +246,20 @@ export const InterfaceDetail = defineComponent({
 			const { title, path, method } = vm.detailInfo;
 			const projectId = stateApp.currProject._id;
 			const interfaceId = cptRouter.value.query.interface_id;
-			/* TODO:后端获取模板 */
-			return `\`\`\`js
-/**
-*  ${title}
-*  ${window.location.href}
-*  http://10.143.133.216:3001/project/${projectId}/interface/api/${interfaceId}
-*/
-async ${xU.camelCase(path)}({params,data}) {
-	return await request({
-		method: "${method}",
-		url: \`${path}\`,
-		params:params||{},
-		data:data||{}
-	});
-}
-\`\`\`
-`;
+
+			const requestCode = new Function(
+				"params",
+				`return (${stateApp.currProject.requestCode})(params)`
+			);
+
+			return requestCode({
+				title,
+				path,
+				method,
+				projectId,
+				interfaceId,
+				xU
+			});
 		});
 
 		var cpt_vDomCopyAjaxCodePanel = computed(() => {
