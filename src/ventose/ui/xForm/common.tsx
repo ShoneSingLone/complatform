@@ -54,7 +54,7 @@ export function defItem(options: t_itemConfigs) {
 	return _options;
 }
 
-defItem.labelWithTips = ({ label, tips, icon }) => {
+defItem.labelWithTips = ({ label, icon }) => {
 	return (
 		<span class="flex middle">
 			<span class="mr4">{label}</span>

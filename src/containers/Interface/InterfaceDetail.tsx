@@ -30,6 +30,7 @@ import {
 	colValue
 } from "@/utils/common.columns";
 import { DialogPostman } from "./DialogPostman";
+import { getAvatarSrcByid } from "@/utils/common";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
@@ -245,23 +246,20 @@ export const InterfaceDetail = defineComponent({
 			const { title, path, method } = vm.detailInfo;
 			const projectId = stateApp.currProject._id;
 			const interfaceId = cptRouter.value.query.interface_id;
-			/* TODO:后端获取模板 */
-			return `\`\`\`js
-/**
-*  ${title}
-*  ${window.location.href}
-*  http://10.143.133.216:3001/project/${projectId}/interface/api/${interfaceId}
-*/
-async ${xU.camelCase(path)}({params,data}) {
-	return await request({
-		method: "${method}",
-		url: \`${path}\`,
-		params:params||{},
-		data:data||{}
-	});
-}
-\`\`\`
-`;
+
+			const requestCode = new Function(
+				"params",
+				`return (${stateApp.currProject.requestCode})(params)`
+			);
+
+			return requestCode({
+				title,
+				path,
+				method,
+				projectId,
+				interfaceId,
+				xU
+			});
 		});
 
 		var cpt_vDomCopyAjaxCodePanel = computed(() => {
@@ -311,7 +309,7 @@ async ${xU.camelCase(path)}({params,data}) {
 						content: () => (
 							<div class="flex middle">
 								<elAvatar
-									src={"/api/user/avatar?uid=" + uid}
+									src={getAvatarSrcByid(uid)}
 									class="mr8"
 									style="height:24px;width:24px;"
 								/>

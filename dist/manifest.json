@@ -1,31 +1,31 @@
 {
+  "src/ventose/ui/xSingle/layer/imgs/loading.svg": {
+    "file": "assets/loading.svg",
+    "src": "src/ventose/ui/xSingle/layer/imgs/loading.svg"
+  },
   "src/ventose/assets/svg/input.svg": {
     "file": "assets/input.svg",
     "src": "src/ventose/assets/svg/input.svg"
   },
-  "src/ventose/ui/xSingle/layer/imgs/loading-2.gif": {
-    "file": "assets/loading-2.gif",
-    "src": "src/ventose/ui/xSingle/layer/imgs/loading-2.gif"
-  },
-  "src/ventose/ui/xSingle/layer/imgs/loading-1.gif": {
-    "file": "assets/loading-1.gif",
-    "src": "src/ventose/ui/xSingle/layer/imgs/loading-1.gif"
-  },
-  "src/ventose/ui/xSingle/layer/imgs/loading.svg": {
-    "file": "assets/loading.svg",
-    "src": "src/ventose/ui/xSingle/layer/imgs/loading.svg"
+  "src/ventose/ui/xSingle/layer/imgs/icon.png": {
+    "file": "assets/icon.png",
+    "src": "src/ventose/ui/xSingle/layer/imgs/icon.png"
   },
   "src/ventose/ui/xSingle/layer/imgs/loading-0.gif": {
     "file": "assets/loading-0.gif",
     "src": "src/ventose/ui/xSingle/layer/imgs/loading-0.gif"
   },
+  "src/ventose/ui/xSingle/layer/imgs/loading-1.gif": {
+    "file": "assets/loading-1.gif",
+    "src": "src/ventose/ui/xSingle/layer/imgs/loading-1.gif"
+  },
+  "src/ventose/ui/xSingle/layer/imgs/loading-2.gif": {
+    "file": "assets/loading-2.gif",
+    "src": "src/ventose/ui/xSingle/layer/imgs/loading-2.gif"
+  },
   "src/ventose/ui/xSingle/layer/imgs/icon-ext.png": {
     "file": "assets/icon-ext.png",
     "src": "src/ventose/ui/xSingle/layer/imgs/icon-ext.png"
-  },
-  "src/ventose/ui/xSingle/layer/imgs/icon.png": {
-    "file": "assets/icon.png",
-    "src": "src/ventose/ui/xSingle/layer/imgs/icon.png"
   },
   "index.html": {
     "file": "assets/js/index.js",
@@ -38,30 +38,19 @@
       "src/containers/Group/ViewGroup.tsx",
       "src/containers/I18n/ViewI18n.tsx",
       "src/containers/Project/ViewProject.tsx",
-      "src/containers/Interface/ViewInterface.tsx",
-      "_common.js"
+      "_ViewInterface.js"
     ],
     "css": [
       "assets/index.css"
     ],
     "assets": [
-      "assets/loading-2.gif",
       "assets/loading.svg",
       "assets/input.svg",
       "assets/loading-1.gif",
       "assets/icon.png",
       "assets/loading-0.gif",
+      "assets/loading-2.gif",
       "assets/icon-ext.png"
-    ]
-  },
-  "_common.js": {
-    "file": "assets/js/common.js",
-    "isDynamicEntry": true,
-    "imports": [
-      "index.html"
-    ],
-    "css": [
-      "assets/common.css"
     ]
   },
   "src/containers/Wiki/ViewWiki.tsx": {
@@ -72,7 +61,6 @@
       "index.html",
       "_common.FormRules.js",
       "_wiki.js",
-      "_common.js",
       "_TuiEditor.js",
       "_common.options.js"
     ],
@@ -83,8 +71,7 @@
   "_wiki.js": {
     "file": "assets/js/wiki.js",
     "imports": [
-      "index.html",
-      "_common.js"
+      "index.html"
     ]
   },
   "_TuiEditor.js": {
@@ -92,7 +79,6 @@
     "imports": [
       "index.html",
       "_common.FormRules.js",
-      "_common.js",
       "_common.options.js"
     ],
     "css": [
@@ -129,8 +115,7 @@
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_common.FormRules.js",
-      "_common.js"
+      "_common.FormRules.js"
     ]
   },
   "src/containers/Group/ViewGroup.tsx": {
@@ -142,7 +127,6 @@
       "_common.FormRules.js",
       "_VNodeRender.js",
       "_TuiEditor.js",
-      "_common.js",
       "src/containers/User/ViewUserProfile.tsx",
       "src/containers/Wiki/ViewWiki.tsx",
       "_common.options.js",
@@ -167,7 +151,6 @@
       "_common.FormRules.js",
       "_common.options.js",
       "_VNodeRender.js",
-      "_common.js",
       "_wiki.js"
     ],
     "css": [
@@ -181,11 +164,10 @@
     "imports": [
       "index.html",
       "src/containers/Wiki/ViewWiki.tsx",
-      "src/containers/Interface/ViewInterface.tsx",
+      "_ViewInterface.js",
+      "_TuiEditor.js",
       "_common.FormRules.js",
       "_wiki.js",
-      "_common.js",
-      "_TuiEditor.js",
       "_common.options.js",
       "_VNodeRender.js"
     ],
@@ -193,13 +175,11 @@
       "assets/ViewProject.css"
     ]
   },
-  "src/containers/Interface/ViewInterface.tsx": {
+  "_ViewInterface.js": {
     "file": "assets/js/ViewInterface.js",
-    "src": "src/containers/Interface/ViewInterface.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_common.js",
       "_common.FormRules.js",
       "_common.options.js",
       "_TuiEditor.js",
@@ -233,9 +213,5 @@
   "index.css": {
     "file": "assets/index.css",
     "src": "index.css"
-  },
-  "common.css": {
-    "file": "assets/common.css",
-    "src": "common.css"
   }
 }

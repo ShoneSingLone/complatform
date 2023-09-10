@@ -293,7 +293,7 @@ export const GroupAside = defineComponent({
 					stateApp.currGroup._id && xU.isSame(stateApp.currGroup._id, group._id)
 			};
 		},
-		getGrouMenuItem({ group }) {
+		getGroupMenuItem({ group }) {
 			return (
 				<div class={this.getGroupMenuItemClass({ group })}>
 					<div
@@ -352,7 +352,7 @@ export const GroupAside = defineComponent({
 									expand-on-click-node={false}
 									default-expand-all
 									v-slots={{
-										default: ({ data: group }) => vm.getGrouMenuItem({ group })
+										default: ({ data: group }) => vm.getGroupMenuItem({ group })
 									}}
 								/>
 							)

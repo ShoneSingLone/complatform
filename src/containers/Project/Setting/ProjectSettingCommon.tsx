@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { stateApp } from "@/state/app";
 import { cptRouter } from "@/router/router";
-import { xI } from "@/ventose/ui";
+import { xI, defItem, xU, pickValueFrom, itemsInvalid } from "@/ventose/ui";
 import {
 	xItem_ProjectName,
 	xItem_ProjectIcon,
@@ -10,13 +10,12 @@ import {
 	xItem_ProjectGroupId,
 	xItem_ProjectType
 } from "@/containers/Group/AddProject/DialogAddProject";
-import { defItem } from "@/ventose/ui";
-import { xU } from "@/ventose/ui";
 import { xItem_ProjectBasePath } from "../../Group/AddProject/DialogAddProject";
 import {
 	openProxyEnvDialog,
 	openUpsertTagDialog
 } from "@/containers/Interface/DialogModifyInterface.Helper";
+import { API } from "@/api";
 
 export const ProjectSettingCommon = defineComponent({
 	setup() {
@@ -40,25 +39,25 @@ export const ProjectSettingCommon = defineComponent({
 				}
 			},
 			dataXItem: {
-				projectGroupId: defItem(
+				group_id: defItem(
 					xItem_ProjectGroupId({ value: vm.cptRouter.query.group_id }, vm)
 				),
-				projectName: defItem(
+				name: defItem(
 					xItem_ProjectName({ value: vm.stateApp.currProject.name })
 				),
-				projectIcon: defItem(
+				icon: defItem(
 					xItem_ProjectIcon({ value: vm.stateApp.currProject.icon })
 				),
-				projectColor: defItem(
+				color: defItem(
 					xItem_ProjectColor({ value: vm.stateApp.currProject.color })
 				),
-				projectBasePath: defItem(
+				basepath: defItem(
 					xItem_ProjectBasePath({ value: vm.stateApp.currProject.basepath })
 				),
-				projectDesc: defItem(
+				desc: defItem(
 					xItem_ProjectDesc({ value: vm.stateApp.currProject.desc })
 				),
-				projectType: defItem(
+				project_type: defItem(
 					xItem_ProjectType({ value: vm.stateApp.currProject.project_type })
 				),
 				proxyHostPort: defItem({
@@ -66,9 +65,18 @@ export const ProjectSettingCommon = defineComponent({
 					label: () =>
 						defItem.labelWithTips({
 							label: "代理地址",
-							tips: xI("请求需要使用VPN，则需要有一台开启VPN的PC作为代理机")
-								.label,
-							icon: <xIcon icon="question" />
+							icon: (
+								<xIcon
+									icon="question"
+									v-xTips={{
+										content: xI(
+											`<div>如果请求需要使用VPN，则需要有一台开启VPN的PC作为代理机。</div>
+<div>利用 <a class="pointer" href="https://wproxy.org/whistle/" target="_blank">whistle</a> <b>w2 start</b></div>
+<div>可以开启http://loclhost:8899</div>`
+										)
+									}}
+								/>
+							)
 						}),
 					placeholder: "ip:port"
 				}),
@@ -77,10 +85,16 @@ export const ProjectSettingCommon = defineComponent({
 					label: () =>
 						defItem.labelWithTips({
 							label: xI("mock严格模式"),
-							tips: xI(
-								"开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验"
-							).label,
-							icon: <xIcon icon="question" />
+							icon: (
+								<xIcon
+									icon="question"
+									v-xTips={{
+										content: xI(
+											"开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验"
+										)
+									}}
+								/>
+							)
 						}),
 					checkedChildren: xI("开"),
 					unCheckedChildren: xI("关"),
@@ -91,8 +105,14 @@ export const ProjectSettingCommon = defineComponent({
 					label: () =>
 						defItem.labelWithTips({
 							label: xI("开启json5"),
-							tips: xI("开启后可在接口 body 和返回值中写 json 字段"),
-							icon: <xIcon icon="question" />
+							icon: (
+								<xIcon
+									icon="question"
+									v-xTips={{
+										content: xI("开启后可在接口 body 和返回值中写 json 字段")
+									}}
+								/>
+							)
 						}),
 					checkedChildren: xI("开"),
 					unCheckedChildren: xI("关"),
@@ -111,24 +131,49 @@ export const ProjectSettingCommon = defineComponent({
 	created() {},
 	methods: {},
 	render() {
+		const vm = this;
 		return (
 			<>
-				<xForm
-					class="flex vertical"
-					labelStyle={{ "min-width": "120px", width: "unset" }}>
-					{xU.map(this.dataXItem, (configs, prop) => {
-						return (
-							<>
-								<xGap t="10" key={prop} />
-								<xItem configs={configs} key={prop} />
-							</>
-						);
-					})}
-					<xGap t />
-					<xButton configs={this.configsBtnOpenUpsertTagDialog} />
-					<xGap t />
-					<xButton configs={this.configsBtnOpenProxyEnvDialog} />
-				</xForm>
+				<xContainer col="2" ref="ProjectSettingCommon">
+					<xItem configs={this.dataXItem.name} />
+					<xItem configs={this.dataXItem.group_id} />
+					<xItem configs={this.dataXItem.icon} />
+					<xItem configs={this.dataXItem.color} />
+					<xItem configs={this.dataXItem.basepath} span="full" />
+					<xItem configs={this.dataXItem.desc} span="full" />
+					<xItem configs={this.dataXItem.proxyHostPort} span="full" />
+					<xContainer span="full" class="flex middle" col="3">
+						<xItem configs={this.dataXItem.project_type} />
+						<xItem configs={this.dataXItem.strice} />
+						<xItem configs={this.dataXItem.is_json5} />
+						<xItem configs={this.dataXItem.switch_notice} />
+						<xButton configs={this.configsBtnOpenUpsertTagDialog} />
+						<xButton configs={this.configsBtnOpenProxyEnvDialog} />
+					</xContainer>
+				</xContainer>
+				<xGap f />
+				<div class="flex center middle">
+					<xButton
+						configs={{
+							type: "primary",
+							text: xI("更新"),
+							async onClick() {
+								try {
+									if (!(await itemsInvalid(vm.$refs.ProjectSettingCommon))) {
+										const dataForm = pickValueFrom(vm.dataXItem);
+
+										dataForm.id = vm.stateApp.currProject._id;
+										await API.project.update(dataForm);
+										stateApp._setCurrProject(dataForm.id, { isEnforce: true });
+										xU.message.success("更新成功");
+									}
+								} catch (error) {
+									xU.message.error(error.message);
+								}
+							}
+						}}
+					/>
+				</div>
 			</>
 		);
 	}

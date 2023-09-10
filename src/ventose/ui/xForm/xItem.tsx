@@ -1,5 +1,11 @@
 //@ts-nocheck
-import { computed, defineComponent, isProxy, toRaw } from "vue";
+import {
+	computed,
+	defineComponent,
+	isProxy,
+	resolveComponent,
+	toRaw
+} from "vue";
 import renders from "./itemRenders";
 import { xU } from "../ventoseUtils";
 import { diff } from "jsondiffpatch";
@@ -121,6 +127,7 @@ export const xItem = defineComponent({
 	emits: ["update:modelValue"],
 	setup(props, { attrs, slots, emit, expose }) {
 		let Cpt_isShowXItem: any = true;
+		let Cpt_isReadonly: any = false;
 		let Cpt_isDisabled: any = false;
 		let Cpt_label: any = "";
 
@@ -138,6 +145,12 @@ export const xItem = defineComponent({
 		} else if (xU.isBoolean(props.configs.disabled)) {
 			Cpt_isDisabled = computed(() => props.configs.disabled);
 		}
+		/*isReadonly*/
+		if (xU.isFunction(props.configs.isReadonly)) {
+			Cpt_isReadonly = computed(props.configs.isReadonly);
+		} else if (xU.isBoolean(props.configs.isReadonly)) {
+			Cpt_isReadonly = computed(() => props.configs.isReadonly);
+		}
 
 		/*label*/
 		if (xU.isFunction(props.configs.label)) {
@@ -150,6 +163,7 @@ export const xItem = defineComponent({
 		return {
 			Cpt_isShowXItem,
 			Cpt_isDisabled,
+			Cpt_isReadonly,
 			Cpt_label
 		};
 	},
@@ -305,8 +319,12 @@ export const xItem = defineComponent({
 				}
 				return this.configs.itemType;
 			}
-			/* String */
-			return renders[this.configs.itemType] || renders.Input;
+			let item = renders[this.configs.itemType];
+			if (item) {
+				return item;
+			}
+			item = resolveComponent(this.configs.itemType);
+			return item || renders.Input;
 		},
 		itemTypeName() {
 			if (xU.isString(this.configs.itemType)) {
@@ -516,6 +534,7 @@ export const xItem = defineComponent({
 			CurrentXItem,
 			properties,
 			Cpt_isDisabled,
+			Cpt_isReadonly,
 			propsWillDeleteFromConfigs,
 			itemTypeName,
 			xItem_id
@@ -529,14 +548,15 @@ export const xItem = defineComponent({
 				{/* 控件 */}
 				<div class="x-form-item-control" data-x-item-type={itemTypeName}>
 					<CurrentXItem
+						v-model={this.privateValue}
 						data-current-item-label={properties.label}
 						data-current-item-prop={properties.prop}
 						data-current-item-type={itemTypeName}
 						propsWillDeleteFromConfigs={propsWillDeleteFromConfigs}
 						properties={{
 							...properties,
-							value: this.privateValue,
-							disabled: Cpt_isDisabled
+							disabled: Cpt_isDisabled,
+							isReadonly: Cpt_isReadonly
 						}}
 						listeners={this.listeners}
 						slots={this.itemSlots}

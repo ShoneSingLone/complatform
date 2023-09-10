@@ -3,13 +3,15 @@ import { stateApp } from "@/state/app";
 import { aHashLink, cptRouter } from "@/router/router";
 import { xI, xScope, xU } from "@/ventose/ui";
 import { ProjectSettingCommon } from "./ProjectSettingCommon";
+import { ProjectRequestCode } from "./ProjectRequestCode";
 import {
 	OPEN_BLANK,
 	TAB_KEY_GROUP_WIKI,
 	TAB_KEY_PROJECT_AUTH,
 	TAB_KEY_PROJECT_CONFIGS,
 	TAB_KEY_PROJECT_MOCK,
-	TAB_KEY_PROJECT_REQUEST
+	TAB_KEY_PROJECT_REQUEST,
+	TAB_KEY_PROJECT_REQUEST_CODE
 } from "@/utils/variable";
 
 export const ProjectSetting = defineComponent({
@@ -34,7 +36,8 @@ export const ProjectSetting = defineComponent({
 				TAB_KEY_PROJECT_CONFIGS,
 				TAB_KEY_PROJECT_REQUEST,
 				TAB_KEY_PROJECT_AUTH,
-				TAB_KEY_PROJECT_MOCK
+				TAB_KEY_PROJECT_MOCK,
+				TAB_KEY_PROJECT_REQUEST_CODE
 			];
 
 			return (
@@ -56,6 +59,25 @@ export const ProjectSetting = defineComponent({
 			);
 		});
 
+		var vDomProjectConfigs = computed(() => {
+			if (
+				cptRouter.value.query.project_setting_tab !== TAB_KEY_PROJECT_CONFIGS
+			) {
+				return null;
+			}
+			return <ProjectSettingCommon />;
+		});
+
+		var vDomTabKeyProjectRequestCode = computed(() => {
+			if (
+				cptRouter.value.query.project_setting_tab !==
+				TAB_KEY_PROJECT_REQUEST_CODE
+			) {
+				return null;
+			}
+			return <ProjectRequestCode />;
+		});
+
 		onMounted(() => {
 			if (!cptRouter.value.query.project_setting_tab) {
 				cptRouter.value.query.project_setting_tab = TAB_KEY_PROJECT_CONFIGS;
@@ -64,13 +86,13 @@ export const ProjectSetting = defineComponent({
 
 		return function () {
 			return (
-				<section class="view-main-section box-shadow flex1">
-					{vDomSwitchPanel.value}
-					{/* {vDomTabProjectList.value}
-					{vDomTabMember.value}
-					{vDomTabGroupLog.value}
-					{vDomTabGroupWiki.value} */}
-				</section>
+				<div class="padding flex1 width100 flex">
+					<section class="view-main-section box-shadow flex1">
+						{vDomSwitchPanel.value}
+						{vDomProjectConfigs.value}
+						{vDomTabKeyProjectRequestCode.value}
+					</section>
+				</div>
 			);
 		};
 	}

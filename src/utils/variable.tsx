@@ -13,6 +13,7 @@ export const TAB_KEY_PROJECT_CONFIGS = xI("项目配置");
 export const TAB_KEY_PROJECT_REQUEST = xI("请求配置");
 export const TAB_KEY_PROJECT_AUTH = xI("token配置");
 export const TAB_KEY_PROJECT_MOCK = xI("全局mock脚本");
+export const TAB_KEY_PROJECT_REQUEST_CODE = xI("请求代码模板");
 
 export const TAB_KEY_ARRAY = [
 	TAB_KEY_PROJECT_LIST,

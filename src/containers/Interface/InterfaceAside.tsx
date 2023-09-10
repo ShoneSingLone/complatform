@@ -170,9 +170,10 @@ export const InterfaceAside = defineComponent({
 						<div
 							class="left-tree box-shadow"
 							v-element-size={({ height }) => (vm.siderHeight = height)}>
-							<ElScrollbar height={vm.siderHeight} class="flex1">
-								<ElTree
+							<elScrollbar height={vm.siderHeight} class="flex1">
+								<elTree
 									height={vm.siderHeight}
+									default-expand-all
 									defaultExpandedKeys={stateInterface.expandedKeys}
 									data={cpt_treeData.value}
 									onNodeDragEnd={vm._handleDropInterface}
@@ -343,7 +344,7 @@ export const InterfaceAside = defineComponent({
 										}
 									}}
 								/>
-							</ElScrollbar>
+							</elScrollbar>
 						</div>
 					</div>
 					<div class="resize_bar" icon="scroll" v-uiMove={vm.configsResize} />

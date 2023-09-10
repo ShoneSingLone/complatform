@@ -38,7 +38,7 @@ export type t_itemConfigs =
 			/* 默认值 */
 			defaultValue?: any;
 			max?: number;
-			isReadonly?: boolean;
+			isReadonly?: boolean | Function;
 			isPassword?: boolean;
 			isNumber?: boolean;
 			isTextarea?: boolean;

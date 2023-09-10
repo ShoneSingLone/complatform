@@ -12,6 +12,7 @@ const DISPLAY_NONE = "...";
  * 如果是"" cell不会显示
  */
 export const xInfoCardItem = defineComponent({
+	name: "xInfoCardItem",
 	props: ["item", "unitWidth", "span"],
 	setup(props) {
 		var labelStyle = computed(() => {
@@ -72,6 +73,7 @@ export const xInfoCardItem = defineComponent({
 });
 
 export const xInfoCard = defineComponent({
+	name: "xInfoCard",
 	props: ["configs"],
 	setup(props) {
 		var vm = {
