@@ -13,10 +13,7 @@ export const ProjectRequestCode = defineComponent({
 			const vm = this;
 			return (
 				<div class="flex flex1 vertical">
-					<MonacoEditor
-						language="javascript"
-						v-model:code={state.ProjectRequestCode}
-					/>
+					<monacoEditor v-model:code={state.ProjectRequestCode} />
 					<div class="flex center middle">
 						<xButton
 							configs={{
