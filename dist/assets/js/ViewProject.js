@@ -1,4 +1,4 @@
-import { d as defineComponent, s as stateApp, c as cptRouter, x as xI, a as defItem, w as withDirectives, j as resolveDirective, f as createVNode, r as resolveComponent, i as itemsInvalid, b as API, e as xU, F as Fragment, aw as reactive, m as xScope, aA as computed, ap as onMounted, aB as TAB_KEY_PROJECT_CONFIGS, aC as TAB_KEY_PROJECT_REQUEST_CODE, g as isVNode, aD as TAB_KEY_PROJECT_REQUEST, aE as TAB_KEY_PROJECT_AUTH, aF as TAB_KEY_PROJECT_MOCK, ae as stateInterface, aG as TAB_KEY_INTERFACE, aH as TAB_KEY_PROJECT_SETTING, au as OPEN_BLANK, aI as TAB_KEY_PROJECT_WIKI, K as aHashLink, P as PROJECT } from "./index.js";
+import { d as defineComponent, s as stateApp, c as cptRouter, x as xI, a as defItem, w as withDirectives, j as resolveDirective, f as createVNode, r as resolveComponent, i as itemsInvalid, b as API, e as xU, F as Fragment, aw as reactive, aA as computed, m as xScope, ap as onMounted, aB as TAB_KEY_PROJECT_CONFIGS, aC as TAB_KEY_PROJECT_REQUEST_CODE, g as isVNode, aD as TAB_KEY_PROJECT_REQUEST, aE as TAB_KEY_PROJECT_AUTH, aF as TAB_KEY_PROJECT_MOCK, ae as stateInterface, aG as TAB_KEY_INTERFACE, aH as TAB_KEY_PROJECT_SETTING, au as OPEN_BLANK, aI as TAB_KEY_PROJECT_WIKI, K as aHashLink, P as PROJECT } from "./index.js";
 import { ViewWiki } from "./ViewWiki.js";
 import { o as openUpsertTagDialog, a as openProxyEnvDialog, V as ViewInterface } from "./ViewInterface.js";
 import { x as xItem_ProjectGroupId, a as xItem_ProjectName, b as xItem_ProjectIcon, c as xItem_ProjectColor, d as xItem_ProjectBasePath, e as xItem_ProjectDesc, f as xItem_ProjectType } from "./TuiEditor.js";
@@ -179,13 +179,43 @@ const ProjectRequestCode = defineComponent({
     const state = reactive({
       ProjectRequestCode: stateApp.currProject.requestCode
     });
+    const genCodeFn = function(ProjectRequestCode2) {
+      try {
+        const requestCode = new Function("params", `return (${ProjectRequestCode2})(params)`);
+        return requestCode({
+          title: "TitleDemo",
+          path: "/path_demo",
+          method: "GET",
+          projectId: "projectId_demo",
+          interfaceId: "interfaceId_demo",
+          xU
+        });
+      } catch (error) {
+        return error.message;
+      }
+    };
+    const cpt_code = computed(() => {
+      return genCodeFn(state.ProjectRequestCode);
+    });
     return function() {
       return createVNode("div", {
         "class": "flex flex1 vertical"
+      }, [createVNode("div", {
+        "class": "flex flex1 box-shadow mt mb "
+      }, [createVNode("div", {
+        "class": "flex flex1 vertical",
+        "style": "width:40%;"
       }, [createVNode(resolveComponent("monacoEditor"), {
         "code": state.ProjectRequestCode,
         "onUpdate:code": ($event) => state.ProjectRequestCode = $event
-      }, null), createVNode("div", {
+      }, null)]), createVNode(resolveComponent("xGap"), {
+        "l": true
+      }, null), createVNode("pre", {
+        "class": "flex1",
+        "style": "width:40%;"
+      }, [createVNode(resolveComponent("mkit"), {
+        "md": cpt_code.value
+      }, null)])]), createVNode("div", {
         "class": "flex center middle"
       }, [createVNode(resolveComponent("xButton"), {
         "configs": {

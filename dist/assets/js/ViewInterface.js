@@ -1770,25 +1770,33 @@ const InterfaceMain = defineComponent({
       return interfaceForShow;
     });
     return function() {
-      let _slot6, _slot7;
+      let _slot6, _slot7, _slot8;
       return createVNode("div", {
         "id": "ViewInterfaceList"
       }, [createVNode("div", {
         "class": "Operation mb10 flex end middle"
-      }, [createVNode(resolveComponent("xButton"), {
-        "class": "mr4",
-        "configs": vm.$btnChangeStatus
-      }, null), createVNode(resolveComponent("xButton"), {
-        "class": "mr4",
-        "configs": vm.$btnChangeProxy
-      }, null), createVNode(resolveComponent("xButton"), {
-        "class": "mr4"
-      }, _isSlot$2(_slot6 = xI("\u6DFB\u52A0Tag")) ? _slot6 : {
-        default: () => [_slot6]
-      }), createVNode(resolveComponent("xButton"), {
-        "class": "mr4"
-      }, _isSlot$2(_slot7 = xI("\u79FB\u9664Tag")) ? _slot7 : {
-        default: () => [_slot7]
+      }, [createVNode(resolveComponent("el-button-group"), {
+        "class": "ml-4"
+      }, {
+        default: () => [createVNode(resolveComponent("xButton"), {
+          "class": "mr4",
+          "configs": vm.$btnChangeStatus
+        }, null), createVNode(resolveComponent("xButton"), {
+          "class": "mr4",
+          "configs": vm.$btnChangeProxy
+        }, null), createVNode(resolveComponent("xButton"), {
+          "class": "mr4"
+        }, _isSlot$2(_slot6 = xI("\u8DEF\u5F84\u66FF\u6362")) ? _slot6 : {
+          default: () => [_slot6]
+        }), createVNode(resolveComponent("xButton"), {
+          "class": "mr4"
+        }, _isSlot$2(_slot7 = xI("\u6DFB\u52A0Tag")) ? _slot7 : {
+          default: () => [_slot7]
+        }), createVNode(resolveComponent("xButton"), {
+          "class": "mr4"
+        }, _isSlot$2(_slot8 = xI("\u79FB\u9664Tag")) ? _slot8 : {
+          default: () => [_slot8]
+        })]
       })]), createVNode("div", {
         "class": "flex1 el-card"
       }, [createVNode(resolveComponent("el-auto-resizer"), null, {
