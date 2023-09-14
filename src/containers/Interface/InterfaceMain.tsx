@@ -79,12 +79,12 @@ export const InterfaceMain = defineComponent({
 				fixed: true,
 				headerCellRenderer(_props) {
 					const isChecked =
-						stateInterface.allInterface.length > 0 &&
-						vm.selected.size === stateInterface.allInterface.length;
+						cptInterfaceRowData.value.length > 0 &&
+						vm.selected.size === cptInterfaceRowData.value.length;
 
 					const isIndeterminate =
 						vm.selected.size > 0 &&
-						vm.selected.size < stateInterface.allInterface.length;
+						vm.selected.size < cptInterfaceRowData.value.length;
 
 					return (
 						<div class="flex center width100">
@@ -92,9 +92,9 @@ export const InterfaceMain = defineComponent({
 								indeterminate={isIndeterminate}
 								model-value={isChecked}
 								onChange={() => {
-									if (vm.selected.size < stateInterface.allInterface.length) {
+									if (vm.selected.size < cptInterfaceRowData.value.length) {
 										vm.selected = new Set(
-											xU.map(stateInterface.allInterface, i => i._id)
+											xU.map(cptInterfaceRowData.value, i => i._id)
 										);
 									} else {
 										vm.selected = new Set();
@@ -372,6 +372,15 @@ export const InterfaceMain = defineComponent({
 		const cptInterfaceRowData = computed(() => {
 			const { allInterface } = stateInterface;
 			let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
+
+			/* 指明具体分类时，不显示其他分类的接口 */
+			if (cptRouter.value.query.interface_type === CATEGORY) {
+				const { category_id } = cptRouter.value.query;
+				interfaceForShow = xU.filter(interfaceForShow, i =>
+					xU.isSame(category_id, i.catid)
+				);
+			}
+
 			let paramKeys = Object.keys(vm.filter);
 			let prop = paramKeys.pop();
 			while (prop) {

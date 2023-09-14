@@ -91664,12 +91664,19 @@ const MonacoEditor = defineAsyncComponent(() => new Promise(async (resolve2) => 
       }
     },
     render() {
-      return createVNode("div", {
+      return createVNode(Fragment, null, [createVNode("div", {
+        "class": "flex middle end"
+      }, [createVNode(resolveComponent("xButton"), {
+        "onClick": () => this.formatDocument(),
+        "type": "text"
+      }, {
+        default: () => [createTextVNode("\u683C\u5F0F\u5316")]
+      })]), createVNode("div", {
         "id": this.id,
         "ref": "container",
         "class": "flex1",
         "style": "height:100%;width:100%"
-      }, null);
+      }, null)]);
     }
   }));
 }));

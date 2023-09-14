@@ -27,6 +27,14 @@ export const BreadcrumbNavigation = defineComponent({
 							group_id: cptRouter.value.query.group_id,
 							project_id: cptRouter.value.query.project_id
 						})
+					},
+					{
+						label: stateApp.currProject.name,
+						id: cptRouter.value.query.project_id,
+						url: aHashLink("/project", {
+							group_id: cptRouter.value.query.group_id,
+							project_id: cptRouter.value.query.project_id
+						})
 					}
 				],
 				(item, index) => {

@@ -182,8 +182,7 @@ const ProjectRequestCode = defineComponent({
     return function() {
       return createVNode("div", {
         "class": "flex flex1 vertical"
-      }, [createVNode(resolveComponent("MonacoEditor"), {
-        "language": "javascript",
+      }, [createVNode(resolveComponent("monacoEditor"), {
         "code": state.ProjectRequestCode,
         "onUpdate:code": ($event) => state.ProjectRequestCode = $event
       }, null), createVNode("div", {
