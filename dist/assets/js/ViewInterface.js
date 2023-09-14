@@ -1416,16 +1416,16 @@ const InterfaceMain = defineComponent({
         width: 48,
         fixed: true,
         headerCellRenderer(_props) {
-          const isChecked = stateInterface.allInterface.length > 0 && vm.selected.size === stateInterface.allInterface.length;
-          const isIndeterminate = vm.selected.size > 0 && vm.selected.size < stateInterface.allInterface.length;
+          const isChecked = cptInterfaceRowData.value.length > 0 && vm.selected.size === cptInterfaceRowData.value.length;
+          const isIndeterminate = vm.selected.size > 0 && vm.selected.size < cptInterfaceRowData.value.length;
           return createVNode("div", {
             "class": "flex center width100"
           }, [createVNode(resolveComponent("el-checkbox"), {
             "indeterminate": isIndeterminate,
             "model-value": isChecked,
             "onChange": () => {
-              if (vm.selected.size < stateInterface.allInterface.length) {
-                vm.selected = new Set(xU.map(stateInterface.allInterface, (i) => i._id));
+              if (vm.selected.size < cptInterfaceRowData.value.length) {
+                vm.selected = new Set(xU.map(cptInterfaceRowData.value, (i) => i._id));
               } else {
                 vm.selected = /* @__PURE__ */ new Set();
               }
@@ -1729,6 +1729,12 @@ const InterfaceMain = defineComponent({
         allInterface
       } = stateInterface;
       let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
+      if (cptRouter.value.query.interface_type === CATEGORY) {
+        const {
+          category_id
+        } = cptRouter.value.query;
+        interfaceForShow = xU.filter(interfaceForShow, (i) => xU.isSame(category_id, i.catid));
+      }
       let paramKeys = Object.keys(vm.filter);
       let prop = paramKeys.pop();
       while (prop) {

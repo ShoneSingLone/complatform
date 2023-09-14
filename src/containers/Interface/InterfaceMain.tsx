@@ -420,10 +420,13 @@ export const InterfaceMain = defineComponent({
 			return (
 				<div id="ViewInterfaceList">
 					<div class="Operation mb10 flex end middle">
-						<xButton class="mr4" configs={vm.$btnChangeStatus} />
-						<xButton class="mr4" configs={vm.$btnChangeProxy} />
-						<xButton class="mr4">{xI("添加Tag")}</xButton>
-						<xButton class="mr4">{xI("移除Tag")}</xButton>
+						<el-button-group class="ml-4">
+							<xButton class="mr4" configs={vm.$btnChangeStatus} />
+							<xButton class="mr4" configs={vm.$btnChangeProxy} />
+							<xButton class="mr4">{xI("路径替换")}</xButton>
+							<xButton class="mr4">{xI("添加Tag")}</xButton>
+							<xButton class="mr4">{xI("移除Tag")}</xButton>
+						</el-button-group>
 					</div>
 					<div class="flex1 el-card">
 						<el-auto-resizer
