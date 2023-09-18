@@ -8,8 +8,9 @@ import {
 	dialogInterfaceProxyModify,
 	dialogInterfaceStatusModify
 } from "./DialogModifyInterface.Helper";
-import { cptRouter } from "@/router/router";
-import { ALL, CATEGORY } from "@/utils/variable";
+import { aHashLink, cptRouter } from "@/router/router";
+import { ALL, CATEGORY, INTERFACE } from "@/utils/variable";
+import { PerformanceCell } from "@/components/PerformanceCell";
 
 function titleStyle(isLink: boolean) {
 	return {
@@ -172,6 +173,18 @@ export const InterfaceMain = defineComponent({
 						onReset: vm._onReset
 					});
 					return vDom;
+				},
+				cellRenderer({ cellData, rowData }) {
+					return (
+						<a
+							href={aHashLink("/project", {
+								...cptRouter.value.query,
+								interface_type: INTERFACE,
+								interface_id: rowData._id
+							})}>
+							{cellData}
+						</a>
+					);
 				}
 			};
 
