@@ -160,7 +160,7 @@ export const InterfaceMain = defineComponent({
 				dataKey: "title",
 				key: "title",
 				title: xI("接口名称"),
-				width: 150,
+				width: 300,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -336,6 +336,38 @@ export const InterfaceMain = defineComponent({
 				}
 			};
 
+			const maintainer = {
+				dataKey: "tag",
+				key: "tag",
+				title: xI("维护人"),
+				width: 150,
+				minWidth: 150,
+				headerCellRenderer(_props) {
+					const { vDom } = useColHeader({
+						title: _props.column.title,
+						prop: "tag",
+						style: titleStyle(vm.filter.tag.length > 0),
+						width: 450,
+						controller: (
+							<el-checkbox-group v-model={vm.conditions.tag}>
+								{xU.map(stateInterface.allTags, i => {
+									return (
+										<div>
+											<el-checkbox label={i} />
+										</div>
+									);
+								})}
+							</el-checkbox-group>
+						),
+						onFilter: vm._onFilter,
+						onReset: vm._onReset
+					});
+					return vDom;
+				},
+				cellRenderer: ({ rowData }) => (
+					<div class="flex center width100">{rowData.uid}</div>
+				)
+			};
 			const tag = {
 				dataKey: "tag",
 				key: "tag",
@@ -372,11 +404,30 @@ export const InterfaceMain = defineComponent({
 			};
 
 			if (cptRouter.value.query.interface_type === ALL) {
-				return [checkbox, catid, title, method, path, status, isProxy, tag];
+				return [
+					checkbox,
+					catid,
+					title,
+					method,
+					path,
+					status,
+					maintainer,
+					isProxy,
+					tag
+				];
 			}
 
 			if (cptRouter.value.query.interface_type === CATEGORY) {
-				return [checkbox, title, method, path, status, isProxy, tag];
+				return [
+					checkbox,
+					title,
+					method,
+					path,
+					status,
+					maintainer,
+					isProxy,
+					tag
+				];
 			}
 
 			return [];

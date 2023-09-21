@@ -430,8 +430,8 @@ export const InterfaceDetail = defineComponent({
 			}
 			xU(stateApp.currGroup, stateApp.currProject, vm.detailInfo);
 			return (
-				<xView style="overflow:hidden;">
-					<div class="flex">
+				<xView style="overflow:auto;">
+					<div class="flex end width100">
 						<xButton onClick={vm._showModifyInterfaceDialog}>修改</xButton>
 						<xGap f="1" />
 					</div>

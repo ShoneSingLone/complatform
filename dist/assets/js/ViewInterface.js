@@ -1,4 +1,4 @@
-import { d as defineComponent, s as stateApp, a as defItem, i as itemsInvalid, ae as stateInterface, e as xU, x as xI, b as API, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, N as markRaw, c as cptRouter, aJ as INTERFACE, aK as _$arrayChangeIndex, m as xScope, ap as onMounted, aL as ALL, w as withDirectives, j as resolveDirective, aM as cpt_treeData, aN as CATEGORY, aO as ref, t as createTextVNode, aA as computed, _ as _$handlePath, a2 as HTTP_METHOD, W as defDataGrid, R as defCol, $, aP as copyToClipboard, aQ as makeAhref, a9 as lStorage, n as watch, X as MonacoEditor, ag as getAvatarSrcByid } from "./index.js";
+import { d as defineComponent, s as stateApp, a as defItem, i as itemsInvalid, ae as stateInterface, e as xU, x as xI, b as API, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, N as markRaw, c as cptRouter, aJ as INTERFACE, aK as _$arrayChangeIndex, m as xScope, ap as onMounted, aL as ALL, w as withDirectives, j as resolveDirective, aM as cpt_treeData, aN as CATEGORY, aO as ref, t as createTextVNode, aA as computed, K as aHashLink, _ as _$handlePath, a2 as HTTP_METHOD, W as defDataGrid, R as defCol, $, aP as copyToClipboard, aQ as makeAhref, a9 as lStorage, n as watch, X as MonacoEditor, ag as getAvatarSrcByid } from "./index.js";
 import { F as FormRules, s as setValueTo, p as pickValueFrom } from "./common.FormRules.js";
 import { I as ITEM_OPTIONS, a as ITEM_OPTIONS_VDOM } from "./common.options.js";
 import { o as orderAsc, R as RequestArgsPanel, T as TuiEditor, g as ResponsePanel, h as DialogUpsertProxyEnv, i as colParamsName, j as colRemark, k as colRequired, m as colValue, n as colExample, p as colType, J as JsonSchemaMonaco } from "./TuiEditor.js";
@@ -1508,6 +1508,18 @@ const InterfaceMain = defineComponent({
             onReset: vm._onReset
           });
           return vDom;
+        },
+        cellRenderer({
+          cellData,
+          rowData
+        }) {
+          return createVNode("a", {
+            "href": aHashLink("/project", {
+              ...cptRouter.value.query,
+              interface_type: INTERFACE,
+              interface_id: rowData._id
+            })
+          }, [cellData]);
         }
       };
       const method = {
