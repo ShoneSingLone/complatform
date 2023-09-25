@@ -34,10 +34,8 @@ export default defineComponent({
 	flex: 1;
 	padding: var(--app-padding);
 	flex-flow: column nowrap;
-	outline: 1px solid red;
 
 	.xView-body {
-
 	}
 }
 </style>

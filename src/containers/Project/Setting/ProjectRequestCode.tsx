@@ -42,7 +42,7 @@ export const ProjectRequestCode = defineComponent({
 						<div class="flex flex1 vertical" style="width:40%;">
 							<monacoEditor v-model:code={state.ProjectRequestCode} />
 						</div>
-						<xGap l/>
+						<xGap l />
 						<pre class="flex1" style="width:40%;">
 							<mkit md={cpt_code.value} />
 						</pre>

@@ -1,4 +1,3 @@
-import { ElTable } from "element-plus";
 import { computed, defineComponent, onMounted } from "vue";
 import { xU } from "../ventoseUtils";
 import { filterColIsShow, t_dataGridOptions } from "./common";
@@ -11,7 +10,7 @@ export default defineComponent({
 	components: { xPagination },
 	props: ["configs"],
 	setup(props) {
-		var configs: t_dataGridOptions = configs;
+		var configs: t_dataGridOptions = props.configs;
 
 		var vm = { id: xU.genId("xDataGrid") };
 		type t_vm = typeof vm;
@@ -44,7 +43,7 @@ export default defineComponent({
 		});
 
 		const Cpt_VNodePagination = computed(() => {
-			if (configs.isHidePagination) {
+			if (configs?.isHidePagination) {
 				return null;
 			}
 			return (

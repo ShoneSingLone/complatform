@@ -75,7 +75,7 @@ export const xInfoCardItem = defineComponent({
 export const xInfoCard = defineComponent({
 	name: "xInfoCard",
 	props: ["configs"],
-	setup(props) {
+	setup(props, { slots, attrs }) {
 		var vm = {
 			rect: {},
 			unitWidth: 0,
@@ -103,6 +103,10 @@ export const xInfoCard = defineComponent({
 		vm = xScope<t_vm>(vm);
 
 		var cpt_vDomItems = computed(() => {
+			if (slots?.default) {
+				return slots?.default();
+			}
+
 			return map(cpt_layout.value, (layoutRow, index) => {
 				// console.log(layoutRow);
 				return (
@@ -146,28 +150,33 @@ export const xInfoCard = defineComponent({
 			return {};
 		});
 		var cpt_layout = computed(() => {
-			if (props.configs.layout) {
+			if (props.configs?.layout) {
 				return props.configs.layout({ rect: vm.rect });
-			} else {
-				alert("requrie layout");
 			}
 			return [];
 		});
 		var cpt_col = computed(() => {
-			return cpt_layout.value[0].length;
+			return cpt_layout.value?.[0]?.length;
+		});
+		var cpt_title = computed(() => {
+			if (attrs?.title) {
+				return attrs.title;
+			} else {
+				return props.configs.title;
+			}
+		});
+		var cpt_extra = computed(() => {
+			return props?.configs?.extra;
 		});
 
 		return function () {
-			if (!props.configs) {
-				return;
-			}
 			return (
 				<div
 					class="xInfoCard el-descriptions"
 					v-element-size={vm._handleSizeChange}>
 					<div class="el-descriptions__header">
-						<div class="el-descriptions__title">{props.configs.title}</div>
-						<div class="el-descriptions__extra">{props.configs.extra}</div>
+						<div class="el-descriptions__title">{cpt_title.value}</div>
+						<div class="el-descriptions__extra">{cpt_extra.value}</div>
 					</div>
 					{cpt_vDomItems.value}
 				</div>
