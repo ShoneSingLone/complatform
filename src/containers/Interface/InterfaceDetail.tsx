@@ -429,7 +429,6 @@ export const InterfaceDetail = defineComponent({
 			}
 		});
 		const cpt_vNodeHeaders = computed(() => {
-			debugger;
 			if (state.headersParams.dataSource.length) {
 				return (
 					<>

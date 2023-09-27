@@ -156,7 +156,6 @@ export const installVentoseUI = {
 		/*使用svg */
 		xIconUseSvgInit();
 		xU.each(components, (component, name) => {
-			console.log(component.name);
 			if (component.name) {
 				name = component.name;
 			} else {

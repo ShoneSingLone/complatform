@@ -1,5 +1,5 @@
-import { computed, defineComponent } from "vue";
-import { xI, xScope, xU } from "@/ventose/ui";
+import { computed, defineComponent, watch } from "vue";
+import { defDataGrid, xI, xScope, xU } from "@/ventose/ui";
 import { stateInterface } from "@/state/interface";
 import { useColHeader } from "./Interface.helper";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
@@ -21,6 +21,12 @@ function titleStyle(isLink: boolean) {
 export const InterfaceMain = defineComponent({
 	setup(props) {
 		var vm = {
+			dataGrid: defDataGrid({
+				isHidePagination: true,
+				dataSource: {},
+				columns: {},
+				queryTableList: undefined
+			}),
 			selected: new Set(),
 			/* 条件变动触发数据过滤，confirm之后变化 */
 			filter: {
@@ -73,7 +79,7 @@ export const InterfaceMain = defineComponent({
 
 		const cpt_columns = computed(() => {
 			const checkbox = {
-				dataKey: "checkbox",
+				prop: "checkbox",
 				key: "checkbox",
 				title: xI("checkbox"),
 				width: 48,
@@ -125,7 +131,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const catid = {
-				dataKey: "catid",
+				prop: "catid",
 				key: "catid",
 				title: xI("接口分类"),
 				width: 150,
@@ -157,7 +163,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const title = {
-				dataKey: "title",
+				prop: "title",
 				key: "title",
 				title: xI("接口名称"),
 				width: 300,
@@ -189,7 +195,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const method = {
-				dataKey: "method",
+				prop: "method",
 				key: "method",
 				title: xI("请求方法"),
 				width: 100,
@@ -222,7 +228,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const path = {
-				dataKey: "path",
+				prop: "path",
 				key: "path",
 				title: xI("接口路径"),
 				width: 250,
@@ -243,7 +249,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const status = {
-				dataKey: "status",
+				prop: "status",
 				key: "status",
 				title: xI("状态"),
 				width: 150,
@@ -277,7 +283,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const isProxy = {
-				dataKey: "isProxy",
+				prop: "isProxy",
 				key: "isProxy",
 				title: xI("转发"),
 				width: 150,
@@ -337,7 +343,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const maintainer = {
-				dataKey: "tag",
+				prop: "tag",
 				key: "tag",
 				title: xI("维护人"),
 				width: 150,
@@ -369,7 +375,7 @@ export const InterfaceMain = defineComponent({
 				)
 			};
 			const tag = {
-				dataKey: "tag",
+				prop: "tag",
 				key: "tag",
 				title: xI("Tags"),
 				width: 250,
@@ -433,6 +439,14 @@ export const InterfaceMain = defineComponent({
 			return [];
 		});
 
+		watch(
+			() => cpt_columns.value,
+			(columns: any) => {
+				vm.dataGrid.columns = columns;
+			},
+			{ immediate: true }
+		);
+
 		const cptInterfaceRowData = computed(() => {
 			const { allInterface } = stateInterface;
 			let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
@@ -480,6 +494,10 @@ export const InterfaceMain = defineComponent({
 			return interfaceForShow;
 		});
 
+		watch(cptInterfaceRowData, dataSource => {
+			vm.dataGrid.dataSource = dataSource;
+		});
+
 		return function () {
 			return (
 				<div id="ViewInterfaceList">
@@ -493,21 +511,7 @@ export const InterfaceMain = defineComponent({
 						</el-button-group>
 					</div>
 					<div class="flex1 el-card">
-						<el-auto-resizer
-							v-slots={{
-								default({ width, height }) {
-									return (
-										<el-table-v2
-											width={width}
-											height={height}
-											columns={cpt_columns.value}
-											data={cptInterfaceRowData.value}
-											fixed
-										/>
-									);
-								}
-							}}
-						/>
+						<xDataGrid configs={vm.dataGrid} />
 					</div>
 				</div>
 			);
