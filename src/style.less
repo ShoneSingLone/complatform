@@ -164,6 +164,7 @@
 	--app-z-index-framework: 1000;
 	--app-btn-sm-padding: 0 12px;
 	--app-padding: 16px;
+	--app-padding-reverse: -16px;
 	--app-btn-padding: 0 16px;
 	--app-btn-lg-padding: 0 20px;
 	--app-btn-common-bg: #ebebeb;
@@ -604,5 +605,56 @@ em {
 .x-dialog-wrapper {
 	.el-card.is-always-shadow {
 		box-shadow: unset;
+	}
+}
+
+.interface-detail-wrapper {
+	// margin-left: var(--app-padding-reverse);
+}
+
+.xDataGrid {
+	position: relative;
+	.xDataGrid_mask {
+		position: absolute;
+		display: none;
+		&.active {
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background-color: transparent;
+			opacity: 0.5;
+			z-index: 1;
+			&:hover {
+				cursor: col-resize;
+			}
+			.xDataGrid_mask-line {
+				position: absolute;
+				top: 0;
+				width: 1px;
+				border-left: 1px dashed gray;
+				bottom: 0;
+				left: 0;
+			}
+		}
+	}
+}
+
+.el-table-v2__header-cell {
+	// outline: 1px solid blue;
+	position: relative;
+
+	&::after {
+		position: absolute;
+		content: " ";
+		right: 0;
+		height: 100%;
+		width: 2px;
+		top: 0;
+		bottom: 0;
+		// background-color: red;
+		cursor: col-resize;
 	}
 }

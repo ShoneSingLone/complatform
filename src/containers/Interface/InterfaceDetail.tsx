@@ -1,17 +1,8 @@
 import { computed, defineComponent, watch } from "vue";
-import {
-	$,
-	xU,
-	defCol,
-	defDataGrid,
-	stateUI,
-	xI,
-	lStorage,
-	xScope
-} from "@/ventose/ui";
+import { $, xU, defCol, defDataGrid, xI, lStorage, xScope } from "@/ventose/ui";
 import { API } from "@/api";
 import { cptRouter } from "@/router/router";
-import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
+import { ITEM_OPTIONS_VDOM } from "@/utils/common.options";
 import { stateApp } from "@/state/app";
 import { DialogModifyInterface } from "./DialogModifyInterface";
 import { makeAhref } from "@/components/RouterView/RouterView";
@@ -19,7 +10,6 @@ import * as copyToClipboard from "copy-to-clipboard";
 import { TuiEditor } from "@/components/TuiEditor/TuiEditor";
 import { JsonSchemaMonaco } from "@/components/JsonSchemaEditor/JsonSchemaMonaco";
 import { MonacoEditor } from "@/components/MonacoEditor/MonacoEditor";
-import { stateInterface } from "@/state/interface";
 import { socket, newWsPayload } from "@/utils/ws";
 import {
 	colParamsName,
@@ -34,7 +24,7 @@ import { getAvatarSrcByid } from "@/utils/common";
 
 export const InterfaceDetail = defineComponent({
 	setup() {
-		var vm = {
+		var state = {
 			WebSocket: null,
 			detailInfo: false,
 			/* 路径参数 */
@@ -102,24 +92,24 @@ export const InterfaceDetail = defineComponent({
 				const { data } = await API.project.fetchInterfaceDetail(
 					cptRouter.value.query.interface_id
 				);
-				vm.detailInfo = data;
+				state.detailInfo = data;
 				xU(data);
-				vm.headersParams.dataSource = xU.orderBy(
+				state.headersParams.dataSource = xU.orderBy(
 					data.req_headers,
 					["required"],
 					["desc"]
 				);
-				vm.pathParams.dataSource = xU.orderBy(
+				state.pathParams.dataSource = xU.orderBy(
 					data.req_params,
 					["required"],
 					["desc"]
 				);
-				vm.queryParams.dataSource = xU.orderBy(
+				state.queryParams.dataSource = xU.orderBy(
 					data.req_query,
 					["required", "type"],
 					["desc", "asc"]
 				);
-				vm.bodyFormParams.dataSource = xU.orderBy(
+				state.bodyFormParams.dataSource = xU.orderBy(
 					data.req_body_form,
 					["required", "type"],
 					["desc", "asc"]
@@ -142,20 +132,19 @@ export const InterfaceDetail = defineComponent({
 				}
 			},
 			_closeWS() {
-				vm.WebSocket && vm.WebSocket.close();
-				delete vm.WebSocket;
+				state.WebSocket && state.WebSocket.close();
+				delete state.WebSocket;
 			},
 			async _showModifyInterfaceDialog() {
-				const vm = this;
-				await xU.ensureValueDone(() => vm.detailInfo);
-				const item = vm.detailInfo;
+				await xU.ensureValueDone(() => state.detailInfo);
+				const item = state.detailInfo;
 				const $dialogModifyInterface = $(`.dialog-modify-interface`);
 
 				if ($dialogModifyInterface.length > 0) {
 					xU.message.warn(xI("已存在修改面板"));
 					return;
 				}
-				const { status, curdata, message } = await vm._checkConflict(item);
+				const { status, curdata, message } = await state._checkConflict(item);
 
 				if (status == 2) {
 					try {
@@ -172,7 +161,7 @@ export const InterfaceDetail = defineComponent({
 					} catch (error) {
 						console.error(error);
 					} finally {
-						vm._closeWS();
+						state._closeWS();
 					}
 					return;
 				}
@@ -187,8 +176,8 @@ export const InterfaceDetail = defineComponent({
 					area: ["1024px", "624px"],
 					interfaceId: item._id,
 					maxmin: true,
-					_updateInterfaceInfo: vm._updateInterfaceInfo,
-					onBeforeClose: vm._closeWS()
+					_updateInterfaceInfo: state._updateInterfaceInfo,
+					onBeforeClose: state._closeWS()
 				});
 			},
 			async _checkConflict() {
@@ -213,16 +202,14 @@ export const InterfaceDetail = defineComponent({
 				});
 			}
 		};
-
-		type t_vm = typeof vm;
-
-		vm = xScope<t_vm>(vm);
+		type t_vm = typeof state;
+		state = xScope<t_vm>(state);
 
 		var cpt_labelProxyEnv = computed(() => {
-			if (!vm.detailInfo.isProxy) {
+			if (!state.detailInfo.isProxy) {
 				return "Y-api Mock 数据";
 			}
-			const envId = vm.detailInfo.witchEnv;
+			const envId = state.detailInfo.witchEnv;
 			if (!envId) {
 				return "任意";
 			}
@@ -243,14 +230,11 @@ export const InterfaceDetail = defineComponent({
 		});
 
 		var cpt_ajaxCode = computed(() => {
-			const { title, path, method } = vm.detailInfo;
+			const { title, path, method } = state.detailInfo;
 			const projectId = stateApp.currProject._id;
 			const interfaceId = cptRouter.value.query.interface_id;
 
-			const requestCode = new Function(
-				"params",
-				`return (${stateApp.currProject.requestCode})(params)`
-			);
+			const requestCode = stateApp._returnRequestCode();
 
 			return requestCode({
 				title,
@@ -270,6 +254,11 @@ export const InterfaceDetail = defineComponent({
 					ref="ajaxCode"
 					id="interfaceDetailAjaxCode">
 					<Mkit md={cpt_ajaxCode.value} />
+					<xButton
+						onClick={() => state._copyAjaxCode()}
+						style="position:absolute;right:16px;top:16px;">
+						{xI("复制代码")}
+					</xButton>
 					{/* <MonacoEditor code={vm.ajaxCode} style={{ minHeight: 180 }} readOnly={true} /> */}
 				</div>
 			);
@@ -280,7 +269,7 @@ export const InterfaceDetail = defineComponent({
 			const { protocol, hostname, port } = location;
 			return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${
 				stateApp.currProject._id
-			}${stateApp.currProject.basepath}${vm.detailInfo.path}`;
+			}${stateApp.currProject?.basepath}${state.detailInfo.path}`;
 		});
 
 		var cpt_interfaceInfo = computed(() => {
@@ -294,7 +283,7 @@ export const InterfaceDetail = defineComponent({
 				method,
 				isProxy,
 				custom_field_value
-			}: any = vm.detailInfo || {};
+			}: any = state.detailInfo || {};
 
 			return {
 				title: <span>{xI("基本信息")}</span>,
@@ -302,7 +291,7 @@ export const InterfaceDetail = defineComponent({
 				items: {
 					title: {
 						label: "接口名称",
-						content: () => vm.detailInfo?.title
+						content: () => state.detailInfo?.title
 					},
 					username: {
 						label: "维护人",
@@ -336,7 +325,7 @@ export const InterfaceDetail = defineComponent({
 									</span>
 								</CopyContent>
 								<div class="flex middle width100 mt10 ">
-									{vm._flagMsg(
+									{state._flagMsg(
 										stateApp.currProject.isMockOpen,
 										stateApp.currProject.strice
 									)}
@@ -344,7 +333,7 @@ export const InterfaceDetail = defineComponent({
 										<span class="href">{cpt_vDomMockHref.value}</span>
 									</CopyContent>
 									<xGap f="1" />
-									<xButton type="primary" onClick={vm._runPostman}>
+									<xButton type="primary" onClick={state._runPostman}>
 										{xI("运行")}
 									</xButton>
 								</div>
@@ -371,9 +360,6 @@ export const InterfaceDetail = defineComponent({
 					ajaxCode: {
 						label: (
 							<div class="flex middle">
-								<xButton onClick={() => vm._copyAjaxCode()}>
-									{xI("复制代码")}
-								</xButton>
 								<span class="flex1">{xI("ajax代码")}</span>
 							</div>
 						),
@@ -416,122 +402,182 @@ export const InterfaceDetail = defineComponent({
 			};
 		});
 
+		const cpt_vNodeDesc = computed(() => {
+			if (state.detailInfo.desc) {
+				const modelValue = { md: state.detailInfo.markdown };
+				return (
+					<>
+						<xGap t="20" />
+						<xInfoCard title={xI("备注")}>
+							<TuiEditor v-model={modelValue} isReadonly={true} />
+						</xInfoCard>
+					</>
+				);
+			}
+		});
+
+		const cpt_vNodePath = computed(() => {
+			if (state.pathParams.dataSource.length) {
+				return (
+					<elCard header={xI("路径参数")}>
+						<xDataGrid configs={state.pathParams} />
+					</elCard>
+				);
+			}
+		});
+		const cpt_vNodeHeaders = computed(() => {
+			if (state.headersParams.dataSource.length) {
+				return (
+					<>
+						<xGap t />
+						<elCard header={xI("Headers")}>
+							<xDataGrid configs={state.headersParams} />
+						</elCard>
+					</>
+				);
+			}
+		});
+		const cpt_vNodeQuery = computed(() => {
+			if (state.queryParams.dataSource.length) {
+				return (
+					<>
+						<xGap t />
+						<elCard header={xI("Query")}>
+							<xDataGrid configs={state.queryParams} />
+						</elCard>
+					</>
+				);
+			}
+		});
+		const cpt_vNodeReq = computed(() => {
+			if (state.queryParams.dataSource.length) {
+				if (state.detailInfo.req_body_type == "form") {
+					if (state.bodyFormParams.dataSource.length) {
+						return (
+							<>
+								<xGap t />
+								<elCard header={xI("Body")}>
+									<xDataGrid configs={state.bodyFormParams} />
+								</elCard>
+							</>
+						);
+					}
+				} else if (state.detailInfo.req_body_type == "json") {
+					if (state.detailInfo.req_body_other) {
+						return (
+							<>
+								<xGap t />
+								<elCard header={xI("Body")}>
+									<JsonSchemaMonaco
+										v-model:schemaString={state.detailInfo.req_body_other}
+										readOnly={true}
+									/>
+								</elCard>
+							</>
+						);
+					}
+				} else if (state.detailInfo.req_body_type == "raw") {
+					if (state.detailInfo.req_body_other) {
+						return (
+							<>
+								<xGap t />
+								<elCard header={xI("Body")}>
+									<div style="height:300px;width:90%">
+										<MonacoEditor
+											language="json"
+											code={state.detailInfo.req_body_other}
+											readOnly={true}
+										/>
+									</div>
+								</elCard>
+							</>
+						);
+					}
+				}
+			}
+		});
+
+		const cpt_vNodeRequest = computed(() => {
+			if (state.detailInfo.desc) {
+				return (
+					<>
+						<xGap t="20" />
+						<xInfoCard title={"请求参数"}>
+							{cpt_vNodePath.value}
+							{cpt_vNodeHeaders.value}
+							{cpt_vNodeQuery.value}
+							{cpt_vNodeReq.value}
+						</xInfoCard>
+					</>
+				);
+			}
+		});
+		const cpt_vNodeResponse = computed(() => {
+			if (state.detailInfo.res_body) {
+				return (
+					<>
+						<xGap t="20" />
+						<xInfoCard title={"Response信息"}>
+							{(() => {
+								if (state.detailInfo.res_body_type === "json") {
+									return (
+										<JsonSchemaMonaco
+											v-model:schemaString={state.detailInfo.res_body}
+											readOnly={true}
+										/>
+									);
+								}
+
+								return (
+									<MonacoEditor
+										language="json"
+										code={state.detailInfo.res_body}
+										readOnly={true}
+									/>
+								);
+							})()}
+						</xInfoCard>
+					</>
+				);
+			}
+		});
+
 		watch(
 			() => cptRouter.value.query.interface_id,
 			interface_id => {
 				if (interface_id) {
-					vm._updateInterfaceInfo();
+					state._updateInterfaceInfo();
 				}
 			},
 			{ immediate: true }
 		);
 
 		return function () {
-			if (!vm.detailInfo || !stateApp.currProject) {
+			if (!state.detailInfo || !stateApp.currProject) {
 				return <div v-xloading="true" class="flex middle center flex1" />;
 			}
-			xU(stateApp.currGroup, stateApp.currProject, vm.detailInfo);
+			xU(stateApp.currGroup, stateApp.currProject, state.detailInfo);
 			return (
-				<xView style="overflow:hidden;">
-					<div class="flex">
-						<xButton onClick={vm._showModifyInterfaceDialog}>修改</xButton>
-						<xGap f="1" />
+				<div class="flex width100 flex1 paddingT paddingR paddingB">
+					<div class="interface-detail-wrapper width100 padding box-shadow flex vertical">
+						<div class="flex end width100">
+							<xButton onClick={state._showModifyInterfaceDialog}>预览</xButton>
+							<xButton onClick={state._showModifyInterfaceDialog}>编辑</xButton>
+							<xButton onClick={state._showModifyInterfaceDialog}>运行</xButton>
+							<xGap f="1" />
+						</div>
+						<div class="flex1 overflow-auto mt10">
+							{/* 接口基本信息 */}
+							<xInfoCard configs={cpt_interfaceInfo.value} />
+							{/* 备注 */}
+							{cpt_vNodeDesc.value}
+							{/* 请求 */}
+							{cpt_vNodeRequest.value}
+							{/* 响应 */}
+							{cpt_vNodeResponse.value}
+						</div>
 					</div>
-					<div class="flex1 overflow-auto mt10">
-						<xInfoCard configs={cpt_interfaceInfo.value} />
-						<xGap t="20" />
-						{vm.detailInfo.desc && (
-							<xInfoCard title={xI("备注")}>
-								<TuiEditor modelValue={{ html: vm.detailInfo.desc }} readonly />
-							</xInfoCard>
-						)}
-						<xGap t="20" />
-						<xInfoCard title={"请求参数"}>
-							{vm.pathParams.dataSource.length > 0 && (
-								<elCard title={xI("路径参数")}>
-									<xDataGrid configs={vm.pathParams} />
-								</elCard>
-							)}
-							{vm.headersParams.dataSource.length > 0 && (
-								<>
-									<xGap t />
-									<elCard title={xI("Headers")}>
-										<xDataGrid configs={vm.headersParams} />
-									</elCard>
-								</>
-							)}
-							{vm.queryParams.dataSource.length > 0 && (
-								<>
-									<xGap t />
-									<elCard title={xI("Query")}>
-										<xDataGrid configs={vm.queryParams} />
-									</elCard>
-								</>
-							)}
-							{vm.detailInfo.req_body_type == "form" &&
-								vm.bodyFormParams.dataSource.length > 0 && (
-									<>
-										<xGap t />
-										<elCard title={xI("Body")}>
-											<xDataGrid configs={vm.bodyFormParams} />
-										</elCard>
-									</>
-								)}
-							{vm.detailInfo.req_body_type == "json" &&
-								vm.detailInfo.req_body_other && (
-									<>
-										<xGap t />
-										<elCard title={xI("Body")}>
-											<JsonSchemaMonaco
-												v-model:schemaString={vm.detailInfo.req_body_other}
-												readOnly={true}
-											/>
-										</elCard>
-									</>
-								)}
-							{vm.detailInfo.req_body_type == "raw" &&
-								vm.detailInfo.req_body_other && (
-									<>
-										<xGap t />
-										<elCard title={xI("Body")}>
-											<div style="height:300px;width:90%">
-												<MonacoEditor
-													language="json"
-													code={vm.detailInfo.req_body_other}
-													readOnly={true}
-												/>
-											</div>
-										</elCard>
-									</>
-								)}
-						</xInfoCard>
-						{vm.detailInfo.res_body && (
-							<>
-								<xGap t="20" />
-								<xInfoCard title={"返回信息"}>
-									{(() => {
-										if (vm.detailInfo.res_body_type === "json") {
-											return (
-												<JsonSchemaMonaco
-													v-model:schemaString={vm.detailInfo.res_body}
-													readOnly={true}
-												/>
-											);
-										}
-
-										return (
-											<MonacoEditor
-												language="json"
-												code={vm.detailInfo.res_body}
-												readOnly={true}
-											/>
-										);
-									})()}
-								</xInfoCard>
-							</>
-						)}
-					</div>
-				</xView>
+				</div>
 			);
 		};
 	}

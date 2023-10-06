@@ -13,24 +13,29 @@ export default defineComponent({
 		// const {render} = Vue.compile(`<form :style="styleSSSS"> </form>`);debugger;
 		return function () {
 			const slots = this.$slots.default();
-			return <from class="xContainer" ref="xContainer" style={{
-				"--xContainer-col": ` repeat(${cpt_col.value}, 1fr)`
-			}}>
-				{_.map(slots, slotVNode => {
-					if (slotVNode.ctx) {
-						const span = (() => {
-							console.log("slotVNode.props?.span", slotVNode.props?.span)
-							if (slotVNode.props?.span === "full") {
-								return cpt_col.value;
-							}
-							return Number(slotVNode.props?.span || 1);
-						})();
-						const className = `xContainerItem grid-column${span}`
-						return <div class={className}>{slotVNode}</div>
-					}
-					return slotVNode;
-				})}
-			</from>;
+			return (
+				<from
+					class="xContainer"
+					ref="xContainer"
+					style={{
+						"--xContainer-col": ` repeat(${cpt_col.value}, 1fr)`
+					}}>
+					{_.map(slots, slotVNode => {
+						if (slotVNode.ctx) {
+							const span = (() => {
+								console.log("slotVNode.props?.span", slotVNode.props?.span);
+								if (slotVNode.props?.span === "full") {
+									return cpt_col.value;
+								}
+								return Number(slotVNode.props?.span || 1);
+							})();
+							const className = `xContainerItem grid-column${span}`;
+							return <div class={className}>{slotVNode}</div>;
+						}
+						return slotVNode;
+					})}
+				</from>
+			);
 		};
 	}
 });
@@ -49,11 +54,11 @@ export default defineComponent({
 		display: flex;
 		align-items: center;
 
-		>div {
+		> div {
 			width: 100%;
 		}
 
-		&+.xContainerItem {
+		& + .xContainerItem {
 			//margin-top: var(--ui-padding);
 		}
 	}

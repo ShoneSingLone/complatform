@@ -515,7 +515,7 @@ try{const SFC_FN = ${scritpSourceCode};return SFC_FN.call(null,payload);}catch(e
 	 * @param {*} defaultValue
 	 * @returns
 	 */
-	getObjectFirstKeyValue: (obj: object, defaultValue: "") => {
+	getObjectFirstKeyValue: (obj: object, defaultValue = "") => {
 		if (!obj) {
 			return defaultValue;
 		}

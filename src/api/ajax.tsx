@@ -1,5 +1,6 @@
 import { lStorage, xU } from "@/ventose/ui";
 import axios from "axios";
+import qs from "qs";
 import { stateApp } from "@/state/app";
 import { cptRouter } from "@/router/router";
 
@@ -30,6 +31,9 @@ ajax.interceptors.request.use(
 // response interceptor
 ajax.interceptors.response.use(
 	async response => {
+		if (!lStorage["x_token"]) {
+			cptRouter.value.go("/login");
+		}
 		if (response?.data?.errcode == 40011) {
 			stateApp.user.isLogin = false;
 			cptRouter.value.go("/login");
@@ -61,7 +65,10 @@ const xToken = {
 		config.headers = config.headers || {};
 		config.params = config.params || {};
 		if (lStorage["x_token"]) {
-			config.params["x_token"] = JSON.stringify(lStorage["x_token"]);
+			var xToken = lStorage["x_token"];
+			xU.each(xToken, (val, prop) => {
+				config.params[prop] = val;
+			});
 		}
 	}
 };

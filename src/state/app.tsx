@@ -15,6 +15,7 @@ const MEMBER_STATUS = 2;
  */
 function defaultStateApp() {
 	return {
+		useMobileView: true,
 		BASE_URL: window.__BASE_URL || window.location.origin,
 		expandedKeys: {
 			group: []
@@ -65,7 +66,8 @@ function defaultStateApp() {
 		currProject: {
 			currPage: "",
 			userInfo: "",
-			tableLoading: ""
+			tableLoading: "",
+			requestCode: ""
 		},
 		/* ************************methods************************ */
 		_toggleFooterFold() {
@@ -253,7 +255,20 @@ function defaultStateApp() {
 		async _delProject() {},
 		async _changeUpdateModal() {},
 		_checkProjectName() {},
-		_loginTypeAction() {}
+		_loginTypeAction() {},
+		_returnRequestCode() {
+			try {
+				if (!stateApp.currProject.requestCode) {
+					return () => "请在【项目设置-请求代码模板】设置模板";
+				}
+				return new Function(
+					"params",
+					`return (${stateApp.currProject.requestCode})(params)`
+				);
+			} catch (error) {
+				return () => null;
+			}
+		}
 	};
 }
 var _stateApp = defaultStateApp();

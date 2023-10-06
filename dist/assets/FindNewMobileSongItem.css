@@ -1,0 +1,21 @@
+.PrivateMobileSongItem {
+  line-height: 20px;
+  height: 48px;
+  border-radius: 16px;
+}
+.PrivateMobileSongItem > .title {
+  width: 100%;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.PrivateMobileSongItem > .singer {
+  width: 100%;
+  font-size: 12px;
+  text-indent: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}

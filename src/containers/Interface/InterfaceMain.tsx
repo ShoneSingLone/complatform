@@ -1,5 +1,5 @@
-import { computed, defineComponent } from "vue";
-import { xI, xScope, xU } from "@/ventose/ui";
+import { computed, defineComponent, watch } from "vue";
+import { defDataGrid, xI, xScope, xU } from "@/ventose/ui";
 import { stateInterface } from "@/state/interface";
 import { useColHeader } from "./Interface.helper";
 import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
@@ -8,8 +8,9 @@ import {
 	dialogInterfaceProxyModify,
 	dialogInterfaceStatusModify
 } from "./DialogModifyInterface.Helper";
-import { cptRouter } from "@/router/router";
-import { ALL, CATEGORY } from "@/utils/variable";
+import { aHashLink, cptRouter } from "@/router/router";
+import { ALL, CATEGORY, INTERFACE } from "@/utils/variable";
+import { PerformanceCell } from "@/components/PerformanceCell";
 
 function titleStyle(isLink: boolean) {
 	return {
@@ -20,6 +21,12 @@ function titleStyle(isLink: boolean) {
 export const InterfaceMain = defineComponent({
 	setup(props) {
 		var vm = {
+			dataGrid: defDataGrid({
+				isHidePagination: true,
+				dataSource: {},
+				columns: {},
+				queryTableList: undefined
+			}),
 			selected: new Set(),
 			/* 条件变动触发数据过滤，confirm之后变化 */
 			filter: {
@@ -72,19 +79,19 @@ export const InterfaceMain = defineComponent({
 
 		const cpt_columns = computed(() => {
 			const checkbox = {
-				dataKey: "checkbox",
+				prop: "checkbox",
 				key: "checkbox",
 				title: xI("checkbox"),
 				width: 48,
 				fixed: true,
 				headerCellRenderer(_props) {
 					const isChecked =
-						stateInterface.allInterface.length > 0 &&
-						vm.selected.size === stateInterface.allInterface.length;
+						cptInterfaceRowData.value.length > 0 &&
+						vm.selected.size === cptInterfaceRowData.value.length;
 
 					const isIndeterminate =
 						vm.selected.size > 0 &&
-						vm.selected.size < stateInterface.allInterface.length;
+						vm.selected.size < cptInterfaceRowData.value.length;
 
 					return (
 						<div class="flex center width100">
@@ -92,9 +99,9 @@ export const InterfaceMain = defineComponent({
 								indeterminate={isIndeterminate}
 								model-value={isChecked}
 								onChange={() => {
-									if (vm.selected.size < stateInterface.allInterface.length) {
+									if (vm.selected.size < cptInterfaceRowData.value.length) {
 										vm.selected = new Set(
-											xU.map(stateInterface.allInterface, i => i._id)
+											xU.map(cptInterfaceRowData.value, i => i._id)
 										);
 									} else {
 										vm.selected = new Set();
@@ -124,7 +131,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const catid = {
-				dataKey: "catid",
+				prop: "catid",
 				key: "catid",
 				title: xI("接口分类"),
 				width: 150,
@@ -156,10 +163,10 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const title = {
-				dataKey: "title",
+				prop: "title",
 				key: "title",
 				title: xI("接口名称"),
-				width: 150,
+				width: 300,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -172,11 +179,23 @@ export const InterfaceMain = defineComponent({
 						onReset: vm._onReset
 					});
 					return vDom;
+				},
+				cellRenderer({ cellData, rowData }) {
+					return (
+						<a
+							href={aHashLink("/project", {
+								...cptRouter.value.query,
+								interface_type: INTERFACE,
+								interface_id: rowData._id
+							})}>
+							{cellData}
+						</a>
+					);
 				}
 			};
 
 			const method = {
-				dataKey: "method",
+				prop: "method",
 				key: "method",
 				title: xI("请求方法"),
 				width: 100,
@@ -209,7 +228,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const path = {
-				dataKey: "path",
+				prop: "path",
 				key: "path",
 				title: xI("接口路径"),
 				width: 250,
@@ -230,7 +249,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const status = {
-				dataKey: "status",
+				prop: "status",
 				key: "status",
 				title: xI("状态"),
 				width: 150,
@@ -264,7 +283,7 @@ export const InterfaceMain = defineComponent({
 			};
 
 			const isProxy = {
-				dataKey: "isProxy",
+				prop: "isProxy",
 				key: "isProxy",
 				title: xI("转发"),
 				width: 150,
@@ -323,8 +342,40 @@ export const InterfaceMain = defineComponent({
 				}
 			};
 
+			const maintainer = {
+				prop: "tag",
+				key: "tag",
+				title: xI("维护人"),
+				width: 150,
+				minWidth: 150,
+				headerCellRenderer(_props) {
+					const { vDom } = useColHeader({
+						title: _props.column.title,
+						prop: "tag",
+						style: titleStyle(vm.filter.tag.length > 0),
+						width: 450,
+						controller: (
+							<el-checkbox-group v-model={vm.conditions.tag}>
+								{xU.map(stateInterface.allTags, i => {
+									return (
+										<div>
+											<el-checkbox label={i} />
+										</div>
+									);
+								})}
+							</el-checkbox-group>
+						),
+						onFilter: vm._onFilter,
+						onReset: vm._onReset
+					});
+					return vDom;
+				},
+				cellRenderer: ({ rowData }) => (
+					<div class="flex center width100">{rowData.uid}</div>
+				)
+			};
 			const tag = {
-				dataKey: "tag",
+				prop: "tag",
 				key: "tag",
 				title: xI("Tags"),
 				width: 250,
@@ -359,19 +410,55 @@ export const InterfaceMain = defineComponent({
 			};
 
 			if (cptRouter.value.query.interface_type === ALL) {
-				return [checkbox, catid, title, method, path, status, isProxy, tag];
+				return [
+					checkbox,
+					catid,
+					title,
+					method,
+					path,
+					status,
+					maintainer,
+					isProxy,
+					tag
+				];
 			}
 
 			if (cptRouter.value.query.interface_type === CATEGORY) {
-				return [checkbox, title, method, path, status, isProxy, tag];
+				return [
+					checkbox,
+					title,
+					method,
+					path,
+					status,
+					maintainer,
+					isProxy,
+					tag
+				];
 			}
 
 			return [];
 		});
 
+		watch(
+			() => cpt_columns.value,
+			(columns: any) => {
+				vm.dataGrid.columns = columns;
+			},
+			{ immediate: true }
+		);
+
 		const cptInterfaceRowData = computed(() => {
 			const { allInterface } = stateInterface;
 			let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
+
+			/* 指明具体分类时，不显示其他分类的接口 */
+			if (cptRouter.value.query.interface_type === CATEGORY) {
+				const { category_id } = cptRouter.value.query;
+				interfaceForShow = xU.filter(interfaceForShow, i =>
+					xU.isSame(category_id, i.catid)
+				);
+			}
+
 			let paramKeys = Object.keys(vm.filter);
 			let prop = paramKeys.pop();
 			while (prop) {
@@ -407,31 +494,24 @@ export const InterfaceMain = defineComponent({
 			return interfaceForShow;
 		});
 
+		watch(cptInterfaceRowData, dataSource => {
+			vm.dataGrid.dataSource = dataSource;
+		});
+
 		return function () {
 			return (
 				<div id="ViewInterfaceList">
 					<div class="Operation mb10 flex end middle">
-						<xButton class="mr4" configs={vm.$btnChangeStatus} />
-						<xButton class="mr4" configs={vm.$btnChangeProxy} />
-						<xButton class="mr4">{xI("添加Tag")}</xButton>
-						<xButton class="mr4">{xI("移除Tag")}</xButton>
+						<el-button-group class="ml-4">
+							<xButton class="mr4" configs={vm.$btnChangeStatus} />
+							<xButton class="mr4" configs={vm.$btnChangeProxy} />
+							<xButton class="mr4">{xI("路径替换")}</xButton>
+							<xButton class="mr4">{xI("添加Tag")}</xButton>
+							<xButton class="mr4">{xI("移除Tag")}</xButton>
+						</el-button-group>
 					</div>
 					<div class="flex1 el-card">
-						<el-auto-resizer
-							v-slots={{
-								default({ width, height }) {
-									return (
-										<el-table-v2
-											width={width}
-											height={height}
-											columns={cpt_columns.value}
-											data={cptInterfaceRowData.value}
-											fixed
-										/>
-									);
-								}
-							}}
-						/>
+						<xDataGrid configs={vm.dataGrid} />
 					</div>
 				</div>
 			);

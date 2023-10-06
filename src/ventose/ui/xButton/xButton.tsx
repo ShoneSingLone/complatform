@@ -40,6 +40,14 @@ export type t_buttonOptions = {
 	onClick?: () => Promise<any>;
 };
 
+const propsWillDeleteFromProperty = [
+	"text",
+	"loading",
+	"disabled",
+	"title",
+	"onClick"
+];
+
 export default defineComponent({
 	name: "xButton",
 	inheritAttrs: false,
@@ -91,6 +99,9 @@ export default defineComponent({
 		return { Cpt_isShow };
 	},
 	computed: {
+		cpt_props() {
+			return xU.omit(this.$attrs, propsWillDeleteFromProperty);
+		},
 		cpt_type() {
 			if (["query", "save"].includes(this.configs.preset)) {
 				return "primary";
@@ -165,13 +176,6 @@ export default defineComponent({
 		if (!this.Cpt_isShow) {
 			return null;
 		}
-		const propsWillDeleteFromProperty = [
-			"text",
-			"loading",
-			"disabled",
-			"title",
-			"onClick"
-		];
 		const _properties = xU.omit(this.configs, propsWillDeleteFromProperty);
 		const propsClass = mergeProps(
 			{ class: "x-button" },
@@ -193,6 +197,7 @@ export default defineComponent({
 				loading={this.loading}
 				disabled={!!this.disabled}
 				type={this.cpt_type}
+				{...this.cpt_props}
 				{...propsClass}
 				{...xU.omit(_properties, ["icon", "onClick"])}
 				v-slots={{

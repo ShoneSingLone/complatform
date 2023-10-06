@@ -1,8 +1,7 @@
 //@ts-nocheck
 import { t_buttonOptions } from "../xButton/xButton";
 import { xU } from "../ventoseUtils";
-import { stateUI } from "../stateUI";
-import { each, isFunction } from "lodash";
+import { stateUI, xI } from "../stateUI";
 
 /*ui 内部使用*/
 export const STATIC_WORD = {
@@ -72,27 +71,6 @@ export type t_dataGridOptions = {
 };
 
 export function defColumns(options: { [p: string]: t_ElTableV2 }) {
-	each(options, (column, prop) => {
-		column = {
-			key: prop,
-			dataKey: prop,
-			width: 150,
-			...column
-		};
-
-		Object.defineProperty(column, "title", {
-			get() {
-				if (isFunction(column.label)) {
-					return column.label.call(column);
-				} else {
-					return column.title || column.label;
-				}
-			},
-			set(val) {
-				column.title = val;
-			}
-		});
-	});
 	return options;
 }
 /* 默认 pagination onQuery isLoading */
@@ -121,9 +99,9 @@ export function defDataGrid(options: t_dataGridOptions) {
 		};
 	}
 	if (options.columns) {
-		each(options.columns, (column, prop) => {
+		xU.each(options.columns, (column, prop) => {
 			column.prop = prop;
-			if (isFunction(column.label)) {
+			if (xU.isFunction(column.label)) {
 				Object.defineProperty(column, "label", {
 					get() {
 						debugger;

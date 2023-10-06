@@ -30,6 +30,11 @@ export default defineComponent({
 
 <style lang="scss">
 [id^="xView"] {
+	display: flex;
+	flex: 1;
+	padding: var(--app-padding);
+	flex-flow: column nowrap;
+
 	.xView-body {
 	}
 }
