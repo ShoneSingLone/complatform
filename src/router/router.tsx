@@ -18,6 +18,8 @@ const wiki = (tag, title) => ({
 	}
 });
 
+/* 配合 RouterView  通过find方法找到对应的component，不需要嵌套，用path表明父子关系 */
+
 export const routes = [
 	{
 		path: `/login`,
@@ -71,6 +73,49 @@ export const routes = [
 		meta: {
 			title: xI("接口")
 		}
+	},
+	{
+		label: xI("Music"),
+		path: "/music",
+		componentName: "default",
+		component: () => import("@/music/views/ViewMusic/Layout/LayoutMusic.vue"),
+		meta: {
+			title: xI("Music")
+		}
+	},
+	{
+		name: "new",
+		path: "/music/new",
+		componentName: "default",
+		component: () =>
+			import("@/music/views/ViewMusic/PlayList/FindNew/FindNewLayout.vue")
+	},
+	{
+		name: "playlist",
+		path: "/music/playlist",
+		componentName: "default",
+		component: () =>
+			import("@/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue")
+	},
+	/* {
+		name: "singer",
+		path: "/music/singer",
+		componentName: "default",
+		component: () => import("@/music/views/ViewMusic/PlayListSinger.vue")
+	}, */
+	{
+		name: "private",
+		path: "/music/private",
+		componentName: "default",
+		component: () =>
+			import("@/music/views/ViewMusic/PlayList/Private/PrivateLayout.vue")
+	},
+	{
+		name: "cached",
+		path: "/music/cached",
+		componentName: "default",
+		component: () =>
+			import("@/music/views/ViewMusic/PlayList/Cached/CachedLayout.vue")
 	},
 	{
 		/* 404兜底 在NotFound里面处理其他的访问逻辑，比如"/"的重定向*/

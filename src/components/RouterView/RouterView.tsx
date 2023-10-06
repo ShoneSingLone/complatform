@@ -18,10 +18,8 @@ export const RouterView = defineComponent({
 	name: "RouterView",
 	props: ["guards"],
 	setup() {
-		let ViewLength: any = inject("ViewLength");
-		if (typeof ViewLength != "number") {
-			ViewLength = 2;
-		}
+		/*关于默认是2， 字符串 【/】 split之后length为2，即默认是第一层View */
+		let ViewLength: any = inject("ViewLength", 2);
 		provide("ViewLength", ViewLength + 1);
 		return {
 			cptRouter,

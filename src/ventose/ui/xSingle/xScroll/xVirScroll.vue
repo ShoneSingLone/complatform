@@ -81,7 +81,7 @@ export default defineComponent({
 			const position = Number(this.styleWrapper1.match(/(\d)/g).join("")) / 580;
 			const start = position * 10;
 			const end = start + 10;
-			return this.allItems.slice(start, end).map((i, index) => ({
+			return this?.allItems?.slice?.(start, end).map((i, index) => ({
 				...i,
 				index: start + 1 + index
 			}));
@@ -90,7 +90,7 @@ export default defineComponent({
 			const position = Number(this.styleWrapper2.match(/(\d)/g).join("")) / 580;
 			const start = position * 10;
 			const end = start + 10;
-			return this.allItems.slice(start, end).map((i, index) => ({
+			return this?.allItems?.slice?.(start, end).map((i, index) => ({
 				...i,
 				index: start + 1 + index
 			}));
@@ -99,7 +99,7 @@ export default defineComponent({
 			const position = Number(this.styleWrapper3.match(/(\d)/g).join("")) / 580;
 			const start = position * 10;
 			const end = start + 10;
-			return this.allItems.slice(start, end).map((i, index) => ({
+			return this?.allItems?.slice?.(start, end).map((i, index) => ({
 				...i,
 				index: start + 1 + index
 			}));

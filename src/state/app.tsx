@@ -15,6 +15,7 @@ const MEMBER_STATUS = 2;
  */
 function defaultStateApp() {
 	return {
+		useMobileView: true,
 		BASE_URL: window.__BASE_URL || window.location.origin,
 		expandedKeys: {
 			group: []

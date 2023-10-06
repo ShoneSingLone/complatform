@@ -1,8 +1,7 @@
 //@ts-nocheck
 import { t_buttonOptions } from "../xButton/xButton";
 import { xU } from "../ventoseUtils";
-import { stateUI } from "../stateUI";
-import { each, isFunction } from "lodash";
+import { stateUI, xI } from "../stateUI";
 
 /*ui 内部使用*/
 export const STATIC_WORD = {
@@ -100,9 +99,9 @@ export function defDataGrid(options: t_dataGridOptions) {
 		};
 	}
 	if (options.columns) {
-		each(options.columns, (column, prop) => {
+		xU.each(options.columns, (column, prop) => {
 			column.prop = prop;
-			if (isFunction(column.label)) {
+			if (xU.isFunction(column.label)) {
 				Object.defineProperty(column, "label", {
 					get() {
 						debugger;

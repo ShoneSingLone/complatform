@@ -1,4 +1,4 @@
-import { d as defineComponent, s as stateApp, a as defItem, i as itemsInvalid, ae as stateInterface, e as xU, x as xI, b as API, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, N as markRaw, c as cptRouter, aJ as INTERFACE, aK as _$arrayChangeIndex, m as xScope, ap as onMounted, aL as ALL, w as withDirectives, j as resolveDirective, aM as cpt_treeData, aN as CATEGORY, aO as ref, t as createTextVNode, aA as computed, K as aHashLink, _ as _$handlePath, a2 as HTTP_METHOD, W as defDataGrid, R as defCol, $, aP as copyToClipboard, aQ as makeAhref, a9 as lStorage, n as watch, X as MonacoEditor, ag as getAvatarSrcByid } from "./index.js";
+import { d as defineComponent, s as stateApp, a as defItem, i as itemsInvalid, ae as stateInterface, e as xU, x as xI, b as API, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, N as markRaw, c as cptRouter, aJ as INTERFACE, aK as _$arrayChangeIndex, m as xScope, ao as onMounted, aL as ALL, w as withDirectives, j as resolveDirective, aM as cpt_treeData, aN as CATEGORY, aO as ref, t as createTextVNode, W as defDataGrid, aA as computed, n as watch, K as aHashLink, _ as _$handlePath, a2 as HTTP_METHOD, R as defCol, $, aP as copyToClipboard, aQ as makeAhref, a9 as lStorage, ag as getAvatarSrcByid, X as MonacoEditor } from "./index.js";
 import { F as FormRules, s as setValueTo, p as pickValueFrom } from "./common.FormRules.js";
 import { I as ITEM_OPTIONS, a as ITEM_OPTIONS_VDOM } from "./common.options.js";
 import { o as orderAsc, R as RequestArgsPanel, T as TuiEditor, g as ResponsePanel, h as DialogUpsertProxyEnv, i as colParamsName, j as colRemark, k as colRequired, m as colValue, n as colExample, p as colType, J as JsonSchemaMonaco } from "./TuiEditor.js";
@@ -1352,6 +1352,12 @@ function titleStyle(isLink) {
 const InterfaceMain = defineComponent({
   setup(props) {
     var vm = {
+      dataGrid: defDataGrid({
+        isHidePagination: true,
+        dataSource: {},
+        columns: {},
+        queryTableList: void 0
+      }),
       selected: /* @__PURE__ */ new Set(),
       filter: {
         catid: [],
@@ -1410,7 +1416,7 @@ const InterfaceMain = defineComponent({
     vm = xScope(vm);
     const cpt_columns = computed(() => {
       const checkbox = {
-        dataKey: "checkbox",
+        prop: "checkbox",
         key: "checkbox",
         title: xI("checkbox"),
         width: 48,
@@ -1451,7 +1457,7 @@ const InterfaceMain = defineComponent({
         }
       };
       const catid = {
-        dataKey: "catid",
+        prop: "catid",
         key: "catid",
         title: xI("\u63A5\u53E3\u5206\u7C7B"),
         width: 150,
@@ -1487,10 +1493,10 @@ const InterfaceMain = defineComponent({
         })
       };
       const title = {
-        dataKey: "title",
+        prop: "title",
         key: "title",
         title: xI("\u63A5\u53E3\u540D\u79F0"),
-        width: 150,
+        width: 300,
         headerCellRenderer(_props) {
           const {
             vDom
@@ -1523,7 +1529,7 @@ const InterfaceMain = defineComponent({
         }
       };
       const method = {
-        dataKey: "method",
+        prop: "method",
         key: "method",
         title: xI("\u8BF7\u6C42\u65B9\u6CD5"),
         width: 100,
@@ -1559,7 +1565,7 @@ const InterfaceMain = defineComponent({
         }, [ITEM_OPTIONS_VDOM.httpMethod(cellData)])
       };
       const path = {
-        dataKey: "path",
+        prop: "path",
         key: "path",
         title: xI("\u63A5\u53E3\u8DEF\u5F84"),
         width: 250,
@@ -1584,7 +1590,7 @@ const InterfaceMain = defineComponent({
         }
       };
       const status = {
-        dataKey: "status",
+        prop: "status",
         key: "status",
         title: xI("\u72B6\u6001"),
         width: 150,
@@ -1621,7 +1627,7 @@ const InterfaceMain = defineComponent({
         }, [ITEM_OPTIONS_VDOM.status(cellData)])
       };
       const isProxy = {
-        dataKey: "isProxy",
+        prop: "isProxy",
         key: "isProxy",
         title: xI("\u8F6C\u53D1"),
         width: 150,
@@ -1692,12 +1698,12 @@ const InterfaceMain = defineComponent({
           return "";
         }
       };
-      const tag = {
-        dataKey: "tag",
+      const maintainer = {
+        prop: "tag",
         key: "tag",
-        title: xI("Tags"),
-        width: 250,
-        minWidth: 250,
+        title: xI("\u7EF4\u62A4\u4EBA"),
+        width: 150,
+        minWidth: 150,
         headerCellRenderer(_props) {
           let _slot5;
           const {
@@ -1723,18 +1729,59 @@ const InterfaceMain = defineComponent({
           return vDom;
         },
         cellRenderer: ({
+          rowData
+        }) => createVNode("div", {
+          "class": "flex center width100"
+        }, [rowData.uid])
+      };
+      const tag = {
+        prop: "tag",
+        key: "tag",
+        title: xI("Tags"),
+        width: 250,
+        minWidth: 250,
+        headerCellRenderer(_props) {
+          let _slot6;
+          const {
+            vDom
+          } = useColHeader({
+            title: _props.column.title,
+            prop: "tag",
+            style: titleStyle(vm.filter.tag.length > 0),
+            width: 450,
+            controller: createVNode(resolveComponent("el-checkbox-group"), {
+              "modelValue": vm.conditions.tag,
+              "onUpdate:modelValue": ($event) => vm.conditions.tag = $event
+            }, _isSlot$2(_slot6 = xU.map(stateInterface.allTags, (i) => {
+              return createVNode("div", null, [createVNode(resolveComponent("el-checkbox"), {
+                "label": i
+              }, null)]);
+            })) ? _slot6 : {
+              default: () => [_slot6]
+            }),
+            onFilter: vm._onFilter,
+            onReset: vm._onReset
+          });
+          return vDom;
+        },
+        cellRenderer: ({
           cellData
         }) => createVNode("div", {
           "class": "flex center width100"
         }, [ITEM_OPTIONS_VDOM.tags(cellData)])
       };
       if (cptRouter.value.query.interface_type === ALL) {
-        return [checkbox, catid, title, method, path, status, isProxy, tag];
+        return [checkbox, catid, title, method, path, status, maintainer, isProxy, tag];
       }
       if (cptRouter.value.query.interface_type === CATEGORY) {
-        return [checkbox, title, method, path, status, isProxy, tag];
+        return [checkbox, title, method, path, status, maintainer, isProxy, tag];
       }
       return [];
+    });
+    watch(() => cpt_columns.value, (columns) => {
+      vm.dataGrid.columns = columns;
+    }, {
+      immediate: true
     });
     const cptInterfaceRowData = computed(() => {
       const {
@@ -1781,8 +1828,11 @@ const InterfaceMain = defineComponent({
       }
       return interfaceForShow;
     });
+    watch(cptInterfaceRowData, (dataSource) => {
+      vm.dataGrid.dataSource = dataSource;
+    });
     return function() {
-      let _slot6, _slot7, _slot8;
+      let _slot7, _slot8, _slot9;
       return createVNode("div", {
         "id": "ViewInterfaceList"
       }, [createVNode("div", {
@@ -1798,33 +1848,22 @@ const InterfaceMain = defineComponent({
           "configs": vm.$btnChangeProxy
         }, null), createVNode(resolveComponent("xButton"), {
           "class": "mr4"
-        }, _isSlot$2(_slot6 = xI("\u8DEF\u5F84\u66FF\u6362")) ? _slot6 : {
-          default: () => [_slot6]
-        }), createVNode(resolveComponent("xButton"), {
-          "class": "mr4"
-        }, _isSlot$2(_slot7 = xI("\u6DFB\u52A0Tag")) ? _slot7 : {
+        }, _isSlot$2(_slot7 = xI("\u8DEF\u5F84\u66FF\u6362")) ? _slot7 : {
           default: () => [_slot7]
         }), createVNode(resolveComponent("xButton"), {
           "class": "mr4"
-        }, _isSlot$2(_slot8 = xI("\u79FB\u9664Tag")) ? _slot8 : {
+        }, _isSlot$2(_slot8 = xI("\u6DFB\u52A0Tag")) ? _slot8 : {
           default: () => [_slot8]
+        }), createVNode(resolveComponent("xButton"), {
+          "class": "mr4"
+        }, _isSlot$2(_slot9 = xI("\u79FB\u9664Tag")) ? _slot9 : {
+          default: () => [_slot9]
         })]
       })]), createVNode("div", {
         "class": "flex1 el-card"
-      }, [createVNode(resolveComponent("el-auto-resizer"), null, {
-        default({
-          width,
-          height
-        }) {
-          return createVNode(resolveComponent("el-table-v2"), {
-            "width": width,
-            "height": height,
-            "columns": cpt_columns.value,
-            "data": cptInterfaceRowData.value,
-            "fixed": true
-          }, null);
-        }
-      })])]);
+      }, [createVNode(resolveComponent("xDataGrid"), {
+        "configs": vm.dataGrid
+      }, null)])]);
     };
   }
 });
@@ -2601,7 +2640,7 @@ function _isSlot(s) {
 }
 const InterfaceDetail = defineComponent({
   setup() {
-    var vm = {
+    var state = {
       WebSocket: null,
       detailInfo: false,
       pathParams: defDataGrid({
@@ -2665,12 +2704,12 @@ const InterfaceDetail = defineComponent({
         const {
           data
         } = await API.project.fetchInterfaceDetail(cptRouter.value.query.interface_id);
-        vm.detailInfo = data;
+        state.detailInfo = data;
         xU(data);
-        vm.headersParams.dataSource = xU.orderBy(data.req_headers, ["required"], ["desc"]);
-        vm.pathParams.dataSource = xU.orderBy(data.req_params, ["required"], ["desc"]);
-        vm.queryParams.dataSource = xU.orderBy(data.req_query, ["required", "type"], ["desc", "asc"]);
-        vm.bodyFormParams.dataSource = xU.orderBy(data.req_body_form, ["required", "type"], ["desc", "asc"]);
+        state.headersParams.dataSource = xU.orderBy(data.req_headers, ["required"], ["desc"]);
+        state.pathParams.dataSource = xU.orderBy(data.req_params, ["required"], ["desc"]);
+        state.queryParams.dataSource = xU.orderBy(data.req_query, ["required", "type"], ["desc", "asc"]);
+        state.bodyFormParams.dataSource = xU.orderBy(data.req_body_form, ["required", "type"], ["desc", "asc"]);
       },
       _copyAjaxCode() {
         const codeString = $(`#interfaceDetailAjaxCode`).text();
@@ -2689,13 +2728,12 @@ const InterfaceDetail = defineComponent({
         }
       },
       _closeWS() {
-        vm.WebSocket && vm.WebSocket.close();
-        delete vm.WebSocket;
+        state.WebSocket && state.WebSocket.close();
+        delete state.WebSocket;
       },
       async _showModifyInterfaceDialog() {
-        const vm2 = this;
-        await xU.ensureValueDone(() => vm2.detailInfo);
-        const item = vm2.detailInfo;
+        await xU.ensureValueDone(() => state.detailInfo);
+        const item = state.detailInfo;
         const $dialogModifyInterface = $(`.dialog-modify-interface`);
         if ($dialogModifyInterface.length > 0) {
           xU.message.warn(xI("\u5DF2\u5B58\u5728\u4FEE\u6539\u9762\u677F"));
@@ -2705,7 +2743,7 @@ const InterfaceDetail = defineComponent({
           status,
           curdata,
           message
-        } = await vm2._checkConflict(item);
+        } = await state._checkConflict(item);
         if (status == 2) {
           try {
             await xU.confirm({
@@ -2718,7 +2756,7 @@ const InterfaceDetail = defineComponent({
           } catch (error) {
             console.error(error);
           } finally {
-            vm2._closeWS();
+            state._closeWS();
           }
           return;
         }
@@ -2731,8 +2769,8 @@ const InterfaceDetail = defineComponent({
           area: ["1024px", "624px"],
           interfaceId: item._id,
           maxmin: true,
-          _updateInterfaceInfo: vm2._updateInterfaceInfo,
-          onBeforeClose: vm2._closeWS()
+          _updateInterfaceInfo: state._updateInterfaceInfo,
+          onBeforeClose: state._closeWS()
         });
       },
       async _checkConflict() {
@@ -2755,12 +2793,12 @@ const InterfaceDetail = defineComponent({
         });
       }
     };
-    vm = xScope(vm);
+    state = xScope(state);
     var cpt_labelProxyEnv = computed(() => {
-      if (!vm.detailInfo.isProxy) {
+      if (!state.detailInfo.isProxy) {
         return "Y-api Mock \u6570\u636E";
       }
-      const envId = vm.detailInfo.witchEnv;
+      const envId = state.detailInfo.witchEnv;
       if (!envId) {
         return "\u4EFB\u610F";
       }
@@ -2785,10 +2823,10 @@ const InterfaceDetail = defineComponent({
         title,
         path,
         method
-      } = vm.detailInfo;
+      } = state.detailInfo;
       const projectId = stateApp.currProject._id;
       const interfaceId = cptRouter.value.query.interface_id;
-      const requestCode = new Function("params", `return (${stateApp.currProject.requestCode})(params)`);
+      const requestCode = stateApp._returnRequestCode();
       return requestCode({
         title,
         path,
@@ -2799,25 +2837,31 @@ const InterfaceDetail = defineComponent({
       });
     });
     var cpt_vDomCopyAjaxCodePanel = computed(() => {
+      let _slot;
       return createVNode("div", {
         "style": "position:relative;overflow:auto;height:100%;",
         "ref": "ajaxCode",
         "id": "interfaceDetailAjaxCode"
       }, [createVNode(resolveComponent("Mkit"), {
         "md": cpt_ajaxCode.value
-      }, null)]);
+      }, null), createVNode(resolveComponent("xButton"), {
+        "onClick": () => state._copyAjaxCode(),
+        "style": "position:absolute;right:16px;top:16px;"
+      }, _isSlot(_slot = xI("\u590D\u5236\u4EE3\u7801")) ? _slot : {
+        default: () => [_slot]
+      })]);
     });
     var cpt_vDomMockHref = computed(() => {
+      var _a;
       const {
         protocol,
         hostname,
         port
       } = location;
-      return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${stateApp.currProject._id}${stateApp.currProject.basepath}${vm.detailInfo.path}`;
+      return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${stateApp.currProject._id}${(_a = stateApp.currProject) == null ? void 0 : _a.basepath}${state.detailInfo.path}`;
     });
     var cpt_interfaceInfo = computed(() => {
       var _a, _b, _c, _d;
-      let _slot2;
       const {
         tag,
         up_time,
@@ -2828,7 +2872,7 @@ const InterfaceDetail = defineComponent({
         method,
         isProxy,
         custom_field_value
-      } = vm.detailInfo || {};
+      } = state.detailInfo || {};
       return {
         title: createVNode("span", null, [xI("\u57FA\u672C\u4FE1\u606F")]),
         labelWidth: 120,
@@ -2837,7 +2881,7 @@ const InterfaceDetail = defineComponent({
             label: "\u63A5\u53E3\u540D\u79F0",
             content: () => {
               var _a2;
-              return (_a2 = vm.detailInfo) == null ? void 0 : _a2.title;
+              return (_a2 = state.detailInfo) == null ? void 0 : _a2.title;
             }
           },
           username: {
@@ -2861,7 +2905,7 @@ const InterfaceDetail = defineComponent({
           path: {
             label: "\u63A5\u53E3",
             content: () => {
-              let _slot;
+              let _slot2;
               return createVNode("div", {
                 "class": "flex vertical"
               }, [createVNode(resolveComponent("CopyContent"), {
@@ -2872,7 +2916,7 @@ const InterfaceDetail = defineComponent({
                 }, [stateApp.currProject.basepath, createTextVNode(" "), path])]
               }), createVNode("div", {
                 "class": "flex middle width100 mt10 "
-              }, [vm._flagMsg(stateApp.currProject.isMockOpen, stateApp.currProject.strice), createVNode(resolveComponent("CopyContent"), null, {
+              }, [state._flagMsg(stateApp.currProject.isMockOpen, stateApp.currProject.strice), createVNode(resolveComponent("CopyContent"), null, {
                 default: () => [createVNode("span", {
                   "class": "href"
                 }, [cpt_vDomMockHref.value])]
@@ -2880,9 +2924,9 @@ const InterfaceDetail = defineComponent({
                 "f": "1"
               }, null), createVNode(resolveComponent("xButton"), {
                 "type": "primary",
-                "onClick": vm._runPostman
-              }, _isSlot(_slot = xI("\u8FD0\u884C")) ? _slot : {
-                default: () => [_slot]
+                "onClick": state._runPostman
+              }, _isSlot(_slot2 = xI("\u8FD0\u884C")) ? _slot2 : {
+                default: () => [_slot2]
               })])]);
             }
           },
@@ -2906,11 +2950,7 @@ const InterfaceDetail = defineComponent({
           ajaxCode: {
             label: createVNode("div", {
               "class": "flex middle"
-            }, [createVNode(resolveComponent("xButton"), {
-              "onClick": () => vm._copyAjaxCode()
-            }, _isSlot(_slot2 = xI("\u590D\u5236\u4EE3\u7801")) ? _slot2 : {
-              default: () => [_slot2]
-            }), createVNode("span", {
+            }, [createVNode("span", {
               "class": "flex1"
             }, [xI("ajax\u4EE3\u7801")])]),
             col: 3,
@@ -2935,126 +2975,183 @@ const InterfaceDetail = defineComponent({
         }
       };
     });
-    watch(() => cptRouter.value.query.interface_id, (interface_id) => {
-      if (interface_id) {
-        vm._updateInterfaceInfo();
-      }
-    }, {
-      immediate: true
-    });
-    return function() {
-      let _slot3;
-      if (!vm.detailInfo || !stateApp.currProject) {
-        return withDirectives(createVNode("div", {
-          "class": "flex middle center flex1"
-        }, null), [[resolveDirective("xloading"), "true"]]);
-      }
-      xU(stateApp.currGroup, stateApp.currProject, vm.detailInfo);
-      return createVNode(resolveComponent("xView"), {
-        "style": "overflow:hidden;"
-      }, {
-        default: () => [createVNode("div", {
-          "class": "flex"
-        }, [createVNode(resolveComponent("xButton"), {
-          "onClick": vm._showModifyInterfaceDialog
-        }, {
-          default: () => [createTextVNode("\u4FEE\u6539")]
-        }), createVNode(resolveComponent("xGap"), {
-          "f": "1"
-        }, null)]), createVNode("div", {
-          "class": "flex1 overflow-auto mt10"
-        }, [createVNode(resolveComponent("xInfoCard"), {
-          "configs": cpt_interfaceInfo.value
-        }, null), createVNode(resolveComponent("xGap"), {
+    const cpt_vNodeDesc = computed(() => {
+      if (state.detailInfo.desc) {
+        const modelValue = {
+          md: state.detailInfo.markdown
+        };
+        return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
           "t": "20"
-        }, null), vm.detailInfo.desc && createVNode(resolveComponent("xInfoCard"), {
+        }, null), createVNode(resolveComponent("xInfoCard"), {
           "title": xI("\u5907\u6CE8")
         }, {
           default: () => [createVNode(TuiEditor, {
-            "modelValue": {
-              html: vm.detailInfo.desc
-            },
-            "readonly": true
+            "modelValue": modelValue,
+            "onUpdate:modelValue": ($event) => modelValue = $event,
+            "isReadonly": true
           }, null)]
-        }), createVNode(resolveComponent("xGap"), {
+        })]);
+      }
+    });
+    const cpt_vNodePath = computed(() => {
+      if (state.pathParams.dataSource.length) {
+        return createVNode(resolveComponent("elCard"), {
+          "header": xI("\u8DEF\u5F84\u53C2\u6570")
+        }, {
+          default: () => [createVNode(resolveComponent("xDataGrid"), {
+            "configs": state.pathParams
+          }, null)]
+        });
+      }
+    });
+    const cpt_vNodeHeaders = computed(() => {
+      if (state.headersParams.dataSource.length) {
+        return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
+          "t": true
+        }, null), createVNode(resolveComponent("elCard"), {
+          "header": xI("Headers")
+        }, {
+          default: () => [createVNode(resolveComponent("xDataGrid"), {
+            "configs": state.headersParams
+          }, null)]
+        })]);
+      }
+    });
+    const cpt_vNodeQuery = computed(() => {
+      if (state.queryParams.dataSource.length) {
+        return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
+          "t": true
+        }, null), createVNode(resolveComponent("elCard"), {
+          "header": xI("Query")
+        }, {
+          default: () => [createVNode(resolveComponent("xDataGrid"), {
+            "configs": state.queryParams
+          }, null)]
+        })]);
+      }
+    });
+    const cpt_vNodeReq = computed(() => {
+      if (state.queryParams.dataSource.length) {
+        if (state.detailInfo.req_body_type == "form") {
+          if (state.bodyFormParams.dataSource.length) {
+            return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
+              "t": true
+            }, null), createVNode(resolveComponent("elCard"), {
+              "header": xI("Body")
+            }, {
+              default: () => [createVNode(resolveComponent("xDataGrid"), {
+                "configs": state.bodyFormParams
+              }, null)]
+            })]);
+          }
+        } else if (state.detailInfo.req_body_type == "json") {
+          if (state.detailInfo.req_body_other) {
+            return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
+              "t": true
+            }, null), createVNode(resolveComponent("elCard"), {
+              "header": xI("Body")
+            }, {
+              default: () => [createVNode(JsonSchemaMonaco, {
+                "schemaString": state.detailInfo.req_body_other,
+                "onUpdate:schemaString": ($event) => state.detailInfo.req_body_other = $event,
+                "readOnly": true
+              }, null)]
+            })]);
+          }
+        } else if (state.detailInfo.req_body_type == "raw") {
+          if (state.detailInfo.req_body_other) {
+            return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
+              "t": true
+            }, null), createVNode(resolveComponent("elCard"), {
+              "header": xI("Body")
+            }, {
+              default: () => [createVNode("div", {
+                "style": "height:300px;width:90%"
+              }, [createVNode(MonacoEditor, {
+                "language": "json",
+                "code": state.detailInfo.req_body_other,
+                "readOnly": true
+              }, null)])]
+            })]);
+          }
+        }
+      }
+    });
+    const cpt_vNodeRequest = computed(() => {
+      if (state.detailInfo.desc) {
+        return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
           "t": "20"
         }, null), createVNode(resolveComponent("xInfoCard"), {
           "title": "\u8BF7\u6C42\u53C2\u6570"
         }, {
-          default: () => [vm.pathParams.dataSource.length > 0 && createVNode(resolveComponent("elCard"), {
-            "title": xI("\u8DEF\u5F84\u53C2\u6570")
-          }, {
-            default: () => [createVNode(resolveComponent("xDataGrid"), {
-              "configs": vm.pathParams
-            }, null)]
-          }), vm.headersParams.dataSource.length > 0 && createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
-            "t": true
-          }, null), createVNode(resolveComponent("elCard"), {
-            "title": xI("Headers")
-          }, {
-            default: () => [createVNode(resolveComponent("xDataGrid"), {
-              "configs": vm.headersParams
-            }, null)]
-          })]), vm.queryParams.dataSource.length > 0 && createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
-            "t": true
-          }, null), createVNode(resolveComponent("elCard"), {
-            "title": xI("Query")
-          }, {
-            default: () => [createVNode(resolveComponent("xDataGrid"), {
-              "configs": vm.queryParams
-            }, null)]
-          })]), vm.detailInfo.req_body_type == "form" && vm.bodyFormParams.dataSource.length > 0 && createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
-            "t": true
-          }, null), createVNode(resolveComponent("elCard"), {
-            "title": xI("Body")
-          }, {
-            default: () => [createVNode(resolveComponent("xDataGrid"), {
-              "configs": vm.bodyFormParams
-            }, null)]
-          })]), vm.detailInfo.req_body_type == "json" && vm.detailInfo.req_body_other && createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
-            "t": true
-          }, null), createVNode(resolveComponent("elCard"), {
-            "title": xI("Body")
-          }, {
-            default: () => [createVNode(JsonSchemaMonaco, {
-              "schemaString": vm.detailInfo.req_body_other,
-              "onUpdate:schemaString": ($event) => vm.detailInfo.req_body_other = $event,
-              "readOnly": true
-            }, null)]
-          })]), vm.detailInfo.req_body_type == "raw" && vm.detailInfo.req_body_other && createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
-            "t": true
-          }, null), createVNode(resolveComponent("elCard"), {
-            "title": xI("Body")
-          }, {
-            default: () => [createVNode("div", {
-              "style": "height:300px;width:90%"
-            }, [createVNode(MonacoEditor, {
-              "language": "json",
-              "code": vm.detailInfo.req_body_other,
-              "readOnly": true
-            }, null)])]
-          })])]
-        }), vm.detailInfo.res_body && createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
+          default: () => [cpt_vNodePath.value, cpt_vNodeHeaders.value, cpt_vNodeQuery.value, cpt_vNodeReq.value]
+        })]);
+      }
+    });
+    const cpt_vNodeResponse = computed(() => {
+      if (state.detailInfo.res_body) {
+        let _slot3;
+        return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
           "t": "20"
         }, null), createVNode(resolveComponent("xInfoCard"), {
-          "title": "\u8FD4\u56DE\u4FE1\u606F"
+          "title": "Response\u4FE1\u606F"
         }, _isSlot(_slot3 = (() => {
-          if (vm.detailInfo.res_body_type === "json") {
+          if (state.detailInfo.res_body_type === "json") {
             return createVNode(JsonSchemaMonaco, {
-              "schemaString": vm.detailInfo.res_body,
-              "onUpdate:schemaString": ($event) => vm.detailInfo.res_body = $event,
+              "schemaString": state.detailInfo.res_body,
+              "onUpdate:schemaString": ($event) => state.detailInfo.res_body = $event,
               "readOnly": true
             }, null);
           }
           return createVNode(MonacoEditor, {
             "language": "json",
-            "code": vm.detailInfo.res_body,
+            "code": state.detailInfo.res_body,
             "readOnly": true
           }, null);
         })()) ? _slot3 : {
           default: () => [_slot3]
-        })])])]
-      });
+        })]);
+      }
+    });
+    watch(() => cptRouter.value.query.interface_id, (interface_id) => {
+      if (interface_id) {
+        state._updateInterfaceInfo();
+      }
+    }, {
+      immediate: true
+    });
+    return function() {
+      if (!state.detailInfo || !stateApp.currProject) {
+        return withDirectives(createVNode("div", {
+          "class": "flex middle center flex1"
+        }, null), [[resolveDirective("xloading"), "true"]]);
+      }
+      xU(stateApp.currGroup, stateApp.currProject, state.detailInfo);
+      return createVNode("div", {
+        "class": "flex width100 flex1 paddingT paddingR paddingB"
+      }, [createVNode("div", {
+        "class": "interface-detail-wrapper width100 padding box-shadow flex vertical"
+      }, [createVNode("div", {
+        "class": "flex end width100"
+      }, [createVNode(resolveComponent("xButton"), {
+        "onClick": state._showModifyInterfaceDialog
+      }, {
+        default: () => [createTextVNode("\u9884\u89C8")]
+      }), createVNode(resolveComponent("xButton"), {
+        "onClick": state._showModifyInterfaceDialog
+      }, {
+        default: () => [createTextVNode("\u7F16\u8F91")]
+      }), createVNode(resolveComponent("xButton"), {
+        "onClick": state._showModifyInterfaceDialog
+      }, {
+        default: () => [createTextVNode("\u8FD0\u884C")]
+      }), createVNode(resolveComponent("xGap"), {
+        "f": "1"
+      }, null)]), createVNode("div", {
+        "class": "flex1 overflow-auto mt10"
+      }, [createVNode(resolveComponent("xInfoCard"), {
+        "configs": cpt_interfaceInfo.value
+      }, null), cpt_vNodeDesc.value, cpt_vNodeRequest.value, cpt_vNodeResponse.value])])]);
     };
   }
 });

@@ -1,0 +1,47 @@
+.music-app .title {
+  font-weight: 700;
+  text-shadow: 1px 1px rgba(7, 6, 100, 0.1);
+  margin-right: 4px;
+}
+#ViewMusic .nav-tab {
+  height: 48px !important;
+  z-index: 1;
+}
+#ViewMusic .nav-tab .menu-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+}
+#ViewMusic .top-nav [aria-label="gohome"] {
+  margin-left: 4px;
+}
+#ViewMusic .play-list-wrapper {
+  overflow: auto;
+  overflow-x: hidden;
+  height: 90%;
+}
+#ViewMusic .ant-btn-link.elevation {
+  border-radius: 50%;
+}
+#ViewMusic .ant-btn-link.elevation span {
+  transform: scale(1.2);
+}
+#ViewMusic .MobileSongItem div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+#ViewMusic .site-layout .site-layout-background {
+  background: #fff;
+}
+#ViewMusic [aria-label="gohome"] {
+  display: inline-block;
+  width: 16px;
+}
+#ViewMusic .ant-layout-sider {
+  position: relative;
+  min-width: 0;
+  background: #ffffff;
+  transition: all 0.2s;
+}

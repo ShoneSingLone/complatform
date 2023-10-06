@@ -1,0 +1,19 @@
+.ViewMusicPlayer .title {
+  margin-right: 10px;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ViewMusicPlayer .site-layout .site-layout-background {
+  background: #fff;
+}
+.ViewMusicPlayer .ant-layout-sider {
+  position: relative;
+  min-width: 0;
+  background: #ffffff;
+  transition: all 0.2s;
+}
+.ViewMusicPlayer .volume {
+  width: 120px;
+}

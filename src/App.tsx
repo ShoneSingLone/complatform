@@ -64,6 +64,7 @@ export default defineComponent({
 				<RouterView
 					guards={this.routerViewGuards}
 					data-view-id="AppRouterView"
+					class="height1"
 				/>
 				<AppFooter />
 			</ElConfigProvider>

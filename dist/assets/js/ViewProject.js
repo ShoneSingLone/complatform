@@ -1,4 +1,4 @@
-import { d as defineComponent, s as stateApp, c as cptRouter, x as xI, a as defItem, w as withDirectives, j as resolveDirective, f as createVNode, r as resolveComponent, i as itemsInvalid, b as API, e as xU, F as Fragment, aw as reactive, aA as computed, m as xScope, ap as onMounted, aB as TAB_KEY_PROJECT_CONFIGS, aC as TAB_KEY_PROJECT_REQUEST_CODE, g as isVNode, aD as TAB_KEY_PROJECT_REQUEST, aE as TAB_KEY_PROJECT_AUTH, aF as TAB_KEY_PROJECT_MOCK, ae as stateInterface, aG as TAB_KEY_INTERFACE, aH as TAB_KEY_PROJECT_SETTING, au as OPEN_BLANK, aI as TAB_KEY_PROJECT_WIKI, K as aHashLink, P as PROJECT } from "./index.js";
+import { d as defineComponent, s as stateApp, c as cptRouter, x as xI, a as defItem, w as withDirectives, j as resolveDirective, f as createVNode, r as resolveComponent, i as itemsInvalid, b as API, e as xU, F as Fragment, aA as computed, m as xScope, ao as onMounted, aB as TAB_KEY_PROJECT_CONFIGS, aC as TAB_KEY_PROJECT_REQUEST_CODE, g as isVNode, aD as TAB_KEY_PROJECT_REQUEST, aE as TAB_KEY_PROJECT_AUTH, aF as TAB_KEY_PROJECT_MOCK, ae as stateInterface, aG as TAB_KEY_INTERFACE, aH as TAB_KEY_PROJECT_SETTING, au as OPEN_BLANK, aI as TAB_KEY_PROJECT_WIKI, K as aHashLink, P as PROJECT } from "./index.js";
 import { ViewWiki } from "./ViewWiki.js";
 import { o as openUpsertTagDialog, a as openProxyEnvDialog, V as ViewInterface } from "./ViewInterface.js";
 import { x as xItem_ProjectGroupId, a as xItem_ProjectName, b as xItem_ProjectIcon, c as xItem_ProjectColor, d as xItem_ProjectBasePath, e as xItem_ProjectDesc, f as xItem_ProjectType } from "./TuiEditor.js";
@@ -176,12 +176,9 @@ const ProjectSettingCommon = defineComponent({
 });
 const ProjectRequestCode = defineComponent({
   setup() {
-    const state = reactive({
-      ProjectRequestCode: stateApp.currProject.requestCode
-    });
-    const genCodeFn = function(ProjectRequestCode2) {
+    const cpt_code = computed(() => {
       try {
-        const requestCode = new Function("params", `return (${ProjectRequestCode2})(params)`);
+        const requestCode = stateApp._returnRequestCode();
         return requestCode({
           title: "TitleDemo",
           path: "/path_demo",
@@ -193,9 +190,6 @@ const ProjectRequestCode = defineComponent({
       } catch (error) {
         return error.message;
       }
-    };
-    const cpt_code = computed(() => {
-      return genCodeFn(state.ProjectRequestCode);
     });
     return function() {
       return createVNode("div", {
@@ -206,8 +200,8 @@ const ProjectRequestCode = defineComponent({
         "class": "flex flex1 vertical",
         "style": "width:40%;"
       }, [createVNode(resolveComponent("monacoEditor"), {
-        "code": state.ProjectRequestCode,
-        "onUpdate:code": ($event) => state.ProjectRequestCode = $event
+        "code": stateApp.currProject.requestCode,
+        "onUpdate:code": ($event) => stateApp.currProject.requestCode = $event
       }, null)]), createVNode(resolveComponent("xGap"), {
         "l": true
       }, null), createVNode("pre", {
@@ -225,7 +219,7 @@ const ProjectRequestCode = defineComponent({
             try {
               const dataForm = {
                 id: stateApp.currProject._id,
-                requestCode: state.ProjectRequestCode
+                requestCode: stateApp.currProject.requestCode
               };
               await API.project.update(dataForm);
               stateApp._setCurrProject(dataForm.id, {
