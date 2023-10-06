@@ -1,0 +1,27 @@
+.ViewMusicPlayerMobile {
+  width: 100%;
+  position: relative;
+  height: 120px;
+}
+.ViewMusicPlayerMobile .audio {
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  z-index: 1;
+}
+.ViewMusicPlayerMobile .MusicPlayerOpration {
+  margin: 64px;
+}
+.ViewMusicPlayerMobile .site-layout .site-layout-background {
+  background: #fff;
+}
+.ViewMusicPlayerMobile .ant-layout-sider {
+  position: relative;
+  min-width: 0;
+  background: #ffffff;
+  transition: all 0.2s;
+}
+.ViewMusicPlayerMobile .volume {
+  width: 120px;
+}
