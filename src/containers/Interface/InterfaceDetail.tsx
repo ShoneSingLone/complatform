@@ -234,10 +234,7 @@ export const InterfaceDetail = defineComponent({
 			const projectId = stateApp.currProject._id;
 			const interfaceId = cptRouter.value.query.interface_id;
 
-			const requestCode = new Function(
-				"params",
-				`return (${stateApp.currProject.requestCode})(params)`
-			);
+			const requestCode = stateApp._returnRequestCode();
 
 			return requestCode({
 				title,

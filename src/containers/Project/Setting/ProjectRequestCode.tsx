@@ -6,17 +6,9 @@ import { API } from "@/api";
 
 export const ProjectRequestCode = defineComponent({
 	setup() {
-		const state = reactive({
-			ProjectRequestCode: stateApp.currProject.requestCode
-		});
-
-		const genCodeFn = function (ProjectRequestCode) {
+		const cpt_code = computed(() => {
 			try {
-				const requestCode = new Function(
-					"params",
-					`return (${ProjectRequestCode})(params)`
-				);
-
+				const requestCode = stateApp._returnRequestCode();
 				return requestCode({
 					title: "TitleDemo",
 					path: "/path_demo",
@@ -28,10 +20,6 @@ export const ProjectRequestCode = defineComponent({
 			} catch (error) {
 				return error.message;
 			}
-		};
-
-		const cpt_code = computed(() => {
-			return genCodeFn(state.ProjectRequestCode);
 		});
 
 		return function () {
@@ -40,7 +28,7 @@ export const ProjectRequestCode = defineComponent({
 				<div class="flex flex1 vertical">
 					<div class="flex flex1 box-shadow mt mb ">
 						<div class="flex flex1 vertical" style="width:40%;">
-							<monacoEditor v-model:code={state.ProjectRequestCode} />
+							<monacoEditor v-model:code={stateApp.currProject.requestCode} />
 						</div>
 						<xGap l />
 						<pre class="flex1" style="width:40%;">
@@ -56,7 +44,7 @@ export const ProjectRequestCode = defineComponent({
 									try {
 										const dataForm = {
 											id: stateApp.currProject._id,
-											requestCode: state.ProjectRequestCode
+											requestCode: stateApp.currProject.requestCode
 										};
 										await API.project.update(dataForm);
 										stateApp._setCurrProject(dataForm.id, { isEnforce: true });
