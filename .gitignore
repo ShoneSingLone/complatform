@@ -1,10 +1,5 @@
 node_modules
 .idea
-.idea/.gitignore
-.idea/complatform.iml
-.idea/modules.xml
-.idea/vcs.xml
 src/ui
-
 privateConfigs.js
-privateConfigs.js
+public/dist

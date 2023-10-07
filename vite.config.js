@@ -38,7 +38,7 @@ const appOptions = {
 		fs: {
 			allow: [searchForWorkspaceRoot(process.cwd())]
 		},
-		proxy: {/* 
+		proxy: {
 			"^/api": {
 				target: "http://10.143.133.216:3001/",
 				changeOrigin: true,
@@ -46,7 +46,7 @@ const appOptions = {
 				ws: true,
 				rewrite: path => path.replace(/^\/api/, "/api")
 			}
-		 */}
+		}
 	},
 	build: {
 		/* 没有混缩 */

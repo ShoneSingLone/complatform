@@ -14,6 +14,9 @@ import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 export default defineComponent({
 	components: { AppFooter, AppHeader },
 	setup() {
+		if (stateApp.isMobile) {
+			$("#app").addClass("app-mobile");
+		}
 		stateApp.__resetState();
 		return {
 			cptRouter,
