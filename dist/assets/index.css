@@ -1029,6 +1029,9 @@ em {
   bottom: 0;
   cursor: col-resize;
 }
+#app.app-mobile .login-register-form {
+  width: 90%;
+}
 .footer-wrapper {
   height: 192px;
   width: 100%;
@@ -1372,7 +1375,8 @@ em {
 html,
 body,
 #app {
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
 }
 .flex1 {

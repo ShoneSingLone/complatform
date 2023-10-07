@@ -1,4 +1,4 @@
-import { d as defineComponent, s as stateApp, ad as defFormConfigs, x as xI, i as itemsInvalid, ae as stateInterface, e as xU, b as API, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, a7 as EVENT_TYPE, af as cptAvatarUrl, ag as getAvatarSrcByid, c as cptRouter, t as createTextVNode } from "./index.js";
+import { d as defineComponent, s as stateApp, af as defFormConfigs, x as xI, i as itemsInvalid, ag as stateInterface, f as xU, e as API, h as createVNode, r as resolveComponent, F as Fragment, j as isVNode, a9 as EVENT_TYPE, ah as cptAvatarUrl, ai as getAvatarSrcByid, a as cptRouter, v as createTextVNode } from "./index.js";
 import { F as FormRules, n as newRule, s as setValueTo, p as pickValueFrom } from "./common.FormRules.js";
 function _isSlot$1(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);

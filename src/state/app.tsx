@@ -15,6 +15,7 @@ const MEMBER_STATUS = 2;
  */
 function defaultStateApp() {
 	return {
+		isMobile: /Mobile/gi.test(window.navigator.userAgent),
 		useMobileView: true,
 		BASE_URL: window.__BASE_URL || window.location.origin,
 		expandedKeys: {
@@ -198,7 +199,6 @@ function defaultStateApp() {
 			});
 		},
 		async _logoutActions() {
-			debugger;
 			try {
 				const { data } = await API.user.logoutActions();
 				if (data === "ok") {

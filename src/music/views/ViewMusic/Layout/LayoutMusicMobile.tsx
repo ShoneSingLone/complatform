@@ -21,7 +21,8 @@ export default defineComponent({
 		};
 	},
 	data() {
-		const selectedKey = cptRouter.value || "playlist";
+		const selectedKey =
+			xU.last(cptRouter.value.pathname.split("/")) || "playlist";
 		return {
 			selectedKey
 		};

@@ -1,7 +1,13 @@
 import LoginWrap from "./LoginWrap";
 import { defineComponent } from "vue";
+import { stateApp } from "@/state/app";
 
 export const LoginContainer = defineComponent({
+	setup() {
+		return {
+			stateApp
+		};
+	},
 	computed: {
 		styleLogo() {
 			return {

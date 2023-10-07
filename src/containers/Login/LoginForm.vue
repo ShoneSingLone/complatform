@@ -114,10 +114,11 @@ export default defineComponent({
 					xU.notification.success("登录成功! ");
 					cptRouter.value.go("/group");
 				} else {
-					throw new Error("未通过验证");
+					console.error("未通过验证");
 				}
 			} catch (e) {
 				console.error(e);
+				xU.notification.error(e.message);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-import { C as _export_sfc, r as resolveComponent, E as openBlock, aS as createBlock, I as withCtx, f as createVNode, H as createElementBlock, F as Fragment, ac as createBaseVNode, aY as toDisplayString, e as xU, d as defineComponent, aZ as normalizeStyle } from "./index.js";
+import { H as _export_sfc, r as resolveComponent, I as openBlock, aU as createBlock, K as withCtx, h as createVNode, J as createElementBlock, F as Fragment, ae as createBaseVNode, a_ as toDisplayString, f as xU, d as defineComponent, a$ as normalizeStyle } from "./index.js";
 import { s as stateMusic, A as Actions_Music, C as Cpt_iconPlayModel, f as formatDuring, c as Cpt_iconSound, b as Cpt_currentSong } from "./music.js";
 const MusicPlayerModel_vue_vue_type_style_index_0_lang = "";
 const _sfc_main$4 = {
@@ -126,7 +126,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_elSlider = resolveComponent("elSlider");
   return openBlock(), createElementBlock("div", _hoisted_1$2, [
     createBaseVNode("span", null, toDisplayString($setup.formatDuring($setup.stateMusic.currentTime)), 1),
-    createVNode(_component_xGap, { l: "4" }),
+    createVNode(_component_xGap, { l: "8" }),
     createVNode(_component_elSlider, {
       class: "flex1",
       min: 0,
@@ -136,7 +136,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
       "tooltip-visible": false,
       onChange: $options.changSongProgress
     }, null, 8, ["max", "modelValue", "onChange"]),
-    createVNode(_component_xGap, { l: "4" }),
+    createVNode(_component_xGap, { l: "8" }),
     createBaseVNode("span", null, toDisplayString($setup.formatDuring($setup.stateMusic.duration)), 1)
   ]);
 }

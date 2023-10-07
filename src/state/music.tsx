@@ -273,7 +273,6 @@ export const Actions_Music = {
 		if (audioInfo) {
 			audioSrc = window.URL.createObjectURL(audioInfo.blob);
 		} else {
-			debugger;
 			/* 判断资源的来源，private处理方式不一样 */
 			if (record.isPrivate) {
 				var xToken = {

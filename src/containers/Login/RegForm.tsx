@@ -129,10 +129,10 @@ export default defineComponent({
 
 							cptRouter.value.go("/group");
 						} else {
-							throw new Error("未通过验证");
+							console.error("未通过验证");
 						}
 					} catch (e) {
-						console.error(e);
+						xU.notification.error(e.message);
 					}
 				}
 			}
