@@ -2,27 +2,27 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <link rel="manifest" href="./manifest/manifest.json">
-        <link rel="manifest" href="./assets/manifest.json">
-        <link rel="manifest" href="./pwa/manifest.json">
-        <link rel="manifest" href="./pwa/manifest.json">
+  <link rel="manifest" href="./manifest/manifest.json">
+        <script> (() => { /**/ if ("serviceWorker" in navigator) { const register = navigator.serviceWorker.register("./sw.js"); Notification .requestPermission() .then(function(result) { if (result === "granted") { window.__APP_IS_GRANTED = true; } }); } })(); </script>
         <link rel="icon" href="./assets/favicon.svg" id="favicon-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script>
-			window.__APP_VERSION = "1696615534717";
+			window.__APP_VERSION = "1696696927333";
 			window.__BASE_URL = "https://www.singlone.work/s/0" || window.location.origin;
 			/* fix:rollup chalk 不对付 */
 			window.process = {};
 			window.__URL_API_VERSION = "/v1";
 		</script>
         <title>--</title>
-        <script type="module" crossorigin src="./assets/js/index.js"></script>
-        <link rel="stylesheet" href="./assets/index.css">
+      <script type="module" crossorigin src="./assets/js/index.js"></script>
+      <link rel="stylesheet" href="./assets/index.css">
     </head>
+
 
     <body>
         <div id="app" class="x-loading">
             <!-- 在main.js初始化程序完成之后，移除x-loading样式类 -->
         </div>
+        
     </body>
 </html>

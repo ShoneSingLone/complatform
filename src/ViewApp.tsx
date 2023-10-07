@@ -11,6 +11,15 @@ import { $ } from "@/ventose/ui";
 import { RouterView } from "@/components/RouterView/RouterView";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 
+(async () => {
+	if (true) {
+		// if (import.meta.env.MODE === "development") {
+		const { default: VConsole } = await import("vconsole");
+		// or init with options
+		const vConsole = new VConsole({ theme: "dark" });
+	}
+})();
+
 export default defineComponent({
 	components: { AppFooter, AppHeader },
 	setup() {
@@ -25,7 +34,8 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			isLoading: true
+			isLoading: true,
+			size: {}
 		};
 	},
 	mounted() {
@@ -62,7 +72,7 @@ export default defineComponent({
 	},
 	render() {
 		return (
-			<ElConfigProvider size={stateApp.globalSize} locale={zhCn}>
+			<el-config-provider size={stateApp.globalSize} locale={zhCn}>
 				<AppHeader data-view-id="AppHeader" />
 				<RouterView
 					guards={this.routerViewGuards}
@@ -70,7 +80,7 @@ export default defineComponent({
 					class="height1"
 				/>
 				<AppFooter />
-			</ElConfigProvider>
+			</el-config-provider>
 		);
 	}
 });

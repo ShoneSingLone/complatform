@@ -1,6 +1,6 @@
 <template>
-	<elButton
-		class="PrivateMobileSongItem MobileSongItem elevation-1 flex vertical width100"
+	<div
+		class="PrivateMobileSongItem MobileSongItem flex vertical width100"
 		:loading="loading">
 		<div class="title">
 			{{ song.title }}
@@ -8,7 +8,7 @@
 		<div class="singer">
 			{{ song.index }}-{{ song.artist }}-{{ song.album }}
 		</div>
-	</elButton>
+	</div>
 </template>
 
 <script lang="jsx">
@@ -33,7 +33,8 @@ export default {
 .PrivateMobileSongItem {
 	line-height: 20px;
 	height: 48px;
-	border-radius: 16px;
+	padding: 8px 16px;
+	box-shadow: var(--el-box-shadow-light);
 
 	> .title {
 		width: 100%;

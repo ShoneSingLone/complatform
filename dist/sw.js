@@ -1,5 +1,4 @@
 const contentToCache = [
-  "./sw.js",
   "./noVNC/vendor/pako/README.md",
   "./noVNC/vendor/pako/LICENSE",
   "./noVNC/vendor/pako/lib/zlib/zstream.js",
@@ -232,11 +231,7 @@ const contentToCache = [
   "./monaco/vs/base/common/worker/simpleWorker.nls.de.js",
   "./monaco/vs/base/browser/ui/codicons/codicon/codicon.ttf",
   "./manifest.json",
-  "./manifest/icon-512.png",
-  "./manifest/icon-32.png",
-  "./manifest/icon-256.png",
   "./index.html",
-  "./favicon.ico",
   "./assets/ViewWiki.css",
   "./assets/ViewProject.css",
   "./assets/ViewI18n.css",
@@ -336,7 +331,6 @@ const contentToCache = [
   "./assets/PlayerPc.css",
   "./assets/PlayerMobile.css",
   "./assets/MusicPlayer.css",
-  "./assets/manifest.json",
   "./assets/LoginContainer.css",
   "./assets/loading.svg",
   "./assets/loading-2.gif",
@@ -355,6 +349,7 @@ const contentToCache = [
   "./assets/js/ViewInterface.js",
   "./assets/js/ViewI18n.js",
   "./assets/js/ViewGroup.js",
+  "./assets/js/vconsole.min.js",
   "./assets/js/TuiEditor.js",
   "./assets/js/PrivatePc.js",
   "./assets/js/PrivateMobileSongItem.js",
@@ -497,7 +492,7 @@ self.addEventListener("install", e => {
 	console.log("[Service Worker] Install");
 	e.waitUntil(
 		(async () => {
-			const cache = await caches.open("1696615029928");
+			const cache = await caches.open("1696696927333");
 			console.log("[Service Worker] Caching all: app shell and content");
 			await cache.addAll(contentToCache);
 		})()
@@ -516,7 +511,7 @@ self.addEventListener("fetch", e => {
 					return r;
 				}
 				const response = await fetch(e.request);
-				const cache = await caches.open("1696615029928");
+				const cache = await caches.open("1696696927333");
 				console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
 				cache.put(e.request, response.clone());
 				return response;

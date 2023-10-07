@@ -73,7 +73,7 @@ export default defineComponent({
 <style lang="less">
 .music-app {
 	.title {
-		font-weight: 700;
+		// font-weight: 700;
 		text-shadow: 1px 1px rgba(7, 6, 100, 0.1);
 		margin-right: 4px;
 	}

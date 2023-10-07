@@ -1,4 +1,4 @@
-import { d as defineComponent, s as stateApp, c as cptRouter, e as xU, f as createVNode, r as resolveComponent, aX as RouterView } from "./index.js";
+import { d as defineComponent, s as stateApp, f as xU, a as cptRouter, h as createVNode, r as resolveComponent, aZ as RouterView } from "./index.js";
 import { M as MusicPlayer } from "./MusicPlayer.js";
 import { s as stateMusic } from "./music.js";
 function goHome() {
@@ -16,7 +16,7 @@ const LayoutMusicMobile = defineComponent({
     };
   },
   data() {
-    const selectedKey = cptRouter.value || "playlist";
+    const selectedKey = xU.last(cptRouter.value.pathname.split("/")) || "playlist";
     return {
       selectedKey
     };
