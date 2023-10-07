@@ -2,10 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+  <link rel="manifest" href="./manifest/manifest.json">
+        <script> (() => { /**/ if ("serviceWorker" in navigator) { const register = navigator.serviceWorker.register("./sw.js"); Notification .requestPermission() .then(function(result) { if (result === "granted") { window.__APP_IS_GRANTED = true; } }); } })(); </script>
         <link rel="icon" href="./assets/favicon.svg" id="favicon-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script>
-			window.__APP_VERSION = "1696615534717";
+			window.__APP_VERSION = "1696696927333";
 			window.__BASE_URL = "https://www.singlone.work/s/0" || window.location.origin;
 			/* fix:rollup chalk 不对付 */
 			window.process = {};

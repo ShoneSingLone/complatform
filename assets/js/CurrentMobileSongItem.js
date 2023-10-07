@@ -1,5 +1,5 @@
 import { A as Actions_Music } from "./music.js";
-import { $, C as _export_sfc, r as resolveComponent, E as openBlock, H as createElementBlock, ac as createBaseVNode, aY as toDisplayString, f as createVNode, aZ as normalizeStyle, F as Fragment } from "./index.js";
+import { $, H as _export_sfc, r as resolveComponent, I as openBlock, J as createElementBlock, ae as createBaseVNode, a_ as toDisplayString, h as createVNode, a$ as normalizeStyle, F as Fragment } from "./index.js";
 const WIDTH = 64;
 const _sfc_main = {
   props: ["song"],

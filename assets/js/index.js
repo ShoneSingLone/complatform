@@ -100910,6 +100910,7 @@ const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
 function defaultStateApp() {
   return {
+    isMobile: /Mobile/gi.test(window.navigator.userAgent),
     useMobileView: true,
     BASE_URL: window.__BASE_URL || window.location.origin,
     expandedKeys: {
@@ -101101,7 +101102,6 @@ function defaultStateApp() {
       });
     },
     async _logoutActions() {
-      debugger;
       try {
         const {
           data: data2
@@ -101903,12 +101903,25 @@ var zhCn = {
     }
   }
 };
-const App = defineComponent({
+(async () => {
+  {
+    const {
+      default: VConsole
+    } = await __vitePreload(() => import("./vconsole.min.js").then((n) => n.v), true ? [] : void 0, import.meta.url);
+    new VConsole({
+      theme: "dark"
+    });
+  }
+})();
+const ViewApp = defineComponent({
   components: {
     AppFooter,
     AppHeader
   },
   setup() {
+    if (stateApp.isMobile) {
+      $$1("#app").addClass("app-mobile");
+    }
     stateApp.__resetState();
     return {
       cptRouter,
@@ -101917,7 +101930,8 @@ const App = defineComponent({
   },
   data() {
     return {
-      isLoading: true
+      isLoading: true,
+      size: {}
     };
   },
   mounted() {
@@ -101954,7 +101968,7 @@ const App = defineComponent({
     }
   },
   render() {
-    return createVNode(resolveComponent("ElConfigProvider"), {
+    return createVNode(resolveComponent("el-config-provider"), {
       "size": stateApp.globalSize,
       "locale": zhCn
     }, {
@@ -101975,127 +101989,129 @@ if (window.electronAPI) {
 }
 async function main() {
   const { appUiPlugin: appUiPlugin2 } = await __vitePreload(() => Promise.resolve().then(() => common), true ? void 0 : void 0, import.meta.url);
-  createApp(App).use(appUiPlugin2).mount("#app");
+  createApp(ViewApp).use(appUiPlugin2).mount("#app");
 }
 main();
 export {
   $$1 as $,
   ARTICLE as A,
-  PROJECT_ICON as B,
-  _export_sfc as C,
+  _$randomValueAndProp as B,
+  PROJECT_COLOR as C,
   DEV as D,
-  openBlock as E,
+  PROJECT_ICON as E,
   Fragment as F,
   GROUP as G,
-  createElementBlock as H,
-  withCtx as I,
-  renderList as J,
-  aHashLink as K,
-  toRaw as L,
-  diff as M,
-  markRaw as N,
+  _export_sfc as H,
+  openBlock as I,
+  createElementBlock as J,
+  withCtx as K,
+  renderList as L,
+  aHashLink as M,
+  toRaw as N,
   OWNER as O,
   PROJECT as P,
-  defXVirTableConfigs as Q,
-  defCol as R,
-  h$1 as S,
-  inject as T,
-  components as U,
-  setDataGridInfo as V,
-  defDataGrid as W,
-  MonacoEditor as X,
-  HTTP_REQUEST_HEADER as Y,
-  compileVNode as Z,
+  diff as Q,
+  markRaw as R,
+  defXVirTableConfigs as S,
+  defCol as T,
+  h$1 as U,
+  inject as V,
+  components as W,
+  setDataGridInfo as X,
+  defDataGrid as Y,
+  MonacoEditor as Z,
   _$handlePath as _,
-  defItem as a,
-  getMany as a$,
-  QUERY as a0,
-  GET as a1,
-  HTTP_METHOD as a2,
-  BODY as a3,
-  defineAsyncComponent as a4,
-  MkitTheme as a5,
-  PreprocessHTML as a6,
-  EVENT_TYPE as a7,
-  FOLDER as a8,
-  lStorage as a9,
-  computed as aA,
-  TAB_KEY_PROJECT_CONFIGS as aB,
-  TAB_KEY_PROJECT_REQUEST_CODE as aC,
-  TAB_KEY_PROJECT_REQUEST as aD,
-  TAB_KEY_PROJECT_AUTH as aE,
-  TAB_KEY_PROJECT_MOCK as aF,
-  TAB_KEY_INTERFACE as aG,
-  TAB_KEY_PROJECT_SETTING as aH,
-  TAB_KEY_PROJECT_WIKI as aI,
-  INTERFACE as aJ,
-  _$arrayChangeIndex as aK,
-  ALL as aL,
-  cpt_treeData as aM,
-  CATEGORY as aN,
-  ref as aO,
-  copyToClipboard$1 as aP,
-  makeAhref as aQ,
-  __vitePreload as aR,
-  createBlock as aS,
-  axios as aT,
-  get$2 as aU,
-  set as aV,
-  delMany as aW,
-  RouterView as aX,
-  toDisplayString as aY,
-  normalizeStyle as aZ,
-  keys as a_,
-  stylesLoginFormIcon as aa,
-  withKeys as ab,
-  createBaseVNode as ac,
-  defFormConfigs as ad,
-  stateInterface as ae,
-  cptAvatarUrl as af,
-  getAvatarSrcByid as ag,
-  ErrMsg as ah,
-  index as ai,
-  defPagination as aj,
-  METHOD_COLOR as ak,
-  LOG_TYPE as al,
-  _$timeAgo as am,
-  jsondiffpatch as an,
-  onMounted as ao,
-  defColumns as ap,
-  TAB_KEY_PROJECT_LIST as aq,
-  TAB_KEY_MEMBER_LIST as ar,
-  TAB_KEY_GROUP_LOG as as,
-  TAB_KEY_GROUP_WIKI as at,
-  OPEN_BLANK as au,
-  Lodash as av,
-  reactive as aw,
-  onUnmounted as ax,
-  defColActions as ay,
-  defColActionsBtnlist as az,
-  API as b,
-  del as b0,
-  cptRouter as c,
+  cptRouter as a,
+  normalizeStyle as a$,
+  HTTP_REQUEST_HEADER as a0,
+  compileVNode as a1,
+  QUERY as a2,
+  GET as a3,
+  HTTP_METHOD as a4,
+  BODY as a5,
+  defineAsyncComponent as a6,
+  MkitTheme as a7,
+  PreprocessHTML as a8,
+  EVENT_TYPE as a9,
+  defColActions as aA,
+  defColActionsBtnlist as aB,
+  computed as aC,
+  TAB_KEY_PROJECT_CONFIGS as aD,
+  TAB_KEY_PROJECT_REQUEST_CODE as aE,
+  TAB_KEY_PROJECT_REQUEST as aF,
+  TAB_KEY_PROJECT_AUTH as aG,
+  TAB_KEY_PROJECT_MOCK as aH,
+  TAB_KEY_INTERFACE as aI,
+  TAB_KEY_PROJECT_SETTING as aJ,
+  TAB_KEY_PROJECT_WIKI as aK,
+  INTERFACE as aL,
+  _$arrayChangeIndex as aM,
+  ALL as aN,
+  cpt_treeData as aO,
+  CATEGORY as aP,
+  ref as aQ,
+  copyToClipboard$1 as aR,
+  makeAhref as aS,
+  __vitePreload as aT,
+  createBlock as aU,
+  axios as aV,
+  get$2 as aW,
+  set as aX,
+  delMany as aY,
+  RouterView as aZ,
+  toDisplayString as a_,
+  FOLDER as aa,
+  lStorage as ab,
+  stylesLoginFormIcon as ac,
+  withKeys as ad,
+  createBaseVNode as ae,
+  defFormConfigs as af,
+  stateInterface as ag,
+  cptAvatarUrl as ah,
+  getAvatarSrcByid as ai,
+  ErrMsg as aj,
+  index as ak,
+  defPagination as al,
+  METHOD_COLOR as am,
+  LOG_TYPE as an,
+  _$timeAgo as ao,
+  jsondiffpatch as ap,
+  onMounted as aq,
+  defColumns as ar,
+  TAB_KEY_PROJECT_LIST as as,
+  TAB_KEY_MEMBER_LIST as at,
+  TAB_KEY_GROUP_LOG as au,
+  TAB_KEY_GROUP_WIKI as av,
+  OPEN_BLANK as aw,
+  Lodash as ax,
+  reactive as ay,
+  onUnmounted as az,
+  defItem as b,
+  keys as b0,
+  getMany as b1,
+  del as b2,
+  commonjsGlobal as c,
   defineComponent as d,
-  xU$1 as e,
-  createVNode as f,
-  isVNode as g,
-  cpt_isPersonalWikiView as h,
+  API as e,
+  xU$1 as f,
+  getDefaultExportFromCjs as g,
+  createVNode as h,
   itemsInvalid as i,
-  resolveDirective as j,
-  getTreeOrder as k,
-  compositionAPI as l,
-  xScope as m,
-  watch as n,
-  sortTreeByOrder as o,
-  setDocumentTitle as p,
-  PRIVATE as q,
+  isVNode as j,
+  cpt_isPersonalWikiView as k,
+  resolveDirective as l,
+  getTreeOrder as m,
+  compositionAPI as n,
+  xScope as o,
+  watch as p,
+  sortTreeByOrder as q,
   resolveComponent as r,
   stateApp as s,
-  createTextVNode as t,
-  PUBLIC as u,
-  ADMIN as v,
+  setDocumentTitle as t,
+  PRIVATE as u,
+  createTextVNode as v,
   withDirectives as w,
   xI$1 as x,
-  _$randomValueAndProp as y,
-  PROJECT_COLOR as z
+  PUBLIC as y,
+  ADMIN as z
 };
