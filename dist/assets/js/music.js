@@ -1,4 +1,4 @@
-import { aV as axios, f as xU, ay as reactive, ab as lStorage, aW as get, aX as set, aY as delMany, t as setDocumentTitle, aC as computed, p as watch } from "./index.js";
+import { aW as axios, e as xU, az as reactive, ac as lStorage, aX as get, aY as set, aZ as delMany, p as setDocumentTitle, aD as computed, n as watch } from "./index.js";
 const reqInterceptor = (config) => {
   return config;
 };
@@ -47,7 +47,7 @@ function logError(msg) {
 }
 genAjax();
 const ajax = genAjax({
-  baseURL: "https://www.singlone.work/s/wyapi",
+  baseURL: `${window.__BASE_URL}/s/wyapi`,
   reqInterceptor: (i) => i,
   resInterceptor: (i) => {
     var _a;
@@ -63,7 +63,7 @@ const API = {
       let res = [];
       try {
         const { status, data } = await axios.get(
-          `https://www.singlone.work/s/0/media/AllMusicClient.json?_t=${Date.now()}`
+          `${window.__BASE_URL}/s/0/media/AllMusicClient.json?_t=${Date.now()}`
         );
         if (status === 200) {
           res = data;
@@ -414,7 +414,7 @@ const Actions_Music = {
           params.push(`${prop}=${val}`);
         });
         params = params.join("&");
-        audioSrc = `https://www.singlone.work/s/0/api/resource/remote_music_file?${params}`;
+        audioSrc = `${window.__BASE_URL}/s/0/api/resource/remote_music_file?${params}`;
       } else {
         const res = await API.music.getSongUrlBuId(id);
         audioSrc = xU.first(res == null ? void 0 : res.data).url;

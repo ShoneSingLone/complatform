@@ -105,8 +105,7 @@ export const DialogModifyInterface = defineComponent({
 				basepath: defItem({
 					value: vm.stateApp.currProject.basepath,
 					label: xI("接口基本路径"),
-					labelVNodeRender:
-						VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
+					labelVNodeRender: VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
 					disabled: true
 				}),
 				apiMethod: defItem({
@@ -378,7 +377,7 @@ export const DialogModifyInterface = defineComponent({
 				pathParams,
 				api_opened,
 				noticed
-			} = pickValueFrom(this.dataXItem);
+			}: any = pickValueFrom(this.dataXItem);
 
 			/* 请求 */
 			const {

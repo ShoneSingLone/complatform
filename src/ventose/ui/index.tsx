@@ -39,7 +39,14 @@ import {
 	setDataGridInfo,
 	setPagination
 } from "./xDataGrid/common";
-import { antColKey, defItem, defFormConfigs, vModel } from "./xForm/common";
+import {
+	antColKey,
+	defItem,
+	defFormConfigs,
+	vModel,
+	usePrivateItemValue,
+	defineComponentProps
+} from "./xForm/common";
 import {
 	xScope,
 	EVENT_TYPE,
@@ -141,6 +148,8 @@ export { setCSSVariables as setCSSVariables };
 export { defItem as defItem };
 export { defFormConfigs as defFormConfigs };
 export { vModel as vModel };
+export { defineComponentProps as defineComponentProps };
+export { usePrivateItemValue as usePrivateItemValue };
 export { antColKey as antColKey };
 export { pickValueFrom as pickValueFrom };
 export { resetValueOf as resetValueOf };

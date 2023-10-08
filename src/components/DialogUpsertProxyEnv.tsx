@@ -1,5 +1,13 @@
 import { defineComponent, markRaw } from "vue";
-import { defItem, pickValueFrom, setValueTo, xI, xU } from "@/ventose/ui";
+import {
+	defItem,
+	defineComponentProps,
+	itemsInvalid,
+	pickValueFrom,
+	setValueTo,
+	xI,
+	xU
+} from "@/ventose/ui";
 import { stateApp } from "@/state/app";
 import { FormRules, newRule } from "@/utils/common.FormRules";
 import { API } from "@/api";
@@ -10,6 +18,7 @@ import {
 	makeNameValueObj
 } from "@/components/InputKeyValue";
 import { diff } from "jsondiffpatch";
+import { itemBaseProps, usePrivateItemValue } from "@/ventose/ui/xForm/common";
 
 export const DialogUpsertProxyEnv = defineComponent({
 	props: {
@@ -431,21 +440,22 @@ export const DialogUpsertProxyEnv = defineComponent({
 });
 
 const KeyValuePanel = defineComponent({
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-	methods: {
-		fnUpdate(val) {
-			this.listeners["onEmitItemValue"](val);
-		}
+	props: defineComponentProps(itemBaseProps),
+	setup(props) {
+		return {
+			_itemValue: usePrivateItemValue(props, [])
+		};
 	},
-	render(vm) {
-		const { properties, fnUpdate } = this;
-		properties.value = properties.value || [];
+	components: {
+		InputKeyValue
+	},
+	render() {
+		const { properties } = this;
 		properties.fnCheck = properties.fnCheck || false;
 		return (
 			<div class="ant-card ant-card-bordered" style="padding:10px">
 				<InputKeyValue
-					items={properties.value}
-					onUpdate:items={fnUpdate}
+					v-model={this._itemValue}
 					genItem={properties.genItem}
 					fnCheck={properties.fnCheck}
 				/>

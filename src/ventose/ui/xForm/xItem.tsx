@@ -184,6 +184,7 @@ export const xItem = defineComponent({
 			const listeners = {
 				/* modelValue的主要的触发方式 */
 				onEmitItemValue: (val: any) => {
+					console.log("🚀 ~ file: xItem.tsx:187 ~ data ~ onEmitItemValue:");
 					vm.privateValue = val;
 					/* @ts-ignore */
 					if (xU.isFunction(listeners.onAfterEmitItemValue)) {

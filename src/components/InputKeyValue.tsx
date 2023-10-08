@@ -17,13 +17,13 @@ export function orderAsc(a, b) {
 /* 只能处理全量的upsert，因为没有保留_id这样的信息，方便diff的时候做判断 */
 export const InputKeyValue = defineComponent({
 	props: [
-		"items",
+		"modelValue",
 		/* fnCheck 提供额外的校验方法，满足基本的校验之后，由外部规则决定是否通过 */
 		"genItem",
 		/* fnCheck 提供额外的校验方法，满足基本的校验之后，由外部规则决定是否通过 */
 		"fnCheck"
 	],
-	emits: ["update:items"],
+	emits: ["update:modelValue"],
 	setup() {
 		return { stateApp };
 	},
@@ -31,10 +31,10 @@ export const InputKeyValue = defineComponent({
 		return { privateItems: {}, isLoading: true };
 	},
 	watch: {
-		items: {
+		modelValue: {
 			deep: true,
 			handler() {
-				const diffContent = toRaw(diff(this.items, this.oldItems));
+				const diffContent = toRaw(diff(this.modelValue, this.oldItems));
 				if (diffContent) {
 					this.setPrivateItems();
 				}
@@ -64,13 +64,13 @@ export const InputKeyValue = defineComponent({
 	},
 	methods: {
 		setPrivateItems() {
-			const { items } = this;
-			this.oldItems = items;
+			const { modelValue } = this;
+			this.oldItems = modelValue;
 			const vm = this;
-			if (xU.isArrayFill(items)) {
+			if (xU.isArrayFill(modelValue)) {
 				let index = 1;
 				vm.privateItems = xU.reduce(
-					items,
+					modelValue,
 					(_items, tag) => {
 						_items[index] = vm.genItem({
 							...tag,
@@ -99,7 +99,7 @@ export const InputKeyValue = defineComponent({
 					},
 					[]
 				);
-				this.$emit("update:items", value);
+				this.$emit("update:modelValue", value);
 			}
 			this.isLoading = false;
 		}, 1000),

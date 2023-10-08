@@ -2,7 +2,7 @@ import { genAjax } from "@/music/request/ajax";
 import axios from "axios";
 
 const ajax = genAjax({
-	baseURL: "https://www.singlone.work/s/wyapi",
+	baseURL: `${window.__BASE_URL}/s/wyapi`,
 	reqInterceptor: i => i,
 	resInterceptor: i => {
 		if (i?.data?.code === 200) {
@@ -18,7 +18,7 @@ export const API = {
 			let res = [];
 			try {
 				const { status, data } = await axios.get(
-					`https://www.singlone.work/s/0/media/AllMusicClient.json?_t=${Date.now()}`
+					`${window.__BASE_URL}/s/0/media/AllMusicClient.json?_t=${Date.now()}`
 				);
 				if (status === 200) {
 					res = data;

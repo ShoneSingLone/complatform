@@ -1,30 +1,23 @@
 import { defineComponent } from "vue";
 import { xU } from "../../ventoseUtils";
 import { ReadonlyItem } from "./Readonly";
+import {
+	defineComponentProps,
+	itemBaseProps,
+	usePrivateItemValue
+} from "../common";
 
 export const ComponentSample = defineComponent({
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+	props: defineComponentProps(itemBaseProps),
+	setup(props) {
+		return {
+			_itemValue: usePrivateItemValue(props)
+		};
+	},
 	mounted() {
 		xU("xItem ComponentSample");
 	},
-	data(vm) {
-		return {
-			_modelValue: ""
-		};
-	},
-	methods: {},
-	watch: {
-		"properties.value"(value) {
-			if (value !== undefined) {
-				if (value !== this._modelValue) {
-					this._modelValue = value;
-				}
-			}
-		},
-		_modelValue(modelValue) {
-			this.listeners["onEmitItemValue"](modelValue);
-		}
-	},
+	watch: {},
 	computed: {},
 	render(vm) {
 		const { properties, listeners, propsWillDeleteFromConfigs } = vm;
@@ -49,6 +42,7 @@ export const ComponentSample = defineComponent({
 		};
 		return (
 			<ElInput
+				v-model={this._itemValue}
 				{...listeners}
 				{..._property}
 				v-slots={{ default: renderOptions }}

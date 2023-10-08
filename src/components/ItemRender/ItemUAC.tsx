@@ -1,6 +1,7 @@
 import { defineComponent } from "vue";
-import { xU } from "@/ventose/ui";
+import { defineComponentProps, usePrivateItemValue, xU } from "@/ventose/ui";
 import { API } from "@/api";
+import { itemBaseProps } from "@/ventose/ui/xForm/common";
 
 /**
  * 对 UsernameAutoComplete的xItem封装
@@ -8,7 +9,12 @@ import { API } from "@/api";
  * @returns
  */
 export const ItemUAC = defineComponent({
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+	props: defineComponentProps(itemBaseProps),
+	setup(props) {
+		return {
+			_itemValue: usePrivateItemValue(props)
+		};
+	},
 	data() {
 		this.doSearch = xU.debounce(async params => {
 			try {
@@ -37,37 +43,29 @@ export const ItemUAC = defineComponent({
 		}
 	},
 	computed: {
-		_modelValue: {
-			get() {
-				return this.properties.value;
-			},
-			set(val) {
-				this.listeners["onEmitItemValue"](val);
-			}
-		},
 		selectOptionsVNode() {
 			return xU.map(this.optionArray, ({ username, uid }) => {
 				return (
-					<ElOption key={uid} value={uid} label={username}>
+					<elOption key={uid} value={uid} label={username}>
 						{username}
-					</ElOption>
+					</elOption>
 				);
 			});
 		}
 	},
 	render() {
 		return (
-			<ElSelect
+			<elSelect
 				multiple
 				filterable
 				remote
 				remote-show-suffix
-				v-model={this._modelValue}
+				v-model={this._itemValue}
 				remoteMethod={this.onSearch}
 				style={{ width: "100%" }}
 				placeholder="请输入用户名">
 				{this.selectOptionsVNode}
-			</ElSelect>
+			</elSelect>
 		);
 	}
 });

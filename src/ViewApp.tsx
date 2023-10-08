@@ -11,19 +11,19 @@ import { $ } from "@/ventose/ui";
 import { RouterView } from "@/components/RouterView/RouterView";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 
-(async () => {
-	if (true) {
-		// if (import.meta.env.MODE === "development") {
-		const { default: VConsole } = await import("vconsole");
-		// or init with options
-		const vConsole = new VConsole({ theme: "dark" });
-	}
-})();
+async function useVConsole() {
+	const { default: VConsole } = await import("vconsole");
+	// or init with options
+	const vConsole = new VConsole({ theme: "dark" });
+}
 
 export default defineComponent({
 	components: { AppFooter, AppHeader },
 	setup() {
 		if (stateApp.isMobile) {
+			if (import.meta.env.MODE === "development") {
+				useVConsole();
+			}
 			$("#app").addClass("app-mobile");
 		}
 		stateApp.__resetState();
