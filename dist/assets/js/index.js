@@ -79394,8 +79394,80 @@ const ReadonlyItem = defineComponent({
     }]]);
   }
 });
+function defineComponentProps(...args) {
+  return xU$1.merge.apply(xU$1, args);
+}
+function defFormConfigs(configs2) {
+  const targetConfigs = {};
+  configs2.forEach((configs3) => {
+    configs3 = defItem(configs3);
+    targetConfigs[configs3.prop] = configs3;
+  });
+  return targetConfigs;
+}
+function defItem(options) {
+  if (!xU$1.isObjSetAttr(options, "label")) {
+    options.label = "";
+  }
+  if (!xU$1.isObjSetAttr(options, "isShow")) {
+    options.isShow = true;
+  }
+  if (!xU$1.isObjSetAttr(options, "disabled")) {
+    options.disabled = false;
+  }
+  if (!xU$1.isObjSetAttr(options, "rules")) {
+    options.rules = [];
+  }
+  if (!xU$1.isObjSetAttr(options, "itemType")) {
+    options.itemType = "Input";
+  }
+  if (xU$1.isObject(options.itemType)) {
+    options.itemType.__v_isReactive = false;
+  }
+  const _options = xU$1.merge({
+    itemTips: {
+      type: "",
+      msg: ""
+    }
+  }, options);
+  _options._$updateUI = (newConfigs) => {
+    xU$1.each(newConfigs, (value, prop) => {
+      _options[prop] = value;
+    });
+  };
+  return _options;
+}
+defItem.labelWithTips = ({
+  label,
+  icon
+}) => {
+  return createVNode("span", {
+    "class": "flex middle"
+  }, [createVNode("span", {
+    "class": "mr4"
+  }, [label]), icon]);
+};
+const itemBaseProps = ["modelValue", "properties", "slots", "listeners", "propsWillDeleteFromConfigs"];
+function usePrivateItemValue(props, defaultValue = "") {
+  return computed({
+    get() {
+      if (xU$1.isInput(props.modelValue)) {
+        return props.modelValue;
+      }
+      return defaultValue;
+    },
+    set(val) {
+      props.listeners["onEmitItemValue"](val);
+    }
+  });
+}
 const Input = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+  props: defineComponentProps(itemBaseProps),
+  setup(props) {
+    return {
+      _itemValue: usePrivateItemValue(props)
+    };
+  },
   data(vm) {
     return {
       oldComponent: "",
@@ -79414,14 +79486,6 @@ const Input = defineComponent({
     }
   },
   computed: {
-    _modelValue: {
-      get() {
-        return this.properties.value;
-      },
-      set(val) {
-        this.listeners["onEmitItemValue"](val);
-      }
-    },
     component({
       properties
     }) {
@@ -79458,8 +79522,8 @@ const Input = defineComponent({
       properties.showPassword = true;
     }
     return createVNode(component2, mergeProps({
-      "modelValue": this._modelValue,
-      "onUpdate:modelValue": ($event) => this._modelValue = $event
+      "modelValue": this._itemValue,
+      "onUpdate:modelValue": ($event) => this._itemValue = $event
     }, xU$1.omit(properties, ["value", "isTextarea", ...propsWillDeleteFromConfigs]), xU$1.omit(listeners, ["onEmitItemValue"])), slots);
   }
 });
@@ -79528,26 +79592,14 @@ const Checkbox = defineComponent({
   }
 });
 const Select = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  mounted() {
-    xU$1("xItem Select");
+  props: defineComponentProps(itemBaseProps),
+  setup(props) {
+    return {
+      _itemValue: usePrivateItemValue(props)
+    };
   },
-  data(vm) {
-    return {};
-  },
-  methods: {},
-  watch: {},
-  computed: {
-    _modelValue: {
-      get() {
-        return this.properties.value;
-      },
-      set(val) {
-        this.listeners["onEmitItemValue"](val);
-      }
-    }
-  },
-  render(vm) {
+  render() {
+    const vm = this;
     const {
       properties,
       listeners,
@@ -79565,13 +79617,13 @@ const Select = defineComponent({
       } else {
         return xU$1.map(properties.options, (option) => {
           if (xU$1.isPlainObject(option.label)) {
-            return createVNode(resolveComponent("ElOption"), {
+            return createVNode(resolveComponent("elOption"), {
               "value": option.value
             }, {
               default: () => [option.label]
             });
           } else {
-            return createVNode(resolveComponent("ElOption"), {
+            return createVNode(resolveComponent("elOption"), {
               "value": option.value,
               "label": option.label
             }, null);
@@ -79579,28 +79631,20 @@ const Select = defineComponent({
         });
       }
     };
-    return createVNode(resolveComponent("ElSelect"), mergeProps({
-      "modelValue": this._modelValue,
-      "onUpdate:modelValue": ($event) => this._modelValue = $event
+    return createVNode(resolveComponent("elSelect"), mergeProps({
+      "modelValue": this._itemValue,
+      "onUpdate:modelValue": ($event) => this._itemValue = $event
     }, _property, listeners), {
       default: renderOptions
     });
   }
 });
 const RadioGroup = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  data(vm) {
-    return {};
-  },
-  computed: {
-    _modelValue: {
-      get() {
-        return this.properties.value;
-      },
-      set(val) {
-        this.listeners["onEmitItemValue"](val);
-      }
-    }
+  props: defineComponentProps(itemBaseProps),
+  setup(props) {
+    return {
+      _itemValue: usePrivateItemValue(props)
+    };
   },
   render({
     properties,
@@ -79632,8 +79676,8 @@ const RadioGroup = defineComponent({
       });
     };
     return createVNode(RadioGroup2, mergeProps({
-      "modelValue": this._modelValue,
-      "onUpdate:modelValue": ($event) => this._modelValue = $event
+      "modelValue": this._itemValue,
+      "onUpdate:modelValue": ($event) => this._itemValue = $event
     }, componentPropertyOmitOptions, listeners), {
       default: renderOptions
     });
@@ -79646,41 +79690,25 @@ const CheckboxGroup = ({
 }) => {
   return createVNode(resolveComponent("ElCheckboxGroup"), mergeProps(properties, listeners), slots);
 };
-function useItemRender() {
-  const {
-    ctx
-  } = getCurrentInstance();
-  const privateModelValue = computed({
-    get() {
-      return ctx.$parent.privateValue;
-    },
-    set(val) {
-      ctx.listeners["onEmitItemValue"](val);
-    }
-  });
-  return {
-    privateModelValue
-  };
-}
 const xSwitch = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  setup() {
-    const {
-      privateModelValue
-    } = useItemRender();
-    return function(vm) {
-      const {
-        properties,
-        listeners,
-        propsWillDeleteFromConfigs
-      } = vm;
-      return createVNode("div", {
-        "class": "x-item_switch"
-      }, [createVNode(resolveComponent("ElSwitch"), mergeProps({
-        "modelValue": privateModelValue.value,
-        "onUpdate:modelValue": ($event) => privateModelValue.value = $event
-      }, xU$1.omit(listeners, ["onEmitItemValue"]), xU$1.omit(properties, ["value", ...propsWillDeleteFromConfigs])), null)]);
+  props: defineComponentProps(itemBaseProps),
+  setup(props) {
+    return {
+      _itemValue: usePrivateItemValue(props)
     };
+  },
+  render() {
+    const {
+      properties,
+      listeners,
+      propsWillDeleteFromConfigs
+    } = this;
+    return createVNode("div", {
+      "class": "x-item_switch"
+    }, [createVNode(resolveComponent("elSwitch"), mergeProps({
+      "modelValue": this._itemValue,
+      "onUpdate:modelValue": ($event) => this._itemValue = $event
+    }, xU$1.omit(listeners, ["onEmitItemValue"]), xU$1.omit(properties, ["value", ...propsWillDeleteFromConfigs])), null)]);
   }
 });
 const itemRenders = {
@@ -85072,6 +85100,7 @@ const xItem = defineComponent({
       const propsSet = /* @__PURE__ */ new Set();
       const listeners2 = {
         onEmitItemValue: (val) => {
+          console.log("\u{1F680} ~ file: xItem.tsx:187 ~ data ~ onEmitItemValue:");
           vm.privateValue = val;
           if (xU$1.isFunction(listeners2.onAfterEmitItemValue)) {
             listeners2.onAfterEmitItemValue.call(vm, val);
@@ -87943,56 +87972,6 @@ function installMoveDirective(app) {
 const installDirective = (app, options) => {
   installPopoverDirective(app, options);
   [installLoading, installMoveDirective].forEach((install) => install(app));
-};
-function defFormConfigs(configs2) {
-  const targetConfigs = {};
-  configs2.forEach((configs3) => {
-    configs3 = defItem(configs3);
-    targetConfigs[configs3.prop] = configs3;
-  });
-  return targetConfigs;
-}
-function defItem(options) {
-  if (!xU$1.isObjSetAttr(options, "label")) {
-    options.label = "";
-  }
-  if (!xU$1.isObjSetAttr(options, "isShow")) {
-    options.isShow = true;
-  }
-  if (!xU$1.isObjSetAttr(options, "disabled")) {
-    options.disabled = false;
-  }
-  if (!xU$1.isObjSetAttr(options, "rules")) {
-    options.rules = [];
-  }
-  if (!xU$1.isObjSetAttr(options, "itemType")) {
-    options.itemType = "Input";
-  }
-  if (xU$1.isObject(options.itemType)) {
-    options.itemType.__v_isReactive = false;
-  }
-  const _options = xU$1.merge({
-    itemTips: {
-      type: "",
-      msg: ""
-    }
-  }, options);
-  _options._$updateUI = (newConfigs) => {
-    xU$1.each(newConfigs, (value, prop) => {
-      _options[prop] = value;
-    });
-  };
-  return _options;
-}
-defItem.labelWithTips = ({
-  label,
-  icon
-}) => {
-  return createVNode("span", {
-    "class": "flex middle"
-  }, [createVNode("span", {
-    "class": "mr4"
-  }, [label]), icon]);
 };
 const get$head = () => {
   let $head = $$1("html head");
@@ -91704,7 +91683,7 @@ const _sfc_main = {
     }
   }
 };
-const CopyContent_vue_vue_type_style_index_0_scoped_1dce9b73_lang = "";
+const CopyContent_vue_vue_type_style_index_0_scoped_87c9fcd0_lang = "";
 const _hoisted_1 = {
   class: "flex middle copy-content-wrapper",
   ref: "contents"
@@ -91723,7 +91702,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 512);
 }
-const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-1dce9b73"]]);
+const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-87c9fcd0"]]);
 const asyncGetMonaco = async () => {
   if (window.monaco) {
     return window.monaco;
@@ -101903,16 +101882,6 @@ var zhCn = {
     }
   }
 };
-(async () => {
-  {
-    const {
-      default: VConsole
-    } = await __vitePreload(() => import("./vconsole.min.js").then((n) => n.v), true ? [] : void 0, import.meta.url);
-    new VConsole({
-      theme: "dark"
-    });
-  }
-})();
 const ViewApp = defineComponent({
   components: {
     AppFooter,
@@ -101995,123 +101964,124 @@ main();
 export {
   $$1 as $,
   ARTICLE as A,
-  _$randomValueAndProp as B,
-  PROJECT_COLOR as C,
+  PROJECT_ICON as B,
+  _export_sfc as C,
   DEV as D,
-  PROJECT_ICON as E,
+  openBlock as E,
   Fragment as F,
   GROUP as G,
-  _export_sfc as H,
-  openBlock as I,
-  createElementBlock as J,
-  withCtx as K,
-  renderList as L,
-  aHashLink as M,
-  toRaw as N,
+  createElementBlock as H,
+  withCtx as I,
+  renderList as J,
+  aHashLink as K,
+  toRaw as L,
+  diff as M,
+  defineComponentProps as N,
   OWNER as O,
   PROJECT as P,
-  diff as Q,
+  usePrivateItemValue as Q,
   markRaw as R,
-  defXVirTableConfigs as S,
-  defCol as T,
-  h$1 as U,
-  inject as V,
-  components as W,
-  setDataGridInfo as X,
-  defDataGrid as Y,
-  MonacoEditor as Z,
+  itemBaseProps as S,
+  defXVirTableConfigs as T,
+  defCol as U,
+  h$1 as V,
+  inject as W,
+  components as X,
+  setDataGridInfo as Y,
+  defDataGrid as Z,
   _$handlePath as _,
-  cptRouter as a,
-  normalizeStyle as a$,
-  HTTP_REQUEST_HEADER as a0,
-  compileVNode as a1,
-  QUERY as a2,
-  GET as a3,
-  HTTP_METHOD as a4,
-  BODY as a5,
-  defineAsyncComponent as a6,
-  MkitTheme as a7,
-  PreprocessHTML as a8,
-  EVENT_TYPE as a9,
-  defColActions as aA,
-  defColActionsBtnlist as aB,
-  computed as aC,
-  TAB_KEY_PROJECT_CONFIGS as aD,
-  TAB_KEY_PROJECT_REQUEST_CODE as aE,
-  TAB_KEY_PROJECT_REQUEST as aF,
-  TAB_KEY_PROJECT_AUTH as aG,
-  TAB_KEY_PROJECT_MOCK as aH,
-  TAB_KEY_INTERFACE as aI,
-  TAB_KEY_PROJECT_SETTING as aJ,
-  TAB_KEY_PROJECT_WIKI as aK,
-  INTERFACE as aL,
-  _$arrayChangeIndex as aM,
-  ALL as aN,
-  cpt_treeData as aO,
-  CATEGORY as aP,
-  ref as aQ,
-  copyToClipboard$1 as aR,
-  makeAhref as aS,
-  __vitePreload as aT,
-  createBlock as aU,
-  axios as aV,
-  get$2 as aW,
-  set as aX,
-  delMany as aY,
-  RouterView as aZ,
-  toDisplayString as a_,
-  FOLDER as aa,
-  lStorage as ab,
-  stylesLoginFormIcon as ac,
-  withKeys as ad,
-  createBaseVNode as ae,
-  defFormConfigs as af,
-  stateInterface as ag,
-  cptAvatarUrl as ah,
-  getAvatarSrcByid as ai,
-  ErrMsg as aj,
-  index as ak,
-  defPagination as al,
-  METHOD_COLOR as am,
-  LOG_TYPE as an,
-  _$timeAgo as ao,
-  jsondiffpatch as ap,
-  onMounted as aq,
-  defColumns as ar,
-  TAB_KEY_PROJECT_LIST as as,
-  TAB_KEY_MEMBER_LIST as at,
-  TAB_KEY_GROUP_LOG as au,
-  TAB_KEY_GROUP_WIKI as av,
-  OPEN_BLANK as aw,
-  Lodash as ax,
-  reactive as ay,
-  onUnmounted as az,
-  defItem as b,
-  keys as b0,
-  getMany as b1,
-  del as b2,
-  commonjsGlobal as c,
+  defItem as a,
+  toDisplayString as a$,
+  MonacoEditor as a0,
+  HTTP_REQUEST_HEADER as a1,
+  compileVNode as a2,
+  QUERY as a3,
+  GET as a4,
+  HTTP_METHOD as a5,
+  BODY as a6,
+  defineAsyncComponent as a7,
+  MkitTheme as a8,
+  PreprocessHTML as a9,
+  onUnmounted as aA,
+  defColActions as aB,
+  defColActionsBtnlist as aC,
+  computed as aD,
+  TAB_KEY_PROJECT_CONFIGS as aE,
+  TAB_KEY_PROJECT_REQUEST_CODE as aF,
+  TAB_KEY_PROJECT_REQUEST as aG,
+  TAB_KEY_PROJECT_AUTH as aH,
+  TAB_KEY_PROJECT_MOCK as aI,
+  TAB_KEY_INTERFACE as aJ,
+  TAB_KEY_PROJECT_SETTING as aK,
+  TAB_KEY_PROJECT_WIKI as aL,
+  INTERFACE as aM,
+  _$arrayChangeIndex as aN,
+  ALL as aO,
+  cpt_treeData as aP,
+  CATEGORY as aQ,
+  ref as aR,
+  copyToClipboard$1 as aS,
+  makeAhref as aT,
+  __vitePreload as aU,
+  createBlock as aV,
+  axios as aW,
+  get$2 as aX,
+  set as aY,
+  delMany as aZ,
+  RouterView as a_,
+  EVENT_TYPE as aa,
+  FOLDER as ab,
+  lStorage as ac,
+  stylesLoginFormIcon as ad,
+  withKeys as ae,
+  createBaseVNode as af,
+  defFormConfigs as ag,
+  stateInterface as ah,
+  cptAvatarUrl as ai,
+  getAvatarSrcByid as aj,
+  ErrMsg as ak,
+  index as al,
+  defPagination as am,
+  METHOD_COLOR as an,
+  LOG_TYPE as ao,
+  _$timeAgo as ap,
+  jsondiffpatch as aq,
+  onMounted as ar,
+  defColumns as as,
+  TAB_KEY_PROJECT_LIST as at,
+  TAB_KEY_MEMBER_LIST as au,
+  TAB_KEY_GROUP_LOG as av,
+  TAB_KEY_GROUP_WIKI as aw,
+  OPEN_BLANK as ax,
+  Lodash as ay,
+  reactive as az,
+  API as b,
+  normalizeStyle as b0,
+  keys as b1,
+  getMany as b2,
+  del as b3,
+  cptRouter as c,
   defineComponent as d,
-  API as e,
-  xU$1 as f,
-  getDefaultExportFromCjs as g,
-  createVNode as h,
+  xU$1 as e,
+  createVNode as f,
+  isVNode as g,
+  cpt_isPersonalWikiView as h,
   itemsInvalid as i,
-  isVNode as j,
-  cpt_isPersonalWikiView as k,
-  resolveDirective as l,
-  getTreeOrder as m,
-  compositionAPI as n,
-  xScope as o,
-  watch as p,
-  sortTreeByOrder as q,
+  resolveDirective as j,
+  getTreeOrder as k,
+  compositionAPI as l,
+  xScope as m,
+  watch as n,
+  sortTreeByOrder as o,
+  setDocumentTitle as p,
+  PRIVATE as q,
   resolveComponent as r,
   stateApp as s,
-  setDocumentTitle as t,
-  PRIVATE as u,
-  createTextVNode as v,
+  createTextVNode as t,
+  PUBLIC as u,
+  ADMIN as v,
   withDirectives as w,
   xI$1 as x,
-  PUBLIC as y,
-  ADMIN as z
+  _$randomValueAndProp as y,
+  PROJECT_COLOR as z
 };

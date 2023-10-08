@@ -5,7 +5,7 @@ import { injectHtml } from "vite-plugin-html";
 import path from "path";
 import svgHelper from "./preprocess/plugins/svg";
 import { visualizer } from "rollup-plugin-visualizer";
-import { PROD_SERVER_ADDRESS } from "../privateConfigs.js";
+import { PROD_SERVER_ADDRESS, PROD_SERVER_ADDRESS2, DEV_SERVER_ADDRESS } from "../privateConfigs.js";
 
 
 const { PRD_USE, DEV_MODEL } = process.env;
@@ -13,13 +13,20 @@ const __APP_VERSION = Date.now().toString();
 
 
 /* 使用whistle代理接口 */
-let __BASE_URL = "";
-if (DEV_MODEL === "PRD") {
-	/* 如果跨域 */
-	if (PRD_USE === "1") {
-		__BASE_URL = PROD_SERVER_ADDRESS;
+let __BASE_URL = (function () {
+	if (DEV_MODEL === "PRD") {
+		/* 如果跨域 */
+		if (PRD_USE === "1") {
+			return PROD_SERVER_ADDRESS;
+		}
+		if (PRD_USE === "2") {
+			return PROD_SERVER_ADDRESS2;
+		}
 	}
-}
+
+	return DEV_SERVER_ADDRESS;
+})();
+
 
 console.log(`🚀 DEV_MODEL:${DEV_MODEL}
 🚀 PRD_USE:${PRD_USE}
@@ -40,7 +47,7 @@ const appOptions = {
 		},
 		proxy: {
 			"^/api": {
-				target: "http://0.singlone.work/",
+				target: "http://localhost:3001/",
 				changeOrigin: true,
 				secure: false,
 				ws: true,

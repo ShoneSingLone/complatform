@@ -64,7 +64,7 @@ const genLogo = (size, dist) => {
                 sizes: `${size}x${size}`,
                 type: "image/png"
             })),
-            start_url: "./#/music/new",
+            start_url: "../#/music/new",
             display: "standalone",
             theme_color: "white",
             background_color: "white"

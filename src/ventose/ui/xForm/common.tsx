@@ -1,8 +1,10 @@
-//@ts-nocheck
+import { computed } from "vue";
 import { xU } from "../ventoseUtils";
 import { t_itemConfigs } from "./itemRenders";
 
-let xItemNoPropCount = 0;
+export function defineComponentProps(...args) {
+	return xU.merge.apply(xU, args);
+}
 
 export function defFormConfigs(configs: t_itemConfigs[]) {
 	const targetConfigs: Record<string, any> = {};
@@ -12,6 +14,8 @@ export function defFormConfigs(configs: t_itemConfigs[]) {
 	});
 	return targetConfigs;
 }
+
+let xItemNoPropCount = 0;
 
 /*make item configs */
 export function defItem(options: t_itemConfigs) {
@@ -97,7 +101,7 @@ export function vModel(
  * @param prop
  */
 export function antColKey(prop, makeRenderCell) {
-	const target = {
+	const target: any = {
 		dataIndex: prop,
 		prop: prop,
 		key: prop
@@ -107,4 +111,26 @@ export function antColKey(prop, makeRenderCell) {
 		target.renderCell = makeRenderCell(prop);
 	}
 	return target;
+}
+
+export const itemBaseProps = [
+	"modelValue",
+	"properties",
+	"slots",
+	"listeners",
+	"propsWillDeleteFromConfigs"
+];
+
+export function usePrivateItemValue(props, defaultValue: any = "") {
+	return computed({
+		get() {
+			if (xU.isInput(props.modelValue)) {
+				return props.modelValue;
+			}
+			return defaultValue;
+		},
+		set(val) {
+			props.listeners["onEmitItemValue"](val);
+		}
+	});
 }

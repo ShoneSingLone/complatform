@@ -1,5 +1,5 @@
 import { DialogUpsertTags } from "./DialogUpsertTags";
-import { $, xU, xI } from "@/ventose/ui";
+import { $, xU, xI, defItem, defineComponentProps } from "@/ventose/ui";
 import { defineComponent, markRaw } from "vue";
 import { DialogInterfaceStatusModify } from "./DialogInterfaceStatusModify";
 import { DialogInterfaceProxyModify } from "./DialogInterfaceProxyModify";
@@ -9,6 +9,8 @@ import {
 	ResponsePanel,
 	TuiEditor
 } from "@/components";
+import { usePrivateItemValue } from "@/ventose/ui";
+import { itemBaseProps } from "@/ventose/ui/xForm/common";
 
 export async function openProxyEnvDialog() {
 	xU.dialog({
@@ -68,28 +70,30 @@ export const InpterfacePathParams = defineComponent({
 });
 
 export const EnvSelectRender = defineComponent({
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-	render(vm) {
-		vm.properties.value = vm.properties.value || [];
-		const options = vm.properties.options || [];
-		const fnUpdate = val => {
-			vm.listeners["onEmitItemValue"](val);
+	props: defineComponentProps(itemBaseProps),
+	setup(props) {
+		return {
+			_itemValue: usePrivateItemValue(props, "")
 		};
-		const vDomOptions = xU.map(options, item => {
-			return (
-				<aSelectOption value={item.value} key={item.value}>
-					{item.label}
-				</aSelectOption>
-			);
-		});
+	},
+	computed: {
+		envConfigs() {
+			return defItem({
+				itemType: "Select",
+				placeholder: "请选择转发环境",
+				options: this.properties.options,
+				style: "width:100px;"
+			});
+		}
+	},
+	render() {
 		return (
 			<div class="flex overflow-auto">
-				<ElSelect
-					placeholder="请选择转发环境"
-					onChange={fnUpdate}
-					value={vm.properties.value}>
-					{vDomOptions}
-				</ElSelect>
+				<xItem
+					configs={this.envConfigs}
+					v-model={this._itemValue}
+					style={{ width: "300px" }}
+				/>
 				<xGap l="10" />
 				<xButton
 					configs={{

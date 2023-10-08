@@ -1,6 +1,11 @@
 import { defineComponent, resolveComponent } from "vue";
 import { ReadonlyItem } from "./Readonly";
 import { xU } from "../../ventoseUtils";
+import {
+	defineComponentProps,
+	itemBaseProps,
+	usePrivateItemValue
+} from "../common";
 
 /**
  * @Description
@@ -11,7 +16,12 @@ import { xU } from "../../ventoseUtils";
  */
 
 export default defineComponent({
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
+	props: defineComponentProps(itemBaseProps),
+	setup(props) {
+		return {
+			_itemValue: usePrivateItemValue(props)
+		};
+	},
 	data(vm) {
 		return {
 			oldComponent: "",
@@ -31,14 +41,6 @@ export default defineComponent({
 		}
 	},
 	computed: {
-		_modelValue: {
-			get() {
-				return this.properties.value;
-			},
-			set(val) {
-				this.listeners["onEmitItemValue"](val);
-			}
-		},
 		component({ properties }) {
 			if (!this.ComponentInstance) {
 				this.diffComponent("ElInput");
@@ -76,7 +78,7 @@ export default defineComponent({
 		}
 		return (
 			<component
-				v-model={this._modelValue}
+				v-model={this._itemValue}
 				{...xU.omit(properties, [
 					"value",
 					"isTextarea",

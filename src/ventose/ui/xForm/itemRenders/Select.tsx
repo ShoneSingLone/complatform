@@ -1,28 +1,21 @@
 import { defineComponent } from "vue";
 import { ReadonlyItem } from "./Readonly";
 import { xU } from "../../ventoseUtils";
+import {
+	defineComponentProps,
+	usePrivateItemValue,
+	itemBaseProps
+} from "../common";
 
 export default defineComponent({
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-	mounted() {
-		xU("xItem Select");
+	props: defineComponentProps(itemBaseProps),
+	setup(props) {
+		return {
+			_itemValue: usePrivateItemValue(props)
+		};
 	},
-	data(vm) {
-		return {};
-	},
-	methods: {},
-	watch: {},
-	computed: {
-		_modelValue: {
-			get() {
-				return this.properties.value;
-			},
-			set(val) {
-				this.listeners["onEmitItemValue"](val);
-			}
-		}
-	},
-	render(vm) {
+	render() {
+		const vm = this;
 		const { properties, listeners, propsWillDeleteFromConfigs } = vm;
 
 		/* { properties, slots, listeners, propsWillDeleteFromConfigs } */
@@ -43,16 +36,16 @@ export default defineComponent({
 			} else {
 				return xU.map(properties.options, option => {
 					if (xU.isPlainObject(option.label)) {
-						return <ElOption value={option.value}>{option.label}</ElOption>;
+						return <elOption value={option.value}>{option.label}</elOption>;
 					} else {
-						return <ElOption value={option.value} label={option.label} />;
+						return <elOption value={option.value} label={option.label} />;
 					}
 				});
 			}
 		};
 		return (
-			<ElSelect
-				v-model={this._modelValue}
+			<elSelect
+				v-model={this._itemValue}
 				{..._property}
 				{...listeners}
 				v-slots={{ default: renderOptions }}

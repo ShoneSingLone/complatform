@@ -1,6 +1,11 @@
 import { defineComponent, resolveComponent } from "vue";
 import { ReadonlyItem } from "./Readonly";
 import { xU } from "../../ventoseUtils";
+import {
+	defineComponentProps,
+	itemBaseProps,
+	usePrivateItemValue
+} from "../common";
 
 /**
  * @Description
@@ -11,19 +16,11 @@ import { xU } from "../../ventoseUtils";
  */
 
 export default defineComponent({
-	props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-	data(vm) {
-		return {};
-	},
-	computed: {
-		_modelValue: {
-			get() {
-				return this.properties.value;
-			},
-			set(val) {
-				this.listeners["onEmitItemValue"](val);
-			}
-		}
+	props: defineComponentProps(itemBaseProps),
+	setup(props) {
+		return {
+			_itemValue: usePrivateItemValue(props)
+		};
 	},
 	render({ properties, slots, listeners, propsWillDeleteFromConfigs }) {
 		const Radio = resolveComponent("ElRadio");
@@ -46,7 +43,7 @@ export default defineComponent({
 
 		return (
 			<RadioGroup
-				v-model={this._modelValue}
+				v-model={this._itemValue}
 				{...componentPropertyOmitOptions}
 				{...listeners}
 				v-slots={{ default: renderOptions }}
