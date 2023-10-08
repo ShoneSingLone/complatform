@@ -21,9 +21,10 @@ export default defineComponent({
 	components: { AppFooter, AppHeader },
 	setup() {
 		if (stateApp.isMobile) {
-			if (import.meta.env.MODE === "development") {
-				useVConsole();
-			}
+			useVConsole();
+			// if (import.meta.env.MODE === "development") {
+			// 	useVConsole();
+			// }
 			$("#app").addClass("app-mobile");
 		}
 		stateApp.__resetState();

@@ -15,13 +15,13 @@
     "file": "assets/icon.png",
     "src": "src/ventose/ui/xSingle/layer/imgs/icon.png"
   },
-  "src/ventose/ui/xSingle/layer/imgs/loading-2.gif": {
-    "file": "assets/loading-2.gif",
-    "src": "src/ventose/ui/xSingle/layer/imgs/loading-2.gif"
-  },
   "src/ventose/ui/xSingle/layer/imgs/loading-0.gif": {
     "file": "assets/loading-0.gif",
     "src": "src/ventose/ui/xSingle/layer/imgs/loading-0.gif"
+  },
+  "src/ventose/ui/xSingle/layer/imgs/loading-2.gif": {
+    "file": "assets/loading-2.gif",
+    "src": "src/ventose/ui/xSingle/layer/imgs/loading-2.gif"
   },
   "src/ventose/ui/xSingle/layer/imgs/icon-ext.png": {
     "file": "assets/icon-ext.png",
@@ -43,7 +43,8 @@
       "src/music/views/ViewMusic/PlayList/FindNew/FindNewLayout.vue",
       "src/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue",
       "src/music/views/ViewMusic/PlayList/Private/PrivateLayout.vue",
-      "src/music/views/ViewMusic/PlayList/Cached/CachedLayout.vue"
+      "src/music/views/ViewMusic/PlayList/Cached/CachedLayout.vue",
+      "_vconsole.min.js"
     ],
     "css": [
       "assets/index.css"
@@ -56,6 +57,13 @@
       "assets/loading-0.gif",
       "assets/loading-2.gif",
       "assets/icon-ext.png"
+    ]
+  },
+  "_vconsole.min.js": {
+    "file": "assets/js/vconsole.min.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
     ]
   },
   "src/containers/Wiki/ViewWiki.tsx": {
