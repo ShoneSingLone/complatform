@@ -1,4 +1,4 @@
-import { aW as axios, e as xU, az as reactive, ac as lStorage, aX as get, aY as set, aZ as delMany, p as setDocumentTitle, aD as computed, n as watch } from "./index.js";
+import { aY as axios, f as xU, aB as reactive, ae as lStorage, aZ as get, a_ as set, a$ as delMany, t as setDocumentTitle, aF as computed, p as watch } from "./index.js";
 const reqInterceptor = (config) => {
   return config;
 };
