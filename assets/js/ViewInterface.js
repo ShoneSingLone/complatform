@@ -1,9 +1,9 @@
-import { d as defineComponent, s as stateApp, b as defItem, i as itemsInvalid, ag as stateInterface, f as xU, x as xI, e as API, h as createVNode, r as resolveComponent, F as Fragment, j as isVNode, R as markRaw, a as cptRouter, aL as INTERFACE, aM as _$arrayChangeIndex, o as xScope, aq as onMounted, aN as ALL, w as withDirectives, l as resolveDirective, aO as cpt_treeData, aP as CATEGORY, aQ as ref, v as createTextVNode, Y as defDataGrid, aC as computed, p as watch, M as aHashLink, _ as _$handlePath, a4 as HTTP_METHOD, T as defCol, $, aR as copyToClipboard, aS as makeAhref, ab as lStorage, ai as getAvatarSrcByid, Z as MonacoEditor } from "./index.js";
+import { d as defineComponent, s as stateApp, a as defItem, i as itemsInvalid, ah as stateInterface, e as xU, x as xI, b as API, f as createVNode, r as resolveComponent, F as Fragment, g as isVNode, R as markRaw, c as cptRouter, aM as INTERFACE, aN as _$arrayChangeIndex, m as xScope, ar as onMounted, aO as ALL, w as withDirectives, j as resolveDirective, aP as cpt_treeData, aQ as CATEGORY, aR as ref, t as createTextVNode, N as defineComponentProps, Q as usePrivateItemValue, S as itemBaseProps, Z as defDataGrid, aD as computed, n as watch, K as aHashLink, _ as _$handlePath, a5 as HTTP_METHOD, U as defCol, $, aS as copyToClipboard, aT as makeAhref, ac as lStorage, aj as getAvatarSrcByid, a0 as MonacoEditor } from "./index.js";
 import { F as FormRules, s as setValueTo, p as pickValueFrom } from "./common.FormRules.js";
 import { I as ITEM_OPTIONS, a as ITEM_OPTIONS_VDOM } from "./common.options.js";
-import { o as orderAsc, R as RequestArgsPanel, T as TuiEditor, g as ResponsePanel, h as DialogUpsertProxyEnv, i as colParamsName, j as colRemark, k as colRequired, m as colValue, n as colExample, p as colType, J as JsonSchemaMonaco } from "./TuiEditor.js";
+import { o as orderAsc, g as DialogUpsertProxyEnv, R as RequestArgsPanel, T as TuiEditor, h as ResponsePanel, i as colParamsName, j as colRemark, k as colRequired, m as colValue, n as colExample, p as colType, J as JsonSchemaMonaco } from "./TuiEditor.js";
 import { V as VNodeCollection } from "./VNodeRender.js";
-function _isSlot$6(s) {
+function _isSlot$5(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 const DialogUpsertCategory = defineComponent({
@@ -143,7 +143,7 @@ const DialogUpsertCategory = defineComponent({
         "min-width": "120px",
         width: "unset"
       }
-    }, _isSlot$6(_slot = xU.map(this.dataXItem, (configs, prop) => {
+    }, _isSlot$5(_slot = xU.map(this.dataXItem, (configs, prop) => {
       return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
         "t": true
       }, null), createVNode(resolveComponent("xItem"), {
@@ -612,7 +612,7 @@ const InterfaceAside = defineComponent({
     };
   }
 });
-function _isSlot$5(s) {
+function _isSlot$4(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 function useColHeader({
@@ -648,14 +648,14 @@ function useColHeader({
             ref: popoverRef,
             prop
           })
-        }, _isSlot$5(_slot = xI("\u786E\u8BA4")) ? _slot : {
+        }, _isSlot$4(_slot = xI("\u786E\u8BA4")) ? _slot : {
           default: () => [_slot]
         }), createVNode(resolveComponent("xButton"), {
           "onClick": () => onReset({
             ref: popoverRef,
             prop
           })
-        }, _isSlot$5(_slot2 = xI("\u91CD\u7F6E")) ? _slot2 : {
+        }, _isSlot$4(_slot2 = xI("\u91CD\u7F6E")) ? _slot2 : {
           default: () => [_slot2]
         })])]);
       },
@@ -864,7 +864,7 @@ const DialogUpsertTags = defineComponent({
     })]);
   }
 });
-function _isSlot$4(s) {
+function _isSlot$3(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 const DialogInterfaceStatusModify = defineComponent({
@@ -952,7 +952,7 @@ const DialogInterfaceStatusModify = defineComponent({
         "min-width": "120px",
         width: "unset"
       }
-    }, _isSlot$4(_slot = xU.map(this.dataXItem, (configs, prop) => {
+    }, _isSlot$3(_slot = xU.map(this.dataXItem, (configs, prop) => {
       return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
         "t": true
       }, null), createVNode(resolveComponent("xItem"), {
@@ -1104,9 +1104,6 @@ const DialogInterfaceProxyModify = defineComponent({
     }, null)]);
   }
 });
-function _isSlot$3(s) {
-  return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
-}
 async function openProxyEnvDialog() {
   xU.dialog({
     title: xI("\u7BA1\u7406\u9879\u76EE\u63A5\u53E3\u8F6C\u53D1\u73AF\u5883"),
@@ -1157,30 +1154,33 @@ const InpterfacePathParams = defineComponent({
   }
 });
 const EnvSelectRender = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  render(vm) {
-    vm.properties.value = vm.properties.value || [];
-    const options = vm.properties.options || [];
-    const fnUpdate = (val) => {
-      vm.listeners["onEmitItemValue"](val);
+  props: defineComponentProps(itemBaseProps),
+  setup(props) {
+    return {
+      _itemValue: usePrivateItemValue(props, "")
     };
-    const vDomOptions = xU.map(options, (item) => {
-      return createVNode(resolveComponent("aSelectOption"), {
-        "value": item.value,
-        "key": item.value
-      }, {
-        default: () => [item.label]
+  },
+  computed: {
+    envConfigs() {
+      return defItem({
+        itemType: "Select",
+        placeholder: "\u8BF7\u9009\u62E9\u8F6C\u53D1\u73AF\u5883",
+        options: this.properties.options,
+        style: "width:100px;"
       });
-    });
+    }
+  },
+  render() {
     return createVNode("div", {
       "class": "flex overflow-auto"
-    }, [createVNode(resolveComponent("ElSelect"), {
-      "placeholder": "\u8BF7\u9009\u62E9\u8F6C\u53D1\u73AF\u5883",
-      "onChange": fnUpdate,
-      "value": vm.properties.value
-    }, _isSlot$3(vDomOptions) ? vDomOptions : {
-      default: () => [vDomOptions]
-    }), createVNode(resolveComponent("xGap"), {
+    }, [createVNode(resolveComponent("xItem"), {
+      "configs": this.envConfigs,
+      "modelValue": this._itemValue,
+      "onUpdate:modelValue": ($event) => this._itemValue = $event,
+      "style": {
+        width: "300px"
+      }
+    }, null), createVNode(resolveComponent("xGap"), {
       "l": "10"
     }, null), createVNode(resolveComponent("xButton"), {
       "configs": {
