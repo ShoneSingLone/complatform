@@ -349,6 +349,7 @@ const contentToCache = [
   "./assets/js/ViewInterface.js",
   "./assets/js/ViewI18n.js",
   "./assets/js/ViewGroup.js",
+  "./assets/js/vconsole.min.js",
   "./assets/js/TuiEditor.js",
   "./assets/js/PrivatePc.js",
   "./assets/js/PrivateMobileSongItem.js",
@@ -491,7 +492,7 @@ self.addEventListener("install", e => {
 	console.log("[Service Worker] Install");
 	e.waitUntil(
 		(async () => {
-			const cache = await caches.open("1696739013583");
+			const cache = await caches.open("1696740931465");
 			console.log("[Service Worker] Caching all: app shell and content");
 			await cache.addAll(contentToCache);
 		})()
