@@ -6,7 +6,7 @@ import { _$arrayChangeIndex } from "@/utils/common";
 import type Node from "element-plus/es/components/tree/src/model/node";
 import type { NodeDropType } from "element-plus/es/components/tree/src/tree.type";
 import { cptRouter } from "@/router/router";
-import { ALL, CATEGORY, INTERFACE } from "@/utils/variable";
+import { ALL, CATEGORY, INTERFACE, PREVIEW } from "@/utils/variable";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { stateApp } from "@/state/app";
@@ -229,16 +229,19 @@ export const InterfaceAside = defineComponent({
 
 													(() => {
 														if (menuType == ALL) {
+															cptRouter.value.query.interface_detail_type = undefined;
 															cptRouter.value.query.interface_id = undefined;
 															cptRouter.value.query.category_id = undefined;
 															return;
 														}
 														if (menuType == CATEGORY) {
+															cptRouter.value.query.interface_detail_type = undefined;
 															cptRouter.value.query.interface_id = undefined;
 															cptRouter.value.query.category_id = categoryId;
 															return;
 														}
 														if (menuType == INTERFACE) {
+															cptRouter.value.query.interface_detail_type = PREVIEW;
 															cptRouter.value.query.interface_id = _id;
 															cptRouter.value.query.category_id = categoryId;
 														}

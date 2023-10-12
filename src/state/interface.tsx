@@ -18,7 +18,7 @@ const defautlStateInterface = () => ({
 	list: [],
 	filterText: "",
 	interface_id: ALL,
-	currentInterface: {},
+	currInterface: null,
 	allInterface: [],
 	allTags: [],
 	allCategory: [],

@@ -1,3 +1,5 @@
+import { computed } from "vue";
+
 export function useCptColumns() {
 	const cpt_columns = computed(() => {
 		const checkbox = {

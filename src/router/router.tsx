@@ -148,6 +148,8 @@ type t_router = {
 		project_setting_tab?: string;
 		interface_type?: string;
 		interface_id?: string;
+		/*详情里预览 、编辑、运行*/
+		interface_detail_type?: string;
 		category_id?: string;
 		wiki_id?: string;
 	};

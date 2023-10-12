@@ -23,7 +23,7 @@ export const InterfaceMain = defineComponent({
 		var vm = {
 			dataGrid: defDataGrid({
 				isHidePagination: true,
-				dataSource: {},
+				dataSource: [],
 				columns: {},
 				queryTableList: undefined
 			}),
@@ -448,54 +448,60 @@ export const InterfaceMain = defineComponent({
 		);
 
 		const cptInterfaceRowData = computed(() => {
-			const { allInterface } = stateInterface;
-			let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
-
-			/* 指明具体分类时，不显示其他分类的接口 */
-			if (cptRouter.value.query.interface_type === CATEGORY) {
-				const { category_id } = cptRouter.value.query;
-				interfaceForShow = xU.filter(interfaceForShow, i =>
-					xU.isSame(category_id, i.catid)
-				);
-			}
-
-			let paramKeys = Object.keys(vm.filter);
-			let prop = paramKeys.pop();
-			while (prop) {
-				const search = vm.filter[prop];
-				if (xU.isInput(search)) {
-					interfaceForShow = xU.filter(interfaceForShow, i => {
-						if (prop == "status") {
-							return search.includes(i.status);
-						} else if (prop == "catid") {
-							return search.includes(i.catid);
-						} else if (prop == "method") {
-							return search.includes(i.method);
-						} else if (prop == "tag") {
-							return xU.some(i.tag, tag => search.includes(tag));
-						} else if (prop == "witchEnv") {
-							if (search.includes("unset")) {
-								if (!i.witchEnv) {
-									return true;
-								}
-							}
-							if (!i.isProxy) {
-								return false;
-							}
-							return search.includes(i.witchEnv);
-						} else {
-							return new RegExp(search, "i").test(i[prop]);
-						}
-					});
-					xU("interfaceForShow.length new", interfaceForShow.length);
+			let interfaceForShow = (() => {
+				if (cptRouter.value.query.interface_type === INTERFACE) {
+					return [];
 				}
-				prop = paramKeys.pop();
-			}
-			return interfaceForShow;
-		});
+				const { allInterface } = stateInterface;
+				let interfaceForShow = xU.isArrayFill(allInterface)
+					? xU.cloneDeep(allInterface)
+					: [];
 
-		watch(cptInterfaceRowData, dataSource => {
-			vm.dataGrid.dataSource = dataSource;
+				/* 指明具体分类时，不显示其他分类的接口 */
+				if (cptRouter.value.query.interface_type === CATEGORY) {
+					const { category_id } = cptRouter.value.query;
+					interfaceForShow = xU.filter(interfaceForShow, i =>
+						xU.isSame(category_id, i.catid)
+					);
+				}
+
+				let paramKeys = Object.keys(vm.filter);
+				let prop = paramKeys.pop();
+				while (prop) {
+					const search = vm.filter[prop];
+					if (xU.isInput(search)) {
+						interfaceForShow = xU.filter(interfaceForShow, i => {
+							if (prop == "status") {
+								return search.includes(i.status);
+							} else if (prop == "catid") {
+								return search.includes(i.catid);
+							} else if (prop == "method") {
+								return search.includes(i.method);
+							} else if (prop == "tag") {
+								return xU.some(i.tag, tag => search.includes(tag));
+							} else if (prop == "witchEnv") {
+								if (search.includes("unset")) {
+									if (!i.witchEnv) {
+										return true;
+									}
+								}
+								if (!i.isProxy) {
+									return false;
+								}
+								return search.includes(i.witchEnv);
+							} else {
+								return new RegExp(search, "i").test(i[prop]);
+							}
+						});
+						xU("interfaceForShow.length new", interfaceForShow.length);
+					}
+					prop = paramKeys.pop();
+				}
+				return interfaceForShow;
+			})();
+			/* TODO:computed 里面最好不要有响应数据的赋值操作，容易引起循环引用 */
+			vm.dataGrid.dataSource = interfaceForShow;
+			return interfaceForShow;
 		});
 
 		return function () {

@@ -1,4 +1,4 @@
-export function newWsPayload(type, payload) {
+export function newWsPayload(type, payload = {}) {
 	try {
 		return JSON.stringify({ type, payload });
 	} catch (error) {
