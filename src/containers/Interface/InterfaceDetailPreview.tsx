@@ -89,7 +89,7 @@ export const InterfaceDetailPreview = defineComponent({
 					maxmin: true
 				});
 			},
-			async _updateInterfaceInfo() {
+			async _updateInfo() {
 				state.headersParams.dataSource = xU.orderBy(
 					stateInterface.currInterface.req_headers,
 					["required"],
@@ -475,10 +475,11 @@ export const InterfaceDetailPreview = defineComponent({
 				);
 			}
 		});
+
 		watch(
 			() => stateInterface.currInterface,
 			() => {
-				state._updateInterfaceInfo();
+				state._updateInfo();
 			},
 			{ immediate: true }
 		);

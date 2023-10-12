@@ -138,7 +138,7 @@ export const GroupAside = defineComponent({
 
 				groupListForShow = [
 					{
-						...privateSpace[0],
+						...(privateSpace?.[0] || {}),
 						icon: "icon_group_personal"
 					},
 					{

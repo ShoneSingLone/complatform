@@ -9,6 +9,7 @@ export const ITEM_OPTIONS = {
 		type: item.type
 	})),
 	interfaceBodyType: [
+		{ label: "备份", value: "backup" },
 		{ label: "form", value: "form", isForm: true },
 		{ label: "json", value: "json" },
 		{ label: "file", value: "file" },

@@ -105,7 +105,8 @@ export const DialogModifyInterface = defineComponent({
 				basepath: defItem({
 					value: vm.stateApp.currProject.basepath,
 					label: xI("接口基本路径"),
-					labelVNodeRender: VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
+					labelVNodeRender:
+						VNodeCollection.labelTips(`接口基本路径，可在 项目设置 里修改`),
 					disabled: true
 				}),
 				apiMethod: defItem({
@@ -292,7 +293,7 @@ export const DialogModifyInterface = defineComponent({
 				this.propOptions.interfaceId
 			);
 			this.detailInfo = this.initState(data);
-			xU.doNothing(JSON.stringify(this.detailInfo, null, 2));
+
 			const {
 				api_opened,
 				catid,
@@ -315,42 +316,46 @@ export const DialogModifyInterface = defineComponent({
 				res_body_mock,
 				res_body_is_json_schema,
 				desc,
-				markdown
+				markdown,
+				resBackupJson
 			} = this.detailInfo;
 			xU(this.detailInfo);
-			setValueTo(this.dataXItem, {
-				witchEnv,
-				catid,
-				title,
-				apiMethod: method,
-				path,
-				remark: { md: markdown, html: desc },
-				pathParams: req_params,
-				tag: String(tag).split(",").filter(xU.isInput),
-				status,
-				isProxy,
-				requestArgs: {
-					req_headers,
-					/* body的编辑类型 */
-					req_body_type,
-					/* query */
-					req_query,
-					/* req_body_form 的数据 */
-					req_body_form,
-					/* req_body file raw json 的数据 */
-					req_body_other,
-					/* body json 使用 schema */
-					req_body_is_json_schema
-				},
-				responseArgs: {
-					res_body_is_json_schema,
-					res_body,
-					res_body_type,
-					res_body_mock
-				},
-				api_opened,
-				noticed: this.stateApp.currProject.switch_notice
-			});
+			/* ***************************************** */
+			try {
+				setValueTo(this.dataXItem, {
+					witchEnv,
+					catid,
+					title,
+					apiMethod: method,
+					path,
+					remark: { md: markdown, html: desc },
+					pathParams: req_params,
+					tag: String(tag).split(",").filter(xU.isInput),
+					status,
+					isProxy,
+					requestArgs: {
+						req_headers,
+						/* body的编辑类型 */ req_body_type,
+						/* query */ req_query,
+						/* req_body_form 的数据 */ req_body_form,
+						/* req_body file raw json 的数据 */ req_body_other,
+						/* body json 使用 schema */ req_body_is_json_schema
+					},
+					responseArgs: {
+						res_body_is_json_schema,
+						res_body,
+						res_body_type,
+						res_body_mock,
+						resBackupJson
+					},
+					api_opened,
+					noticed: this.stateApp.currProject.switch_notice
+				});
+			} catch (error) {
+				console.error(error);
+				debugger;
+			}
+			console.log(this.dataXItem.responseArgs.value);
 		},
 		initState(detailInfo) {
 			if (detailInfo.req_body_form) {

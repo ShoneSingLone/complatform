@@ -35,8 +35,8 @@ ajax.interceptors.response.use(
 			cptRouter.value.go("/login");
 		}
 		if (response?.data?.errcode == 40011) {
-			stateApp.user.isLogin = false;
-			cptRouter.value.go("/login");
+			// stateApp.user.isLogin = false;
+			// cptRouter.value.go("/login");
 			return Promise.resolve(response?.data);
 		}
 		if (response.config.url == "/api/interface/schema2json") {

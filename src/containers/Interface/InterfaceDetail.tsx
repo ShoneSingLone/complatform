@@ -82,12 +82,6 @@ export const InterfaceDetail = defineComponent({
 							});
 					} catch (e) {}
 				});
-			},
-			async _updateInterfaceInfo() {
-				const { data } = await API.project.fetchInterfaceDetail(
-					cptRouter.value.query.interface_id
-				);
-				stateInterface.currInterface = data;
 			}
 		};
 		provide("InterfaceDetail", state);
@@ -97,13 +91,23 @@ export const InterfaceDetail = defineComponent({
 		const vDomPreview = computed(() => {
 			if (cptRouter.value.query.interface_detail_type === PREVIEW) {
 				return (
-					<InterfaceDetailPreview info={stateInterface.currInterface} />
+					<div class="flex1 overflow-auto mt10 height1">
+						<InterfaceDetailPreview info={stateInterface.currInterface} />
+					</div>
 				);
 			}
 		});
 		const vDomEdit = computed(() => {
 			if (cptRouter.value.query.interface_detail_type === EDIT) {
-				return <InterfaceDetailEdit info={stateInterface.currInterface} />;
+				if (stateInterface?.currInterface?._id) {
+					return (
+						<InterfaceDetailEdit
+							info={stateInterface.currInterface}
+							categoryId={cptRouter.value.query.category_id}
+							interfaceId={stateInterface.currInterface._id}
+						/>
+					);
+				}
 			}
 		});
 		const vDomRun = computed(() => {
@@ -120,7 +124,7 @@ export const InterfaceDetail = defineComponent({
 			() => cptRouter.value.query.interface_id,
 			interface_id => {
 				if (interface_id) {
-					state._updateInterfaceInfo();
+					stateInterface._updateInterfaceInfo(interface_id);
 				}
 			},
 			{ immediate: true }
@@ -141,11 +145,9 @@ export const InterfaceDetail = defineComponent({
 							<el-tab-pane label="编辑" name="EDIT" />
 							<el-tab-pane label="运行" name="RUN" />
 						</el-tabs>
-						<div class="flex1 overflow-auto mt10">
-							{vDomPreview.value}
-							{vDomEdit.value}
-							{vDomRun.value}
-						</div>
+						{vDomPreview.value}
+						{vDomEdit.value}
+						{vDomRun.value}
 					</div>
 				</div>
 			);

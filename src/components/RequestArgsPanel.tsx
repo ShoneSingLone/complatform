@@ -53,10 +53,10 @@ export const RequestArgsPanel = defineComponent({
 		})();
 
 		return (
-			<ElCollapse v-model:activeKey={this.collapseActive}>
-				<ElCollapseItem
+			<elCollapse v-model={this.collapseActive}>
+				<elCollapseItem
 					key="header"
-					header={`header ${this.params?.req_headers.length}`}>
+					title={`header ${this.params?.req_headers.length}`}>
 					<HeaderParamsPanel
 						reqHeaders={this.params?.req_headers}
 						onUpdate:reqHeaders={req_headers =>
@@ -66,10 +66,10 @@ export const RequestArgsPanel = defineComponent({
 							)
 						}
 					/>
-				</ElCollapseItem>
-				<ElCollapseItem
+				</elCollapseItem>
+				<elCollapseItem
 					key={QUERY}
-					header={`${QUERY} ${this.params?.req_query.length}`}>
+					title={`${QUERY} ${this.params?.req_query.length}`}>
 					<QueryParamsPanel
 						reqQuery={this.params?.req_query}
 						onUpdate:reqQuery={req_query =>
@@ -79,10 +79,10 @@ export const RequestArgsPanel = defineComponent({
 							)
 						}
 					/>
-				</ElCollapseItem>
-				<ElCollapseItem
+				</elCollapseItem>
+				<elCollapseItem
 					key={BODY}
-					header={bodyHeader}
+					title={bodyHeader}
 					collapsible={this.bodyCollapsible}>
 					<BodyParamsPanel
 						params={this.params || {}}
@@ -90,8 +90,8 @@ export const RequestArgsPanel = defineComponent({
 							this.$emit("update:params", xU.merge({}, this.params, params))
 						}
 					/>
-				</ElCollapseItem>
-			</ElCollapse>
+				</elCollapseItem>
+			</elCollapse>
 		);
 	}
 });
