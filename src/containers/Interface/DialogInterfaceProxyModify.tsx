@@ -45,6 +45,21 @@ export const DialogInterfaceProxyModify = defineComponent({
 					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
+				isChangeType: defItem({
+					value: false,
+					label: xI("是否修改响应类型"),
+					options: ITEM_OPTIONS.trueOrFalse,
+					itemType: "Switch"
+				}),
+				witchResponseType: defItem({
+					isShow() {
+						return vm.dataXItem.isChangeType.value;
+					},
+					label: xI("转发环境"),
+					value: "",
+					itemType: "Select",
+					options: []
+				}),
 				witchEnv: defItem({
 					isShow() {
 						return vm.dataXItem.isProxy.value;
@@ -112,6 +127,8 @@ export const DialogInterfaceProxyModify = defineComponent({
 						class="flex"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
 						<xItem configs={this.dataXItem.isProxy} />
+						<xGap t />
+						<xItem configs={this.dataXItem.isChangeType} />
 						<xGap t />
 						<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 					</xForm>
