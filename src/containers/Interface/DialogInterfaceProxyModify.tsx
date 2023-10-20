@@ -45,20 +45,14 @@ export const DialogInterfaceProxyModify = defineComponent({
 					options: ITEM_OPTIONS.trueOrFalse,
 					itemType: "Switch"
 				}),
-				isChangeType: defItem({
+				resBodyType: defItem({
 					value: false,
-					label: xI("是否修改响应类型"),
-					options: ITEM_OPTIONS.trueOrFalse,
-					itemType: "Switch"
-				}),
-				witchResponseType: defItem({
+					label: xI("响应类型"),
 					isShow() {
-						return vm.dataXItem.isChangeType.value;
+						return !vm.dataXItem.isProxy.value;
 					},
-					label: xI("转发环境"),
-					value: "",
-					itemType: "Select",
-					options: []
+					options: ITEM_OPTIONS.interfaceBodyType,
+					itemType: "RadioGroup"
 				}),
 				witchEnv: defItem({
 					isShow() {
@@ -102,12 +96,18 @@ export const DialogInterfaceProxyModify = defineComponent({
 		async onOk() {
 			const { selected } = this.propOptions.payload;
 			if (!(await itemsInvalid())) {
-				const { isProxy, witchEnv } = pickValueFrom(this.dataXItem);
+				const { isProxy, witchEnv, resBodyType } = pickValueFrom(
+					this.dataXItem
+				);
 				try {
 					const res = await Promise.all(
-						xU.map(selected, id =>
-							API.project.updateInterface({ id, witchEnv, isProxy })
-						)
+						xU.map(selected, id => {
+							const data = { id, witchEnv, isProxy };
+							if (resBodyType) {
+								data.res_body_type = resBodyType;
+							}
+							return API.project.updateInterface(data);
+						})
 					);
 					stateInterface._updateInterfaceMenuList();
 					this.propOptions.$close();
@@ -123,12 +123,13 @@ export const DialogInterfaceProxyModify = defineComponent({
 			<>
 				<div class="x-dialog-boddy-wrapper ">
 					<xGap t />
+					{JSON.stringify(pickValueFrom(this.dataXItem))}
 					<xForm
 						class="flex"
 						labelStyle={{ "min-width": "120px", width: "unset" }}>
 						<xItem configs={this.dataXItem.isProxy} />
 						<xGap t />
-						<xItem configs={this.dataXItem.isChangeType} />
+						<xItem configs={this.dataXItem.resBodyType} />
 						<xGap t />
 						<xItem configs={this.dataXItem.witchEnv} class="flex1" />
 					</xForm>

@@ -36,7 +36,8 @@ export const InterfaceMain = defineComponent({
 				witchEnv: [],
 				tag: [],
 				path: "",
-				title: ""
+				title: "",
+				isUseBackup: false
 			},
 			/* 记录条件 */
 			conditions: {
@@ -46,7 +47,8 @@ export const InterfaceMain = defineComponent({
 				witchEnv: [],
 				tag: [],
 				path: "",
-				title: ""
+				title: "",
+				isUseBackup: false
 			},
 			$btnChangeStatus: {
 				text: xI("变更状态"),
@@ -232,7 +234,6 @@ export const InterfaceMain = defineComponent({
 				key: "path",
 				title: xI("接口路径"),
 				width: 250,
-				minWidth: 250,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -341,13 +342,44 @@ export const InterfaceMain = defineComponent({
 					return "";
 				}
 			};
+			const isUseBackup = {
+				prop: "isUseBackup",
+				key: "isUseBackup",
+				title: xI("是否启用备份数据"),
+				width: 150,
+				headerCellRenderer(_props) {
+					const { vDom } = useColHeader({
+						title: _props.column.title,
+						prop: "isUseBackup",
+						style: titleStyle(vm.filter.isUseBackup),
+						width: 350,
+						controller: (
+							<el-checkbox v-model={vm.conditions.isUseBackup}>
+								<el-tag>{xI("是")}</el-tag>
+							</el-checkbox>
+						),
+						onFilter: vm._onFilter,
+						onReset: vm._onReset
+					});
+					return vDom;
+				},
+				cellRenderer: params => {
+					const { rowData } = params;
+					if (!rowData.isSetBackupData) {
+						return <el-tag type="warning">未设置备份数据</el-tag>;
+					}
+					if (rowData.res_body_type === "backup") {
+						return <el-tag>是{vm.filter.isUseBackup}</el-tag>;
+					}
+					return "";
+				}
+			};
 
 			const maintainer = {
 				prop: "tag",
 				key: "tag",
 				title: xI("维护人"),
 				width: 150,
-				minWidth: 150,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -379,7 +411,6 @@ export const InterfaceMain = defineComponent({
 				key: "tag",
 				title: xI("Tags"),
 				width: 250,
-				minWidth: 250,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -419,6 +450,7 @@ export const InterfaceMain = defineComponent({
 					status,
 					maintainer,
 					isProxy,
+					isUseBackup,
 					tag
 				];
 			}
@@ -432,6 +464,7 @@ export const InterfaceMain = defineComponent({
 					status,
 					maintainer,
 					isProxy,
+					isUseBackup,
 					tag
 				];
 			}
@@ -479,6 +512,11 @@ export const InterfaceMain = defineComponent({
 								return search.includes(i.method);
 							} else if (prop == "tag") {
 								return xU.some(i.tag, tag => search.includes(tag));
+							} else if (prop == "isUseBackup") {
+								if (!search) {
+									return true;
+								}
+								return i.res_body_type === "backup";
 							} else if (prop == "witchEnv") {
 								if (search.includes("unset")) {
 									if (!i.witchEnv) {
