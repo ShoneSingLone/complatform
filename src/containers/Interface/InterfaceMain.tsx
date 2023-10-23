@@ -37,7 +37,7 @@ export const InterfaceMain = defineComponent({
 				tag: [],
 				path: "",
 				title: "",
-				isUseBackup: false
+				isUseBackup: []
 			},
 			/* 记录条件 */
 			conditions: {
@@ -48,7 +48,7 @@ export const InterfaceMain = defineComponent({
 				tag: [],
 				path: "",
 				title: "",
-				isUseBackup: false
+				isUseBackup: []
 			},
 			$btnChangeStatus: {
 				text: xI("变更状态"),
@@ -345,18 +345,27 @@ export const InterfaceMain = defineComponent({
 			const isUseBackup = {
 				prop: "isUseBackup",
 				key: "isUseBackup",
-				title: xI("是否启用备份数据"),
+				title: xI("启用备份数据"),
 				width: 150,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
 						prop: "isUseBackup",
-						style: titleStyle(vm.filter.isUseBackup),
+						style: titleStyle(vm.filter.isUseBackup.length > 0),
 						width: 350,
 						controller: (
-							<el-checkbox v-model={vm.conditions.isUseBackup}>
-								<el-tag>{xI("是")}</el-tag>
-							</el-checkbox>
+							<el-checkbox-group v-model={vm.conditions.isUseBackup}>
+								{xU.map([xI("是"), xI("否"), xI("无备份数据")], i => {
+									console.log(i);
+									return (
+										<div>
+											<el-checkbox label={i}>
+												<el-tag>{i}</el-tag>
+											</el-checkbox>
+										</div>
+									);
+								})}
+							</el-checkbox-group>
 						),
 						onFilter: vm._onFilter,
 						onReset: vm._onReset
@@ -365,13 +374,22 @@ export const InterfaceMain = defineComponent({
 				},
 				cellRenderer: params => {
 					const { rowData } = params;
-					if (!rowData.isSetBackupData) {
-						return <el-tag type="warning">未设置备份数据</el-tag>;
-					}
-					if (rowData.res_body_type === "backup") {
-						return <el-tag>是{vm.filter.isUseBackup}</el-tag>;
-					}
-					return "";
+
+					const tag = (() => {
+						if (rowData.res_body_type === "backup") {
+							return <el-tag type="success">{xI("是")}</el-tag>;
+						}
+						return <el-tag type="info">{xI("否")}</el-tag>;
+					})();
+
+					return [
+						tag,
+						!rowData.isSetBackupData && (
+							<el-tag type="warning" class="ml8">
+								{xI("无备份数据")}
+							</el-tag>
+						)
+					];
 				}
 			};
 
@@ -513,10 +531,18 @@ export const InterfaceMain = defineComponent({
 							} else if (prop == "tag") {
 								return xU.some(i.tag, tag => search.includes(tag));
 							} else if (prop == "isUseBackup") {
-								if (!search) {
-									return true;
+								if (search.includes("是")) {
+									return i.res_body_type === "backup";
 								}
-								return i.res_body_type === "backup";
+								if (search.includes("否")) {
+									return i.res_body_type !== "backup";
+								}
+								if (search.includes("无备份数据")) {
+									if (!i.isSetBackupData) {
+										return true;
+									}
+								}
+								return false;
 							} else if (prop == "witchEnv") {
 								if (search.includes("unset")) {
 									if (!i.witchEnv) {
