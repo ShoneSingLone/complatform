@@ -36,7 +36,8 @@ export const InterfaceMain = defineComponent({
 				witchEnv: [],
 				tag: [],
 				path: "",
-				title: ""
+				title: "",
+				isUseBackup: []
 			},
 			/* 记录条件 */
 			conditions: {
@@ -46,7 +47,8 @@ export const InterfaceMain = defineComponent({
 				witchEnv: [],
 				tag: [],
 				path: "",
-				title: ""
+				title: "",
+				isUseBackup: []
 			},
 			$btnChangeStatus: {
 				text: xI("变更状态"),
@@ -232,7 +234,6 @@ export const InterfaceMain = defineComponent({
 				key: "path",
 				title: xI("接口路径"),
 				width: 250,
-				minWidth: 250,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -341,13 +342,62 @@ export const InterfaceMain = defineComponent({
 					return "";
 				}
 			};
+			const isUseBackup = {
+				prop: "isUseBackup",
+				key: "isUseBackup",
+				title: xI("启用备份数据"),
+				width: 150,
+				headerCellRenderer(_props) {
+					const { vDom } = useColHeader({
+						title: _props.column.title,
+						prop: "isUseBackup",
+						style: titleStyle(vm.filter.isUseBackup.length > 0),
+						width: 350,
+						controller: (
+							<el-checkbox-group v-model={vm.conditions.isUseBackup}>
+								{xU.map([xI("是"), xI("否"), xI("无备份数据")], i => {
+									console.log(i);
+									return (
+										<div>
+											<el-checkbox label={i}>
+												<el-tag>{i}</el-tag>
+											</el-checkbox>
+										</div>
+									);
+								})}
+							</el-checkbox-group>
+						),
+						onFilter: vm._onFilter,
+						onReset: vm._onReset
+					});
+					return vDom;
+				},
+				cellRenderer: params => {
+					const { rowData } = params;
+
+					const tag = (() => {
+						if (rowData.res_body_type === "backup") {
+							return <el-tag type="success">{xI("是")}</el-tag>;
+						}
+						return <el-tag type="info">{xI("否")}</el-tag>;
+					})();
+
+					return [
+						tag,
+						!rowData.isSetBackupData && (
+							<el-tag type="warning" class="ml8">
+								{xI("无备份数据")}
+							</el-tag>
+						)
+					];
+				}
+			};
 
 			const maintainer = {
 				prop: "tag",
 				key: "tag",
 				title: xI("维护人"),
 				width: 150,
-				minWidth: 150,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -379,7 +429,6 @@ export const InterfaceMain = defineComponent({
 				key: "tag",
 				title: xI("Tags"),
 				width: 250,
-				minWidth: 250,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -419,6 +468,7 @@ export const InterfaceMain = defineComponent({
 					status,
 					maintainer,
 					isProxy,
+					isUseBackup,
 					tag
 				];
 			}
@@ -432,6 +482,7 @@ export const InterfaceMain = defineComponent({
 					status,
 					maintainer,
 					isProxy,
+					isUseBackup,
 					tag
 				];
 			}
@@ -479,6 +530,19 @@ export const InterfaceMain = defineComponent({
 								return search.includes(i.method);
 							} else if (prop == "tag") {
 								return xU.some(i.tag, tag => search.includes(tag));
+							} else if (prop == "isUseBackup") {
+								if (search.includes("是")) {
+									return i.res_body_type === "backup";
+								}
+								if (search.includes("否")) {
+									return i.res_body_type !== "backup";
+								}
+								if (search.includes("无备份数据")) {
+									if (!i.isSetBackupData) {
+										return true;
+									}
+								}
+								return false;
 							} else if (prop == "witchEnv") {
 								if (search.includes("unset")) {
 									if (!i.witchEnv) {

@@ -320,8 +320,10 @@ export const DialogModifyInterface = defineComponent({
 				resBackupJson
 			} = this.detailInfo;
 			xU(this.detailInfo);
+
 			/* ***************************************** */
 			try {
+				debugger;
 				setValueTo(this.dataXItem, {
 					witchEnv,
 					catid,
