@@ -1,8 +1,8 @@
-import { d as defineComponent, a9 as defineAsyncComponent, aW as __vitePreload, s as stateApp, H as _export_sfc, r as resolveComponent, I as openBlock, aX as createBlock } from "./index.js";
+import { d as defineComponent, a9 as defineAsyncComponent, a_ as __vitePreload, s as stateApp, H as _export_sfc, r as resolveComponent, I as openBlock, a$ as createBlock } from "./index.js";
 const _sfc_main = defineComponent({
   components: {
-    PlayerMobile: defineAsyncComponent(() => __vitePreload(() => import("./PlayerMobile.js"), true ? ["./PlayerMobile.js","./index.js","..\\index.css","./music.js","..\\PlayerMobile.css"] : void 0, import.meta.url)),
-    PlayerPc: defineAsyncComponent(() => __vitePreload(() => import("./PlayerPc.js"), true ? ["./PlayerPc.js","./index.js","..\\index.css","./music.js","..\\PlayerPc.css"] : void 0, import.meta.url))
+    PlayerMobile: defineAsyncComponent(() => __vitePreload(() => import("./PlayerMobile.js"), true ? ["./PlayerMobile.js","./index.js","..\\index.css","..\\PlayerMobile.css"] : void 0, import.meta.url)),
+    PlayerPc: defineAsyncComponent(() => __vitePreload(() => import("./PlayerPc.js"), true ? ["./PlayerPc.js","./index.js","..\\index.css","..\\PlayerPc.css"] : void 0, import.meta.url))
   },
   setup() {
     return {

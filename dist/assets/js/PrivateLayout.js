@@ -1,4 +1,4 @@
-import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, aB as reactive, b as defItem, aW as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, aX as createBlock } from "./index.js";
+import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, aB as reactive, b as defItem, a_ as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, a$ as createBlock } from "./index.js";
 const state = reactive({
   configs: {
     search: defItem({
@@ -12,8 +12,8 @@ const state = reactive({
 });
 const _sfc_main = defineComponent({
   components: {
-    PrivateMobile: defineAsyncComponent(() => __vitePreload(() => import("./PrivateMobile.js"), true ? ["./PrivateMobile.js","./music.js","./index.js","..\\index.css","./PrivateMobileSongItem.js","..\\PrivateMobileSongItem.css"] : void 0, import.meta.url)),
-    PrivatePc: defineAsyncComponent(() => __vitePreload(() => import("./PrivatePc.js"), true ? ["./PrivatePc.js","./music.js","./index.js","..\\index.css","./PrivateMobileSongItem.js","..\\PrivateMobileSongItem.css"] : void 0, import.meta.url))
+    PrivateMobile: defineAsyncComponent(() => __vitePreload(() => import("./PrivateMobile.js"), true ? ["./PrivateMobile.js","./index.js","..\\index.css","./PrivateMobileSongItem.js","..\\PrivateMobileSongItem.css"] : void 0, import.meta.url)),
+    PrivatePc: defineAsyncComponent(() => __vitePreload(() => import("./PrivatePc.js"), true ? ["./PrivatePc.js","./index.js","..\\index.css","./PrivateMobileSongItem.js","..\\PrivateMobileSongItem.css"] : void 0, import.meta.url))
   },
   setup() {
     return {

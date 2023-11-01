@@ -1,7 +1,7 @@
-import { d as defineComponent, s as stateApp, b as defItem, i as itemsInvalid, aj as stateInterface, f as xU, x as xI, e as API, h as createVNode, r as resolveComponent, F as Fragment, j as isVNode, T as markRaw, a as cptRouter, aO as INTERFACE, aP as _$arrayChangeIndex, o as xScope, at as onMounted, aQ as ALL, w as withDirectives, l as resolveDirective, aR as cpt_treeData, aS as CATEGORY, aT as ref, v as createTextVNode, R as defineComponentProps, S as usePrivateItemValue, U as itemBaseProps, a1 as defDataGrid, aF as computed, p as watch, M as aHashLink, _ as _$handlePath, a7 as HTTP_METHOD, W as defCol, $, aU as copyToClipboard, aV as makeAhref, ae as lStorage, al as getAvatarSrcByid, a2 as MonacoEditor } from "./index.js";
+import { d as defineComponent, s as stateApp, b as defItem, i as itemsInvalid, aj as stateInterface, f as xU, x as xI, e as API, h as createVNode, r as resolveComponent, F as Fragment, j as isVNode, T as markRaw, a as cptRouter, aO as INTERFACE, aP as _$arrayChangeIndex, o as xScope, at as onMounted, aQ as ALL, w as withDirectives, l as resolveDirective, aR as cpt_treeData, aS as CATEGORY, aT as PREVIEW, aU as ref, v as createTextVNode, R as defineComponentProps, S as usePrivateItemValue, U as itemBaseProps, a1 as defDataGrid, aF as computed, p as watch, M as aHashLink, _ as _$handlePath, a7 as HTTP_METHOD, W as defCol, $, aV as copyToClipboard, al as getAvatarSrcByid, a2 as MonacoEditor, aW as makeAhref, ae as lStorage, aX as provide, aY as EDIT, aZ as RUN } from "./index.js";
 import { F as FormRules, s as setValueTo, p as pickValueFrom } from "./common.FormRules.js";
 import { I as ITEM_OPTIONS, a as ITEM_OPTIONS_VDOM } from "./common.options.js";
-import { o as orderAsc, g as DialogUpsertProxyEnv, R as RequestArgsPanel, T as TuiEditor, h as ResponsePanel, i as colParamsName, j as colRemark, k as colRequired, m as colValue, n as colExample, p as colType, J as JsonSchemaMonaco } from "./TuiEditor.js";
+import { o as orderAsc, R as RequestArgsPanel, T as TuiEditor, g as ResponsePanel, h as DialogUpsertProxyEnv, i as colParamsName, j as colRemark, k as colRequired, m as colValue, n as colExample, p as colType, J as JsonSchemaMonaco } from "./TuiEditor.js";
 import { V as VNodeCollection } from "./VNodeRender.js";
 function _isSlot$5(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
@@ -515,16 +515,19 @@ const InterfaceAside = defineComponent({
                 cptRouter.value.query.interface_type = menuType;
                 (() => {
                   if (menuType == ALL) {
+                    cptRouter.value.query.interface_detail_type = void 0;
                     cptRouter.value.query.interface_id = void 0;
                     cptRouter.value.query.category_id = void 0;
                     return;
                   }
                   if (menuType == CATEGORY) {
+                    cptRouter.value.query.interface_detail_type = void 0;
                     cptRouter.value.query.interface_id = void 0;
                     cptRouter.value.query.category_id = categoryId;
                     return;
                   }
                   if (menuType == INTERFACE) {
+                    cptRouter.value.query.interface_detail_type = PREVIEW;
                     cptRouter.value.query.interface_id = _id;
                     cptRouter.value.query.category_id = categoryId;
                   }
@@ -1104,6 +1107,86 @@ const DialogInterfaceProxyModify = defineComponent({
     }, null)]);
   }
 });
+const RequestArgsRender = defineComponent({
+  props: defineComponentProps(itemBaseProps),
+  setup(props) {
+    return {
+      _itemValue: usePrivateItemValue(props)
+    };
+  },
+  render() {
+    var _a, _b, _c;
+    return createVNode(RequestArgsPanel, {
+      "params": (_a = this.properties) == null ? void 0 : _a.value,
+      "apiMethod": (_c = (_b = this.properties) == null ? void 0 : _b.deepWatch) == null ? void 0 : _c.apiMethod,
+      "onUpdate:params": this.listeners["onEmitItemValue"]
+    }, null);
+  }
+});
+const MarkdownRender = defineComponent({
+  props: defineComponentProps(itemBaseProps),
+  setup(props) {
+    return {
+      _itemValue: usePrivateItemValue(props, {
+        md: "",
+        html: ""
+      })
+    };
+  },
+  render(vm) {
+    return createVNode(TuiEditor, {
+      "modelValue": vm._itemValue,
+      "onUpdate:modelValue": ($event) => vm._itemValue = $event
+    }, null);
+  }
+});
+const ResponseRender = defineComponent({
+  props: defineComponentProps(itemBaseProps),
+  setup(props) {
+    return {
+      _itemValue: usePrivateItemValue(props)
+    };
+  },
+  computed: {
+    body: {
+      get() {
+        var _a;
+        return ((_a = this._itemValue) == null ? void 0 : _a.res_body) || "";
+      },
+      set(res_body) {
+        this._itemValue.res_body = res_body;
+      }
+    },
+    resBodyType: {
+      get() {
+        var _a;
+        return ((_a = this._itemValue) == null ? void 0 : _a.res_body_type) || "";
+      },
+      set(res_body_type) {
+        this._itemValue.res_body_type = res_body_type;
+      }
+    },
+    resBackupJson: {
+      get() {
+        var _a;
+        return ((_a = this._itemValue) == null ? void 0 : _a.resBackupJson) || "";
+      },
+      set(resBackupJson) {
+        this._itemValue.resBackupJson = resBackupJson;
+      }
+    }
+  },
+  render(vm) {
+    return createVNode(ResponsePanel, {
+      "body": vm.body,
+      "onUpdate:body": ($event) => vm.body = $event,
+      "bodyType": vm.resBodyType,
+      "onUpdate:bodyType": ($event) => vm.resBodyType = $event,
+      "resBackupJson": vm.resBackupJson,
+      "onUpdate:resBackupJson": ($event) => vm.resBackupJson = $event
+    }, null);
+  }
+});
 async function openProxyEnvDialog() {
   xU.dialog({
     title: xI("\u7BA1\u7406\u9879\u76EE\u63A5\u53E3\u8F6C\u53D1\u73AF\u5883"),
@@ -1248,77 +1331,6 @@ const TagSelectRender = defineComponent({
     }, null)]);
   }
 });
-const RequestArgsRender = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  render() {
-    var _a, _b, _c;
-    return createVNode(RequestArgsPanel, {
-      "params": (_a = this.properties) == null ? void 0 : _a.value,
-      "apiMethod": (_c = (_b = this.properties) == null ? void 0 : _b.deepWatch) == null ? void 0 : _c.apiMethod,
-      "onUpdate:params": this.listeners["onEmitItemValue"]
-    }, null);
-  }
-});
-const MarkdownRender = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  computed: {
-    modelValue: {
-      get() {
-        var _a;
-        return ((_a = this.properties) == null ? void 0 : _a.value) || {
-          md: "",
-          html: ""
-        };
-      },
-      set(modelValue) {
-        this.listeners["onEmitItemValue"](modelValue);
-      }
-    }
-  },
-  render(vm) {
-    return createVNode(TuiEditor, {
-      "modelValue": vm.modelValue,
-      "onUpdate:modelValue": ($event) => vm.modelValue = $event
-    }, null);
-  }
-});
-const ResponseRender = defineComponent({
-  props: ["properties", "slots", "listeners", "propsWillDeleteFromConfigs"],
-  computed: {
-    body: {
-      get() {
-        var _a, _b;
-        return ((_b = (_a = this.properties) == null ? void 0 : _a.value) == null ? void 0 : _b.res_body) || "";
-      },
-      set(res_body) {
-        this.listeners["onEmitItemValue"]({
-          ...this.properties.value,
-          res_body
-        });
-      }
-    },
-    resBodyType: {
-      get() {
-        var _a, _b;
-        return ((_b = (_a = this.properties) == null ? void 0 : _a.value) == null ? void 0 : _b.res_body_type) || "";
-      },
-      set(res_body_type) {
-        this.listeners["onEmitItemValue"]({
-          ...this.properties.value,
-          res_body_type
-        });
-      }
-    }
-  },
-  render(vm) {
-    return createVNode(ResponsePanel, {
-      "body": vm.body,
-      "onUpdate:body": ($event) => vm.body = $event,
-      "bodyType": vm.resBodyType,
-      "onUpdate:bodyType": ($event) => vm.resBodyType = $event
-    }, null);
-  }
-});
 function dialogInterfaceStatusModify({
   selected
 }) {
@@ -1354,7 +1366,7 @@ const InterfaceMain = defineComponent({
     var vm = {
       dataGrid: defDataGrid({
         isHidePagination: true,
-        dataSource: {},
+        dataSource: [],
         columns: {},
         queryTableList: void 0
       }),
@@ -1784,52 +1796,56 @@ const InterfaceMain = defineComponent({
       immediate: true
     });
     const cptInterfaceRowData = computed(() => {
-      const {
-        allInterface
-      } = stateInterface;
-      let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
-      if (cptRouter.value.query.interface_type === CATEGORY) {
-        const {
-          category_id
-        } = cptRouter.value.query;
-        interfaceForShow = xU.filter(interfaceForShow, (i) => xU.isSame(category_id, i.catid));
-      }
-      let paramKeys = Object.keys(vm.filter);
-      let prop = paramKeys.pop();
-      while (prop) {
-        const search = vm.filter[prop];
-        if (xU.isInput(search)) {
-          interfaceForShow = xU.filter(interfaceForShow, (i) => {
-            if (prop == "status") {
-              return search.includes(i.status);
-            } else if (prop == "catid") {
-              return search.includes(i.catid);
-            } else if (prop == "method") {
-              return search.includes(i.method);
-            } else if (prop == "tag") {
-              return xU.some(i.tag, (tag) => search.includes(tag));
-            } else if (prop == "witchEnv") {
-              if (search.includes("unset")) {
-                if (!i.witchEnv) {
-                  return true;
-                }
-              }
-              if (!i.isProxy) {
-                return false;
-              }
-              return search.includes(i.witchEnv);
-            } else {
-              return new RegExp(search, "i").test(i[prop]);
-            }
-          });
-          xU("interfaceForShow.length new", interfaceForShow.length);
+      let interfaceForShow = (() => {
+        if (cptRouter.value.query.interface_type === INTERFACE) {
+          return [];
         }
-        prop = paramKeys.pop();
-      }
+        const {
+          allInterface
+        } = stateInterface;
+        let interfaceForShow2 = xU.isArrayFill(allInterface) ? xU.cloneDeep(allInterface) : [];
+        if (cptRouter.value.query.interface_type === CATEGORY) {
+          const {
+            category_id
+          } = cptRouter.value.query;
+          interfaceForShow2 = xU.filter(interfaceForShow2, (i) => xU.isSame(category_id, i.catid));
+        }
+        let paramKeys = Object.keys(vm.filter);
+        let prop = paramKeys.pop();
+        while (prop) {
+          const search = vm.filter[prop];
+          if (xU.isInput(search)) {
+            interfaceForShow2 = xU.filter(interfaceForShow2, (i) => {
+              if (prop == "status") {
+                return search.includes(i.status);
+              } else if (prop == "catid") {
+                return search.includes(i.catid);
+              } else if (prop == "method") {
+                return search.includes(i.method);
+              } else if (prop == "tag") {
+                return xU.some(i.tag, (tag) => search.includes(tag));
+              } else if (prop == "witchEnv") {
+                if (search.includes("unset")) {
+                  if (!i.witchEnv) {
+                    return true;
+                  }
+                }
+                if (!i.isProxy) {
+                  return false;
+                }
+                return search.includes(i.witchEnv);
+              } else {
+                return new RegExp(search, "i").test(i[prop]);
+              }
+            });
+            xU("interfaceForShow.length new", interfaceForShow2.length);
+          }
+          prop = paramKeys.pop();
+        }
+        return interfaceForShow2;
+      })();
+      vm.dataGrid.dataSource = interfaceForShow;
       return interfaceForShow;
-    });
-    watch(cptInterfaceRowData, (dataSource) => {
-      vm.dataGrid.dataSource = dataSource;
     });
     return function() {
       let _slot7, _slot8, _slot9;
@@ -2140,7 +2156,6 @@ const DialogModifyInterface = defineComponent({
         data
       } = await API.project.fetchInterfaceDetail(this.propOptions.interfaceId);
       this.detailInfo = this.initState(data);
-      xU.doNothing(JSON.stringify(this.detailInfo, null, 2));
       const {
         api_opened,
         catid,
@@ -2163,40 +2178,48 @@ const DialogModifyInterface = defineComponent({
         res_body_mock,
         res_body_is_json_schema,
         desc,
-        markdown
+        markdown,
+        resBackupJson
       } = this.detailInfo;
       xU(this.detailInfo);
-      setValueTo(this.dataXItem, {
-        witchEnv,
-        catid,
-        title,
-        apiMethod: method,
-        path,
-        remark: {
-          md: markdown,
-          html: desc
-        },
-        pathParams: req_params,
-        tag: String(tag).split(",").filter(xU.isInput),
-        status,
-        isProxy,
-        requestArgs: {
-          req_headers,
-          req_body_type,
-          req_query,
-          req_body_form,
-          req_body_other,
-          req_body_is_json_schema
-        },
-        responseArgs: {
-          res_body_is_json_schema,
-          res_body,
-          res_body_type,
-          res_body_mock
-        },
-        api_opened,
-        noticed: this.stateApp.currProject.switch_notice
-      });
+      try {
+        setValueTo(this.dataXItem, {
+          witchEnv,
+          catid,
+          title,
+          apiMethod: method,
+          path,
+          remark: {
+            md: markdown,
+            html: desc
+          },
+          pathParams: req_params,
+          tag: String(tag).split(",").filter(xU.isInput),
+          status,
+          isProxy,
+          requestArgs: {
+            req_headers,
+            req_body_type,
+            req_query,
+            req_body_form,
+            req_body_other,
+            req_body_is_json_schema
+          },
+          responseArgs: {
+            res_body_is_json_schema,
+            res_body,
+            res_body_type,
+            res_body_mock,
+            resBackupJson
+          },
+          api_opened,
+          noticed: this.stateApp.currProject.switch_notice
+        });
+      } catch (error) {
+        console.error(error);
+        debugger;
+      }
+      console.log(this.dataXItem.responseArgs.value);
     },
     initState(detailInfo) {
       if (detailInfo.req_body_form) {
@@ -2437,53 +2460,6 @@ const DialogModifyInterface = defineComponent({
     })]);
   }
 });
-function newWsPayload(type, payload) {
-  try {
-    return JSON.stringify({ type, payload });
-  } catch (error) {
-    return "{type:'error',payload:{}}";
-  }
-}
-const socket = {
-  ws: null,
-  open(url) {
-    return new Promise((r) => {
-      this.ws = new WebSocket(url);
-      this.ws.addEventListener("open", (event) => {
-        this.ws.addEventListener("message", (event2) => {
-          try {
-            const data = JSON.parse(event2.data);
-            const { type, payload } = data;
-            if ("_$auth" === type) {
-              r(data);
-            } else {
-              const handler = this.handlerMap.get(type);
-              handler(payload);
-              console.log("Message from server ", data);
-            }
-          } catch (error) {
-            console.error(error);
-          }
-        });
-        this.ws.addEventListener("error", (event2) => {
-          console.log("error from server ", event2.data);
-        });
-        this.ws.addEventListener("close", (event2) => {
-          console.log("close from server ", event2.data);
-        });
-      });
-    });
-  },
-  handlerMap: /* @__PURE__ */ new Map(),
-  on(type, handler) {
-    if (!this.handlerMap.get(type)) {
-      this.handlerMap.set(type, handler);
-    }
-  },
-  emit(type, payload) {
-    this.ws.send(JSON.stringify({ type, payload }));
-  }
-};
 function _isSlot$1(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
@@ -2638,8 +2614,9 @@ const DialogPostman = defineComponent({
 function _isSlot(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
-const InterfaceDetail = defineComponent({
-  setup() {
+const InterfaceDetailPreview = defineComponent({
+  props: ["info"],
+  setup(props) {
     var state = {
       WebSocket: null,
       detailInfo: false,
@@ -2700,16 +2677,11 @@ const InterfaceDetail = defineComponent({
           maxmin: true
         });
       },
-      async _updateInterfaceInfo() {
-        const {
-          data
-        } = await API.project.fetchInterfaceDetail(cptRouter.value.query.interface_id);
-        state.detailInfo = data;
-        xU(data);
-        state.headersParams.dataSource = xU.orderBy(data.req_headers, ["required"], ["desc"]);
-        state.pathParams.dataSource = xU.orderBy(data.req_params, ["required"], ["desc"]);
-        state.queryParams.dataSource = xU.orderBy(data.req_query, ["required", "type"], ["desc", "asc"]);
-        state.bodyFormParams.dataSource = xU.orderBy(data.req_body_form, ["required", "type"], ["desc", "asc"]);
+      async _updateInfo() {
+        state.headersParams.dataSource = xU.orderBy(stateInterface.currInterface.req_headers, ["required"], ["desc"]);
+        state.pathParams.dataSource = xU.orderBy(stateInterface.currInterface.req_params, ["required"], ["desc"]);
+        state.queryParams.dataSource = xU.orderBy(stateInterface.currInterface.req_query, ["required", "type"], ["desc", "asc"]);
+        state.bodyFormParams.dataSource = xU.orderBy(stateInterface.currInterface.req_body_form, ["required", "type"], ["desc", "asc"]);
       },
       _copyAjaxCode() {
         const codeString = $(`#interfaceDetailAjaxCode`).text();
@@ -2730,75 +2702,14 @@ const InterfaceDetail = defineComponent({
       _closeWS() {
         state.WebSocket && state.WebSocket.close();
         delete state.WebSocket;
-      },
-      async _showModifyInterfaceDialog() {
-        await xU.ensureValueDone(() => state.detailInfo);
-        const item = state.detailInfo;
-        const $dialogModifyInterface = $(`.dialog-modify-interface`);
-        if ($dialogModifyInterface.length > 0) {
-          xU.message.warn(xI("\u5DF2\u5B58\u5728\u4FEE\u6539\u9762\u677F"));
-          return;
-        }
-        const {
-          status,
-          curdata,
-          message
-        } = await state._checkConflict(item);
-        if (status == 2) {
-          try {
-            await xU.confirm({
-              content: createVNode("div", {
-                "class": "flex middle"
-              }, [createVNode("a", {
-                "href": makeAhref(`/user/profile/${curdata.uid}`)
-              }, [curdata.username]), createVNode("div", null, [createTextVNode("\u6B63\u5728\u7F16\u8F91\u8BE5\u63A5\u53E3\uFF0C\u8BF7\u7A0D\u540E\u518D\u8BD5...")])])
-            });
-          } catch (error) {
-            console.error(error);
-          } finally {
-            state._closeWS();
-          }
-          return;
-        }
-        if (message) {
-          xU.message.warn(message);
-        }
-        xU.dialog({
-          title: xI("\u4FEE\u6539\u63A5\u53E3") + `-${item.title}`,
-          component: DialogModifyInterface,
-          area: ["1024px", "624px"],
-          interfaceId: item._id,
-          maxmin: true,
-          _updateInterfaceInfo: state._updateInterfaceInfo,
-          onBeforeClose: state._closeWS()
-        });
-      },
-      async _checkConflict() {
-        const {
-          hostname,
-          port,
-          protocol
-        } = location;
-        let wsProtocol = protocol === "https:" ? "wss" : "ws";
-        return new Promise(() => {
-          try {
-            const wsURL = new URL(stateApp.BASE_URL);
-            socket.on("solveConflict", () => {
-            });
-            socket.open(`${wsProtocol}://${wsURL.host}/ws?x-cookies=${JSON.stringify(lStorage["x_token"])}`).then(() => {
-              socket.ws.send(newWsPayload("solveConflict"));
-            });
-          } catch (e) {
-          }
-        });
       }
     };
     state = xScope(state);
     var cpt_labelProxyEnv = computed(() => {
-      if (!state.detailInfo.isProxy) {
+      if (!stateInterface.currInterface.isProxy) {
         return "Y-api Mock \u6570\u636E";
       }
-      const envId = state.detailInfo.witchEnv;
+      const envId = stateInterface.currInterface.witchEnv;
       if (!envId) {
         return "\u4EFB\u610F";
       }
@@ -2823,7 +2734,7 @@ const InterfaceDetail = defineComponent({
         title,
         path,
         method
-      } = state.detailInfo;
+      } = stateInterface.currInterface;
       const projectId = stateApp.currProject._id;
       const interfaceId = cptRouter.value.query.interface_id;
       const requestCode = stateApp._returnRequestCode();
@@ -2858,7 +2769,7 @@ const InterfaceDetail = defineComponent({
         hostname,
         port
       } = location;
-      return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${stateApp.currProject._id}${(_a = stateApp.currProject) == null ? void 0 : _a.basepath}${state.detailInfo.path}`;
+      return `${protocol}//${hostname}${port ? `:${port}` : ""}/mock/${stateApp.currProject._id}${(_a = stateApp.currProject) == null ? void 0 : _a.basepath}${stateInterface.currInterface.path}`;
     });
     var cpt_interfaceInfo = computed(() => {
       var _a, _b, _c, _d;
@@ -2872,7 +2783,7 @@ const InterfaceDetail = defineComponent({
         method,
         isProxy,
         custom_field_value
-      } = state.detailInfo || {};
+      } = stateInterface.currInterface || {};
       return {
         title: createVNode("span", null, [xI("\u57FA\u672C\u4FE1\u606F")]),
         labelWidth: 120,
@@ -2881,7 +2792,7 @@ const InterfaceDetail = defineComponent({
             label: "\u63A5\u53E3\u540D\u79F0",
             content: () => {
               var _a2;
-              return (_a2 = state.detailInfo) == null ? void 0 : _a2.title;
+              return (_a2 = stateInterface.currInterface) == null ? void 0 : _a2.title;
             }
           },
           username: {
@@ -2976,9 +2887,9 @@ const InterfaceDetail = defineComponent({
       };
     });
     const cpt_vNodeDesc = computed(() => {
-      if (state.detailInfo.desc) {
+      if (stateInterface.currInterface.desc) {
         const modelValue = {
-          md: state.detailInfo.markdown
+          md: stateInterface.currInterface.markdown
         };
         return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
           "t": "20"
@@ -3032,7 +2943,7 @@ const InterfaceDetail = defineComponent({
     });
     const cpt_vNodeReq = computed(() => {
       if (state.queryParams.dataSource.length) {
-        if (state.detailInfo.req_body_type == "form") {
+        if (stateInterface.currInterface.req_body_type == "form") {
           if (state.bodyFormParams.dataSource.length) {
             return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
               "t": true
@@ -3044,22 +2955,22 @@ const InterfaceDetail = defineComponent({
               }, null)]
             })]);
           }
-        } else if (state.detailInfo.req_body_type == "json") {
-          if (state.detailInfo.req_body_other) {
+        } else if (stateInterface.currInterface.req_body_type == "json") {
+          if (stateInterface.currInterface.req_body_other) {
             return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
               "t": true
             }, null), createVNode(resolveComponent("elCard"), {
               "header": xI("Body")
             }, {
               default: () => [createVNode(JsonSchemaMonaco, {
-                "schemaString": state.detailInfo.req_body_other,
-                "onUpdate:schemaString": ($event) => state.detailInfo.req_body_other = $event,
+                "schemaString": stateInterface.currInterface.req_body_other,
+                "onUpdate:schemaString": ($event) => stateInterface.currInterface.req_body_other = $event,
                 "readOnly": true
               }, null)]
             })]);
           }
-        } else if (state.detailInfo.req_body_type == "raw") {
-          if (state.detailInfo.req_body_other) {
+        } else if (stateInterface.currInterface.req_body_type == "raw") {
+          if (stateInterface.currInterface.req_body_other) {
             return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
               "t": true
             }, null), createVNode(resolveComponent("elCard"), {
@@ -3069,7 +2980,7 @@ const InterfaceDetail = defineComponent({
                 "style": "height:300px;width:90%"
               }, [createVNode(MonacoEditor, {
                 "language": "json",
-                "code": state.detailInfo.req_body_other,
+                "code": stateInterface.currInterface.req_body_other,
                 "readOnly": true
               }, null)])]
             })]);
@@ -3078,7 +2989,7 @@ const InterfaceDetail = defineComponent({
       }
     });
     const cpt_vNodeRequest = computed(() => {
-      if (state.detailInfo.desc) {
+      if (stateInterface.currInterface.desc) {
         return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
           "t": "20"
         }, null), createVNode(resolveComponent("xInfoCard"), {
@@ -3089,23 +3000,23 @@ const InterfaceDetail = defineComponent({
       }
     });
     const cpt_vNodeResponse = computed(() => {
-      if (state.detailInfo.res_body) {
+      if (stateInterface.currInterface.res_body) {
         let _slot3;
         return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
           "t": "20"
         }, null), createVNode(resolveComponent("xInfoCard"), {
           "title": "Response\u4FE1\u606F"
         }, _isSlot(_slot3 = (() => {
-          if (state.detailInfo.res_body_type === "json") {
+          if (stateInterface.currInterface.res_body_type === "json") {
             return createVNode(JsonSchemaMonaco, {
-              "schemaString": state.detailInfo.res_body,
-              "onUpdate:schemaString": ($event) => state.detailInfo.res_body = $event,
+              "schemaString": stateInterface.currInterface.res_body,
+              "onUpdate:schemaString": ($event) => stateInterface.currInterface.res_body = $event,
               "readOnly": true
             }, null);
           }
           return createVNode(MonacoEditor, {
             "language": "json",
-            "code": state.detailInfo.res_body,
+            "code": stateInterface.currInterface.res_body,
             "readOnly": true
           }, null);
         })()) ? _slot3 : {
@@ -3113,45 +3024,802 @@ const InterfaceDetail = defineComponent({
         })]);
       }
     });
+    watch(() => stateInterface.currInterface, () => {
+      state._updateInfo();
+    }, {
+      immediate: true
+    });
+    return function() {
+      if (!stateInterface.currInterface || !stateApp.currProject) {
+        return withDirectives(createVNode("div", {
+          "class": "flex middle center flex1"
+        }, null), [[resolveDirective("xloading"), "true"]]);
+      }
+      xU(stateApp.currGroup, stateApp.currProject, stateInterface.currInterface);
+      return createVNode(Fragment, null, [createVNode(resolveComponent("xInfoCard"), {
+        "configs": cpt_interfaceInfo.value
+      }, null), cpt_vNodeDesc.value, cpt_vNodeRequest.value, cpt_vNodeResponse.value]);
+    };
+  }
+});
+const InterfaceDetailEdit = defineComponent({
+  props: {
+    info: {
+      type: Object,
+      required: true
+    },
+    interfaceId: {
+      type: String,
+      required: true
+    },
+    categoryId: {
+      type: String,
+      required: true
+    },
+    propOptions: {
+      type: Object,
+      default() {
+        return {
+          __elId: false
+        };
+      }
+    }
+  },
+  setup() {
+    return {
+      stateApp,
+      stateInterface
+    };
+  },
+  computed: {
+    vDomXItemPathparams() {
+      if (xU.isArrayFill(this.dataXItem.pathParams.value)) {
+        return createVNode(Fragment, null, [createVNode(resolveComponent("xGap"), {
+          "t": true
+        }, null), createVNode(resolveComponent("xItem"), {
+          "configs": this.dataXItem.pathParams
+        }, null)]);
+      } else {
+        return null;
+      }
+    }
+  },
+  data() {
+    const vm = this;
+    return {
+      reqArgs: "1",
+      detailInfo: {},
+      activeKey: "1",
+      dataXItem: {
+        catid: defItem({
+          value: "",
+          itemType: "Select",
+          label: xI("\u63A5\u53E3\u5206\u7C7B"),
+          placeholder: "\u5206\u7C7B\u540D\u79F0",
+          options: [],
+          rules: [FormRules.required()],
+          setOptions(allCategory) {
+            var _a;
+            this.options = allCategory;
+            if (vm.categoryId) {
+              this.value = vm.categoryId;
+            } else {
+              this.value = ((_a = xU.first(this.options)) == null ? void 0 : _a.value) || "";
+            }
+          }
+        }),
+        title: defItem({
+          value: "",
+          label: xI("\u63A5\u53E3\u540D\u79F0"),
+          placeholder: xI("\u63A5\u53E3\u540D\u79F0"),
+          rules: [FormRules.required(), FormRules.nameLength({
+            label: xI("\u63A5\u53E3")
+          })]
+        }),
+        basepath: defItem({
+          value: vm.stateApp.currProject.basepath,
+          label: xI("\u63A5\u53E3\u57FA\u672C\u8DEF\u5F84"),
+          labelVNodeRender: VNodeCollection.labelTips(`\u63A5\u53E3\u57FA\u672C\u8DEF\u5F84\uFF0C\u53EF\u5728 \u9879\u76EE\u8BBE\u7F6E \u91CC\u4FEE\u6539`),
+          disabled: true
+        }),
+        apiMethod: defItem({
+          value: "",
+          itemType: "Select",
+          options: ITEM_OPTIONS.httpMethod,
+          onChange(val) {
+            vm.dataXItem.requestArgs.deepWatch.apiMethod = val;
+          },
+          rules: [FormRules.required()],
+          style: {
+            width: "120px"
+          }
+        }),
+        path: defItem({
+          value: "",
+          label: xI("\u63A5\u53E3\u8DEF\u5F84"),
+          labelVNodeRender: VNodeCollection.labelTips(createVNode("ul", null, [createVNode("li", null, [createTextVNode("1.\u63A5\u53E3\u8DEF\u5F84\u652F\u6301\u8DEF\u7531\u53C2\u6570\uFF0C\u4F8B\u5982:/api/v1/project"), createVNode("b", null, [createTextVNode("/"), "{projectId}"]), createTextVNode("\u3002")]), createVNode("li", null, [createTextVNode("2.Query\u53C2\u6570\uFF0C\u4F8B\u5982/api/v1/project"), createVNode("b", null, [createTextVNode("?projectId=0001")]), createTextVNode("\u3002\u8BF7\u5B9A\u4E49\u5230"), createVNode("b", null, [createTextVNode("Request\u8BBE\u7F6E->Query")])])])),
+          placeholder: "/path",
+          rules: [FormRules.required(), FormRules.apiPath()],
+          once() {
+            const vDomApiMethodsSelector = createVNode(resolveComponent("xItem"), {
+              "configs": vm.dataXItem.apiMethod
+            }, null);
+            this.slots = markRaw({
+              addonBefore: () => vDomApiMethodsSelector
+            });
+          },
+          onAfterEmitItemValue: xU.debounce(function(newPatnValue) {
+            newPatnValue = _$handlePath(newPatnValue);
+            let queue = [];
+            setValueTo(vm.dataXItem, {
+              path: newPatnValue
+            });
+            const {
+              pathParams
+            } = pickValueFrom(vm.dataXItem);
+            let insertParams = (name) => {
+              let findExist = xU.find(pathParams, {
+                name
+              });
+              if (findExist) {
+                queue.push(findExist);
+              } else {
+                queue.push({
+                  name,
+                  desc: ""
+                });
+              }
+            };
+            if (newPatnValue && newPatnValue.indexOf(":") !== -1) {
+              let paths = newPatnValue.split("/"), name, i;
+              for (i = 1; i < paths.length; i++) {
+                if (paths[i][0] === ":") {
+                  name = paths[i].substr(1);
+                  insertParams(name);
+                }
+              }
+            }
+            if (newPatnValue && newPatnValue.length > 3) {
+              newPatnValue.replace(/\{(.+?)\}/g, function(str, match) {
+                insertParams(match);
+              });
+            }
+            setValueTo(vm.dataXItem, {
+              pathParams: xU.map(xU.uniqBy(queue, "name"), (newValue) => {
+                return xU.merge({
+                  name: "",
+                  desc: "",
+                  example: ""
+                }, newValue);
+              })
+            });
+          }, 800)
+        }),
+        pathParams: defItem({
+          label: xI("\u63A5\u53E3\u8DEF\u5F84\u53C2\u6570"),
+          value: [],
+          itemType: InpterfacePathParams
+        }),
+        tag: defItem({
+          label: "Tag",
+          value: [],
+          options: [],
+          async setOptions(tagArray) {
+            this._$updateUI({
+              options: tagArray
+            });
+          },
+          itemType: TagSelectRender
+        }),
+        status: defItem({
+          label: xI("\u72B6\u6001"),
+          value: ITEM_OPTIONS.interfaceStatus[0].value,
+          options: ITEM_OPTIONS.interfaceStatus,
+          itemType: "Select"
+        }),
+        isProxy: defItem({
+          value: false,
+          label: xI("\u662F\u5426\u5F00\u542F\u8F6C\u53D1"),
+          options: ITEM_OPTIONS.trueOrFalse,
+          itemType: "Switch"
+        }),
+        witchEnv: defItem({
+          isShow: () => vm.dataXItem.isProxy.value,
+          label: xI("\u8F6C\u53D1\u73AF\u5883"),
+          value: "",
+          options: [],
+          setOptions(envArray) {
+            this._$updateUI({
+              options: xU.map(envArray, (i) => ({
+                value: i._id,
+                label: `${i.name} ${i.domain}`
+              }))
+            });
+          },
+          itemType: EnvSelectRender
+        }),
+        requestArgs: defItem({
+          label: xI("\u8BF7\u6C42\u53C2\u6570\u8BBE\u7F6E"),
+          value: [],
+          activeKey: "1",
+          deepWatch: {
+            apiMethod: ""
+          },
+          itemType: RequestArgsRender
+        }),
+        responseArgs: defItem({
+          label: xI("\u54CD\u5E94\u53C2\u6570\u8BBE\u7F6E"),
+          value: {},
+          activeKey: "1",
+          apiMethod: "",
+          itemType: ResponseRender
+        }),
+        remark: defItem({
+          label: xI("\u5907\u6CE8"),
+          value: {
+            html: "",
+            md: ""
+          },
+          itemType: MarkdownRender
+        }),
+        noticed: defItem({
+          label: xI("\u6D88\u606F\u901A\u77E5"),
+          labelVNodeRender: VNodeCollection.labelTips(createVNode("div", null, [xI("\u5F00\u542F\u6D88\u606F\u901A\u77E5\uFF0C\u53EF\u5728 \u9879\u76EE\u8BBE\u7F6E \u91CC\u4FEE\u6539")])),
+          checkedChildren: xI("\u5F00"),
+          unCheckedChildren: xI("\u5173"),
+          value: true,
+          itemType: "Switch"
+        }),
+        api_opened: defItem({
+          label: xI("\u5F00\u653E\u63A5\u53E3"),
+          labelVNodeRender: VNodeCollection.labelTips(createVNode("div", null, [xI("\u7528\u6237\u53EF\u4EE5\u5728 \u6570\u636E\u5BFC\u51FA \u65F6\u9009\u62E9\u53EA\u5BFC\u51FA\u516C\u5F00\u63A5\u53E3")])),
+          checkedChildren: xI("\u5F00"),
+          unCheckedChildren: xI("\u5173"),
+          value: false,
+          itemType: "Switch"
+        })
+      }
+    };
+  },
+  mounted() {
+    this.setFormDataValues();
+  },
+  watch: {
+    "stateApp.currProject": {
+      immediate: true,
+      deep: true,
+      handler(currProject) {
+        const {
+          env: envArray,
+          tag: tagArray,
+          cat: category
+        } = currProject;
+        this.dataXItem.catid.setOptions(xU.map(category, (i) => ({
+          ...i,
+          label: i.name,
+          value: i._id
+        })));
+        this.dataXItem.witchEnv.setOptions(envArray);
+        this.dataXItem.tag.setOptions(tagArray);
+      }
+    }
+  },
+  methods: {
+    async setFormDataValues() {
+      const {
+        data
+      } = await API.project.fetchInterfaceDetail(this.interfaceId);
+      this.detailInfo = this.initState(data);
+      xU(JSON.stringify(this.detailInfo, null, 2));
+      const {
+        api_opened,
+        catid,
+        title,
+        path,
+        req_params,
+        tag,
+        status,
+        isProxy,
+        witchEnv,
+        method,
+        req_headers,
+        req_body_type,
+        req_query,
+        req_body_form,
+        req_body_other,
+        req_body_is_json_schema,
+        res_body,
+        res_body_type,
+        res_body_mock,
+        res_body_is_json_schema,
+        resBackupJson,
+        desc,
+        markdown
+      } = this.detailInfo;
+      setValueTo(this.dataXItem, {
+        witchEnv,
+        catid,
+        title,
+        apiMethod: method,
+        path,
+        remark: {
+          md: markdown,
+          html: desc
+        },
+        pathParams: req_params,
+        tag: String(tag).split(",").filter(xU.isInput),
+        status,
+        isProxy,
+        requestArgs: {
+          req_headers,
+          req_body_type,
+          req_query,
+          req_body_form,
+          req_body_other,
+          req_body_is_json_schema
+        },
+        responseArgs: {
+          res_body_is_json_schema,
+          res_body,
+          res_body_type,
+          res_body_mock,
+          resBackupJson
+        },
+        api_opened,
+        noticed: this.stateApp.currProject.switch_notice
+      });
+      xU(this.dataXItem);
+    },
+    initState(detailInfo) {
+      if (detailInfo.req_body_form) {
+        detailInfo.req_body_form = detailInfo.req_body_form.map((item) => {
+          item.type = item.type === "text" ? "text" : "file";
+          return item;
+        });
+      }
+      return detailInfo;
+    },
+    getFormData() {
+      const {
+        catid,
+        title,
+        apiMethod,
+        path,
+        tag,
+        status,
+        isProxy,
+        witchEnv,
+        remark,
+        requestArgs,
+        responseArgs,
+        pathParams,
+        api_opened,
+        noticed
+      } = pickValueFrom(this.dataXItem);
+      const {
+        req_body_type,
+        req_body_other,
+        req_query,
+        req_headers,
+        req_body_form
+      } = requestArgs;
+      const {
+        res_body_type,
+        res_body,
+        resBackupJson
+      } = responseArgs;
+      const {
+        html: desc,
+        md: markdown
+      } = remark;
+      const _formData = {
+        id: this.detailInfo._id,
+        catid,
+        title,
+        method: apiMethod,
+        path,
+        isProxy,
+        witchEnv,
+        req_params: pathParams,
+        tag,
+        status,
+        req_body_type,
+        req_body_other,
+        req_query,
+        req_headers,
+        req_body_form,
+        req_body_is_json_schema: true,
+        res_body_type,
+        res_body,
+        res_body_is_json_schema: true,
+        resBackupJson,
+        desc,
+        markdown,
+        api_opened,
+        switch_notice: noticed
+      };
+      let isFile = false;
+      let haveContentType = false;
+      if (_formData.req_body_type === "form") {
+        xU.each(_formData.req_body_form, (item) => {
+          delete item._id;
+          if (item.type === "file") {
+            isFile = true;
+          }
+        });
+        xU.each(_formData.req_headers, (item) => {
+          delete item._id;
+          if (item.name === "Content-Type") {
+            item.value = isFile ? "multipart/form-data" : "application/x-www-form-urlencoded";
+            haveContentType = true;
+          }
+        });
+        if (haveContentType === false) {
+          _formData.req_headers.unshift({
+            name: "Content-Type",
+            value: isFile ? "multipart/form-data" : "application/x-www-form-urlencoded"
+          });
+        }
+      } else if (_formData.req_body_type === "json") {
+        _formData.req_headers ? xU.each(_formData.req_headers, (item) => {
+          delete item._id;
+          if (item.name === "Content-Type") {
+            item.value = "application/json";
+            haveContentType = true;
+          }
+        }) : [];
+        if (haveContentType === false) {
+          _formData.req_headers = _formData.req_headers || [];
+          _formData.req_headers.unshift({
+            name: "Content-Type",
+            value: "application/json"
+          });
+        }
+      }
+      const itemFill = (item) => item.name !== "";
+      _formData.req_headers = _formData.req_headers ? _formData.req_headers.filter(itemFill) : [];
+      _formData.req_body_form = _formData.req_body_form ? _formData.req_body_form.filter(itemFill) : [];
+      _formData.req_params = _formData.req_params ? _formData.req_params.filter(itemFill) : [];
+      _formData.req_query = xU.filter(_formData.req_query, itemFill).map((i) => {
+        delete i._id;
+        return i;
+      });
+      if (HTTP_METHOD[_formData.method].request_body !== true) {
+        _formData.req_body_form = [];
+      }
+      if (_formData.req_body_is_json_schema && _formData.req_body_other && _formData.req_body_type === "json") {
+        if (!_formData.req_body_other) {
+          throw new Error(xI("\u8BF7\u6C42\u53C2\u6570 json-schema \u683C\u5F0F\u6709\u8BEF"));
+        }
+      }
+      if (_formData.res_body_is_json_schema && _formData.res_body && _formData.res_body_type === "json") {
+        if (!_formData.res_body) {
+          throw new Error(xI("\u8FD4\u56DE\u6570\u636E json-schema \u683C\u5F0F\u6709\u8BEF"));
+        }
+      }
+      return _formData;
+    },
+    async onSubmit() {
+      if (!await itemsInvalid()) {
+        try {
+          const formData = this.getFormData();
+          const {
+            data
+          } = await API.project.updateInterface(formData);
+          if (data) {
+            await (async () => {
+              cptRouter.value.query.category_id = formData.catid;
+              await stateInterface._updateInterfaceMenuList();
+              stateInterface._setExpand();
+              if (this.propOptions.updateInterfaceInfo) {
+                await this.propOptions.updateInterfaceInfo();
+              }
+              setTimeout(() => {
+                this.propOptions.$close();
+              }, 1e3);
+            })();
+            xU.message.success(xI("\u4FEE\u6539\u6210\u529F"));
+          }
+        } catch (error) {
+          xU.message.error(xI("\u4FEE\u6539\u5931\u8D25"));
+        }
+      }
+    }
+  },
+  render(vm) {
+    return createVNode(Fragment, null, [createVNode("div", {
+      "class": "dialog-modify-interface x-dialog-boddy-wrapper flex1 flex horizon height100 width100 overflow-auto"
+    }, [createVNode("div", {
+      "class": "flex1"
+    }, [createVNode(resolveComponent("xForm"), {
+      "labelStyle": {
+        "min-width": "120px",
+        width: "unset"
+      }
+    }, {
+      default: () => [createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.catid
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.title
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.basepath
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.path
+      }, null), this.vDomXItemPathparams, createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.tag
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.status
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode("div", {
+        "class": "flex"
+      }, [createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.isProxy
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.witchEnv,
+        "class": "flex1"
+      }, null)]), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.requestArgs
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.responseArgs
+      }, null), createVNode(resolveComponent("xLogObject"), {
+        "obj": this.dataXItem.remark,
+        "hide": true
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.remark
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.api_opened
+      }, null)]
+    }), createVNode(resolveComponent("xGap"), {
+      "t": true
+    }, null)])]), createVNode(resolveComponent("xDialogFooter"), null, {
+      default: () => [createVNode(resolveComponent("xGap"), {
+        "f": "1"
+      }, null), createVNode("div", {
+        "style": "min-width:120px;"
+      }, [createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.noticed
+      }, null)]), createVNode(resolveComponent("xGap"), {
+        "r": "10"
+      }, null), createVNode(resolveComponent("xButton"), {
+        "configs": {
+          preset: "save",
+          onClick: this.onSubmit
+        }
+      }, null)]
+    })]);
+  }
+});
+const InterfaceDetailRun = defineComponent({
+  props: ["info"],
+  setup() {
+    var state = {
+      yapiProxyHost: defItem({
+        value: "",
+        label: xI("ProxyHost"),
+        placeholder: "Host"
+      }),
+      yapiProxyPort: defItem({
+        value: "",
+        label: xI("ProxyPort"),
+        placeholder: "Port"
+      })
+    };
+    state = xScope(state);
+    return function() {
+      return createVNode(resolveComponent("xForm"), null, {
+        default: () => [createVNode(resolveComponent("xItem"), {
+          "configs": state.yapiProxyHost
+        }, null), createVNode(resolveComponent("xItem"), {
+          "configs": state.yapiProxyPort
+        }, null)]
+      });
+    };
+  }
+});
+function newWsPayload(type, payload = {}) {
+  try {
+    return JSON.stringify({ type, payload });
+  } catch (error) {
+    return "{type:'error',payload:{}}";
+  }
+}
+const socket = {
+  ws: null,
+  open(url) {
+    return new Promise((r) => {
+      this.ws = new WebSocket(url);
+      this.ws.addEventListener("open", (event) => {
+        this.ws.addEventListener("message", (event2) => {
+          try {
+            const data = JSON.parse(event2.data);
+            const { type, payload } = data;
+            if ("_$auth" === type) {
+              r(data);
+            } else {
+              const handler = this.handlerMap.get(type);
+              handler(payload);
+              console.log("Message from server ", data);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        });
+        this.ws.addEventListener("error", (event2) => {
+          console.log("error from server ", event2.data);
+        });
+        this.ws.addEventListener("close", (event2) => {
+          console.log("close from server ", event2.data);
+        });
+      });
+    });
+  },
+  handlerMap: /* @__PURE__ */ new Map(),
+  on(type, handler) {
+    if (!this.handlerMap.get(type)) {
+      this.handlerMap.set(type, handler);
+    }
+  },
+  emit(type, payload) {
+    this.ws.send(JSON.stringify({ type, payload }));
+  }
+};
+const InterfaceDetail = defineComponent({
+  components: {
+    InterfaceDetailPreview
+  },
+  setup() {
+    var state = {
+      activeName: cptRouter.value.query.interface_detail_type || PREVIEW,
+      async _showModifyInterfaceDialog() {
+        await xU.ensureValueDone(() => stateInterface.currInterface);
+        const item = stateInterface.currInterface;
+        const $dialogModifyInterface = $(`.dialog-modify-interface`);
+        if ($dialogModifyInterface.length > 0) {
+          xU.message.warn(xI("\u5DF2\u5B58\u5728\u4FEE\u6539\u9762\u677F"));
+          return;
+        }
+        const {
+          status,
+          curdata,
+          message
+        } = await state._checkConflict(item);
+        if (status == 2) {
+          try {
+            await xU.confirm({
+              content: createVNode("div", {
+                "class": "flex middle"
+              }, [createVNode("a", {
+                "href": makeAhref(`/user/profile/${curdata.uid}`)
+              }, [curdata.username]), createVNode("div", null, [createTextVNode("\u6B63\u5728\u7F16\u8F91\u8BE5\u63A5\u53E3\uFF0C\u8BF7\u7A0D\u540E\u518D\u8BD5...")])])
+            });
+          } catch (error) {
+            console.error(error);
+          } finally {
+            state._closeWS();
+          }
+          return;
+        }
+        if (message) {
+          xU.message.warn(message);
+        }
+        xU.dialog({
+          title: xI("\u4FEE\u6539\u63A5\u53E3") + `-${item.title}`,
+          component: DialogModifyInterface,
+          area: ["1024px", "624px"],
+          interfaceId: item._id,
+          maxmin: true,
+          _updateInterfaceInfo: state._updateInterfaceInfo,
+          onBeforeClose: state._closeWS()
+        });
+      },
+      async _checkConflict() {
+        const {
+          hostname,
+          port,
+          protocol
+        } = location;
+        let wsProtocol = protocol === "https:" ? "wss" : "ws";
+        return new Promise(() => {
+          try {
+            const wsURL = new URL(stateApp.BASE_URL);
+            socket.on("solveConflict", () => {
+            });
+            socket.open(`${wsProtocol}://${wsURL.host}/ws?x-cookies=${JSON.stringify(lStorage["x_token"])}`).then(() => {
+              socket.ws.send(newWsPayload("solveConflict"));
+            });
+          } catch (e) {
+          }
+        });
+      }
+    };
+    provide("InterfaceDetail", state);
+    state = xScope(state);
+    const vDomPreview = computed(() => {
+      if (cptRouter.value.query.interface_detail_type === PREVIEW) {
+        return createVNode("div", {
+          "class": "flex1 overflow-auto mt10 height1"
+        }, [createVNode(InterfaceDetailPreview, {
+          "info": stateInterface.currInterface
+        }, null)]);
+      }
+    });
+    const vDomEdit = computed(() => {
+      var _a, _b;
+      if (cptRouter.value.query.interface_detail_type === EDIT) {
+        if ((_b = (_a = stateInterface) == null ? void 0 : _a.currInterface) == null ? void 0 : _b._id) {
+          return createVNode(InterfaceDetailEdit, {
+            "info": stateInterface.currInterface,
+            "categoryId": cptRouter.value.query.category_id,
+            "interfaceId": stateInterface.currInterface._id
+          }, null);
+        }
+      }
+    });
+    const vDomRun = computed(() => {
+      if (cptRouter.value.query.interface_detail_type === RUN) {
+        return createVNode(InterfaceDetailRun, {
+          "info": stateInterface.currInterface
+        }, null);
+      }
+    });
+    function go({
+      props
+    }) {
+      cptRouter.value.query.interface_detail_type = props.name;
+    }
     watch(() => cptRouter.value.query.interface_id, (interface_id) => {
       if (interface_id) {
-        state._updateInterfaceInfo();
+        stateInterface._updateInterfaceInfo(interface_id);
       }
     }, {
       immediate: true
     });
     return function() {
-      if (!state.detailInfo || !stateApp.currProject) {
+      if (!stateApp.currProject) {
         return withDirectives(createVNode("div", {
           "class": "flex middle center flex1"
         }, null), [[resolveDirective("xloading"), "true"]]);
       }
-      xU(stateApp.currGroup, stateApp.currProject, state.detailInfo);
       return createVNode("div", {
         "class": "flex width100 flex1 paddingT paddingR paddingB"
       }, [createVNode("div", {
         "class": "interface-detail-wrapper width100 padding box-shadow flex vertical"
-      }, [createVNode("div", {
-        "class": "flex end width100"
-      }, [createVNode(resolveComponent("xButton"), {
-        "onClick": state._showModifyInterfaceDialog
+      }, [createVNode(resolveComponent("el-tabs"), {
+        "modelValue": cptRouter.value.query.interface_detail_type,
+        "onTabClick": go
       }, {
-        default: () => [createTextVNode("\u9884\u89C8")]
-      }), createVNode(resolveComponent("xButton"), {
-        "onClick": state._showModifyInterfaceDialog
-      }, {
-        default: () => [createTextVNode("\u7F16\u8F91")]
-      }), createVNode(resolveComponent("xButton"), {
-        "onClick": state._showModifyInterfaceDialog
-      }, {
-        default: () => [createTextVNode("\u8FD0\u884C")]
-      }), createVNode(resolveComponent("xGap"), {
-        "f": "1"
-      }, null)]), createVNode("div", {
-        "class": "flex1 overflow-auto mt10"
-      }, [createVNode(resolveComponent("xInfoCard"), {
-        "configs": cpt_interfaceInfo.value
-      }, null), cpt_vNodeDesc.value, cpt_vNodeRequest.value, cpt_vNodeResponse.value])])]);
+        default: () => [createVNode(resolveComponent("el-tab-pane"), {
+          "label": "\u9884\u89C8",
+          "name": "PREVIEW"
+        }, null), createVNode(resolveComponent("el-tab-pane"), {
+          "label": "\u7F16\u8F91",
+          "name": "EDIT"
+        }, null), createVNode(resolveComponent("el-tab-pane"), {
+          "label": "\u8FD0\u884C",
+          "name": "RUN"
+        }, null)]
+      }), vDomPreview.value, vDomEdit.value, vDomRun.value])]);
     };
   }
 });

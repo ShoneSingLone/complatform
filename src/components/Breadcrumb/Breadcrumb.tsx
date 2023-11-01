@@ -4,6 +4,7 @@ import { defineComponent } from "vue";
 import { xI, xU } from "@/ventose/ui";
 import { stateApp } from "@/state/app";
 import { aHashLink, cptRouter, routes } from "@/router/router";
+import { stateMusic } from "@/state/music";
 
 export const BreadcrumbNavigation = defineComponent({
 	setup() {
@@ -14,6 +15,14 @@ export const BreadcrumbNavigation = defineComponent({
 	},
 	computed: {
 		breadcrumbItems() {
+			if (this.cptRouter.pathname === "/music/broswer") {
+				return [
+					{
+						label: stateMusic.parentDir,
+						id: stateMusic.parentDir
+					}
+				];
+			}
 			return xU.map(
 				[
 					{

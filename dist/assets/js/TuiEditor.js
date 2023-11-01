@@ -28,6 +28,7 @@ const optionsXIcon = [
   "feedback",
   "folder",
   "folderOpen",
+  "folder_contennt",
   "follow",
   "frown-o",
   "github",
@@ -4820,15 +4821,15 @@ const RequestArgsPanel = defineComponent({
       }
       return `${BODY} ${(_d = this.params) == null ? void 0 : _d.req_body_type}`;
     })();
-    return createVNode(resolveComponent("ElCollapse"), {
-      "activeKey": this.collapseActive,
-      "onUpdate:activeKey": ($event) => this.collapseActive = $event
+    return createVNode(resolveComponent("elCollapse"), {
+      "modelValue": this.collapseActive,
+      "onUpdate:modelValue": ($event) => this.collapseActive = $event
     }, {
       default: () => {
         var _a, _b;
-        return [createVNode(resolveComponent("ElCollapseItem"), {
+        return [createVNode(resolveComponent("elCollapseItem"), {
           "key": "header",
-          "header": `header ${(_a = this.params) == null ? void 0 : _a.req_headers.length}`
+          "title": `header ${(_a = this.params) == null ? void 0 : _a.req_headers.length}`
         }, {
           default: () => {
             var _a2;
@@ -4839,9 +4840,9 @@ const RequestArgsPanel = defineComponent({
               }))
             }, null)];
           }
-        }), createVNode(resolveComponent("ElCollapseItem"), {
+        }), createVNode(resolveComponent("elCollapseItem"), {
           "key": QUERY,
-          "header": `${QUERY} ${(_b = this.params) == null ? void 0 : _b.req_query.length}`
+          "title": `${QUERY} ${(_b = this.params) == null ? void 0 : _b.req_query.length}`
         }, {
           default: () => {
             var _a2;
@@ -4852,9 +4853,9 @@ const RequestArgsPanel = defineComponent({
               }))
             }, null)];
           }
-        }), createVNode(resolveComponent("ElCollapseItem"), {
+        }), createVNode(resolveComponent("elCollapseItem"), {
           "key": BODY,
-          "header": bodyHeader,
+          "title": bodyHeader,
           "collapsible": this.bodyCollapsible
         }, {
           default: () => [createVNode(BodyParamsPanel, {
@@ -4867,15 +4868,16 @@ const RequestArgsPanel = defineComponent({
   }
 });
 const ResponsePanel = defineComponent({
-  props: ["body", "bodyType"],
-  emits: ["update:body", "update:bodyType"],
+  props: ["body", "bodyType", "resBackupJson"],
+  emits: ["update:body", "update:bodyType", "update:resBackupJson"],
   data() {
+    const configsPrivateBodyType = defItem({
+      prop: "configsPrivateBodyType",
+      itemType: "RadioGroup",
+      options: ITEM_OPTIONS.interfaceBodyType
+    });
     return {
-      configsPrivateBodyType: defItem({
-        prop: "configsPrivateBodyType",
-        itemType: "RadioGroup",
-        options: xU.filter(ITEM_OPTIONS.interfaceBodyType, (i) => ["json", "raw"].includes(i.label))
-      })
+      configsPrivateBodyType
     };
   },
   computed: {
@@ -4894,11 +4896,20 @@ const ResponsePanel = defineComponent({
       set(val) {
         this.$emit("update:bodyType", val);
       }
+    },
+    _resBackupJson: {
+      get() {
+        return this.resBackupJson || `{}`;
+      },
+      set(val) {
+        this.$emit("update:resBackupJson", val);
+      }
     }
   },
   render() {
     return createVNode(resolveComponent("elCard"), null, {
-      title: () => {
+      header: () => {
+        console.log("this.privateBodyType", this.privateBodyType);
         return createVNode(resolveComponent("xItem"), {
           "modelValue": this.privateBodyType,
           "onUpdate:modelValue": ($event) => this.privateBodyType = $event,
@@ -4912,6 +4923,16 @@ const ResponsePanel = defineComponent({
             "onUpdate:schemaString": ($event) => this.privateBody = $event,
             "style": "height:400px;"
           }, null);
+        }
+        if (this.privateBodyType === "backup") {
+          return createVNode("div", {
+            "style": "height:400px;"
+          }, [createVNode(resolveComponent("MonacoEditor"), {
+            "class": "flex1",
+            "code": this._resBackupJson,
+            "onUpdate:code": ($event) => this._resBackupJson = $event,
+            "language": "json"
+          }, null)]);
         }
         return createVNode("div", {
           "style": "height:400px;"
@@ -4931,7 +4952,10 @@ const TuiEditor = defineAsyncComponent(async () => {
     pathname,
     origin
   } = window.location;
-  const toastui = await xU.asyncGlobalJS("toastui", `${origin}${pathname}assets/libs/toastui-editor-all.js`);
+  let toastui = await xU.asyncGlobalJS("toastui", `${origin}${pathname}assets/libs/toastui-editor-all.js`);
+  if (!toastui) {
+    return;
+  }
   const {
     Editor
   } = toastui;
@@ -5202,8 +5226,8 @@ export {
   xItem_ProjectBasePath as d,
   xItem_ProjectDesc as e,
   xItem_ProjectType as f,
-  DialogUpsertProxyEnv as g,
-  ResponsePanel as h,
+  ResponsePanel as g,
+  DialogUpsertProxyEnv as h,
   colParamsName as i,
   colRemark as j,
   colRequired as k,

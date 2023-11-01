@@ -6,8 +6,8 @@ import { defineComponent, VNode } from "vue";
 import { xU } from "@/ventose/ui";
 import { cptAvatarUrl, stateApp } from "@/state/app";
 import { cptRouter, aHashLink } from "@/router/router";
-import { API } from "@/api";
 import { ADMIN } from "@/utils/variable";
+import { stateMusic } from "@/state/music";
 
 export const AppHeader = defineComponent({
 	props: [
@@ -31,6 +31,10 @@ export const AppHeader = defineComponent({
 	},
 	methods: {
 		goToGroup() {
+			if (this.cptRouter.pathname === "/music/broswer") {
+				stateMusic._toUpperDir();
+				return;
+			}
 			if (this.cptRouter.pathname === "/group") {
 				return;
 			}

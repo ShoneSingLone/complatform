@@ -97,6 +97,13 @@ export const routes = [
 		component: () =>
 			import("@/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue")
 	},
+	{
+		name: "broswer",
+		path: "/music/broswer",
+		componentName: "default",
+		component: () =>
+			import("@/music/views/ViewMusic/PlayList/Broswer/FindNewLayout.vue")
+	},
 	/* {
 		name: "singer",
 		path: "/music/singer",

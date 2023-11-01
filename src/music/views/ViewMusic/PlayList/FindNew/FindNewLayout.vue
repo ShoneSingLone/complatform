@@ -8,17 +8,6 @@ import { stateApp } from "@/state/app";
 import { Actions_Music } from "@/state/music";
 import { xU, defItem } from "@/ventose/ui";
 
-(async () => {
-	const index = xU.layer.loading();
-	try {
-		await Actions_Music.updatePersonalizedNewSong();
-	} catch (error) {
-		console.error(error);
-	} finally {
-		xU.layer.loading(index);
-	}
-})();
-
 export const state = reactive({
 	configs: {
 		search: defItem({

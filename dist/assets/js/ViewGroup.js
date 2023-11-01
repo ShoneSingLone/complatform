@@ -485,7 +485,7 @@ const GroupAside = defineComponent({
           undefined: otherOwner
         } = xU.groupBy(owner, "privateSpace");
         groupListForShow = [{
-          ...privateSpace[0],
+          ...(privateSpace == null ? void 0 : privateSpace[0]) || {},
           icon: "icon_group_personal"
         }, {
           group_name: "\u5206\u7EC4\u6210\u5458",

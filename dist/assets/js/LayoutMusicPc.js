@@ -1,6 +1,5 @@
-import { d as defineComponent, a as cptRouter, f as xU, h as createVNode, r as resolveComponent, x as xI, b0 as RouterView } from "./index.js";
+import { d as defineComponent, b0 as stateMusic, a as cptRouter, f as xU, h as createVNode, r as resolveComponent, x as xI, b2 as RouterView } from "./index.js";
 import { M as MusicPlayer } from "./MusicPlayer.js";
-import { s as stateMusic } from "./music.js";
 function goHome() {
   debugger;
 }

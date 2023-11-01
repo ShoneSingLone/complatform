@@ -1,15 +1,4 @@
-import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, f as xU, aB as reactive, b as defItem, aW as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, aX as createBlock } from "./index.js";
-import { A as Actions_Music } from "./music.js";
-(async () => {
-  const index = xU.layer.loading();
-  try {
-    await Actions_Music.updatePersonalizedNewSong();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    xU.layer.loading(index);
-  }
-})();
+import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, aB as reactive, b as defItem, a_ as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, a$ as createBlock } from "./index.js";
 const state = reactive({
   configs: {
     search: defItem({
@@ -23,8 +12,8 @@ const state = reactive({
 });
 const _sfc_main = defineComponent({
   components: {
-    FindNewMobile: defineAsyncComponent(() => __vitePreload(() => import("./FindNewMobile.js"), true ? ["./FindNewMobile.js","./music.js","./index.js","..\\index.css","./FindNewMobileSongItem.js","..\\FindNewMobileSongItem.css"] : void 0, import.meta.url)),
-    FindNewPc: defineAsyncComponent(() => __vitePreload(() => import("./FindNewPc.js"), true ? ["./FindNewPc.js","./music.js","./index.js","..\\index.css","./FindNewMobileSongItem.js","..\\FindNewMobileSongItem.css"] : void 0, import.meta.url))
+    FindNewMobile: defineAsyncComponent(() => __vitePreload(() => import("./FindNewMobile.js"), true ? ["./FindNewMobile.js","./index.js","..\\index.css","./API.js","./FindNewMobileSongItem.js","..\\FindNewMobileSongItem.css"] : void 0, import.meta.url)),
+    FindNewPc: defineAsyncComponent(() => __vitePreload(() => import("./FindNewPc.js"), true ? ["./FindNewPc.js","./index.js","..\\index.css","./API.js","./FindNewMobileSongItem.js","..\\FindNewMobileSongItem.css"] : void 0, import.meta.url))
   },
   setup() {
     return {
