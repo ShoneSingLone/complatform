@@ -110,13 +110,13 @@ export const routes = [
 		componentName: "default",
 		component: () => import("@/music/views/ViewMusic/PlayListSinger.vue")
 	}, */
-	{
+	/* {
 		name: "private",
 		path: "/music/private",
 		componentName: "default",
 		component: () =>
 			import("@/music/views/ViewMusic/PlayList/Private/PrivateLayout.vue")
-	},
+	}, */
 	{
 		name: "cached",
 		path: "/music/cached",

@@ -28,7 +28,7 @@ const optionsXIcon = [
   "feedback",
   "folder",
   "folderOpen",
-  "folder_contennt",
+  "folder_content",
   "follow",
   "frown-o",
   "github",
