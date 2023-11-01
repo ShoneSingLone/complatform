@@ -1,4 +1,4 @@
-import { H as _export_sfc, I as openBlock, J as createElementBlock, ah as createBaseVNode, b1 as toDisplayString } from "./index.js";
+import { H as _export_sfc, I as openBlock, J as createElementBlock, ah as createBaseVNode, b5 as toDisplayString } from "./index.js";
 const _sfc_main = {
   props: ["song", "loading"],
   setup() {

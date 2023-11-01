@@ -1,12 +1,12 @@
-import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, aW as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, aX as createBlock } from "./index.js";
+import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, a_ as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, a$ as createBlock } from "./index.js";
 const _sfc_main = defineComponent({
   components: {
     LayoutMusicMobile: defineAsyncComponent(async () => {
-      const module = await __vitePreload(() => import("./LayoutMusicMobile.js"), true ? ["./LayoutMusicMobile.js","./index.js","..\\index.css","./MusicPlayer.js","..\\MusicPlayer.css","./music.js"] : void 0, import.meta.url);
+      const module = await __vitePreload(() => import("./LayoutMusicMobile.js"), true ? ["./LayoutMusicMobile.js","./index.js","..\\index.css","./MusicPlayer.js","..\\MusicPlayer.css"] : void 0, import.meta.url);
       return module.default;
     }),
     LayoutMusicPc: defineAsyncComponent(async () => {
-      const module = await __vitePreload(() => import("./LayoutMusicPc.js"), true ? ["./LayoutMusicPc.js","./index.js","..\\index.css","./MusicPlayer.js","..\\MusicPlayer.css","./music.js"] : void 0, import.meta.url);
+      const module = await __vitePreload(() => import("./LayoutMusicPc.js"), true ? ["./LayoutMusicPc.js","./index.js","..\\index.css","./MusicPlayer.js","..\\MusicPlayer.css"] : void 0, import.meta.url);
       return module.default;
     })
   },

@@ -1,7 +1,7 @@
 import { defineComponent, ref, watch } from "vue";
 import { $, xU, compositionAPI, stateUI, xI } from "@/ventose/ui";
 import { DialogUpsertCategory } from "./DialogUpsertCategory";
-import { API } from "@/api/index";
+import { API } from "@/api";
 import { ALL } from "@/utils/variable";
 import { DialogAddInterface } from "./DialogAddInterface";
 import { cptRouter } from "@/router/router";

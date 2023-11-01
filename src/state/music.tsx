@@ -1,13 +1,15 @@
-import { API } from "@/music/api";
-import { reactive, watch, computed, onMounted } from "vue";
-import { xU, lStorage, setDocumentTitle } from "@/ventose/ui";
+import { reactive, watch, computed } from "vue";
+import { xU, lStorage, setDocumentTitle, xScope } from "@/ventose/ui";
 import { get, set, delMany } from "idb-keyval";
-import qs from "qs";
-import { stateApp } from "@/state/app";
 import axios from "axios";
 import { preprocessRecord } from "@/music/utils";
+import { API } from "@/api";
 
-export const stateMusic = reactive({
+const _stateMusic = {
+	parentDir: "",
+	configs: {
+		items: []
+	},
 	/* 每缓存成功一次音频，数值自增，作为可观察数据，响应式更新缓存数据列表 */
 	cacheAudioCount: 0,
 	AllMusicClient: [],
@@ -15,7 +17,8 @@ export const stateMusic = reactive({
 		{ key: "playlist", label: "当前播放列表", icon: "playlist" },
 		{ key: "new", label: "发现音乐", icon: "privateNet" },
 		// { key: "singer", label: "歌手", icon: "music" },
-		{ key: "private", label: "私藏", icon: "user" },
+		// { key: "private", label: "私藏", icon: "user" },
+		{ key: "broswer", label: "浏览", icon: "folder_content" },
 		{ key: "cached", label: "已缓存", icon: "cached" }
 	],
 	songId: 0,
@@ -42,8 +45,28 @@ export const stateMusic = reactive({
 	ended: false, //是否播放结束
 	muted: false, //是否静音
 	currentTime: 0, //当前播放时间
-	duration: 0 //总播放时长
-});
+	duration: 0, //总播放时长,
+	async _toIfy(path = ".") {
+		const { data } = await API.music.status({ path });
+		if (data?.type === "directory") {
+			stateMusic.configs.items = xU.map(data.children, i => {
+				return {
+					id: i,
+					path: String(`${data.current}/${i}`).replace(/(^\.\/|^\/)/, ""),
+					title: i
+				};
+			});
+			stateMusic.parentDir = data.parent;
+		}
+		return data;
+	},
+	async _toUpperDir() {
+		stateMusic._toIfy(stateMusic.parentDir);
+	}
+};
+type t_stateMusic = typeof _stateMusic;
+
+export const stateMusic = xScope<t_stateMusic>(_stateMusic);
 
 const stateMusic_PLAYLIST = "stateMusic_PLAYLIST";
 
@@ -51,16 +74,6 @@ const stateMusic_PLAYLIST = "stateMusic_PLAYLIST";
 	let playlist = await get(stateMusic_PLAYLIST);
 	playlist = playlist || [];
 	Actions_Music.setPlaylist(playlist);
-	stateMusic.AllMusicClient = await get("AllMusicClient");
-	try {
-		stateMusic.AllMusicClient = await API.music.loadAllMusicClient();
-		await set(
-			"AllMusicClient",
-			JSON.parse(JSON.stringify(stateMusic.AllMusicClient))
-		);
-	} catch (error) {
-		console.error(error);
-	}
 })();
 
 let intervalTimer: NodeJS.Timer;
@@ -164,9 +177,7 @@ export const Actions_Music = {
 			stateMusic.playlistIdSet.delete(id);
 		}
 	},
-	async loadAllMusicClient() {
-		const res = await API.music.loadAllMusicClient();
-	},
+	async loadAllMusicClient() {},
 	playMethods,
 	palyPrevSong() {
 		const currentSongIndex = xU.findIndex(stateMusic.playlist, {
@@ -336,11 +347,7 @@ export const Actions_Music = {
 		stateMusic.audio.volume = audioVolume;
 		cacheAudioVolume(audioVolume);
 	},
-	async updatePersonalizedNewSong() {
-		const { result } = await API.music.getPersonalizedNewSong();
-		stateMusic.personalizedNewSong = result;
-		return stateMusic.personalizedNewSong;
-	}
+	async updatePersonalizedNewSong() {}
 };
 
 export const Cpt_iconSound = computed(() => {

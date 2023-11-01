@@ -7,17 +7,16 @@ import { ITEM_OPTIONS } from "@/utils/common.options";
 1.接收apimethod 默认打开
 */
 export const ResponsePanel = defineComponent({
-	props: ["body", "bodyType"],
-	emits: ["update:body", "update:bodyType"],
+	props: ["body", "bodyType", "resBackupJson"],
+	emits: ["update:body", "update:bodyType", "update:resBackupJson"],
 	data() {
+		const configsPrivateBodyType = defItem({
+			prop: "configsPrivateBodyType",
+			itemType: "RadioGroup",
+			options: ITEM_OPTIONS.interfaceBodyType
+		});
 		return {
-			configsPrivateBodyType: defItem({
-				prop: "configsPrivateBodyType",
-				itemType: "RadioGroup",
-				options: xU.filter(ITEM_OPTIONS.interfaceBodyType, i =>
-					["json", "raw"].includes(i.label)
-				)
-			})
+			configsPrivateBodyType
 		};
 	},
 	computed: {
@@ -36,13 +35,22 @@ export const ResponsePanel = defineComponent({
 			set(val) {
 				this.$emit("update:bodyType", val);
 			}
+		},
+		_resBackupJson: {
+			get() {
+				return this.resBackupJson || `{}`;
+			},
+			set(val) {
+				this.$emit("update:resBackupJson", val);
+			}
 		}
 	},
 	render() {
 		return (
 			<elCard>
 				{{
-					title: () => {
+					header: () => {
+						console.log("this.privateBodyType", this.privateBodyType);
 						return (
 							<xItem
 								v-model={this.privateBodyType}
@@ -57,6 +65,17 @@ export const ResponsePanel = defineComponent({
 									v-model:schemaString={this.privateBody}
 									style="height:400px;"
 								/>
+							);
+						}
+						if (this.privateBodyType === "backup") {
+							return (
+								<div style="height:400px;">
+									<MonacoEditor
+										class="flex1"
+										v-model:code={this._resBackupJson}
+										language="json"
+									/>
+								</div>
 							);
 						}
 

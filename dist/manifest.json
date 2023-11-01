@@ -1,23 +1,23 @@
 {
-  "src/ventose/assets/svg/input.svg": {
-    "file": "assets/input.svg",
-    "src": "src/ventose/assets/svg/input.svg"
+  "src/ventose/ui/xSingle/layer/imgs/loading.svg": {
+    "file": "assets/loading.svg",
+    "src": "src/ventose/ui/xSingle/layer/imgs/loading.svg"
   },
   "src/ventose/ui/xSingle/layer/imgs/loading-1.gif": {
     "file": "assets/loading-1.gif",
     "src": "src/ventose/ui/xSingle/layer/imgs/loading-1.gif"
   },
-  "src/ventose/ui/xSingle/layer/imgs/loading.svg": {
-    "file": "assets/loading.svg",
-    "src": "src/ventose/ui/xSingle/layer/imgs/loading.svg"
-  },
-  "src/ventose/ui/xSingle/layer/imgs/icon.png": {
-    "file": "assets/icon.png",
-    "src": "src/ventose/ui/xSingle/layer/imgs/icon.png"
+  "src/ventose/assets/svg/input.svg": {
+    "file": "assets/input.svg",
+    "src": "src/ventose/assets/svg/input.svg"
   },
   "src/ventose/ui/xSingle/layer/imgs/loading-0.gif": {
     "file": "assets/loading-0.gif",
     "src": "src/ventose/ui/xSingle/layer/imgs/loading-0.gif"
+  },
+  "src/ventose/ui/xSingle/layer/imgs/icon.png": {
+    "file": "assets/icon.png",
+    "src": "src/ventose/ui/xSingle/layer/imgs/icon.png"
   },
   "src/ventose/ui/xSingle/layer/imgs/loading-2.gif": {
     "file": "assets/loading-2.gif",
@@ -42,6 +42,7 @@
       "src/music/views/ViewMusic/Layout/LayoutMusic.vue",
       "src/music/views/ViewMusic/PlayList/FindNew/FindNewLayout.vue",
       "src/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue",
+      "src/music/views/ViewMusic/PlayList/Broswer/FindNewLayout.vue",
       "src/music/views/ViewMusic/PlayList/Private/PrivateLayout.vue",
       "src/music/views/ViewMusic/PlayList/Cached/CachedLayout.vue",
       "_vconsole.min.js"
@@ -219,18 +220,11 @@
     "src": "src/music/views/ViewMusic/PlayList/FindNew/FindNewLayout.vue",
     "isDynamicEntry": true,
     "imports": [
-      "index.html",
-      "_music.js"
+      "index.html"
     ],
     "dynamicImports": [
       "src/music/views/ViewMusic/PlayList/FindNew/FindNewMobile.vue",
       "src/music/views/ViewMusic/PlayList/FindNew/FindNewPc.vue"
-    ]
-  },
-  "_music.js": {
-    "file": "assets/js/music.js",
-    "imports": [
-      "index.html"
     ]
   },
   "src/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue": {
@@ -238,12 +232,22 @@
     "src": "src/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue",
     "isDynamicEntry": true,
     "imports": [
-      "index.html",
-      "_music.js"
+      "index.html"
     ],
     "dynamicImports": [
       "src/music/views/ViewMusic/PlayList/Current/CurrentMobile.vue",
       "src/music/views/ViewMusic/PlayList/Current/CurrentPc.vue"
+    ]
+  },
+  "src/music/views/ViewMusic/PlayList/Broswer/FindNewLayout.vue": {
+    "file": "assets/js/FindNewLayout2.js",
+    "src": "src/music/views/ViewMusic/PlayList/Broswer/FindNewLayout.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "src/music/views/ViewMusic/PlayList/Broswer/FindNewMobile.vue"
     ]
   },
   "src/music/views/ViewMusic/PlayList/Private/PrivateLayout.vue": {
@@ -263,8 +267,7 @@
     "src": "src/music/views/ViewMusic/PlayList/Cached/CachedLayout.vue",
     "isDynamicEntry": true,
     "imports": [
-      "index.html",
-      "_music.js"
+      "index.html"
     ],
     "dynamicImports": [
       "src/music/views/ViewMusic/PlayList/Cached/CachedMobile.vue",
@@ -277,8 +280,7 @@
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_MusicPlayer.js",
-      "_music.js"
+      "_MusicPlayer.js"
     ]
   },
   "_MusicPlayer.js": {
@@ -300,8 +302,7 @@
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_MusicPlayer.js",
-      "_music.js"
+      "_MusicPlayer.js"
     ]
   },
   "src/music/views/ViewMusic/PlayList/FindNew/FindNewMobile.vue": {
@@ -309,10 +310,16 @@
     "src": "src/music/views/ViewMusic/PlayList/FindNew/FindNewMobile.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_music.js",
       "index.html",
+      "_API.js",
       "_FindNewMobileSongItem.js",
       "src/music/views/ViewMusic/PlayList/FindNew/FindNewLayout.vue"
+    ]
+  },
+  "_API.js": {
+    "file": "assets/js/API.js",
+    "imports": [
+      "index.html"
     ]
   },
   "_FindNewMobileSongItem.js": {
@@ -329,8 +336,8 @@
     "src": "src/music/views/ViewMusic/PlayList/FindNew/FindNewPc.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_music.js",
       "index.html",
+      "_API.js",
       "_FindNewMobileSongItem.js",
       "src/music/views/ViewMusic/PlayList/FindNew/FindNewLayout.vue"
     ]
@@ -340,16 +347,14 @@
     "src": "src/music/views/ViewMusic/PlayList/Current/CurrentMobile.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_music.js",
-      "_CurrentMobileSongItem.js",
       "index.html",
+      "_CurrentMobileSongItem.js",
       "src/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue"
     ]
   },
   "_CurrentMobileSongItem.js": {
     "file": "assets/js/CurrentMobileSongItem.js",
     "imports": [
-      "_music.js",
       "index.html"
     ],
     "css": [
@@ -361,10 +366,18 @@
     "src": "src/music/views/ViewMusic/PlayList/Current/CurrentPc.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_music.js",
-      "_CurrentMobileSongItem.js",
       "index.html",
+      "_CurrentMobileSongItem.js",
       "src/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue"
+    ]
+  },
+  "src/music/views/ViewMusic/PlayList/Broswer/FindNewMobile.vue": {
+    "file": "assets/js/FindNewMobile2.js",
+    "src": "src/music/views/ViewMusic/PlayList/Broswer/FindNewMobile.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_API.js"
     ]
   },
   "src/music/views/ViewMusic/PlayList/Private/PrivateMobile.vue": {
@@ -372,9 +385,8 @@
     "src": "src/music/views/ViewMusic/PlayList/Private/PrivateMobile.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_music.js",
-      "_PrivateMobileSongItem.js",
       "index.html",
+      "_PrivateMobileSongItem.js",
       "src/music/views/ViewMusic/PlayList/Private/PrivateLayout.vue"
     ]
   },
@@ -392,9 +404,8 @@
     "src": "src/music/views/ViewMusic/PlayList/Private/PrivatePc.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_music.js",
-      "_PrivateMobileSongItem.js",
       "index.html",
+      "_PrivateMobileSongItem.js",
       "src/music/views/ViewMusic/PlayList/Private/PrivateLayout.vue"
     ]
   },
@@ -403,9 +414,8 @@
     "src": "src/music/views/ViewMusic/PlayList/Cached/CachedMobile.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_music.js",
-      "_CachedMobileSongItem.js",
       "index.html",
+      "_CachedMobileSongItem.js",
       "src/music/views/ViewMusic/PlayList/Cached/CachedLayout.vue"
     ]
   },
@@ -423,9 +433,8 @@
     "src": "src/music/views/ViewMusic/PlayList/Cached/CachedPc.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_music.js",
-      "_CachedMobileSongItem.js",
       "index.html",
+      "_CachedMobileSongItem.js",
       "src/music/views/ViewMusic/PlayList/Cached/CachedLayout.vue"
     ]
   },
@@ -434,8 +443,7 @@
     "src": "src/music/views/ViewMusic/Player/PlayerMobile/PlayerMobile.vue",
     "isDynamicEntry": true,
     "imports": [
-      "index.html",
-      "_music.js"
+      "index.html"
     ],
     "css": [
       "assets/PlayerMobile.css"
@@ -446,8 +454,7 @@
     "src": "src/music/views/ViewMusic/Player/PlayerPc/PlayerPc.vue",
     "isDynamicEntry": true,
     "imports": [
-      "index.html",
-      "_music.js"
+      "index.html"
     ],
     "css": [
       "assets/PlayerPc.css"

@@ -34,6 +34,9 @@ export const OWNER = "owner";
 export const ALL = "all";
 export const CATEGORY = "category";
 export const INTERFACE = "interface";
+export const PREVIEW = "PREVIEW";
+export const EDIT = "EDIT";
+export const RUN = "RUN";
 export const PROJECT = "project";
 export const GROUP = "group";
 /* role */

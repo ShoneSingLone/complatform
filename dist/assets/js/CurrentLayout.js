@@ -1,5 +1,4 @@
-import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, aB as reactive, b as defItem, f as xU, p as watch, aW as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, aX as createBlock } from "./index.js";
-import { s as stateMusic, A as Actions_Music } from "./music.js";
+import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, aB as reactive, b as defItem, f as xU, b0 as stateMusic, p as watch, b1 as Actions_Music, a_ as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, a$ as createBlock } from "./index.js";
 const state = reactive({
   configs: {
     search: defItem({
@@ -41,8 +40,8 @@ const btnClear = {
 };
 const _sfc_main = defineComponent({
   components: {
-    CurrentMobile: defineAsyncComponent(() => __vitePreload(() => import("./CurrentMobile.js"), true ? ["./CurrentMobile.js","./music.js","./index.js","..\\index.css","./CurrentMobileSongItem.js","..\\CurrentMobileSongItem.css"] : void 0, import.meta.url)),
-    CurrentPc: defineAsyncComponent(() => __vitePreload(() => import("./CurrentPc.js"), true ? ["./CurrentPc.js","./music.js","./index.js","..\\index.css","./CurrentMobileSongItem.js","..\\CurrentMobileSongItem.css"] : void 0, import.meta.url))
+    CurrentMobile: defineAsyncComponent(() => __vitePreload(() => import("./CurrentMobile.js"), true ? ["./CurrentMobile.js","./index.js","..\\index.css","./CurrentMobileSongItem.js","..\\CurrentMobileSongItem.css"] : void 0, import.meta.url)),
+    CurrentPc: defineAsyncComponent(() => __vitePreload(() => import("./CurrentPc.js"), true ? ["./CurrentPc.js","./index.js","..\\index.css","./CurrentMobileSongItem.js","..\\CurrentMobileSongItem.css"] : void 0, import.meta.url))
   },
   setup() {
     return {

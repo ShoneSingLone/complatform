@@ -3,7 +3,7 @@ import { defineComponent } from "vue";
 import { WikiLeftSider } from "./WikiLeftSider";
 import { stateWiki, Methods_Wiki } from "@/state/wiki";
 import { TuiEditor } from "@/components";
-import { API } from "@/api/index";
+import { API } from "@/api";
 import { xU, xI, defItem } from "@/ventose/ui";
 import { cptRouter } from "@/router/router";
 

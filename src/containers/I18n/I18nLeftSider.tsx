@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { $, xU, compositionAPI, xI } from "@/ventose/ui";
-import { API } from "@/api/index";
+import { API } from "@/api";
 import { DialogUpsertI18nRecord } from "./DialogUpsertI18nRecord";
 import { cptRouter } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";

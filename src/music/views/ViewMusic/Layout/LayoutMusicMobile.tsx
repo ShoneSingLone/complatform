@@ -34,7 +34,6 @@ export default defineComponent({
 					"ant-btn-link elevation elevation-2": item.key === this.selectedKey,
 					"menu-icon flex middle center": true
 				};
-
 				return (
 					<div
 						key={item.key}

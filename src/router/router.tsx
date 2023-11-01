@@ -97,6 +97,13 @@ export const routes = [
 		component: () =>
 			import("@/music/views/ViewMusic/PlayList/Current/CurrentLayout.vue")
 	},
+	{
+		name: "broswer",
+		path: "/music/broswer",
+		componentName: "default",
+		component: () =>
+			import("@/music/views/ViewMusic/PlayList/Broswer/FindNewLayout.vue")
+	},
 	/* {
 		name: "singer",
 		path: "/music/singer",
@@ -148,6 +155,8 @@ type t_router = {
 		project_setting_tab?: string;
 		interface_type?: string;
 		interface_id?: string;
+		/*详情里预览 、编辑、运行*/
+		interface_detail_type?: string;
 		category_id?: string;
 		wiki_id?: string;
 	};

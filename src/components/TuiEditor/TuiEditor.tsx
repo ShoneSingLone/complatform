@@ -8,10 +8,15 @@ import "./TuiEditor.less";
 
 export const TuiEditor = defineAsyncComponent(async () => {
 	const { pathname, origin } = window.location;
-	const toastui = await xU.asyncGlobalJS(
+	let toastui = await xU.asyncGlobalJS(
 		"toastui",
 		`${origin}${pathname}assets/libs/toastui-editor-all.js`
 	);
+
+	if (!toastui) {
+		return;
+	}
+
 	const { Editor } = toastui;
 
 	const customHTMLRenderer = {

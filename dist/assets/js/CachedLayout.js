@@ -1,5 +1,4 @@
-import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, aB as reactive, b as defItem, f as xU, aW as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, aX as createBlock } from "./index.js";
-import { A as Actions_Music } from "./music.js";
+import { d as defineComponent, a9 as defineAsyncComponent, s as stateApp, aB as reactive, b as defItem, b1 as Actions_Music, f as xU, a_ as __vitePreload, H as _export_sfc, r as resolveComponent, I as openBlock, a$ as createBlock } from "./index.js";
 const state = reactive({
   configs: {
     search: defItem({
@@ -19,8 +18,8 @@ const btnClear = {
 };
 const _sfc_main = defineComponent({
   components: {
-    CachedMobile: defineAsyncComponent(() => __vitePreload(() => import("./CachedMobile.js"), true ? ["./CachedMobile.js","./music.js","./index.js","..\\index.css","./CachedMobileSongItem.js","..\\CachedMobileSongItem.css"] : void 0, import.meta.url)),
-    CachedPc: defineAsyncComponent(() => __vitePreload(() => import("./CachedPc.js"), true ? ["./CachedPc.js","./music.js","./index.js","..\\index.css","./CachedMobileSongItem.js","..\\CachedMobileSongItem.css"] : void 0, import.meta.url))
+    CachedMobile: defineAsyncComponent(() => __vitePreload(() => import("./CachedMobile.js"), true ? ["./CachedMobile.js","./index.js","..\\index.css","./CachedMobileSongItem.js","..\\CachedMobileSongItem.css"] : void 0, import.meta.url)),
+    CachedPc: defineAsyncComponent(() => __vitePreload(() => import("./CachedPc.js"), true ? ["./CachedPc.js","./index.js","..\\index.css","./CachedMobileSongItem.js","..\\CachedMobileSongItem.css"] : void 0, import.meta.url))
   },
   setup() {
     return {

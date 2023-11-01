@@ -1,6 +1,6 @@
 import { markRaw, onMounted, onUnmounted } from "vue";
 import { xU, newReactiveState } from "@/ventose/ui";
-import { API } from "@/api/index";
+import { API } from "@/api";
 
 const methods = markRaw({
 	setExpandedKeys: xU.debounce(async _id => {

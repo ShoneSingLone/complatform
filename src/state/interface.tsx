@@ -1,6 +1,6 @@
 import { computed, watch } from "vue";
 import { xU, xScope, xI } from "@/ventose/ui";
-import { API } from "@/api/index";
+import { API } from "@/api";
 import { cptRouter } from "@/router/router";
 import { ALL } from "@/utils/variable";
 
@@ -18,13 +18,17 @@ const defautlStateInterface = () => ({
 	list: [],
 	filterText: "",
 	interface_id: ALL,
-	currentInterface: {},
+	currInterface: null,
 	allInterface: [],
 	allTags: [],
 	allCategory: [],
 	/* 左侧 树 展开 */
 	expandedKeys: [],
 	/********************** methods ******************/
+	async _updateInterfaceInfo(interface_id) {
+		const { data } = await API.project.fetchInterfaceDetail(interface_id);
+		stateInterface.currInterface = data;
+	},
 	_setExpand: xU.debounce(function () {
 		if (cptRouter.value.query.category_id) {
 			stateInterface.expandedKeys = [Number(cptRouter.value.query.category_id)];

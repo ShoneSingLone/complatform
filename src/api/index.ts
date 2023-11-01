@@ -6,6 +6,7 @@ import { news } from "./ctrl/news";
 import { testcase } from "./ctrl/testcase";
 import { god } from "./ctrl/god";
 import { resource } from "./ctrl/resource";
+import { music } from "./ctrl/music";
 
 export const API = {
 	wiki,
@@ -15,5 +16,6 @@ export const API = {
 	news,
 	project,
 	testcase,
-	resource
+	resource,
+	music
 };

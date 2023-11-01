@@ -1,6 +1,6 @@
 import { defineComponent, reactive, ref, watch } from "vue";
 import { $, xU, compositionAPI, stateUI, xI } from "@/ventose/ui";
-import { API } from "@/api/index";
+import { API } from "@/api";
 import { DialogAddArticle } from "./DialogAddArticle";
 import { cptRouter, cpt_isPersonalWikiView } from "@/router/router";
 import { _$arrayChangeIndex, getTreeOrder } from "@/utils/common";

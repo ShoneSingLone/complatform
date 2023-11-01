@@ -9,7 +9,7 @@
     "start": "vite --open --host --port 3010",
     "build:pwa": "node ./preprocess/pwa/PWAmaker.js",
     "build": "npm run genIconJSON && cross-env DEV_MODEL=PRD vite build",
-    "build:cors": "npm run genIconJSON && cross-env DEV_MODEL=PRD PRD_USE=2 vite build && npm run build:pwa",
+    "build:cors": "npm run genIconJSON && cross-env DEV_MODEL=PRD PRD_USE=1 vite build && npm run build:pwa",
     "build:lib:tui_comment": "tui 编辑器的lib生成",
     "build:lib:tui": "cross-env type=lib:tui vite build && node ./preprocess/ci/cleanTuiDist.js",
     "genIconJSON_comment": "在public下的icon svg资源，获取文件名，用于系统图标的下拉选项 ",

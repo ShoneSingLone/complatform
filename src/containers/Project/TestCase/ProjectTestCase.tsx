@@ -5,7 +5,7 @@ import {
 	stateProjectTestcase,
 	Methods_ProjectTestcase
 } from "@/state/projectTestcase";
-import { API } from "@/api/index";
+import { API } from "@/api";
 import { cptRouter } from "@/router/router";
 
 export const ProjectTestcase = defineComponent({

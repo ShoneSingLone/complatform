@@ -23,6 +23,7 @@ export default [
   "feedback",
   "folder",
   "folderOpen",
+  "folder_contennt",
   "follow",
   "frown-o",
   "github",

@@ -1,3 +1,12 @@
+import { aHashLink, cptRouter } from "@/router/router";
+import { stateApp } from "@/state/app";
+import { stateInterface } from "@/state/interface";
+import { ITEM_OPTIONS, ITEM_OPTIONS_VDOM } from "@/utils/common.options";
+import { INTERFACE, ALL, CATEGORY } from "@/utils/variable";
+import { xI, xU } from "@/ventose/ui";
+import { computed } from "vue";
+import { useColHeader } from "./Interface.helper";
+
 export function useCptColumns() {
 	const cpt_columns = computed(() => {
 		const checkbox = {

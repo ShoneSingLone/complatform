@@ -1,6 +1,6 @@
 import { computed, getCurrentInstance, reactive, watch } from "vue";
 import { xU, stateUI, setDocumentTitle, xScope } from "@/ventose/ui";
-import { API } from "@/api/index";
+import { API } from "@/api";
 import { cptRouter } from "@/router/router";
 import { sortTreeByOrder } from "@/utils/common";
 import { GROUP, PROJECT } from "@/utils/variable";

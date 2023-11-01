@@ -88618,6 +88618,9 @@ const OWNER = "owner";
 const ALL = "all";
 const CATEGORY = "category";
 const INTERFACE = "interface";
+const PREVIEW = "PREVIEW";
+const EDIT = "EDIT";
+const RUN = "RUN";
 const PROJECT = "project";
 const GROUP = "group";
 const FOLDER = "folder";
@@ -88839,13 +88842,19 @@ const routes = [
     name: "new",
     path: "/music/new",
     componentName: "default",
-    component: () => __vitePreload(() => import("./FindNewLayout.js"), true ? ["./FindNewLayout.js","./music.js"] : void 0, import.meta.url)
+    component: () => __vitePreload(() => import("./FindNewLayout.js"), true ? [] : void 0, import.meta.url)
   },
   {
     name: "playlist",
     path: "/music/playlist",
     componentName: "default",
-    component: () => __vitePreload(() => import("./CurrentLayout.js"), true ? ["./CurrentLayout.js","./music.js"] : void 0, import.meta.url)
+    component: () => __vitePreload(() => import("./CurrentLayout.js"), true ? [] : void 0, import.meta.url)
+  },
+  {
+    name: "broswer",
+    path: "/music/broswer",
+    componentName: "default",
+    component: () => __vitePreload(() => import("./FindNewLayout2.js"), true ? [] : void 0, import.meta.url)
   },
   {
     name: "private",
@@ -88857,7 +88866,7 @@ const routes = [
     name: "cached",
     path: "/music/cached",
     componentName: "default",
-    component: () => __vitePreload(() => import("./CachedLayout.js"), true ? ["./CachedLayout.js","./music.js"] : void 0, import.meta.url)
+    component: () => __vitePreload(() => import("./CachedLayout.js"), true ? [] : void 0, import.meta.url)
   },
   {
     path: "/:pathMatch(.*)*",
@@ -89003,8 +89012,6 @@ ajax.interceptors.response.use(async (response) => {
     cptRouter.value.go("/login");
   }
   if (((_a3 = response == null ? void 0 : response.data) == null ? void 0 : _a3.errcode) == 40011) {
-    stateApp.user.isLogin = false;
-    cptRouter.value.go("/login");
     return Promise.resolve(response == null ? void 0 : response.data);
   }
   if (response.config.url == "/api/interface/schema2json") {
@@ -91230,6 +91237,22 @@ const resource = {
     });
   }
 };
+const music = {
+  ls(data2) {
+    return ajax({
+      method: "post",
+      url: "/api/resource/ls",
+      data: data2
+    });
+  },
+  status(data2) {
+    return ajax({
+      method: "post",
+      url: "/api/resource/status",
+      data: data2
+    });
+  }
+};
 const API = {
   wiki,
   god,
@@ -91238,7 +91261,8 @@ const API = {
   news,
   project,
   testcase,
-  resource
+  resource,
+  music
 };
 var zhCn$1 = { exports: {} };
 (function(module2, exports2) {
@@ -91690,7 +91714,7 @@ const _sfc_main = {
     }
   }
 };
-const CopyContent_vue_vue_type_style_index_0_scoped_87c9fcd0_lang = "";
+const CopyContent_vue_vue_type_style_index_0_scoped_1dce9b73_lang = "";
 const _hoisted_1 = {
   class: "flex middle copy-content-wrapper",
   ref: "contents"
@@ -91709,7 +91733,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 512);
 }
-const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-87c9fcd0"]]);
+const CopyContent = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-1dce9b73"]]);
 const asyncGetMonaco = async () => {
   if (window.monaco) {
     return window.monaco;
@@ -101429,6 +101453,412 @@ const Srch = defineComponent({
   }
 });
 const Breadcrumb = "";
+function preprocessRecord(records) {
+  function process2(record) {
+    const {
+      song,
+      artists,
+      album,
+      name
+    } = record;
+    if (song) {
+      record.title = record.title || record.name;
+      record.album = record.album || song.album.name;
+      record.artist = record.artist || song.artists[0].name;
+    }
+    if (artists && name && album) {
+      record.title = name;
+      record.album = album.name;
+      record.artist = artists[0].name;
+    }
+    return record;
+  }
+  if (xU$1.isArray(records)) {
+    return xU$1.map(records, process2);
+  } else {
+    return process2(records);
+  }
+}
+function formatDuring(during) {
+  const s2 = Math.floor(during) % 60;
+  during = Math.floor(during / 60);
+  const i = during % 60;
+  let ii = i < 10 ? `0${i}` : i;
+  let ss = s2 < 10 ? `0${s2}` : s2;
+  ii = xU$1.isNaN(ii) ? "00" : ii;
+  ss = xU$1.isNaN(ss) ? "00" : ss;
+  return ii + ":" + ss;
+}
+const _stateMusic = {
+  parentDir: "",
+  configs: {
+    items: []
+  },
+  cacheAudioCount: 0,
+  AllMusicClient: [],
+  tabItems: [
+    {
+      key: "playlist",
+      label: "\u5F53\u524D\u64AD\u653E\u5217\u8868",
+      icon: "playlist"
+    },
+    {
+      key: "new",
+      label: "\u53D1\u73B0\u97F3\u4E50",
+      icon: "privateNet"
+    },
+    {
+      key: "broswer",
+      label: "\u6D4F\u89C8",
+      icon: "folder_content"
+    },
+    {
+      key: "cached",
+      label: "\u5DF2\u7F13\u5B58",
+      icon: "cached"
+    }
+  ],
+  songId: 0,
+  personalizedNewSong: [],
+  audio: new Audio(),
+  loopType: 0,
+  volume: (() => {
+    const volume = lStorage["PLAYER-VOLUME"];
+    if (volume) {
+      return volume * 100;
+    } else {
+      return 20;
+    }
+  })(),
+  playlist: [],
+  playlistIdSet: /* @__PURE__ */ new Set([]),
+  showPlayList: false,
+  id: 0,
+  url: "",
+  song: {},
+  isPlaying: false,
+  isPause: false,
+  sliderInput: false,
+  ended: false,
+  muted: false,
+  currentTime: 0,
+  duration: 0,
+  async _toIfy(path = ".") {
+    const {
+      data: data2
+    } = await API.music.status({
+      path
+    });
+    if ((data2 == null ? void 0 : data2.type) === "directory") {
+      stateMusic.configs.items = xU$1.map(data2.children, (i) => {
+        return {
+          id: i,
+          path: String(`${data2.current}/${i}`).replace(/(^\.\/|^\/)/, ""),
+          title: i
+        };
+      });
+      stateMusic.parentDir = data2.parent;
+    }
+    return data2;
+  },
+  async _toUpperDir() {
+    stateMusic._toIfy(stateMusic.parentDir);
+  }
+};
+const stateMusic = xScope(_stateMusic);
+const stateMusic_PLAYLIST = "stateMusic_PLAYLIST";
+(async function recoverPlaylist() {
+  let playlist = await get$2(stateMusic_PLAYLIST);
+  playlist = playlist || [];
+  Actions_Music.setPlaylist(playlist);
+})();
+let intervalTimer;
+const LOOP_TYPE_NAME_ARRAY = ["playOrder", "playRandom", "playLoop", "playSingleLoop"];
+const playMethods = {
+  playLoop(currentSongIndex) {
+    var _a3, _b;
+    const next = currentSongIndex + 1;
+    if (next > stateMusic.playlist.length - 1) {
+      Actions_Music.playSongById((_a3 = stateMusic.playlist[0]) == null ? void 0 : _a3.id);
+    } else {
+      Actions_Music.playSongById((_b = stateMusic.playlist[next]) == null ? void 0 : _b.id);
+    }
+  },
+  playRandom(currentSongIndex) {
+    var _a3, _b;
+    let next;
+    if (stateMusic.playlist.length === 1) {
+      next = 0;
+      Actions_Music.playSongById((_a3 = stateMusic.playlist[0]) == null ? void 0 : _a3.id);
+      return;
+    }
+    const max2 = stateMusic.playlist.length - 1;
+    const min2 = 0;
+    const getNext = () => Math.floor(Math.random() * (max2 - min2 + 1)) + min2;
+    next = getNext();
+    while (next === currentSongIndex) {
+      next = getNext();
+    }
+    Actions_Music.playSongById((_b = stateMusic.playlist[next]) == null ? void 0 : _b.id);
+  },
+  playOrder(currentSongIndex) {
+    var _a3;
+    const next = currentSongIndex + 1;
+    if (next > stateMusic.playlist.length - 1) {
+      Actions_Music.stopSong();
+    } else {
+      Actions_Music.playSongById((_a3 = stateMusic.playlist[next]) == null ? void 0 : _a3.id);
+    }
+  },
+  playSingleLoop(currentSongIndex) {
+    var _a3;
+    Actions_Music.playSongById((_a3 = stateMusic.playlist[currentSongIndex]) == null ? void 0 : _a3.id);
+  }
+};
+const cacheAudioBlob = async (records, url2) => {
+  try {
+    let res = await axios.get(url2.replace("http:", "").replace("https:", ""), {
+      responseType: "blob"
+    });
+    if (!res || !res.data)
+      return;
+    const audioInfo = {
+      records: JSON.parse(JSON.stringify(records)),
+      blob: res.data
+    };
+    await set(`audio_${records.id}`, audioInfo);
+    stateMusic.cacheAudioCount++;
+  } catch (err) {
+    console.error(err);
+  }
+};
+const cacheAudioVolume = xU$1.debounce(function(audiovolume) {
+  lStorage["PLAYER-VOLUME"] = audiovolume;
+}, 1e3);
+const Actions_Music = {
+  setPlaylist(playlist) {
+    stateMusic.playlist = playlist;
+    stateMusic.playlistIdSet = new Set(playlist.map((i) => i.id));
+  },
+  addSongToPlaylist(song) {
+    if (!stateMusic.playlistIdSet.has(song.id)) {
+      song = preprocessRecord(song);
+      stateMusic.playlist.push(song);
+      stateMusic.playlistIdSet.add(song.id);
+    }
+  },
+  async delCached(keys2) {
+    await delMany(xU$1.isArray(keys2) ? keys2 : [keys2]);
+    stateMusic.cacheAudioCount++;
+  },
+  clearPlaylist() {
+    stateMusic.playlist = [];
+    stateMusic.playlistIdSet.clear();
+  },
+  removeSongFromPlaylist(song) {
+    const id = song.id;
+    const itemIndex = xU$1.findIndex(stateMusic.playlist, {
+      id
+    });
+    if (itemIndex > -1) {
+      stateMusic.playlist.splice(itemIndex, 1);
+      stateMusic.playlistIdSet.delete(id);
+    }
+  },
+  async loadAllMusicClient() {
+  },
+  playMethods,
+  palyPrevSong() {
+    var _a3, _b;
+    const currentSongIndex = xU$1.findIndex(stateMusic.playlist, {
+      id: stateMusic.songId
+    });
+    if (currentSongIndex > -1) {
+      if (currentSongIndex === 0) {
+        Actions_Music.playSongById((_a3 = stateMusic.playlist[stateMusic.playlist.length - 1]) == null ? void 0 : _a3.id);
+      } else {
+        Actions_Music.playSongById((_b = stateMusic.playlist[currentSongIndex - 1]) == null ? void 0 : _b.id);
+      }
+    }
+  },
+  playNextSong() {
+    const currentSongIndex = xU$1.findIndex(stateMusic.playlist, {
+      id: stateMusic.songId
+    });
+    if (currentSongIndex > -1) {
+      Actions_Music.playMethods.playLoop(currentSongIndex);
+    }
+  },
+  handlePlayEnd() {
+    console.log("\u64AD\u653E\u7ED3\u675F", Cpt_iconPlayModel.value);
+    Actions_Music.stopSong();
+    const currentSongIndex = xU$1.findIndex(stateMusic.playlist, {
+      id: stateMusic.songId
+    });
+    if (currentSongIndex > -1) {
+      Actions_Music.playMethods[Cpt_iconPlayModel.value](currentSongIndex);
+    }
+  },
+  setCurrentTime(val) {
+    stateMusic.audio.currentTime = val;
+  },
+  intervalCurrentTime() {
+    stateMusic.currentTime = parseInt(stateMusic.audio.currentTime.toString());
+    stateMusic.duration = parseInt(stateMusic.audio.duration.toString());
+    stateMusic.ended = stateMusic.audio.ended;
+  },
+  setVolume(n) {
+    n = n > 100 ? 100 : n;
+    n = n < 0 ? 0 : n;
+    stateMusic.volume = n;
+    const audioVolume = n / 100;
+    stateMusic.audio.volume = audioVolume;
+    cacheAudioVolume(audioVolume);
+  },
+  async togglePlayModel() {
+    stateMusic.loopType = (stateMusic.loopType + 1) % LOOP_TYPE_NAME_ARRAY.length;
+  },
+  toggleVolumeMute() {
+    stateMusic.muted = !stateMusic.muted;
+    stateMusic.audio.muted = stateMusic.muted;
+  },
+  togglePlayOrPause() {
+    if (!stateMusic.songId)
+      return;
+    stateMusic.isPlaying = !stateMusic.isPlaying;
+    if (stateMusic.isPlaying) {
+      stateMusic.audio.play();
+    } else {
+      stateMusic.audio.pause();
+    }
+  },
+  pushSongToPlaylist: xU$1.debounce(function(newSong, fnDone) {
+    if (xU$1.isArray(newSong)) {
+      xU$1.each(newSong, Actions_Music.addSongToPlaylist);
+    } else {
+      Actions_Music.addSongToPlaylist(newSong);
+    }
+    console.timeEnd("pushSongToPlaylist");
+    if (fnDone) {
+      fnDone();
+    }
+  }, 1e3),
+  stopSong() {
+    stateMusic.isPlaying = false;
+    stateMusic.audio.pause();
+    stateMusic.audio.currentTime = 0;
+    stateMusic.currentTime = 0;
+    setDocumentTitle("Music");
+  },
+  async playSongById(id) {
+    if (!xU$1.isInput(id)) {
+      return;
+    }
+    if (stateMusic.isPlaying && id === stateMusic.songId) {
+      return;
+    }
+    let record = xU$1.find(stateMusic.playlist, {
+      id
+    });
+    if (!record) {
+      xU$1.notification.error("no song info");
+      throw new Error("no song info");
+    }
+    record = preprocessRecord(record);
+    stateMusic.song = record;
+    let audioSrc;
+    const audioInfo = await get$2(`audio_${id}`);
+    if (audioInfo) {
+      audioSrc = window.URL.createObjectURL(audioInfo.blob);
+    } else {
+      if (record.isPrivate) {
+        var xToken2 = {
+          ...lStorage["x_token"],
+          id: record.id
+        };
+        let params = [];
+        xU$1.each(xToken2, (val, prop) => {
+          params.push(`${prop}=${val}`);
+        });
+        params = params.join("&");
+        audioSrc = `${window.__BASE_URL}/s/0/api/resource/remote_music_file?${params}`;
+      } else {
+        const res = await API.music.getSongUrlBuId(id);
+        audioSrc = xU$1.first(res == null ? void 0 : res.data).url;
+      }
+    }
+    if (!audioSrc) {
+      return;
+    }
+    record.url = audioSrc;
+    stateMusic.audio.src = audioSrc;
+    function canPlay() {
+      return new Promise((resolve2) => {
+        stateMusic.audio.onloadedmetadata = async (event2) => {
+          console.log("\u{1F680} ~ file: stateMusic.tsx ~ line 292 ~ canPlay ~ event", event2);
+        };
+        stateMusic.audio.oncanplaythrough = async (event2) => {
+          console.log("I think I can play through the entire ", event2);
+          const audioInfo2 = await get$2(`audio_${id}`);
+          if (!audioInfo2) {
+            cacheAudioBlob(record, audioSrc);
+          }
+        };
+        stateMusic.audio.oncanplay = function(event2) {
+          if (intervalTimer) {
+            clearInterval(intervalTimer);
+          }
+          intervalTimer = setInterval(Actions_Music.intervalCurrentTime, 1e3);
+          resolve2(stateMusic.duration);
+        };
+      });
+    }
+    Actions_Music.stopSong();
+    if (record) {
+      setDocumentTitle(`${record.title}-${record.artist}`);
+    }
+    stateMusic.audio.load();
+    await canPlay();
+    stateMusic.audio.play();
+    stateMusic.isPlaying = true;
+    stateMusic.url = audioSrc;
+    stateMusic.songId = id;
+    const audioVolume = stateMusic.volume / 100;
+    stateMusic.audio.volume = audioVolume;
+    cacheAudioVolume(audioVolume);
+  },
+  async updatePersonalizedNewSong() {
+  }
+};
+const Cpt_iconSound = computed(() => {
+  return stateMusic.muted ? "soundMute" : "sound";
+});
+const Cpt_iconPlayModel = computed(() => {
+  return LOOP_TYPE_NAME_ARRAY[stateMusic.loopType];
+});
+const Cpt_currentSong = computed(() => {
+  var _a3;
+  if ((_a3 = stateMusic.song) == null ? void 0 : _a3.title) {
+    return stateMusic.song;
+  }
+  return xU$1.find(stateMusic.playlist, {
+    id: stateMusic.songId
+  }) || {
+    title: "--"
+  };
+});
+const backupPlaylist = xU$1.debounce(async function(playlist) {
+  playlist = JSON.parse(JSON.stringify(playlist));
+  await set(stateMusic_PLAYLIST, playlist);
+}, 300);
+watch(() => stateMusic.playlist.length, () => {
+  backupPlaylist(stateMusic.playlist);
+});
+watch(() => stateMusic.ended, (ended) => {
+  if (!ended)
+    return;
+  Actions_Music.handlePlayEnd();
+});
 const BreadcrumbNavigation = defineComponent({
   setup() {
     return {
@@ -101438,6 +101868,12 @@ const BreadcrumbNavigation = defineComponent({
   },
   computed: {
     breadcrumbItems() {
+      if (this.cptRouter.pathname === "/music/broswer") {
+        return [{
+          label: stateMusic.parentDir,
+          id: stateMusic.parentDir
+        }];
+      }
       return xU$1.map([{
         label: stateApp.currGroup.group_name,
         id: cptRouter.value.query.group_id
@@ -101491,6 +101927,10 @@ const AppHeader = defineComponent({
   },
   methods: {
     goToGroup() {
+      if (this.cptRouter.pathname === "/music/broswer") {
+        stateMusic._toUpperDir();
+        return;
+      }
       if (this.cptRouter.pathname === "/group") {
         return;
       }
@@ -101693,11 +102133,17 @@ const defautlStateInterface = () => ({
   list: [],
   filterText: "",
   interface_id: ALL,
-  currentInterface: {},
+  currInterface: null,
   allInterface: [],
   allTags: [],
   allCategory: [],
   expandedKeys: [],
+  async _updateInterfaceInfo(interface_id) {
+    const {
+      data: data2
+    } = await API.project.fetchInterfaceDetail(interface_id);
+    stateInterface.currInterface = data2;
+  },
   _setExpand: xU$1.debounce(function() {
     if (cptRouter.value.query.category_id) {
       stateInterface.expandedKeys = [Number(cptRouter.value.query.category_id)];
@@ -102007,7 +102453,7 @@ export {
   components as Z,
   _$handlePath as _,
   cptRouter as a,
-  delMany as a$,
+  createBlock as a$,
   setDataGridInfo as a0,
   defDataGrid as a1,
   MonacoEditor as a2,
@@ -102037,14 +102483,14 @@ export {
   ALL as aQ,
   cpt_treeData as aR,
   CATEGORY as aS,
-  ref as aT,
-  copyToClipboard$1 as aU,
-  makeAhref as aV,
-  __vitePreload as aW,
-  createBlock as aX,
-  axios as aY,
-  get$2 as aZ,
-  set as a_,
+  PREVIEW as aT,
+  ref as aU,
+  copyToClipboard$1 as aV,
+  makeAhref as aW,
+  provide as aX,
+  EDIT as aY,
+  RUN as aZ,
+  __vitePreload as a_,
   MkitTheme as aa,
   PreprocessHTML as ab,
   EVENT_TYPE as ac,
@@ -102072,12 +102518,20 @@ export {
   TAB_KEY_GROUP_WIKI as ay,
   OPEN_BLANK as az,
   defItem as b,
-  RouterView as b0,
-  toDisplayString as b1,
-  normalizeStyle as b2,
-  keys as b3,
-  getMany as b4,
-  del as b5,
+  stateMusic as b0,
+  Actions_Music as b1,
+  RouterView as b2,
+  preprocessRecord as b3,
+  axios as b4,
+  toDisplayString as b5,
+  normalizeStyle as b6,
+  keys as b7,
+  getMany as b8,
+  del as b9,
+  Cpt_iconPlayModel as ba,
+  formatDuring as bb,
+  Cpt_currentSong as bc,
+  Cpt_iconSound as bd,
   commonjsGlobal as c,
   defineComponent as d,
   API as e,

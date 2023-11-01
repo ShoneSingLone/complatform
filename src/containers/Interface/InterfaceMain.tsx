@@ -23,7 +23,7 @@ export const InterfaceMain = defineComponent({
 		var vm = {
 			dataGrid: defDataGrid({
 				isHidePagination: true,
-				dataSource: {},
+				dataSource: [],
 				columns: {},
 				queryTableList: undefined
 			}),
@@ -36,7 +36,8 @@ export const InterfaceMain = defineComponent({
 				witchEnv: [],
 				tag: [],
 				path: "",
-				title: ""
+				title: "",
+				isUseBackup: []
 			},
 			/* 记录条件 */
 			conditions: {
@@ -46,7 +47,8 @@ export const InterfaceMain = defineComponent({
 				witchEnv: [],
 				tag: [],
 				path: "",
-				title: ""
+				title: "",
+				isUseBackup: []
 			},
 			$btnChangeStatus: {
 				text: xI("变更状态"),
@@ -232,7 +234,6 @@ export const InterfaceMain = defineComponent({
 				key: "path",
 				title: xI("接口路径"),
 				width: 250,
-				minWidth: 250,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -341,13 +342,62 @@ export const InterfaceMain = defineComponent({
 					return "";
 				}
 			};
+			const isUseBackup = {
+				prop: "isUseBackup",
+				key: "isUseBackup",
+				title: xI("启用备份数据"),
+				width: 150,
+				headerCellRenderer(_props) {
+					const { vDom } = useColHeader({
+						title: _props.column.title,
+						prop: "isUseBackup",
+						style: titleStyle(vm.filter.isUseBackup.length > 0),
+						width: 350,
+						controller: (
+							<el-checkbox-group v-model={vm.conditions.isUseBackup}>
+								{xU.map([xI("是"), xI("否"), xI("无备份数据")], i => {
+									console.log(i);
+									return (
+										<div>
+											<el-checkbox label={i}>
+												<el-tag>{i}</el-tag>
+											</el-checkbox>
+										</div>
+									);
+								})}
+							</el-checkbox-group>
+						),
+						onFilter: vm._onFilter,
+						onReset: vm._onReset
+					});
+					return vDom;
+				},
+				cellRenderer: params => {
+					const { rowData } = params;
+
+					const tag = (() => {
+						if (rowData.res_body_type === "backup") {
+							return <el-tag type="success">{xI("是")}</el-tag>;
+						}
+						return <el-tag type="info">{xI("否")}</el-tag>;
+					})();
+
+					return [
+						tag,
+						!rowData.isSetBackupData && (
+							<el-tag type="warning" class="ml8">
+								{xI("无备份数据")}
+							</el-tag>
+						)
+					];
+				}
+			};
 
 			const maintainer = {
 				prop: "tag",
 				key: "tag",
 				title: xI("维护人"),
 				width: 150,
-				minWidth: 150,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -379,7 +429,6 @@ export const InterfaceMain = defineComponent({
 				key: "tag",
 				title: xI("Tags"),
 				width: 250,
-				minWidth: 250,
 				headerCellRenderer(_props) {
 					const { vDom } = useColHeader({
 						title: _props.column.title,
@@ -419,6 +468,7 @@ export const InterfaceMain = defineComponent({
 					status,
 					maintainer,
 					isProxy,
+					isUseBackup,
 					tag
 				];
 			}
@@ -432,6 +482,7 @@ export const InterfaceMain = defineComponent({
 					status,
 					maintainer,
 					isProxy,
+					isUseBackup,
 					tag
 				];
 			}
@@ -448,54 +499,73 @@ export const InterfaceMain = defineComponent({
 		);
 
 		const cptInterfaceRowData = computed(() => {
-			const { allInterface } = stateInterface;
-			let interfaceForShow = xU.isArrayFill(allInterface) ? allInterface : [];
-
-			/* 指明具体分类时，不显示其他分类的接口 */
-			if (cptRouter.value.query.interface_type === CATEGORY) {
-				const { category_id } = cptRouter.value.query;
-				interfaceForShow = xU.filter(interfaceForShow, i =>
-					xU.isSame(category_id, i.catid)
-				);
-			}
-
-			let paramKeys = Object.keys(vm.filter);
-			let prop = paramKeys.pop();
-			while (prop) {
-				const search = vm.filter[prop];
-				if (xU.isInput(search)) {
-					interfaceForShow = xU.filter(interfaceForShow, i => {
-						if (prop == "status") {
-							return search.includes(i.status);
-						} else if (prop == "catid") {
-							return search.includes(i.catid);
-						} else if (prop == "method") {
-							return search.includes(i.method);
-						} else if (prop == "tag") {
-							return xU.some(i.tag, tag => search.includes(tag));
-						} else if (prop == "witchEnv") {
-							if (search.includes("unset")) {
-								if (!i.witchEnv) {
-									return true;
-								}
-							}
-							if (!i.isProxy) {
-								return false;
-							}
-							return search.includes(i.witchEnv);
-						} else {
-							return new RegExp(search, "i").test(i[prop]);
-						}
-					});
-					xU("interfaceForShow.length new", interfaceForShow.length);
+			let interfaceForShow = (() => {
+				if (cptRouter.value.query.interface_type === INTERFACE) {
+					return [];
 				}
-				prop = paramKeys.pop();
-			}
-			return interfaceForShow;
-		});
+				const { allInterface } = stateInterface;
+				let interfaceForShow = xU.isArrayFill(allInterface)
+					? xU.cloneDeep(allInterface)
+					: [];
 
-		watch(cptInterfaceRowData, dataSource => {
-			vm.dataGrid.dataSource = dataSource;
+				/* 指明具体分类时，不显示其他分类的接口 */
+				if (cptRouter.value.query.interface_type === CATEGORY) {
+					const { category_id } = cptRouter.value.query;
+					interfaceForShow = xU.filter(interfaceForShow, i =>
+						xU.isSame(category_id, i.catid)
+					);
+				}
+
+				let paramKeys = Object.keys(vm.filter);
+				let prop = paramKeys.pop();
+				while (prop) {
+					const search = vm.filter[prop];
+					if (xU.isInput(search)) {
+						interfaceForShow = xU.filter(interfaceForShow, i => {
+							if (prop == "status") {
+								return search.includes(i.status);
+							} else if (prop == "catid") {
+								return search.includes(i.catid);
+							} else if (prop == "method") {
+								return search.includes(i.method);
+							} else if (prop == "tag") {
+								return xU.some(i.tag, tag => search.includes(tag));
+							} else if (prop == "isUseBackup") {
+								if (search.includes("是")) {
+									return i.res_body_type === "backup";
+								}
+								if (search.includes("否")) {
+									return i.res_body_type !== "backup";
+								}
+								if (search.includes("无备份数据")) {
+									if (!i.isSetBackupData) {
+										return true;
+									}
+								}
+								return false;
+							} else if (prop == "witchEnv") {
+								if (search.includes("unset")) {
+									if (!i.witchEnv) {
+										return true;
+									}
+								}
+								if (!i.isProxy) {
+									return false;
+								}
+								return search.includes(i.witchEnv);
+							} else {
+								return new RegExp(search, "i").test(i[prop]);
+							}
+						});
+						xU("interfaceForShow.length new", interfaceForShow.length);
+					}
+					prop = paramKeys.pop();
+				}
+				return interfaceForShow;
+			})();
+			/* TODO:computed 里面最好不要有响应数据的赋值操作，容易引起循环引用 */
+			vm.dataGrid.dataSource = interfaceForShow;
+			return interfaceForShow;
 		});
 
 		return function () {
