@@ -10,6 +10,9 @@ const ITEM_OPTIONS = {
     type: item.type
   })),
   interfaceBodyType: [{
+    label: "\u5907\u4EFD",
+    value: "backup"
+  }, {
     label: "form",
     value: "form",
     isForm: true

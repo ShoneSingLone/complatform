@@ -1,6 +1,5 @@
-import { s as stateMusic } from "./music.js";
+import { H as _export_sfc, b0 as stateMusic, r as resolveComponent, I as openBlock, J as createElementBlock, h as createVNode, K as withCtx, ah as createBaseVNode } from "./index.js";
 import { C as CurrentMobileSongItem } from "./CurrentMobileSongItem.js";
-import { H as _export_sfc, r as resolveComponent, I as openBlock, J as createElementBlock, h as createVNode, K as withCtx, ah as createBaseVNode } from "./index.js";
 import { state, btnClear } from "./CurrentLayout.js";
 const _sfc_main = {
   components: {
