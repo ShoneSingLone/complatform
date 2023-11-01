@@ -1010,6 +1010,15 @@ const DialogInterfaceProxyModify = defineComponent({
           options: ITEM_OPTIONS.trueOrFalse,
           itemType: "Switch"
         }),
+        resBodyType: defItem({
+          value: false,
+          label: xI("\u54CD\u5E94\u7C7B\u578B"),
+          isShow() {
+            return !vm.dataXItem.isProxy.value;
+          },
+          options: ITEM_OPTIONS.interfaceBodyType,
+          itemType: "RadioGroup"
+        }),
         witchEnv: defItem({
           isShow() {
             return vm.dataXItem.isProxy.value;
@@ -1056,14 +1065,21 @@ const DialogInterfaceProxyModify = defineComponent({
       if (!await itemsInvalid()) {
         const {
           isProxy,
-          witchEnv
+          witchEnv,
+          resBodyType
         } = pickValueFrom(this.dataXItem);
         try {
-          const res = await Promise.all(xU.map(selected, (id) => API.project.updateInterface({
-            id,
-            witchEnv,
-            isProxy
-          })));
+          const res = await Promise.all(xU.map(selected, (id) => {
+            const data = {
+              id,
+              witchEnv,
+              isProxy
+            };
+            if (resBodyType) {
+              data.res_body_type = resBodyType;
+            }
+            return API.project.updateInterface(data);
+          }));
           stateInterface._updateInterfaceMenuList();
           this.propOptions.$close();
           xU.message.success(xI("\u4FEE\u6539_\u6210\u529F", {
@@ -1082,7 +1098,7 @@ const DialogInterfaceProxyModify = defineComponent({
       "class": "x-dialog-boddy-wrapper "
     }, [createVNode(resolveComponent("xGap"), {
       "t": true
-    }, null), createVNode(resolveComponent("xForm"), {
+    }, null), JSON.stringify(pickValueFrom(this.dataXItem)), createVNode(resolveComponent("xForm"), {
       "class": "flex",
       "labelStyle": {
         "min-width": "120px",
@@ -1091,6 +1107,10 @@ const DialogInterfaceProxyModify = defineComponent({
     }, {
       default: () => [createVNode(resolveComponent("xItem"), {
         "configs": this.dataXItem.isProxy
+      }, null), createVNode(resolveComponent("xGap"), {
+        "t": true
+      }, null), createVNode(resolveComponent("xItem"), {
+        "configs": this.dataXItem.resBodyType
       }, null), createVNode(resolveComponent("xGap"), {
         "t": true
       }, null), createVNode(resolveComponent("xItem"), {
@@ -1378,7 +1398,8 @@ const InterfaceMain = defineComponent({
         witchEnv: [],
         tag: [],
         path: "",
-        title: ""
+        title: "",
+        isUseBackup: []
       },
       conditions: {
         catid: [],
@@ -1387,7 +1408,8 @@ const InterfaceMain = defineComponent({
         witchEnv: [],
         tag: [],
         path: "",
-        title: ""
+        title: "",
+        isUseBackup: []
       },
       $btnChangeStatus: {
         text: xI("\u53D8\u66F4\u72B6\u6001"),
@@ -1581,7 +1603,6 @@ const InterfaceMain = defineComponent({
         key: "path",
         title: xI("\u63A5\u53E3\u8DEF\u5F84"),
         width: 250,
-        minWidth: 250,
         headerCellRenderer(_props) {
           const {
             vDom
@@ -1710,14 +1731,75 @@ const InterfaceMain = defineComponent({
           return "";
         }
       };
+      const isUseBackup = {
+        prop: "isUseBackup",
+        key: "isUseBackup",
+        title: xI("\u542F\u7528\u5907\u4EFD\u6570\u636E"),
+        width: 150,
+        headerCellRenderer(_props) {
+          let _slot5;
+          const {
+            vDom
+          } = useColHeader({
+            title: _props.column.title,
+            prop: "isUseBackup",
+            style: titleStyle(vm.filter.isUseBackup.length > 0),
+            width: 350,
+            controller: createVNode(resolveComponent("el-checkbox-group"), {
+              "modelValue": vm.conditions.isUseBackup,
+              "onUpdate:modelValue": ($event) => vm.conditions.isUseBackup = $event
+            }, _isSlot$2(_slot5 = xU.map([xI("\u662F"), xI("\u5426"), xI("\u65E0\u5907\u4EFD\u6570\u636E")], (i) => {
+              console.log(i);
+              return createVNode("div", null, [createVNode(resolveComponent("el-checkbox"), {
+                "label": i
+              }, {
+                default: () => [createVNode(resolveComponent("el-tag"), null, _isSlot$2(i) ? i : {
+                  default: () => [i]
+                })]
+              })]);
+            })) ? _slot5 : {
+              default: () => [_slot5]
+            }),
+            onFilter: vm._onFilter,
+            onReset: vm._onReset
+          });
+          return vDom;
+        },
+        cellRenderer: (params) => {
+          let _slot8;
+          const {
+            rowData
+          } = params;
+          const tag2 = ((_slot7) => {
+            if (rowData.res_body_type === "backup") {
+              let _slot6;
+              return createVNode(resolveComponent("el-tag"), {
+                "type": "success"
+              }, _isSlot$2(_slot6 = xI("\u662F")) ? _slot6 : {
+                default: () => [_slot6]
+              });
+            }
+            return createVNode(resolveComponent("el-tag"), {
+              "type": "info"
+            }, _isSlot$2(_slot7 = xI("\u5426")) ? _slot7 : {
+              default: () => [_slot7]
+            });
+          })();
+          return [tag2, !rowData.isSetBackupData && createVNode(resolveComponent("el-tag"), {
+            "type": "warning",
+            "class": "ml8"
+          }, _isSlot$2(_slot8 = xI("\u65E0\u5907\u4EFD\u6570\u636E")) ? _slot8 : {
+            default: () => [_slot8]
+          })];
+        }
+      };
       const maintainer = {
         prop: "tag",
         key: "tag",
         title: xI("\u7EF4\u62A4\u4EBA"),
         width: 150,
-        minWidth: 150,
         headerCellRenderer(_props) {
-          let _slot5;
+          let _slot9;
           const {
             vDom
           } = useColHeader({
@@ -1728,12 +1810,12 @@ const InterfaceMain = defineComponent({
             controller: createVNode(resolveComponent("el-checkbox-group"), {
               "modelValue": vm.conditions.tag,
               "onUpdate:modelValue": ($event) => vm.conditions.tag = $event
-            }, _isSlot$2(_slot5 = xU.map(stateInterface.allTags, (i) => {
+            }, _isSlot$2(_slot9 = xU.map(stateInterface.allTags, (i) => {
               return createVNode("div", null, [createVNode(resolveComponent("el-checkbox"), {
                 "label": i
               }, null)]);
-            })) ? _slot5 : {
-              default: () => [_slot5]
+            })) ? _slot9 : {
+              default: () => [_slot9]
             }),
             onFilter: vm._onFilter,
             onReset: vm._onReset
@@ -1751,9 +1833,8 @@ const InterfaceMain = defineComponent({
         key: "tag",
         title: xI("Tags"),
         width: 250,
-        minWidth: 250,
         headerCellRenderer(_props) {
-          let _slot6;
+          let _slot10;
           const {
             vDom
           } = useColHeader({
@@ -1764,12 +1845,12 @@ const InterfaceMain = defineComponent({
             controller: createVNode(resolveComponent("el-checkbox-group"), {
               "modelValue": vm.conditions.tag,
               "onUpdate:modelValue": ($event) => vm.conditions.tag = $event
-            }, _isSlot$2(_slot6 = xU.map(stateInterface.allTags, (i) => {
+            }, _isSlot$2(_slot10 = xU.map(stateInterface.allTags, (i) => {
               return createVNode("div", null, [createVNode(resolveComponent("el-checkbox"), {
                 "label": i
               }, null)]);
-            })) ? _slot6 : {
-              default: () => [_slot6]
+            })) ? _slot10 : {
+              default: () => [_slot10]
             }),
             onFilter: vm._onFilter,
             onReset: vm._onReset
@@ -1783,10 +1864,10 @@ const InterfaceMain = defineComponent({
         }, [ITEM_OPTIONS_VDOM.tags(cellData)])
       };
       if (cptRouter.value.query.interface_type === ALL) {
-        return [checkbox, catid, title, method, path, status, maintainer, isProxy, tag];
+        return [checkbox, catid, title, method, path, status, maintainer, isProxy, isUseBackup, tag];
       }
       if (cptRouter.value.query.interface_type === CATEGORY) {
-        return [checkbox, title, method, path, status, maintainer, isProxy, tag];
+        return [checkbox, title, method, path, status, maintainer, isProxy, isUseBackup, tag];
       }
       return [];
     });
@@ -1824,6 +1905,19 @@ const InterfaceMain = defineComponent({
                 return search.includes(i.method);
               } else if (prop == "tag") {
                 return xU.some(i.tag, (tag) => search.includes(tag));
+              } else if (prop == "isUseBackup") {
+                if (search.includes("\u662F")) {
+                  return i.res_body_type === "backup";
+                }
+                if (search.includes("\u5426")) {
+                  return i.res_body_type !== "backup";
+                }
+                if (search.includes("\u65E0\u5907\u4EFD\u6570\u636E")) {
+                  if (!i.isSetBackupData) {
+                    return true;
+                  }
+                }
+                return false;
               } else if (prop == "witchEnv") {
                 if (search.includes("unset")) {
                   if (!i.witchEnv) {
@@ -1848,7 +1942,7 @@ const InterfaceMain = defineComponent({
       return interfaceForShow;
     });
     return function() {
-      let _slot7, _slot8, _slot9;
+      let _slot11, _slot12, _slot13;
       return createVNode("div", {
         "id": "ViewInterfaceList"
       }, [createVNode("div", {
@@ -1864,16 +1958,16 @@ const InterfaceMain = defineComponent({
           "configs": vm.$btnChangeProxy
         }, null), createVNode(resolveComponent("xButton"), {
           "class": "mr4"
-        }, _isSlot$2(_slot7 = xI("\u8DEF\u5F84\u66FF\u6362")) ? _slot7 : {
-          default: () => [_slot7]
+        }, _isSlot$2(_slot11 = xI("\u8DEF\u5F84\u66FF\u6362")) ? _slot11 : {
+          default: () => [_slot11]
         }), createVNode(resolveComponent("xButton"), {
           "class": "mr4"
-        }, _isSlot$2(_slot8 = xI("\u6DFB\u52A0Tag")) ? _slot8 : {
-          default: () => [_slot8]
+        }, _isSlot$2(_slot12 = xI("\u6DFB\u52A0Tag")) ? _slot12 : {
+          default: () => [_slot12]
         }), createVNode(resolveComponent("xButton"), {
           "class": "mr4"
-        }, _isSlot$2(_slot9 = xI("\u79FB\u9664Tag")) ? _slot9 : {
-          default: () => [_slot9]
+        }, _isSlot$2(_slot13 = xI("\u79FB\u9664Tag")) ? _slot13 : {
+          default: () => [_slot13]
         })]
       })]), createVNode("div", {
         "class": "flex1 el-card"
@@ -2183,6 +2277,7 @@ const DialogModifyInterface = defineComponent({
       } = this.detailInfo;
       xU(this.detailInfo);
       try {
+        debugger;
         setValueTo(this.dataXItem, {
           witchEnv,
           catid,
