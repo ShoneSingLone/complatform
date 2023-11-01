@@ -303,7 +303,7 @@ const contentToCache = [
   "./assets/svg/github.svg",
   "./assets/svg/frown-o.svg",
   "./assets/svg/follow.svg",
-  "./assets/svg/folder_contennt.svg",
+  "./assets/svg/folder_content.svg",
   "./assets/svg/folderOpen.svg",
   "./assets/svg/folder.svg",
   "./assets/svg/feedback.svg",
@@ -328,7 +328,6 @@ const contentToCache = [
   "./assets/svg/allCategory.svg",
   "./assets/svg/addGroup.svg",
   "./assets/svg/add.svg",
-  "./assets/PrivateMobileSongItem.css",
   "./assets/PlayerPc.css",
   "./assets/PlayerMobile.css",
   "./assets/MusicPlayer.css",
@@ -352,10 +351,6 @@ const contentToCache = [
   "./assets/js/ViewGroup.js",
   "./assets/js/vconsole.min.js",
   "./assets/js/TuiEditor.js",
-  "./assets/js/PrivatePc.js",
-  "./assets/js/PrivateMobileSongItem.js",
-  "./assets/js/PrivateMobile.js",
-  "./assets/js/PrivateLayout.js",
   "./assets/js/PlayerPc.js",
   "./assets/js/PlayerMobile.js",
   "./assets/js/MusicPlayer.js",
@@ -495,7 +490,7 @@ self.addEventListener("install", e => {
 	console.log("[Service Worker] Install");
 	e.waitUntil(
 		(async () => {
-			const cache = await caches.open("1698869511174");
+			const cache = await caches.open("1698870482272");
 			console.log("[Service Worker] Caching all: app shell and content");
 			await cache.addAll(contentToCache);
 		})()
