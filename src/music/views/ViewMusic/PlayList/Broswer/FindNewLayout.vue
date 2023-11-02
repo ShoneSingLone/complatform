@@ -8,7 +8,7 @@ import { stateMusic } from "@/state/music";
 
 export default defineComponent({
 	components: {
-		FindNewMobile: defineAsyncComponent(() => import("./FindNewMobile.vue")),
+		FindNewMobile: defineAsyncComponent(() => import("./FindNewMobile.vue"))
 	},
 	setup() {
 		return {
