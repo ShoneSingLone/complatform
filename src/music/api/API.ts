@@ -14,21 +14,6 @@ const ajax = genAjax({
 
 export const API = {
 	music: {
-		async loadAllMusicClient() {
-			let res = [];
-			try {
-				const { status, data } = await axios.get(
-					`${window.__BASE_URL}/s/0/media/AllMusicClient.json?_t=${Date.now()}`
-				);
-				if (status === 200) {
-					res = data;
-				}
-			} catch (error) {
-				console.error(error);
-			} finally {
-				return res;
-			}
-		},
 		async search(params = { limit: 60, offset: 1 }) {
 			return await ajax({
 				method: "GET",

@@ -177,7 +177,6 @@ export const Actions_Music = {
 			stateMusic.playlistIdSet.delete(id);
 		}
 	},
-	async loadAllMusicClient() {},
 	playMethods,
 	palyPrevSong() {
 		const currentSongIndex = xU.findIndex(stateMusic.playlist, {

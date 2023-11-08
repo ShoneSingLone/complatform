@@ -28,6 +28,11 @@ ajax.interceptors.request.use(
 	error => Promise.reject(error)
 );
 
+const goLogin = xU.debounce(function () {
+	stateApp.user.isLogin = false;
+	cptRouter.value.go("/login");
+}, 1000);
+
 // response interceptor
 ajax.interceptors.response.use(
 	async response => {
@@ -35,8 +40,7 @@ ajax.interceptors.response.use(
 			cptRouter.value.go("/login");
 		}
 		if (response?.data?.errcode == 40011) {
-			// stateApp.user.isLogin = false;
-			// cptRouter.value.go("/login");
+			goLogin();
 			return Promise.resolve(response?.data);
 		}
 		if (response.config.url == "/api/interface/schema2json") {

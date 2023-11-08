@@ -33,6 +33,15 @@ console.log(`🚀 DEV_MODEL:${DEV_MODEL}
 🚀 __BASE_URL:${__BASE_URL}`);
 
 const isBuildLibTui = process.env.type === "lib:tui";
+const proxy = {
+	"^/api": {
+		target: "http://localhost:3001/",
+		changeOrigin: true,
+		secure: false,
+		ws: true,
+		rewrite: path => path.replace(/^\/api/, "/api")
+	}
+};
 
 const appOptions = {
 	esbuild: {
@@ -45,15 +54,7 @@ const appOptions = {
 		fs: {
 			allow: [searchForWorkspaceRoot(process.cwd())]
 		},
-		proxy: {
-			"^/api": {
-				target: "http://localhost:3001/",
-				changeOrigin: true,
-				secure: false,
-				ws: true,
-				rewrite: path => path.replace(/^\/api/, "/api")
-			}
-		}
+		// proxy
 	},
 	build: {
 		/* 没有混缩 */
