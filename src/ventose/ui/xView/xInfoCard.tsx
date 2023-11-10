@@ -172,7 +172,7 @@ export const xInfoCard = defineComponent({
 		return function () {
 			return (
 				<div
-					class="xInfoCard el-descriptions"
+					class="xInfoCard el-descriptions flex vertical"
 					v-element-size={vm._handleSizeChange}>
 					<div class="el-descriptions__header">
 						<div class="el-descriptions__title">{cpt_title.value}</div>

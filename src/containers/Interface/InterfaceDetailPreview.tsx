@@ -449,7 +449,7 @@ export const InterfaceDetailPreview = defineComponent({
 				return (
 					<>
 						<xGap t="20" />
-						<xInfoCard title={"Response信息"}>
+						<xInfoCard title={"Response信息"} style="min-height:500px;">
 							{(() => {
 								if (stateInterface.currInterface.res_body_type === "json") {
 									return (
